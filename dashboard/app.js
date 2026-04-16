@@ -20,9 +20,9 @@ const roadmap = [
   },
   {
     phase: "Then",
-    title: "Add metadata and annotation copilots",
+    title: "Add metadata, annotation, and TEI QA assists",
     summary:
-      "Target repetitive descriptive work such as glossary support, person and term lists, entity extraction, and born-digital indexing."
+      "Target repetitive descriptive work such as glossary support, person and term lists, entity extraction, and preflight checks ahead of publication."
   }
 ];
 
@@ -48,9 +48,19 @@ const state = {
 };
 
 const elements = {
+  heroEyebrow: document.querySelector("#heroEyebrow"),
+  heroHeadline: document.querySelector("#heroHeadline"),
+  heroSubhead: document.querySelector("#heroSubhead"),
+  heroSummary: document.querySelector("#heroSummary"),
+  heroHighlights: document.querySelector("#heroHighlights"),
   pressureGrid: document.querySelector("#pressureGrid"),
   generatedAtLabel: document.querySelector("#generatedAtLabel"),
   guardrailList: document.querySelector("#guardrailList"),
+  projectGrid: document.querySelector("#projectGrid"),
+  ideaFamilyGrid: document.querySelector("#ideaFamilyGrid"),
+  findingGrid: document.querySelector("#findingGrid"),
+  programPanel: document.querySelector("#programPanel"),
+  precedentList: document.querySelector("#precedentList"),
   portfolioGrid: document.querySelector("#portfolioGrid"),
   stageTabs: document.querySelector("#stageTabs"),
   stageSpotlight: document.querySelector("#stageSpotlight"),
@@ -69,16 +79,17 @@ const elements = {
 init().catch((error) => {
   console.error(error);
   elements.opportunityGrid.innerHTML =
-    '<div class="empty-state">The dashboard could not load its data. Make sure you are running `npm run dashboard` from this project.</div>';
+    '<div class="empty-state">The portal could not load its data. Make sure you are running `npm run dashboard` from this project.</div>';
 });
 
 async function init() {
   const reportUrl = new URL("../reports/frus-ai-opportunities.json", window.location.href);
   const contextUrl = new URL("../data/frus-context.json", window.location.href);
-  const [reportResponse, contextResponse] = await Promise.all([
-    fetch(reportUrl),
-    fetch(contextUrl)
-  ]);
+  const [reportResponse, contextResponse] = await Promise.all([fetch(reportUrl), fetch(contextUrl)]);
+
+  if (!reportResponse.ok || !contextResponse.ok) {
+    throw new Error("Failed to load portal data.");
+  }
 
   state.report = await reportResponse.json();
   state.context = await contextResponse.json();
@@ -91,6 +102,11 @@ async function init() {
 
 function renderFrame() {
   renderHero();
+  renderTopProjects();
+  renderIdeaFamilies();
+  renderFindings();
+  renderProgramPanel();
+  renderPrecedentList();
   renderPortfolio();
   renderStageTabs();
   renderRoadmap();
@@ -100,12 +116,26 @@ function renderFrame() {
 
 function renderHero() {
   const metrics = state.report.frusMetrics;
+  const { portalNarrative, fiscalYearDeadline } = state.context;
   const cards = [
     ["Relevant use cases", state.report.relevantUseCaseCount],
     ["Volumes in declassification review", metrics.volumesInDeclassificationReview],
     ["Volumes in review for 5+ years", metrics.volumesInDeclassificationReviewFiveYearsOrMore],
-    ["Published FRUS volumes online", metrics.publishedVolumesHostedOnline]
+    ["FY 2026 deadline", fiscalYearDeadline]
   ];
+
+  elements.heroEyebrow.textContent = "FRUS AI Acceleration Portal";
+  elements.heroHeadline.textContent = portalNarrative.headline;
+  elements.heroSubhead.textContent = portalNarrative.subhead;
+  elements.heroSummary.textContent = portalNarrative.summary;
+  elements.heroHighlights.innerHTML = [
+    `${state.report.relevantUseCaseCount} shortlisted federal precedents`,
+    `${state.context.topProjectsFY26.length} projects scoped for ${fiscalYearDeadline}`,
+    `${metrics.statusPageVolumesBeingCleared} volumes currently being cleared`,
+    `${metrics.statusPageAnticipated2026Releases} anticipated 2026 releases on the status page`
+  ]
+    .map((item) => `<span class="chip neutral">${escapeHtml(item)}</span>`)
+    .join("");
 
   elements.generatedAtLabel.textContent = formatDateTime(state.report.generatedAt);
   elements.pressureGrid.innerHTML = cards
@@ -113,13 +143,175 @@ function renderHero() {
       ([label, value]) => `
         <article class="pressure-card">
           <span class="label">${escapeHtml(label)}</span>
-          <strong class="metric">${Number(value).toLocaleString()}</strong>
+          <strong class="metric ${typeof value === "number" ? "" : "metric-text"}">${escapeHtml(formatMetric(value))}</strong>
         </article>
       `
     )
     .join("");
 
   elements.guardrailList.innerHTML = guardrails.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+}
+
+function renderTopProjects() {
+  elements.projectGrid.innerHTML = state.context.topProjectsFY26
+    .map((project) => {
+      const precedents = resolveUseCases(project.precedentIds);
+
+      return `
+        <article class="project-card">
+          <div class="card-topline">
+            <span class="rank-pill">#${project.rank}</span>
+            <span class="chip neutral">${escapeHtml(project.deliveryWindow)}</span>
+          </div>
+          <div class="mini-list">
+            ${project.stageIds.map((stageId) => stageChip(stageId)).join("")}
+            <span class="chip alt">${escapeHtml(project.effort)}</span>
+          </div>
+          <div>
+            <h3>${escapeHtml(project.name)}</h3>
+            <p class="timing-line">${escapeHtml(project.deadline)} • ${escapeHtml(project.deliveryWindow)}</p>
+          </div>
+          <p class="summary-text">${escapeHtml(project.goal)}</p>
+          <div class="project-split">
+            <article class="project-note">
+              <strong>Why achievable</strong>
+              <p class="detail-copy">${escapeHtml(project.whyAchievable)}</p>
+            </article>
+            <article class="project-note">
+              <strong>FRUS impact</strong>
+              <p class="detail-copy">${escapeHtml(project.frusImpact)}</p>
+            </article>
+          </div>
+          <div>
+            <p class="detail-label">Pilot deliverables</p>
+            <ul class="deliverable-list">
+              ${project.deliverables.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+            </ul>
+          </div>
+          <div>
+            <p class="detail-label">Federal precedents already in use</p>
+            <div class="mini-list">
+              ${precedents
+                .map(
+                  (item) =>
+                    `<span class="chip neutral" title="${escapeHtml(item.use_case_name)}">${escapeHtml(item.id)}</span>`
+                )
+                .join("")}
+            </div>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function renderIdeaFamilies() {
+  elements.ideaFamilyGrid.innerHTML = state.context.ideaFamilies
+    .map((family) => {
+      const precedents = resolveUseCases(family.precedentIds);
+
+      return `
+        <article class="idea-card">
+          <div class="card-topline">
+            <span class="card-badge">${family.stageIds.map(getStageTitle).join(" + ")}</span>
+            <span class="chip neutral">${precedents.length} precedents</span>
+          </div>
+          <div>
+            <h3>${escapeHtml(family.name)}</h3>
+            <p class="card-copy">${escapeHtml(family.summary)}</p>
+          </div>
+          <p class="summary-text"><strong>Why it matters:</strong> ${escapeHtml(family.value)}</p>
+          <div class="mini-list">
+            ${precedents
+              .map(
+                (item) =>
+                  `<span class="chip ${pickChipTone(item.classification)}" title="${escapeHtml(item.use_case_name)}">${escapeHtml(item.id)}</span>`
+              )
+              .join("")}
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function renderFindings() {
+  elements.findingGrid.innerHTML = state.context.frusFindings
+    .map(
+      (item, index) => `
+        <article class="finding-card">
+          <span class="finding-index">0${index + 1}</span>
+          <h3>${escapeHtml(item.headline)}</h3>
+          <p class="card-copy">${escapeHtml(item.detail)}</p>
+          <a class="text-link" href="${escapeHtml(item.sourceUrl)}">Open source</a>
+        </article>
+      `
+    )
+    .join("");
+}
+
+function renderProgramPanel() {
+  const topProjects = state.context.topProjectsFY26.slice(0, 3);
+  const precedents = collectPrecedentRecords();
+
+  elements.programPanel.innerHTML = `
+    <article class="program-card emphasis">
+      <span class="program-label">Finish by</span>
+      <h3>${escapeHtml(state.context.fiscalYearDeadline)}</h3>
+      <p class="card-copy">
+        Ship bounded pilots that reduce clearance drag, search friction, and descriptive backlog without replacing the current TEI-based workflow.
+      </p>
+    </article>
+    <article class="program-card">
+      <span class="program-label">Best first three</span>
+      <div class="priority-list">
+        ${topProjects
+          .map(
+            (project) => `
+              <div class="priority-item">
+                <strong>#${project.rank} ${escapeHtml(project.name)}</strong>
+                <span>${escapeHtml(project.deliveryWindow)}</span>
+              </div>
+            `
+          )
+          .join("")}
+      </div>
+    </article>
+    <article class="program-card">
+      <span class="program-label">Federal footing</span>
+      <p class="card-copy">
+        ${precedents.length} reusable federal precedents appear across the FY 2026 slate, with the strongest signals concentrated in NARA, DOJ, DHS, VA, and DOI.
+      </p>
+    </article>
+  `;
+}
+
+function renderPrecedentList() {
+  elements.precedentList.innerHTML = collectPrecedentRecords()
+    .slice(0, 8)
+    .map(({ useCase, projectNames, familyNames, totalMentions }) => {
+      const labels = [
+        `${totalMentions} mentions`,
+        ...projectNames.slice(0, 2),
+        ...familyNames.slice(0, 1)
+      ];
+
+      return `
+        <article class="precedent-card">
+          <div class="card-topline">
+            <span class="chip ${pickChipTone(useCase.classification)}">${escapeHtml(useCase.id)}</span>
+            <span class="chip neutral">${escapeHtml(useCase.development_stage)}</span>
+          </div>
+          <h3>${escapeHtml(useCase.use_case_name)}</h3>
+          <p class="card-copy">${escapeHtml(useCase.agency_name)}</p>
+          <p class="summary-text">${escapeHtml(useCase.summary)}</p>
+          <div class="mini-list">
+            ${labels.map((label) => `<span class="chip neutral">${escapeHtml(label)}</span>`).join("")}
+          </div>
+        </article>
+      `;
+    })
+    .join("");
 }
 
 function renderPortfolio() {
@@ -408,7 +600,7 @@ function renderOpportunityGrid() {
             <p class="card-copy">${escapeHtml(item.agency_name)} • ${escapeHtml(item.development_stage)}</p>
           </div>
           <div class="mini-list">
-            <span class="chip ${stageTone[bestStage?.stageId] || "neutral"}">${escapeHtml(bestStage?.title || "General fit")}</span>
+            <span class="chip ${stageChipTone(bestStage?.stageId)}">${escapeHtml(bestStage?.title || "General fit")}</span>
             <span class="chip neutral">${escapeHtml(item.id)}</span>
           </div>
           <p class="summary-text">${escapeHtml(item.summary)}</p>
@@ -446,7 +638,7 @@ function renderDetailPanel() {
       <strong>Stage fit</strong>
       <div class="detail-list">
         ${selected.stageRanking
-          .map((stage) => `<span class="chip ${stageTone[stage.stageId] || "neutral"}">${escapeHtml(stage.title)} ${stage.score}</span>`)
+          .map((stage) => `<span class="chip ${stageChipTone(stage.stageId)}">${escapeHtml(stage.title)} ${stage.score}</span>`)
           .join("")}
       </div>
     </article>
@@ -474,6 +666,58 @@ function renderDetailPanel() {
         : ""
     }
   `;
+}
+
+function collectPrecedentRecords() {
+  const records = new Map();
+
+  for (const project of state.context.topProjectsFY26) {
+    for (const precedentId of project.precedentIds) {
+      const record = records.get(precedentId) || {
+        id: precedentId,
+        projectNames: [],
+        familyNames: []
+      };
+      record.projectNames.push(project.name);
+      records.set(precedentId, record);
+    }
+  }
+
+  for (const family of state.context.ideaFamilies) {
+    for (const precedentId of family.precedentIds) {
+      const record = records.get(precedentId) || {
+        id: precedentId,
+        projectNames: [],
+        familyNames: []
+      };
+      record.familyNames.push(family.name);
+      records.set(precedentId, record);
+    }
+  }
+
+  return [...records.values()]
+    .map((record) => ({
+      ...record,
+      projectNames: uniqueValues(record.projectNames),
+      familyNames: uniqueValues(record.familyNames),
+      totalMentions: record.projectNames.length + record.familyNames.length,
+      useCase: resolveUseCase(record.id)
+    }))
+    .filter((record) => record.useCase)
+    .sort(
+      (left, right) =>
+        right.totalMentions - left.totalMentions ||
+        right.useCase.overallScore - left.useCase.overallScore ||
+        left.id.localeCompare(right.id)
+    );
+}
+
+function resolveUseCases(ids) {
+  return ids.map((id) => resolveUseCase(id)).filter(Boolean);
+}
+
+function resolveUseCase(id) {
+  return state.report.relevantUseCases.find((item) => item.id === id) || state.report.topUseCasesOverall.find((item) => item.id === id);
 }
 
 function sortUseCases(left, right) {
@@ -510,10 +754,26 @@ function pickChipTone(classification) {
   return "neutral";
 }
 
+function stageChipTone(stageId) {
+  return Object.prototype.hasOwnProperty.call(stageTone, stageId) ? stageTone[stageId] : "neutral";
+}
+
+function stageChip(stageId) {
+  return `<span class="chip ${stageChipTone(stageId)}">${escapeHtml(getStageTitle(stageId))}</span>`;
+}
+
+function getStageTitle(stageId) {
+  return state.report.stageReports.find((stage) => stage.stageId === stageId)?.title || toTitleCase(stageId);
+}
+
 function toTitleCase(value) {
   return String(value || "")
     .replace(/-/g, " ")
     .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function formatMetric(value) {
+  return typeof value === "number" ? value.toLocaleString() : value;
 }
 
 function formatDateTime(value) {

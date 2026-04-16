@@ -21,6 +21,12 @@
     "statusPagePublished2025Releases": 3,
     "statusPageAnticipated2026Releases": 3
   },
+  "fiscalYearDeadline": "September 30, 2026",
+  "portalNarrative": {
+    "headline": "A bounded FY 2026 program can materially accelerate FRUS.",
+    "subhead": "The most practical path is to adopt already-used federal AI patterns for clearance triage, research retrieval, metadata drafting, indexing, and editorial QA rather than attempt a wholesale platform rewrite.",
+    "summary": "This portal translates the federal AI inventory into a concrete FRUS delivery program built around achievable pilots and production assists that fit the existing TEI and HistoryAtState workflow."
+  },
   "frusFindings": [
     {
       "headline": "FRUS has four published production stages.",
@@ -438,6 +444,411 @@
         "redaction",
         "pii",
         "privacy"
+      ]
+    }
+  ],
+  "ideaFamilies": [
+    {
+      "id": "semantic-research",
+      "name": "Semantic research and retrieval",
+      "stageIds": [
+        "planning",
+        "research"
+      ],
+      "summary": "Natural-language search over prior FRUS volumes, archival descriptions, finding aids, and internal planning materials.",
+      "value": "Cuts time spent locating candidate documents and helps historians start from relevant clusters instead of cold keyword search.",
+      "precedentIds": [
+        "NARA - 0006",
+        "NARA - 0013",
+        "DOI-0053",
+        "VA-25-1102"
+      ]
+    },
+    {
+      "id": "metadata-enrichment",
+      "name": "Metadata enrichment and descriptive drafting",
+      "stageIds": [
+        "research",
+        "publication"
+      ],
+      "summary": "Generate draft descriptions, tags, and structured metadata for source packets, released chapters, and digital objects.",
+      "value": "Reduces repetitive descriptive work and speeds handoff from research to publication.",
+      "precedentIds": [
+        "NARA - 0007",
+        "NARA - 0008",
+        "DHS-2540"
+      ]
+    },
+    {
+      "id": "index-glossary",
+      "name": "Index, glossary, and entity extraction",
+      "stageIds": [
+        "research",
+        "publication"
+      ],
+      "summary": "Extract people, organizations, terms, abbreviations, and topics for born-digital indexes and glossary drafts.",
+      "value": "Supports chapter-by-chapter release and reduces the cost of compiling digital back matter.",
+      "precedentIds": [
+        "NARA - 0008",
+        "NARA - 0002",
+        "NASA-870"
+      ]
+    },
+    {
+      "id": "annotation-drafting",
+      "name": "Annotation and editorial drafting support",
+      "stageIds": [
+        "research",
+        "publication"
+      ],
+      "summary": "Draft first-pass annotations, provenance notes, person notes, and editorial summaries from already-selected documents.",
+      "value": "Keeps historians in the loop while shaving time off repetitive draft creation.",
+      "precedentIds": [
+        "NARA - 0008",
+        "DHS-2454",
+        "DOJ-0197"
+      ]
+    },
+    {
+      "id": "clearance-triage",
+      "name": "Clearance, redaction, and sensitivity triage",
+      "stageIds": [
+        "clearance"
+      ],
+      "summary": "Score passages for risk, suggest redaction candidates, and route reviewer attention to the most likely clearance blockers.",
+      "value": "Directly addresses the biggest documented FRUS bottleneck: interagency declassification review.",
+      "precedentIds": [
+        "NARA - 0005",
+        "DOJ-0295",
+        "DOJ-0033",
+        "DHS-2567"
+      ]
+    },
+    {
+      "id": "precedent-comparison",
+      "name": "Prior-release and FOIA precedent comparison",
+      "stageIds": [
+        "research",
+        "clearance"
+      ],
+      "summary": "Surface similar previously released text, related FOIA handling, and comparable redaction outcomes for reviewer reference.",
+      "value": "Lets reviewers make faster, more consistent calls using their own release history.",
+      "precedentIds": [
+        "DOJ-0295",
+        "NARA - 0011",
+        "NTSB-0004"
+      ]
+    },
+    {
+      "id": "dedup-clustering",
+      "name": "Clustering, deduplication, and source-packet assembly",
+      "stageIds": [
+        "research",
+        "clearance"
+      ],
+      "summary": "Group related documents, identify near-duplicates and repeated passages, and assemble better candidate source packets.",
+      "value": "Reduces manual sorting and helps editors focus on the most distinct, decision-relevant records.",
+      "precedentIds": [
+        "DOJ-0295",
+        "VA-25-3275",
+        "DOJ-0197"
+      ]
+    },
+    {
+      "id": "ocr-translation",
+      "name": "OCR, transcription, and translation acceleration",
+      "stageIds": [
+        "research"
+      ],
+      "summary": "Accelerate intake for scanned or foreign-language material with draft text extraction, transcription, and translation.",
+      "value": "Shortens the time from archival discovery to usable historian review copy.",
+      "precedentIds": [
+        "DHS-2705",
+        "DHS-2569",
+        "NARA - 0005"
+      ]
+    },
+    {
+      "id": "tei-qa",
+      "name": "TEI editorial QA and completeness checks",
+      "stageIds": [
+        "publication"
+      ],
+      "summary": "Use AI-assisted checks to spot missing descriptions, incomplete reference structures, and publication-readiness gaps in TEI packages.",
+      "value": "Improves chapter release quality without changing the core TEI and eXist stack.",
+      "precedentIds": [
+        "DOJ-0343",
+        "DHS-2540",
+        "DOJ-0197"
+      ]
+    },
+    {
+      "id": "release-routing",
+      "name": "Release-readiness routing and backlog management",
+      "stageIds": [
+        "planning",
+        "clearance",
+        "publication"
+      ],
+      "summary": "Track chapter readiness, blocked dependencies, and best-next release candidates using AI-assisted routing.",
+      "value": "Supports FRUS's chapter-based publication approach and helps avoid all-or-nothing volume delays.",
+      "precedentIds": [
+        "DOJ-0343",
+        "NARA - 0005",
+        "DOI-0053"
+      ]
+    }
+  ],
+  "topProjectsFY26": [
+    {
+      "rank": 1,
+      "id": "frus-clearance-triage-assistant",
+      "name": "FRUS Clearance Triage Assistant",
+      "stageIds": [
+        "clearance"
+      ],
+      "deliveryWindow": "6-10 week pilot",
+      "deadline": "September 30, 2026",
+      "effort": "Moderate",
+      "goal": "Score passages for likely sensitivity, suggest candidate redactions, and route reviewer attention toward the most likely blockers.",
+      "whyAchievable": "This can be piloted on already digitized chapter sets and existing reviewer queues without changing final release authority.",
+      "frusImpact": "Reduces low-risk manual review load and helps cut time spent on volumes stuck in declassification review.",
+      "deliverables": [
+        "Passage risk scores",
+        "Suggested redaction spans",
+        "Reviewer queue dashboard",
+        "Audit log for accepted and rejected suggestions"
+      ],
+      "precedentIds": [
+        "NARA - 0005",
+        "DOJ-0295",
+        "DOJ-0033",
+        "DHS-2567"
+      ]
+    },
+    {
+      "rank": 2,
+      "id": "semantic-frus-research-workbench",
+      "name": "Semantic FRUS Research Workbench",
+      "stageIds": [
+        "planning",
+        "research"
+      ],
+      "deliveryWindow": "8-12 week pilot",
+      "deadline": "September 30, 2026",
+      "effort": "Moderate",
+      "goal": "Provide semantic retrieval across prior FRUS volumes, finding aids, editorial memos, and archival descriptions.",
+      "whyAchievable": "It can start with a bounded corpus and read-only retrieval layer, which avoids risky workflow replacement.",
+      "frusImpact": "Helps historians find relevant records and comparable prior work faster, reducing search overhead during compilation planning and document selection.",
+      "deliverables": [
+        "Vector or semantic index for a bounded FRUS corpus",
+        "Natural-language search interface",
+        "Source citation links back to volumes and finding aids"
+      ],
+      "precedentIds": [
+        "NARA - 0006",
+        "NARA - 0013",
+        "DOI-0053",
+        "VA-25-1102"
+      ]
+    },
+    {
+      "rank": 3,
+      "id": "metadata-autofill-source-packets",
+      "name": "Metadata Autofill for Source Packets",
+      "stageIds": [
+        "research",
+        "publication"
+      ],
+      "deliveryWindow": "6-8 week pilot",
+      "deadline": "September 30, 2026",
+      "effort": "Low to moderate",
+      "goal": "Generate draft descriptions, tags, and structured metadata for research packets and released chapters.",
+      "whyAchievable": "The work is bounded, historian-reviewable, and already mirrors what NARA is piloting for archival descriptions.",
+      "frusImpact": "Speeds research handoffs, improves discoverability, and reduces repetitive catalog-style drafting.",
+      "deliverables": [
+        "Draft descriptive metadata",
+        "Suggested tags and topical labels",
+        "Metadata review queue for editors"
+      ],
+      "precedentIds": [
+        "NARA - 0007",
+        "NARA - 0008",
+        "DHS-2540"
+      ]
+    },
+    {
+      "rank": 4,
+      "id": "index-glossary-builder",
+      "name": "Born-Digital Index and Glossary Builder",
+      "stageIds": [
+        "research",
+        "publication"
+      ],
+      "deliveryWindow": "8-10 week pilot",
+      "deadline": "September 30, 2026",
+      "effort": "Moderate",
+      "goal": "Extract people, organizations, terms, abbreviations, and topics to produce draft born-digital indexes and glossary entries.",
+      "whyAchievable": "FRUS is already experimenting with born-digital indexes, so this extends an existing direction instead of inventing a new one.",
+      "frusImpact": "Supports faster chapter release and reduces the long-tail labor of creating digital back matter.",
+      "deliverables": [
+        "Candidate person and term lists",
+        "Topic clusters by chapter",
+        "Draft index entries with source references"
+      ],
+      "precedentIds": [
+        "NARA - 0008",
+        "NARA - 0002",
+        "NASA-870"
+      ]
+    },
+    {
+      "rank": 5,
+      "id": "annotation-draft-copilot",
+      "name": "Annotation Draft Copilot",
+      "stageIds": [
+        "research",
+        "publication"
+      ],
+      "deliveryWindow": "8-12 week pilot",
+      "deadline": "September 30, 2026",
+      "effort": "Moderate",
+      "goal": "Draft first-pass annotations, provenance notes, and explanatory summaries from already-selected documents and reference material.",
+      "whyAchievable": "The scope can be restricted to draft generation with mandatory historian review before any text is accepted.",
+      "frusImpact": "Reduces repeated drafting effort and shortens the distance from document selection to publishable editorial copy.",
+      "deliverables": [
+        "Draft annotation suggestions",
+        "Provenance note suggestions",
+        "Supporting citation retrieval for editors"
+      ],
+      "precedentIds": [
+        "NARA - 0008",
+        "DHS-2454",
+        "DOJ-0197"
+      ]
+    },
+    {
+      "rank": 6,
+      "id": "precedent-comparator",
+      "name": "Prior-Release and FOIA Precedent Comparator",
+      "stageIds": [
+        "research",
+        "clearance"
+      ],
+      "deliveryWindow": "6-10 week pilot",
+      "deadline": "September 30, 2026",
+      "effort": "Moderate",
+      "goal": "Find similar previously released passages and comparable FOIA-style handling so reviewers can assess consistency faster.",
+      "whyAchievable": "The first version can rely on retrieval and similarity scoring over previously released material, with no automatic clearance decisions.",
+      "frusImpact": "Improves consistency and reduces the need to rediscover how similar text was previously handled.",
+      "deliverables": [
+        "Similarity search over released FRUS text",
+        "Comparable-case lookup",
+        "Reviewer-facing precedent panel"
+      ],
+      "precedentIds": [
+        "DOJ-0295",
+        "NARA - 0011",
+        "NTSB-0004"
+      ]
+    },
+    {
+      "rank": 7,
+      "id": "dedup-and-clustering",
+      "name": "Duplicate Detection and Document Clustering",
+      "stageIds": [
+        "research",
+        "clearance"
+      ],
+      "deliveryWindow": "6-8 week pilot",
+      "deadline": "September 30, 2026",
+      "effort": "Low to moderate",
+      "goal": "Cluster related documents, flag near duplicates, and surface the most distinct items for inclusion decisions.",
+      "whyAchievable": "This can run as an offline analyst-assist process over selected batches without changing historian workflows.",
+      "frusImpact": "Reduces manual sorting and helps editors spend more time on high-value documentary choices.",
+      "deliverables": [
+        "Document clusters",
+        "Near-duplicate alerts",
+        "Suggested source-packet assembly"
+      ],
+      "precedentIds": [
+        "DOJ-0295",
+        "VA-25-3275",
+        "DOJ-0197"
+      ]
+    },
+    {
+      "rank": 8,
+      "id": "ocr-translation-lane",
+      "name": "OCR, Transcription, and Translation Intake Lane",
+      "stageIds": [
+        "research"
+      ],
+      "deliveryWindow": "6-10 week pilot",
+      "deadline": "September 30, 2026",
+      "effort": "Moderate",
+      "goal": "Create a historian-reviewable intake lane for scanned or foreign-language material that produces draft text and translation.",
+      "whyAchievable": "A bounded pilot can target selected document sets where manual text creation is currently delaying historian review.",
+      "frusImpact": "Shortens the time between archival discovery and usable editorial review copy.",
+      "deliverables": [
+        "Draft OCR text",
+        "Draft translations",
+        "Confidence flags for human review"
+      ],
+      "precedentIds": [
+        "DHS-2705",
+        "DHS-2569",
+        "NARA - 0005"
+      ]
+    },
+    {
+      "rank": 9,
+      "id": "tei-qa-assistant",
+      "name": "TEI Editorial QA Assistant",
+      "stageIds": [
+        "publication"
+      ],
+      "deliveryWindow": "6-8 week pilot",
+      "deadline": "September 30, 2026",
+      "effort": "Low to moderate",
+      "goal": "Check TEI packages for missing descriptions, broken reference patterns, incomplete metadata, and publication-readiness issues.",
+      "whyAchievable": "It builds on the existing TEI workflow and can begin as an advisory preflight check instead of a publishing-system rewrite.",
+      "frusImpact": "Improves consistency and reduces avoidable cleanup work late in the release cycle.",
+      "deliverables": [
+        "TEI preflight checks",
+        "Missing metadata alerts",
+        "Publication readiness report"
+      ],
+      "precedentIds": [
+        "DOJ-0343",
+        "DHS-2540",
+        "DOJ-0197"
+      ]
+    },
+    {
+      "rank": 10,
+      "id": "release-readiness-cockpit",
+      "name": "Chapter Release Readiness Cockpit",
+      "stageIds": [
+        "planning",
+        "clearance",
+        "publication"
+      ],
+      "deliveryWindow": "8-12 week pilot",
+      "deadline": "September 30, 2026",
+      "effort": "Moderate",
+      "goal": "Show which chapters are publishable now, what is blocked, and what sequence yields the fastest public release gains.",
+      "whyAchievable": "FRUS already has a chapter-based release strategy, so this is a routing and visibility layer over an existing policy direction.",
+      "frusImpact": "Helps prevent one blocked chapter from stalling the public release value of otherwise ready work.",
+      "deliverables": [
+        "Chapter status board",
+        "Blocked dependency reasons",
+        "Recommended next-release sequence"
+      ],
+      "precedentIds": [
+        "DOJ-0343",
+        "NARA - 0005",
+        "DOI-0053"
       ]
     }
   ]

@@ -118,6 +118,22 @@ body::before {
   color: var(--muted);
 }
 
+.hero-subhead {
+  color: var(--ink);
+  font-size: 1.12rem;
+}
+
+.hero-highlights,
+.anchor-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero-highlights {
+  margin-top: 22px;
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -178,11 +194,16 @@ body::before {
 }
 
 .pressure-card,
+.project-card,
+.idea-card,
+.finding-card,
 .portfolio-card,
 .opportunity-card,
 .side-chip,
 .agency-row,
-.roadmap-card {
+.roadmap-card,
+.program-card,
+.precedent-card {
   border: 1px solid var(--line);
   background: var(--card);
 }
@@ -197,6 +218,11 @@ body::before {
   margin-top: 8px;
   font-size: 2rem;
   font-weight: 800;
+}
+
+.pressure-card .metric.metric-text {
+  font-size: 1.05rem;
+  line-height: 1.35;
 }
 
 .pressure-card .label {
@@ -226,6 +252,33 @@ body::before {
   padding-left: 18px;
   color: var(--muted);
   line-height: 1.55;
+}
+
+.anchor-nav {
+  margin-bottom: 26px;
+}
+
+.anchor-nav a,
+.text-link {
+  color: var(--teal);
+  text-decoration: none;
+}
+
+.anchor-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(31, 107, 103, 0.18);
+  background: rgba(31, 107, 103, 0.08);
+  font-weight: 700;
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.anchor-nav a:hover,
+.text-link:hover {
+  transform: translateY(-1px);
 }
 
 .dashboard-layout {
@@ -281,7 +334,20 @@ body::before {
   gap: 16px;
 }
 
-.portfolio-card {
+.project-grid,
+.idea-grid,
+.finding-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.project-card,
+.idea-card,
+.finding-card,
+.portfolio-card,
+.program-card,
+.precedent-card {
   border-radius: var(--radius-lg);
   padding: 20px;
   display: grid;
@@ -313,7 +379,11 @@ body::before {
   background: var(--teal-soft);
 }
 
+.project-card h3,
+.idea-card h3,
+.finding-card h3,
 .portfolio-card h3,
+.precedent-card h3,
 .opportunity-card h3 {
   margin: 0;
   font-size: 1.18rem;
@@ -350,6 +420,66 @@ body::before {
 .chip.neutral {
   color: var(--muted);
   background: rgba(31, 47, 52, 0.07);
+}
+
+.rank-pill,
+.finding-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #d06339, #9f4224);
+  color: white;
+  font-weight: 800;
+}
+
+.timing-line,
+.detail-label {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.detail-label {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.project-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.project-note {
+  padding: 14px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.56);
+  border: 1px solid rgba(31, 47, 52, 0.08);
+}
+
+.project-note strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.deliverable-list {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.58;
+}
+
+.finding-card {
+  align-content: start;
+}
+
+.text-link {
+  font-weight: 700;
 }
 
 .stage-layout {
@@ -511,7 +641,9 @@ body::before {
 }
 
 .roadmap,
-.agency-list {
+.agency-list,
+.precedent-list,
+.program-panel {
   display: grid;
   gap: 12px;
 }
@@ -529,6 +661,45 @@ body::before {
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+.program-card.emphasis {
+  background: linear-gradient(135deg, rgba(191, 92, 54, 0.16), rgba(31, 107, 103, 0.09));
+}
+
+.program-label {
+  display: inline-block;
+  color: var(--accent);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.program-card h3 {
+  margin: 2px 0 0;
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+}
+
+.priority-list {
+  display: grid;
+  gap: 10px;
+}
+
+.priority-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.priority-item span {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.precedent-card {
+  padding: 16px;
 }
 
 .agency-row {
@@ -613,9 +784,13 @@ body::before {
   }
 
   .filters,
+  .project-grid,
+  .idea-grid,
+  .finding-grid,
   .portfolio-grid,
   .opportunity-grid,
-  .spotlight-grid {
+  .spotlight-grid,
+  .project-split {
     grid-template-columns: 1fr;
   }
 }

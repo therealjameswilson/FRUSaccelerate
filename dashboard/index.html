@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FRUS Acceleration Dashboard</title>
+    <title>FRUS Acceleration Portal</title>
     <script>
       if (!window.location.pathname.endsWith("/") && !window.location.pathname.endsWith(".html")) {
         const url = new URL(window.location.href);
@@ -17,15 +17,15 @@
     <div class="page-shell">
       <header class="hero">
         <div class="hero-copy reveal reveal-1">
-          <p class="eyebrow">FRUS Acceleration Dashboard</p>
-          <h1>Pursue the federal AI patterns that can actually move FRUS volumes faster.</h1>
-          <p class="hero-text">
-            This dashboard translates the 2025 federal AI inventory and HistoryAtState research into a live pursuit board
-            for planning, research, clearance, and publication.
-          </p>
+          <p class="eyebrow" id="heroEyebrow">FRUS Acceleration Portal</p>
+          <h1 id="heroHeadline">Loading FRUS acceleration program...</h1>
+          <p class="hero-text hero-subhead" id="heroSubhead"></p>
+          <p class="hero-text" id="heroSummary"></p>
+          <div class="hero-highlights" id="heroHighlights"></div>
           <div class="hero-actions">
-            <a class="button primary" href="../reports/frus-ai-opportunities.md">Open report</a>
-            <a class="button secondary" href="../reports/frus-ai-opportunities.json">Export data</a>
+            <a class="button primary" href="#topProjects">See top 10 projects</a>
+            <a class="button secondary" href="#opportunityBrowser">Browse all use cases</a>
+            <a class="button secondary" href="../reports/frus-ai-opportunities.md">Open report</a>
           </div>
         </div>
         <div class="hero-panel reveal reveal-2">
@@ -41,9 +41,57 @@
         </div>
       </header>
 
+      <nav class="anchor-nav reveal reveal-2" aria-label="Portal sections">
+        <a href="#topProjects">Top 10 projects</a>
+        <a href="#ideaAtlas">Idea atlas</a>
+        <a href="#evidenceBase">FRUS evidence</a>
+        <a href="#portfolio">Workstreams</a>
+        <a href="#stageBoard">Stage board</a>
+        <a href="#opportunityBrowser">Use case browser</a>
+      </nav>
+
       <main class="dashboard-layout">
         <section class="column-main">
-          <section class="section-block reveal reveal-2">
+          <section class="section-block reveal reveal-2" id="topProjects">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">FY 2026 slate</p>
+                <h2>Ten achievable projects by September 30, 2026</h2>
+              </div>
+              <p class="section-summary" id="projectSectionSummary">
+                Each project is bounded, tied to the current FRUS workflow, and backed by use cases already in motion elsewhere in the federal government.
+              </p>
+            </div>
+            <div class="project-grid" id="projectGrid"></div>
+          </section>
+
+          <section class="section-block reveal reveal-2" id="ideaAtlas">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Idea atlas</p>
+                <h2>All of the major FRUS AI idea families</h2>
+              </div>
+              <p class="section-summary">
+                These are the recurring patterns that showed up as the strongest fit between FRUS production needs and the 2025 federal inventory.
+              </p>
+            </div>
+            <div class="idea-grid" id="ideaFamilyGrid"></div>
+          </section>
+
+          <section class="section-block reveal reveal-3" id="evidenceBase">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Evidence base</p>
+                <h2>Why these projects fit FRUS now</h2>
+              </div>
+              <p class="section-summary">
+                The portal is anchored in HistoryAtState workflow evidence, the Report to Congress, and the existing TEI publishing stack.
+              </p>
+            </div>
+            <div class="finding-grid" id="findingGrid"></div>
+          </section>
+
+          <section class="section-block reveal reveal-2" id="portfolio">
             <div class="section-heading">
               <div>
                 <p class="section-kicker">Action portfolio</p>
@@ -56,7 +104,7 @@
             <div class="portfolio-grid" id="portfolioGrid"></div>
           </section>
 
-          <section class="section-block reveal reveal-3">
+          <section class="section-block reveal reveal-3" id="stageBoard">
             <div class="section-heading">
               <div>
                 <p class="section-kicker">Stage board</p>
@@ -72,7 +120,7 @@
             </div>
           </section>
 
-          <section class="section-block reveal reveal-4">
+          <section class="section-block reveal reveal-4" id="opportunityBrowser">
             <div class="section-heading">
               <div>
                 <p class="section-kicker">Opportunity browser</p>
@@ -115,6 +163,16 @@
         </section>
 
         <aside class="column-side">
+          <section class="section-block side-block reveal reveal-2">
+            <div class="section-heading compact">
+              <div>
+                <p class="section-kicker">Program frame</p>
+                <h2>What to deliver this fiscal year</h2>
+              </div>
+            </div>
+            <div class="program-panel" id="programPanel"></div>
+          </section>
+
           <section class="section-block side-block reveal reveal-3">
             <div class="section-heading compact">
               <div>
@@ -123,6 +181,16 @@
               </div>
             </div>
             <div class="roadmap" id="roadmap"></div>
+          </section>
+
+          <section class="section-block side-block reveal reveal-3">
+            <div class="section-heading compact">
+              <div>
+                <p class="section-kicker">Federal precedents</p>
+                <h2>Already in government use</h2>
+              </div>
+            </div>
+            <div class="precedent-list" id="precedentList"></div>
           </section>
 
           <section class="section-block side-block reveal reveal-4">
