@@ -12,8 +12,8 @@ It combines:
 
 Run the analysis to generate:
 
-- [reports/frus-ai-opportunities.md](/Users/jameswilson/Documents/New project/reports/frus-ai-opportunities.md)
-- [reports/frus-ai-opportunities.json](/Users/jameswilson/Documents/New project/reports/frus-ai-opportunities.json)
+- [`reports/frus-ai-opportunities.md`](reports/frus-ai-opportunities.md)
+- [`reports/frus-ai-opportunities.json`](reports/frus-ai-opportunities.json)
 
 The report maps federal AI use cases onto FRUS's four production stages:
 
@@ -44,14 +44,14 @@ Then open `http://127.0.0.1:4173`.
 
 ## Project structure
 
-- [data/frus-context.json](/Users/jameswilson/Documents/New project/data/frus-context.json): FRUS stage model, source-backed findings, and capability themes
-- [scripts/analyze-frus.js](/Users/jameswilson/Documents/New project/scripts/analyze-frus.js): CSV parser, scoring logic, and report generator
-- [scripts/serve-dashboard.js](/Users/jameswilson/Documents/New project/scripts/serve-dashboard.js): local static server for the dashboard
-- [dashboard/index.html](/Users/jameswilson/Documents/New project/dashboard/index.html): dashboard shell
-- [dashboard/app.js](/Users/jameswilson/Documents/New project/dashboard/app.js): dashboard data wiring and interactions
-- [dashboard/styles.css](/Users/jameswilson/Documents/New project/dashboard/styles.css): dashboard visual system
-- [data/2025_individually_reported_AI_use_cases.csv](/Users/jameswilson/Documents/New project/data/2025_individually_reported_AI_use_cases.csv): downloaded OMB inventory snapshot
-- [data/ai_inventory_data_dictionary.json](/Users/jameswilson/Documents/New project/data/ai_inventory_data_dictionary.json): downloaded OMB data dictionary
+- [`data/frus-context.json`](data/frus-context.json): FRUS stage model, source-backed findings, and capability themes
+- [`scripts/analyze-frus.js`](scripts/analyze-frus.js): CSV parser, scoring logic, and report generator
+- [`scripts/serve-dashboard.js`](scripts/serve-dashboard.js): local static server for the dashboard
+- [`dashboard/index.html`](dashboard/index.html): dashboard shell
+- [`dashboard/app.js`](dashboard/app.js): dashboard data wiring and interactions
+- [`dashboard/styles.css`](dashboard/styles.css): dashboard visual system
+- [`data/2025_individually_reported_AI_use_cases.csv`](data/2025_individually_reported_AI_use_cases.csv): downloaded OMB inventory snapshot
+- [`data/ai_inventory_data_dictionary.json`](data/ai_inventory_data_dictionary.json): downloaded OMB data dictionary
 
 ## Source references
 
