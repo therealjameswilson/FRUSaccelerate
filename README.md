@@ -34,6 +34,12 @@ Validation check:
 npm test
 ```
 
+Build the publishable static site bundle:
+
+```bash
+npm run build:site
+```
+
 Launch the local dashboard:
 
 ```bash
@@ -42,11 +48,27 @@ npm run dashboard
 
 Then open `http://127.0.0.1:4173`.
 
+## Publish it
+
+This repo is set up for GitHub Pages with a workflow at `.github/workflows/deploy-pages.yml`.
+
+After the dashboard branch is merged into `main`:
+
+1. In the GitHub repo, open `Settings` > `Pages`.
+2. Set the build and deployment source to `GitHub Actions` if it is not already enabled.
+3. Let the `Deploy GitHub Pages` workflow run on `main`.
+
+Expected site URL:
+
+`https://therealjameswilson.github.io/FRUSaccelerate/`
+
 ## Project structure
 
 - [`data/frus-context.json`](data/frus-context.json): FRUS stage model, source-backed findings, and capability themes
 - [`scripts/analyze-frus.js`](scripts/analyze-frus.js): CSV parser, scoring logic, and report generator
+- [`scripts/build-site.js`](scripts/build-site.js): creates the minimal static publish bundle in `site/`
 - [`scripts/serve-dashboard.js`](scripts/serve-dashboard.js): local static server for the dashboard
+- [`index.html`](index.html): root redirect for local and published entrypoints
 - [`dashboard/index.html`](dashboard/index.html): dashboard shell
 - [`dashboard/app.js`](dashboard/app.js): dashboard data wiring and interactions
 - [`dashboard/styles.css`](dashboard/styles.css): dashboard visual system

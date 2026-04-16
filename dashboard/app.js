@@ -73,9 +73,11 @@ init().catch((error) => {
 });
 
 async function init() {
+  const reportUrl = new URL("../reports/frus-ai-opportunities.json", window.location.href);
+  const contextUrl = new URL("../data/frus-context.json", window.location.href);
   const [reportResponse, contextResponse] = await Promise.all([
-    fetch("/reports/frus-ai-opportunities.json"),
-    fetch("/data/frus-context.json")
+    fetch(reportUrl),
+    fetch(contextUrl)
   ]);
 
   state.report = await reportResponse.json();

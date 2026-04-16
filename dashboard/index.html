@@ -4,7 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FRUS Acceleration Dashboard</title>
-    <link rel="stylesheet" href="/dashboard/styles.css" />
+    <script>
+      if (!window.location.pathname.endsWith("/") && !window.location.pathname.endsWith(".html")) {
+        const url = new URL(window.location.href);
+        url.pathname = `${url.pathname}/`;
+        window.location.replace(url.toString());
+      }
+    </script>
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <div class="page-shell">
@@ -17,8 +24,8 @@
             for planning, research, clearance, and publication.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="/reports/frus-ai-opportunities.md">Open report</a>
-            <a class="button secondary" href="/reports/frus-ai-opportunities.json">Export data</a>
+            <a class="button primary" href="../reports/frus-ai-opportunities.md">Open report</a>
+            <a class="button secondary" href="../reports/frus-ai-opportunities.json">Export data</a>
           </div>
         </div>
         <div class="hero-panel reveal reveal-2">
@@ -143,6 +150,6 @@
       </main>
     </div>
 
-    <script src="/dashboard/app.js" type="module"></script>
+    <script src="./app.js" type="module"></script>
   </body>
 </html>

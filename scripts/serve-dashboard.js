@@ -26,7 +26,7 @@ function send(response, statusCode, body, contentType) {
 function safeResolve(requestPath) {
   const normalized = path.normalize(requestPath).replace(/^(\.\.[/\\])+/, "");
   const stripped = normalized.replace(/^[/\\]+/, "");
-  const target = stripped === "" ? path.join(DASHBOARD_ROOT, "index.html") : path.join(ROOT, stripped);
+  const target = stripped === "" ? path.join(ROOT, "index.html") : path.join(ROOT, stripped);
 
   if (!target.startsWith(ROOT)) {
     return null;
@@ -36,7 +36,11 @@ function safeResolve(requestPath) {
 }
 
 function getFilePath(urlPath) {
-  if (urlPath === "/" || urlPath === "/dashboard") {
+  if (urlPath === "/") {
+    return path.join(ROOT, "index.html");
+  }
+
+  if (urlPath === "/dashboard") {
     return path.join(DASHBOARD_ROOT, "index.html");
   }
 

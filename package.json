@@ -5,6 +5,7 @@
   "main": "scripts/analyze-frus.js",
   "scripts": {
     "analyze": "node scripts/analyze-frus.js",
+    "build:site": "node scripts/build-site.js",
     "dashboard": "node scripts/serve-dashboard.js",
     "test": "node scripts/analyze-frus.js --check"
   },
