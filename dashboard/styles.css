@@ -634,6 +634,23 @@ body::after {
   border: 1px solid rgba(255, 247, 228, 0.16);
 }
 
+a.chip,
+a.chip-link {
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+a.chip-link:hover,
+a.chip-link:focus-visible {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow: 0 4px 12px rgba(33, 6, 10, 0.28);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  outline: none;
+}
+
 .rank-pill,
 .finding-index {
   display: inline-flex;

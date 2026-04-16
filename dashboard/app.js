@@ -192,10 +192,7 @@ function renderTopProjects() {
             <p class="detail-label">Federal precedents already in use</p>
             <div class="mini-list">
               ${precedents
-                .map(
-                  (item) =>
-                    `<span class="chip neutral" title="${escapeHtml(item.use_case_name)}">${escapeHtml(item.id)}</span>`
-                )
+                .map((item) => useCaseChipLink(item.id, "neutral-force", item.use_case_name))
                 .join("")}
             </div>
           </div>
@@ -223,10 +220,7 @@ function renderIdeaFamilies() {
           <p class="summary-text"><strong>Why it matters:</strong> ${escapeHtml(family.value)}</p>
           <div class="mini-list">
             ${precedents
-              .map(
-                (item) =>
-                  `<span class="chip ${pickChipTone(item.classification)}" title="${escapeHtml(item.use_case_name)}">${escapeHtml(item.id)}</span>`
-              )
+              .map((item) => useCaseChipLink(item.id, item.classification, item.use_case_name))
               .join("")}
           </div>
         </article>
@@ -299,7 +293,7 @@ function renderPrecedentList() {
       return `
         <article class="precedent-card">
           <div class="card-topline">
-            <span class="chip ${pickChipTone(useCase.classification)}">${escapeHtml(useCase.id)}</span>
+            ${useCaseChipLink(useCase.id, useCase.classification, useCase.use_case_name)}
             <span class="chip neutral">${escapeHtml(useCase.development_stage)}</span>
           </div>
           <h3>${escapeHtml(useCase.use_case_name)}</h3>
@@ -331,7 +325,7 @@ function renderPortfolio() {
           <div class="mini-list">
             ${item.exemplars
               .slice(0, 3)
-              .map((example) => `<span class="chip ${pickChipTone(example.classification)}">${escapeHtml(example.id)}</span>`)
+              .map((example) => useCaseChipLink(example.id, example.classification, example.use_case_name))
               .join("")}
           </div>
         </article>
@@ -493,6 +487,9 @@ function bindEvents() {
   });
 
   document.addEventListener("click", (event) => {
+    if (event.target.closest("a")) {
+      return;
+    }
     const opportunity = event.target.closest("[data-opportunity-id]");
     if (!opportunity) {
       return;
@@ -601,7 +598,7 @@ function renderOpportunityGrid() {
           </div>
           <div class="mini-list">
             <span class="chip ${stageChipTone(bestStage?.stageId)}">${escapeHtml(bestStage?.title || "General fit")}</span>
-            <span class="chip neutral">${escapeHtml(item.id)}</span>
+            ${useCaseChipLink(item.id, "neutral-force", item.use_case_name)}
           </div>
           <p class="summary-text">${escapeHtml(item.summary)}</p>
           <div class="theme-list">
@@ -631,7 +628,7 @@ function renderDetailPanel() {
         <span class="chip ${pickChipTone(selected.classification)}">${escapeHtml(selected.classification)}</span>
       </div>
       <h3>${escapeHtml(selected.use_case_name)}</h3>
-      <p class="detail-copy">${escapeHtml(selected.agency_name)} • ${escapeHtml(selected.development_stage)} • ${escapeHtml(selected.id)}</p>
+      <p class="detail-copy">${escapeHtml(selected.agency_name)} • ${escapeHtml(selected.development_stage)} • <a class="text-link" href="${useCaseUrl(selected.id)}" target="_blank" rel="noopener noreferrer">${escapeHtml(selected.id)}</a></p>
       <p class="summary-text">${escapeHtml(selected.summary)}</p>
     </article>
     <article class="detail-block">
@@ -745,6 +742,9 @@ function uniqueValues(values) {
 }
 
 function pickChipTone(classification) {
+  if (classification === "neutral-force") {
+    return "neutral";
+  }
   if (classification === "Generative AI") {
     return "";
   }
@@ -781,6 +781,19 @@ function formatDateTime(value) {
     dateStyle: "medium",
     timeStyle: "short"
   }).format(new Date(value));
+}
+
+function useCaseUrl(id) {
+  const query = encodeURIComponent(`"${id}"`);
+  return `https://github.com/ombegov/2025-Federal-Agency-AI-Use-Case-Inventory/search?q=${query}&type=code`;
+}
+
+function useCaseChipLink(id, classification, title, extraClass) {
+  const tone = pickChipTone(classification);
+  const cls = ["chip", "chip-link", tone, extraClass].filter(Boolean).join(" ");
+  const href = useCaseUrl(id);
+  const safeTitle = title ? ` title="${escapeHtml(title)}"` : "";
+  return `<a class="${cls}" href="${href}" target="_blank" rel="noopener noreferrer"${safeTitle}>${escapeHtml(id)}</a>`;
 }
 
 function escapeHtml(value) {
