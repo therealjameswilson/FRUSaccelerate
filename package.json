@@ -1,0 +1,15 @@
+{
+  "name": "frus-ai-use-case-mapper",
+  "version": "1.0.0",
+  "description": "Analyze the 2025 Federal Agency AI Use Case Inventory for opportunities to accelerate FRUS volume production.",
+  "main": "scripts/analyze-frus.js",
+  "scripts": {
+    "analyze": "node scripts/analyze-frus.js",
+    "dashboard": "node scripts/serve-dashboard.js",
+    "test": "node scripts/analyze-frus.js --check"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

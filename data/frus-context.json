@@ -1,0 +1,444 @@
+{
+  "analysisDate": "2026-04-16",
+  "inventorySource": {
+    "name": "2025 Federal Agency AI Use Case Inventory",
+    "repositoryUrl": "https://github.com/ombegov/2025-Federal-Agency-AI-Use-Case-Inventory",
+    "csvUrl": "https://raw.githubusercontent.com/ombegov/2025-Federal-Agency-AI-Use-Case-Inventory/main/Data/2025_individually_reported_AI_use_cases.csv",
+    "dataDictionaryUrl": "https://raw.githubusercontent.com/ombegov/2025-Federal-Agency-AI-Use-Case-Inventory/main/Validation/data_dictionary.json"
+  },
+  "frusMetrics": {
+    "statutoryPublicationLagYears": 30,
+    "publishedVolumesHostedOnline": 550,
+    "documentsHostedOnline": 300000,
+    "websiteVisits2025": 20000000,
+    "websiteVisitGrowth2025Pct": 54,
+    "plannedBushVolumes": 33,
+    "volumesInDeclassificationReview": 46,
+    "volumesInDeclassificationReviewFiveYearsOrMore": 25,
+    "statusPageVolumesBeingCleared": 54,
+    "statusPageVolumesBeingResearched": 37,
+    "statusPageVolumesPlanned": 42,
+    "statusPagePublished2025Releases": 3,
+    "statusPageAnticipated2026Releases": 3
+  },
+  "frusFindings": [
+    {
+      "headline": "FRUS has four published production stages.",
+      "detail": "History.state.gov describes the current FRUS flow as Planning, Research, Clearance, and Publication, with research explicitly covering archival research, selection, annotation, and review.",
+      "sourceUrl": "https://history.state.gov/historicaldocuments/status-of-the-series"
+    },
+    {
+      "headline": "Clearance is the biggest current bottleneck.",
+      "detail": "The 2025 Report to Congress says declassification remains the single greatest obstacle to meeting the 30-year publication requirement; 46 volumes were in declassification review and 25 had been there for at least five years.",
+      "sourceUrl": "https://static.history.state.gov/reports/report-to-congress-on-frus-for-2025.pdf"
+    },
+    {
+      "headline": "FRUS is already moving toward incremental digital release.",
+      "detail": "The 2025 report highlights a chapter-by-chapter publication approach so one uncleared chapter does not delay an entire volume, and the March 2025 HAC minutes note the first born-digital indexes across six volumes.",
+      "sourceUrl": "https://static.history.state.gov/reports/report-to-congress-on-frus-for-2025.pdf"
+    },
+    {
+      "headline": "HistoryAtState uses TEI, eXist-db, and XQuery as its digital publishing stack.",
+      "detail": "The developer resources page states that article- and book-length content is encoded as TEI, stored in eXist-db, and converted into HTML and ebook forms with XQuery.",
+      "sourceUrl": "https://history.state.gov/developer"
+    },
+    {
+      "headline": "The FRUS GitHub repo exposes canonical TEI sources and CI-generated publication artifacts.",
+      "detail": "The FRUS repository explains that one TEI XML file represents a volume, document ids are canonical once released, tables of contents are generated automatically in CI, and releases are posted as soon as they are posted to history.state.gov.",
+      "sourceUrl": "https://github.com/HistoryAtState/frus"
+    },
+    {
+      "headline": "HistoryAtState runs a multi-repo build and deployment workflow.",
+      "detail": "The hsg-project README describes history.state.gov as a multi-repository project built into eXist packages, while hsg-shell documents Node, Ant, Cypress, and automated release practices for the public website.",
+      "sourceUrl": "https://github.com/HistoryAtState/hsg-project"
+    }
+  ],
+  "stageProfiles": [
+    {
+      "id": "planning",
+      "title": "Planning",
+      "description": "Grand conceptualization, volume conceptualization, backlog prioritization, release scheduling, and workload balancing.",
+      "keywords": [
+        "plan",
+        "planning",
+        "priorit",
+        "forecast",
+        "trend",
+        "schedule",
+        "backlog",
+        "dashboard",
+        "workflow",
+        "portfolio",
+        "allocation",
+        "recommend",
+        "classification",
+        "taxonomy"
+      ]
+    },
+    {
+      "id": "research",
+      "title": "Research",
+      "description": "Collection, selection, annotation, and review of records across the national security establishment.",
+      "keywords": [
+        "record",
+        "records",
+        "document",
+        "documents",
+        "archive",
+        "archival",
+        "catalog",
+        "search",
+        "semantic",
+        "retriev",
+        "discovery",
+        "knowledge",
+        "query",
+        "summar",
+        "translation",
+        "transcrib",
+        "ocr",
+        "metadata",
+        "annotat",
+        "entity",
+        "extract",
+        "tag",
+        "historical"
+      ]
+    },
+    {
+      "id": "clearance",
+      "title": "Clearance",
+      "description": "Declassification coordination, redaction, sensitivity review, editing preparation, and release approvals.",
+      "keywords": [
+        "declass",
+        "clearance",
+        "redact",
+        "redaction",
+        "privacy",
+        "pii",
+        "sensitive",
+        "exemption",
+        "compliance",
+        "review",
+        "release",
+        "classify",
+        "flag",
+        "risk"
+      ]
+    },
+    {
+      "id": "publication",
+      "title": "Publication",
+      "description": "Editing, indexing, metadata enhancement, chapter-based release, and public discovery on history.state.gov.",
+      "keywords": [
+        "publish",
+        "publication",
+        "website",
+        "access",
+        "discoverability",
+        "metadata",
+        "description",
+        "tag",
+        "index",
+        "catalog",
+        "chat interface",
+        "search experience",
+        "public",
+        "ebook",
+        "digital object"
+      ]
+    }
+  ],
+  "capabilityThemes": [
+    {
+      "id": "semantic_search",
+      "name": "Semantic Search and Retrieval",
+      "description": "Natural-language or semantic search over records, catalogs, or knowledge bases.",
+      "weight": 14,
+      "stageIds": [
+        "planning",
+        "research",
+        "publication"
+      ],
+      "keywords": [
+        "semantic search",
+        "natural language search",
+        "contextual retrieval",
+        "suggested answers",
+        "knowledge base",
+        "knowledgebase",
+        "retrieve",
+        "retrieval",
+        "find records",
+        "find documents",
+        "catalog",
+        "archives",
+        "archival",
+        "historical records",
+        "email archives"
+      ]
+    },
+    {
+      "id": "metadata_enrichment",
+      "name": "Metadata Enrichment and Tagging",
+      "description": "Auto-generated descriptions, tags, entities, or structured metadata for records and datasets.",
+      "weight": 12,
+      "stageIds": [
+        "research",
+        "publication"
+      ],
+      "keywords": [
+        "metadata",
+        "descriptive metadata",
+        "description generation",
+        "auto-fill",
+        "autofill",
+        "tagging",
+        "tags",
+        "topic",
+        "topics",
+        "entity",
+        "entities",
+        "field names",
+        "descriptions",
+        "catalog identification",
+        "document types",
+        "archival descriptions",
+        "descriptive backlog",
+        "digital objects",
+        "entity extraction"
+      ]
+    },
+    {
+      "id": "drafting_summarization",
+      "name": "Summarization and Drafting Assistance",
+      "description": "Draft summaries, notes, reports, or documents from complex inputs.",
+      "weight": 6,
+      "stageIds": [
+        "planning",
+        "research"
+      ],
+      "keywords": [
+        "summarize",
+        "summary",
+        "summaries",
+        "draft",
+        "drafting",
+        "generate reports",
+        "meeting notes",
+        "draft responses",
+        "plain-language reports",
+        "draft documents",
+        "generate content",
+        "generate proposed descriptions",
+        "topic summarizer"
+      ]
+    },
+    {
+      "id": "transcription_translation",
+      "name": "Transcription, OCR, and Translation",
+      "description": "Speech-to-text, OCR, translation, or text extraction that reduces manual transcription labor.",
+      "weight": 11,
+      "stageIds": [
+        "research"
+      ],
+      "keywords": [
+        "transcription",
+        "transcriptions",
+        "transcribe",
+        "ocr",
+        "text extraction",
+        "translate",
+        "translation",
+        "named entities extracted",
+        "audio processing",
+        "detection and translation",
+        "digitized"
+      ]
+    },
+    {
+      "id": "redaction_clearance",
+      "name": "Redaction and Clearance Triage",
+      "description": "Find sensitive material, prioritize review, or automate redaction recommendations.",
+      "weight": 16,
+      "stageIds": [
+        "clearance"
+      ],
+      "keywords": [
+        "redact",
+        "redaction",
+        "declassify",
+        "declass",
+        "sensitive information",
+        "sensitive content",
+        "privacy",
+        "pii",
+        "foia",
+        "exemptions",
+        "public release",
+        "screen and flag",
+        "flag",
+        "release all government records"
+      ]
+    },
+    {
+      "id": "publication_experience",
+      "name": "Publication and User Experience",
+      "description": "Improve the public research experience with chat, recommendations, indexes, or discovery enhancements.",
+      "weight": 8,
+      "stageIds": [
+        "publication"
+      ],
+      "keywords": [
+        "chat interface",
+        "chatbot",
+        "personalize",
+        "visitor experience",
+        "public site",
+        "online catalog",
+        "discoverability",
+        "recommend",
+        "accessible",
+        "research easier",
+        "more insightful",
+        "search experience"
+      ]
+    },
+    {
+      "id": "planning_analytics",
+      "name": "Planning Analytics and Workflow Routing",
+      "description": "Trend analysis, prioritization, classification, or workflow support for managers and analysts.",
+      "weight": 4,
+      "stageIds": [
+        "planning",
+        "clearance"
+      ],
+      "keywords": [
+        "trend analysis",
+        "prioritization",
+        "prioritize",
+        "workflow",
+        "routing",
+        "classification recommendations",
+        "case processing",
+        "queue"
+      ]
+    }
+  ],
+  "recommendedPortfolio": [
+    {
+      "id": "semantic-research-workbench",
+      "name": "Semantic FRUS Research Workbench",
+      "stageIds": [
+        "planning",
+        "research"
+      ],
+      "themeIds": [
+        "semantic_search",
+        "planning_analytics"
+      ],
+      "why": "FRUS researchers need faster discovery across distributed archival corpora and prior FRUS volumes.",
+      "frusBenefit": "Reduce time spent locating candidate documents, support series planning, and improve chapter-level release sequencing.",
+      "preferredKeywords": [
+        "semantic search",
+        "natural language search",
+        "contextual retrieval",
+        "retrieval",
+        "search",
+        "catalog",
+        "archives",
+        "archival",
+        "query"
+      ],
+      "minimumPreferredHits": 2,
+      "excludeKeywords": [
+        "redaction",
+        "pii",
+        "privacy"
+      ]
+    },
+    {
+      "id": "annotation-metadata-copilot",
+      "name": "Annotation and Metadata Copilot",
+      "stageIds": [
+        "research",
+        "publication"
+      ],
+      "themeIds": [
+        "metadata_enrichment",
+        "drafting_summarization",
+        "transcription_translation"
+      ],
+      "why": "Annotation, glossary work, provenance notes, and digital descriptions are labor-intensive and repetitive.",
+      "frusBenefit": "Accelerate drafts for notes, term lists, person lists, and descriptive metadata while keeping historians in the loop.",
+      "preferredKeywords": [
+        "metadata",
+        "descriptive",
+        "entity extraction",
+        "topic summarizer",
+        "digital objects",
+        "archival descriptions",
+        "tagging"
+      ],
+      "minimumPreferredHits": 2,
+      "excludeKeywords": [
+        "license plate",
+        "biometric",
+        "surveillance"
+      ]
+    },
+    {
+      "id": "clearance-triage-assistant",
+      "name": "Clearance and Redaction Triage Assistant",
+      "stageIds": [
+        "clearance"
+      ],
+      "themeIds": [
+        "redaction_clearance",
+        "planning_analytics"
+      ],
+      "why": "The Report to Congress identifies interagency declassification and redaction review as the main delay.",
+      "frusBenefit": "Rank risky passages, surface likely equities, and cut reviewer time spent on low-risk material.",
+      "preferredKeywords": [
+        "redact",
+        "redaction",
+        "foia",
+        "pii",
+        "privacy",
+        "declass"
+      ],
+      "minimumPreferredHits": 1
+    },
+    {
+      "id": "incremental-publication-tooling",
+      "name": "Incremental Publication and Discovery Tooling",
+      "stageIds": [
+        "publication"
+      ],
+      "themeIds": [
+        "publication_experience",
+        "metadata_enrichment",
+        "semantic_search"
+      ],
+      "why": "FRUS is already publishing cleared chapters incrementally and experimenting with born-digital indexes.",
+      "frusBenefit": "Improve chapter release packaging, index generation, and public discovery without waiting for whole-volume completion.",
+      "preferredKeywords": [
+        "public site",
+        "discoverability",
+        "metadata",
+        "catalog",
+        "visitor experience",
+        "public access",
+        "chat interface",
+        "digital objects",
+        "index"
+      ],
+      "minimumPreferredHits": 2,
+      "excludeKeywords": [
+        "redaction",
+        "pii",
+        "privacy"
+      ]
+    }
+  ]
+}

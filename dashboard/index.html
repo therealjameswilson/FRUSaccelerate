@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FRUS Acceleration Dashboard</title>
+    <link rel="stylesheet" href="/dashboard/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy reveal reveal-1">
+          <p class="eyebrow">FRUS Acceleration Dashboard</p>
+          <h1>Pursue the federal AI patterns that can actually move FRUS volumes faster.</h1>
+          <p class="hero-text">
+            This dashboard translates the 2025 federal AI inventory and HistoryAtState research into a live pursuit board
+            for planning, research, clearance, and publication.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="/reports/frus-ai-opportunities.md">Open report</a>
+            <a class="button secondary" href="/reports/frus-ai-opportunities.json">Export data</a>
+          </div>
+        </div>
+        <div class="hero-panel reveal reveal-2">
+          <div class="hero-panel-header">
+            <span>FRUS pressure points</span>
+            <span id="generatedAtLabel">Loading...</span>
+          </div>
+          <div class="pressure-grid" id="pressureGrid"></div>
+          <div class="guardrails">
+            <p class="guardrails-label">Guardrails</p>
+            <ul id="guardrailList"></ul>
+          </div>
+        </div>
+      </header>
+
+      <main class="dashboard-layout">
+        <section class="column-main">
+          <section class="section-block reveal reveal-2">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Action portfolio</p>
+                <h2>Start with four workstreams</h2>
+              </div>
+              <p class="section-summary">
+                Each workstream is backed by federal precedents and mapped to the FRUS production stages most likely to benefit.
+              </p>
+            </div>
+            <div class="portfolio-grid" id="portfolioGrid"></div>
+          </section>
+
+          <section class="section-block reveal reveal-3">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Stage board</p>
+                <h2>Where to intervene in the FRUS pipeline</h2>
+              </div>
+              <p class="section-summary">
+                Flip through the four FRUS stages to see the best-matching federal use cases and the workload shape behind them.
+              </p>
+            </div>
+            <div class="stage-layout">
+              <div class="stage-tabs" id="stageTabs" role="tablist" aria-label="FRUS stages"></div>
+              <article class="stage-spotlight" id="stageSpotlight"></article>
+            </div>
+          </section>
+
+          <section class="section-block reveal reveal-4">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Opportunity browser</p>
+                <h2>Search the 198 best-fit use cases</h2>
+              </div>
+              <p class="section-summary">
+                Filter by stage, classification, agency, or keyword to build a practical shortlist for pilots and follow-up discovery.
+              </p>
+            </div>
+            <div class="filters" id="filters">
+              <label class="filter search-filter">
+                <span>Search</span>
+                <input id="searchInput" type="search" placeholder="Try redaction, metadata, semantic search, NARA..." />
+              </label>
+              <label class="filter">
+                <span>Stage</span>
+                <select id="stageFilter"></select>
+              </label>
+              <label class="filter">
+                <span>Classification</span>
+                <select id="classificationFilter"></select>
+              </label>
+              <label class="filter">
+                <span>Agency</span>
+                <select id="agencyFilter"></select>
+              </label>
+              <label class="filter">
+                <span>Sort</span>
+                <select id="sortFilter">
+                  <option value="score">Highest score</option>
+                  <option value="agency">Agency A-Z</option>
+                  <option value="classification">Classification</option>
+                  <option value="stage">Best stage fit</option>
+                </select>
+              </label>
+            </div>
+            <div class="results-meta" id="resultsMeta"></div>
+            <div class="opportunity-grid" id="opportunityGrid"></div>
+          </section>
+        </section>
+
+        <aside class="column-side">
+          <section class="section-block side-block reveal reveal-3">
+            <div class="section-heading compact">
+              <div>
+                <p class="section-kicker">Pilot roadmap</p>
+                <h2>Pursue in sequence</h2>
+              </div>
+            </div>
+            <div class="roadmap" id="roadmap"></div>
+          </section>
+
+          <section class="section-block side-block reveal reveal-4">
+            <div class="section-heading compact">
+              <div>
+                <p class="section-kicker">Signal clusters</p>
+                <h2>Who is worth studying most</h2>
+              </div>
+            </div>
+            <div class="agency-list" id="agencyList"></div>
+          </section>
+
+          <section class="section-block side-block reveal reveal-4">
+            <div class="section-heading compact">
+              <div>
+                <p class="section-kicker">Selected opportunity</p>
+                <h2>Detail view</h2>
+              </div>
+            </div>
+            <div class="detail-panel" id="detailPanel">
+              <p class="detail-empty">Select a card below to inspect its fit, stage alignment, and themes.</p>
+            </div>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script src="/dashboard/app.js" type="module"></script>
+  </body>
+</html>
