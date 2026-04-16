@@ -28,6 +28,10 @@ html {
   scroll-behavior: smooth;
 }
 
+section[id] {
+  scroll-margin-top: 110px;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -374,6 +378,7 @@ body::after {
 }
 
 .pressure-card,
+.orientation-card,
 .project-card,
 .idea-card,
 .finding-card,
@@ -439,7 +444,17 @@ body::after {
 }
 
 .anchor-nav {
+  position: sticky;
+  top: 12px;
+  z-index: 14;
   margin-bottom: 26px;
+  padding: 12px;
+  border-radius: calc(var(--radius-lg) + 4px);
+  border: 1px solid rgba(227, 186, 103, 0.18);
+  backdrop-filter: blur(14px);
+  background:
+    linear-gradient(145deg, rgba(88, 12, 28, 0.84), rgba(58, 8, 18, 0.78));
+  box-shadow: 0 18px 34px rgba(7, 0, 2, 0.18);
 }
 
 .anchor-nav a,
@@ -483,14 +498,113 @@ body::after {
   gap: 24px;
 }
 
+.orientation-shell {
+  padding-bottom: 28px;
+}
+
+.orientation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.chapter-divider {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.chapter-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 247, 228, 0.18);
+  color: #5b1019;
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: radial-gradient(circle at 30% 28%, #f9ebc8, #d3a14d 70%, #9a6720 100%);
+  box-shadow:
+    inset 0 0 0 2px rgba(88, 17, 28, 0.18),
+    inset 0 0 0 8px rgba(255, 246, 225, 0.18),
+    0 14px 30px rgba(0, 0, 0, 0.18);
+}
+
+.chapter-kicker {
+  margin: 0 0 8px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.chapter-copy h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 2.6vw, 2.7rem);
+  line-height: 1.08;
+}
+
+.chapter-copy p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.58;
+  max-width: 58ch;
+}
+
+.chapter-links,
+.orientation-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chapter-links {
+  justify-content: flex-end;
+}
+
+.chapter-links a,
+.orientation-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(227, 186, 103, 0.2);
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+  background: rgba(58, 8, 18, 0.38);
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.chapter-links a:hover,
+.orientation-link:hover {
+  transform: translateY(-1px);
+  border-color: rgba(227, 186, 103, 0.3);
+  background: rgba(77, 11, 24, 0.46);
+}
+
 .section-block {
   padding: 24px;
   border-radius: var(--radius-xl);
 }
 
 .side-block {
+  position: static;
+}
+
+.column-side > .side-block:first-child {
   position: sticky;
-  top: 18px;
+  top: 88px;
 }
 
 .section-heading {
@@ -557,6 +671,7 @@ body::after {
 }
 
 .project-card,
+.orientation-card,
 .idea-card,
 .finding-card,
 .portfolio-card,
@@ -599,6 +714,7 @@ a.chip {
 }
 
 .project-card h3,
+.orientation-card h3,
 .idea-card h3,
 .finding-card h3,
 .portfolio-card h3,
@@ -688,6 +804,14 @@ a.chip {
 .project-note strong {
   display: block;
   margin-bottom: 8px;
+}
+
+.orientation-card {
+  min-height: 100%;
+}
+
+.orientation-note {
+  margin-top: auto;
 }
 
 .deliverable-list {
@@ -1460,7 +1584,12 @@ a.chip {
     position: static;
   }
 
+  .column-side > .side-block:first-child {
+    position: static;
+  }
+
   .filters,
+  .orientation-grid,
   .sample-grid,
   .dossier-meta,
   .dossier-columns,
@@ -1474,6 +1603,14 @@ a.chip {
   .spotlight-grid,
   .project-split {
     grid-template-columns: 1fr;
+  }
+
+  .chapter-divider {
+    grid-template-columns: 1fr;
+  }
+
+  .chapter-links {
+    justify-content: flex-start;
   }
 }
 
@@ -1510,6 +1647,11 @@ a.chip {
     align-items: start;
   }
 
+  .anchor-nav {
+    top: 8px;
+    padding: 10px;
+  }
+
   .compare-header,
   .compare-row {
     grid-template-columns: 140px repeat(3, minmax(180px, 1fr));
@@ -1522,5 +1664,11 @@ a.chip {
 
   .matrix-point-label {
     font-size: 0.72rem;
+  }
+
+  .chapter-number {
+    width: 58px;
+    height: 58px;
+    font-size: 1.45rem;
   }
 }

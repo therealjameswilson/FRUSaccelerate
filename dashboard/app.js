@@ -620,6 +620,7 @@ const elements = {
   pressureGrid: document.querySelector("#pressureGrid"),
   generatedAtLabel: document.querySelector("#generatedAtLabel"),
   guardrailList: document.querySelector("#guardrailList"),
+  orientationGrid: document.querySelector("#orientationGrid"),
   exportBriefButton: document.querySelector("#exportBriefButton"),
   projectGrid: document.querySelector("#projectGrid"),
   matrixBoard: document.querySelector("#matrixBoard"),
@@ -697,6 +698,7 @@ function enrichProject(project) {
 
 function renderFrame() {
   renderHero();
+  renderOrientation();
   renderTopProjects();
   renderMatrix();
   renderTimeline();
@@ -754,6 +756,93 @@ function renderHero() {
     .join("");
 
   elements.guardrailList.innerHTML = guardrails.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+}
+
+function renderOrientation() {
+  const [firstProject, secondProject, thirdProject] = state.programProjects;
+  const routes = [
+    {
+      step: "Route 1",
+      audience: "Leadership",
+      title: "Decide what to greenlight first",
+      summary:
+        "Use the ranked slate, the value x feasibility board, and the fiscal-year timeline to see what can genuinely ship by September 30, 2026.",
+      emphasisLabel: "Read in order",
+      emphasisText: "Top 10 projects, then the matrix, then the fiscal-year timeline.",
+      highlights: [
+        `${state.programProjects.length} scoped pilots`,
+        `Lead with #${firstProject?.rank || 1} ${firstProject?.name || "FRUS Clearance Triage Assistant"}`
+      ],
+      links: [
+        ["Open top 10", "#topProjects"],
+        ["See matrix", "#deliveryMatrix"],
+        ["View timeline", "#deliveryTimeline"]
+      ]
+    },
+    {
+      step: "Route 2",
+      audience: "Historians and editors",
+      title: "Inspect how the pilots fit real FRUS work",
+      summary:
+        "Move from the workflow map into sample outputs and pilot cards to understand what each pilot would do inside historian, clearance, and publication workflows.",
+      emphasisLabel: "Best starting pilots",
+      emphasisText: `Begin with ${firstProject?.name || "FRUS Clearance Triage Assistant"}, ${secondProject?.name || "Semantic FRUS Research Workbench"}, and ${thirdProject?.name || "Metadata Autofill for Source Packets"}.`,
+      highlights: ["Workflow-first view", "Mock outputs included"],
+      links: [
+        ["Workflow map", "#workflowMap"],
+        ["Sample outputs", "#sampleOutputs"],
+        ["Open pilot cards", "#projectDossiers"]
+      ]
+    },
+    {
+      step: "Route 3",
+      audience: "Builders and partners",
+      title: "Trace the federal precedents and underlying evidence",
+      summary:
+        "Use the comparator, idea atlas, and full browser when you need to see which existing federal patterns are strongest and what still needs State-specific tailoring.",
+      emphasisLabel: "Best evidence trail",
+      emphasisText: "Start with the precedent comparator, then move into the idea atlas and the full use case browser.",
+      highlights: [`${state.precedentRecords.length} reusable precedents`, "Click-through source links throughout"],
+      links: [
+        ["Compare precedents", "#precedentComparator"],
+        ["View idea atlas", "#ideaAtlas"],
+        ["Browse use cases", "#opportunityBrowser"]
+      ]
+    }
+  ];
+
+  elements.orientationGrid.innerHTML = routes
+    .map(
+      (route) => `
+        <article class="orientation-card">
+          <div class="card-topline">
+            <span class="card-badge">${escapeHtml(route.step)}</span>
+            <span class="chip neutral">${escapeHtml(route.audience)}</span>
+          </div>
+          <div>
+            <h3>${escapeHtml(route.title)}</h3>
+            <p class="card-copy">${escapeHtml(route.summary)}</p>
+          </div>
+          <div class="mini-list">
+            ${route.highlights.map((item) => `<span class="chip alt">${escapeHtml(item)}</span>`).join("")}
+          </div>
+          <article class="project-note orientation-note">
+            <strong>${escapeHtml(route.emphasisLabel)}</strong>
+            <p class="detail-copy">${escapeHtml(route.emphasisText)}</p>
+          </article>
+          <div class="orientation-links">
+            ${route.links
+              .map(
+                ([label, href]) => `
+                  <a class="orientation-link" href="${escapeHtml(href)}">${escapeHtml(label)}</a>
+                `
+              )
+              .join("")}
+          </div>
+        </article>
+      `
+    )
+    .join("");
 }
 
 function renderTopProjects() {
