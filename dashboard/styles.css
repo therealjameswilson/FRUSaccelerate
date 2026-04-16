@@ -720,6 +720,48 @@ a.chip {
   align-self: start;
 }
 
+.precedent-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.precedent-link-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #4d0f18;
+  background: linear-gradient(135deg, rgba(248, 236, 213, 0.98), rgba(226, 204, 166, 0.96));
+  border: 1px solid rgba(255, 247, 228, 0.16);
+}
+
+.precedent-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1em;
+  font-size: 0.9em;
+  transform: translateY(-0.02em);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .stage-layout {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr);

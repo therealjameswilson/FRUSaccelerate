@@ -317,7 +317,11 @@ function renderPrecedentList() {
           <div class="mini-list">
             ${labels.map((label) => `<span class="chip neutral">${escapeHtml(label)}</span>`).join("")}
           </div>
-          <a class="text-link precedent-link" href="${escapeHtml(useCase.sourceUrl)}" target="_blank" rel="noreferrer">Open precedent</a>
+          <a class="text-link precedent-link" href="${escapeHtml(useCase.sourceUrl)}" target="_blank" rel="noreferrer">
+            <span>Official inventory</span>
+            <span class="precedent-link-tag">OMB row</span>
+            <span class="precedent-mark" aria-hidden="true">↗</span>
+          </a>
         </article>
       `;
     })
@@ -414,7 +418,11 @@ function renderStageSpotlight() {
               <div class="mini-list">
                 ${match.matchedThemes.map((theme) => `<span class="chip neutral">${escapeHtml(theme)}</span>`).join("")}
               </div>
-              <a class="text-link card-link-inline" href="${escapeHtml(match.sourceUrl)}" target="_blank" rel="noreferrer">Open precedent</a>
+              <a class="text-link precedent-link card-link-inline" href="${escapeHtml(match.sourceUrl)}" target="_blank" rel="noreferrer">
+                <span>Official inventory</span>
+                <span class="precedent-link-tag">OMB row</span>
+                <span class="precedent-mark" aria-hidden="true">↗</span>
+              </a>
             </article>
           `
         )
@@ -623,7 +631,11 @@ function renderOpportunityGrid() {
           <div class="theme-list">
             ${item.matchedThemes.slice(0, 3).map((theme) => `<span class="chip neutral">${escapeHtml(theme)}</span>`).join("")}
           </div>
-          <a class="text-link card-link-inline" href="${escapeHtml(item.sourceUrl)}" target="_blank" rel="noreferrer">Open precedent</a>
+          <a class="text-link precedent-link card-link-inline" href="${escapeHtml(item.sourceUrl)}" target="_blank" rel="noreferrer">
+            <span>Official inventory</span>
+            <span class="precedent-link-tag">OMB row</span>
+            <span class="precedent-mark" aria-hidden="true">↗</span>
+          </a>
         </article>
       `;
     })
@@ -654,7 +666,11 @@ function renderDetailPanel() {
         { className: "inline-link", title: selected.use_case_name }
       )}</p>
       <p class="summary-text">${escapeHtml(selected.summary)}</p>
-      <a class="text-link precedent-link" href="${escapeHtml(selected.sourceUrl)}" target="_blank" rel="noreferrer">Open precedent source</a>
+      <a class="text-link precedent-link" href="${escapeHtml(selected.sourceUrl)}" target="_blank" rel="noreferrer">
+        <span>Official inventory</span>
+        <span class="precedent-link-tag">OMB row</span>
+        <span class="precedent-mark" aria-hidden="true">↗</span>
+      </a>
     </article>
     <article class="detail-block">
       <strong>Stage fit</strong>
@@ -747,9 +763,12 @@ function useCaseAnchor(useCase, label, options = {}) {
     return escapeHtml(label);
   }
 
-  const className = options.className ? ` class="${escapeHtml(options.className)}"` : "";
+  const computedClassName = [options.className || "", "precedent-anchor"].filter(Boolean).join(" ");
+  const className = computedClassName ? ` class="${escapeHtml(computedClassName)}"` : "";
   const title = options.title ? ` title="${escapeHtml(options.title)}"` : "";
-  return `<a${className} href="${escapeHtml(useCase.sourceUrl)}" target="_blank" rel="noreferrer"${title}>${escapeHtml(label)}</a>`;
+  return `<a${className} href="${escapeHtml(useCase.sourceUrl)}" target="_blank" rel="noreferrer"${title}>${escapeHtml(
+    label
+  )}<span class="precedent-mark" aria-hidden="true">↗</span><span class="sr-only"> opens official inventory</span></a>`;
 }
 
 function sortUseCases(left, right) {
