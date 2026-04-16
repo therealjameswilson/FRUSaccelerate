@@ -194,7 +194,10 @@ function renderTopProjects() {
               ${precedents
                 .map(
                   (item) =>
-                    `<span class="chip neutral" title="${escapeHtml(item.use_case_name)}">${escapeHtml(item.id)}</span>`
+                    useCaseAnchor(item, item.id, {
+                      className: "chip neutral chip-link",
+                      title: item.use_case_name
+                    })
                 )
                 .join("")}
             </div>
@@ -225,7 +228,10 @@ function renderIdeaFamilies() {
             ${precedents
               .map(
                 (item) =>
-                  `<span class="chip ${pickChipTone(item.classification)}" title="${escapeHtml(item.use_case_name)}">${escapeHtml(item.id)}</span>`
+                  useCaseAnchor(item, item.id, {
+                    className: `chip ${pickChipTone(item.classification)} chip-link`,
+                    title: item.use_case_name
+                  })
               )
               .join("")}
           </div>
@@ -299,15 +305,19 @@ function renderPrecedentList() {
       return `
         <article class="precedent-card">
           <div class="card-topline">
-            <span class="chip ${pickChipTone(useCase.classification)}">${escapeHtml(useCase.id)}</span>
+            ${useCaseAnchor(useCase, useCase.id, {
+              className: `chip ${pickChipTone(useCase.classification)} chip-link`,
+              title: useCase.use_case_name
+            })}
             <span class="chip neutral">${escapeHtml(useCase.development_stage)}</span>
           </div>
-          <h3>${escapeHtml(useCase.use_case_name)}</h3>
+          <h3>${useCaseAnchor(useCase, useCase.use_case_name, { className: "card-link", title: `Open ${useCase.id}` })}</h3>
           <p class="card-copy">${escapeHtml(useCase.agency_name)}</p>
           <p class="summary-text">${escapeHtml(useCase.summary)}</p>
           <div class="mini-list">
             ${labels.map((label) => `<span class="chip neutral">${escapeHtml(label)}</span>`).join("")}
           </div>
+          <a class="text-link precedent-link" href="${escapeHtml(useCase.sourceUrl)}" target="_blank" rel="noreferrer">Open precedent</a>
         </article>
       `;
     })
@@ -331,7 +341,12 @@ function renderPortfolio() {
           <div class="mini-list">
             ${item.exemplars
               .slice(0, 3)
-              .map((example) => `<span class="chip ${pickChipTone(example.classification)}">${escapeHtml(example.id)}</span>`)
+              .map((example) =>
+                useCaseAnchor(example, example.id, {
+                  className: `chip ${pickChipTone(example.classification)} chip-link`,
+                  title: example.use_case_name
+                })
+              )
               .join("")}
           </div>
         </article>
@@ -392,13 +407,14 @@ function renderStageSpotlight() {
                 <span class="chip ${pickChipTone(match.classification)}">${escapeHtml(match.classification)}</span>
               </div>
               <div>
-                <h3>${escapeHtml(match.use_case_name)}</h3>
+                <h3>${useCaseAnchor(match, match.use_case_name, { className: "card-link", title: `Open ${match.id}` })}</h3>
                 <p class="card-copy">${escapeHtml(match.agency)} • ${escapeHtml(match.development_stage)}</p>
               </div>
               <p class="summary-text">${escapeHtml(match.summary)}</p>
               <div class="mini-list">
                 ${match.matchedThemes.map((theme) => `<span class="chip neutral">${escapeHtml(theme)}</span>`).join("")}
               </div>
+              <a class="text-link card-link-inline" href="${escapeHtml(match.sourceUrl)}" target="_blank" rel="noreferrer">Open precedent</a>
             </article>
           `
         )
@@ -596,17 +612,18 @@ function renderOpportunityGrid() {
             <span class="chip ${pickChipTone(item.classification)}">${escapeHtml(item.classification)}</span>
           </div>
           <div>
-            <h3>${escapeHtml(item.use_case_name)}</h3>
+            <h3>${useCaseAnchor(item, item.use_case_name, { className: "card-link", title: `Open ${item.id}` })}</h3>
             <p class="card-copy">${escapeHtml(item.agency_name)} • ${escapeHtml(item.development_stage)}</p>
           </div>
           <div class="mini-list">
             <span class="chip ${stageChipTone(bestStage?.stageId)}">${escapeHtml(bestStage?.title || "General fit")}</span>
-            <span class="chip neutral">${escapeHtml(item.id)}</span>
+            ${useCaseAnchor(item, item.id, { className: "chip neutral chip-link", title: item.use_case_name })}
           </div>
           <p class="summary-text">${escapeHtml(item.summary)}</p>
           <div class="theme-list">
             ${item.matchedThemes.slice(0, 3).map((theme) => `<span class="chip neutral">${escapeHtml(theme)}</span>`).join("")}
           </div>
+          <a class="text-link card-link-inline" href="${escapeHtml(item.sourceUrl)}" target="_blank" rel="noreferrer">Open precedent</a>
         </article>
       `;
     })
@@ -630,9 +647,14 @@ function renderDetailPanel() {
         <span class="score-pill">${selected.overallScore}</span>
         <span class="chip ${pickChipTone(selected.classification)}">${escapeHtml(selected.classification)}</span>
       </div>
-      <h3>${escapeHtml(selected.use_case_name)}</h3>
-      <p class="detail-copy">${escapeHtml(selected.agency_name)} • ${escapeHtml(selected.development_stage)} • ${escapeHtml(selected.id)}</p>
+      <h3>${useCaseAnchor(selected, selected.use_case_name, { className: "card-link", title: `Open ${selected.id}` })}</h3>
+      <p class="detail-copy">${escapeHtml(selected.agency_name)} • ${escapeHtml(selected.development_stage)} • ${useCaseAnchor(
+        selected,
+        selected.id,
+        { className: "inline-link", title: selected.use_case_name }
+      )}</p>
       <p class="summary-text">${escapeHtml(selected.summary)}</p>
+      <a class="text-link precedent-link" href="${escapeHtml(selected.sourceUrl)}" target="_blank" rel="noreferrer">Open precedent source</a>
     </article>
     <article class="detail-block">
       <strong>Stage fit</strong>
@@ -718,6 +740,16 @@ function resolveUseCases(ids) {
 
 function resolveUseCase(id) {
   return state.report.relevantUseCases.find((item) => item.id === id) || state.report.topUseCasesOverall.find((item) => item.id === id);
+}
+
+function useCaseAnchor(useCase, label, options = {}) {
+  if (!useCase?.sourceUrl) {
+    return escapeHtml(label);
+  }
+
+  const className = options.className ? ` class="${escapeHtml(options.className)}"` : "";
+  const title = options.title ? ` title="${escapeHtml(options.title)}"` : "";
+  return `<a${className} href="${escapeHtml(useCase.sourceUrl)}" target="_blank" rel="noreferrer"${title}>${escapeHtml(label)}</a>`;
 }
 
 function sortUseCases(left, right) {

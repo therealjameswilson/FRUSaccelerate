@@ -441,7 +441,9 @@ body::after {
 }
 
 .anchor-nav a,
-.text-link {
+.text-link,
+.card-link,
+.inline-link {
   color: var(--accent);
   text-decoration: none;
 }
@@ -459,7 +461,9 @@ body::after {
 }
 
 .anchor-nav a:hover,
-.text-link:hover {
+.text-link:hover,
+.card-link:hover,
+.inline-link:hover {
   transform: translateY(-1px);
 }
 
@@ -582,6 +586,10 @@ body::after {
   letter-spacing: 0.02em;
 }
 
+a.chip {
+  text-decoration: none;
+}
+
 .card-badge {
   color: #4f111b;
   background: linear-gradient(135deg, rgba(247, 227, 186, 0.95), rgba(206, 160, 81, 0.92));
@@ -693,6 +701,23 @@ body::after {
 
 .text-link {
   font-weight: 700;
+}
+
+.card-link {
+  color: var(--ink);
+}
+
+.inline-link {
+  font-weight: 700;
+}
+
+.chip-link {
+  cursor: pointer;
+}
+
+.card-link-inline,
+.precedent-link {
+  align-self: start;
 }
 
 .stage-layout {

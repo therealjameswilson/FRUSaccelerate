@@ -55,11 +55,11 @@ These projects were chosen because they are:
 
 The strongest precedent signals include:
 
-- `NARA - 0005` for archival screening and redaction triage
-- `NARA - 0006` and `NARA - 0013` for semantic archival retrieval
-- `NARA - 0007` and `NARA - 0008` for metadata drafting, summarization, and entity extraction
-- `DOJ-0295` and `NTSB-0004` for precedent comparison and clustering
-- `DOJ-0343` and `DHS-2540` for metadata governance and QA-oriented checks
+- [`NARA - 0005`](https://github.com/ombegov/2025-Federal-Agency-AI-Use-Case-Inventory/blob/main/Data/2025_individually_reported_AI_use_cases.csv#L3115) for archival screening and redaction triage
+- [`NARA - 0006`](https://github.com/ombegov/2025-Federal-Agency-AI-Use-Case-Inventory/blob/main/Data/2025_individually_reported_AI_use_cases.csv#L3116) and [`NARA - 0013`](https://github.com/ombegov/2025-Federal-Agency-AI-Use-Case-Inventory/blob/main/Data/2025_individually_reported_AI_use_cases.csv#L3124) for semantic archival retrieval
+- [`NARA - 0007`](https://github.com/ombegov/2025-Federal-Agency-AI-Use-Case-Inventory/blob/main/Data/2025_individually_reported_AI_use_cases.csv#L3117) and [`NARA - 0008`](https://github.com/ombegov/2025-Federal-Agency-AI-Use-Case-Inventory/blob/main/Data/2025_individually_reported_AI_use_cases.csv#L3119) for metadata drafting, summarization, and entity extraction
+- [`DOJ-0295`](https://github.com/ombegov/2025-Federal-Agency-AI-Use-Case-Inventory/blob/main/Data/2025_individually_reported_AI_use_cases.csv#L1530) and [`NTSB-0004`](https://github.com/ombegov/2025-Federal-Agency-AI-Use-Case-Inventory/blob/main/Data/2025_individually_reported_AI_use_cases.csv#L3714) for precedent comparison and clustering
+- [`DOJ-0343`](https://github.com/ombegov/2025-Federal-Agency-AI-Use-Case-Inventory/blob/main/Data/2025_individually_reported_AI_use_cases.csv#L1410) and [`DHS-2540`](https://github.com/ombegov/2025-Federal-Agency-AI-Use-Case-Inventory/blob/main/Data/2025_individually_reported_AI_use_cases.csv#L22) for metadata governance and QA-oriented checks
 
 ## Run It Locally
 

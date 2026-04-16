@@ -6,12 +6,16 @@ const INVENTORY_PATH = path.join(ROOT, "data", "2025_individually_reported_AI_us
 const CONTEXT_PATH = path.join(ROOT, "data", "frus-context.json");
 const JSON_REPORT_PATH = path.join(ROOT, "reports", "frus-ai-opportunities.json");
 const MARKDOWN_REPORT_PATH = path.join(ROOT, "reports", "frus-ai-opportunities.md");
+const INVENTORY_BLOB_URL =
+  "https://github.com/ombegov/2025-Federal-Agency-AI-Use-Case-Inventory/blob/main/Data/2025_individually_reported_AI_use_cases.csv";
 
 function parseCsv(text) {
   const rows = [];
   let row = [];
   let field = "";
   let inQuotes = false;
+  let lineNumber = 1;
+  let rowStartLine = 1;
 
   for (let index = 0; index < text.length; index += 1) {
     const char = text[index];
@@ -27,6 +31,9 @@ function parseCsv(text) {
         }
       } else {
         field += char;
+        if (char === "\n") {
+          lineNumber += 1;
+        }
       }
       continue;
     }
@@ -44,9 +51,14 @@ function parseCsv(text) {
 
     if (char === "\n") {
       row.push(field);
-      rows.push(row);
+      rows.push({
+        fields: row,
+        lineNumber: rowStartLine
+      });
       row = [];
       field = "";
+      lineNumber += 1;
+      rowStartLine = lineNumber;
       continue;
     }
 
@@ -59,27 +71,35 @@ function parseCsv(text) {
 
   if (field.length > 0 || row.length > 0) {
     row.push(field);
-    rows.push(row);
+    rows.push({
+      fields: row,
+      lineNumber: rowStartLine
+    });
   }
 
   if (rows.length === 0) {
     return [];
   }
 
-  const headers = rows[0].map((header, index) => {
+  const headers = rows[0].fields.map((header, index) => {
     if (index === 0) {
       return header.replace(/^\uFEFF/, "");
     }
     return header;
   });
 
-  return rows.slice(1).filter((fields) => fields.some((value) => value !== "")).map((fields) => {
-    const record = {};
-    headers.forEach((header, index) => {
-      record[header] = fields[index] ?? "";
+  return rows
+    .slice(1)
+    .filter(({ fields }) => fields.some((value) => value !== ""))
+    .map(({ fields, lineNumber: startLine }) => {
+      const record = {
+        __lineNumber: startLine
+      };
+      headers.forEach((header, index) => {
+        record[header] = fields[index] ?? "";
+      });
+      return record;
     });
-    return record;
-  });
 }
 
 function normalizeWhitespace(value) {
@@ -351,6 +371,14 @@ function shorten(text, limit = 160) {
   return `${cleaned.slice(0, limit - 1).trimEnd()}…`;
 }
 
+function buildPrecedentUrl(record) {
+  if (!record || !record.__lineNumber) {
+    return INVENTORY_BLOB_URL;
+  }
+
+  return `${INVENTORY_BLOB_URL}#L${record.__lineNumber}`;
+}
+
 function buildStageReports(scoredRecords, context) {
   return context.stageProfiles.map((stage) => {
     const topMatches = scoredRecords
@@ -370,6 +398,7 @@ function buildStageReports(scoredRecords, context) {
         use_case_name: normalizeWhitespace(record.use_case_name),
         development_stage: normalizeWhitespace(record.development_stage) || "Unspecified",
         classification: normalizeWhitespace(record.classification) || "Unspecified",
+        sourceUrl: buildPrecedentUrl(record),
         overallScore: record.overallScore,
         stageScore: record.stageScores[stage.id],
         matchedThemes: record.matchedThemes
@@ -413,6 +442,7 @@ function buildPortfolioRecommendations(scoredRecords, context) {
         use_case_name: normalizeWhitespace(record.use_case_name),
         development_stage: normalizeWhitespace(record.development_stage) || "Unspecified",
         classification: normalizeWhitespace(record.classification) || "Unspecified",
+        sourceUrl: buildPrecedentUrl(record),
         matchedThemes: record.matchedThemes
           .filter((theme) => item.themeIds.includes(theme.id))
           .map((theme) => theme.name),
@@ -433,6 +463,7 @@ function normalizeRelevantRecord(record) {
     use_case_name: normalizeWhitespace(record.use_case_name),
     development_stage: normalizeWhitespace(record.development_stage),
     classification: normalizeWhitespace(record.classification),
+    sourceUrl: buildPrecedentUrl(record),
     overallScore: record.overallScore,
     documentSignalCount: record.documentSignalCount,
     archivalSpecificCount: record.archivalSpecificCount,
@@ -513,7 +544,7 @@ function renderMarkdown(report, context) {
     const stageFit = record.stageRanking.map((stage) => stage.title).join(", ");
     const why = shorten(record.summary, 140).replace(/\|/g, "\\|");
     lines.push(
-      `| ${index + 1} | ${record.agency_name.replace(/\|/g, "\\|")} | ${record.id.replace(/\|/g, "\\|")} | ${record.use_case_name.replace(/\|/g, "\\|")} | ${stageFit || "General"} | ${why} |`
+      `| ${index + 1} | ${record.agency_name.replace(/\|/g, "\\|")} | [${record.id.replace(/\|/g, "\\|")}](${record.sourceUrl}) | [${record.use_case_name.replace(/\|/g, "\\|")}](${record.sourceUrl}) | ${stageFit || "General"} | ${why} |`
     );
   });
 
@@ -525,7 +556,9 @@ function renderMarkdown(report, context) {
     lines.push("");
     for (const match of stage.topMatches.slice(0, 5)) {
       const themeText = match.matchedThemes.length > 0 ? match.matchedThemes.join(", ") : "General relevance";
-      lines.push(`- ${match.agency} ${match.id} - ${match.use_case_name} (${match.development_stage}, ${match.classification}). ${match.summary} Matched themes: ${themeText}.`);
+      lines.push(
+        `- ${match.agency} [${match.id}](${match.sourceUrl}) - [${match.use_case_name}](${match.sourceUrl}) (${match.development_stage}, ${match.classification}). ${match.summary} Matched themes: ${themeText}.`
+      );
     }
   }
 
@@ -537,7 +570,12 @@ function renderMarkdown(report, context) {
     lines.push("");
     lines.push(`- Why: ${item.why}`);
     lines.push(`- FRUS benefit: ${item.frusBenefit}`);
-    lines.push(`- Example federal precedents: ${item.exemplars.slice(0, 3).map((example) => `${example.agency} ${example.id} (${example.use_case_name})`).join("; ")}`);
+    lines.push(
+      `- Example federal precedents: ${item.exemplars
+        .slice(0, 3)
+        .map((example) => `${example.agency} [${example.id}](${example.sourceUrl}) ([${example.use_case_name}](${example.sourceUrl}))`)
+        .join("; ")}`
+    );
     lines.push("");
   }
 
