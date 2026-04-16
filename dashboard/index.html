@@ -31,6 +31,7 @@
           <div class="hero-highlights" id="heroHighlights"></div>
           <div class="hero-actions">
             <a class="button primary" href="#topProjects">See top 10 projects</a>
+            <button class="button secondary" id="exportBriefButton" type="button">Export leadership brief</button>
             <a class="button secondary" href="#opportunityBrowser">Browse all use cases</a>
             <a class="button secondary" href="../reports/frus-ai-opportunities.md">Open report</a>
           </div>
@@ -50,6 +51,12 @@
 
       <nav class="anchor-nav reveal reveal-2" aria-label="Portal sections">
         <a href="#topProjects">Top 10 projects</a>
+        <a href="#deliveryMatrix">Value x feasibility</a>
+        <a href="#deliveryTimeline">FY 2026 timeline</a>
+        <a href="#workflowMap">Workflow map</a>
+        <a href="#sampleOutputs">Sample outputs</a>
+        <a href="#projectDossiers">Pilot cards</a>
+        <a href="#precedentComparator">Compare precedents</a>
         <a href="#ideaAtlas">Idea atlas</a>
         <a href="#evidenceBase">FRUS evidence</a>
         <a href="#portfolio">Workstreams</a>
@@ -70,6 +77,106 @@
               </p>
             </div>
             <div class="project-grid" id="projectGrid"></div>
+          </section>
+
+          <section class="section-block reveal reveal-2" id="deliveryMatrix">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Decision matrix</p>
+                <h2>Value x feasibility</h2>
+              </div>
+              <p class="section-summary">
+                The best FY 2026 bets are the ones that score high on immediate FRUS value and can ship inside a bounded pilot window.
+              </p>
+            </div>
+            <div class="matrix-layout">
+              <div class="matrix-board" id="matrixBoard"></div>
+              <div class="matrix-legend" id="matrixLegend"></div>
+            </div>
+          </section>
+
+          <section class="section-block reveal reveal-3" id="deliveryTimeline">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Delivery path</p>
+                <h2>What ships this fiscal year</h2>
+              </div>
+              <p class="section-summary">
+                A practical route to September 30, 2026 starts with corpus setup and clearance pilots, then layers in publication and editorial assists.
+              </p>
+            </div>
+            <div class="timeline-rail" id="timelineRail"></div>
+          </section>
+
+          <section class="section-block reveal reveal-3" id="workflowMap">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Workflow map</p>
+                <h2>How the projects land on Planning, Research, Clearance, and Publication</h2>
+              </div>
+              <p class="section-summary">
+                Click a FRUS stage to see which projects, idea families, and precedents relieve pressure there.
+              </p>
+            </div>
+            <div class="workflow-shell">
+              <div class="workflow-map" id="workflowMapGrid"></div>
+              <div class="workflow-spotlight" id="workflowSpotlight"></div>
+            </div>
+          </section>
+
+          <section class="section-block reveal reveal-3" id="sampleOutputs">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Sample outputs</p>
+                <h2>What the first pilots would actually produce</h2>
+              </div>
+              <p class="section-summary">
+                These mock outputs make the best three pilots concrete for leadership, historians, and technical reviewers.
+              </p>
+            </div>
+            <div class="sample-grid" id="sampleGrid"></div>
+          </section>
+
+          <section class="section-block reveal reveal-3" id="projectDossiers">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Pilot cards</p>
+                <h2>Detailed project dossiers</h2>
+              </div>
+              <p class="section-summary">
+                Each dossier lays out owner, scope, dependencies, metrics, evidence, and what must be tailored specifically for State.
+              </p>
+            </div>
+            <div class="dossier-list" id="dossierList"></div>
+          </section>
+
+          <section class="section-block reveal reveal-4" id="precedentComparator">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Precedent comparator</p>
+                <h2>Compare 2-3 federal precedents side by side</h2>
+              </div>
+              <p class="section-summary">
+                Swap between precedents to see what FRUS can borrow directly, what needs State-specific tailoring, and which projects each precedent supports.
+              </p>
+            </div>
+            <div class="comparator-controls">
+              <label class="filter">
+                <span>Precedent 1</span>
+                <select id="compareSelect1"></select>
+              </label>
+              <label class="filter">
+                <span>Precedent 2</span>
+                <select id="compareSelect2"></select>
+              </label>
+              <label class="filter">
+                <span>Precedent 3</span>
+                <select id="compareSelect3"></select>
+              </label>
+            </div>
+            <div class="comparator-table-wrap">
+              <div class="comparator-table" id="comparatorTable"></div>
+            </div>
           </section>
 
           <section class="section-block reveal reveal-2" id="ideaAtlas">
@@ -188,6 +295,26 @@
               </div>
             </div>
             <div class="roadmap" id="roadmap"></div>
+          </section>
+
+          <section class="section-block side-block reveal reveal-3">
+            <div class="section-heading compact">
+              <div>
+                <p class="section-kicker">Risk register</p>
+                <h2>Guard the pilots</h2>
+              </div>
+            </div>
+            <div class="risk-list" id="riskList"></div>
+          </section>
+
+          <section class="section-block side-block reveal reveal-3">
+            <div class="section-heading compact">
+              <div>
+                <p class="section-kicker">State-specific gaps</p>
+                <h2>What still needs tailoring</h2>
+              </div>
+            </div>
+            <div class="gap-list" id="gapList"></div>
           </section>
 
           <section class="section-block side-block reveal reveal-3">
