@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FRUS Acceleration Portal</title>
+    <script>
+      if (!window.location.pathname.endsWith("/") && !window.location.pathname.endsWith(".html")) {
+        const url = new URL(window.location.href);
+        url.pathname = `${url.pathname}/`;
+        window.location.replace(url.toString());
+      }
+    </script>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy reveal reveal-1">
+          <div class="cover-title-block">
+            <p class="eyebrow" id="heroEyebrow">FRUS Acceleration Portal</p>
+            <p class="cover-series">Foreign Relations of the United States</p>
+            <h1 id="heroHeadline">Loading FRUS acceleration program...</h1>
+            <p class="cover-volume">Portal Edition • FY 2026 Program</p>
+          </div>
+          <div class="cover-medallion" aria-hidden="true">
+            <span>FRUS</span>
+          </div>
+          <p class="hero-text hero-subhead" id="heroSubhead"></p>
+          <p class="hero-text" id="heroSummary"></p>
+          <div class="hero-highlights" id="heroHighlights"></div>
+          <div class="hero-actions">
+            <a class="button primary" href="#topProjects">See top 10 projects</a>
+            <a class="button secondary" href="#opportunityBrowser">Browse all use cases</a>
+            <a class="button secondary" href="../reports/frus-ai-opportunities.md">Open report</a>
+          </div>
+        </div>
+        <div class="hero-panel reveal reveal-2">
+          <div class="hero-panel-header">
+            <span>FRUS pressure points</span>
+            <span id="generatedAtLabel">Loading...</span>
+          </div>
+          <div class="pressure-grid" id="pressureGrid"></div>
+          <div class="guardrails">
+            <p class="guardrails-label">Guardrails</p>
+            <ul id="guardrailList"></ul>
+          </div>
+        </div>
+      </header>
+
+      <nav class="anchor-nav reveal reveal-2" aria-label="Portal sections">
+        <a href="#topProjects">Top 10 projects</a>
+        <a href="#ideaAtlas">Idea atlas</a>
+        <a href="#evidenceBase">FRUS evidence</a>
+        <a href="#portfolio">Workstreams</a>
+        <a href="#stageBoard">Stage board</a>
+        <a href="#opportunityBrowser">Use case browser</a>
+      </nav>
+
+      <main class="dashboard-layout">
+        <section class="column-main">
+          <section class="section-block reveal reveal-2" id="topProjects">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">FY 2026 slate</p>
+                <h2>Ten achievable projects by September 30, 2026</h2>
+              </div>
+              <p class="section-summary" id="projectSectionSummary">
+                Each project is bounded, tied to the current FRUS workflow, and backed by use cases already in motion elsewhere in the federal government.
+              </p>
+            </div>
+            <div class="project-grid" id="projectGrid"></div>
+          </section>
+
+          <section class="section-block reveal reveal-2" id="ideaAtlas">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Idea atlas</p>
+                <h2>All of the major FRUS AI idea families</h2>
+              </div>
+              <p class="section-summary">
+                These are the recurring patterns that showed up as the strongest fit between FRUS production needs and the 2025 federal inventory.
+              </p>
+            </div>
+            <div class="idea-grid" id="ideaFamilyGrid"></div>
+          </section>
+
+          <section class="section-block reveal reveal-3" id="evidenceBase">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Evidence base</p>
+                <h2>Why these projects fit FRUS now</h2>
+              </div>
+              <p class="section-summary">
+                The portal is anchored in HistoryAtState workflow evidence, the Report to Congress, and the existing TEI publishing stack.
+              </p>
+            </div>
+            <div class="finding-grid" id="findingGrid"></div>
+          </section>
+
+          <section class="section-block reveal reveal-2" id="portfolio">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Action portfolio</p>
+                <h2>Start with four workstreams</h2>
+              </div>
+              <p class="section-summary">
+                Each workstream is backed by federal precedents and mapped to the FRUS production stages most likely to benefit.
+              </p>
+            </div>
+            <div class="portfolio-grid" id="portfolioGrid"></div>
+          </section>
+
+          <section class="section-block reveal reveal-3" id="stageBoard">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Stage board</p>
+                <h2>Where to intervene in the FRUS pipeline</h2>
+              </div>
+              <p class="section-summary">
+                Flip through the four FRUS stages to see the best-matching federal use cases and the workload shape behind them.
+              </p>
+            </div>
+            <div class="stage-layout">
+              <div class="stage-tabs" id="stageTabs" role="tablist" aria-label="FRUS stages"></div>
+              <article class="stage-spotlight" id="stageSpotlight"></article>
+            </div>
+          </section>
+
+          <section class="section-block reveal reveal-4" id="opportunityBrowser">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Opportunity browser</p>
+                <h2>Search the 198 best-fit use cases</h2>
+              </div>
+              <p class="section-summary">
+                Filter by stage, classification, agency, or keyword to build a practical shortlist for pilots and follow-up discovery.
+              </p>
+            </div>
+            <div class="filters" id="filters">
+              <label class="filter search-filter">
+                <span>Search</span>
+                <input id="searchInput" type="search" placeholder="Try redaction, metadata, semantic search, NARA..." />
+              </label>
+              <label class="filter">
+                <span>Stage</span>
+                <select id="stageFilter"></select>
+              </label>
+              <label class="filter">
+                <span>Classification</span>
+                <select id="classificationFilter"></select>
+              </label>
+              <label class="filter">
+                <span>Agency</span>
+                <select id="agencyFilter"></select>
+              </label>
+              <label class="filter">
+                <span>Sort</span>
+                <select id="sortFilter">
+                  <option value="score">Highest score</option>
+                  <option value="agency">Agency A-Z</option>
+                  <option value="classification">Classification</option>
+                  <option value="stage">Best stage fit</option>
+                </select>
+              </label>
+            </div>
+            <div class="results-meta" id="resultsMeta"></div>
+            <div class="opportunity-grid" id="opportunityGrid"></div>
+          </section>
+        </section>
+
+        <aside class="column-side">
+          <section class="section-block side-block reveal reveal-2">
+            <div class="section-heading compact">
+              <div>
+                <p class="section-kicker">Program frame</p>
+                <h2>What to deliver this fiscal year</h2>
+              </div>
+            </div>
+            <div class="program-panel" id="programPanel"></div>
+          </section>
+
+          <section class="section-block side-block reveal reveal-3">
+            <div class="section-heading compact">
+              <div>
+                <p class="section-kicker">Pilot roadmap</p>
+                <h2>Pursue in sequence</h2>
+              </div>
+            </div>
+            <div class="roadmap" id="roadmap"></div>
+          </section>
+
+          <section class="section-block side-block reveal reveal-3">
+            <div class="section-heading compact">
+              <div>
+                <p class="section-kicker">Federal precedents</p>
+                <h2>Already in government use</h2>
+              </div>
+            </div>
+            <div class="precedent-list" id="precedentList"></div>
+          </section>
+
+          <section class="section-block side-block reveal reveal-4">
+            <div class="section-heading compact">
+              <div>
+                <p class="section-kicker">Signal clusters</p>
+                <h2>Who is worth studying most</h2>
+              </div>
+            </div>
+            <div class="agency-list" id="agencyList"></div>
+          </section>
+
+          <section class="section-block side-block reveal reveal-4">
+            <div class="section-heading compact">
+              <div>
+                <p class="section-kicker">Selected opportunity</p>
+                <h2>Detail view</h2>
+              </div>
+            </div>
+            <div class="detail-panel" id="detailPanel">
+              <p class="detail-empty">Select a card below to inspect its fit, stage alignment, and themes.</p>
+            </div>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>
