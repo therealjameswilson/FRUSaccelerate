@@ -1,6 +1,6 @@
 # FRUS AI Opportunity Report
 
-Generated on 2026-04-16T20:27:47.826Z. This report analyzes 3,611 use cases from the 2025 Federal Agency AI Use Case Inventory against the Foreign Relations of the United States (FRUS) production workflow.
+Generated on 2026-04-16T21:30:50.168Z. This report analyzes 3,611 use cases from the 2025 Federal Agency AI Use Case Inventory against the Foreign Relations of the United States (FRUS) production workflow.
 
 ## Executive Takeaways
 
