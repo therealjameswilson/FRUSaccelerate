@@ -1,0 +1,202 @@
+{
+  "generatedAt": "2026-05-21T11:47:51.197Z",
+  "seedBatch": "frus31-cited-collections-2026-05-21",
+  "sourceReport": "reports/frus31-cited-collections.json",
+  "addedRecords": 33,
+  "citedCollectionLeads": 32,
+  "totalRecords": 152,
+  "leadSources": [
+    {
+      "id": "frus31-central-foreign-policy-file",
+      "shortName": "Central Foreign Policy File",
+      "lot": "",
+      "documentCitationCount": 63
+    },
+    {
+      "id": "frus31-lot-89d149",
+      "shortName": "Lot 89D149, S/P director memoranda",
+      "lot": "89D149",
+      "documentCitationCount": 0
+    },
+    {
+      "id": "frus31-lot-89d250",
+      "shortName": "Lot 89D250, Shultz/Hill screened papers",
+      "lot": "89D250",
+      "documentCitationCount": 1
+    },
+    {
+      "id": "frus31-lot-91d490",
+      "shortName": "Lot 91D490, Kimmitt special/chron files",
+      "lot": "91D490",
+      "documentCitationCount": 0
+    },
+    {
+      "id": "frus31-lot-93d187",
+      "shortName": "Lot 93D187, Baker classified papers",
+      "lot": "93D187",
+      "documentCitationCount": 7
+    },
+    {
+      "id": "frus31-lot-93d396",
+      "shortName": "Lot 93D396, Kanter files",
+      "lot": "93D396",
+      "documentCitationCount": 0
+    },
+    {
+      "id": "frus31-lot-93d519",
+      "shortName": "Lot 93D519, Dennis Ross S/P files",
+      "lot": "93D519",
+      "documentCitationCount": 0
+    },
+    {
+      "id": "frus31-lot-94d589",
+      "shortName": "Lot 94D589, Zoellick Counselor files",
+      "lot": "94D589",
+      "documentCitationCount": 0
+    },
+    {
+      "id": "frus31-lot-95d335",
+      "shortName": "Lot 95D335, Eagleburger chron files",
+      "lot": "95D335",
+      "documentCitationCount": 0
+    },
+    {
+      "id": "frus31-lot-96d234",
+      "shortName": "Lot 96D234, Secretary Eagleburger files",
+      "lot": "96D234",
+      "documentCitationCount": 0
+    },
+    {
+      "id": "frus31-lot-96d258",
+      "shortName": "Lot 96D258, Baker memoir/subject files",
+      "lot": "96D258",
+      "documentCitationCount": 0
+    },
+    {
+      "id": "frus31-lot-96d277",
+      "shortName": "Lot 96D277, Baker subject files",
+      "lot": "96D277",
+      "documentCitationCount": 4
+    },
+    {
+      "id": "frus31-lot-96d484",
+      "shortName": "Lot 96D484, Zoellick E files",
+      "lot": "96D484",
+      "documentCitationCount": 8
+    },
+    {
+      "id": "frus31-lot-98d550",
+      "shortName": "Lot 98D550, S/S special handling memoranda",
+      "lot": "98D550",
+      "documentCitationCount": 0
+    },
+    {
+      "id": "frus31-lot-99d344",
+      "shortName": "Lot 99D344, Russia Desk files",
+      "lot": "99D344",
+      "documentCitationCount": 6
+    },
+    {
+      "id": "frus31-lot-01d127",
+      "shortName": "Lot 01D127, James Timbie subject record",
+      "lot": "01D127",
+      "documentCitationCount": 15
+    },
+    {
+      "id": "frus31-lot-02d360",
+      "shortName": "Lot 02D360, Edward Ifft files",
+      "lot": "02D360",
+      "documentCitationCount": 15
+    },
+    {
+      "id": "frus31-lot-03d102",
+      "shortName": "Lot 03D102, Dennis Ross subject files",
+      "lot": "03D102",
+      "documentCitationCount": 12
+    },
+    {
+      "id": "frus31-lot-05d259",
+      "shortName": "Lot 05D259, James Timbie records",
+      "lot": "05D259",
+      "documentCitationCount": 3
+    },
+    {
+      "id": "frus31-lot-06d436",
+      "shortName": "Lot 06D436, VCI subject files",
+      "lot": "06D436",
+      "documentCitationCount": 9
+    },
+    {
+      "id": "frus31-bush-vp-gregg",
+      "shortName": "Donald P. Gregg Files",
+      "lot": "",
+      "documentCitationCount": 2
+    },
+    {
+      "id": "frus31-bush-vp-watson",
+      "shortName": "Samuel J. Watson Files",
+      "lot": "",
+      "documentCitationCount": 1
+    },
+    {
+      "id": "frus31-scowcroft-gates",
+      "shortName": "Scowcroft/Gates Files",
+      "lot": "",
+      "documentCitationCount": 5
+    },
+    {
+      "id": "frus31-scowcroft-close-hold",
+      "shortName": "Scowcroft Close Hold Files",
+      "lot": "",
+      "documentCitationCount": 3
+    },
+    {
+      "id": "frus31-scowcroft-special-ussr-notes",
+      "shortName": "Special Separate USSR Notes Files",
+      "lot": "",
+      "documentCitationCount": 6
+    },
+    {
+      "id": "frus31-scowcroft-chronological",
+      "shortName": "Scowcroft Chronological Files",
+      "lot": "",
+      "documentCitationCount": 9
+    },
+    {
+      "id": "frus31-nsc-rice",
+      "shortName": "Condoleezza Rice Files",
+      "lot": "",
+      "documentCitationCount": 2
+    },
+    {
+      "id": "frus31-nsc-intelligence",
+      "shortName": "NSC Intelligence File",
+      "lot": "",
+      "documentCitationCount": 0
+    },
+    {
+      "id": "frus31-nsc-gordon",
+      "shortName": "John A. Gordon Files",
+      "lot": "",
+      "documentCitationCount": 20
+    },
+    {
+      "id": "frus31-nsc-pa",
+      "shortName": "NSC PA Files",
+      "lot": "",
+      "documentCitationCount": 0
+    },
+    {
+      "id": "frus31-nsc-richard-davis",
+      "shortName": "Richard A. Davis Files",
+      "lot": "",
+      "documentCitationCount": 6
+    },
+    {
+      "id": "frus31-nsc-gates",
+      "shortName": "NSC Robert M. Gates Files",
+      "lot": "",
+      "documentCitationCount": 1
+    }
+  ]
+}

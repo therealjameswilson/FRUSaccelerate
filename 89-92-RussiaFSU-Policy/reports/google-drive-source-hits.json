@@ -1,0 +1,388 @@
+{
+  "generatedAt": "2026-05-21T11:21:58.145Z",
+  "source": "Google Drive searches requested by user",
+  "searchedQueries": [
+    "FRUS Russia",
+    "89 92 Russia",
+    "Former Soviet Union",
+    "Nunn Lugar",
+    "Ukraine withdrawal",
+    "PNI Ukraine Belarus Kazakhstan",
+    "Soviet coup",
+    "USSR Collapse",
+    "Scowcroft Soviet",
+    "Baker Gorbachev",
+    "Russia assistance 1992"
+  ],
+  "selectedRecords": [
+    {
+      "id": "drive-1989-03-01-scowcroft-getting-ahead-of-gorbachev",
+      "date": "1989-03-01",
+      "title": "Scowcroft to Bush, \"Getting Ahead of Gorbachev\"",
+      "documentTitle": "Scowcroft memorandum to Bush, \"Getting Ahead of Gorbachev\"",
+      "url": "https://drive.google.com/file/d/0B4xiXXj9ooNgVHpFRkJBUEpZczQ4a0ZkUDd3V09ubWxkQlZ3",
+      "sourceTitle": "Scowcroft, Brent, Collection, USSR Collapse Files, U.S.-Soviet Relations Chronological Files",
+      "participants": [
+        "Brent Scowcroft",
+        "George H. W. Bush",
+        "Condoleezza Rice"
+      ],
+      "countries": [
+        "United States",
+        "Soviet Union"
+      ],
+      "chapter": {
+        "number": 2,
+        "name": "Soviet Reform and Arms Control Policy"
+      },
+      "subjectLine": "Early strategy memorandum setting premises for managing Gorbachev's diplomacy, Soviet reform, NATO, arms control, Eastern Europe, COCOM, and U.S. global posture.",
+      "topics": [
+        "Scowcroft",
+        "Gorbachev",
+        "U.S.-Soviet strategy",
+        "NATO",
+        "Arms control"
+      ],
+      "extractionStatus": "OCR text was available from Drive; reconcile the source copy with the Scowcroft USSR Collapse Files folder before formal citation."
+    },
+    {
+      "id": "drive-1990-02-14-rice-scowcroft-six-power-germany",
+      "date": "1990-02-14",
+      "title": "Rice and Blackwill to Scowcroft, \"Preparing for the Six Power German Peace Conference\"",
+      "documentTitle": "Scowcroft memorandum to Bush on preparing for the Six Power German Peace Conference",
+      "url": "https://drive.google.com/file/d/0B4xiXXj9ooNgUTdnMGpqNU5BeHA2WDZBZkRoUXg4LURQcjI0",
+      "sourceTitle": "NSC Rice Files, 1989-1990 Subject File, Germany",
+      "participants": [
+        "Condoleezza Rice",
+        "Robert D. Blackwill",
+        "Brent Scowcroft",
+        "George H. W. Bush"
+      ],
+      "countries": [
+        "United States",
+        "Soviet Union",
+        "Germany"
+      ],
+      "chapter": {
+        "number": 2,
+        "name": "Soviet Reform and Arms Control Policy"
+      },
+      "subjectLine": "Strategy paper on Soviet leverage in German unification, NATO membership, CFE, nuclear deterrence, and the European security endgame.",
+      "topics": [
+        "German unification",
+        "Soviet Union",
+        "NATO",
+        "CFE"
+      ],
+      "extractionStatus": "Useful for Volume IV cross-reference because it shows how Soviet policy, CFE, and NATO strategy intersected with German unification."
+    },
+    {
+      "id": "drive-1990-12-13-rostow-scowcroft-all-union-treaty",
+      "date": "1990-12-13",
+      "title": "Nick Rostow to Scowcroft on All-Union Treaty",
+      "documentTitle": "Nick Rostow to Brent Scowcroft on the All-Union Treaty",
+      "url": "https://drive.google.com/file/d/1-g8jmMrqoMLc6lFJV99yJmcttQV2sgyV",
+      "sourceTitle": "Scowcroft, Brent, Collection, USSR Collapse Files, December 1990",
+      "participants": [
+        "Nicholas Rostow",
+        "Brent Scowcroft"
+      ],
+      "countries": [
+        "United States",
+        "Soviet Union"
+      ],
+      "chapter": {
+        "number": 3,
+        "name": "Collapse and Republics Policy"
+      },
+      "subjectLine": "Annotated Scowcroft-file copy on the All-Union Treaty as the Soviet center tried to preserve a reworked union structure.",
+      "topics": [
+        "All-Union Treaty",
+        "Soviet collapse",
+        "Republics"
+      ],
+      "extractionStatus": "Drive fetch returned metadata but no OCR text; page count and contents still need manual PDF review."
+    },
+    {
+      "id": "drive-1991-10-07-bartholomew-pni-republics",
+      "date": "1991-10-07",
+      "title": "Bartholomew meeting with Ukraine, Belarus, and Kazakhstan officials re PNI",
+      "documentTitle": "Bartholomew meeting with Ukraine, Belarus, and Kazakhstan officials on the Presidential Nuclear Initiatives",
+      "url": "https://drive.google.com/file/d/1S_aMKxQ5Z4b5djYl0ERMEh08dxsZOGNM",
+      "sourceTitle": "User Google Drive source copy",
+      "participants": [
+        "Reginald Bartholomew",
+        "Ukraine officials",
+        "Belarus officials",
+        "Kazakhstan officials"
+      ],
+      "countries": [
+        "United States",
+        "Ukraine",
+        "Belarus",
+        "Kazakhstan"
+      ],
+      "chapter": {
+        "number": 3,
+        "name": "Collapse and Republics Policy"
+      },
+      "subjectLine": "Early post-coup nuclear-republic consultation on implementing the Presidential Nuclear Initiatives with Ukraine, Belarus, and Kazakhstan.",
+      "topics": [
+        "PNI",
+        "Ukraine",
+        "Belarus",
+        "Kazakhstan",
+        "Nuclear weapons"
+      ],
+      "extractionStatus": "Drive fetch returned metadata but no OCR text; treat as a high-priority source copy for manual review."
+    },
+    {
+      "id": "drive-1992-01-30-nunn-lugar-to-bush",
+      "date": "1992-01-30",
+      "title": "Nunn and Lugar to Bush on nuclear assistance to the former Soviet Union",
+      "documentTitle": "Senators Nunn and Lugar letter to President Bush on former Soviet nuclear dismantlement assistance",
+      "url": "https://drive.google.com/file/d/1aHDdROlYcjMYekm_iPirnCDqIajs_JZP",
+      "sourceTitle": "State Department release, Case No. F-2014-11250",
+      "participants": [
+        "Sam Nunn",
+        "Richard Lugar",
+        "George H. W. Bush"
+      ],
+      "countries": [
+        "United States",
+        "Russia",
+        "Ukraine",
+        "Belarus"
+      ],
+      "chapter": {
+        "number": 3,
+        "name": "Collapse and Republics Policy"
+      },
+      "subjectLine": "Congressional warning before the Bush-Yeltsin Camp David meeting on using Nunn-Lugar funds for Russian nuclear dismantlement, storage, and defense conversion.",
+      "topics": [
+        "Nunn-Lugar",
+        "Nuclear dismantlement",
+        "Russia",
+        "CIS assistance"
+      ],
+      "extractionStatus": "OCR text was available from Drive; reconcile with the State Department case release before formal citation."
+    },
+    {
+      "id": "drive-1992-02-26-baker-gorbachev-cable",
+      "date": "1992-02-26",
+      "title": "Baker and Gorbachev cable",
+      "documentTitle": "Cable on Baker and Gorbachev",
+      "url": "https://drive.google.com/file/d/1kVS9T0_QQrsL0d4NDQBghU0D-DKDnpkJ",
+      "sourceTitle": "User Google Drive source copy",
+      "participants": [
+        "James A. Baker III",
+        "Mikhail Gorbachev"
+      ],
+      "countries": [
+        "United States",
+        "Russia",
+        "Former Soviet Union"
+      ],
+      "chapter": {
+        "number": 3,
+        "name": "Collapse and Republics Policy"
+      },
+      "subjectLine": "Drive source-copy lead for a February 1992 Baker-Gorbachev cable after the Soviet collapse.",
+      "topics": [
+        "Baker",
+        "Gorbachev",
+        "Russia",
+        "Former Soviet Union"
+      ],
+      "extractionStatus": "Drive fetch returned metadata but no OCR text; manual review needed to confirm document scope."
+    },
+    {
+      "id": "drive-1992-03-10-nunn-lugar-trip-report",
+      "date": "1992-03-10",
+      "title": "Trip report: Nunn, Lugar, Warner, and Bingaman visit to the CIS",
+      "documentTitle": "Trip report on Nunn, Lugar, Warner, and Bingaman visit to Russia and Ukraine",
+      "url": "https://drive.google.com/file/d/13g3PwuIIxoSk-1XrhL8L5xoh1sJR4zaI",
+      "sourceTitle": "Nunn-Lugar collection of the National Security Archive",
+      "participants": [
+        "Sam Nunn",
+        "Richard Lugar",
+        "John Warner",
+        "Jeff Bingaman"
+      ],
+      "countries": [
+        "United States",
+        "Russia",
+        "Ukraine",
+        "Belarus"
+      ],
+      "chapter": {
+        "number": 3,
+        "name": "Collapse and Republics Policy"
+      },
+      "subjectLine": "Trip report on defense conversion, nuclear/chemical weapons elimination, Russia-Ukraine-Belarus relations, and implementation of the Nunn-Lugar amendment.",
+      "topics": [
+        "Nunn-Lugar",
+        "CIS",
+        "Defense conversion",
+        "Nuclear weapons",
+        "Ukraine"
+      ],
+      "extractionStatus": "OCR text was available from Drive; the report directly links congressional assistance policy to former Soviet nuclear dangers."
+    },
+    {
+      "id": "drive-1992-03-27-dia-ukraine-nuclear-withdrawal",
+      "date": "1992-03-27",
+      "title": "DIA report, Ukraine: Nuclear Withdrawal Suspension",
+      "documentTitle": "Defense Intelligence Report ODB 27-92, Ukraine: Nuclear Withdrawal Suspension",
+      "url": "https://drive.google.com/file/d/1nYwQYHHC-S_xbeVdMQArWAPLW4QbvweA",
+      "sourceTitle": "Nunn-Lugar collection of the National Security Archive",
+      "participants": [
+        "Defense Intelligence Agency"
+      ],
+      "countries": [
+        "United States",
+        "Ukraine",
+        "Russia"
+      ],
+      "chapter": {
+        "number": 3,
+        "name": "Collapse and Republics Policy"
+      },
+      "subjectLine": "DIA assessment of Kravchuk's halt to tactical nuclear-weapons transfers to Russia and its implications for Ukraine, Russia, CIS verification, Crimea, and START.",
+      "topics": [
+        "Ukraine",
+        "Russia",
+        "Nuclear withdrawal",
+        "Kravchuk",
+        "START"
+      ],
+      "extractionStatus": "OCR text was available from Drive; high-priority Volume IV context for the Ukraine nuclear issue."
+    },
+    {
+      "id": "drive-1992-08-28-ssd-material-control",
+      "date": "1992-08-28",
+      "title": "SSD working group discussions on material control, accounting, and physical protection",
+      "documentTitle": "Moscow cable on U.S.-Russia SSD working group discussions on MC&A and physical protection",
+      "url": "https://drive.google.com/file/d/1N0ARvo9JQTITg0ta5V6UAoMGhHGwgtJl",
+      "sourceTitle": "State Department release, Case No. F-2014-14906",
+      "participants": [
+        "U.S. Embassy Moscow",
+        "U.S.-Russia SSD Working Group"
+      ],
+      "countries": [
+        "United States",
+        "Russia"
+      ],
+      "chapter": {
+        "number": 3,
+        "name": "Collapse and Republics Policy"
+      },
+      "subjectLine": "Cable transmitting a non-paper on possible U.S.-Russia cooperation for nuclear material control and physical protection under SSD and Nunn-Lugar.",
+      "topics": [
+        "SSD",
+        "Nunn-Lugar",
+        "Russia",
+        "Material control",
+        "Nuclear security"
+      ],
+      "extractionStatus": "OCR text was available from Drive; use with NARA Deputies Committee nonproliferation records."
+    },
+    {
+      "id": "drive-1992-11-23-nunn-lugar-gorbachev-readout",
+      "date": "1992-11-23",
+      "title": "Nunn-Lugar readout with Gorbachev on Russia and Ukraine",
+      "documentTitle": "Moscow cable: Mikhail Gorbachev on the current situation in Russia",
+      "url": "https://drive.google.com/file/d/1uwPZn2_-AQFpH_EWs9hn_2JUtiUWd-0L",
+      "sourceTitle": "State Department release, Case No. F-2008-02188",
+      "participants": [
+        "Mikhail Gorbachev",
+        "Sam Nunn",
+        "Richard Lugar"
+      ],
+      "countries": [
+        "United States",
+        "Russia",
+        "Ukraine",
+        "Georgia"
+      ],
+      "chapter": {
+        "number": 3,
+        "name": "Collapse and Republics Policy"
+      },
+      "subjectLine": "Cable readout of Gorbachev's views on Yeltsin, Russian reform, food supply, Georgia, a new union of independent states, and Ukraine's nuclear stance.",
+      "topics": [
+        "Gorbachev",
+        "Russia",
+        "Ukraine",
+        "Nunn-Lugar",
+        "CIS"
+      ],
+      "extractionStatus": "OCR text was available from Drive; useful late-1992 context for policy handoff and Russia/Ukraine nuclear questions."
+    },
+    {
+      "id": "drive-1992-11-24-nunn-lugar-yeltsin",
+      "date": "1992-11-24",
+      "title": "Yeltsin to Nunn and Lugar: U.S.-Russian relations and guarantees to Ukraine",
+      "documentTitle": "Moscow cable: Yeltsin to Nunn/Lugar on U.S.-Russian relations and guarantees to Ukraine",
+      "url": "https://drive.google.com/file/d/1BtCcnNEXSgP_5WP3uAxWeYiXRGkH7oJp",
+      "sourceTitle": "State Department release, Case No. F-2014-14906",
+      "participants": [
+        "Boris Yeltsin",
+        "Sam Nunn",
+        "Richard Lugar",
+        "Andrei Kozyrev"
+      ],
+      "countries": [
+        "United States",
+        "Russia",
+        "Ukraine"
+      ],
+      "chapter": {
+        "number": 3,
+        "name": "Collapse and Republics Policy"
+      },
+      "subjectLine": "Cable readout of Yeltsin's concern about a U.S.-Russian transition pause, START II, Russian nuclear storage, and possible guarantees to Ukraine.",
+      "topics": [
+        "Yeltsin",
+        "Nunn-Lugar",
+        "Ukraine",
+        "START II",
+        "Security assurances"
+      ],
+      "extractionStatus": "OCR text was available from Drive; bridges Bush administration policy to the Clinton transition."
+    },
+    {
+      "id": "drive-1992-11-26-collins-kokoshin-arms-control",
+      "date": "1992-11-26",
+      "title": "Collins cable on Nunn-Lugar arms-control discussions with Kokoshin",
+      "documentTitle": "Moscow cable: Codel Nunn-Lugar discussions on arms control with Deputy Defense Minister Kokoshin",
+      "url": "https://drive.google.com/file/d/107fPZIPfGeacnVUVBI2iuAuYDIRvk4cv",
+      "sourceTitle": "State Department release, Case No. F-2014-14906",
+      "participants": [
+        "James Collins",
+        "Andrey Kokoshin",
+        "Sam Nunn",
+        "Richard Lugar"
+      ],
+      "countries": [
+        "United States",
+        "Russia",
+        "Ukraine",
+        "Baltic States"
+      ],
+      "chapter": {
+        "number": 3,
+        "name": "Collapse and Republics Policy"
+      },
+      "subjectLine": "Cable on START II, SS-18 silo conversion, Ukraine nuclear control, accelerated warhead removal, Baltic troop withdrawals, and limited defenses.",
+      "topics": [
+        "START II",
+        "Ukraine",
+        "Kokoshin",
+        "Nuclear weapons",
+        "Baltic troop withdrawal"
+      ],
+      "extractionStatus": "OCR text was available from Drive; high-priority context for late-1992 arms-control and republic-policy problems."
+    }
+  ]
+}

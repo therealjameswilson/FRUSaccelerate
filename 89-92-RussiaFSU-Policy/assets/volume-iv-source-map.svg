@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" role="img" aria-labelledby="title desc">
+  <title id="title">FRUS Volume IV source map</title>
+  <desc id="desc">A source map connecting presidential contacts, Soviet policy, republic transition, and archive leads.</desc>
+  <rect width="760" height="430" rx="24" fill="#f7faf9"/>
+  <rect x="28" y="28" width="704" height="374" rx="20" fill="#ffffff" stroke="#d7dedb" stroke-width="2"/>
+  <path d="M92 118 C170 64 261 67 336 121 C397 166 474 159 550 118 C603 90 645 96 680 133"
+        fill="none" stroke="#4c6f91" stroke-width="14" stroke-linecap="round" opacity="0.18"/>
+  <path d="M114 272 C204 218 293 224 376 276 C445 319 536 306 635 239"
+        fill="none" stroke="#8c3b3f" stroke-width="14" stroke-linecap="round" opacity="0.18"/>
+  <g fill="#25364f">
+    <circle cx="146" cy="128" r="42"/>
+    <circle cx="344" cy="168" r="42"/>
+    <circle cx="542" cy="132" r="42"/>
+    <circle cx="242" cy="296" r="42"/>
+    <circle cx="456" cy="300" r="42"/>
+    <circle cx="618" cy="250" r="42"/>
+  </g>
+  <g fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" text-anchor="middle">
+    <text x="146" y="135">POTUS</text>
+    <text x="344" y="175">USSR</text>
+    <text x="542" y="139">START</text>
+    <text x="242" y="303">1991</text>
+    <text x="456" y="307">FSU</text>
+    <text x="618" y="257">NAID</text>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" fill="#18212d">
+    <text x="80" y="74" font-size="18" font-weight="900" letter-spacing="2">VOLUME IV SOURCE LANES</text>
+    <text x="98" y="210" font-size="17" font-weight="800">Presidential conversations</text>
+    <text x="296" y="236" font-size="17" font-weight="800">Soviet reform and arms control</text>
+    <text x="98" y="366" font-size="17" font-weight="800">Collapse, Russia, and post-Soviet states</text>
+    <text x="492" y="366" font-size="17" font-weight="800">Catalog and finding-aid leads</text>
+  </g>
+  <g stroke="#b98e36" stroke-width="3" stroke-linecap="round">
+    <path d="M146 170 L146 190"/>
+    <path d="M344 210 L344 230"/>
+    <path d="M242 338 L242 356"/>
+    <path d="M618 292 L618 320"/>
+  </g>
+</svg>

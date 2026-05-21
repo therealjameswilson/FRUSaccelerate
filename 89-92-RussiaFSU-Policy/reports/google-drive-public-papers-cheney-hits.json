@@ -1,0 +1,496 @@
+{
+  "generatedAt": "2026-05-21T12:11:38.809Z",
+  "source": "Google Drive searches for Public Papers of the President and Secretary Cheney Public Statements",
+  "seedBatch": "google-drive-public-papers-cheney-2026-05-21",
+  "driveSources": {
+    "publicPapers": {
+      "type": "Google Drive OCR PDF",
+      "title": "GHBPublicPapers.pdf",
+      "shortName": "Public Papers",
+      "url": "https://drive.google.com/file/d/1IkvlmMXlSFVjVZnKfcJkkLJg2RaCAM6b",
+      "extractedTextPath": "local-cache/frus-drive-public-papers/GHBPublicPapers.txt",
+      "pdfPages": 15526,
+      "textMegabytesApprox": 30
+    },
+    "cheney": {
+      "type": "Google Drive folder",
+      "title": "SecDef Cheney Public Statements",
+      "shortName": "Cheney Public Statements",
+      "url": "https://drive.google.com/drive/folders/1lNMHlCL0YsHjJbrVlBDECtKL9_QTHvU2",
+      "volumes": [
+        {
+          "title": "1989 Cheney Public Statements Vol 1.pdf",
+          "url": "https://drive.google.com/file/d/1eH9cKhYTLc5mQ34BGYD87ZZZdRb4TXkP"
+        },
+        {
+          "title": "1989 Cheney Public Statements Vol 2.pdf",
+          "url": "https://drive.google.com/file/d/1Wj-ylyTj8ngmbKeIaLP_NIzzahNmg7er"
+        },
+        {
+          "title": "1989 Cheney Public Statements Vol 3.pdf",
+          "url": "https://drive.google.com/file/d/1enSawy6JIwpOiBHWkKyNuD-sn4dAFNvn"
+        },
+        {
+          "title": "1990 Cheney Public Statements Vol 1.pdf",
+          "url": "https://drive.google.com/file/d/1A3ewJdfm8jsKTJoF-Z0G5FuHD4atab-I"
+        },
+        {
+          "title": "1990 Cheney Public Statements Vol 2.pdf",
+          "url": "https://drive.google.com/file/d/1qO1axoN0WG4ElXQj4DrkJbG2yh2n20Xj"
+        },
+        {
+          "title": "1990 Cheney Public Statements Vol 3.pdf",
+          "url": "https://drive.google.com/file/d/1c6wmrUXIqZQH9KTm-8KLng1UaqOMU-A0"
+        },
+        {
+          "title": "1991 Cheney Public Statements Vol 1.pdf",
+          "url": "https://drive.google.com/file/d/1YULvfuQalr5gE-KGx5o2b4NyQ_0iCmjc"
+        },
+        {
+          "title": "1991 Cheney Public Statements Vol 2.pdf",
+          "url": "https://drive.google.com/file/d/1aONtT3dZt2BYifiBhbMbuS1NTOV7XMTV"
+        },
+        {
+          "title": "1991 Cheney Public Statements Vol 3.pdf",
+          "url": "https://drive.google.com/file/d/1Xwniis8jvRGqQnA8kKRPG3s-V6Nxy97R"
+        },
+        {
+          "title": "1991 Cheney Public Statements Vol 4.pdf",
+          "url": "https://drive.google.com/file/d/1UP_lcC13oPzkhjTB-QZ1l_cAGPJ4oIQz"
+        },
+        {
+          "title": "1992 Cheney Public Statements Vol 1.pdf",
+          "url": "https://drive.google.com/file/d/1F8ISzuGEId4FJ7hCwo1bnsbu5lPI0J_7"
+        }
+      ],
+      "textExtractionStatus": "Connector text extraction returned empty content for sampled PDFs; OCR required before reliable term mining."
+    },
+    "cheneyStandaloneHit": {
+      "title": "901207 Cheney Press Conference at DPC and NPC.pdf",
+      "url": "https://drive.google.com/file/d/0B4xiXXj9ooNgY1lPQTQtWlJNSHFMazdXV3FibXN3dTc5dmJJ",
+      "textExtractionStatus": "Connector fetch returned empty content; OCR required."
+    }
+  },
+  "searchedTerms": [
+    "Soviet",
+    "USSR",
+    "Russia",
+    "Yeltsin",
+    "Gorbachev",
+    "Ukraine",
+    "Belarus",
+    "Byelarus",
+    "Kazakhstan",
+    "Nunn-Lugar",
+    "START",
+    "Lisbon",
+    "FREEDOM Support",
+    "Commonwealth of Independent States",
+    "Cheney",
+    "defense conversion",
+    "nuclear"
+  ],
+  "addedRecords": 30,
+  "publicPapersSelected": 27,
+  "sourceLeads": 3,
+  "totalRecords": 182,
+  "selectedPublicPapers": [
+    {
+      "id": "public-papers-1989-02-16-soviet-withdrawal-afghanistan",
+      "date": "1989-02-16",
+      "title": "Statement on the Soviet Withdrawal From Afghanistan",
+      "chapter": "Soviet Reform and Arms Control Policy",
+      "topics": [
+        "Afghanistan",
+        "Soviet withdrawal",
+        "Regional conflicts",
+        "U.S.-Soviet relations"
+      ],
+      "textLine": 36357,
+      "nextAction": "Use as a public-policy anchor for internal memoranda on Soviet regional retrenchment and the early Bush review of policy toward Gorbachev."
+    },
+    {
+      "id": "public-papers-1989-09-23-gorbachev-summit-statement",
+      "date": "1989-09-23",
+      "title": "Statement on the Summit Meeting With Soviet President Gorbachev",
+      "chapter": "Soviet Reform and Arms Control Policy",
+      "topics": [
+        "Malta lead-up",
+        "U.S.-Soviet agenda",
+        "Arms control",
+        "Human rights"
+      ],
+      "textLine": 109626,
+      "nextAction": "Pair with Scowcroft/Rice and State preparatory memoranda for the Malta and Washington summit lanes."
+    },
+    {
+      "id": "public-papers-1989-12-04-malta-fact-sheet",
+      "date": "1989-12-04",
+      "title": "White House Fact Sheet on the Meeting With Soviet Chairman Mikhail Gorbachev in Malta",
+      "chapter": "Soviet Reform and Arms Control Policy",
+      "topics": [
+        "Malta",
+        "Trade",
+        "Technical economic cooperation",
+        "Bilateral investment treaty"
+      ],
+      "textLine": 132401,
+      "nextAction": "Use the public fact-sheet bullets as checklist items when mining Malta follow-up memoranda and economic-policy tasking."
+    },
+    {
+      "id": "public-papers-1990-03-11-lithuanian-independence",
+      "date": "1990-03-11",
+      "title": "Statement by Press Secretary Fitzwater on the Restoration of Lithuanian Independence",
+      "chapter": "Soviet Reform and Arms Control Policy",
+      "topics": [
+        "Lithuania",
+        "Baltic states",
+        "Self-determination",
+        "Nonrecognition policy"
+      ],
+      "textLine": 170044,
+      "nextAction": "Cross-check against NSC and State memoranda on Baltic recognition, crisis response, and managing relations with Gorbachev."
+    },
+    {
+      "id": "public-papers-1990-04-20-soviet-sanctions-lithuania",
+      "date": "1990-04-20",
+      "title": "Statement by Press Secretary Fitzwater on Soviet Economic Sanctions Against Lithuania",
+      "chapter": "Soviet Reform and Arms Control Policy",
+      "topics": [
+        "Lithuania",
+        "Soviet sanctions",
+        "Allied consultations",
+        "Baltic crisis"
+      ],
+      "textLine": 180801,
+      "nextAction": "Mine Scowcroft and NSC files for options papers around sanctions, allied coordination, and summit-management tradeoffs."
+    },
+    {
+      "id": "public-papers-1991-01-13-lithuania-military-intervention",
+      "date": "1991-01-13",
+      "title": "Remarks on Soviet Military Intervention in Lithuania and a Question-and-Answer Session With Reporters",
+      "chapter": "Soviet Reform and Arms Control Policy",
+      "topics": [
+        "Lithuania",
+        "Soviet military intervention",
+        "Baltic crisis",
+        "Crisis response"
+      ],
+      "textLine": 269645,
+      "nextAction": "Match against January 1991 NSC, State, and Scowcroft memoranda on sanctions, arms control linkage, and Gorbachev messaging."
+    },
+    {
+      "id": "public-papers-1991-07-31-start-fact-sheet",
+      "date": "1991-07-31",
+      "title": "White House Fact Sheet on The Strategic Arms Reduction Treaty (START)",
+      "chapter": "Soviet Reform and Arms Control Policy",
+      "topics": [
+        "START I",
+        "Strategic arms",
+        "Verification",
+        "Moscow summit"
+      ],
+      "textLine": 321877,
+      "nextAction": "Use as the public-control document when selecting internal START implementation, ratification, and republic-succession memoranda."
+    },
+    {
+      "id": "public-papers-1991-08-01-kiev-supreme-soviet",
+      "date": "1991-08-01",
+      "title": "Remarks to the Supreme Soviet of the Republic of the Ukraine in Kiev, Soviet Union",
+      "chapter": "Soviet Reform and Arms Control Policy",
+      "topics": [
+        "Ukraine",
+        "Kiev",
+        "Republics policy",
+        "Democracy",
+        "Economic reform"
+      ],
+      "textLine": 322328,
+      "nextAction": "Use as a public anchor for internal debate over Gorbachev, republican movements, and the 'Chicken Kiev' policy line before the August coup."
+    },
+    {
+      "id": "public-papers-1991-08-19-attempted-coup",
+      "date": "1991-08-19",
+      "title": "Statement on the Attempted Coup in the Soviet Union",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "August coup",
+        "Gorbachev",
+        "Yeltsin",
+        "Crisis management"
+      ],
+      "textLine": 326044,
+      "nextAction": "Triangulate with August 19-22 Daily Files, NSC/DC crisis files, and Volume III telcons to reconstruct decision timing."
+    },
+    {
+      "id": "public-papers-1991-09-25-kravchuk-meeting",
+      "date": "1991-09-25",
+      "title": "Statement by Press Secretary Fitzwater on the President's Meeting With Chairman Leonid M. Kravchuk of the Supreme Rada of the Republic of the Ukraine",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "Ukraine",
+        "Kravchuk",
+        "Economic reform",
+        "Trade"
+      ],
+      "textLine": 336119,
+      "nextAction": "Find the White House and State memoranda behind the Kravchuk meeting and the economic-team follow-up led by Ed Hewett."
+    },
+    {
+      "id": "public-papers-1991-09-27-nuclear-initiatives",
+      "date": "1991-09-27",
+      "title": "Address to the Nation on Reducing United States and Soviet Nuclear Weapons",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "Presidential Nuclear Initiatives",
+        "Tactical nuclear weapons",
+        "Nuclear safety",
+        "Command and control"
+      ],
+      "textLine": 336626,
+      "nextAction": "Pair with Bartholomew/NSC PNI memoranda and Cheney/JCS implementation files, especially republic custody and dismantlement concerns."
+    },
+    {
+      "id": "public-papers-1991-11-20-food-assistance-soviet-union",
+      "date": "1991-11-20",
+      "title": "Statement by Press Secretary Fitzwater on Food Assistance to the Soviet Union",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "Food assistance",
+        "Humanitarian aid",
+        "CCC credits",
+        "Republics policy"
+      ],
+      "textLine": 356643,
+      "nextAction": "Mine agriculture, State, NSC, and Daily File material for policy tradeoffs over humanitarian aid, debt responsibility, and republic distribution."
+    },
+    {
+      "id": "public-papers-1991-12-25-gorbachev-resignation",
+      "date": "1991-12-25",
+      "title": "Statement on the Resignation of Mikhail Gorbachev as President of the Soviet Union",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "Gorbachev resignation",
+        "Soviet dissolution",
+        "Cold War end",
+        "Arms reductions"
+      ],
+      "textLine": 367263,
+      "nextAction": "Use with December 1991 recognition files and transition memoranda to anchor the shift from Soviet policy to Russia/NIS policy."
+    },
+    {
+      "id": "public-papers-1991-12-25-cis-address",
+      "date": "1991-12-25",
+      "title": "Address to the Nation on the Commonwealth of Independent States",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "CIS",
+        "Recognition",
+        "Russia",
+        "Ukraine",
+        "Nuclear safety"
+      ],
+      "textLine": 367297,
+      "nextAction": "Cross-reference with recognition options papers, embassy transition files, UN-seat memoranda, and nuclear-control assurances from the new states."
+    },
+    {
+      "id": "public-papers-1992-02-27-kravchuk-telcon",
+      "date": "1992-02-27",
+      "title": "Statement by Press Secretary Fitzwater on the President's Telephone Conversation With President Leonid Kravchuk of Ukraine",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "Ukraine",
+        "Tactical nuclear weapons",
+        "START",
+        "CFE",
+        "Kravchuk"
+      ],
+      "textLine": 395470,
+      "nextAction": "Compare with the underlying telcon file, Nunn-Lugar leads, and Ukraine nuclear-withdrawal intelligence/source copies."
+    },
+    {
+      "id": "public-papers-1992-04-01-aid-former-soviet-union",
+      "date": "1992-04-01",
+      "title": "The President's News Conference on Aid to the States of the Former Soviet Union",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "Aid package",
+        "FREEDOM Support Act",
+        "IFI",
+        "Russia reform",
+        "Ukraine"
+      ],
+      "textLine": 405650,
+      "nextAction": "Use to organize internal records on the April 1992 assistance package, allied coordination, IMF/G-7 diplomacy, and congressional strategy."
+    },
+    {
+      "id": "public-papers-1992-04-03-freedom-support-proposed",
+      "date": "1992-04-03",
+      "title": "Message to the Congress Transmitting the FREEDOM Support Act Proposed Legislation",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "FREEDOM Support Act",
+        "Demilitarization",
+        "Nuclear safety",
+        "Technical assistance",
+        "Trade"
+      ],
+      "textLine": 406449,
+      "nextAction": "Follow the ten elements into NSC, State, Defense, Treasury, AID, and congressional liaison memoranda."
+    },
+    {
+      "id": "public-papers-1992-05-06-ukraine-joint-declaration",
+      "date": "1992-05-06",
+      "title": "Joint Declaration With President Leonid Kravchuk of Ukraine",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "Ukraine",
+        "Kravchuk",
+        "NPT",
+        "Nuclear removal",
+        "Economic assistance"
+      ],
+      "textLine": 416082,
+      "nextAction": "Mine the Kravchuk briefing book, Daily File packet, and Nunn-Lugar source copies for the internal commitments behind the declaration."
+    },
+    {
+      "id": "public-papers-1992-05-19-kazakhstan-joint-declaration",
+      "date": "1992-05-19",
+      "title": "Joint Declaration With President Nursultan Nazarbayev of Kazakhstan",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "Kazakhstan",
+        "Nazarbayev",
+        "NPT",
+        "START",
+        "Nuclear inheritance"
+      ],
+      "textLine": 421206,
+      "nextAction": "Use with the Nazarbayev memcon and Daily File packet to extract policy on Kazakhstan's nuclear inheritance and U.S. assistance."
+    },
+    {
+      "id": "public-papers-1992-06-17-yeltsin-news-conference",
+      "date": "1992-06-17",
+      "title": "The President's News Conference With President Boris Yeltsin of Russia",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "Yeltsin",
+        "Washington Charter",
+        "FREEDOM Support Act",
+        "POW/MIA",
+        "Assistance"
+      ],
+      "textLine": 430583,
+      "nextAction": "Link the public claims to the June 1992 briefing book, U.S.-Russia agreements, assistance files, and congressional strategy records."
+    },
+    {
+      "id": "public-papers-1992-06-17-joint-understanding-strategic-arms",
+      "date": "1992-06-17",
+      "title": "Joint Understanding on Reductions in Strategic Offensive Arms",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "START II",
+        "Strategic offensive arms",
+        "Yeltsin",
+        "Nuclear reductions"
+      ],
+      "textLine": 431120,
+      "nextAction": "Use as the public companion for internal START II negotiation, financing, and Russia ratification records."
+    },
+    {
+      "id": "public-papers-1992-06-17-global-protection-system",
+      "date": "1992-06-17",
+      "title": "Joint United States-Russian Statement on a Global Protection System",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "Global Protection System",
+        "Ballistic missile defense",
+        "Early warning",
+        "Nonproliferation"
+      ],
+      "textLine": 431171,
+      "nextAction": "Follow into Defense, State, and NSC memoranda on SDI/GPS cooperation, ABM implications, and Russian technical engagement."
+    },
+    {
+      "id": "public-papers-1992-06-17-defense-conversion",
+      "date": "1992-06-17",
+      "title": "Joint Russian-American Declaration on Defense Conversion",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "Defense conversion",
+        "Export controls",
+        "COCOM",
+        "Business development",
+        "Military-to-military"
+      ],
+      "textLine": 431226,
+      "nextAction": "Mine Commerce, Defense, NSC, and State files for conversion implementation records and export-control policy toward Russia/NIS."
+    },
+    {
+      "id": "public-papers-1992-06-19-start-protocol-senate",
+      "date": "1992-06-19",
+      "title": "Message to the Senate Transmitting a Protocol to the Strategic Arms Reduction Treaty",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "Lisbon Protocol",
+        "START I",
+        "NPT",
+        "Ukraine",
+        "Belarus",
+        "Kazakhstan"
+      ],
+      "textLine": 432546,
+      "nextAction": "Use with Lisbon Protocol files, Senate ratification materials, and Nunn-Lugar records on nuclear weapons removal from the non-Russian republics."
+    },
+    {
+      "id": "public-papers-1992-10-24-freedom-support-act-signing",
+      "date": "1992-10-24",
+      "title": "Statement on Signing the FREEDOM Support Act",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "FREEDOM Support Act",
+        "Demilitarization",
+        "Weapons destruction",
+        "Humanitarian assistance",
+        "NIS"
+      ],
+      "textLine": 486489,
+      "nextAction": "Track implementation records across State/AID, Defense Nunn-Lugar, Treasury/IMF, and NSC coordinating files."
+    },
+    {
+      "id": "public-papers-1992-11-19-baltic-russian-cis-forces-withdrawal",
+      "date": "1992-11-19",
+      "title": "Letter to Congressional Leaders Transmitting a Report on Withdrawal of Russian and Commonwealth of Independent States Armed Forces from the Baltic Countries",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "Baltic states",
+        "Russian forces",
+        "CIS forces",
+        "Troop withdrawal"
+      ],
+      "textLine": 498275,
+      "nextAction": "Find the attached report and related State/NSC memoranda on Baltic troop withdrawal diplomacy."
+    },
+    {
+      "id": "public-papers-1992-12-30-start-ii-announcement",
+      "date": "1992-12-30",
+      "title": "Remarks on the START II Treaty and the Situation in Somalia and an Exchange With Reporters",
+      "chapter": "Collapse and Republics Policy",
+      "topics": [
+        "START II",
+        "Yeltsin",
+        "Eagleburger",
+        "Cheney",
+        "Transition"
+      ],
+      "textLine": 500938,
+      "nextAction": "Use as a final 1992 public anchor for START II negotiation files and Bush-Clinton transition handoff records."
+    }
+  ],
+  "cheneyFindings": {
+    "folderLocated": "https://drive.google.com/drive/folders/1lNMHlCL0YsHjJbrVlBDECtKL9_QTHvU2",
+    "volumeCount": 11,
+    "conclusion": "The Cheney Public Statements set is present in Drive but needs OCR; no clean text selections were made from the volumes in this pass.",
+    "nextAction": "Download/OCR the 11 volumes and the 901207 standalone press-conference PDF, then run the Russia/FSU/arms-control query set against the OCR text."
+  }
+}
