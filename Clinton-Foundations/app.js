@@ -1,0 +1,2055 @@
+const lanes = [
+  {
+    id: "volume-control",
+    number: "Frame",
+    title: "Volume Control",
+    status: "Official frame",
+    summary:
+      "Track the Office of the Historian title, public status, Clinton subseries boundary, and adjacent-volume handoffs before document selection begins.",
+    topics: ["FRUS status", "1993-2000", "Being Researched"]
+  },
+  {
+    id: "strategy",
+    number: "Lane 1",
+    title: "Strategy of Engagement and Enlargement",
+    status: "Core lane",
+    summary:
+      "Collect the strategy memoranda, speech drafts, and National Security Strategy reports that defined engagement, enlargement, open markets, democratic community, and selective leadership.",
+    topics: ["NSS", "engagement", "enlargement"]
+  },
+  {
+    id: "directives",
+    number: "Lane 2",
+    title: "PRD/PDD Architecture",
+    status: "Control spine",
+    summary:
+      "Use PDD-1, PDD-2, PRD-35, and related review directives to show how Clinton replaced NSR/NSD machinery and tasked interagency policy reviews.",
+    topics: ["PDD-1", "PDD-2", "PRD reviews"]
+  },
+  {
+    id: "public-case",
+    number: "Lane 3",
+    title: "Public Case for Engagement",
+    status: "Speech trail",
+    summary:
+      "Pair public doctrine speeches with speechwriting drafts, clearance notes, and NSC edits so the volume can distinguish rhetoric from policy formation.",
+    topics: ["UNGA", "State of the Union", "speech drafts"]
+  },
+  {
+    id: "democracy-markets",
+    number: "Lane 4",
+    title: "Democracy, Markets, and Human Rights",
+    status: "Cross-cutting",
+    summary:
+      "Track the administration's linking of democracy promotion, open markets, human rights, development, and domestic economic renewal.",
+    topics: ["democracy", "trade", "human rights"]
+  },
+  {
+    id: "institutions",
+    number: "Lane 5",
+    title: "Institutions, Alliances, and Global Governance",
+    status: "Boundary watch",
+    summary:
+      "Capture the foundational treatment of NATO adaptation, UN reform, G7/G8, APEC, WTO, Summit of the Americas, and alliance maintenance without swallowing regional volumes.",
+    topics: ["NATO", "UN reform", "G7/G8"]
+  },
+  {
+    id: "force-peacekeeping",
+    number: "Lane 6",
+    title: "Use of Force and Peace Operations",
+    status: "Decision lens",
+    summary:
+      "Use PDD-25, complex contingency policy, Haiti, Bosnia, Iraq, Somalia, and humanitarian crises only where they explain general use-of-force doctrine or peace-operation rules.",
+    topics: ["PDD-25", "peacekeeping", "use of force"]
+  },
+  {
+    id: "transnational",
+    number: "Lane 7",
+    title: "Transnational Threats and Global Issues",
+    status: "Functional bridge",
+    summary:
+      "Surface the broad-policy frame for terrorism, organized crime, narcotics, proliferation, environment, migration, cyber, and critical infrastructure.",
+    topics: ["terrorism", "crime", "environment"]
+  },
+  {
+    id: "handoff",
+    number: "Lane 8",
+    title: "Second-Term Globalization Handoff",
+    status: "Late-term lane",
+    summary:
+      "Track the shift from engagement and enlargement to global integration, new-century strategy, critical infrastructure, public diplomacy, and managing globalization.",
+    topics: ["globalization", "new century", "critical infrastructure"]
+  }
+];
+
+const sourceLeads = [
+  {
+    title: "FRUS 1993-2000, Volume I official page",
+    institution: "Office of the Historian",
+    lane: "volume-control",
+    type: "Volume anchor",
+    priority: "Anchor",
+    date: "1993-2000",
+    identifier: "frus1993-00v01",
+    url: "https://history.state.gov/historicaldocuments/frus1993-00v01",
+    note:
+      "Official volume title and public status. The page identifies Volume I as Foundations of Foreign Policy and marks it Being Researched.",
+    tags: ["official", "status", "volume"]
+  },
+  {
+    title: "Clinton administration FRUS volume list",
+    institution: "Office of the Historian",
+    lane: "volume-control",
+    type: "Subseries boundary",
+    priority: "Anchor",
+    date: "1993-2000",
+    identifier: "Clinton subseries",
+    url: "https://history.state.gov/historicaldocuments/clinton",
+    note:
+      "Places Volume I beside the Clinton administration topical volumes, which is essential for preventing Volume I from absorbing implementation records.",
+    tags: ["official", "boundary", "topical volumes"]
+  },
+  {
+    title: "Status of the Series entry",
+    institution: "Office of the Historian",
+    lane: "volume-control",
+    type: "Status anchor",
+    priority: "Anchor",
+    date: "current",
+    identifier: "Being Researched",
+    url: "https://history.state.gov/historicaldocuments/status-of-the-series",
+    note:
+      "Controls how the page describes the volume: source map and pull list, not a published-document edition.",
+    tags: ["official", "status", "research"]
+  },
+  {
+    title: "About the Foreign Relations series",
+    institution: "Office of the Historian",
+    lane: "volume-control",
+    type: "Editorial standard",
+    priority: "High",
+    date: "current",
+    identifier: "FRUS statute and method",
+    url: "https://history.state.gov/historicaldocuments/about-frus",
+    note:
+      "Useful for applying the FRUS selection test: major foreign policy decisions and significant diplomatic activity, with reliable source notes.",
+    tags: ["method", "selection", "statute"]
+  },
+  {
+    title: "National Security Council collection",
+    institution: "Clinton Digital Library",
+    lane: "directives",
+    type: "Office collection",
+    priority: "High",
+    date: "1993-2001",
+    identifier: "CDL collection 27",
+    url: "https://clinton.presidentiallibraries.us/collections/show/27",
+    note:
+      "Collection-level guide for Clinton NSC leadership, foreign-policy speechwriting, records management, and document movement through the President and National Security Advisor.",
+    tags: ["NSC", "Lake", "Berger", "records management"]
+  },
+  {
+    title: "Presidential Directives guide",
+    institution: "Clinton Presidential Library",
+    lane: "directives",
+    type: "Directive index",
+    priority: "High",
+    date: "1993-2000",
+    identifier: "PDD/PRD list",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives",
+    note:
+      "Public index explaining PRDs and PDDs and listing the directive series that replaced the Bush-era NSR/NSD framework.",
+    tags: ["PDD", "PRD", "NSC"]
+  },
+  {
+    title: "Records of the NSC Records Management Office",
+    institution: "National Archives Catalog",
+    lane: "directives",
+    type: "Collection",
+    priority: "High",
+    date: "Clinton administration",
+    identifier: "NAID 7388808",
+    url: "https://catalog.archives.gov/id/7388808",
+    note:
+      "Parent collection for PRS/RMS files, directive records, and cross-cutting NSC records that may carry source-note-ready locators.",
+    tags: ["NAID 7388808", "PRS", "RMS"]
+  },
+  {
+    title: "Records of the NSC Speechwriting Office",
+    institution: "National Archives Catalog",
+    lane: "public-case",
+    type: "Collection",
+    priority: "High",
+    date: "Clinton administration",
+    identifier: "NAID 7388842",
+    url: "https://catalog.archives.gov/id/7388842",
+    note:
+      "Parent collection for speechwriting records, including Boorstin, Blinken, Widmer, and other staff files.",
+    tags: ["NAID 7388842", "speechwriting", "public doctrine"]
+  },
+  {
+    title: "Antony Blinken NSC Speechwriter files",
+    institution: "Clinton Presidential Library",
+    lane: "public-case",
+    type: "Finding aid",
+    priority: "High",
+    date: "1994-1998",
+    identifier: "2006-0459-F",
+    url: "https://www.clintonlibrary.gov/research/archives/finding-aids/2006-0459-f-antony-tony-blinken-nsc-speechwriter",
+    note:
+      "Large speechwriting body with drafts, final delivered speeches, State of the Union foreign-policy sections, Lake/Berger speeches, and foreign-policy theme material.",
+    tags: ["Blinken", "speech drafts", "Lake", "Berger"]
+  },
+  {
+    title: "Robert Boorstin NSC Speechwriter files",
+    institution: "Clinton Presidential Library",
+    lane: "public-case",
+    type: "Finding aid",
+    priority: "High",
+    date: "1994-1995",
+    identifier: "2006-0460-F",
+    url: "https://www.clintonlibrary.gov/research/archives/finding-aids/2006-0460-f-robert-o-boorstin-nsc-speechwriter",
+    note:
+      "Speech drafts and background files for Clinton, Lake, Berger, and Christopher, including UN 50th anniversary, G-7, NATO, democracy, and nonproliferation files.",
+    tags: ["Boorstin", "UN 50th", "G7", "NATO"]
+  },
+  {
+    title: "Edward Widmer NSC Speechwriter files",
+    institution: "Clinton Presidential Library",
+    lane: "handoff",
+    type: "Finding aid",
+    priority: "High",
+    date: "1997-2000",
+    identifier: "2006-0471-F",
+    url: "https://www.clintonlibrary.gov/research/archives/finding-aids/edward-ted-widmer-nsc-speechwriter",
+    note:
+      "Second-term foreign-policy speechwriting files, useful for globalization, China, Russia, Northern Ireland, Mexico, and new-century doctrine.",
+    tags: ["Widmer", "globalization", "second term"]
+  },
+  {
+    title: "Office of Press and Communications - P.J. Crowley",
+    institution: "Clinton Digital Library",
+    lane: "public-case",
+    type: "Digital collection",
+    priority: "Medium",
+    date: "1993-1994",
+    identifier: "CDL collection 106",
+    url: "https://clinton.presidentiallibraries.us/collections/show/106",
+    note:
+      "Press and communications files provide public framing, press lines, interview prep, and first-year doctrine messaging around foreign and domestic renewal.",
+    tags: ["press guidance", "P.J. Crowley", "public case"]
+  },
+  {
+    title: "Presidential Daily Diary",
+    institution: "National Archives Catalog",
+    lane: "volume-control",
+    type: "Chronology source",
+    priority: "Medium",
+    date: "1993-2001",
+    identifier: "NAID 101784492",
+    url: "https://catalog.archives.gov/id/101784492",
+    note:
+      "Schedule-control source for high-level speeches, meetings, and calls that need dating before archival promotion.",
+    tags: ["chronology", "daily diary", "schedule"]
+  },
+  {
+    title: "Records of the NSC Executive Secretary",
+    institution: "National Archives Catalog",
+    lane: "directives",
+    type: "Collection",
+    priority: "High",
+    date: "Clinton administration",
+    identifier: "NAID 7386739",
+    url: "https://catalog.archives.gov/id/7386739",
+    note:
+      "Cross-cutting NSC subject-file and routing source for high-level policy coordination and interagency paper flow.",
+    tags: ["Executive Secretary", "routing", "subject files"]
+  },
+  {
+    title: "National Security Strategy archive",
+    institution: "DOD Historical Office",
+    lane: "strategy",
+    type: "Published strategy series",
+    priority: "High",
+    date: "1994-2000",
+    identifier: "NSS archive",
+    url: "https://history.defense.gov/Historical-Sources/National-Security-Strategy/lang/en/",
+    note:
+      "Official archive for the Clinton-era National Security Strategy reports that give the published strategy baseline.",
+    tags: ["NSS", "engagement", "new century"]
+  },
+  {
+    title: "GovInfo Public Papers of the Presidents",
+    institution: "GovInfo",
+    lane: "public-case",
+    type: "Public Papers",
+    priority: "High",
+    date: "1993-2000",
+    identifier: "PPP collection",
+    url: "https://www.govinfo.gov/app/collection/ppp",
+    note:
+      "Public Papers anchor for delivered presidential remarks, statements, letters, exchanges, and public messages.",
+    tags: ["Public Papers", "speeches", "chronology"]
+  },
+  {
+    title: "FRUS 1969-1976, Volume I precedent",
+    institution: "Office of the Historian",
+    lane: "volume-control",
+    type: "Precedent volume",
+    priority: "High",
+    date: "1969-1972",
+    identifier: "frus1969-76v01",
+    url: "https://history.state.gov/historicaldocuments/frus1969-76v01",
+    note:
+      "Precedent Foundations volume using speeches, public articles, essays, presidential letters, memoranda, Cabinet reports, public messages, and editorial notes.",
+    tags: ["precedent", "document types", "Nixon"]
+  },
+  {
+    title: "FRUS 1969-1976, Volume XXXVIII, Part 1 precedent",
+    institution: "Office of the Historian",
+    lane: "volume-control",
+    type: "Precedent volume",
+    priority: "High",
+    date: "1973-1976",
+    identifier: "frus1969-76v38p1",
+    url: "https://history.state.gov/historicaldocuments/frus1969-76v38p1",
+    note:
+      "Precedent Foundations volume using background briefings, HAK/President memcons, White House tapes, Cabinet and NSC minutes, NSSM/NSDM files, annual reports, and Kissinger speech files.",
+    tags: ["precedent", "document types", "Nixon-Ford"]
+  },
+  {
+    title: "FRUS 1977-1980, Volume I precedent",
+    institution: "Office of the Historian",
+    lane: "volume-control",
+    type: "Precedent volume",
+    priority: "High",
+    date: "1974-1980",
+    identifier: "frus1977-80v01",
+    url: "https://history.state.gov/historicaldocuments/frus1977-80v01",
+    note:
+      "Precedent Foundations volume using campaign speeches, transition memoranda, NSC weekly reports, PRC minutes, congressional testimony, public addresses, and Policy Planning memoranda.",
+    tags: ["precedent", "document types", "Carter"]
+  },
+  {
+    title: "FRUS 1981-1988, Volume I precedent",
+    institution: "Office of the Historian",
+    lane: "volume-control",
+    type: "Precedent volume",
+    priority: "High",
+    date: "1975-1988",
+    identifier: "frus1981-88v01",
+    url: "https://history.state.gov/historicaldocuments/frus1981-88v01",
+    note:
+      "Precedent Foundations volume using public statements, campaign and transition records, speech drafts, NSC/Executive Secretariat files, Policy Planning memoranda, briefing books, and talking points.",
+    tags: ["precedent", "document types", "Reagan"]
+  },
+  {
+    title: "White House archived releases",
+    institution: "Archived White House",
+    lane: "public-case",
+    type: "Public release archive",
+    priority: "Medium",
+    date: "1993-2000",
+    identifier: "clintonwhitehouse6",
+    url: "https://clintonwhitehouse6.archives.gov/",
+    note:
+      "Useful for exact-date releases, press briefings, speech texts, and public statements that can be paired with speechwriting files.",
+    tags: ["released text", "press", "speeches"]
+  }
+];
+
+const documentTypes = [
+  {
+    type: "Public doctrine speeches and addresses",
+    precedent:
+      "Nixon/Ford, Carter, and Reagan Foundations volumes used presidential and senior-principal addresses before NATO, UNGA, veterans, press, and foreign-policy audiences.",
+    clintonTargets:
+      "UNGA speeches, State of the Union foreign-policy sections, Freedom House, Truman Library, NATO/UN/G7 speeches, and delivered NSS rollouts.",
+    sources: ["Public Papers", "Archived White House", "NSC Speechwriting"]
+  },
+  {
+    type: "Background briefings and on-background press sessions",
+    precedent:
+      "FRUS 1969-1976, Volume XXXVIII, Part 1 identifies Kissinger background briefings as a useful source for intellectual assumptions underlying policy.",
+    clintonTargets:
+      "Lake, Berger, Christopher, Albright, McCurry, Crowley, and senior-administration backgrounders on enlargement, globalization, NATO, UN reform, and threats.",
+    sources: ["Press files", "Speechwriting", "Public affairs records"]
+  },
+  {
+    type: "Campaign and pre-presidential foreign-policy statements",
+    precedent:
+      "Carter 1975-1976 foreign-policy addresses and Reagan 1980 campaign statements were included before inauguration to explain governing premises.",
+    clintonTargets:
+      "1991-1992 campaign speeches, candidate foreign-policy statements, Little Rock transition files, and early administration continuity notes.",
+    sources: ["Campaign files", "Transition records", "Speechwriting"]
+  },
+  {
+    type: "Articles, essays, and published intellectual frame-setters",
+    precedent:
+      "The Nixon volume printed Nixon's Foreign Affairs article and Kissinger's essay because they framed policy before formal decisions.",
+    clintonTargets:
+      "Published Lake, Berger, Christopher, Talbott, Gore, and Clinton doctrine pieces where they shaped later strategy language.",
+    sources: ["Published sources", "Speech drafts", "Press files"]
+  },
+  {
+    type: "Transition-team reports and advisory-board papers",
+    precedent:
+      "Carter transition priority memoranda and Reagan foreign-policy advisory-board papers showed first-six-month priorities before inauguration.",
+    clintonTargets:
+      "Clinton-Gore transition foreign-policy papers, State transition reports, NSC organization notes, and early priority papers.",
+    sources: ["Transition records", "NSC Records Management", "Executive Secretary"]
+  },
+  {
+    type: "Presidential letters and messages",
+    precedent:
+      "Prior volumes used presidential letters to Cabinet officials, foreign leaders, and arms-control principals as evidence of policy direction.",
+    clintonTargets:
+      "Letters to Christopher, Lake, Berger, Gore, congressional leaders, NATO/UN counterparts, and foreign leaders that frame broad policy.",
+    sources: ["Public Papers", "NSC RMS", "Presidential correspondence"]
+  },
+  {
+    type: "Memoranda to the President or senior principals",
+    precedent:
+      "Nixon, Carter, and Reagan volumes all used memoranda from aides, NSC staff, Policy Planning, and Cabinet officers to principals.",
+    clintonTargets:
+      "Lake/Berger/Steinberg memos to Clinton, S/P memoranda to Christopher or Albright, NEC/NSC memos, and Seventh Floor policy memos.",
+    sources: ["NSC files", "S/P files", "Executive Secretariat"]
+  },
+  {
+    type: "Cabinet, NSC, PRC, and interagency meeting minutes",
+    precedent:
+      "The Nixon/Ford and Carter volumes used Cabinet, NSC, Policy Review Committee, and bipartisan-leadership meeting minutes.",
+    clintonTargets:
+      "NSC/Principals/Deputies Committee minutes, economic-policy coordination, PDD review meetings, and strategy drafting meetings.",
+    sources: ["NSC Institutional Files", "Executive Secretary", "Daily Diary"]
+  },
+  {
+    type: "Congressional testimony, special messages, and hearing records",
+    precedent:
+      "Prior volumes included congressional testimony and special messages when they articulated broad foreign-policy programs.",
+    clintonTargets:
+      "Christopher, Albright, Lake, Berger, Gore, Rubin, and Barshefsky testimony on national strategy, assistance, trade, NATO, UN, and threats.",
+    sources: ["Congressional Record", "Hearing prints", "Public Papers"]
+  },
+  {
+    type: "Briefing books, talking points, and preparation papers",
+    precedent:
+      "Reagan sources emphasize briefing books and talking points; prior source notes also reference attached briefing materials not printed.",
+    clintonTargets:
+      "Summit books, UN/G7/NATO briefing papers, State of the Union policy inserts, press prep, and strategy rollout talking points.",
+    sources: ["Speechwriting", "Trip files", "NSC RMS"]
+  },
+  {
+    type: "Daily reports, diaries, trip files, and chronology controls",
+    precedent:
+      "Previous volumes used Presidential Daily Diary, White House tapes, trip files, evening reports, and press/trip records to control context and sequence.",
+    clintonTargets:
+      "Presidential Daily Diary entries, trip files, evening reports, press guidance, and schedule records for doctrine events.",
+    sources: ["Presidential Daily Diary", "Trip files", "Press files"]
+  },
+  {
+    type: "Editorial notes",
+    precedent:
+      "The prior Foundations volumes use editorial notes to bridge public texts, unavailable records, press coverage, and document sequences.",
+    clintonTargets:
+      "Use editorial notes for unavailable directive texts, published NSS drafting context, adjacent-volume handoffs, and public-record clusters.",
+    sources: ["Compiler notes", "Public chronology", "Cross-volume references"]
+  }
+];
+
+const records = [
+  {
+    title: "PDD-1 - Establishment of Presidential Review and Decision Series",
+    lane: "directives",
+    sourceRepository: "Clinton Presidential Library",
+    sourceType: "Directive anchor",
+    priority: "High",
+    date: "1993-01-20",
+    identifier: "PDD-1",
+    sourceUrl: "https://www.clintonlibrary.gov/research/presidential-directives",
+    summary:
+      "Foundational source for the new Clinton PRD/PDD system and for explaining why early 1993 review directives matter to Volume I.",
+    risk: "Use the public index as locator only; pull released text or source folder before quoting."
+  },
+  {
+    title: "PDD-2 - Organization of the National Security Council",
+    lane: "directives",
+    sourceRepository: "Clinton Presidential Library",
+    sourceType: "Directive anchor",
+    priority: "High",
+    date: "1993-01-20",
+    identifier: "PDD-2",
+    sourceUrl: "https://www.clintonlibrary.gov/research/presidential-directives",
+    summary:
+      "Core source for the administration's NSC structure, interagency process, and how national-security decisions moved through the White House.",
+    risk: "Needs comparison with NSC Executive Secretary and Records Management files for implementation evidence."
+  },
+  {
+    title: "PRD-35 - National Security Review - Strategy",
+    lane: "strategy",
+    sourceRepository: "Clinton Presidential Library",
+    sourceType: "Directive locator",
+    priority: "High",
+    date: "1993-06-11",
+    identifier: "PRD-35",
+    sourceUrl: "https://www.clintonlibrary.gov/research/presidential-directives",
+    summary:
+      "Likely bridge between early policy review machinery and the 1994 National Security Strategy of Engagement and Enlargement.",
+    risk: "The public index lists the directive, but the release/source packet needs exact pull verification."
+  },
+  {
+    title: "Tony Lake, From Containment to Enlargement",
+    lane: "strategy",
+    sourceRepository: "NSC Speechwriting / public text",
+    sourceType: "Speech draft trail",
+    priority: "High",
+    date: "1993-09-21",
+    identifier: "Blinken OA/ID 3386",
+    sourceUrl: "https://www.clintonlibrary.gov/research/archives/finding-aids/2006-0459-f-antony-tony-blinken-nsc-speechwriter",
+    alternateUrl: "https://www.globalsecurity.org/wmd/library/news/usa/1993/usa-930921.htm",
+    summary:
+      "Signature public doctrine event for the shift from containment to enlargement. The Blinken finding aid lists Lake enlargement files that can connect public text to draft evidence.",
+    risk: "Treat GlobalSecurity text as public copy; use Clinton Library folder provenance for source-note confidence."
+  },
+  {
+    title: "President Clinton, Address to the United Nations General Assembly",
+    lane: "public-case",
+    sourceRepository: "Archived White House",
+    sourceType: "Public speech",
+    priority: "High",
+    date: "1993-09-27",
+    identifier: "UNGA 1993",
+    sourceUrl: "https://clintonwhitehouse6.archives.gov/1993/09/1993-09-27-presidents-address-to-the-un.html",
+    summary:
+      "Early public articulation of the administration's post-Cold War foreign-policy themes before the UN.",
+    risk: "Needs matching NSC speechwriting draft, clearance notes, or briefing papers."
+  },
+  {
+    title: "A National Security Strategy of Engagement and Enlargement",
+    lane: "strategy",
+    sourceRepository: "DOD Historical Office",
+    sourceType: "Published strategy",
+    priority: "High",
+    date: "1994-07-01",
+    identifier: "NSS 1994",
+    sourceUrl: "https://history.defense.gov/Portals/70/Documents/nss/nss1994.pdf",
+    summary:
+      "First Clinton-era National Security Strategy report and the central published doctrine baseline for Volume I.",
+    risk: "Needs internal drafting and policy-review trail before becoming more than a published baseline."
+  },
+  {
+    title: "A National Security Strategy of Engagement and Enlargement",
+    lane: "strategy",
+    sourceRepository: "DOD Historical Office",
+    sourceType: "Published strategy",
+    priority: "High",
+    date: "1995-02-01",
+    identifier: "NSS 1995",
+    sourceUrl: "https://history.defense.gov/Portals/70/Documents/nss/nss1995.pdf",
+    summary:
+      "Follow-on published strategy that can be compared against 1994 language to identify continuity and adjustment.",
+    risk: "Draft record and interagency comment trail still need source discovery."
+  },
+  {
+    title: "A National Security Strategy of Engagement and Enlargement",
+    lane: "strategy",
+    sourceRepository: "DOD Historical Office",
+    sourceType: "Published strategy",
+    priority: "High",
+    date: "1996-02-01",
+    identifier: "NSS 1996",
+    sourceUrl: "https://history.defense.gov/Portals/70/Documents/nss/nss1996.pdf",
+    summary:
+      "Late-first-term strategy report useful for showing how enlargement, trade, democracy promotion, and new threats were carried into the 1996 election year.",
+    risk: "Do not overuse published language without internal policy-selection records."
+  },
+  {
+    title: "A National Security Strategy for a New Century",
+    lane: "handoff",
+    sourceRepository: "Archived White House",
+    sourceType: "Published strategy",
+    priority: "High",
+    date: "1997-05-01",
+    identifier: "NSS 1997",
+    sourceUrl: "https://clintonwhitehouse3.archives.gov/WH/EOP/NSC/Strategy/",
+    summary:
+      "Second-term strategy marker for moving from enlargement language toward integration, globalization, and new-century architecture.",
+    risk: "Needs source trail for drafting and review; public web text is not itself a decision file."
+  },
+  {
+    title: "A National Security Strategy for a New Century",
+    lane: "handoff",
+    sourceRepository: "Library of Congress",
+    sourceType: "Published strategy",
+    priority: "High",
+    date: "1999-12-01",
+    identifier: "LCCN 2023693030",
+    sourceUrl: "https://www.loc.gov/item/2023693030/",
+    summary:
+      "Late-administration published strategy with formal bibliographic metadata, useful for the volume's concluding frame.",
+    risk: "Use as public baseline; pull NSC/White House drafting records for compiler use."
+  },
+  {
+    title: "Boorstin files - UN 50th anniversary speech drafts",
+    lane: "institutions",
+    sourceRepository: "Clinton Presidential Library",
+    sourceType: "Finding-aid folder lead",
+    priority: "High",
+    date: "1995-06 to 1995-10",
+    identifier: "2006-0460-F / OA-ID 424",
+    sourceUrl: "https://www.clintonlibrary.gov/research/archives/finding-aids/2006-0460-f-robert-o-boorstin-nsc-speechwriter",
+    summary:
+      "Folder lead for UN 50th anniversary drafts, briefings, background articles, and public doctrine around reforming or renewing postwar institutions.",
+    risk: "Folder-level lead only; document-level page counts and exact draft dates are pending."
+  },
+  {
+    title: "Blinken files - State of the Union foreign-policy sections",
+    lane: "public-case",
+    sourceRepository: "Clinton Presidential Library",
+    sourceType: "Finding-aid folder lead",
+    priority: "High",
+    date: "1996-1998",
+    identifier: "2006-0459-F / OA-IDs 3387-3389",
+    sourceUrl: "https://www.clintonlibrary.gov/research/archives/finding-aids/2006-0459-f-antony-tony-blinken-nsc-speechwriter",
+    summary:
+      "Foreign-policy sections and theme memos for State of the Union drafting, useful for public-case evolution and presidential edits.",
+    risk: "Needs item-level review to separate speech packaging from substantive NSC edits."
+  },
+  {
+    title: "PDD-25 - U.S. Policy on Reforming Multilateral Peace Operations",
+    lane: "force-peacekeeping",
+    sourceRepository: "Clinton Presidential Library",
+    sourceType: "Directive anchor",
+    priority: "High",
+    date: "1994-05-03",
+    identifier: "PDD-25",
+    sourceUrl: "https://www.clintonlibrary.gov/research/presidential-directives",
+    summary:
+      "High-value use-of-force and peacekeeping policy anchor, but detailed Somalia, Haiti, Bosnia, or Rwanda records should remain in topical volumes.",
+    risk: "Volume I should select only the doctrine-setting record or review trail."
+  },
+  {
+    title: "PRD-26 - Democracy Programs",
+    lane: "democracy-markets",
+    sourceRepository: "Clinton Presidential Library",
+    sourceType: "Directive locator",
+    priority: "High",
+    date: "1993-04-13",
+    identifier: "PRD-26",
+    sourceUrl: "https://www.clintonlibrary.gov/research/presidential-directives",
+    summary:
+      "Key review directive for democracy promotion as a broad foreign-policy instrument.",
+    risk: "Needs released text or responsible office files before source-note promotion."
+  },
+  {
+    title: "PDD-39 and PDD-42 threat-policy frame",
+    lane: "transnational",
+    sourceRepository: "Clinton Presidential Library",
+    sourceType: "Directive anchors",
+    priority: "High",
+    date: "1995-06 to 1995-10",
+    identifier: "PDD-39 / PDD-42",
+    sourceUrl: "https://www.clintonlibrary.gov/research/presidential-directives",
+    summary:
+      "Broad policy anchor for counterterrorism and international organized crime as post-Cold War transnational threats.",
+    risk: "Detailed implementation belongs to counterterrorism, narcotics, law-enforcement, or global-issues volumes."
+  },
+  {
+    title: "PDD-63 - Critical Infrastructure Protection",
+    lane: "handoff",
+    sourceRepository: "Clinton Presidential Library",
+    sourceType: "Directive anchor",
+    priority: "Medium",
+    date: "1998-05-20",
+    identifier: "PDD-63",
+    sourceUrl: "https://www.clintonlibrary.gov/research/presidential-directives",
+    summary:
+      "Late-term marker for new security categories, cyber/infrastructure vulnerability, and the globalization handoff.",
+    risk: "Use sparingly unless internal records show it shaped the administration's foundational narrative."
+  },
+  {
+    title: "Widmer files - second-term foreign-policy speeches",
+    lane: "handoff",
+    sourceRepository: "Clinton Presidential Library",
+    sourceType: "Finding aid",
+    priority: "High",
+    date: "1997-2000",
+    identifier: "2006-0471-F",
+    sourceUrl: "https://www.clintonlibrary.gov/research/archives/finding-aids/edward-ted-widmer-nsc-speechwriter",
+    summary:
+      "Second-term speech drafts and revisions, including globalization-era themes and presidential edits.",
+    risk: "Needs sample pull before it can support claims about presidential revision patterns."
+  },
+  {
+    title: "Presidential Daily Diary strategy event control",
+    lane: "volume-control",
+    sourceRepository: "National Archives Catalog",
+    sourceType: "Chronology control",
+    priority: "Medium",
+    date: "1993-2000",
+    identifier: "NAID 101784492",
+    sourceUrl: "https://catalog.archives.gov/id/101784492",
+    summary:
+      "Control source for dating doctrine speeches, NSC meetings, summit travel, and public events before aligning drafts and released remarks.",
+    risk: "Schedule entries are not decision records; use them to verify chronology and event context."
+  }
+];
+
+const statements = [
+  {
+    title: "President Clinton's Inaugural Address",
+    lane: "public-case",
+    date: "1993-01-20",
+    sourceRepository: "Archived White House",
+    identifier: "1993 inaugural",
+    url: "https://clintonwhitehouse6.archives.gov/1993/01/1993-01-20-president-clinton-inaugural-speech.html",
+    note:
+      "Sets the domestic-foreign linkage: renewal at home, leadership abroad, and the post-Cold War obligation to shape change."
+  },
+  {
+    title: "Tony Lake, From Containment to Enlargement",
+    lane: "strategy",
+    date: "1993-09-21",
+    sourceRepository: "NSC Speechwriting / public text",
+    identifier: "SAIS speech",
+    url: "https://www.globalsecurity.org/wmd/library/news/usa/1993/usa-930921.htm",
+    note:
+      "The most direct public statement of enlargement as successor to containment; must be paired with NSC draft folders."
+  },
+  {
+    title: "Address to the United Nations General Assembly",
+    lane: "public-case",
+    date: "1993-09-27",
+    sourceRepository: "Archived White House",
+    identifier: "UNGA 1993",
+    url: "https://clintonwhitehouse6.archives.gov/1993/09/1993-09-27-presidents-address-to-the-un.html",
+    note:
+      "Early global audience statement for democracy, development, nonproliferation, peacekeeping, and UN engagement."
+  },
+  {
+    title: "Address Before a Joint Session on the State of the Union",
+    lane: "public-case",
+    date: "1994-01-25",
+    sourceRepository: "Archived White House",
+    identifier: "SOTU 1994",
+    url: "https://clintonwhitehouse6.archives.gov/1994/01/1994-01-25-presidents-state-of-the-union-address-as-delivered.html",
+    note:
+      "Public baseline for democracy as a security strategy and the domestic case for international leadership."
+  },
+  {
+    title: "Speech to Future European Leaders",
+    lane: "institutions",
+    date: "1994-01-09",
+    sourceRepository: "Archived White House",
+    identifier: "Brussels 1994",
+    url: "https://clintonwhitehouse6.archives.gov/1994/01/1994-01-09-presidents-speech-to-future-european-leaders.html",
+    note:
+      "European security architecture and post-Cold War democratic community frame; keep implementation details for Europe/NATO volumes."
+  },
+  {
+    title: "Remarks at the North Atlantic Council Summit",
+    lane: "institutions",
+    date: "1994-01-10",
+    sourceRepository: "Archived White House",
+    identifier: "NAC 1994",
+    url: "https://clintonwhitehouse6.archives.gov/1994/01/1994-01-10-presidents-remarks-at-north-atlantic-council-summit.html",
+    note:
+      "Institutional adaptation and Partnership for Peace public frame; useful only for broad foundations unless draft trail shows doctrine."
+  },
+  {
+    title: "Freedom House remarks on democracy and leadership",
+    lane: "democracy-markets",
+    date: "1995-10-06",
+    sourceRepository: "Archived White House",
+    identifier: "Freedom House",
+    url: "https://clintonwhitehouse6.archives.gov/1995/10/1995-10-06-president-remarks-in-freedom-house-speech.html",
+    note:
+      "Strong public statement tying democracy, markets, security, and American leadership."
+  },
+  {
+    title: "Truman Library Institute dinner remarks",
+    lane: "institutions",
+    date: "1995-10-25",
+    sourceRepository: "Archived White House",
+    identifier: "Truman Library",
+    url: "https://clintonwhitehouse6.archives.gov/1995/10/1995-10-25-president-remarks-at-truman-library-institute-dinner.html",
+    note:
+      "Uses Truman-era analogies to defend engagement, NATO, UN, and Bosnia policy in the post-Cold War setting."
+  },
+  {
+    title: "A National Security Strategy for a New Century",
+    lane: "handoff",
+    date: "1997-05-01",
+    sourceRepository: "Archived White House",
+    identifier: "NSS 1997",
+    url: "https://clintonwhitehouse3.archives.gov/WH/EOP/NSC/Strategy/",
+    note:
+      "Second-term public strategy baseline; useful for new-century language and globalization frame."
+  },
+  {
+    title: "A National Security Strategy for a New Century",
+    lane: "handoff",
+    date: "1999-12-01",
+    sourceRepository: "Library of Congress",
+    identifier: "LCCN 2023693030",
+    url: "https://www.loc.gov/item/2023693030/",
+    note:
+      "Late-administration formal strategy report with stable bibliographic metadata and unrestricted online access."
+  }
+];
+
+const directives = [
+  {
+    code: "PDD-1",
+    series: "PDD",
+    title: "Establishment of Presidential Review and Decision Series",
+    date: "1993-01-20",
+    lane: "directives",
+    priority: "High",
+    use: "Explains the new directive system and first-day process reset.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    code: "PDD-2",
+    series: "PDD",
+    title: "Organization of the National Security Council",
+    date: "1993-01-20",
+    lane: "directives",
+    priority: "High",
+    use: "Core NSC process and structure source.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    code: "PRD-20",
+    series: "PRD",
+    title: "International Programs and Resources",
+    date: "1993-03-08",
+    lane: "democracy-markets",
+    priority: "Medium",
+    use: "Budget, program, and resources bridge for broad foreign-policy capacity.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    code: "PRD-26",
+    series: "PRD",
+    title: "Democracy Programs",
+    date: "1993-04-13",
+    lane: "democracy-markets",
+    priority: "High",
+    use: "Review spine for democracy promotion as policy instrument.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    code: "PRD-35",
+    series: "PRD",
+    title: "National Security Review - Strategy",
+    date: "1993-06-11",
+    lane: "strategy",
+    priority: "High",
+    use: "Likely source path into the 1994 National Security Strategy.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    code: "PDD-25",
+    series: "PDD",
+    title: "U.S. Policy on Reforming Multilateral Peace Operations",
+    date: "1994-05-03",
+    lane: "force-peacekeeping",
+    priority: "High",
+    use: "General peacekeeping doctrine and selection criteria.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    code: "PRD-46",
+    series: "PRD",
+    title: "U.S. Policy Toward International Migration and Refugee Affairs",
+    date: "1994-05-31",
+    lane: "transnational",
+    priority: "Medium",
+    use: "Connects refugee and migration policy to broader post-Cold War instability.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    code: "PDD-39",
+    series: "PDD",
+    title: "U.S. Policy on Counterterrorism",
+    date: "1995-06-21",
+    lane: "transnational",
+    priority: "High",
+    use: "Broad transnational-threat doctrine and later counterterrorism handoff.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    code: "PDD-42",
+    series: "PDD",
+    title: "International Organized Crime",
+    date: "1995-10-21",
+    lane: "transnational",
+    priority: "High",
+    use: "Organized crime as a national security and foreign-policy concern.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    code: "PDD-56",
+    series: "PDD",
+    title: "Managing Complex Contingency Operations",
+    date: "1997",
+    lane: "force-peacekeeping",
+    priority: "Medium",
+    use: "Second-term coordination doctrine for crisis and contingency management.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    code: "PDD-62",
+    series: "PDD",
+    title: "Protection Against Unconventional Threats",
+    date: "1998-05-22",
+    lane: "transnational",
+    priority: "Medium",
+    use: "Terrorism and unconventional threats in the late-term security frame.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    code: "PDD-63",
+    series: "PDD",
+    title: "Critical Infrastructure Protection",
+    date: "1998-05-20",
+    lane: "handoff",
+    priority: "Medium",
+    use: "Cyber/infrastructure marker for new-century threat language.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    code: "PDD-68",
+    series: "PDD",
+    title: "International Public Information",
+    date: "1999",
+    lane: "handoff",
+    priority: "Medium",
+    use: "Late-term public diplomacy and international information policy lead.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  }
+];
+
+const people = [
+  {
+    name: "William J. Clinton",
+    role: "President",
+    lane: "public-case",
+    years: "1993-2001",
+    source: "Public Papers; Presidential Daily Diary; NSC Records",
+    note:
+      "Final public voice and presidential decision point; match delivered speeches to drafts and diary entries."
+  },
+  {
+    name: "Albert Gore, Jr.",
+    role: "Vice President",
+    lane: "democracy-markets",
+    years: "1993-2001",
+    source: "Public Papers; White House releases; economic and environmental files",
+    note:
+      "Key actor for global economy, environment, telecommunications, Russia assistance, and Summit of the Americas framing."
+  },
+  {
+    name: "Warren Christopher",
+    role: "Secretary of State",
+    lane: "institutions",
+    years: "1993-1997",
+    source: "State/NSC files; Boorstin and Blinken speech drafts",
+    note:
+      "Foreign-policy framing, Europe/NATO, Asia, democracy, and early Clinton doctrine."
+  },
+  {
+    name: "Madeleine K. Albright",
+    role: "Secretary of State / UN Ambassador",
+    lane: "institutions",
+    years: "1993-2001",
+    source: "UN records; Public Papers; NSC speechwriting",
+    note:
+      "Institutional reform, use of force, UN, NATO, and second-term public doctrine."
+  },
+  {
+    name: "Anthony Lake",
+    role: "National Security Advisor",
+    lane: "strategy",
+    years: "1993-1997",
+    source: "NSC collection; Blinken and Boorstin speechwriting files",
+    note:
+      "Principal architect and public explainer of enlargement; core Volume I figure."
+  },
+  {
+    name: "Samuel R. Berger",
+    role: "Deputy National Security Advisor / National Security Advisor",
+    lane: "handoff",
+    years: "1993-2001",
+    source: "NSC collection; Blinken and Widmer files",
+    note:
+      "Bridges first-term enlargement and second-term new-century/globalization strategy."
+  },
+  {
+    name: "James B. Steinberg",
+    role: "Deputy National Security Advisor",
+    lane: "handoff",
+    years: "1996-2000",
+    source: "NSC collection; Blinken and Widmer speechwriting files",
+    note:
+      "Late-term policy coordination and strategy speech source trail."
+  },
+  {
+    name: "Nancy Soderberg",
+    role: "Deputy National Security Advisor",
+    lane: "force-peacekeeping",
+    years: "1995-1996",
+    source: "NSC collection",
+    note:
+      "Peacekeeping, UN, and complex contingency policy actor."
+  },
+  {
+    name: "Robert E. Rubin",
+    role: "NEC Director / Treasury Secretary",
+    lane: "democracy-markets",
+    years: "1993-1999",
+    source: "Public Papers; economic policy files",
+    note:
+      "Global markets, trade, financial crises, and domestic economic strength as foreign-policy foundation."
+  },
+  {
+    name: "Charlene Barshefsky",
+    role: "USTR",
+    lane: "democracy-markets",
+    years: "1993-2001",
+    source: "Public Papers; trade records",
+    note:
+      "Trade-opening and global economic architecture lead, especially WTO/APEC-era records."
+  },
+  {
+    name: "Strobe Talbott",
+    role: "Ambassador-at-Large / Deputy Secretary of State",
+    lane: "strategy",
+    years: "1993-2001",
+    source: "State Department records; companion Russia pages",
+    note:
+      "Russia/NIS and enlargement strategy figure; use only where his records bear on broad doctrine."
+  },
+  {
+    name: "Richard C. Holbrooke",
+    role: "Assistant Secretary / Special Envoy",
+    lane: "force-peacekeeping",
+    years: "1994-1996",
+    source: "State/NSC records; Balkans source maps",
+    note:
+      "Implementation figure for Bosnia; include in Volume I only for general use-of-force or diplomacy doctrine."
+  },
+  {
+    name: "Robert O. Boorstin",
+    role: "NSC Speechwriter",
+    lane: "public-case",
+    years: "1994-1995",
+    source: "Finding aid 2006-0460-F",
+    note:
+      "Draft trail for first-term foreign-policy speeches, UN 50th, G7, NATO, democracy, and public doctrine."
+  },
+  {
+    name: "Antony Blinken",
+    role: "NSC Speechwriter",
+    lane: "public-case",
+    years: "1994-1998",
+    source: "Finding aid 2006-0459-F",
+    note:
+      "Drafts and final speeches for Clinton, Lake, Berger, Steinberg, and Kerrick; key speech-source control."
+  },
+  {
+    name: "Edward Widmer",
+    role: "NSC Speechwriter",
+    lane: "handoff",
+    years: "1997-2000",
+    source: "Finding aid 2006-0471-F",
+    note:
+      "Second-term foreign-policy speechwriting and presidential revision trail."
+  },
+  {
+    name: "Philip J. Crowley",
+    role: "NSC Press and Communications",
+    lane: "public-case",
+    years: "1993-1997",
+    source: "Clinton Digital Library collection 106",
+    note:
+      "Press guidance and communications files for first-year public framing."
+  }
+];
+
+const gaps = [
+  {
+    title: "Official volume shell has no public chapter outline",
+    priority: "High",
+    lane: "volume-control",
+    status: "Open",
+    evidence:
+      "The public FRUS page currently provides title and research status but no arrangement or document list.",
+    problem:
+      "The page must avoid pretending a final table of contents exists.",
+    needed:
+      "Keep lanes provisional and anchored to pullable source paths.",
+    nextActions: [
+      "Recheck the Office of the Historian volume page and status page before publication.",
+      "Treat every lane title as a compiler aid, not an official chapter title."
+    ],
+    targetRecords: ["frus1993-00v01", "Clinton subseries"]
+  },
+  {
+    title: "Public doctrine must be paired with internal record evidence",
+    priority: "Critical",
+    lane: "public-case",
+    status: "Open",
+    evidence:
+      "The strongest public statements are speeches and National Security Strategy reports.",
+    problem:
+      "Public texts alone can overstate rhetoric and under-document decision-making.",
+    needed:
+      "Match speeches to draft folders, clearance comments, policy memos, and diary/schedule controls.",
+    nextActions: [
+      "Pull Blinken, Boorstin, Widmer, and Crowley folders for high-value speeches.",
+      "Compare final delivered texts against draft and comment chains."
+    ],
+    targetRecords: ["2006-0459-F", "2006-0460-F", "2006-0471-F", "CDL 106"]
+  },
+  {
+    title: "PRD/PDD records need exact source-note verification",
+    priority: "High",
+    lane: "directives",
+    status: "Open",
+    evidence:
+      "The Clinton Library public directive index is strong but often functions as a locator rather than an item-level source note.",
+    problem:
+      "A directive title is not enough for compiler use without release status, repository path, and document extent.",
+    needed:
+      "Create directive-by-directive source packets for PDD-1, PDD-2, PRD-35, PRD-26, PDD-25, PDD-39, PDD-42, PDD-63, and PDD-68.",
+    nextActions: [
+      "Search NSC Records Management Office files for PRD/PDD packets.",
+      "Record release status, date, title, and repository path for each directive."
+    ],
+    targetRecords: ["PDD-1", "PDD-2", "PRD-35"]
+  },
+  {
+    title: "Adjacent-volume overlap can swamp the foundations frame",
+    priority: "High",
+    lane: "institutions",
+    status: "Open",
+    evidence:
+      "NATO, Russia, Balkans, arms control, economic policy, counterterrorism, and global issues all have their own Clinton subseries homes.",
+    problem:
+      "Implementation records can crowd out the broad policy foundation Volume I should document.",
+    needed:
+      "Use a strict doctrine-selection gate and link implementation records to neighboring pages.",
+    nextActions: [
+      "Mark every candidate with a handoff note when it belongs to another volume.",
+      "Keep only records that explain general principles, interagency process, or public doctrine."
+    ],
+    targetRecords: ["NSS 1994", "PDD-25", "PDD-39"]
+  },
+  {
+    title: "Second-term globalization frame is under-pulled",
+    priority: "Medium",
+    lane: "handoff",
+    status: "Open",
+    evidence:
+      "The page has solid public NSS anchors for 1997 and 1999 but fewer internal second-term drafting records.",
+    problem:
+      "The volume could overrepresent early enlargement and underrepresent late new-century strategy.",
+    needed:
+      "Pull Widmer, Berger, Steinberg, critical infrastructure, international public information, and NSS 1999 source trails.",
+    nextActions: [
+      "Search Widmer files for globalization, new century, China, Russia, and speeches on international economy.",
+      "Search Records Management for PDD-63 and PDD-68 source packets."
+    ],
+    targetRecords: ["2006-0471-F", "PDD-63", "PDD-68", "NSS 1999"]
+  },
+  {
+    title: "Chronology controls are not decision evidence",
+    priority: "Medium",
+    lane: "volume-control",
+    status: "Open",
+    evidence:
+      "Daily Diary and schedule records can confirm meetings, speeches, and travel but not policy reasoning.",
+    problem:
+      "They are useful support sources, but should not be promoted as substantive documents.",
+    needed:
+      "Use diary entries to date and verify source packets, not as standalone candidate documents.",
+    nextActions: [
+      "Pair diary entries with speech drafts, memcons, directive packets, or briefing books.",
+      "Record diary use in source notes as chronology control."
+    ],
+    targetRecords: ["NAID 101784492"]
+  }
+];
+
+const milestones = [
+  {
+    date: "1993-01-20",
+    title: "PDD-1 and PDD-2 reset the NSC directive system",
+    lane: "directives",
+    summary:
+      "The Clinton administration replaced the NSR/NSD system with PRDs and PDDs and organized its NSC machinery on the first day.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    date: "1993-01-20",
+    title: "Inaugural address ties renewal at home to leadership abroad",
+    lane: "public-case",
+    summary:
+      "Clinton presented domestic renewal and international engagement as connected tasks for the post-Cold War era.",
+    url: "https://clintonwhitehouse6.archives.gov/1993/01/1993-01-20-president-clinton-inaugural-speech.html"
+  },
+  {
+    date: "1993-04-13",
+    title: "PRD-26 launches democracy-program review path",
+    lane: "democracy-markets",
+    summary:
+      "The directive index identifies Democracy Programs as an early PRD, making it a source trail for democracy-promotion doctrine.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    date: "1993-06-11",
+    title: "PRD-35 National Security Review - Strategy",
+    lane: "strategy",
+    summary:
+      "Potential bridge into the first Clinton National Security Strategy; exact source packet still needs verification.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    date: "1993-09-21",
+    title: "Lake announces enlargement doctrine",
+    lane: "strategy",
+    summary:
+      "Anthony Lake's SAIS speech publicly framed enlargement as the post-containment strategy.",
+    url: "https://www.globalsecurity.org/wmd/library/news/usa/1993/usa-930921.htm"
+  },
+  {
+    date: "1993-09-27",
+    title: "Clinton addresses the UN General Assembly",
+    lane: "public-case",
+    summary:
+      "Early public statement of democracy, nonproliferation, peacekeeping, and international engagement.",
+    url: "https://clintonwhitehouse6.archives.gov/1993/09/1993-09-27-presidents-address-to-the-un.html"
+  },
+  {
+    date: "1994-01-10",
+    title: "NATO summit and Partnership for Peace public frame",
+    lane: "institutions",
+    summary:
+      "Institutional adaptation and European security frame appear in the January 1994 Brussels sequence.",
+    url: "https://clintonwhitehouse6.archives.gov/1994/01/1994-01-10-presidents-remarks-at-north-atlantic-council-summit.html"
+  },
+  {
+    date: "1994-05-03",
+    title: "PDD-25 peace operations policy",
+    lane: "force-peacekeeping",
+    summary:
+      "High-value source path for peacekeeping reform and use-of-force criteria.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    date: "1994-07-01",
+    title: "First Clinton National Security Strategy",
+    lane: "strategy",
+    summary:
+      "Published National Security Strategy of Engagement and Enlargement provides the central doctrine baseline.",
+    url: "https://history.defense.gov/Portals/70/Documents/nss/nss1994.pdf"
+  },
+  {
+    date: "1995-10-06",
+    title: "Freedom House democracy and leadership speech",
+    lane: "democracy-markets",
+    summary:
+      "Public case for democracy, markets, peace, and prosperity as linked goals.",
+    url: "https://clintonwhitehouse6.archives.gov/1995/10/1995-10-06-president-remarks-in-freedom-house-speech.html"
+  },
+  {
+    date: "1997-05-01",
+    title: "National Security Strategy for a New Century",
+    lane: "handoff",
+    summary:
+      "Second-term strategy language emphasizes integration, open societies, open markets, and new-century institutions.",
+    url: "https://clintonwhitehouse3.archives.gov/WH/EOP/NSC/Strategy/"
+  },
+  {
+    date: "1998-05-20",
+    title: "PDD-63 critical infrastructure protection",
+    lane: "handoff",
+    summary:
+      "New-security and critical-infrastructure marker for late-term globalization and technology risks.",
+    url: "https://www.clintonlibrary.gov/research/presidential-directives"
+  },
+  {
+    date: "1999-12-01",
+    title: "Late-term National Security Strategy",
+    lane: "handoff",
+    summary:
+      "The Library of Congress record provides a stable public copy and metadata for the December 1999 strategy.",
+    url: "https://www.loc.gov/item/2023693030/"
+  }
+];
+
+const laneById = new Map(lanes.map((lane) => [lane.id, lane]));
+
+const leadCount = document.querySelector("#lead-count");
+const laneCount = document.querySelector("#lane-count");
+const recordCount = document.querySelector("#record-count");
+const statementCount = document.querySelector("#statement-count");
+const directiveCount = document.querySelector("#directive-count");
+const personCountStat = document.querySelector("#person-count-stat");
+const milestoneCount = document.querySelector("#milestone-count");
+const gapCount = document.querySelector("#gap-count");
+
+const lanesRoot = document.querySelector("#lanes-root");
+const leadsRoot = document.querySelector("#leads-root");
+const recordsRoot = document.querySelector("#records-root");
+const statementsRoot = document.querySelector("#statements-root");
+const directivesRoot = document.querySelector("#directives-root");
+const peopleRoot = document.querySelector("#people-root");
+const milestonesRoot = document.querySelector("#milestones-root");
+const gapsRoot = document.querySelector("#gaps-root");
+const typesRoot = document.querySelector("#types-root");
+
+const leadSearch = document.querySelector("#lead-search");
+const laneFilter = document.querySelector("#lane-filter");
+const institutionFilter = document.querySelector("#institution-filter");
+const clearLeadFilters = document.querySelector("#clear-lead-filters");
+const leadSummary = document.querySelector("#lead-summary");
+
+const recordSearch = document.querySelector("#record-search");
+const recordLaneFilter = document.querySelector("#record-lane-filter");
+const recordPriorityFilter = document.querySelector("#record-priority-filter");
+const recordSourceFilter = document.querySelector("#record-source-filter");
+const clearRecordFilters = document.querySelector("#clear-record-filters");
+const exportRecords = document.querySelector("#export-records");
+const recordSummary = document.querySelector("#record-summary");
+
+const statementSearch = document.querySelector("#statement-search");
+const statementLaneFilter = document.querySelector("#statement-lane-filter");
+const statementYearFilter = document.querySelector("#statement-year-filter");
+const clearStatementFilters = document.querySelector("#clear-statement-filters");
+const exportStatements = document.querySelector("#export-statements");
+const statementSummary = document.querySelector("#statement-summary");
+
+const directiveSearch = document.querySelector("#directive-search");
+const directiveSeriesFilter = document.querySelector("#directive-series-filter");
+const directiveLaneFilter = document.querySelector("#directive-lane-filter");
+const clearDirectiveFilters = document.querySelector("#clear-directive-filters");
+const directiveSummary = document.querySelector("#directive-summary");
+
+const peopleSearch = document.querySelector("#people-search");
+const peopleLaneFilter = document.querySelector("#people-lane-filter");
+const peopleRoleFilter = document.querySelector("#people-role-filter");
+const clearPeopleFilters = document.querySelector("#clear-people-filters");
+const exportPeople = document.querySelector("#export-people");
+const peopleSummary = document.querySelector("#people-summary");
+
+function formatDate(value) {
+  const date = new Date(`${value}T00:00:00Z`);
+  if (Number.isNaN(date.getTime())) return value;
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC"
+  }).format(date);
+}
+
+function unique(values) {
+  return [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b));
+}
+
+function option(label, value = "") {
+  const item = document.createElement("option");
+  item.value = value;
+  item.textContent = label;
+  return item;
+}
+
+function makeChip(text, className = "chip") {
+  const chip = document.createElement("span");
+  chip.className = className;
+  chip.textContent = text;
+  return chip;
+}
+
+function makeLink(url, label) {
+  const link = document.createElement("a");
+  link.href = url;
+  link.rel = "noreferrer";
+  link.textContent = label;
+  return link;
+}
+
+function laneTitle(id) {
+  return laneById.get(id)?.title || id || "Unassigned";
+}
+
+function setStats() {
+  leadCount.textContent = sourceLeads.length.toString();
+  laneCount.textContent = lanes.length.toString();
+  recordCount.textContent = records.length.toString();
+  statementCount.textContent = statements.length.toString();
+  directiveCount.textContent = directives.length.toString();
+  personCountStat.textContent = people.length.toString();
+  milestoneCount.textContent = milestones.length.toString();
+  gapCount.textContent = gaps.length.toString();
+}
+
+function populateLaneFilter(select, includeFrame = true) {
+  select.replaceChildren(option("All lanes"));
+  const items = includeFrame ? lanes : lanes.filter((lane) => lane.id !== "volume-control");
+  for (const lane of items) select.append(option(lane.title, lane.id));
+}
+
+function populateFilters() {
+  populateLaneFilter(laneFilter);
+  populateLaneFilter(recordLaneFilter);
+  populateLaneFilter(statementLaneFilter);
+  populateLaneFilter(directiveLaneFilter);
+  populateLaneFilter(peopleLaneFilter);
+
+  institutionFilter.replaceChildren(option("All institutions"));
+  for (const institution of unique(sourceLeads.map((lead) => lead.institution))) {
+    institutionFilter.append(option(institution, institution));
+  }
+
+  recordPriorityFilter.replaceChildren(option("All priorities"));
+  for (const priority of unique(records.map((item) => item.priority))) {
+    recordPriorityFilter.append(option(priority, priority));
+  }
+
+  recordSourceFilter.replaceChildren(option("All sources"));
+  for (const source of unique(records.map((item) => item.sourceRepository))) {
+    recordSourceFilter.append(option(source, source));
+  }
+
+  statementYearFilter.replaceChildren(option("All years"));
+  for (const year of unique(statements.map((item) => (item.date || "").slice(0, 4)))) {
+    statementYearFilter.append(option(year, year));
+  }
+
+  directiveSeriesFilter.replaceChildren(option("All series"));
+  for (const series of unique(directives.map((item) => item.series))) {
+    directiveSeriesFilter.append(option(series, series));
+  }
+
+  peopleRoleFilter.replaceChildren(option("All roles"));
+  for (const role of unique(people.map((item) => item.role))) {
+    peopleRoleFilter.append(option(role, role));
+  }
+}
+
+function renderLanes() {
+  const cards = lanes.map((lane) => {
+    const card = document.createElement("article");
+    card.className = "lane-card";
+    card.id = `lane-${lane.id}`;
+
+    const number = document.createElement("strong");
+    number.textContent = lane.number;
+
+    const title = document.createElement("h3");
+    title.textContent = lane.title;
+
+    const summary = document.createElement("p");
+    summary.textContent = lane.summary;
+
+    const meta = document.createElement("div");
+    meta.className = "lane-meta";
+    meta.append(makeChip(lane.status, "priority-chip"));
+    for (const topic of lane.topics) meta.append(makeChip(topic));
+
+    card.append(number, title, summary, meta);
+    return card;
+  });
+
+  lanesRoot.replaceChildren(...cards);
+}
+
+function renderDocumentTypes() {
+  const cards = documentTypes.map((item) => {
+    const card = document.createElement("article");
+    card.className = "type-card";
+
+    const label = document.createElement("p");
+    label.className = "record-type";
+    label.textContent = "Precedent document type";
+
+    const title = document.createElement("h3");
+    title.textContent = item.type;
+
+    const precedent = document.createElement("p");
+    precedent.textContent = item.precedent;
+
+    const target = document.createElement("p");
+    target.className = "risk-note";
+    target.textContent = `Clinton targets: ${item.clintonTargets}`;
+
+    const tags = document.createElement("div");
+    tags.className = "item-tags";
+    for (const source of item.sources) tags.append(makeChip(source));
+
+    card.append(label, title, precedent, target, tags);
+    return card;
+  });
+
+  typesRoot.replaceChildren(...cards);
+}
+
+function searchableText(item, fields) {
+  return fields
+    .flatMap((field) => {
+      const value = item[field];
+      return Array.isArray(value) ? value : [value];
+    })
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
+function filteredLeads() {
+  const query = leadSearch.value.trim().toLowerCase();
+  const lane = laneFilter.value;
+  const institution = institutionFilter.value;
+
+  return sourceLeads.filter((lead) => {
+    if (lane && lead.lane !== lane) return false;
+    if (institution && lead.institution !== institution) return false;
+    return (
+      !query ||
+      searchableText(lead, ["title", "institution", "lane", "type", "priority", "date", "identifier", "note", "tags"]).includes(query) ||
+      laneTitle(lead.lane).toLowerCase().includes(query)
+    );
+  });
+}
+
+function renderLeads() {
+  const items = filteredLeads();
+  leadSummary.textContent = `${items.length} of ${sourceLeads.length} source leads shown`;
+
+  if (!items.length) {
+    leadsRoot.replaceChildren(emptyState("No source leads match the current filters."));
+    return;
+  }
+
+  const cards = items.map((lead) =>
+    renderItemCard({
+      type: `${lead.type} / ${lead.institution}`,
+      title: lead.title,
+      summary: lead.note,
+      url: lead.url,
+      linkLabel: "Open source",
+      lane: lead.lane,
+      side: [lead.priority, lead.date, lead.identifier],
+      tags: lead.tags || []
+    })
+  );
+
+  leadsRoot.replaceChildren(...cards);
+}
+
+function filteredRecords() {
+  const query = recordSearch.value.trim().toLowerCase();
+  const lane = recordLaneFilter.value;
+  const priority = recordPriorityFilter.value;
+  const source = recordSourceFilter.value;
+
+  return records.filter((item) => {
+    if (lane && item.lane !== lane) return false;
+    if (priority && item.priority !== priority) return false;
+    if (source && item.sourceRepository !== source) return false;
+    return (
+      !query ||
+      searchableText(item, [
+        "title",
+        "lane",
+        "sourceRepository",
+        "sourceType",
+        "priority",
+        "date",
+        "identifier",
+        "summary",
+        "risk"
+      ]).includes(query) ||
+      laneTitle(item.lane).toLowerCase().includes(query)
+    );
+  });
+}
+
+function renderRecords() {
+  const items = filteredRecords();
+  const highCount = items.filter((item) => item.priority === "High").length;
+  recordSummary.textContent = `${items.length} of ${records.length} candidate records shown; ${highCount} high-priority source paths in view`;
+
+  if (!items.length) {
+    recordsRoot.replaceChildren(emptyState("No candidate records match the current filters."));
+    return;
+  }
+
+  const cards = items.map((item) =>
+    renderItemCard({
+      type: `${item.sourceType} / ${item.sourceRepository}`,
+      title: item.title,
+      summary: item.summary,
+      url: item.sourceUrl,
+      linkLabel: "Open source",
+      alternateUrl: item.alternateUrl,
+      lane: item.lane,
+      side: [item.priority, item.date, item.identifier],
+      tags: [item.sourceType, item.sourceRepository],
+      risk: item.risk
+    })
+  );
+
+  recordsRoot.replaceChildren(...cards);
+}
+
+function filteredStatements() {
+  const query = statementSearch.value.trim().toLowerCase();
+  const lane = statementLaneFilter.value;
+  const year = statementYearFilter.value;
+
+  return statements.filter((item) => {
+    if (lane && item.lane !== lane) return false;
+    if (year && !`${item.date || ""}`.startsWith(year)) return false;
+    return (
+      !query ||
+      searchableText(item, ["title", "lane", "date", "sourceRepository", "identifier", "note"]).includes(query) ||
+      laneTitle(item.lane).toLowerCase().includes(query)
+    );
+  });
+}
+
+function renderStatements() {
+  const items = filteredStatements();
+  statementSummary.textContent = `${items.length} of ${statements.length} public doctrine anchors shown`;
+
+  if (!items.length) {
+    statementsRoot.replaceChildren(emptyState("No public statements match the current filters."));
+    return;
+  }
+
+  const cards = items.map((item) => {
+    const card = renderItemCard({
+      type: `${item.sourceRepository} / ${item.identifier}`,
+      title: item.title,
+      summary: item.note,
+      url: item.url,
+      linkLabel: "Open record",
+      lane: item.lane,
+      side: [formatDate(item.date)],
+      tags: [laneTitle(item.lane), item.sourceRepository]
+    });
+    card.classList.add("statement-card");
+    return card;
+  });
+
+  statementsRoot.replaceChildren(...cards);
+}
+
+function filteredDirectives() {
+  const query = directiveSearch.value.trim().toLowerCase();
+  const series = directiveSeriesFilter.value;
+  const lane = directiveLaneFilter.value;
+
+  return directives.filter((item) => {
+    if (series && item.series !== series) return false;
+    if (lane && item.lane !== lane) return false;
+    return (
+      !query ||
+      searchableText(item, ["code", "series", "title", "date", "lane", "priority", "use"]).includes(query) ||
+      laneTitle(item.lane).toLowerCase().includes(query)
+    );
+  });
+}
+
+function renderDirectives() {
+  const items = filteredDirectives();
+  directiveSummary.textContent = `${items.length} of ${directives.length} PRD/PDD anchors shown`;
+
+  if (!items.length) {
+    directivesRoot.replaceChildren(emptyState("No directives match the current filters."));
+    return;
+  }
+
+  const cards = items.map((item) => {
+    const card = document.createElement("article");
+    card.className = "item-card directive-card";
+
+    const code = document.createElement("div");
+    code.className = "directive-code";
+    code.textContent = item.code;
+
+    const main = document.createElement("div");
+    const type = document.createElement("p");
+    type.className = "record-type";
+    type.textContent = `${item.series} / ${formatDate(item.date)}`;
+    const title = document.createElement("h3");
+    title.textContent = item.title;
+    const summary = document.createElement("p");
+    summary.textContent = item.use;
+    const tags = document.createElement("div");
+    tags.className = "item-tags";
+    tags.append(makeChip(laneTitle(item.lane), "priority-chip"));
+    tags.append(makeChip(item.priority));
+    main.append(type, title, summary, makeLink(item.url, "Open directive index"), tags);
+
+    const side = document.createElement("div");
+    side.className = "item-side";
+    side.append(makeChip(item.series, "priority-chip"));
+    side.append(makeChip(item.priority));
+
+    card.append(code, main, side);
+    return card;
+  });
+
+  directivesRoot.replaceChildren(...cards);
+}
+
+function filteredPeople() {
+  const query = peopleSearch.value.trim().toLowerCase();
+  const lane = peopleLaneFilter.value;
+  const role = peopleRoleFilter.value;
+
+  return people.filter((item) => {
+    if (lane && item.lane !== lane) return false;
+    if (role && item.role !== role) return false;
+    return (
+      !query ||
+      searchableText(item, ["name", "role", "lane", "years", "source", "note"]).includes(query) ||
+      laneTitle(item.lane).toLowerCase().includes(query)
+    );
+  });
+}
+
+function renderPeople() {
+  const items = filteredPeople();
+  peopleSummary.textContent = `${items.length} of ${people.length} person leads shown`;
+
+  if (!items.length) {
+    peopleRoot.replaceChildren(emptyState("No person leads match the current filters."));
+    return;
+  }
+
+  const cards = items.map((person) => {
+    const card = document.createElement("article");
+    card.className = "person-card";
+
+    const top = document.createElement("div");
+    top.className = "person-topline";
+    const title = document.createElement("h3");
+    title.textContent = person.name;
+    top.append(title, makeChip(person.role, "priority-chip"));
+
+    const note = document.createElement("p");
+    note.textContent = person.note;
+
+    const tags = document.createElement("div");
+    tags.className = "item-tags";
+    tags.append(makeChip(laneTitle(person.lane)));
+    tags.append(makeChip(person.years));
+    tags.append(makeChip(person.source));
+
+    card.append(top, note, tags);
+    return card;
+  });
+
+  peopleRoot.replaceChildren(...cards);
+}
+
+function renderMilestones() {
+  const cards = [...milestones]
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .map((milestone) => {
+      const card = document.createElement("article");
+      card.className = "milestone-card";
+
+      const date = document.createElement("div");
+      date.className = "milestone-date";
+      date.textContent = formatDate(milestone.date);
+
+      const body = document.createElement("div");
+      const title = document.createElement("h3");
+      title.textContent = milestone.title;
+      const summary = document.createElement("p");
+      summary.textContent = milestone.summary;
+      const tags = document.createElement("div");
+      tags.className = "item-tags";
+      tags.append(makeChip(laneTitle(milestone.lane), "priority-chip"));
+      tags.append(makeLink(milestone.url, "Open record"));
+
+      body.append(title, summary, tags);
+      card.append(date, body);
+      return card;
+    });
+
+  milestonesRoot.replaceChildren(...cards);
+}
+
+function gapPriorityRank(priority) {
+  return { Critical: 0, High: 1, Medium: 2, Review: 3 }[priority] ?? 4;
+}
+
+function renderGaps() {
+  const metrics = document.createElement("div");
+  metrics.className = "gap-metrics";
+
+  const highCount = gaps.filter((gap) => ["Critical", "High"].includes(gap.priority)).length;
+  const pullCount = new Set(gaps.flatMap((gap) => gap.targetRecords || [])).size;
+  const lanesTouched = new Set(gaps.map((gap) => gap.lane)).size;
+  for (const item of [
+    ["Open gaps", gaps.length, "Tracked compiler-risk issues"],
+    ["Critical/high", highCount, "Needs review before promotion"],
+    ["Pull targets", pullCount, "Named packets or anchors to verify"],
+    ["Lanes touched", lanesTouched, "Areas needing source control"]
+  ]) {
+    const card = document.createElement("article");
+    card.className = "gap-metric";
+    const value = document.createElement("strong");
+    value.textContent = item[1].toString();
+    const label = document.createElement("span");
+    label.textContent = item[0];
+    const note = document.createElement("p");
+    note.textContent = item[2];
+    card.append(value, label, note);
+    metrics.append(card);
+  }
+
+  const list = document.createElement("div");
+  list.className = "gap-list";
+  for (const gap of [...gaps].sort(
+    (a, b) => gapPriorityRank(a.priority) - gapPriorityRank(b.priority) || a.title.localeCompare(b.title)
+  )) {
+    const card = document.createElement("article");
+    card.className = `gap-card gap-priority-${String(gap.priority || "review").toLowerCase()}`;
+
+    const header = document.createElement("div");
+    header.className = "gap-card-header";
+    const heading = document.createElement("h3");
+    heading.textContent = gap.title;
+    header.append(heading, makeChip(gap.priority, "gap-badge"));
+
+    const meta = document.createElement("div");
+    meta.className = "gap-meta";
+    meta.append(makeChip(laneTitle(gap.lane)));
+    meta.append(makeChip(gap.status));
+    meta.append(makeChip(`${gap.targetRecords.length} target IDs`));
+
+    const evidence = document.createElement("p");
+    evidence.textContent = `Evidence: ${gap.evidence}`;
+    const problem = document.createElement("p");
+    problem.textContent = `Problem: ${gap.problem}`;
+    const needed = document.createElement("p");
+    needed.textContent = `Needed: ${gap.needed}`;
+
+    const actions = document.createElement("ul");
+    actions.className = "gap-actions";
+    for (const action of gap.nextActions) {
+      const item = document.createElement("li");
+      item.textContent = action;
+      actions.append(item);
+    }
+
+    const pullList = document.createElement("p");
+    pullList.className = "gap-pull-list";
+    pullList.textContent = `Pull list: ${gap.targetRecords.join(", ")}`;
+
+    card.append(header, meta, evidence, problem, needed, actions, pullList);
+    list.append(card);
+  }
+
+  gapsRoot.replaceChildren(metrics, list);
+}
+
+function renderItemCard(config) {
+  const card = document.createElement("article");
+  card.className = "item-card";
+
+  const main = document.createElement("div");
+  const type = document.createElement("p");
+  type.className = "record-type";
+  type.textContent = config.type;
+
+  const title = document.createElement("h3");
+  title.textContent = config.title;
+
+  const summary = document.createElement("p");
+  summary.textContent = config.summary;
+
+  const links = document.createElement("div");
+  links.className = "item-links";
+  if (config.url) links.append(makeLink(config.url, config.linkLabel || "Open source"));
+  if (config.alternateUrl) links.append(makeLink(config.alternateUrl, "Open public copy"));
+
+  const tags = document.createElement("div");
+  tags.className = "item-tags";
+  tags.append(makeChip(laneTitle(config.lane), "priority-chip"));
+  for (const tag of config.tags || []) tags.append(makeChip(tag));
+
+  main.append(type, title, summary);
+  if (config.risk) {
+    const risk = document.createElement("p");
+    risk.className = "risk-note";
+    risk.textContent = `Compiler risk: ${config.risk}`;
+    main.append(risk);
+  }
+  main.append(links, tags);
+
+  const side = document.createElement("div");
+  side.className = "item-side";
+  for (const value of config.side || []) {
+    if (!value) continue;
+    side.append(makeChip(value, value === "High" || value === "Anchor" ? "priority-chip" : "chip"));
+  }
+
+  card.append(main, side);
+  return card;
+}
+
+function emptyState(text) {
+  const empty = document.createElement("p");
+  empty.className = "loading";
+  empty.textContent = text;
+  return empty;
+}
+
+function exportCsv(fileName, rows, fields) {
+  const header = fields.map((field) => field.label).join(",");
+  const body = rows.map((row) =>
+    fields
+      .map((field) => {
+        const value = field.value(row);
+        return `"${String(value ?? "").replaceAll('"', '""')}"`;
+      })
+      .join(",")
+  );
+  const blob = new Blob([[header, ...body].join("\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function bindEvents() {
+  for (const control of [leadSearch, laneFilter, institutionFilter]) {
+    control.addEventListener("input", renderLeads);
+    control.addEventListener("change", renderLeads);
+  }
+
+  for (const control of [recordSearch, recordLaneFilter, recordPriorityFilter, recordSourceFilter]) {
+    control.addEventListener("input", renderRecords);
+    control.addEventListener("change", renderRecords);
+  }
+
+  for (const control of [statementSearch, statementLaneFilter, statementYearFilter]) {
+    control.addEventListener("input", renderStatements);
+    control.addEventListener("change", renderStatements);
+  }
+
+  for (const control of [directiveSearch, directiveSeriesFilter, directiveLaneFilter]) {
+    control.addEventListener("input", renderDirectives);
+    control.addEventListener("change", renderDirectives);
+  }
+
+  for (const control of [peopleSearch, peopleLaneFilter, peopleRoleFilter]) {
+    control.addEventListener("input", renderPeople);
+    control.addEventListener("change", renderPeople);
+  }
+
+  clearLeadFilters.addEventListener("click", () => {
+    leadSearch.value = "";
+    laneFilter.value = "";
+    institutionFilter.value = "";
+    renderLeads();
+    leadSearch.focus();
+  });
+
+  clearRecordFilters.addEventListener("click", () => {
+    recordSearch.value = "";
+    recordLaneFilter.value = "";
+    recordPriorityFilter.value = "";
+    recordSourceFilter.value = "";
+    renderRecords();
+    recordSearch.focus();
+  });
+
+  clearStatementFilters.addEventListener("click", () => {
+    statementSearch.value = "";
+    statementLaneFilter.value = "";
+    statementYearFilter.value = "";
+    renderStatements();
+    statementSearch.focus();
+  });
+
+  clearDirectiveFilters.addEventListener("click", () => {
+    directiveSearch.value = "";
+    directiveSeriesFilter.value = "";
+    directiveLaneFilter.value = "";
+    renderDirectives();
+    directiveSearch.focus();
+  });
+
+  clearPeopleFilters.addEventListener("click", () => {
+    peopleSearch.value = "";
+    peopleLaneFilter.value = "";
+    peopleRoleFilter.value = "";
+    renderPeople();
+    peopleSearch.focus();
+  });
+
+  exportRecords.addEventListener("click", () => {
+    exportCsv("clinton-foundations-records.csv", filteredRecords(), [
+      { label: "title", value: (row) => row.title },
+      { label: "lane", value: (row) => laneTitle(row.lane) },
+      { label: "priority", value: (row) => row.priority },
+      { label: "date", value: (row) => row.date },
+      { label: "identifier", value: (row) => row.identifier },
+      { label: "source", value: (row) => row.sourceRepository },
+      { label: "url", value: (row) => row.sourceUrl },
+      { label: "summary", value: (row) => row.summary },
+      { label: "risk", value: (row) => row.risk }
+    ]);
+  });
+
+  exportStatements.addEventListener("click", () => {
+    exportCsv("clinton-foundations-statements.csv", filteredStatements(), [
+      { label: "title", value: (row) => row.title },
+      { label: "lane", value: (row) => laneTitle(row.lane) },
+      { label: "date", value: (row) => row.date },
+      { label: "source", value: (row) => row.sourceRepository },
+      { label: "identifier", value: (row) => row.identifier },
+      { label: "url", value: (row) => row.url },
+      { label: "note", value: (row) => row.note }
+    ]);
+  });
+
+  exportPeople.addEventListener("click", () => {
+    exportCsv("clinton-foundations-persons.csv", filteredPeople(), [
+      { label: "name", value: (row) => row.name },
+      { label: "role", value: (row) => row.role },
+      { label: "lane", value: (row) => laneTitle(row.lane) },
+      { label: "years", value: (row) => row.years },
+      { label: "source", value: (row) => row.source },
+      { label: "note", value: (row) => row.note }
+    ]);
+  });
+}
+
+setStats();
+populateFilters();
+renderLanes();
+renderDocumentTypes();
+renderLeads();
+renderRecords();
+renderStatements();
+renderDirectives();
+renderPeople();
+renderMilestones();
+renderGaps();
+bindEvents();

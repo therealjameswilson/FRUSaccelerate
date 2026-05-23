@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 540" role="img" aria-labelledby="title desc">
+  <title id="title">FRUS Volume I Foundations Source Map</title>
+  <desc id="desc">A source map connecting the official volume shell to strategy reports, directives, NSC records, speechwriting files, public papers, and compiler gates.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fffefa"/>
+      <stop offset="1" stop-color="#eee7db"/>
+    </linearGradient>
+    <linearGradient id="navy" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#20334c"/>
+      <stop offset="1" stop-color="#4c6f92"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#17212b" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+  <rect width="880" height="540" rx="24" fill="#f1eee6"/>
+  <path d="M48 92H832M48 188H832M48 284H832M48 380H832M48 476H832" stroke="#d8d0c2" stroke-width="1"/>
+  <path d="M146 48V492M302 48V492M458 48V492M614 48V492M770 48V492" stroke="#d8d0c2" stroke-width="1"/>
+  <rect x="310" y="190" width="260" height="140" rx="18" fill="url(#navy)" filter="url(#shadow)"/>
+  <text x="440" y="232" text-anchor="middle" fill="#fffefa" font-family="Georgia, serif" font-size="28" font-weight="700">Volume I</text>
+  <text x="440" y="267" text-anchor="middle" fill="#f1dfb8" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Foundations of</text>
+  <text x="440" y="294" text-anchor="middle" fill="#f1dfb8" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Foreign Policy</text>
+  <circle cx="440" cy="354" r="22" fill="#bd8b2e"/>
+  <text x="440" y="361" text-anchor="middle" fill="#17212b" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="900">FRUS</text>
+
+  <g fill="url(#paper)" stroke="#d8d0c2" stroke-width="2" filter="url(#shadow)">
+    <rect x="54" y="68" width="210" height="96" rx="14"/>
+    <rect x="616" y="68" width="210" height="96" rx="14"/>
+    <rect x="54" y="222" width="210" height="96" rx="14"/>
+    <rect x="616" y="222" width="210" height="96" rx="14"/>
+    <rect x="54" y="376" width="210" height="96" rx="14"/>
+    <rect x="616" y="376" width="210" height="96" rx="14"/>
+  </g>
+
+  <g fill="none" stroke="#8f3f44" stroke-width="3" stroke-linecap="round">
+    <path d="M264 116C302 116 302 260 310 260"/>
+    <path d="M616 116C578 116 578 260 570 260"/>
+    <path d="M264 270C296 270 296 270 310 270"/>
+    <path d="M616 270C584 270 584 270 570 270"/>
+    <path d="M264 424C302 424 302 302 310 302"/>
+    <path d="M616 424C578 424 578 302 570 302"/>
+  </g>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <text x="74" y="102" fill="#8f3f44" font-size="13" font-weight="900">OFFICIAL SHELL</text>
+    <text x="74" y="130" fill="#17212b" font-size="18" font-weight="800">Status and Boundary</text>
+    <text x="74" y="151" fill="#586571" font-size="13">OH volume page, status page,</text>
+    <text x="74" y="169" fill="#586571" font-size="13">Clinton subseries list</text>
+
+    <text x="636" y="102" fill="#8f3f44" font-size="13" font-weight="900">STRATEGY BASELINE</text>
+    <text x="636" y="130" fill="#17212b" font-size="18" font-weight="800">NSS Reports</text>
+    <text x="636" y="151" fill="#586571" font-size="13">1994-2000 strategy texts,</text>
+    <text x="636" y="169" fill="#586571" font-size="13">drafting trail pending</text>
+
+    <text x="74" y="256" fill="#8f3f44" font-size="13" font-weight="900">POLICY MACHINERY</text>
+    <text x="74" y="284" fill="#17212b" font-size="18" font-weight="800">PRD/PDD Spine</text>
+    <text x="74" y="305" fill="#586571" font-size="13">PDD-1, PDD-2, PRD-35,</text>
+    <text x="74" y="323" fill="#586571" font-size="13">process and tasking records</text>
+
+    <text x="636" y="256" fill="#8f3f44" font-size="13" font-weight="900">NSC RECORDS</text>
+    <text x="636" y="284" fill="#17212b" font-size="18" font-weight="800">RMS and Executive Sec</text>
+    <text x="636" y="305" fill="#586571" font-size="13">PRS packets, routing, source</text>
+    <text x="636" y="323" fill="#586571" font-size="13">note candidates</text>
+
+    <text x="74" y="410" fill="#8f3f44" font-size="13" font-weight="900">PUBLIC CASE</text>
+    <text x="74" y="438" fill="#17212b" font-size="18" font-weight="800">Speechwriting Files</text>
+    <text x="74" y="459" fill="#586571" font-size="13">Boorstin, Blinken, Widmer,</text>
+    <text x="74" y="477" fill="#586571" font-size="13">Crowley, Public Papers</text>
+
+    <text x="636" y="410" fill="#8f3f44" font-size="13" font-weight="900">COMPILER GATES</text>
+    <text x="636" y="438" fill="#17212b" font-size="18" font-weight="800">Promote or Handoff</text>
+    <text x="636" y="459" fill="#586571" font-size="13">Doctrine, decision, public</text>
+    <text x="636" y="477" fill="#586571" font-size="13">case, adjacent volumes</text>
+  </g>
+</svg>

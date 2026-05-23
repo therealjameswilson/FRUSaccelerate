@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FRUS 1993-2000 Volume I Foundations of Foreign Policy</title>
+    <meta
+      name="description"
+      content="A compiler-facing source map for FRUS 1993-2000, Volume I, Foundations of Foreign Policy."
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="FRUS Volume I foundations home">
+        <span class="brand-mark">I</span>
+        <span>Foundations Files</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#desk">Desk</a>
+        <a href="#types">Types</a>
+        <a href="#chapters">Chapters</a>
+        <a href="#gaps">Gaps</a>
+        <a href="#leads">Leads</a>
+        <a href="#records">Records</a>
+        <a href="#statements">Statements</a>
+        <a href="#directives">Directives</a>
+        <a href="#people">People</a>
+        <a href="#milestones">Milestones</a>
+        <a href="#sources">Sources</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="kicker">FRUS 1993-2000, Volume I</p>
+          <h1 id="hero-title">Foundations of Foreign Policy</h1>
+          <p class="lede">
+            A compiler workbench for the Clinton administration's foreign-policy frame:
+            engagement and enlargement, post-Cold War strategy, public doctrine, interagency
+            directive machinery, democracy and markets, alliance adaptation, and the second-term
+            handoff into globalization and transnational threats.
+          </p>
+          <div class="hero-actions" aria-label="Primary actions">
+            <a class="button primary" href="#records">Review Candidate Records</a>
+            <a class="button secondary" href="#directives">Track PRD/PDD Spine</a>
+            <a class="button secondary" href="https://history.state.gov/historicaldocuments/frus1993-00v01" rel="noreferrer">
+              Official Volume Page
+            </a>
+          </div>
+        </div>
+
+        <aside class="volume-brief" aria-label="Volume scope">
+          <img
+            class="brief-visual"
+            src="assets/foundations-source-map.svg"
+            alt="Source map connecting FRUS Volume I to strategy documents, directives, NSC records, public papers, speechwriting files, and compiler gates"
+          />
+          <p class="brief-label">Volume Snapshot</p>
+          <dl>
+            <div>
+              <dt>Coverage</dt>
+              <dd>1993-2000</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>Being Researched</dd>
+            </div>
+            <div>
+              <dt>Core Frame</dt>
+              <dd>Engagement and enlargement; national security strategy; public doctrine</dd>
+            </div>
+            <div>
+              <dt>Boundary</dt>
+              <dd>Doctrinal records only; regional implementation moves to the topical volumes</dd>
+            </div>
+          </dl>
+        </aside>
+      </section>
+
+      <section class="stats" aria-label="Research desk summary">
+        <div>
+          <span id="lead-count">0</span>
+          <p>source leads</p>
+        </div>
+        <div>
+          <span id="lane-count">0</span>
+          <p>compiler lanes</p>
+        </div>
+        <div>
+          <span id="record-count">0</span>
+          <p>candidate records</p>
+        </div>
+        <div>
+          <span id="statement-count">0</span>
+          <p>public statements</p>
+        </div>
+        <div>
+          <span id="directive-count">0</span>
+          <p>PRD/PDD anchors</p>
+        </div>
+        <div>
+          <span id="person-count-stat">0</span>
+          <p>person leads</p>
+        </div>
+        <div>
+          <span id="milestone-count">0</span>
+          <p>milestones</p>
+        </div>
+        <div>
+          <span id="gap-count">0</span>
+          <p>compiler gaps</p>
+        </div>
+      </section>
+
+      <section class="section desk-section" id="desk" aria-labelledby="desk-title">
+        <div class="section-heading">
+          <p class="kicker">Compiler Desk</p>
+          <h2 id="desk-title">Build The Doctrine Volume From Source Trails</h2>
+        </div>
+        <div class="desk-grid">
+          <article class="desk-panel">
+            <h3>Volume Control</h3>
+            <p>
+              Keep the official "Being Researched" status visible and separate published public
+              statements from archival records that may carry decision or drafting evidence.
+            </p>
+          </article>
+          <article class="desk-panel">
+            <h3>Selection Test</h3>
+            <p>
+              Candidate records should explain the administration's broad foreign-policy premises,
+              not merely describe one regional implementation case already destined for another volume.
+            </p>
+          </article>
+          <article class="desk-panel">
+            <h3>Source Note Path</h3>
+            <p>
+              Every candidate carries a repository, collection, identifier or search path, and a first-pass
+              explanation for how it could support a compiler source note.
+            </p>
+          </article>
+          <article class="desk-panel">
+            <h3>Boundary Control</h3>
+            <p>
+              NATO, Russia, Balkans, arms control, counterterrorism, global issues, and economic policy are
+              flagged as adjacent-volume overlap unless the record is foundational doctrine or coordination.
+            </p>
+          </article>
+        </div>
+        <div class="gate-grid" aria-label="Compiler quality gates">
+          <article class="gate-card">
+            <span>Gate 01</span>
+            <h3>Doctrine</h3>
+            <p>Does the record clarify strategy, principles, priorities, or tradeoffs?</p>
+          </article>
+          <article class="gate-card">
+            <span>Gate 02</span>
+            <h3>Decision</h3>
+            <p>Does it document presidential, NSC, State, or interagency choice-making?</p>
+          </article>
+          <article class="gate-card">
+            <span>Gate 03</span>
+            <h3>Public Case</h3>
+            <p>Can the public speech be linked back to drafts, clearance, or policy memos?</p>
+          </article>
+          <article class="gate-card">
+            <span>Gate 04</span>
+            <h3>Handoff</h3>
+            <p>Does a topical volume need the detailed implementation record instead?</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section types-section" id="types" aria-labelledby="types-title">
+        <div class="section-heading">
+          <p class="kicker">Precedent Volumes</p>
+          <h2 id="types-title">Document Types To Consider</h2>
+        </div>
+        <p class="section-note">
+          Previous Foundations volumes were not limited to strategy reports. They used public doctrine,
+          background briefings, internal memoranda, transition records, meeting minutes, congressional
+          materials, letters, trip and diary controls, and editorial notes to show how broad policy ideas
+          were formed, announced, and translated into governing machinery.
+        </p>
+        <div id="types-root" class="type-grid" aria-live="polite">
+          <p class="loading">Loading precedent document types...</p>
+        </div>
+      </section>
+
+      <section class="section" id="chapters" aria-labelledby="chapters-title">
+        <div class="section-heading">
+          <p class="kicker">Provisional Arrangement</p>
+          <h2 id="chapters-title">Compiler Lanes</h2>
+        </div>
+        <div id="lanes-root" class="lane-grid" aria-live="polite">
+          <p class="loading">Loading compiler lanes...</p>
+        </div>
+      </section>
+
+      <section class="section gaps-section" id="gaps" aria-labelledby="gaps-title">
+        <div class="section-heading with-link">
+          <div>
+            <p class="kicker">Compiler Risk</p>
+            <h2 id="gaps-title">Gap Register And Pull Controls</h2>
+          </div>
+          <a class="section-link" href="reports/compiler-gap-analysis.md">Gap report</a>
+        </div>
+        <p class="section-note">
+          The gaps below keep the page honest: they distinguish published doctrine from internal record
+          evidence, identify likely over-collection risks, and preserve next pulls before any source is
+          treated as a final FRUS document candidate.
+        </p>
+        <div id="gaps-root" class="gaps-root" aria-live="polite">
+          <p class="loading">Loading compiler gaps...</p>
+        </div>
+      </section>
+
+      <section class="section leads-section" id="leads" aria-labelledby="leads-title">
+        <div class="section-heading">
+          <p class="kicker">Archival Trail</p>
+          <h2 id="leads-title">Source Leads</h2>
+        </div>
+        <div class="tool-panel" aria-label="Search and filter source leads">
+          <label class="search-field">
+            <span>Search</span>
+            <input id="lead-search" type="search" placeholder="Search title, office, NAID, topic, or note" />
+          </label>
+          <label>
+            <span>Lane</span>
+            <select id="lane-filter"></select>
+          </label>
+          <label>
+            <span>Institution</span>
+            <select id="institution-filter"></select>
+          </label>
+          <button id="clear-lead-filters" type="button">Reset</button>
+          <p id="lead-summary" class="result-summary">Loading source leads...</p>
+        </div>
+        <div id="leads-root" class="cards-root" aria-live="polite">
+          <p class="loading">Loading source leads...</p>
+        </div>
+      </section>
+
+      <section class="section records-section" id="records" aria-labelledby="records-title">
+        <div class="section-heading">
+          <p class="kicker">Candidate File Units</p>
+          <h2 id="records-title">Records To Pull, Check, Or Promote</h2>
+        </div>
+        <div class="tool-panel" aria-label="Search and filter candidate records">
+          <label class="search-field">
+            <span>Search</span>
+            <input id="record-search" type="search" placeholder="Search strategy, PDD, speech, UN, G7, source note" />
+          </label>
+          <label>
+            <span>Lane</span>
+            <select id="record-lane-filter"></select>
+          </label>
+          <label>
+            <span>Priority</span>
+            <select id="record-priority-filter"></select>
+          </label>
+          <label>
+            <span>Source</span>
+            <select id="record-source-filter"></select>
+          </label>
+          <button id="clear-record-filters" type="button">Reset</button>
+          <button id="export-records" type="button">Export CSV</button>
+          <p id="record-summary" class="result-summary">Loading candidate records...</p>
+        </div>
+        <div id="records-root" class="cards-root" aria-live="polite">
+          <p class="loading">Loading candidate records...</p>
+        </div>
+      </section>
+
+      <section class="section statements-section" id="statements" aria-labelledby="statements-title">
+        <div class="section-heading">
+          <p class="kicker">Public Papers</p>
+          <h2 id="statements-title">Public Doctrine Anchors</h2>
+        </div>
+        <div class="tool-panel" aria-label="Search and filter public statements">
+          <label class="search-field">
+            <span>Search</span>
+            <input id="statement-search" type="search" placeholder="Search title, theme, person, or source note" />
+          </label>
+          <label>
+            <span>Lane</span>
+            <select id="statement-lane-filter"></select>
+          </label>
+          <label>
+            <span>Year</span>
+            <select id="statement-year-filter"></select>
+          </label>
+          <button id="clear-statement-filters" type="button">Reset</button>
+          <button id="export-statements" type="button">Export CSV</button>
+          <p id="statement-summary" class="result-summary">Loading public statements...</p>
+        </div>
+        <div id="statements-root" class="cards-root" aria-live="polite">
+          <p class="loading">Loading public statements...</p>
+        </div>
+      </section>
+
+      <section class="section directives-section" id="directives" aria-labelledby="directives-title">
+        <div class="section-heading">
+          <p class="kicker">Policy Machinery</p>
+          <h2 id="directives-title">PRD And PDD Spine</h2>
+        </div>
+        <div class="tool-panel compact-tools" aria-label="Search and filter directives">
+          <label class="search-field">
+            <span>Search</span>
+            <input id="directive-search" type="search" placeholder="Search PRD, PDD, strategy, democracy, force, environment" />
+          </label>
+          <label>
+            <span>Series</span>
+            <select id="directive-series-filter"></select>
+          </label>
+          <label>
+            <span>Lane</span>
+            <select id="directive-lane-filter"></select>
+          </label>
+          <button id="clear-directive-filters" type="button">Reset</button>
+          <p id="directive-summary" class="result-summary">Loading directive anchors...</p>
+        </div>
+        <div id="directives-root" class="cards-root compact-root" aria-live="polite">
+          <p class="loading">Loading directive anchors...</p>
+        </div>
+      </section>
+
+      <section class="section people-section" id="people" aria-labelledby="people-title">
+        <div class="section-heading">
+          <p class="kicker">Persons List Seed</p>
+          <h2 id="people-title">Policy And Drafting Actors</h2>
+        </div>
+        <div class="tool-panel" aria-label="Search and filter person leads">
+          <label class="search-field">
+            <span>Search</span>
+            <input id="people-search" type="search" placeholder="Search Lake, Berger, Christopher, Blinken, role, office" />
+          </label>
+          <label>
+            <span>Lane</span>
+            <select id="people-lane-filter"></select>
+          </label>
+          <label>
+            <span>Role</span>
+            <select id="people-role-filter"></select>
+          </label>
+          <button id="clear-people-filters" type="button">Reset</button>
+          <button id="export-people" type="button">Export CSV</button>
+          <p id="people-summary" class="result-summary">Loading person leads...</p>
+        </div>
+        <div id="people-root" class="people-list" aria-live="polite">
+          <p class="loading">Loading person leads...</p>
+        </div>
+      </section>
+
+      <section class="section milestones-section" id="milestones" aria-labelledby="milestones-title">
+        <div class="section-heading">
+          <p class="kicker">Working Chronology</p>
+          <h2 id="milestones-title">Foundation Milestones</h2>
+        </div>
+        <div id="milestones-root" class="timeline" aria-live="polite">
+          <p class="loading">Loading milestones...</p>
+        </div>
+      </section>
+
+      <section class="section source-section" id="sources" aria-labelledby="sources-title">
+        <div class="section-heading">
+          <p class="kicker">Official Anchors</p>
+          <h2 id="sources-title">Source Paths To Keep Open</h2>
+        </div>
+        <div class="source-list">
+          <a href="https://history.state.gov/historicaldocuments/frus1993-00v01" rel="noreferrer">
+            Office of the Historian: FRUS 1993-2000, Volume I
+          </a>
+          <a href="https://history.state.gov/historicaldocuments/clinton" rel="noreferrer">
+            Office of the Historian: Clinton administration volume list
+          </a>
+          <a href="https://history.state.gov/historicaldocuments/status-of-the-series" rel="noreferrer">
+            Office of the Historian: Status of the Series
+          </a>
+          <a href="https://www.clintonlibrary.gov/research/presidential-directives" rel="noreferrer">
+            Clinton Library: Presidential Directives
+          </a>
+          <a href="https://clinton.presidentiallibraries.us/collections/show/27" rel="noreferrer">
+            Clinton Digital Library: National Security Council
+          </a>
+          <a href="https://catalog.archives.gov/id/7388808" rel="noreferrer">
+            NARA Catalog: NSC Records Management Office
+          </a>
+          <a href="https://catalog.archives.gov/id/7388842" rel="noreferrer">
+            NARA Catalog: NSC Speechwriting Office
+          </a>
+          <a href="https://www.clintonlibrary.gov/research/archives/finding-aids/2006-0459-f-antony-tony-blinken-nsc-speechwriter" rel="noreferrer">
+            Clinton Library: Antony Blinken NSC Speechwriter
+          </a>
+          <a href="https://www.clintonlibrary.gov/research/archives/finding-aids/2006-0460-f-robert-o-boorstin-nsc-speechwriter" rel="noreferrer">
+            Clinton Library: Robert Boorstin NSC Speechwriter
+          </a>
+          <a href="https://www.clintonlibrary.gov/research/archives/finding-aids/edward-ted-widmer-nsc-speechwriter" rel="noreferrer">
+            Clinton Library: Edward Widmer NSC Speechwriter
+          </a>
+          <a href="https://history.defense.gov/Historical-Sources/National-Security-Strategy/lang/en/" rel="noreferrer">
+            DOD Historical Office: National Security Strategy archive
+          </a>
+          <a href="https://www.govinfo.gov/app/collection/ppp" rel="noreferrer">
+            GovInfo: Public Papers of the Presidents
+          </a>
+          <a href="https://history.state.gov/historicaldocuments/frus1969-76v01" rel="noreferrer">
+            Precedent: FRUS 1969-1976, Volume I
+          </a>
+          <a href="https://history.state.gov/historicaldocuments/frus1969-76v38p1" rel="noreferrer">
+            Precedent: FRUS 1969-1976, Volume XXXVIII, Part 1
+          </a>
+          <a href="https://history.state.gov/historicaldocuments/frus1977-80v01" rel="noreferrer">
+            Precedent: FRUS 1977-1980, Volume I
+          </a>
+          <a href="https://history.state.gov/historicaldocuments/frus1981-88v01" rel="noreferrer">
+            Precedent: FRUS 1981-1988, Volume I
+          </a>
+        </div>
+      </section>
+
+      <section class="section ingest-section" id="ingest" aria-labelledby="ingest-title">
+        <div class="section-heading">
+          <p class="kicker">Next Pass</p>
+          <h2 id="ingest-title">Research Ingest Checklist</h2>
+        </div>
+        <ol class="checklist">
+          <li>
+            <span>01</span>
+            <p>Run NARA Scout passes inside NSC Records Management, Speechwriting, Executive Secretary, Daily Diary, Press/Communications, and White House communications collections.</p>
+          </li>
+          <li>
+            <span>02</span>
+            <p>Pair every public doctrine speech with drafts, clearance comments, briefing books, or policy memoranda before promoting it beyond public chronology status.</p>
+          </li>
+          <li>
+            <span>03</span>
+            <p>Build a PRD/PDD crosswalk that identifies which directives are foundational and which belong only as context for regional or functional volumes.</p>
+          </li>
+          <li>
+            <span>04</span>
+            <p>Separate broad National Security Strategy language from topical implementation records already owned by Europe, Russia, Balkans, arms-control, economic, and global-issues volumes.</p>
+          </li>
+        </ol>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Built as a public FRUS source map for a Clinton foundations volume in research.</p>
+    </footer>
+  </body>
+</html>
