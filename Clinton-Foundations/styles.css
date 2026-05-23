@@ -339,7 +339,7 @@ dd {
 
 .desk-panel,
 .gate-card,
-.lane-card,
+.period-card,
 .item-card,
 .milestone-card,
 .gap-card,
@@ -373,7 +373,7 @@ dd {
   text-transform: uppercase;
 }
 
-.lane-grid {
+.period-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 14px;
@@ -398,24 +398,24 @@ dd {
   line-height: 1.54;
 }
 
-.lane-card {
+.period-card {
   display: grid;
   min-height: 270px;
   padding: 22px;
 }
 
-.lane-card strong {
+.period-card strong {
   color: var(--red);
   font-size: 0.82rem;
   text-transform: uppercase;
 }
 
-.lane-card p {
+.period-card p {
   color: #46525d;
   line-height: 1.52;
 }
 
-.lane-meta,
+.period-meta,
 .item-tags,
 .item-links,
 .gap-meta {
@@ -424,7 +424,7 @@ dd {
   gap: 8px;
 }
 
-.lane-meta {
+.period-meta {
   align-self: end;
   margin-top: 14px;
 }
@@ -820,7 +820,7 @@ dd {
 
   .desk-grid,
   .gate-grid,
-  .lane-grid,
+  .period-grid,
   .type-grid,
   .gap-metrics {
     grid-template-columns: repeat(2, 1fr);
@@ -871,7 +871,7 @@ dd {
   .stats,
   .desk-grid,
   .gate-grid,
-  .lane-grid,
+  .period-grid,
   .type-grid,
   .tool-panel,
   .tool-panel.compact-tools,

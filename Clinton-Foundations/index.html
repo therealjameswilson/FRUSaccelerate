@@ -20,7 +20,7 @@
       <nav aria-label="Primary navigation">
         <a href="#desk">Desk</a>
         <a href="#types">Types</a>
-        <a href="#chapters">Chapters</a>
+        <a href="#chronology">Chronology</a>
         <a href="#gaps">Gaps</a>
         <a href="#leads">Leads</a>
         <a href="#records">Records</a>
@@ -86,8 +86,8 @@
           <p>source leads</p>
         </div>
         <div>
-          <span id="lane-count">0</span>
-          <p>compiler lanes</p>
+          <span id="period-count">0</span>
+          <p>chronological periods</p>
         </div>
         <div>
           <span id="record-count">0</span>
@@ -190,13 +190,17 @@
         </div>
       </section>
 
-      <section class="section" id="chapters" aria-labelledby="chapters-title">
+      <section class="section" id="chronology" aria-labelledby="chronology-title">
         <div class="section-heading">
           <p class="kicker">Provisional Arrangement</p>
-          <h2 id="chapters-title">Compiler Lanes</h2>
+          <h2 id="chronology-title">Chronological Structure</h2>
         </div>
-        <div id="lanes-root" class="lane-grid" aria-live="polite">
-          <p class="loading">Loading compiler lanes...</p>
+        <p class="section-note">
+          The volume should read as a sequence: inherited premises, first-day machinery, enlargement
+          doctrine, first-term consolidation, second-term new-century strategy, and the late-term handoff.
+        </p>
+        <div id="periods-root" class="period-grid" aria-live="polite">
+          <p class="loading">Loading chronology...</p>
         </div>
       </section>
 
@@ -229,8 +233,8 @@
             <input id="lead-search" type="search" placeholder="Search title, office, NAID, topic, or note" />
           </label>
           <label>
-            <span>Lane</span>
-            <select id="lane-filter"></select>
+            <span>Period</span>
+            <select id="period-filter"></select>
           </label>
           <label>
             <span>Institution</span>
@@ -255,8 +259,8 @@
             <input id="record-search" type="search" placeholder="Search strategy, PDD, speech, UN, G7, source note" />
           </label>
           <label>
-            <span>Lane</span>
-            <select id="record-lane-filter"></select>
+            <span>Period</span>
+            <select id="record-period-filter"></select>
           </label>
           <label>
             <span>Priority</span>
@@ -286,8 +290,8 @@
             <input id="statement-search" type="search" placeholder="Search title, theme, person, or source note" />
           </label>
           <label>
-            <span>Lane</span>
-            <select id="statement-lane-filter"></select>
+            <span>Period</span>
+            <select id="statement-period-filter"></select>
           </label>
           <label>
             <span>Year</span>
@@ -317,8 +321,8 @@
             <select id="directive-series-filter"></select>
           </label>
           <label>
-            <span>Lane</span>
-            <select id="directive-lane-filter"></select>
+            <span>Period</span>
+            <select id="directive-period-filter"></select>
           </label>
           <button id="clear-directive-filters" type="button">Reset</button>
           <p id="directive-summary" class="result-summary">Loading directive anchors...</p>
@@ -339,8 +343,8 @@
             <input id="people-search" type="search" placeholder="Search Lake, Berger, Christopher, Blinken, role, office" />
           </label>
           <label>
-            <span>Lane</span>
-            <select id="people-lane-filter"></select>
+            <span>Period</span>
+            <select id="people-period-filter"></select>
           </label>
           <label>
             <span>Role</span>

@@ -1,84 +1,81 @@
-const lanes = [
+const sourceTopics = [
+  { id: "volume-control", title: "Volume Control" },
+  { id: "strategy", title: "Strategy of Engagement and Enlargement" },
+  { id: "directives", title: "PRD/PDD Architecture" },
+  { id: "public-case", title: "Public Case for Engagement" },
+  { id: "democracy-markets", title: "Democracy, Markets, and Human Rights" },
+  { id: "institutions", title: "Institutions, Alliances, and Global Governance" },
+  { id: "force-peacekeeping", title: "Use of Force and Peace Operations" },
+  { id: "transnational", title: "Transnational Threats and Global Issues" },
+  { id: "handoff", title: "Second-Term Globalization Handoff" }
+];
+
+const chronologyPeriods = [
   {
-    id: "volume-control",
-    number: "Frame",
-    title: "Volume Control",
-    status: "Official frame",
+    id: "pre-1993",
+    number: "Before 1993",
+    title: "Campaign And Transition Premises",
+    range: "1991-1992",
+    start: "1991-01-01",
+    end: "1992-12-31",
     summary:
-      "Track the Office of the Historian title, public status, Clinton subseries boundary, and adjacent-volume handoffs before document selection begins.",
-    topics: ["FRUS status", "1993-2000", "Being Researched"]
+      "Use campaign statements, transition memoranda, advisory papers, and inherited end-of-Cold-War assumptions only when they explain later governing premises.",
+    focus: ["campaign", "transition", "incoming framework"]
   },
   {
-    id: "strategy",
-    number: "Lane 1",
-    title: "Strategy of Engagement and Enlargement",
-    status: "Core lane",
+    id: "1993-setup",
+    number: "Jan.-Aug. 1993",
+    title: "Process Reset And Review Machinery",
+    range: "1993-01-01 to 1993-08-31",
+    start: "1993-01-01",
+    end: "1993-08-31",
     summary:
-      "Collect the strategy memoranda, speech drafts, and National Security Strategy reports that defined engagement, enlargement, open markets, democratic community, and selective leadership.",
-    topics: ["NSS", "engagement", "enlargement"]
+      "Open with the first-day PRD/PDD system, NSC organization, early democracy and resources reviews, and the strategy review path.",
+    focus: ["PDD-1", "PDD-2", "PRD reviews"]
   },
   {
-    id: "directives",
-    number: "Lane 2",
-    title: "PRD/PDD Architecture",
-    status: "Control spine",
+    id: "1993-1994-doctrine",
+    number: "Sept. 1993-1994",
+    title: "Enlargement Doctrine And First Strategy",
+    range: "1993-09-01 to 1994-12-31",
+    start: "1993-09-01",
+    end: "1994-12-31",
     summary:
-      "Use PDD-1, PDD-2, PRD-35, and related review directives to show how Clinton replaced NSR/NSD machinery and tasked interagency policy reviews.",
-    topics: ["PDD-1", "PDD-2", "PRD reviews"]
+      "Move from Lake's enlargement speech and the UN public case into NATO adaptation, peacekeeping doctrine, and the 1994 National Security Strategy.",
+    focus: ["enlargement", "UNGA", "NSS 1994"]
   },
   {
-    id: "public-case",
-    number: "Lane 3",
-    title: "Public Case for Engagement",
-    status: "Speech trail",
+    id: "1995-1996-consolidation",
+    number: "1995-1996",
+    title: "First-Term Consolidation",
+    range: "1995-01-01 to 1996-12-31",
+    start: "1995-01-01",
+    end: "1996-12-31",
     summary:
-      "Pair public doctrine speeches with speechwriting drafts, clearance notes, and NSC edits so the volume can distinguish rhetoric from policy formation.",
-    topics: ["UNGA", "State of the Union", "speech drafts"]
+      "Track how national strategy, democracy, markets, institutions, counterterrorism, organized crime, and speech drafting mature before the second term.",
+    focus: ["NSS 1995/1996", "UN 50", "PDD-39/42"]
   },
   {
-    id: "democracy-markets",
-    number: "Lane 4",
-    title: "Democracy, Markets, and Human Rights",
-    status: "Cross-cutting",
+    id: "1997-1998-new-century",
+    number: "1997-1998",
+    title: "New-Century Strategy And Threat Frame",
+    range: "1997-01-01 to 1998-12-31",
+    start: "1997-01-01",
+    end: "1998-12-31",
     summary:
-      "Track the administration's linking of democracy promotion, open markets, human rights, development, and domestic economic renewal.",
-    topics: ["democracy", "trade", "human rights"]
+      "Use second-term strategy, speechwriting, contingency management, critical infrastructure, and unconventional threats as the chronology shifts toward globalization.",
+    focus: ["NSS 1997", "PDD-56", "PDD-63"]
   },
   {
-    id: "institutions",
-    number: "Lane 5",
-    title: "Institutions, Alliances, and Global Governance",
-    status: "Boundary watch",
+    id: "1999-2000-handoff",
+    number: "1999-2000",
+    title: "Late-Term Handoff",
+    range: "1999-01-01 to 2000-12-31",
+    start: "1999-01-01",
+    end: "2000-12-31",
     summary:
-      "Capture the foundational treatment of NATO adaptation, UN reform, G7/G8, APEC, WTO, Summit of the Americas, and alliance maintenance without swallowing regional volumes.",
-    topics: ["NATO", "UN reform", "G7/G8"]
-  },
-  {
-    id: "force-peacekeeping",
-    number: "Lane 6",
-    title: "Use of Force and Peace Operations",
-    status: "Decision lens",
-    summary:
-      "Use PDD-25, complex contingency policy, Haiti, Bosnia, Iraq, Somalia, and humanitarian crises only where they explain general use-of-force doctrine or peace-operation rules.",
-    topics: ["PDD-25", "peacekeeping", "use of force"]
-  },
-  {
-    id: "transnational",
-    number: "Lane 7",
-    title: "Transnational Threats and Global Issues",
-    status: "Functional bridge",
-    summary:
-      "Surface the broad-policy frame for terrorism, organized crime, narcotics, proliferation, environment, migration, cyber, and critical infrastructure.",
-    topics: ["terrorism", "crime", "environment"]
-  },
-  {
-    id: "handoff",
-    number: "Lane 8",
-    title: "Second-Term Globalization Handoff",
-    status: "Late-term lane",
-    summary:
-      "Track the shift from engagement and enlargement to global integration, new-century strategy, critical infrastructure, public diplomacy, and managing globalization.",
-    topics: ["globalization", "new century", "critical infrastructure"]
+      "Close with new-century strategy, public diplomacy, global integration, and the source handoff into adjacent topical volumes.",
+    focus: ["NSS 1999/2000", "globalization", "handoff"]
   }
 ];
 
@@ -1089,10 +1086,10 @@ const gaps = [
     problem:
       "The page must avoid pretending a final table of contents exists.",
     needed:
-      "Keep lanes provisional and anchored to pullable source paths.",
+      "Keep the chronology provisional and anchored to pullable source paths.",
     nextActions: [
       "Recheck the Office of the Historian volume page and status page before publication.",
-      "Treat every lane title as a compiler aid, not an official chapter title."
+      "Treat every period heading as a compiler aid, not an official chapter title."
     ],
     targetRecords: ["frus1993-00v01", "Clinton subseries"]
   },
@@ -1290,10 +1287,11 @@ const milestones = [
   }
 ];
 
-const laneById = new Map(lanes.map((lane) => [lane.id, lane]));
+const topicById = new Map(sourceTopics.map((topic) => [topic.id, topic]));
+const periodById = new Map(chronologyPeriods.map((period) => [period.id, period]));
 
 const leadCount = document.querySelector("#lead-count");
-const laneCount = document.querySelector("#lane-count");
+const periodCount = document.querySelector("#period-count");
 const recordCount = document.querySelector("#record-count");
 const statementCount = document.querySelector("#statement-count");
 const directiveCount = document.querySelector("#directive-count");
@@ -1301,7 +1299,7 @@ const personCountStat = document.querySelector("#person-count-stat");
 const milestoneCount = document.querySelector("#milestone-count");
 const gapCount = document.querySelector("#gap-count");
 
-const lanesRoot = document.querySelector("#lanes-root");
+const periodsRoot = document.querySelector("#periods-root");
 const leadsRoot = document.querySelector("#leads-root");
 const recordsRoot = document.querySelector("#records-root");
 const statementsRoot = document.querySelector("#statements-root");
@@ -1312,13 +1310,13 @@ const gapsRoot = document.querySelector("#gaps-root");
 const typesRoot = document.querySelector("#types-root");
 
 const leadSearch = document.querySelector("#lead-search");
-const laneFilter = document.querySelector("#lane-filter");
+const periodFilter = document.querySelector("#period-filter");
 const institutionFilter = document.querySelector("#institution-filter");
 const clearLeadFilters = document.querySelector("#clear-lead-filters");
 const leadSummary = document.querySelector("#lead-summary");
 
 const recordSearch = document.querySelector("#record-search");
-const recordLaneFilter = document.querySelector("#record-lane-filter");
+const recordPeriodFilter = document.querySelector("#record-period-filter");
 const recordPriorityFilter = document.querySelector("#record-priority-filter");
 const recordSourceFilter = document.querySelector("#record-source-filter");
 const clearRecordFilters = document.querySelector("#clear-record-filters");
@@ -1326,7 +1324,7 @@ const exportRecords = document.querySelector("#export-records");
 const recordSummary = document.querySelector("#record-summary");
 
 const statementSearch = document.querySelector("#statement-search");
-const statementLaneFilter = document.querySelector("#statement-lane-filter");
+const statementPeriodFilter = document.querySelector("#statement-period-filter");
 const statementYearFilter = document.querySelector("#statement-year-filter");
 const clearStatementFilters = document.querySelector("#clear-statement-filters");
 const exportStatements = document.querySelector("#export-statements");
@@ -1334,12 +1332,12 @@ const statementSummary = document.querySelector("#statement-summary");
 
 const directiveSearch = document.querySelector("#directive-search");
 const directiveSeriesFilter = document.querySelector("#directive-series-filter");
-const directiveLaneFilter = document.querySelector("#directive-lane-filter");
+const directivePeriodFilter = document.querySelector("#directive-period-filter");
 const clearDirectiveFilters = document.querySelector("#clear-directive-filters");
 const directiveSummary = document.querySelector("#directive-summary");
 
 const peopleSearch = document.querySelector("#people-search");
-const peopleLaneFilter = document.querySelector("#people-lane-filter");
+const peoplePeriodFilter = document.querySelector("#people-period-filter");
 const peopleRoleFilter = document.querySelector("#people-role-filter");
 const clearPeopleFilters = document.querySelector("#clear-people-filters");
 const exportPeople = document.querySelector("#export-people");
@@ -1382,13 +1380,77 @@ function makeLink(url, label) {
   return link;
 }
 
-function laneTitle(id) {
-  return laneById.get(id)?.title || id || "Unassigned";
+function topicTitle(id) {
+  return topicById.get(id)?.title || id || "Unassigned";
+}
+
+function dateToStamp(value, endOfUnit = false) {
+  const [, year, month, day] = value;
+  const normalizedMonth = month || (endOfUnit ? "12" : "01");
+  let normalizedDay = day || (endOfUnit ? "31" : "01");
+  if (endOfUnit && month && !day) {
+    normalizedDay = new Date(Number(year), Number(month), 0).getDate().toString().padStart(2, "0");
+  }
+  return Date.parse(`${year}-${normalizedMonth}-${normalizedDay}T00:00:00Z`);
+}
+
+function dateRange(value) {
+  const text = String(value || "").trim();
+  if (!text) return null;
+  if (/clinton administration|current/i.test(text)) {
+    return {
+      start: Date.parse("1993-01-01T00:00:00Z"),
+      end: Date.parse("2000-12-31T00:00:00Z")
+    };
+  }
+
+  const matches = [...text.matchAll(/(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?/g)];
+  if (!matches.length) return null;
+  const first = matches[0];
+  const last = matches[matches.length - 1];
+  return {
+    start: dateToStamp(first, false),
+    end: dateToStamp(last, true)
+  };
+}
+
+function periodRange(period) {
+  return {
+    start: Date.parse(`${period.start}T00:00:00Z`),
+    end: Date.parse(`${period.end}T00:00:00Z`)
+  };
+}
+
+function rangesOverlap(left, right) {
+  return left.start <= right.end && right.start <= left.end;
+}
+
+function matchesPeriod(value, periodId) {
+  if (!periodId) return true;
+  const period = periodById.get(periodId);
+  const range = dateRange(value);
+  if (!period || !range) return false;
+  return rangesOverlap(range, periodRange(period));
+}
+
+function periodTitleForValue(value) {
+  const range = dateRange(value);
+  if (!range) return "";
+  const fullStart = Date.parse("1993-01-01T00:00:00Z");
+  const fullEnd = Date.parse("2000-12-31T00:00:00Z");
+  if (range.start <= fullStart && range.end >= fullEnd) return "Full Clinton term";
+  return chronologyPeriods.find((period) => rangesOverlap(range, periodRange(period)))?.title || "";
+}
+
+function chronologicalSort(a, b) {
+  const left = dateRange(a.date || a.years)?.start ?? Number.MAX_SAFE_INTEGER;
+  const right = dateRange(b.date || b.years)?.start ?? Number.MAX_SAFE_INTEGER;
+  return left - right || String(a.title || a.name || a.code).localeCompare(String(b.title || b.name || b.code));
 }
 
 function setStats() {
   leadCount.textContent = sourceLeads.length.toString();
-  laneCount.textContent = lanes.length.toString();
+  periodCount.textContent = chronologyPeriods.length.toString();
   recordCount.textContent = records.length.toString();
   statementCount.textContent = statements.length.toString();
   directiveCount.textContent = directives.length.toString();
@@ -1397,18 +1459,17 @@ function setStats() {
   gapCount.textContent = gaps.length.toString();
 }
 
-function populateLaneFilter(select, includeFrame = true) {
-  select.replaceChildren(option("All lanes"));
-  const items = includeFrame ? lanes : lanes.filter((lane) => lane.id !== "volume-control");
-  for (const lane of items) select.append(option(lane.title, lane.id));
+function populatePeriodFilter(select) {
+  select.replaceChildren(option("All periods"));
+  for (const period of chronologyPeriods) select.append(option(period.number, period.id));
 }
 
 function populateFilters() {
-  populateLaneFilter(laneFilter);
-  populateLaneFilter(recordLaneFilter);
-  populateLaneFilter(statementLaneFilter);
-  populateLaneFilter(directiveLaneFilter);
-  populateLaneFilter(peopleLaneFilter);
+  populatePeriodFilter(periodFilter);
+  populatePeriodFilter(recordPeriodFilter);
+  populatePeriodFilter(statementPeriodFilter);
+  populatePeriodFilter(directivePeriodFilter);
+  populatePeriodFilter(peoplePeriodFilter);
 
   institutionFilter.replaceChildren(option("All institutions"));
   for (const institution of unique(sourceLeads.map((lead) => lead.institution))) {
@@ -1441,31 +1502,38 @@ function populateFilters() {
   }
 }
 
-function renderLanes() {
-  const cards = lanes.map((lane) => {
+function countInPeriod(items, field, periodId) {
+  return items.filter((item) => matchesPeriod(item[field], periodId)).length;
+}
+
+function renderChronology() {
+  const cards = chronologyPeriods.map((period) => {
     const card = document.createElement("article");
-    card.className = "lane-card";
-    card.id = `lane-${lane.id}`;
+    card.className = "period-card";
+    card.id = `period-${period.id}`;
 
     const number = document.createElement("strong");
-    number.textContent = lane.number;
+    number.textContent = period.number;
 
     const title = document.createElement("h3");
-    title.textContent = lane.title;
+    title.textContent = period.title;
 
     const summary = document.createElement("p");
-    summary.textContent = lane.summary;
+    summary.textContent = period.summary;
 
     const meta = document.createElement("div");
-    meta.className = "lane-meta";
-    meta.append(makeChip(lane.status, "priority-chip"));
-    for (const topic of lane.topics) meta.append(makeChip(topic));
+    meta.className = "period-meta";
+    meta.append(makeChip(period.range, "priority-chip"));
+    meta.append(makeChip(`${countInPeriod(records, "date", period.id)} records`));
+    meta.append(makeChip(`${countInPeriod(statements, "date", period.id)} statements`));
+    meta.append(makeChip(`${countInPeriod(directives, "date", period.id)} directives`));
+    for (const focus of period.focus) meta.append(makeChip(focus));
 
     card.append(number, title, summary, meta);
     return card;
   });
 
-  lanesRoot.replaceChildren(...cards);
+  periodsRoot.replaceChildren(...cards);
 }
 
 function renderDocumentTypes() {
@@ -1511,22 +1579,22 @@ function searchableText(item, fields) {
 
 function filteredLeads() {
   const query = leadSearch.value.trim().toLowerCase();
-  const lane = laneFilter.value;
+  const period = periodFilter.value;
   const institution = institutionFilter.value;
 
   return sourceLeads.filter((lead) => {
-    if (lane && lead.lane !== lane) return false;
+    if (period && !matchesPeriod(lead.date, period)) return false;
     if (institution && lead.institution !== institution) return false;
     return (
       !query ||
       searchableText(lead, ["title", "institution", "lane", "type", "priority", "date", "identifier", "note", "tags"]).includes(query) ||
-      laneTitle(lead.lane).toLowerCase().includes(query)
+      topicTitle(lead.lane).toLowerCase().includes(query)
     );
   });
 }
 
 function renderLeads() {
-  const items = filteredLeads();
+  const items = filteredLeads().sort(chronologicalSort);
   leadSummary.textContent = `${items.length} of ${sourceLeads.length} source leads shown`;
 
   if (!items.length) {
@@ -1541,7 +1609,7 @@ function renderLeads() {
       summary: lead.note,
       url: lead.url,
       linkLabel: "Open source",
-      lane: lead.lane,
+      period: periodTitleForValue(lead.date),
       side: [lead.priority, lead.date, lead.identifier],
       tags: lead.tags || []
     })
@@ -1552,12 +1620,12 @@ function renderLeads() {
 
 function filteredRecords() {
   const query = recordSearch.value.trim().toLowerCase();
-  const lane = recordLaneFilter.value;
+  const period = recordPeriodFilter.value;
   const priority = recordPriorityFilter.value;
   const source = recordSourceFilter.value;
 
   return records.filter((item) => {
-    if (lane && item.lane !== lane) return false;
+    if (period && !matchesPeriod(item.date, period)) return false;
     if (priority && item.priority !== priority) return false;
     if (source && item.sourceRepository !== source) return false;
     return (
@@ -1573,13 +1641,13 @@ function filteredRecords() {
         "summary",
         "risk"
       ]).includes(query) ||
-      laneTitle(item.lane).toLowerCase().includes(query)
+      topicTitle(item.lane).toLowerCase().includes(query)
     );
   });
 }
 
 function renderRecords() {
-  const items = filteredRecords();
+  const items = filteredRecords().sort(chronologicalSort);
   const highCount = items.filter((item) => item.priority === "High").length;
   recordSummary.textContent = `${items.length} of ${records.length} candidate records shown; ${highCount} high-priority source paths in view`;
 
@@ -1596,7 +1664,7 @@ function renderRecords() {
       url: item.sourceUrl,
       linkLabel: "Open source",
       alternateUrl: item.alternateUrl,
-      lane: item.lane,
+      period: periodTitleForValue(item.date),
       side: [item.priority, item.date, item.identifier],
       tags: [item.sourceType, item.sourceRepository],
       risk: item.risk
@@ -1608,22 +1676,22 @@ function renderRecords() {
 
 function filteredStatements() {
   const query = statementSearch.value.trim().toLowerCase();
-  const lane = statementLaneFilter.value;
+  const period = statementPeriodFilter.value;
   const year = statementYearFilter.value;
 
   return statements.filter((item) => {
-    if (lane && item.lane !== lane) return false;
+    if (period && !matchesPeriod(item.date, period)) return false;
     if (year && !`${item.date || ""}`.startsWith(year)) return false;
     return (
       !query ||
       searchableText(item, ["title", "lane", "date", "sourceRepository", "identifier", "note"]).includes(query) ||
-      laneTitle(item.lane).toLowerCase().includes(query)
+      topicTitle(item.lane).toLowerCase().includes(query)
     );
   });
 }
 
 function renderStatements() {
-  const items = filteredStatements();
+  const items = filteredStatements().sort(chronologicalSort);
   statementSummary.textContent = `${items.length} of ${statements.length} public doctrine anchors shown`;
 
   if (!items.length) {
@@ -1638,9 +1706,9 @@ function renderStatements() {
       summary: item.note,
       url: item.url,
       linkLabel: "Open record",
-      lane: item.lane,
+      period: periodTitleForValue(item.date),
       side: [formatDate(item.date)],
-      tags: [laneTitle(item.lane), item.sourceRepository]
+      tags: [item.sourceRepository]
     });
     card.classList.add("statement-card");
     return card;
@@ -1652,21 +1720,21 @@ function renderStatements() {
 function filteredDirectives() {
   const query = directiveSearch.value.trim().toLowerCase();
   const series = directiveSeriesFilter.value;
-  const lane = directiveLaneFilter.value;
+  const period = directivePeriodFilter.value;
 
   return directives.filter((item) => {
     if (series && item.series !== series) return false;
-    if (lane && item.lane !== lane) return false;
+    if (period && !matchesPeriod(item.date, period)) return false;
     return (
       !query ||
       searchableText(item, ["code", "series", "title", "date", "lane", "priority", "use"]).includes(query) ||
-      laneTitle(item.lane).toLowerCase().includes(query)
+      topicTitle(item.lane).toLowerCase().includes(query)
     );
   });
 }
 
 function renderDirectives() {
-  const items = filteredDirectives();
+  const items = filteredDirectives().sort(chronologicalSort);
   directiveSummary.textContent = `${items.length} of ${directives.length} PRD/PDD anchors shown`;
 
   if (!items.length) {
@@ -1692,7 +1760,7 @@ function renderDirectives() {
     summary.textContent = item.use;
     const tags = document.createElement("div");
     tags.className = "item-tags";
-    tags.append(makeChip(laneTitle(item.lane), "priority-chip"));
+    tags.append(makeChip(periodTitleForValue(item.date), "priority-chip"));
     tags.append(makeChip(item.priority));
     main.append(type, title, summary, makeLink(item.url, "Open directive index"), tags);
 
@@ -1710,22 +1778,22 @@ function renderDirectives() {
 
 function filteredPeople() {
   const query = peopleSearch.value.trim().toLowerCase();
-  const lane = peopleLaneFilter.value;
+  const period = peoplePeriodFilter.value;
   const role = peopleRoleFilter.value;
 
   return people.filter((item) => {
-    if (lane && item.lane !== lane) return false;
+    if (period && !matchesPeriod(item.years, period)) return false;
     if (role && item.role !== role) return false;
     return (
       !query ||
       searchableText(item, ["name", "role", "lane", "years", "source", "note"]).includes(query) ||
-      laneTitle(item.lane).toLowerCase().includes(query)
+      topicTitle(item.lane).toLowerCase().includes(query)
     );
   });
 }
 
 function renderPeople() {
-  const items = filteredPeople();
+  const items = filteredPeople().sort(chronologicalSort);
   peopleSummary.textContent = `${items.length} of ${people.length} person leads shown`;
 
   if (!items.length) {
@@ -1748,7 +1816,6 @@ function renderPeople() {
 
     const tags = document.createElement("div");
     tags.className = "item-tags";
-    tags.append(makeChip(laneTitle(person.lane)));
     tags.append(makeChip(person.years));
     tags.append(makeChip(person.source));
 
@@ -1777,7 +1844,7 @@ function renderMilestones() {
       summary.textContent = milestone.summary;
       const tags = document.createElement("div");
       tags.className = "item-tags";
-      tags.append(makeChip(laneTitle(milestone.lane), "priority-chip"));
+      tags.append(makeChip(periodTitleForValue(milestone.date), "priority-chip"));
       tags.append(makeLink(milestone.url, "Open record"));
 
       body.append(title, summary, tags);
@@ -1798,12 +1865,11 @@ function renderGaps() {
 
   const highCount = gaps.filter((gap) => ["Critical", "High"].includes(gap.priority)).length;
   const pullCount = new Set(gaps.flatMap((gap) => gap.targetRecords || [])).size;
-  const lanesTouched = new Set(gaps.map((gap) => gap.lane)).size;
   for (const item of [
     ["Open gaps", gaps.length, "Tracked compiler-risk issues"],
     ["Critical/high", highCount, "Needs review before promotion"],
     ["Pull targets", pullCount, "Named packets or anchors to verify"],
-    ["Lanes touched", lanesTouched, "Areas needing source control"]
+    ["Chronology anchors", milestones.length, "Dated records to reconcile"]
   ]) {
     const card = document.createElement("article");
     card.className = "gap-metric";
@@ -1833,7 +1899,6 @@ function renderGaps() {
 
     const meta = document.createElement("div");
     meta.className = "gap-meta";
-    meta.append(makeChip(laneTitle(gap.lane)));
     meta.append(makeChip(gap.status));
     meta.append(makeChip(`${gap.targetRecords.length} target IDs`));
 
@@ -1885,7 +1950,7 @@ function renderItemCard(config) {
 
   const tags = document.createElement("div");
   tags.className = "item-tags";
-  tags.append(makeChip(laneTitle(config.lane), "priority-chip"));
+  if (config.period) tags.append(makeChip(config.period, "priority-chip"));
   for (const tag of config.tags || []) tags.append(makeChip(tag));
 
   main.append(type, title, summary);
@@ -1937,34 +2002,34 @@ function exportCsv(fileName, rows, fields) {
 }
 
 function bindEvents() {
-  for (const control of [leadSearch, laneFilter, institutionFilter]) {
+  for (const control of [leadSearch, periodFilter, institutionFilter]) {
     control.addEventListener("input", renderLeads);
     control.addEventListener("change", renderLeads);
   }
 
-  for (const control of [recordSearch, recordLaneFilter, recordPriorityFilter, recordSourceFilter]) {
+  for (const control of [recordSearch, recordPeriodFilter, recordPriorityFilter, recordSourceFilter]) {
     control.addEventListener("input", renderRecords);
     control.addEventListener("change", renderRecords);
   }
 
-  for (const control of [statementSearch, statementLaneFilter, statementYearFilter]) {
+  for (const control of [statementSearch, statementPeriodFilter, statementYearFilter]) {
     control.addEventListener("input", renderStatements);
     control.addEventListener("change", renderStatements);
   }
 
-  for (const control of [directiveSearch, directiveSeriesFilter, directiveLaneFilter]) {
+  for (const control of [directiveSearch, directiveSeriesFilter, directivePeriodFilter]) {
     control.addEventListener("input", renderDirectives);
     control.addEventListener("change", renderDirectives);
   }
 
-  for (const control of [peopleSearch, peopleLaneFilter, peopleRoleFilter]) {
+  for (const control of [peopleSearch, peoplePeriodFilter, peopleRoleFilter]) {
     control.addEventListener("input", renderPeople);
     control.addEventListener("change", renderPeople);
   }
 
   clearLeadFilters.addEventListener("click", () => {
     leadSearch.value = "";
-    laneFilter.value = "";
+    periodFilter.value = "";
     institutionFilter.value = "";
     renderLeads();
     leadSearch.focus();
@@ -1972,7 +2037,7 @@ function bindEvents() {
 
   clearRecordFilters.addEventListener("click", () => {
     recordSearch.value = "";
-    recordLaneFilter.value = "";
+    recordPeriodFilter.value = "";
     recordPriorityFilter.value = "";
     recordSourceFilter.value = "";
     renderRecords();
@@ -1981,7 +2046,7 @@ function bindEvents() {
 
   clearStatementFilters.addEventListener("click", () => {
     statementSearch.value = "";
-    statementLaneFilter.value = "";
+    statementPeriodFilter.value = "";
     statementYearFilter.value = "";
     renderStatements();
     statementSearch.focus();
@@ -1990,14 +2055,14 @@ function bindEvents() {
   clearDirectiveFilters.addEventListener("click", () => {
     directiveSearch.value = "";
     directiveSeriesFilter.value = "";
-    directiveLaneFilter.value = "";
+    directivePeriodFilter.value = "";
     renderDirectives();
     directiveSearch.focus();
   });
 
   clearPeopleFilters.addEventListener("click", () => {
     peopleSearch.value = "";
-    peopleLaneFilter.value = "";
+    peoplePeriodFilter.value = "";
     peopleRoleFilter.value = "";
     renderPeople();
     peopleSearch.focus();
@@ -2006,7 +2071,7 @@ function bindEvents() {
   exportRecords.addEventListener("click", () => {
     exportCsv("clinton-foundations-records.csv", filteredRecords(), [
       { label: "title", value: (row) => row.title },
-      { label: "lane", value: (row) => laneTitle(row.lane) },
+      { label: "period", value: (row) => periodTitleForValue(row.date) },
       { label: "priority", value: (row) => row.priority },
       { label: "date", value: (row) => row.date },
       { label: "identifier", value: (row) => row.identifier },
@@ -2020,7 +2085,7 @@ function bindEvents() {
   exportStatements.addEventListener("click", () => {
     exportCsv("clinton-foundations-statements.csv", filteredStatements(), [
       { label: "title", value: (row) => row.title },
-      { label: "lane", value: (row) => laneTitle(row.lane) },
+      { label: "period", value: (row) => periodTitleForValue(row.date) },
       { label: "date", value: (row) => row.date },
       { label: "source", value: (row) => row.sourceRepository },
       { label: "identifier", value: (row) => row.identifier },
@@ -2033,7 +2098,7 @@ function bindEvents() {
     exportCsv("clinton-foundations-persons.csv", filteredPeople(), [
       { label: "name", value: (row) => row.name },
       { label: "role", value: (row) => row.role },
-      { label: "lane", value: (row) => laneTitle(row.lane) },
+      { label: "period", value: (row) => periodTitleForValue(row.years) },
       { label: "years", value: (row) => row.years },
       { label: "source", value: (row) => row.source },
       { label: "note", value: (row) => row.note }
@@ -2043,7 +2108,7 @@ function bindEvents() {
 
 setStats();
 populateFilters();
-renderLanes();
+renderChronology();
 renderDocumentTypes();
 renderLeads();
 renderRecords();

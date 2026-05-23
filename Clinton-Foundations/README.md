@@ -8,7 +8,7 @@ so the page is built as a compiler-facing workbench rather than a published
 document edition. It gathers:
 
 - official FRUS status and subseries anchors
-- provisional compiler lanes
+- chronological volume structure
 - searchable source leads
 - precedent document-type cards based on the Nixon/Ford, Carter, and Reagan Foundations volumes
 - candidate record and file-unit leads

@@ -14,7 +14,7 @@ Foundations of Foreign Policy*.
 
 | Risk | Status | Treatment |
 | --- | --- | --- |
-| No public official chapter outline | Open | Keep all lanes provisional and clearly label them as compiler aids. |
+| No public official chapter outline | Open | Keep chronological period headings provisional and clearly label them as compiler aids. |
 | Public doctrine over internal evidence | Critical | Pair speeches and strategy reports with draft files, clearance comments, policy memoranda, and diary controls. |
 | PRD/PDD source-note uncertainty | Open | Use the Clinton Library directive index as a locator, then pull exact released text or source packets. |
 | Adjacent-volume overlap | Open | Promote only doctrine, process, and broad policy-framing records; hand off implementation records to regional/functional volumes. |
