@@ -9,6 +9,7 @@ document edition. It gathers:
 
 - official FRUS status and subseries anchors
 - chronological volume structure
+- Clinton Library reading-room pull clusters from 2013-0185-M finding aids
 - searchable source leads
 - precedent document-type cards based on the Nixon/Ford, Carter, and Reagan Foundations volumes
 - candidate record and file-unit leads
@@ -25,6 +26,16 @@ document edition. It gathers:
 - `app.js`: source data, filters, rendering, gap board, and CSV exports
 - `assets/foundations-source-map.svg`: source map visual
 - `reports/compiler-gap-analysis.md`: source-gap treatment report
+
+## Local Finding Aids Incorporated
+
+The Library Sprint section incorporates the supplied local PDFs
+`2013-0185-M_Part1.pdf` through `2013-0185-M_Part4.pdf`. These are not copied
+into the repository. They are used as folder-title intelligence for a reading
+room pull order: directives and PRS chronologies, speechwriting drafts, NATO
+and Europe files, UN and multilateral files, senior-principal process records,
+global economy folders, transnational-threat records, and press/backgrounder
+support files.
 
 ## Primary Anchors
 

@@ -23,14 +23,15 @@ Foundations of Foreign Policy*.
 
 ## Priority Pull List
 
-1. NSC Records Management Office, NAID 7388808: PRS/RMS files for PDD-1, PDD-2, PRD-35, PRD-26, PDD-25, PDD-39, PDD-42, PDD-63, and PDD-68.
-2. NSC Executive Secretary, NAID 7386739: subject files and routing records around national security strategy and interagency policy review.
-3. NSC Speechwriting Office, NAID 7388842: Lake enlargement speech, UNGA 1993, State of the Union foreign-policy sections, UN 50th anniversary, and second-term new-century speeches.
-4. Blinken files, 2006-0459-F: draft chains for Lake, Berger, Steinberg, State of the Union, UNGA, and foreign-policy theme memos.
-5. Boorstin files, 2006-0460-F: first-term Clinton/Lake/Berger/Christopher speech drafts and UN 50th anniversary folders.
-6. Widmer files, 2006-0471-F: second-term foreign-policy speech drafts and presidential revision traces.
-7. P.J. Crowley Press and Communications collection: first-year public framing and press guidance.
-8. Presidential Daily Diary, NAID 101784492: chronology control for the public doctrine events and strategy meetings.
+1. Clinton Library 2013-0185-M, Parts 1-4: use the Library Sprint pull clusters for OA/ID-level reading-room requests before broader box review.
+2. NSC Records Management Office, NAID 7388808: PRS/RMS files for PDD-1, PDD-2, PRD-35, PRD-26, PDD-25, PDD-39, PDD-42, PDD-63, and PDD-68.
+3. NSC Executive Secretary, NAID 7386739: subject files and routing records around national security strategy and interagency policy review.
+4. NSC Speechwriting Office, NAID 7388842: Lake enlargement speech, UNGA 1993, State of the Union foreign-policy sections, UN 50th anniversary, and second-term new-century speeches.
+5. Blinken files, 2006-0459-F: draft chains for Lake, Berger, Steinberg, State of the Union, UNGA, and foreign-policy theme memos.
+6. Boorstin files, 2006-0460-F: first-term Clinton/Lake/Berger/Christopher speech drafts and UN 50th anniversary folders.
+7. Widmer files, 2006-0471-F: second-term foreign-policy speech drafts and presidential revision traces.
+8. P.J. Crowley Press and Communications collection: first-year public framing and press guidance.
+9. Presidential Daily Diary, NAID 101784492: chronology control for the public doctrine events and strategy meetings.
 
 ## Precedent Document Types
 

@@ -454,6 +454,113 @@ const documentTypes = [
   }
 ];
 
+const libraryPulls = [
+  {
+    rank: "01",
+    title: "Directive And Chronology Spine",
+    source: "2013-0185-M Part 3",
+    priority: "Start here",
+    oaids: ["4116A", "4118-4120", "4122", "2268-2338", "3221-3248", "3956-3960"],
+    folders:
+      "PDD-1, PDD-2, PDD-39, PDD-42, PDD-56, PDD-62, PDD-63, PDD-68, PRD-1, NS Files, IFG Files, PRS Chrons.",
+    why:
+      "This gives the compiler the official process spine, directive sequence, and PRS chronology needed before judging speech or strategy files.",
+    onsite:
+      "Request PDD-1/PDD-2 first, then sample PDD-56/PDD-62/PDD-63/PDD-68 and the PRS chron ranges around promoted documents."
+  },
+  {
+    rank: "02",
+    title: "Speechwriting Doctrine Trail",
+    source: "2013-0185-M Part 4",
+    priority: "High yield",
+    oaids: ["1850-1851", "1846-1849", "3378-3389", "2190-2191"],
+    folders:
+      "National Security Strategy, Tony Lake resources speech, NATO Enlargement, POTUS UNGA 1997, APEC, E.U. Summit, Widmer NSC/NATO/Steinberg files.",
+    why:
+      "These folders can connect public doctrine to drafts, clearance notes, principal edits, and talking points.",
+    onsite:
+      "Photograph folder title pages and pull three samples per speech: earliest draft, marked-up draft, and final/press version."
+  },
+  {
+    rank: "03",
+    title: "NATO And European Security Sequence",
+    source: "2013-0185-M Parts 1-3",
+    priority: "High yield",
+    oaids: ["888-891", "899-911", "1017", "1505-1509", "1719-1722", "1841-1842"],
+    folders:
+      "European Security/NATO Expansion, NATO-Russia, Lake/Berger meeting papers, Enlargement, NATO Summit, MAP, Open Door, Summit Agenda Working Papers.",
+    why:
+      "This is the best Clinton Library path for distinguishing foundational alliance doctrine from Europe/NATO implementation.",
+    onsite:
+      "Start with meeting papers, key papers, talking points, and summit working papers; leave country implementation files for topical volumes."
+  },
+  {
+    rank: "04",
+    title: "UN, Multilateral, And Global Governance",
+    source: "2013-0185-M Parts 3-4",
+    priority: "High yield",
+    oaids: ["2461-2462", "2826-2827", "3451-3452", "3904", "809-817", "1393"],
+    folders:
+      "POTUS UNGA visits, U.N. arrears/reform, PDDs, internal conflict and state collapse, Security Council, UNGA briefing books, Soderberg U.N. reform memos.",
+    why:
+      "These files can anchor the institutions and global-governance part of the chronology with briefing books and interagency evidence.",
+    onsite:
+      "Pull UNGA briefing books beside Wilcox and Soderberg files; capture whether the file contains briefing tabs, draft remarks, or decision memoranda."
+  },
+  {
+    rank: "05",
+    title: "Senior Principal Process Files",
+    source: "2013-0185-M Parts 3-4",
+    priority: "Decision record",
+    oaids: ["1385-1388", "1393-1394", "1466", "1479-1481"],
+    folders:
+      "Lake hearing preparation, Soderberg chron files and PC/DC notes, U.N. reform memoranda, Lake NSC staff meetings, Berger foreign-policy breakfast, notes, calls, and schedules.",
+    why:
+      "These are the best bet for moving beyond public text into high-level process and decision context.",
+    onsite:
+      "Prioritize notes, policy materials, staff meeting records, PC/DC notes, and any documents with presidential or national security advisor routing."
+  },
+  {
+    rank: "06",
+    title: "Global Economy, Trade, And Open Markets",
+    source: "2013-0185-M Parts 3-4",
+    priority: "Cross-cutting",
+    oaids: ["3384", "3379", "3381", "3389", "3380", "422-424", "1401", "1416-1419", "1479", "1493", "4159"],
+    folders:
+      "APEC, WTO, G-7/G-8, IMF/World Bank, debt relief, PNTR, E.U. summit, trade language, APEC communications plan, Berger and Steinberg economic summit files.",
+    why:
+      "The foundations volume needs economic statecraft as doctrine, not only as trade implementation.",
+    onsite:
+      "Sample materials that connect markets and domestic renewal to security strategy; de-prioritize routine bilateral trade folders."
+  },
+  {
+    rank: "07",
+    title: "Transnational Threats And New-Century Frame",
+    source: "2013-0185-M Parts 3-4",
+    priority: "Late-term",
+    oaids: ["4120", "1760", "2239", "3187-3189", "3928", "4051", "7234+"],
+    folders:
+      "PDD-62, PDD-63, PDD-68, Transnational Threats chron files, G-8/Lyon Group, Global Taskings, Global Work Program, cyber and WTO/protest-adjacent files.",
+    why:
+      "These folders show how the volume can close with terrorism, infrastructure, cyber, crime, and public information as new-century themes.",
+    onsite:
+      "Use this as a second-day pull unless directive and speechwriting files already confirm the late-term frame."
+  },
+  {
+    rank: "08",
+    title: "Press, Backgrounders, And Communications Control",
+    source: "2013-0185-M Part 3",
+    priority: "Source-note support",
+    oaids: ["103106", "3297", "3303", "4153"],
+    folders:
+      "NSC meeting, PDDs/PRDs, U.N. arrears communications plan, Berger influentials meeting memos, press and public-affairs files.",
+    why:
+      "These are useful for background briefings, rollout mechanics, and triangulating public doctrine with communications guidance.",
+    onsite:
+      "Pull only when a speech, directive, or meeting file needs public-rollout context; mark as support evidence, not the main documentary spine."
+  }
+];
+
 const records = [
   {
     title: "PDD-1 - Establishment of Presidential Review and Decision Series",
@@ -1292,6 +1399,7 @@ const periodById = new Map(chronologyPeriods.map((period) => [period.id, period]
 
 const leadCount = document.querySelector("#lead-count");
 const periodCount = document.querySelector("#period-count");
+const libraryCount = document.querySelector("#library-count");
 const recordCount = document.querySelector("#record-count");
 const statementCount = document.querySelector("#statement-count");
 const directiveCount = document.querySelector("#directive-count");
@@ -1300,6 +1408,7 @@ const milestoneCount = document.querySelector("#milestone-count");
 const gapCount = document.querySelector("#gap-count");
 
 const periodsRoot = document.querySelector("#periods-root");
+const libraryRoot = document.querySelector("#library-root");
 const leadsRoot = document.querySelector("#leads-root");
 const recordsRoot = document.querySelector("#records-root");
 const statementsRoot = document.querySelector("#statements-root");
@@ -1451,6 +1560,7 @@ function chronologicalSort(a, b) {
 function setStats() {
   leadCount.textContent = sourceLeads.length.toString();
   periodCount.textContent = chronologyPeriods.length.toString();
+  libraryCount.textContent = libraryPulls.length.toString();
   recordCount.textContent = records.length.toString();
   statementCount.textContent = statements.length.toString();
   directiveCount.textContent = directives.length.toString();
@@ -1534,6 +1644,54 @@ function renderChronology() {
   });
 
   periodsRoot.replaceChildren(...cards);
+}
+
+function renderLibraryPulls() {
+  const cards = libraryPulls.map((pull) => {
+    const card = document.createElement("article");
+    card.className = "library-card";
+
+    const header = document.createElement("div");
+    header.className = "library-card-header";
+
+    const rank = document.createElement("strong");
+    rank.textContent = pull.rank;
+
+    const titleWrap = document.createElement("div");
+    const label = document.createElement("p");
+    label.className = "record-type";
+    label.textContent = `${pull.priority} / ${pull.source}`;
+    const title = document.createElement("h3");
+    title.textContent = pull.title;
+    titleWrap.append(label, title);
+    header.append(rank, titleWrap);
+
+    const oaids = document.createElement("p");
+    oaids.className = "library-oaids";
+    oaids.textContent = `OA/ID pull list: ${pull.oaids.join(", ")}`;
+
+    const folders = document.createElement("p");
+    folders.textContent = `Folder targets: ${pull.folders}`;
+
+    const why = document.createElement("p");
+    why.className = "risk-note";
+    why.textContent = `Why it earns time: ${pull.why}`;
+
+    const onsite = document.createElement("p");
+    onsite.className = "library-onsite";
+    onsite.textContent = `Reading-room move: ${pull.onsite}`;
+
+    const tags = document.createElement("div");
+    tags.className = "item-tags";
+    tags.append(makeChip(pull.priority, "priority-chip"));
+    tags.append(makeChip(pull.source));
+    for (const id of pull.oaids.slice(0, 3)) tags.append(makeChip(id));
+
+    card.append(header, oaids, folders, why, onsite, tags);
+    return card;
+  });
+
+  libraryRoot.replaceChildren(...cards);
 }
 
 function renderDocumentTypes() {
@@ -2109,6 +2267,7 @@ function bindEvents() {
 setStats();
 populateFilters();
 renderChronology();
+renderLibraryPulls();
 renderDocumentTypes();
 renderLeads();
 renderRecords();
