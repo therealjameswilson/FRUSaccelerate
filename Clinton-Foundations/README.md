@@ -13,6 +13,7 @@ document edition. It gathers:
 - searchable source leads
 - precedent document-type cards based on the Nixon/Ford, Carter, and Reagan Foundations volumes
 - candidate record and file-unit leads
+- FRUS-style source-note targets for candidate records
 - public statement anchors
 - PRD/PDD directive tracking
 - person-list seed data
@@ -36,6 +37,14 @@ room pull order: directives and PRS chronologies, speechwriting drafts, NATO
 and Europe files, UN and multilateral files, senior-principal process records,
 global economy folders, transnational-threat records, and press/backgrounder
 support files.
+
+## Source Notes
+
+Candidate records carry provisional `Source:` notes shaped after FRUS practice:
+repository, collection or office, file unit or directive, date when known, then
+classification/copy/version or verification status. Folder-level Clinton
+Library leads remain explicitly provisional until an item-level pull supplies
+box, folder, date, markings, and release status.
 
 ## Primary Anchors
 

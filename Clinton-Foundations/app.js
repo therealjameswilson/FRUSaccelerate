@@ -573,6 +573,8 @@ const records = [
     sourceUrl: "https://www.clintonlibrary.gov/research/presidential-directives",
     summary:
       "Foundational source for the new Clinton PRD/PDD system and for explaining why early 1993 review directives matter to Volume I.",
+    sourceNote:
+      "Source: Clinton Presidential Library, Presidential Directives, PDD-1, Establishment of Presidential Review and Decision Series, January 20, 1993. Public directive index; released text, classification marking, and copy status to be verified.",
     risk: "Use the public index as locator only; pull released text or source folder before quoting."
   },
   {
@@ -586,6 +588,8 @@ const records = [
     sourceUrl: "https://www.clintonlibrary.gov/research/presidential-directives",
     summary:
       "Core source for the administration's NSC structure, interagency process, and how national-security decisions moved through the White House.",
+    sourceNote:
+      "Source: Clinton Presidential Library, Presidential Directives, PDD-2, Organization of the National Security Council, January 20, 1993. Public directive index; pull NSC Executive Secretary or Records Management copy for final classification and distribution details.",
     risk: "Needs comparison with NSC Executive Secretary and Records Management files for implementation evidence."
   },
   {
@@ -599,6 +603,8 @@ const records = [
     sourceUrl: "https://www.clintonlibrary.gov/research/presidential-directives",
     summary:
       "Likely bridge between early policy review machinery and the 1994 National Security Strategy of Engagement and Enlargement.",
+    sourceNote:
+      "Source: Clinton Presidential Library, Presidential Directives, PRD-35, National Security Review - Strategy, June 11, 1993. Public directive index; source packet, drafting office, and distribution status to be verified.",
     risk: "The public index lists the directive, but the release/source packet needs exact pull verification."
   },
   {
@@ -613,6 +619,8 @@ const records = [
     alternateUrl: "https://www.globalsecurity.org/wmd/library/news/usa/1993/usa-930921.htm",
     summary:
       "Signature public doctrine event for the shift from containment to enlargement. The Blinken finding aid lists Lake enlargement files that can connect public text to draft evidence.",
+    sourceNote:
+      "Source: Clinton Presidential Library, Records of the National Security Council, Speechwriting Office, Antony 'Tony' Blinken Files, OA/ID 3386, Lake, From Containment to Enlargement. Public text available separately; draft date, classification marking, and clearance markings to be verified.",
     risk: "Treat GlobalSecurity text as public copy; use Clinton Library folder provenance for source-note confidence."
   },
   {
@@ -626,6 +634,8 @@ const records = [
     sourceUrl: "https://clintonwhitehouse6.archives.gov/1993/09/1993-09-27-presidents-address-to-the-un.html",
     summary:
       "Early public articulation of the administration's post-Cold War foreign-policy themes before the UN.",
+    sourceNote:
+      "Source: Public Papers: Clinton, 1993, page citation to be supplied; also available at the archived White House website. Public speech; match against NSC Speechwriting drafts and clearance notes before promotion.",
     risk: "Needs matching NSC speechwriting draft, clearance notes, or briefing papers."
   },
   {
@@ -639,6 +649,8 @@ const records = [
     sourceUrl: "https://history.defense.gov/Portals/70/Documents/nss/nss1994.pdf",
     summary:
       "First Clinton-era National Security Strategy report and the central published doctrine baseline for Volume I.",
+    sourceNote:
+      "Source: The White House, A National Security Strategy of Engagement and Enlargement, July 1994. Published strategy paper; internal NSC drafting, review, and clearance file to be supplied for archival source note.",
     risk: "Needs internal drafting and policy-review trail before becoming more than a published baseline."
   },
   {
@@ -652,6 +664,8 @@ const records = [
     sourceUrl: "https://history.defense.gov/Portals/70/Documents/nss/nss1995.pdf",
     summary:
       "Follow-on published strategy that can be compared against 1994 language to identify continuity and adjustment.",
+    sourceNote:
+      "Source: The White House, A National Security Strategy of Engagement and Enlargement, February 1995. Published strategy paper; draft record and interagency comment trail to be supplied.",
     risk: "Draft record and interagency comment trail still need source discovery."
   },
   {
@@ -665,6 +679,8 @@ const records = [
     sourceUrl: "https://history.defense.gov/Portals/70/Documents/nss/nss1996.pdf",
     summary:
       "Late-first-term strategy report useful for showing how enlargement, trade, democracy promotion, and new threats were carried into the 1996 election year.",
+    sourceNote:
+      "Source: The White House, A National Security Strategy of Engagement and Enlargement, February 1996. Published strategy paper; internal policy-selection records to be supplied before final document selection.",
     risk: "Do not overuse published language without internal policy-selection records."
   },
   {
@@ -678,6 +694,8 @@ const records = [
     sourceUrl: "https://clintonwhitehouse3.archives.gov/WH/EOP/NSC/Strategy/",
     summary:
       "Second-term strategy marker for moving from enlargement language toward integration, globalization, and new-century architecture.",
+    sourceNote:
+      "Source: The White House, A National Security Strategy for a New Century, May 1997. Published strategy paper; NSC drafting and clearance file to be supplied for FRUS source-note treatment.",
     risk: "Needs source trail for drafting and review; public web text is not itself a decision file."
   },
   {
@@ -691,6 +709,8 @@ const records = [
     sourceUrl: "https://www.loc.gov/item/2023693030/",
     summary:
       "Late-administration published strategy with formal bibliographic metadata, useful for the volume's concluding frame.",
+    sourceNote:
+      "Source: The White House, A National Security Strategy for a New Century, December 1999. Published strategy paper; Library of Congress copy supplies public metadata pending NSC drafting file review.",
     risk: "Use as public baseline; pull NSC/White House drafting records for compiler use."
   },
   {
@@ -704,6 +724,8 @@ const records = [
     sourceUrl: "https://www.clintonlibrary.gov/research/archives/finding-aids/2006-0460-f-robert-o-boorstin-nsc-speechwriter",
     summary:
       "Folder lead for UN 50th anniversary drafts, briefings, background articles, and public doctrine around reforming or renewing postwar institutions.",
+    sourceNote:
+      "Source: Clinton Presidential Library, Records of the National Security Council, Speechwriting Office, Robert O. Boorstin Files, 2006-0460-F, OA/ID 424, UN 50th anniversary speech drafts. Finding-aid folder lead; document-level date, classification marking, and copy status to be verified.",
     risk: "Folder-level lead only; document-level page counts and exact draft dates are pending."
   },
   {
@@ -717,6 +739,8 @@ const records = [
     sourceUrl: "https://www.clintonlibrary.gov/research/archives/finding-aids/2006-0459-f-antony-tony-blinken-nsc-speechwriter",
     summary:
       "Foreign-policy sections and theme memos for State of the Union drafting, useful for public-case evolution and presidential edits.",
+    sourceNote:
+      "Source: Clinton Presidential Library, Records of the National Security Council, Speechwriting Office, Antony 'Tony' Blinken Files, 2006-0459-F, OA/IDs 3387-3389, State of the Union foreign-policy sections. Finding-aid folder lead; item-level date, version, and clearance notes to be verified.",
     risk: "Needs item-level review to separate speech packaging from substantive NSC edits."
   },
   {
@@ -730,6 +754,8 @@ const records = [
     sourceUrl: "https://www.clintonlibrary.gov/research/presidential-directives",
     summary:
       "High-value use-of-force and peacekeeping policy anchor, but detailed Somalia, Haiti, Bosnia, or Rwanda records should remain in topical volumes.",
+    sourceNote:
+      "Source: Clinton Presidential Library, Presidential Directives, PDD-25, U.S. Policy on Reforming Multilateral Peace Operations, May 3, 1994. Public directive index; released text, classification marking, and review file to be verified.",
     risk: "Volume I should select only the doctrine-setting record or review trail."
   },
   {
@@ -743,6 +769,8 @@ const records = [
     sourceUrl: "https://www.clintonlibrary.gov/research/presidential-directives",
     summary:
       "Key review directive for democracy promotion as a broad foreign-policy instrument.",
+    sourceNote:
+      "Source: Clinton Presidential Library, Presidential Directives, PRD-26, Democracy Programs, April 13, 1993. Public directive index; responsible office files and release status to be verified.",
     risk: "Needs released text or responsible office files before source-note promotion."
   },
   {
@@ -756,6 +784,8 @@ const records = [
     sourceUrl: "https://www.clintonlibrary.gov/research/presidential-directives",
     summary:
       "Broad policy anchor for counterterrorism and international organized crime as post-Cold War transnational threats.",
+    sourceNote:
+      "Source: Clinton Presidential Library, Presidential Directives, PDD-39 and PDD-42, June-October 1995. Public directive index; final source note requires released text, exact directive title, classification marking, and implementation-file boundary.",
     risk: "Detailed implementation belongs to counterterrorism, narcotics, law-enforcement, or global-issues volumes."
   },
   {
@@ -769,6 +799,8 @@ const records = [
     sourceUrl: "https://www.clintonlibrary.gov/research/presidential-directives",
     summary:
       "Late-term marker for new security categories, cyber/infrastructure vulnerability, and the globalization handoff.",
+    sourceNote:
+      "Source: Clinton Presidential Library, Presidential Directives, PDD-63, Critical Infrastructure Protection, May 20, 1998. Public directive index; source packet and declassification status to be verified.",
     risk: "Use sparingly unless internal records show it shaped the administration's foundational narrative."
   },
   {
@@ -782,6 +814,8 @@ const records = [
     sourceUrl: "https://www.clintonlibrary.gov/research/archives/finding-aids/edward-ted-widmer-nsc-speechwriter",
     summary:
       "Second-term speech drafts and revisions, including globalization-era themes and presidential edits.",
+    sourceNote:
+      "Source: Clinton Presidential Library, Records of the National Security Council, Speechwriting Office, Edward 'Ted' Widmer Files, 2006-0471-F. Finding-aid collection lead; pull folder titles, item dates, and version markings before drafting final source note.",
     risk: "Needs sample pull before it can support claims about presidential revision patterns."
   },
   {
@@ -795,6 +829,8 @@ const records = [
     sourceUrl: "https://catalog.archives.gov/id/101784492",
     summary:
       "Control source for dating doctrine speeches, NSC meetings, summit travel, and public events before aligning drafts and released remarks.",
+    sourceNote:
+      "Source: National Archives Catalog, Presidential Daily Diary Collection, NAID 101784492. Chronology-control source; use to date events unless paired with a substantive memorandum, speech draft, or meeting record.",
     risk: "Schedule entries are not decision records; use them to verify chronology and event context."
   }
 ];
@@ -1797,6 +1833,7 @@ function filteredRecords() {
         "date",
         "identifier",
         "summary",
+        "sourceNote",
         "risk"
       ]).includes(query) ||
       topicTitle(item.lane).toLowerCase().includes(query)
@@ -1825,6 +1862,7 @@ function renderRecords() {
       period: periodTitleForValue(item.date),
       side: [item.priority, item.date, item.identifier],
       tags: [item.sourceType, item.sourceRepository],
+      sourceNote: item.sourceNote,
       risk: item.risk
     })
   );
@@ -2112,6 +2150,12 @@ function renderItemCard(config) {
   for (const tag of config.tags || []) tags.append(makeChip(tag));
 
   main.append(type, title, summary);
+  if (config.sourceNote) {
+    const sourceNote = document.createElement("p");
+    sourceNote.className = "source-note";
+    sourceNote.textContent = config.sourceNote;
+    main.append(sourceNote);
+  }
   if (config.risk) {
     const risk = document.createElement("p");
     risk.className = "risk-note";
@@ -2236,6 +2280,7 @@ function bindEvents() {
       { label: "source", value: (row) => row.sourceRepository },
       { label: "url", value: (row) => row.sourceUrl },
       { label: "summary", value: (row) => row.summary },
+      { label: "source_note", value: (row) => row.sourceNote },
       { label: "risk", value: (row) => row.risk }
     ]);
   });

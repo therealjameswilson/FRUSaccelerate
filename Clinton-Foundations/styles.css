@@ -631,6 +631,15 @@ dd {
   color: var(--red);
 }
 
+.source-note {
+  padding: 12px 14px;
+  color: #263440;
+  background: rgba(238, 231, 211, 0.48);
+  border: 1px solid rgba(202, 190, 157, 0.72);
+  border-radius: 8px;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
 .item-tags {
   margin-top: 12px;
 }

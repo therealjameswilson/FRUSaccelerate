@@ -33,6 +33,29 @@ Foundations of Foreign Policy*.
 8. P.J. Crowley Press and Communications collection: first-year public framing and press guidance.
 9. Presidential Daily Diary, NAID 101784492: chronology control for the public doctrine events and strategy meetings.
 
+## Source-Note Style Check
+
+The candidate-record cards now use FRUS-style source-note targets. The working
+pattern is: `Source:` repository, collection or office, file unit or directive,
+date when known; then classification, distribution, copy status, drafting, or
+verification status. Precedent checks:
+
+- FRUS 1977-1980, Volume I, Document 5 leads its source note with the Carter
+  Library, donated-material collection, file, box, chron folder, and
+  classification status.
+- FRUS 1981-1988, Volume I, Document 36 leads with the Department of State
+  Executive Secretariat file, lot number, chron folder, classification, drafter,
+  and copy status.
+- FRUS 1969-1976, Volume XXXVIII, Part 1, Document 1 leads with National
+  Archives/Nixon Presidential Materials, office files, box, folder,
+  classification, and copy status.
+
+For Clinton candidates, final source notes must not be treated as finished
+until a document-level pull supplies exact folder, date, classification,
+copy/version, and release-status information. Public indexes, archived web
+texts, and finding aids remain locators unless paired with the underlying
+record.
+
 ## Precedent Document Types
 
 Previous Foundations and Nixon-Ford companion volumes broaden the candidate
