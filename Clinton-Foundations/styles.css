@@ -342,6 +342,7 @@ dd {
 .period-card,
 .library-card,
 .diary-card,
+.doc-chrono-row,
 .item-card,
 .milestone-card,
 .gap-card,
@@ -379,6 +380,57 @@ dd {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 14px;
+}
+
+.document-chronology {
+  display: grid;
+  gap: 12px;
+}
+
+.doc-chrono-row {
+  display: grid;
+  grid-template-columns: 142px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  padding: 18px 20px;
+  border-left: 5px solid var(--green);
+}
+
+.doc-chrono-date {
+  color: var(--green);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.22rem;
+  font-weight: 850;
+  line-height: 1.18;
+}
+
+.doc-chrono-body {
+  display: grid;
+  gap: 10px;
+}
+
+.doc-chrono-body h3,
+.doc-chrono-body p {
+  margin: 0;
+}
+
+.doc-chrono-body > p:not(.record-type, .source-note, .risk-note) {
+  color: #46525d;
+  line-height: 1.54;
+}
+
+.doc-chrono-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.doc-chrono-meta a {
+  color: var(--navy);
+  font-weight: 850;
+  text-decoration-color: rgba(32, 51, 76, 0.35);
+  text-underline-offset: 3px;
 }
 
 .library-method,
@@ -652,7 +704,8 @@ dd {
 
 .item-card a,
 .source-list a,
-.milestone-card a {
+.milestone-card a,
+.doc-chrono-meta a {
   color: var(--navy);
   font-weight: 850;
   text-decoration-color: rgba(32, 51, 76, 0.35);
@@ -664,7 +717,9 @@ dd {
 .source-list a:hover,
 .source-list a:focus-visible,
 .milestone-card a:hover,
-.milestone-card a:focus-visible {
+.milestone-card a:focus-visible,
+.doc-chrono-meta a:hover,
+.doc-chrono-meta a:focus-visible {
   color: var(--red);
   outline: none;
 }
@@ -1021,6 +1076,7 @@ dd {
   .statement-card,
   .directive-card,
   .diary-card-header,
+  .doc-chrono-row,
   .milestone-card,
   .checklist li {
     grid-template-columns: 1fr;

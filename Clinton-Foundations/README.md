@@ -8,6 +8,7 @@ so the page is built as a compiler-facing workbench rather than a published
 document edition. It gathers:
 
 - official FRUS status and subseries anchors
+- a chronology-first section for released, declassified, and publicly accessible document controls
 - chronological volume structure
 - Clinton Library reading-room pull clusters from 2013-0185-M finding aids
 - Presidential Daily Diary references from the NARA 2010-0083-F search set
@@ -80,6 +81,12 @@ Volume I is treated as a doctrine and process volume: engagement and
 enlargement, national security strategy, public doctrine, NSC directive
 machinery, democracy and markets, institutions and alliances, use-of-force
 rules, transnational threats, and second-term globalization handoff.
+
+The page now leads with document chronology. That section is intentionally
+ordered by date before office, topic, or record type, so a compiler can see the
+sequence of released/declassified controls first: PRD/PDD anchors, Daily Diary
+file units, public strategy papers, speech draft trails, and late-term handoff
+records.
 
 The largest risk is over-collection. NATO, Russia, Balkans, arms control,
 counterterrorism, economic policy, and global-issues implementation records
