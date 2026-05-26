@@ -31,7 +31,27 @@ Foundations of Foreign Policy*.
 6. Boorstin files, 2006-0460-F: first-term Clinton/Lake/Berger/Christopher speech drafts and UN 50th anniversary folders.
 7. Widmer files, 2006-0471-F: second-term foreign-policy speech drafts and presidential revision traces.
 8. P.J. Crowley Press and Communications collection: first-year public framing and press guidance.
-9. Presidential Daily Diary, NAID 101784492: chronology control for the public doctrine events and strategy meetings.
+9. Presidential Daily Diary, NAID 101784492, and the NARA Catalog `2010-0083-F` search set: chronology control for public doctrine events, calls, strategy meetings, and summit preparation.
+
+## Presidential Daily Diary Search Pass
+
+The NARA Catalog search for `2010-0083-F` within Clinton records returned 59
+online Presidential Daily Diary file units. The page now promotes selected
+entries only as chronology controls. High-yield items to reconcile against
+substantive records are:
+
+- January 22-26, 1993: first intelligence/national security briefings, Lake/Berger meetings, and early Yeltsin, Rabin, and Kravchuk call controls, NAID 147870741.
+- February 10, 1993: Yeltsin, Major, Kohl, and Boutros-Ghali conference calls inside a Soderberg/Hall staff block, NAID 17367481.
+- April 6, 1993: Vancouver and G-7 summit briefing with senior national security and economic-policy attendees, NAID 17367492.
+- September 21, 1993: Lake enlargement speech-day briefing and speech/planning meeting controls, NAID 17367517.
+- October-November 1993: NATO Secretary General Woerner meeting and APEC/NAFTA public-case controls, NAID 17368174.
+- January-April 1994: NATO summit preparation, denuclearization ceremony, and Bosnia/NATO foreign-policy meeting controls, NAIDs 147870783 and 147870795.
+- August 1997, March 1998, April 1999, and July-September 2000: second-term foreign-policy meeting, Berger call, G-7/G-8, Putin, UN Millennium, and Strategic Stability sequence controls, NAIDs 17368185, 147870907, 17368193, and 17368201.
+
+Diary entries should be cited in working notes as source-trail evidence:
+repository, collection/office, diary file unit, NAID, date, and schedule-control
+status. They should not become final FRUS documentary evidence without a
+corresponding substantive record.
 
 ## Source-Note Style Check
 

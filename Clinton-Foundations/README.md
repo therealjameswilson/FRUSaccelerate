@@ -10,6 +10,7 @@ document edition. It gathers:
 - official FRUS status and subseries anchors
 - chronological volume structure
 - Clinton Library reading-room pull clusters from 2013-0185-M finding aids
+- Presidential Daily Diary references from the NARA 2010-0083-F search set
 - searchable source leads
 - precedent document-type cards based on the Nixon/Ford, Carter, and Reagan Foundations volumes
 - candidate record and file-unit leads
@@ -46,6 +47,17 @@ classification/copy/version or verification status. Folder-level Clinton
 Library leads remain explicitly provisional until an item-level pull supplies
 box, folder, date, markings, and release status.
 
+## Presidential Daily Diary Search
+
+The Daily Diary section incorporates the NARA Catalog search for
+`2010-0083-F` under `collectionIdentifier=WJC*`. The search set returned 59
+online file units. The page uses selected calls, meetings, briefings, summit
+preparations, and public-event controls only as chronology and source-trail
+evidence. Each entry points to an item-level Catalog record and includes a
+FRUS-style provisional source note; a diary entry still needs a paired call
+transcript, memorandum of conversation, meeting paper, speech draft, or Public
+Papers text before it can support final document selection.
+
 ## Primary Anchors
 
 - <https://history.state.gov/historicaldocuments/frus1993-00v01>
@@ -55,6 +67,7 @@ box, folder, date, markings, and release status.
 - <https://clinton.presidentiallibraries.us/collections/show/27>
 - <https://catalog.archives.gov/id/7388808>
 - <https://catalog.archives.gov/id/7388842>
+- <https://catalog.archives.gov/search?q=%222010-0083-F%22&collectionIdentifier=WJC*>
 - <https://history.defense.gov/Historical-Sources/National-Security-Strategy/lang/en/>
 - <https://history.state.gov/historicaldocuments/frus1969-76v01>
 - <https://history.state.gov/historicaldocuments/frus1969-76v38p1>

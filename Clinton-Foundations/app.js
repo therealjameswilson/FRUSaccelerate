@@ -250,6 +250,19 @@ const sourceLeads = [
     tags: ["chronology", "daily diary", "schedule"]
   },
   {
+    title: "Presidential Daily Diary 2010-0083-F online file-unit search",
+    institution: "National Archives Catalog",
+    lane: "volume-control",
+    type: "File-unit result set",
+    priority: "High",
+    date: "1993-2000",
+    identifier: "2010-0083-F / WJC*",
+    url: "https://catalog.archives.gov/search?q=%222010-0083-F%22&collectionIdentifier=WJC*",
+    note:
+      "NARA Catalog search set used for this page's Daily Diary section. The result set supplied 59 online file units to check calls, meetings, briefings, summit preparation, and doctrine-event chronology.",
+    tags: ["2010-0083-F", "daily diary", "chronology"]
+  },
+  {
     title: "Records of the NSC Executive Secretary",
     institution: "National Archives Catalog",
     lane: "directives",
@@ -558,6 +571,260 @@ const libraryPulls = [
       "These are useful for background briefings, rollout mechanics, and triangulating public doctrine with communications guidance.",
     onsite:
       "Pull only when a speech, directive, or meeting file needs public-rollout context; mark as support evidence, not the main documentary spine."
+  }
+];
+
+const dailyDiaryReferences = [
+  {
+    date: "1993-01-22",
+    title: "Opening intelligence and national security briefings",
+    type: "Briefings",
+    naid: "147870741",
+    catalogTitle: "[01/20/1993-01/31/1993]",
+    url: "https://catalog.archives.gov/id/147870741",
+    entries: [
+      "9:25-9:30 intelligence briefing with CIA briefers, McLarty, Tony Lake, and Sandy Berger.",
+      "9:30-9:50 national security briefing with Vice President Gore, Lake, Berger, McLarty, and CIA briefers."
+    ],
+    volumeUse:
+      "Use as a first-week process control for the PDD-1/PDD-2 opening machinery and the national security briefing rhythm.",
+    followUp:
+      "Pair with NSC Executive Secretary or Records Management files before using the briefings as evidence of policy substance.",
+    tags: ["process reset", "NSC", "first week"]
+  },
+  {
+    date: "1993-01-23",
+    title: "First foreign-leader call sequence",
+    type: "Calls / NSC staff control",
+    naid: "147870741",
+    catalogTitle: "[01/20/1993-01/31/1993]",
+    url: "https://catalog.archives.gov/id/147870741",
+    entries: [
+      "10:30-11:00 meeting with Tony Lake and Sandy Berger.",
+      "10:45-11:17 conference call with Russian President Boris Yeltsin, with Nicholas Burns, Cornelius O'Leary, Rose Gottemoeller, and a State interpreter.",
+      "11:20-11:30 conference call with Israeli Prime Minister Yitzhak Rabin, with Edmund Hull, Cornelius O'Leary, and Martin Indyk."
+    ],
+    volumeUse:
+      "High-yield chronology control for the first foreign-policy calls and NSC staffing pattern after inauguration.",
+    followUp:
+      "Look for memcons, call sheets, Situation Room logs, and Lake/Berger briefing notes before promotion.",
+    tags: ["Russia", "Middle East", "Lake", "Berger"]
+  },
+  {
+    date: "1993-01-26",
+    title: "Ukraine call and early NSC briefing rhythm",
+    type: "Calls / briefings",
+    naid: "147870741",
+    catalogTitle: "[01/20/1993-01/31/1993]",
+    url: "https://catalog.archives.gov/id/147870741",
+    entries: [
+      "8:52-9:10 intelligence briefing and 9:10-9:20 national security briefing with Gore, Lake, Berger, and McLarty.",
+      "11:45-11:51 meeting with Sandy Berger.",
+      "11:51-12:06 conference call with Ukrainian President Leonid Kravchuk, with Nicholas Burns, Situation Room staff, and a State interpreter."
+    ],
+    volumeUse:
+      "Controls early post-Soviet leader contact and shows the daily linkage between briefing, Berger contact, and call execution.",
+    followUp:
+      "Check Russia/Ukraine NSC files and any call transcript or memcon before treating the entry as more than schedule evidence.",
+    tags: ["Ukraine", "post-Soviet", "briefings"]
+  },
+  {
+    date: "1993-02-10",
+    title: "Allied, Russian, and UN calls in one NSC block",
+    type: "Calls",
+    naid: "17367481",
+    catalogTitle: "Hardcopy 1/24/93; 1/28/93; 2/6/93; 2/10/93; 2/16/93; 2/25/93",
+    url: "https://catalog.archives.gov/id/17367481",
+    entries: [
+      "1:45-2:55 meeting with Nancy Soderberg and Jane Hall.",
+      "1:51-2:15 conference call with Boris Yeltsin.",
+      "2:16-2:28 conference call with British Prime Minister John Major.",
+      "2:30-2:38 conference call with German Chancellor Helmut Kohl.",
+      "2:44-2:50 conference call with UN Secretary General Boutros Boutros-Ghali."
+    ],
+    volumeUse:
+      "Strong early marker for how the new NSC handled Russia, allies, and the UN in the same presidential call window.",
+    followUp:
+      "Prioritize Soderberg, European affairs, Situation Room, and State interpreter records for substantive call evidence.",
+    tags: ["Russia", "allies", "UN", "Soderberg"]
+  },
+  {
+    date: "1993-04-06",
+    title: "Vancouver and G-7 summit briefing",
+    type: "Summit briefing",
+    naid: "17367492",
+    catalogTitle: "Hardcopy 3/2/93; 3/8/93; 3/12/93; 4/6/93; 4/14/93; 4/27/93; 4/30/93",
+    url: "https://catalog.archives.gov/id/17367492",
+    entries: [
+      "1:25-1:35 meeting with Vice President Gore, Secretary Christopher, and Martin Indyk.",
+      "3:20-4:40 briefing on the upcoming Vancouver and G-7 Summits.",
+      "Appendix C attendee list includes Gore, Christopher, Bentsen, Panetta, Lake, Rubin, Fuerth, Berger, Cutter, Strobe Talbott, Spero, Summers, Graham Allison, Soderberg, Fauver, Gati, Rosner, Speckhard, and Nicholas Burns."
+    ],
+    volumeUse:
+      "High-value control point for Russia, economic statecraft, G-7 coordination, and the first-year strategy review environment.",
+    followUp:
+      "Pull summit briefing books, economic-policy papers, and Russia/NIS meeting files for decision and drafting substance.",
+    tags: ["G-7", "Russia", "economic statecraft", "Vancouver"]
+  },
+  {
+    date: "1993-09-21",
+    title: "Lake enlargement speech day",
+    type: "Briefings / speech coordination",
+    naid: "17367517",
+    catalogTitle: "Hardcopy 7/6/93; 7/16/93; 7/18/93; 8/2/93; 8/7/93; 8/20/93; 8/29/93; 9/1/93; 9/17/93; 9/21/93; 9/25/93",
+    url: "https://catalog.archives.gov/id/17367517",
+    entries: [
+      "9:20-9:30 intelligence briefing with Gore, Lake, Berger, and Fuerth.",
+      "9:30-9:45 national security briefing with Gore, Lake, Berger, and Fuerth.",
+      "9:55-10:10 meeting with Gore, Paul Begala, Mandy Grunwald, David Dreyer, Robert Boorstin, and David Kusnet."
+    ],
+    volumeUse:
+      "Chronology control for the day Lake delivered 'From Containment to Enlargement' and for locating parallel speechwriting or policy-coordination files.",
+    followUp:
+      "Use the Blinken/Boorstin speechwriting folders for draft history and clearance evidence.",
+    tags: ["enlargement", "speechwriting", "Lake"]
+  },
+  {
+    date: "1993-10-06",
+    title: "Meeting with NATO Secretary General Manfred Woerner",
+    type: "Meeting",
+    naid: "17368174",
+    catalogTitle: "Hardcopy 10/6/93; 10/11/93; 10/18/93; 10/26/93; 11/6/93; 11/17/93; 11/18/93; 11/30/93",
+    url: "https://catalog.archives.gov/id/17368174",
+    entries: [
+      "11:45-12:00 meeting with Manfred Woerner, Secretary General of NATO.",
+      "Appendix C attendee list includes the President, Ambassador Robert Hunter, Tony Lake, Jenonne Walker, Charles Kupchan, Woerner, Klaus Scharioth, James Foley, and Jamie Shea."
+    ],
+    volumeUse:
+      "Controls an early NATO institutional-adaptation contact before the January 1994 Brussels summit sequence.",
+    followUp:
+      "Check NATO enlargement and European security folders for meeting memoranda or briefing papers.",
+    tags: ["NATO", "Europe", "institutions"]
+  },
+  {
+    date: "1993-11-17",
+    title: "APEC and NAFTA public-case controls",
+    type: "Meetings / public statements",
+    naid: "17368174",
+    catalogTitle: "Hardcopy 10/6/93; 10/11/93; 10/18/93; 10/26/93; 11/6/93; 11/17/93; 11/18/93; 11/30/93",
+    url: "https://catalog.archives.gov/id/17368174",
+    entries: [
+      "November 17, 9:57-10:08 meeting to discuss the upcoming APEC Summit with Gore and McLarty.",
+      "November 18, 8:40-9:40 coffee to discuss the upcoming APEC Summit with bipartisan members of Congress.",
+      "November 18, 10:05-10:15 radio address taping on the upcoming APEC Summit and NAFTA vote.",
+      "November 18, 11:28 statement to the press on House passage of NAFTA legislation and the upcoming APEC Summit."
+    ],
+    volumeUse:
+      "Useful for connecting open-markets doctrine, domestic renewal, and Asia-Pacific economic architecture without overloading the trade volume.",
+    followUp:
+      "Pair with APEC communications plans, NEC/NSC records, Public Papers, and speechwriting drafts.",
+    tags: ["APEC", "NAFTA", "economic statecraft"]
+  },
+  {
+    date: "1994-01-03",
+    title: "NATO summit preparation and denuclearization ceremony",
+    type: "Meetings / ceremony",
+    naid: "147870783",
+    catalogTitle: "[01/01/1994-01/15/1994]",
+    url: "https://catalog.archives.gov/id/147870783",
+    entries: [
+      "January 3, 10:10-10:59 meeting with Administration officials to discuss the upcoming NATO Summit in Europe.",
+      "January 3, 5:15-5:51 meeting with the Joint Chiefs of Staff to discuss the upcoming NATO Summit.",
+      "January 15, 11:05-11:15 signing ceremony for the Denuclearization Agreement with Russia and Ukraine, with Yeltsin and Kravchuk."
+    ],
+    volumeUse:
+      "Chronological bridge from enlargement doctrine to NATO adaptation and post-Soviet security architecture.",
+    followUp:
+      "Pull NATO Summit briefing books, JCS briefing records, and Russia/Ukraine memcons before promotion.",
+    tags: ["NATO", "Russia", "Ukraine", "denuclearization"]
+  },
+  {
+    date: "1994-04-10",
+    title: "Bosnia/NATO use-of-force meetings",
+    type: "Meetings / calls",
+    naid: "147870795",
+    catalogTitle: "[04/01/1994-04/15/1994]",
+    url: "https://catalog.archives.gov/id/147870795",
+    entries: [
+      "April 10, 3:15-3:55 meeting with Administration officials to discuss recent NATO bombing in Bosnia.",
+      "April 14, 3:15-3:50 meeting with Christopher, Perry, Shalikashvili, Lake, and Berger.",
+      "April 14 conference calls with British Prime Minister John Major and French President Francois Mitterrand.",
+      "April 15, 9:35-11:00 foreign policy meeting with Gore, Christopher, Perry, Shalikashvili, Woolsey, Albright, Lake, Berger, and Fuerth."
+    ],
+    volumeUse:
+      "Use only as boundary control for force, alliance, and peace-operations doctrine; detailed Bosnia implementation belongs elsewhere.",
+    followUp:
+      "Check PDD-25, NATO, UN, and Bosnia files for the policy documents that explain the doctrine rather than the operation.",
+    tags: ["Bosnia", "NATO", "force", "boundary"]
+  },
+  {
+    date: "1997-08-15",
+    title: "Second-term foreign policy meeting",
+    type: "Meeting",
+    naid: "17368185",
+    catalogTitle: "Hardcopy 7/1/97; 7/18/97; 7/20/97; 7/30/97; 8/3/97; 8/4/97; 8/15/97; 8/31/97; 9/3/97; 9/16/97; 9/19/97; 9/27/97; 10/1/97; 10/13/97; 10/20/97; 10/28/97; 11/1/97; 11/19/97; 11/20/97; 12/9/97; 12/10/97; 12/25/97",
+    url: "https://catalog.archives.gov/id/17368185",
+    entries: [
+      "Appendix A lists a Foreign Policy Meeting in the Cabinet Room with the President, Gore, Albright, Cohen, Tenet, Robert Gelbard, Dennis Ross, and Brian Atwood."
+    ],
+    volumeUse:
+      "Use as a second-term process checkpoint around the New Century strategy period and cross-regional foreign-policy coordination.",
+    followUp:
+      "Find the meeting agenda, minutes, briefing papers, and any Berger/Steinberg follow-up before selecting a document.",
+    tags: ["second term", "Albright", "Cohen", "process"]
+  },
+  {
+    date: "1998-03-04",
+    title: "Foreign policy meeting with Berger call control",
+    type: "Meeting / call",
+    naid: "147870907",
+    catalogTitle: "[03/01/1998-03/14/1998]",
+    url: "https://catalog.archives.gov/id/147870907",
+    entries: [
+      "9:00-9:03 p.m. call with National Security Advisor Sandy Berger.",
+      "Appendix A lists a March 4 Foreign Policy Meeting in the Cabinet Room with Gore, Albright, Cohen, Shelton, Slocombe, Richardson, Pickering, Raines, Tenet, Berger, Steinberg, Kerrick, Riedel, Podesta, and Richard Clarke."
+    ],
+    volumeUse:
+      "Late-1990s checkpoint for foreign-policy process, global issues, and second-term threat framing.",
+    followUp:
+      "Check Berger, Steinberg, Richard Clarke, and NSC global-issues files for substantive meeting material.",
+    tags: ["Berger", "Steinberg", "global issues", "second term"]
+  },
+  {
+    date: "1999-04-14",
+    title: "Late-term foreign policy meeting",
+    type: "Meeting",
+    naid: "17368193",
+    catalogTitle: "Hardcopy 4/9/99; 4/14/99; 4/27/99; 4/30/99; 5/2/99; 5/20/99; 5/24/99; 5/28/99; 6/2/99; 6/10/99; 6/20/99",
+    url: "https://catalog.archives.gov/id/17368193",
+    entries: [
+      "Appendix A lists an April 14 Foreign Policy Meeting in the Cabinet Room with the President, Albright, Cohen, Berger, Shalikashvili, Strobe Talbott, and Brian Atwood."
+    ],
+    volumeUse:
+      "Late-term process checkpoint for NATO/Balkans overlap, democracy and assistance policy, and senior-principal coordination.",
+    followUp:
+      "Use as a pointer into Berger, Talbott, State, Defense, and topical volume records; do not select from the diary alone.",
+    tags: ["late term", "NATO", "Balkans", "Talbott"]
+  },
+  {
+    date: "2000-07-21",
+    title: "G-7/G-8, Russia, and UN Millennium sequence",
+    type: "Briefings / meetings",
+    naid: "17368201",
+    catalogTitle: "Hardcopy 4/4/00; 4/1200; 4/25/00; 5/7/00; 5/18/00; 5/22/00; 5/26/00; 6/7/00; 6/8/00; 6/18/00",
+    url: "https://catalog.archives.gov/id/17368201",
+    entries: [
+      "July 21, 1:58-2:27 G-7 and G-8 Summit briefing with Administration officials.",
+      "July 21, 2:28-2:43 foreign policy briefing on the upcoming meeting with Russian officials.",
+      "July 21, 3:31-5:50 G-7 session.",
+      "September 6, 10:55-11:22 briefing with Albright, Berger, Holbrooke, Sestanovich, NSC staff, and others.",
+      "September 6, 11:29-12:26 meeting with Russian President Vladimir Putin, followed by a signing ceremony for the Strategic Stability Cooperation Initiative."
+    ],
+    volumeUse:
+      "Controls the late-term handoff into globalization, G-8, Russia, UN, and strategic-stability themes.",
+    followUp:
+      "Pull G-8 summit books, UN Millennium briefing papers, Russia memcons, and Strategic Stability Initiative files.",
+    tags: ["G-8", "Russia", "UN", "handoff"]
   }
 ];
 
@@ -1436,6 +1703,7 @@ const periodById = new Map(chronologyPeriods.map((period) => [period.id, period]
 const leadCount = document.querySelector("#lead-count");
 const periodCount = document.querySelector("#period-count");
 const libraryCount = document.querySelector("#library-count");
+const diaryCount = document.querySelector("#diary-count");
 const recordCount = document.querySelector("#record-count");
 const statementCount = document.querySelector("#statement-count");
 const directiveCount = document.querySelector("#directive-count");
@@ -1445,6 +1713,7 @@ const gapCount = document.querySelector("#gap-count");
 
 const periodsRoot = document.querySelector("#periods-root");
 const libraryRoot = document.querySelector("#library-root");
+const diaryRoot = document.querySelector("#diary-root");
 const leadsRoot = document.querySelector("#leads-root");
 const recordsRoot = document.querySelector("#records-root");
 const statementsRoot = document.querySelector("#statements-root");
@@ -1597,6 +1866,7 @@ function setStats() {
   leadCount.textContent = sourceLeads.length.toString();
   periodCount.textContent = chronologyPeriods.length.toString();
   libraryCount.textContent = libraryPulls.length.toString();
+  diaryCount.textContent = dailyDiaryReferences.length.toString();
   recordCount.textContent = records.length.toString();
   statementCount.textContent = statements.length.toString();
   directiveCount.textContent = directives.length.toString();
@@ -1728,6 +1998,64 @@ function renderLibraryPulls() {
   });
 
   libraryRoot.replaceChildren(...cards);
+}
+
+function renderDailyDiaryReferences() {
+  const cards = [...dailyDiaryReferences].sort(chronologicalSort).map((item) => {
+    const card = document.createElement("article");
+    card.className = "diary-card";
+
+    const header = document.createElement("div");
+    header.className = "diary-card-header";
+
+    const date = document.createElement("time");
+    date.className = "diary-date";
+    date.dateTime = item.date;
+    date.textContent = formatDate(item.date);
+
+    const titleWrap = document.createElement("div");
+    const label = document.createElement("p");
+    label.className = "record-type";
+    label.textContent = `${item.type} / NAID ${item.naid}`;
+    const title = document.createElement("h3");
+    title.textContent = item.title;
+    titleWrap.append(label, title);
+    header.append(date, titleWrap);
+
+    const entries = document.createElement("ul");
+    entries.className = "diary-entries";
+    for (const entry of item.entries) {
+      const line = document.createElement("li");
+      line.textContent = entry;
+      entries.append(line);
+    }
+
+    const volumeUse = document.createElement("p");
+    volumeUse.className = "diary-use";
+    volumeUse.textContent = `Volume use: ${item.volumeUse}`;
+
+    const followUp = document.createElement("p");
+    followUp.className = "risk-note";
+    followUp.textContent = `Follow-up pull: ${item.followUp}`;
+
+    const sourceNote = document.createElement("p");
+    sourceNote.className = "source-note";
+    sourceNote.textContent = `Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, ${item.catalogTitle}, NAID ${item.naid}. Schedule-control entry; match against substantive records before promotion.`;
+
+    const links = document.createElement("div");
+    links.className = "item-links";
+    links.append(makeLink(item.url, "Open Catalog record"));
+
+    const tags = document.createElement("div");
+    tags.className = "item-tags";
+    tags.append(makeChip(periodTitleForValue(item.date), "priority-chip"));
+    for (const tag of item.tags) tags.append(makeChip(tag));
+
+    card.append(header, entries, volumeUse, followUp, sourceNote, links, tags);
+    return card;
+  });
+
+  diaryRoot.replaceChildren(...cards);
 }
 
 function renderDocumentTypes() {
@@ -2313,6 +2641,7 @@ setStats();
 populateFilters();
 renderChronology();
 renderLibraryPulls();
+renderDailyDiaryReferences();
 renderDocumentTypes();
 renderLeads();
 renderRecords();

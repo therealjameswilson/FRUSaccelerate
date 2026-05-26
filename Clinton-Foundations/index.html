@@ -22,6 +22,7 @@
         <a href="#types">Types</a>
         <a href="#chronology">Chronology</a>
         <a href="#library">Library Sprint</a>
+        <a href="#diary">Daily Diary</a>
         <a href="#gaps">Gaps</a>
         <a href="#leads">Leads</a>
         <a href="#records">Records</a>
@@ -93,6 +94,10 @@
         <div>
           <span id="library-count">0</span>
           <p>library pull clusters</p>
+        </div>
+        <div>
+          <span id="diary-count">0</span>
+          <p>daily diary references</p>
         </div>
         <div>
           <span id="record-count">0</span>
@@ -239,6 +244,36 @@
         </div>
         <div id="library-root" class="library-grid" aria-live="polite">
           <p class="loading">Loading Clinton Library pull plan...</p>
+        </div>
+      </section>
+
+      <section class="section diary-section" id="diary" aria-labelledby="diary-title">
+        <div class="section-heading">
+          <p class="kicker">Presidential Daily Diary</p>
+          <h2 id="diary-title">Calls And Meetings To Reconcile Chronologically</h2>
+        </div>
+        <p class="section-note">
+          The NARA Catalog search for 2010-0083-F under Clinton records returned 59 online
+          Presidential Daily Diary file units. These entries should control dates, attendees, and
+          event sequence; they should not be promoted as decision evidence until paired with call
+          transcripts, memoranda of conversation, meeting papers, speech drafts, or Public Papers text.
+        </p>
+        <div class="diary-method" aria-label="Daily Diary search method">
+          <article>
+            <strong>Search set</strong>
+            <p>NARA Catalog query: 2010-0083-F, collectionIdentifier WJC*, online file units.</p>
+          </article>
+          <article>
+            <strong>Use in volume</strong>
+            <p>Chronological control for presidential calls, NSC briefings, summit prep, and public doctrine events.</p>
+          </article>
+          <article>
+            <strong>Promotion rule</strong>
+            <p>Match each entry to substantive files before treating it as a FRUS document candidate.</p>
+          </article>
+        </div>
+        <div id="diary-root" class="diary-grid" aria-live="polite">
+          <p class="loading">Loading Presidential Daily Diary references...</p>
         </div>
       </section>
 
@@ -433,6 +468,9 @@
           </a>
           <a href="https://catalog.archives.gov/id/7388842" rel="noreferrer">
             NARA Catalog: NSC Speechwriting Office
+          </a>
+          <a href="https://catalog.archives.gov/search?q=%222010-0083-F%22&amp;collectionIdentifier=WJC*" rel="noreferrer">
+            NARA Catalog: Presidential Daily Diary 2010-0083-F search
           </a>
           <a href="https://www.clintonlibrary.gov/research/archives/finding-aids/2006-0459-f-antony-tony-blinken-nsc-speechwriter" rel="noreferrer">
             Clinton Library: Antony Blinken NSC Speechwriter
