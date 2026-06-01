@@ -82,6 +82,17 @@ const requestBatchFields = [
   "urls"
 ];
 
+const sourceNoteTemplateFields = [
+  "template_id",
+  "evidence_type",
+  "use_when",
+  "source_note_pattern",
+  "required_fields",
+  "do_not_promote_until",
+  "paired_record_target",
+  "example_source"
+];
+
 function libraryTextOf(root, selector) {
   return root.querySelector(selector)?.textContent.trim() || "";
 }
@@ -501,6 +512,88 @@ function requestBatchRows() {
     .sort((a, b) => Number(a.batch_rank) - Number(b.batch_rank) || a.repository_group.localeCompare(b.repository_group));
 }
 
+function sourceNoteTemplateRows() {
+  return [
+    {
+      template_id: "directive-source-packet",
+      evidence_type: "PRD/PDD directive text or source packet",
+      use_when: "A directive is selected as a document anchor or cited in an editorial note.",
+      source_note_pattern:
+        "Source: Clinton Presidential Library, [collection or NSC office], [series/file unit], [box], [folder], [directive code and title], [date]. [classification marking]; [copy/version status]; [release status].",
+      required_fields: "Directive code; exact title; date; collection; series/file unit; box; folder; classification marking; copy/version status; release status.",
+      do_not_promote_until: "The public directive index has been replaced by released text, source packet, or responsible office file provenance.",
+      paired_record_target: "NSC Records Management file, Executive Secretary routing, responsible office packet, or released directive text.",
+      example_source: "PDD-1, PDD-2, PRD-35, PDD-25, PDD-39, PDD-42, PDD-63."
+    },
+    {
+      template_id: "daily-diary-control",
+      evidence_type: "Presidential Daily Diary chronology control",
+      use_when: "A Daily Diary file unit dates a call, meeting, briefing, travel event, or public doctrine event.",
+      source_note_pattern:
+        "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, [file-unit title/date span], NAID [number]. Schedule-control entry; paired substantive record to be cited separately.",
+      required_fields: "NAID; file-unit title/date span; event date; time if available; participants; paired record status.",
+      do_not_promote_until: "A memcon, telcon, call transcript, meeting paper, briefing book, speech draft, or Public Papers text is paired with the schedule entry.",
+      paired_record_target: "Call transcript, memorandum of conversation, briefing papers, meeting agenda, speech draft, or Public Papers item.",
+      example_source: "2010-0083-F Daily Diary file units, including NAIDs 147870741, 17367481, 17367492, 17368174, 147870907, and 17368201."
+    },
+    {
+      template_id: "speechwriting-draft",
+      evidence_type: "NSC speechwriting draft trail",
+      use_when: "A public doctrine speech needs draft, clearance, or principal-edit evidence before promotion.",
+      source_note_pattern:
+        "Source: Clinton Presidential Library, Records of the National Security Council, Speechwriting Office, [staff files], [OA/ID], [folder title], [document title or draft description], [date]. [draft/version status]; [markings]; [clearance or edit evidence].",
+      required_fields: "Staff file; OA/ID; folder title; document title; date; draft/version status; markings; relation to delivered text.",
+      do_not_promote_until: "The folder review identifies a specific draft, markup, clearance note, or policy memorandum rather than only a finding-aid folder title.",
+      paired_record_target: "Delivered text, earliest draft, marked-up draft, clearance comments, policy memorandum, and diary event control.",
+      example_source: "Blinken, Boorstin, and Widmer speechwriting files for Lake enlargement, UNGA, State of the Union, UN 50th anniversary, and new-century speeches."
+    },
+    {
+      template_id: "published-strategy",
+      evidence_type: "Published National Security Strategy or public strategy paper",
+      use_when: "A public strategy paper supplies the doctrine baseline but needs internal drafting context.",
+      source_note_pattern:
+        "Source: The White House, [strategy title], [date]. Published strategy paper; [repository copy or URL]. Internal drafting, clearance, circulation, or review file to be cited separately if selected as document evidence.",
+      required_fields: "Title; date; publication copy; URL or repository copy; drafting or clearance file status.",
+      do_not_promote_until: "NSC drafting, clearance, circulation, or PRD/strategy review records explain authorship, review, or policy significance.",
+      paired_record_target: "PRD-35, NSC drafting file, clearance memorandum, circulation copy, or editorial-note bridge.",
+      example_source: "A National Security Strategy of Engagement and Enlargement, July 1994; A National Security Strategy for a New Century, May 1997 and December 1999."
+    },
+    {
+      template_id: "public-speech",
+      evidence_type: "Public speech, statement, or background briefing",
+      use_when: "A public text explains doctrine but should not stand alone as internal decision evidence.",
+      source_note_pattern:
+        "Source: [Public Papers, archived White House, Department release, or transcript repository], [speaker], [title/event], [place], [date]. Public text; paired draft, clearance, briefing, or policy file to be cited separately.",
+      required_fields: "Repository; speaker; title/event; place; date; publication citation or URL; paired internal record status.",
+      do_not_promote_until: "Drafts, clearance comments, talking points, briefing books, or policy memoranda show why the public text belongs in Volume I.",
+      paired_record_target: "Speechwriting draft, press guidance, briefing book, clearance note, policy memorandum, or Daily Diary event control.",
+      example_source: "Lake enlargement speech, UNGA addresses, State of the Union foreign-policy sections, background briefings, and rollout guidance."
+    },
+    {
+      template_id: "clinton-library-item",
+      evidence_type: "Clinton Library item from 2013-0185-M pull cluster",
+      use_when: "A reading-room pull yields an item-level document, not just a finding-aid folder lead.",
+      source_note_pattern:
+        "Source: Clinton Presidential Library, [collection/office], 2013-0185-M, [OA/ID], [box], [folder], [document title], [date]. [sender/recipient]; [classification marking]; [copy/version status]; [release status].",
+      required_fields: "Collection/office; OA/ID; box; folder; document title; date; sender/recipient; markings; copy/version status; release status.",
+      do_not_promote_until: "The compiler has captured the folder title page and item-level document metadata during reading-room review.",
+      paired_record_target: "Folder title page, routing slip, first substantive memo, decision memo, briefing tab, draft, or clearance note.",
+      example_source: "Directive, speechwriting, NATO, UN, senior-principal, economy, transnational-threat, and press clusters from the Library Sprint."
+    },
+    {
+      template_id: "editorial-note-bridge",
+      evidence_type: "Editorial note bridge for unavailable or cross-volume material",
+      use_when: "The chronology needs context but the best source is public, unavailable, duplicated, or belongs mostly in an adjacent topical volume.",
+      source_note_pattern:
+        "Editorial note: [concise explanation of event/source cluster]. Cite [public text or locator] for chronology and direct the reader/compiler to [substantive file, topical volume, or pending request] for document-level evidence.",
+      required_fields: "Event; reason not printed as document; public or archival locator; adjacent volume or request path; paired evidence status.",
+      do_not_promote_until: "The note clearly separates chronology/context from document-level evidence and avoids substituting a locator for a final source note.",
+      paired_record_target: "Topical-volume handoff, public text, request packet, source-note audit row, or verified archival item.",
+      example_source: "Directive texts awaiting source packets, Daily Diary-only controls, NSS public copies, or NATO/Russia/UN implementation detail routed to adjacent volumes."
+    }
+  ];
+}
+
 function downloadSourceNoteAuditCsv() {
   const rows = sourceNoteAuditRows();
   const lines = [
@@ -512,6 +605,23 @@ function downloadSourceNoteAuditCsv() {
   const link = document.createElement("a");
   link.href = url;
   link.download = "clinton-foundations-source-note-audit.csv";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function downloadSourceNoteTemplatesCsv() {
+  const rows = sourceNoteTemplateRows();
+  const lines = [
+    sourceNoteTemplateFields.join(","),
+    ...rows.map((row) => sourceNoteTemplateFields.map((field) => libraryCsvEscape(row[field])).join(","))
+  ];
+  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "clinton-foundations-source-note-templates.csv";
   document.body.append(link);
   link.click();
   link.remove();
@@ -649,6 +759,32 @@ function makeBatchCard(row) {
   return card;
 }
 
+function makeSourceNoteTemplateCard(row) {
+  const card = document.createElement("article");
+  card.className = "gap-card";
+
+  const header = document.createElement("div");
+  header.className = "gap-card-header";
+  const title = document.createElement("h3");
+  title.textContent = row.evidence_type;
+  const badge = document.createElement("span");
+  badge.className = "chip gap-badge";
+  badge.textContent = row.template_id;
+  header.append(title, badge);
+
+  const pattern = document.createElement("p");
+  pattern.textContent = row.source_note_pattern;
+  const fields = document.createElement("p");
+  fields.className = "risk-note";
+  fields.textContent = `Required: ${row.required_fields}`;
+  const caution = document.createElement("p");
+  caution.className = "gap-pull-list";
+  caution.textContent = `Do not promote until: ${row.do_not_promote_until}`;
+
+  card.append(header, pattern, fields, caution);
+  return card;
+}
+
 function installSourceNoteAuditPanel() {
   const gapsSection = document.querySelector("#gaps");
   const sectionNote = gapsSection?.querySelector(".section-note");
@@ -698,22 +834,46 @@ function installSourceNoteAuditPanel() {
   batchButton.textContent = "Export Request Batches CSV";
   batchButton.addEventListener("click", downloadRequestBatchCsv);
 
+  const templateSummary = document.createElement("p");
+  templateSummary.id = "source-note-template-summary";
+  templateSummary.className = "result-summary";
+
+  const templateButton = document.createElement("button");
+  templateButton.id = "export-source-note-templates";
+  templateButton.type = "button";
+  templateButton.textContent = "Export Source-Note Templates CSV";
+  templateButton.addEventListener("click", downloadSourceNoteTemplatesCsv);
+
   const rows = sourceNoteAuditRows();
   const queueRows = verificationQueueRows();
   const requestRows = requestPacketRows();
   const batchRows = requestBatchRows();
+  const templateRows = sourceNoteTemplateRows();
   const sections = new Set(rows.map((row) => row.section)).size;
   const repositories = new Set(requestRows.map((row) => row.repository_group)).size;
   summary.textContent = `${rows.length} source-note audit rows across ${sections} compiler evidence groups`;
   queueSummary.textContent = `${queueRows.length} verification tasks sorted by source-note readiness risk`;
   requestSummary.textContent = `${requestRows.length} request packets across ${repositories} repository groups`;
   batchSummary.textContent = `${batchRows.length} grouped request batches for repository handoff`;
+  templateSummary.textContent = `${templateRows.length} source-note templates for common Clinton evidence types`;
   button.disabled = rows.length === 0;
   queueButton.disabled = queueRows.length === 0;
   requestButton.disabled = requestRows.length === 0;
   batchButton.disabled = batchRows.length === 0;
+  templateButton.disabled = templateRows.length === 0;
 
-  actions.append(summary, button, queueSummary, queueButton, requestSummary, requestButton, batchSummary, batchButton);
+  actions.append(
+    summary,
+    button,
+    queueSummary,
+    queueButton,
+    requestSummary,
+    requestButton,
+    batchSummary,
+    batchButton,
+    templateSummary,
+    templateButton
+  );
   const queuePreview = document.createElement("div");
   queuePreview.className = "gap-list";
   queuePreview.setAttribute("aria-label", "Top source-note verification tasks");
@@ -729,13 +889,19 @@ function installSourceNoteAuditPanel() {
   batchPreview.setAttribute("aria-label", "Grouped repository request batches");
   batchPreview.append(...batchRows.slice(0, 5).map(makeBatchCard));
 
+  const templatePreview = document.createElement("div");
+  templatePreview.className = "gap-list";
+  templatePreview.setAttribute("aria-label", "Source-note citation templates");
+  templatePreview.append(...templateRows.slice(0, 4).map(makeSourceNoteTemplateCard));
+
   if (sectionNote) {
     sectionNote.insertAdjacentElement("afterend", actions);
     actions.insertAdjacentElement("afterend", queuePreview);
     queuePreview.insertAdjacentElement("afterend", requestPreview);
     requestPreview.insertAdjacentElement("afterend", batchPreview);
+    batchPreview.insertAdjacentElement("afterend", templatePreview);
   } else {
-    gapsSection.append(actions, queuePreview, requestPreview, batchPreview);
+    gapsSection.append(actions, queuePreview, requestPreview, batchPreview, templatePreview);
   }
 }
 

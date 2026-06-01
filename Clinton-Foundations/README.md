@@ -28,7 +28,7 @@ document edition. It gathers:
 - `styles.css`: responsive visual system
 - `app.js`: source data, filters, rendering, gap board, and CSV exports
 - `chronology-export.js`: first-section document chronology and triage CSV exports
-- `library-pull-export.js`: Clinton Library OA/ID pull-sheet, onsite agenda, source-note audit, verification queue, request-packet, and request-batch CSV exports
+- `library-pull-export.js`: Clinton Library OA/ID pull-sheet, onsite agenda, source-note audit, source-note template, verification queue, request-packet, and request-batch CSV exports
 - `assets/foundations-source-map.svg`: source map visual
 - `reports/compiler-gap-analysis.md`: source-gap treatment report
 
@@ -57,6 +57,9 @@ The gap register includes `clinton-foundations-source-note-audit.csv`, a
 combined source-note reconciliation export across chronology controls,
 candidate records, Daily Diary controls, directives, public statements, and
 Library pull clusters. It also exports
+`clinton-foundations-source-note-templates.csv`, a reusable pattern sheet for
+directive packets, Daily Diary controls, speech drafts, public strategy papers,
+public speeches, Clinton Library items, and editorial-note bridges;
 `clinton-foundations-verification-queue.csv`, which sorts the same evidence
 into a source-note readiness worklist, and
 `clinton-foundations-request-packets.csv`, which turns those tasks into
