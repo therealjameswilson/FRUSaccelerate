@@ -27,7 +27,7 @@ document edition. It gathers:
 - `index.html`: page structure and workbench sections
 - `styles.css`: responsive visual system
 - `app.js`: source data, filters, rendering, gap board, and CSV exports
-- `chronology-export.js`: first-section document chronology CSV export
+- `chronology-export.js`: first-section document chronology and triage CSV exports
 - `library-pull-export.js`: Clinton Library OA/ID pull-sheet, onsite agenda, source-note audit, verification queue, request-packet, and request-batch CSV exports
 - `assets/foundations-source-map.svg`: source map visual
 - `reports/compiler-gap-analysis.md`: source-gap treatment report
@@ -105,7 +105,10 @@ ordered by date before office, topic, or record type, so a compiler can see the
 sequence of released/declassified controls first: PRD/PDD anchors, Daily Diary
 file units, public strategy papers, speech draft trails, and late-term handoff
 records. It can be exported as `clinton-foundations-document-chronology.csv`
-for reading-room pull sheets or source-note reconciliation.
+for reading-room pull sheets or source-note reconciliation. The companion
+`clinton-foundations-chronology-triage.csv` export turns the same sequence into
+a promotion worksheet with evidence roles, pairing requirements, source-note
+actions, and volume-boundary cautions.
 
 The source-note audit, verification queue, request-packet export, and grouped
 request batches are the second reconciliation layer: they keep the working
