@@ -28,6 +28,21 @@ const sourceNoteAuditFields = [
   "url"
 ];
 
+const verificationQueueFields = [
+  "rank",
+  "action_group",
+  "date",
+  "title",
+  "priority_or_status",
+  "repository_or_source",
+  "identifier",
+  "why_now",
+  "verification_needed",
+  "next_pull",
+  "source_note_target",
+  "url"
+];
+
 function libraryTextOf(root, selector) {
   return root.querySelector(selector)?.textContent.trim() || "";
 }
@@ -183,6 +198,70 @@ function sourceNoteAuditRows() {
   ];
 }
 
+function verificationAction(row) {
+  if (/PRD\/PDD/.test(row.section)) return "Directive source packet";
+  if (/Library pull/.test(row.section)) return "Reading-room pull";
+  if (/Daily Diary/.test(row.section)) return "Substantive pairing";
+  if (/Public doctrine/.test(row.section)) return "Draft trail pairing";
+  if (/Candidate record/.test(row.section)) return "Item-level source note";
+  if (/diary/i.test(row.identifier)) return "Chronology pairing";
+  return "Source-note verification";
+}
+
+function verificationScore(row) {
+  const priorityScore = {
+    Critical: 0,
+    High: 1,
+    Anchor: 1,
+    "Chronology control": 2,
+    "Public anchor": 3,
+    Medium: 4,
+    Review: 5
+  }[row.priority_or_status] ?? 4;
+  const sectionScore = {
+    "PRD/PDD directive anchor": 0,
+    "Candidate record": 1,
+    "Clinton Library pull cluster": 1,
+    "Chronology control": 2,
+    "Daily Diary chronology control": 3,
+    "Public doctrine anchor": 4
+  }[row.section] ?? 5;
+  return priorityScore * 10 + sectionScore;
+}
+
+function verificationWhy(row) {
+  const action = verificationAction(row);
+  if (action === "Directive source packet") return "Directive titles are high-value locators but need release status, markings, copy status, and packet provenance before source-note promotion.";
+  if (action === "Reading-room pull") return "Finding-aid intelligence must become item-level box, folder, date, marking, and release-status evidence before it can support final selection.";
+  if (action === "Substantive pairing") return "Daily Diary controls date the event but need paired call, meeting, briefing, speech, or Public Papers evidence.";
+  if (action === "Draft trail pairing") return "Public doctrine anchors need drafts, clearance comments, policy memoranda, or diary controls before becoming document candidates.";
+  if (action === "Item-level source note") return "Candidate records need document-level provenance and a promotion decision before entering the final chronology.";
+  return "Chronology controls need source-note reconciliation before the compiler relies on them.";
+}
+
+function verificationQueueRows() {
+  return sourceNoteAuditRows()
+    .map((row) => ({
+      action_group: verificationAction(row),
+      date: row.date,
+      title: row.title,
+      priority_or_status: row.priority_or_status,
+      repository_or_source: row.repository_or_source,
+      identifier: row.identifier,
+      why_now: verificationWhy(row),
+      verification_needed: row.verification_needed,
+      next_pull: row.next_pull,
+      source_note_target: row.source_note_target,
+      url: row.url,
+      score: verificationScore(row)
+    }))
+    .sort((a, b) => a.score - b.score || String(a.date).localeCompare(String(b.date)) || a.title.localeCompare(b.title))
+    .map((row, index) => {
+      const { score, ...rest } = row;
+      return { rank: index + 1, ...rest };
+    });
+}
+
 function downloadSourceNoteAuditCsv() {
   const rows = sourceNoteAuditRows();
   const lines = [
@@ -198,6 +277,51 @@ function downloadSourceNoteAuditCsv() {
   link.click();
   link.remove();
   URL.revokeObjectURL(url);
+}
+
+function downloadVerificationQueueCsv() {
+  const rows = verificationQueueRows();
+  const lines = [
+    verificationQueueFields.join(","),
+    ...rows.map((row) => verificationQueueFields.map((field) => libraryCsvEscape(row[field])).join(","))
+  ];
+  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "clinton-foundations-verification-queue.csv";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function makeQueueCard(row) {
+  const card = document.createElement("article");
+  card.className = "gap-card";
+
+  const header = document.createElement("div");
+  header.className = "gap-card-header";
+  const title = document.createElement("h3");
+  title.textContent = `${row.rank}. ${row.title}`;
+  const badge = document.createElement("span");
+  badge.className = "chip gap-badge";
+  badge.textContent = row.action_group;
+  header.append(title, badge);
+
+  const why = document.createElement("p");
+  why.textContent = `Why now: ${row.why_now}`;
+  const verify = document.createElement("p");
+  verify.textContent = `Verify: ${row.verification_needed}`;
+  const next = document.createElement("p");
+  next.className = "risk-note";
+  next.textContent = `Next pull: ${row.next_pull}`;
+  const pullList = document.createElement("p");
+  pullList.className = "gap-pull-list";
+  pullList.textContent = [row.priority_or_status, row.repository_or_source, row.identifier, row.date].filter(Boolean).join(" / ");
+
+  card.append(header, why, verify, next, pullList);
+  return card;
 }
 
 function installSourceNoteAuditPanel() {
@@ -219,16 +343,35 @@ function installSourceNoteAuditPanel() {
   button.textContent = "Export Source-Note Audit CSV";
   button.addEventListener("click", downloadSourceNoteAuditCsv);
 
+  const queueSummary = document.createElement("p");
+  queueSummary.id = "verification-queue-summary";
+  queueSummary.className = "result-summary";
+
+  const queueButton = document.createElement("button");
+  queueButton.id = "export-verification-queue";
+  queueButton.type = "button";
+  queueButton.textContent = "Export Verification Queue CSV";
+  queueButton.addEventListener("click", downloadVerificationQueueCsv);
+
   const rows = sourceNoteAuditRows();
+  const queueRows = verificationQueueRows();
   const sections = new Set(rows.map((row) => row.section)).size;
   summary.textContent = `${rows.length} source-note audit rows across ${sections} compiler evidence groups`;
+  queueSummary.textContent = `${queueRows.length} verification tasks sorted by source-note readiness risk`;
   button.disabled = rows.length === 0;
+  queueButton.disabled = queueRows.length === 0;
 
-  actions.append(summary, button);
+  actions.append(summary, button, queueSummary, queueButton);
+  const queuePreview = document.createElement("div");
+  queuePreview.className = "gap-list";
+  queuePreview.setAttribute("aria-label", "Top source-note verification tasks");
+  queuePreview.append(...queueRows.slice(0, 6).map(makeQueueCard));
+
   if (sectionNote) {
     sectionNote.insertAdjacentElement("afterend", actions);
+    actions.insertAdjacentElement("afterend", queuePreview);
   } else {
-    gapsSection.append(actions);
+    gapsSection.append(actions, queuePreview);
   }
 }
 
