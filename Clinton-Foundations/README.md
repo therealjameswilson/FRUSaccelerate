@@ -28,7 +28,7 @@ document edition. It gathers:
 - `styles.css`: responsive visual system
 - `app.js`: source data, filters, rendering, gap board, and CSV exports
 - `chronology-export.js`: first-section document chronology CSV export
-- `library-pull-export.js`: Clinton Library OA/ID pull-sheet CSV export
+- `library-pull-export.js`: Clinton Library OA/ID pull-sheet and source-note audit CSV exports
 - `assets/foundations-source-map.svg`: source map visual
 - `reports/compiler-gap-analysis.md`: source-gap treatment report
 
@@ -50,6 +50,13 @@ repository, collection or office, file unit or directive, date when known, then
 classification/copy/version or verification status. Folder-level Clinton
 Library leads remain explicitly provisional until an item-level pull supplies
 box, folder, date, markings, and release status.
+
+The gap register includes `clinton-foundations-source-note-audit.csv`, a
+combined source-note reconciliation export across chronology controls,
+candidate records, Daily Diary controls, directives, public statements, and
+Library pull clusters. Use it as a worksheet for checking which leads are still
+locators and which have enough item-level evidence for final FRUS source-note
+treatment.
 
 ## Presidential Daily Diary Search
 
@@ -91,6 +98,11 @@ sequence of released/declassified controls first: PRD/PDD anchors, Daily Diary
 file units, public strategy papers, speech draft trails, and late-term handoff
 records. It can be exported as `clinton-foundations-document-chronology.csv`
 for reading-room pull sheets or source-note reconciliation.
+
+The source-note audit export is the second reconciliation layer: it keeps the
+working source-note target, verification need, and next pull in one row for
+each evidence group so archival pulls do not lose their FRUS-style citation
+requirements.
 
 The largest risk is over-collection. NATO, Russia, Balkans, arms control,
 counterterrorism, economic policy, and global-issues implementation records
