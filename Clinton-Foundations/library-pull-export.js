@@ -43,6 +43,18 @@ const verificationQueueFields = [
   "url"
 ];
 
+const requestPacketFields = [
+  "rank",
+  "repository_group",
+  "request_type",
+  "request_text",
+  "identifiers",
+  "capture_fields",
+  "why_it_matters",
+  "source_note_target",
+  "url"
+];
+
 function libraryTextOf(root, selector) {
   return root.querySelector(selector)?.textContent.trim() || "";
 }
@@ -262,6 +274,48 @@ function verificationQueueRows() {
     });
 }
 
+function repositoryGroup(row) {
+  const source = row.repository_or_source || "";
+  if (/Clinton (Presidential )?Library|2013-0185-M/i.test(source)) return "Clinton Presidential Library";
+  if (/National Archives|NARA|NAID/i.test(source) || /NAID/i.test(row.identifier || "")) return "National Archives Catalog";
+  if (/Archived White House|Public Papers|Library of Congress|GlobalSecurity|White House/i.test(source)) return "Published/Public Text";
+  if (/NSC|Speechwriting|Records Management|Executive Secretary/i.test(source)) return "NSC and White House files";
+  return source || "Repository to verify";
+}
+
+function captureFields(row) {
+  if (/Directive/.test(row.action_group)) return "Exact title; date; classification marking; copy/version status; distribution; source packet path; release status.";
+  if (/Reading-room/.test(row.action_group)) return "OA/ID; box; folder title; document date; sender/recipient; markings; version/copy status; restriction/release status.";
+  if (/Substantive pairing|Chronology pairing/.test(row.action_group)) return "Diary date; event/call/meeting time; participants; paired memcon/telcon/briefing/speech record; citation for both records.";
+  if (/Draft trail/.test(row.action_group)) return "Delivered text; earliest draft; marked-up draft; clearance comments; policy memo; final/press version; diary/event control.";
+  return "Repository; collection/office; series/file unit; box/folder; document date; markings; copy status; release status.";
+}
+
+function requestText(row) {
+  if (/Directive/.test(row.action_group)) {
+    const title = row.title.replace(new RegExp(`^${row.identifier}:\\s*`), "");
+    return `Request the released text and source packet for ${row.identifier}: ${title}. Capture all markings, distribution, copy/version status, and packet provenance.`;
+  }
+  if (/Reading-room/.test(row.action_group)) return `Request or stage the ${row.identifier} pull cluster for ${row.title}. Use the onsite move to sample title pages, routing slips, and the first substantive document before broad review.`;
+  if (/Substantive pairing|Chronology pairing/.test(row.action_group)) return `Use ${row.identifier} as a schedule-control lead for ${row.title}; locate the paired call, meeting, briefing, speech draft, or Public Papers record before promotion.`;
+  if (/Draft trail/.test(row.action_group)) return `Pair the public text ${row.title} with drafts, clearance comments, policy memoranda, and diary/event controls before treating it as a document candidate.`;
+  return `Verify item-level provenance for ${row.title} before promotion: ${row.next_pull}`;
+}
+
+function requestPacketRows() {
+  return verificationQueueRows().map((row) => ({
+    rank: row.rank,
+    repository_group: repositoryGroup(row),
+    request_type: row.action_group,
+    request_text: requestText(row),
+    identifiers: row.identifier,
+    capture_fields: captureFields(row),
+    why_it_matters: row.why_now,
+    source_note_target: row.source_note_target,
+    url: row.url
+  }));
+}
+
 function downloadSourceNoteAuditCsv() {
   const rows = sourceNoteAuditRows();
   const lines = [
@@ -296,6 +350,23 @@ function downloadVerificationQueueCsv() {
   URL.revokeObjectURL(url);
 }
 
+function downloadRequestPacketCsv() {
+  const rows = requestPacketRows();
+  const lines = [
+    requestPacketFields.join(","),
+    ...rows.map((row) => requestPacketFields.map((field) => libraryCsvEscape(row[field])).join(","))
+  ];
+  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "clinton-foundations-request-packets.csv";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
 function makeQueueCard(row) {
   const card = document.createElement("article");
   card.className = "gap-card";
@@ -321,6 +392,32 @@ function makeQueueCard(row) {
   pullList.textContent = [row.priority_or_status, row.repository_or_source, row.identifier, row.date].filter(Boolean).join(" / ");
 
   card.append(header, why, verify, next, pullList);
+  return card;
+}
+
+function makeRequestCard(row) {
+  const card = document.createElement("article");
+  card.className = "gap-card";
+
+  const header = document.createElement("div");
+  header.className = "gap-card-header";
+  const title = document.createElement("h3");
+  title.textContent = `${row.rank}. ${row.repository_group}`;
+  const badge = document.createElement("span");
+  badge.className = "chip gap-badge";
+  badge.textContent = row.request_type;
+  header.append(title, badge);
+
+  const request = document.createElement("p");
+  request.textContent = row.request_text;
+  const fields = document.createElement("p");
+  fields.className = "risk-note";
+  fields.textContent = `Capture: ${row.capture_fields}`;
+  const ids = document.createElement("p");
+  ids.className = "gap-pull-list";
+  ids.textContent = `IDs: ${row.identifiers}`;
+
+  card.append(header, request, fields, ids);
   return card;
 }
 
@@ -353,25 +450,45 @@ function installSourceNoteAuditPanel() {
   queueButton.textContent = "Export Verification Queue CSV";
   queueButton.addEventListener("click", downloadVerificationQueueCsv);
 
+  const requestSummary = document.createElement("p");
+  requestSummary.id = "request-packet-summary";
+  requestSummary.className = "result-summary";
+
+  const requestButton = document.createElement("button");
+  requestButton.id = "export-request-packets";
+  requestButton.type = "button";
+  requestButton.textContent = "Export Request Packets CSV";
+  requestButton.addEventListener("click", downloadRequestPacketCsv);
+
   const rows = sourceNoteAuditRows();
   const queueRows = verificationQueueRows();
+  const requestRows = requestPacketRows();
   const sections = new Set(rows.map((row) => row.section)).size;
+  const repositories = new Set(requestRows.map((row) => row.repository_group)).size;
   summary.textContent = `${rows.length} source-note audit rows across ${sections} compiler evidence groups`;
   queueSummary.textContent = `${queueRows.length} verification tasks sorted by source-note readiness risk`;
+  requestSummary.textContent = `${requestRows.length} request packets across ${repositories} repository groups`;
   button.disabled = rows.length === 0;
   queueButton.disabled = queueRows.length === 0;
+  requestButton.disabled = requestRows.length === 0;
 
-  actions.append(summary, button, queueSummary, queueButton);
+  actions.append(summary, button, queueSummary, queueButton, requestSummary, requestButton);
   const queuePreview = document.createElement("div");
   queuePreview.className = "gap-list";
   queuePreview.setAttribute("aria-label", "Top source-note verification tasks");
   queuePreview.append(...queueRows.slice(0, 6).map(makeQueueCard));
 
+  const requestPreview = document.createElement("div");
+  requestPreview.className = "gap-list";
+  requestPreview.setAttribute("aria-label", "Top repository request packets");
+  requestPreview.append(...requestRows.slice(0, 4).map(makeRequestCard));
+
   if (sectionNote) {
     sectionNote.insertAdjacentElement("afterend", actions);
     actions.insertAdjacentElement("afterend", queuePreview);
+    queuePreview.insertAdjacentElement("afterend", requestPreview);
   } else {
-    gapsSection.append(actions, queuePreview);
+    gapsSection.append(actions, queuePreview, requestPreview);
   }
 }
 
