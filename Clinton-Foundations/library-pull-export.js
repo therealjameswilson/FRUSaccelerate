@@ -14,6 +14,20 @@ const libraryPullFields = [
   "reading_room_move"
 ];
 
+const onsiteAgendaFields = [
+  "sequence",
+  "onsite_phase",
+  "cluster",
+  "priority",
+  "source",
+  "oaids",
+  "folder_targets",
+  "first_move",
+  "capture_fields",
+  "promotion_test",
+  "stop_rule"
+];
+
 const sourceNoteAuditFields = [
   "section",
   "date",
@@ -124,6 +138,122 @@ function downloadLibraryPullCsv() {
   link.click();
   link.remove();
   URL.revokeObjectURL(url);
+}
+
+function onsitePhase(rank) {
+  const value = Number.parseInt(rank, 10);
+  if (value === 1) return "Day 1 AM - directive spine";
+  if (value === 2) return "Day 1 PM - speech draft trail";
+  if (value >= 3 && value <= 5) return "Day 2 - doctrine and decision context";
+  if (value >= 6 && value <= 7) return "Day 3 - late-term and cross-cutting frame";
+  return "As-needed support pull";
+}
+
+function onsiteCaptureFields(title) {
+  if (/Directive/i.test(title)) return "Title page; directive text; classification marking; distribution; copy/version status; PRS/RMS routing; release status.";
+  if (/Speechwriting/i.test(title)) return "Folder title page; earliest draft; marked-up draft; final/press version; clearance comments; drafter/principal edits.";
+  if (/Senior Principal/i.test(title)) return "Meeting notes; PC/DC notes; call sheets; staff meeting records; presidential or national security advisor routing.";
+  if (/Press|Backgrounders|Communications/i.test(title)) return "Backgrounder text; press guidance; rollout memo; communications plan; link to speech/directive/meeting file.";
+  return "Folder title page; first substantive memo; briefing tabs; routing slips; decision memo; date/sender/recipient/markings.";
+}
+
+function onsiteStopRule(title) {
+  if (/Press|Backgrounders|Communications/i.test(title)) return "Stop if the file only repeats public text and cannot be tied to a promoted speech, directive, or meeting record.";
+  if (/NATO|European/i.test(title)) return "Stop once the file turns into country implementation detail better assigned to Europe/NATO volumes.";
+  if (/Global Economy|Trade/i.test(title)) return "Stop when the file becomes routine trade implementation rather than broad doctrine or strategy framing.";
+  if (/Transnational/i.test(title)) return "Stop if operational counterterrorism, cyber, or crime implementation overwhelms foundational policy framing.";
+  return "Stop after enough samples establish whether the cluster carries item-level source-note value for Volume I.";
+}
+
+function onsiteAgendaRows() {
+  return dataList(typeof libraryPulls === "undefined" ? [] : libraryPulls).map((pull) => ({
+    sequence: pull.rank,
+    onsite_phase: onsitePhase(pull.rank),
+    cluster: pull.title,
+    priority: pull.priority,
+    source: pull.source,
+    oaids: pull.oaids.join("; "),
+    folder_targets: pull.folders,
+    first_move: pull.onsite,
+    capture_fields: onsiteCaptureFields(pull.title),
+    promotion_test: pull.why,
+    stop_rule: onsiteStopRule(pull.title)
+  }));
+}
+
+function downloadOnsiteAgendaCsv() {
+  const rows = onsiteAgendaRows();
+  const lines = [
+    onsiteAgendaFields.join(","),
+    ...rows.map((row) => onsiteAgendaFields.map((field) => libraryCsvEscape(row[field])).join(","))
+  ];
+  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "clinton-library-onsite-agenda.csv";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function makeOnsiteAgendaCard(row) {
+  const card = document.createElement("article");
+  card.className = "library-card";
+
+  const header = document.createElement("div");
+  header.className = "library-card-header";
+  const rank = document.createElement("strong");
+  rank.textContent = row.sequence;
+  const phase = document.createElement("span");
+  phase.className = "chip";
+  phase.textContent = row.onsite_phase;
+  header.append(rank, phase);
+
+  const title = document.createElement("h3");
+  title.textContent = row.cluster;
+  const firstMove = document.createElement("p");
+  firstMove.className = "library-onsite";
+  firstMove.textContent = `First move: ${row.first_move}`;
+  const capture = document.createElement("p");
+  capture.className = "risk-note";
+  capture.textContent = `Capture: ${row.capture_fields}`;
+  const stop = document.createElement("p");
+  stop.className = "gap-pull-list";
+  stop.textContent = `Stop rule: ${row.stop_rule}`;
+
+  card.append(header, title, firstMove, capture, stop);
+  return card;
+}
+
+function installOnsiteAgendaPanel() {
+  const librarySection = document.querySelector("#library");
+  const libraryActions = document.querySelector(".library-actions");
+  if (!librarySection || !libraryActions || document.querySelector("#export-onsite-agenda")) return;
+
+  const rows = onsiteAgendaRows();
+  const phases = new Set(rows.map((row) => row.onsite_phase)).size;
+
+  const summary = document.createElement("p");
+  summary.id = "onsite-agenda-summary";
+  summary.className = "result-summary";
+  summary.textContent = `${rows.length} onsite agenda clusters across ${phases} work phases`;
+
+  const button = document.createElement("button");
+  button.id = "export-onsite-agenda";
+  button.type = "button";
+  button.textContent = "Export Onsite Agenda CSV";
+  button.disabled = rows.length === 0;
+  button.addEventListener("click", downloadOnsiteAgendaCsv);
+
+  libraryActions.append(summary, button);
+
+  const preview = document.createElement("div");
+  preview.className = "library-grid";
+  preview.setAttribute("aria-label", "Clinton Library onsite agenda preview");
+  preview.append(...rows.slice(0, 4).map(makeOnsiteAgendaCard));
+  libraryActions.insertAdjacentElement("afterend", preview);
 }
 
 function dataList(value) {
@@ -615,4 +745,5 @@ if (libraryPullRoot && libraryPullSummary && exportLibraryPullsButton) {
   updateLibraryPullSummary();
 }
 
+installOnsiteAgendaPanel();
 installSourceNoteAuditPanel();
