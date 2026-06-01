@@ -28,7 +28,7 @@ document edition. It gathers:
 - `styles.css`: responsive visual system
 - `app.js`: source data, filters, rendering, gap board, and CSV exports
 - `chronology-export.js`: first-section document chronology CSV export
-- `library-pull-export.js`: Clinton Library OA/ID pull-sheet, source-note audit, verification queue, and request-packet CSV exports
+- `library-pull-export.js`: Clinton Library OA/ID pull-sheet, source-note audit, verification queue, request-packet, and request-batch CSV exports
 - `assets/foundations-source-map.svg`: source map visual
 - `reports/compiler-gap-analysis.md`: source-gap treatment report
 
@@ -58,9 +58,11 @@ Library pull clusters. It also exports
 `clinton-foundations-verification-queue.csv`, which sorts the same evidence
 into a source-note readiness worklist, and
 `clinton-foundations-request-packets.csv`, which turns those tasks into
-repository-facing ask text and capture fields. Use these worksheets for
-checking which leads are still locators and which have enough item-level
-evidence for final FRUS source-note treatment.
+repository-facing ask text and capture fields. The companion
+`clinton-foundations-request-batches.csv` groups those rows by repository and
+request type for handoff planning. Use these worksheets for checking which
+leads are still locators and which have enough item-level evidence for final
+FRUS source-note treatment.
 
 ## Presidential Daily Diary Search
 
@@ -103,11 +105,11 @@ file units, public strategy papers, speech draft trails, and late-term handoff
 records. It can be exported as `clinton-foundations-document-chronology.csv`
 for reading-room pull sheets or source-note reconciliation.
 
-The source-note audit, verification queue, and request-packet export are the
-second reconciliation layer: they keep the working source-note target,
-verification need, next pull, repository ask, and capture fields in one row for
-each evidence group, then sort the tasks so archival pulls do not lose their
-FRUS-style citation requirements.
+The source-note audit, verification queue, request-packet export, and grouped
+request batches are the second reconciliation layer: they keep the working
+source-note target, verification need, next pull, repository ask, and capture
+fields in one row for each evidence group, then sort and group the tasks so
+archival pulls do not lose their FRUS-style citation requirements.
 
 The largest risk is over-collection. NATO, Russia, Balkans, arms control,
 counterterrorism, economic policy, and global-issues implementation records

@@ -55,6 +55,19 @@ const requestPacketFields = [
   "url"
 ];
 
+const requestBatchFields = [
+  "batch_rank",
+  "repository_group",
+  "request_type",
+  "request_count",
+  "rank_range",
+  "identifiers",
+  "batch_request",
+  "capture_fields",
+  "source_note_targets",
+  "urls"
+];
+
 function libraryTextOf(root, selector) {
   return root.querySelector(selector)?.textContent.trim() || "";
 }
@@ -316,6 +329,48 @@ function requestPacketRows() {
   }));
 }
 
+function uniqueValues(values) {
+  return [...new Set(values.filter(Boolean))];
+}
+
+function summarizeIdentifiers(rows) {
+  const identifiers = uniqueValues(rows.flatMap((row) => String(row.identifiers || "").split(";").map((value) => value.trim())));
+  if (identifiers.length <= 12) return identifiers.join("; ");
+  return `${identifiers.slice(0, 12).join("; ")}; +${identifiers.length - 12} more`;
+}
+
+function requestBatchRows() {
+  const groups = new Map();
+  for (const row of requestPacketRows()) {
+    const key = `${row.repository_group}::${row.request_type}`;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(row);
+  }
+
+  return [...groups.values()]
+    .map((rows) => {
+      const sortedRows = [...rows].sort((a, b) => Number(a.rank) - Number(b.rank));
+      const first = sortedRows[0];
+      const ranks = sortedRows.map((row) => Number(row.rank));
+      const identifiers = summarizeIdentifiers(sortedRows);
+      const sourceTargets = uniqueValues(sortedRows.map((row) => row.source_note_target)).slice(0, 6).join(" | ");
+      const urls = uniqueValues(sortedRows.map((row) => row.url)).slice(0, 8).join(" | ");
+      return {
+        batch_rank: Math.min(...ranks),
+        repository_group: first.repository_group,
+        request_type: first.request_type,
+        request_count: sortedRows.length,
+        rank_range: `${Math.min(...ranks)}-${Math.max(...ranks)}`,
+        identifiers,
+        batch_request: `${first.repository_group}: ${first.request_type}. Work ${sortedRows.length} related request rows together; start with ${identifiers}.`,
+        capture_fields: uniqueValues(sortedRows.map((row) => row.capture_fields)).join(" | "),
+        source_note_targets: sourceTargets,
+        urls
+      };
+    })
+    .sort((a, b) => Number(a.batch_rank) - Number(b.batch_rank) || a.repository_group.localeCompare(b.repository_group));
+}
+
 function downloadSourceNoteAuditCsv() {
   const rows = sourceNoteAuditRows();
   const lines = [
@@ -361,6 +416,23 @@ function downloadRequestPacketCsv() {
   const link = document.createElement("a");
   link.href = url;
   link.download = "clinton-foundations-request-packets.csv";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function downloadRequestBatchCsv() {
+  const rows = requestBatchRows();
+  const lines = [
+    requestBatchFields.join(","),
+    ...rows.map((row) => requestBatchFields.map((field) => libraryCsvEscape(row[field])).join(","))
+  ];
+  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "clinton-foundations-request-batches.csv";
   document.body.append(link);
   link.click();
   link.remove();
@@ -421,6 +493,32 @@ function makeRequestCard(row) {
   return card;
 }
 
+function makeBatchCard(row) {
+  const card = document.createElement("article");
+  card.className = "gap-card";
+
+  const header = document.createElement("div");
+  header.className = "gap-card-header";
+  const title = document.createElement("h3");
+  title.textContent = `${row.batch_rank}. ${row.repository_group}`;
+  const badge = document.createElement("span");
+  badge.className = "chip gap-badge";
+  badge.textContent = `${row.request_count} rows`;
+  header.append(title, badge);
+
+  const request = document.createElement("p");
+  request.textContent = row.batch_request;
+  const fields = document.createElement("p");
+  fields.className = "risk-note";
+  fields.textContent = `Capture: ${row.capture_fields}`;
+  const ids = document.createElement("p");
+  ids.className = "gap-pull-list";
+  ids.textContent = `IDs: ${row.identifiers}`;
+
+  card.append(header, request, fields, ids);
+  return card;
+}
+
 function installSourceNoteAuditPanel() {
   const gapsSection = document.querySelector("#gaps");
   const sectionNote = gapsSection?.querySelector(".section-note");
@@ -460,19 +558,32 @@ function installSourceNoteAuditPanel() {
   requestButton.textContent = "Export Request Packets CSV";
   requestButton.addEventListener("click", downloadRequestPacketCsv);
 
+  const batchSummary = document.createElement("p");
+  batchSummary.id = "request-batch-summary";
+  batchSummary.className = "result-summary";
+
+  const batchButton = document.createElement("button");
+  batchButton.id = "export-request-batches";
+  batchButton.type = "button";
+  batchButton.textContent = "Export Request Batches CSV";
+  batchButton.addEventListener("click", downloadRequestBatchCsv);
+
   const rows = sourceNoteAuditRows();
   const queueRows = verificationQueueRows();
   const requestRows = requestPacketRows();
+  const batchRows = requestBatchRows();
   const sections = new Set(rows.map((row) => row.section)).size;
   const repositories = new Set(requestRows.map((row) => row.repository_group)).size;
   summary.textContent = `${rows.length} source-note audit rows across ${sections} compiler evidence groups`;
   queueSummary.textContent = `${queueRows.length} verification tasks sorted by source-note readiness risk`;
   requestSummary.textContent = `${requestRows.length} request packets across ${repositories} repository groups`;
+  batchSummary.textContent = `${batchRows.length} grouped request batches for repository handoff`;
   button.disabled = rows.length === 0;
   queueButton.disabled = queueRows.length === 0;
   requestButton.disabled = requestRows.length === 0;
+  batchButton.disabled = batchRows.length === 0;
 
-  actions.append(summary, button, queueSummary, queueButton, requestSummary, requestButton);
+  actions.append(summary, button, queueSummary, queueButton, requestSummary, requestButton, batchSummary, batchButton);
   const queuePreview = document.createElement("div");
   queuePreview.className = "gap-list";
   queuePreview.setAttribute("aria-label", "Top source-note verification tasks");
@@ -483,12 +594,18 @@ function installSourceNoteAuditPanel() {
   requestPreview.setAttribute("aria-label", "Top repository request packets");
   requestPreview.append(...requestRows.slice(0, 4).map(makeRequestCard));
 
+  const batchPreview = document.createElement("div");
+  batchPreview.className = "gap-list";
+  batchPreview.setAttribute("aria-label", "Grouped repository request batches");
+  batchPreview.append(...batchRows.slice(0, 5).map(makeBatchCard));
+
   if (sectionNote) {
     sectionNote.insertAdjacentElement("afterend", actions);
     actions.insertAdjacentElement("afterend", queuePreview);
     queuePreview.insertAdjacentElement("afterend", requestPreview);
+    requestPreview.insertAdjacentElement("afterend", batchPreview);
   } else {
-    gapsSection.append(actions, queuePreview, requestPreview);
+    gapsSection.append(actions, queuePreview, requestPreview, batchPreview);
   }
 }
 

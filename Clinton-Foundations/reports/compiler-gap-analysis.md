@@ -28,14 +28,15 @@ Foundations of Foreign Policy*.
 3. Source-note audit CSV: reconcile each chronology control, candidate record, Daily Diary pointer, directive, public statement, and Library pull cluster against FRUS-style citation requirements before promotion.
 4. Verification queue CSV: work the sorted readiness queue so directive source packets, Library reading-room pulls, public-text draft trails, and diary pairings are verified in priority order.
 5. Request-packet CSV: use repository-facing ask text and capture fields when writing Clinton Library, NARA, or public-text verification requests.
-6. NSC Records Management Office, NAID 7388808: PRS/RMS files for PDD-1, PDD-2, PRD-35, PRD-26, PDD-25, PDD-39, PDD-42, PDD-63, and PDD-68.
-7. NSC Executive Secretary, NAID 7386739: subject files and routing records around national security strategy and interagency policy review.
-8. NSC Speechwriting Office, NAID 7388842: Lake enlargement speech, UNGA 1993, State of the Union foreign-policy sections, UN 50th anniversary, and second-term new-century speeches.
-9. Blinken files, 2006-0459-F: draft chains for Lake, Berger, Steinberg, State of the Union, UNGA, and foreign-policy theme memos.
-10. Boorstin files, 2006-0460-F: first-term Clinton/Lake/Berger/Christopher speech drafts and UN 50th anniversary folders.
-11. Widmer files, 2006-0471-F: second-term foreign-policy speech drafts and presidential revision traces.
-12. P.J. Crowley Press and Communications collection: first-year public framing and press guidance.
-13. Presidential Daily Diary, NAID 101784492, and the NARA Catalog `2010-0083-F` search set: chronology control for public doctrine events, calls, strategy meetings, and summit preparation.
+6. Request-batch CSV: group packet rows by repository and request type before sending reading-room or remote-reference requests.
+7. NSC Records Management Office, NAID 7388808: PRS/RMS files for PDD-1, PDD-2, PRD-35, PRD-26, PDD-25, PDD-39, PDD-42, PDD-63, and PDD-68.
+8. NSC Executive Secretary, NAID 7386739: subject files and routing records around national security strategy and interagency policy review.
+9. NSC Speechwriting Office, NAID 7388842: Lake enlargement speech, UNGA 1993, State of the Union foreign-policy sections, UN 50th anniversary, and second-term new-century speeches.
+10. Blinken files, 2006-0459-F: draft chains for Lake, Berger, Steinberg, State of the Union, UNGA, and foreign-policy theme memos.
+11. Boorstin files, 2006-0460-F: first-term Clinton/Lake/Berger/Christopher speech drafts and UN 50th anniversary folders.
+12. Widmer files, 2006-0471-F: second-term foreign-policy speech drafts and presidential revision traces.
+13. P.J. Crowley Press and Communications collection: first-year public framing and press guidance.
+14. Presidential Daily Diary, NAID 101784492, and the NARA Catalog `2010-0083-F` search set: chronology control for public doctrine events, calls, strategy meetings, and summit preparation.
 
 ## Chronology-First Treatment
 
@@ -101,6 +102,9 @@ The `clinton-foundations-request-packets.csv` export then rewrites the queue as
 repository-facing requests with identifiers, capture fields, source-note
 targets, and URLs, so the compiler can move from review to an onsite or remote
 ask without rephrasing every row.
+The `clinton-foundations-request-batches.csv` export groups those requests by
+repository and request type, giving the compiler a smaller handoff list for
+remote-reference emails, reading-room call slips, or day-by-day onsite staging.
 
 ## Precedent Document Types
 
