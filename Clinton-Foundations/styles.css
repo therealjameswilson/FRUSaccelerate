@@ -179,7 +179,8 @@ h3 {
 }
 
 .button,
-.tool-panel button {
+.tool-panel button,
+.chronology-actions button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -201,7 +202,9 @@ h3 {
 .button:hover,
 .button:focus-visible,
 .tool-panel button:hover,
-.tool-panel button:focus-visible {
+.tool-panel button:focus-visible,
+.chronology-actions button:hover,
+.chronology-actions button:focus-visible {
   box-shadow: 0 14px 28px rgba(32, 51, 76, 0.16);
   outline: none;
   transform: translateY(-1px);
@@ -385,6 +388,22 @@ dd {
 .document-chronology {
   display: grid;
   gap: 12px;
+}
+
+.chronology-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 18px;
+  padding: 16px;
+  background: rgba(255, 254, 250, 0.72);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.chronology-actions .result-summary {
+  grid-column: auto;
 }
 
 .doc-chrono-row {
@@ -1008,6 +1027,7 @@ dd {
 
   .tool-panel,
   .tool-panel.compact-tools,
+  .chronology-actions,
   .leads-section .tool-panel,
   .people-section .tool-panel,
   .statements-section .tool-panel {
@@ -1059,6 +1079,7 @@ dd {
   .type-grid,
   .tool-panel,
   .tool-panel.compact-tools,
+  .chronology-actions,
   .leads-section .tool-panel,
   .people-section .tool-panel,
   .statements-section .tool-panel,

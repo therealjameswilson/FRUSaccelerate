@@ -39,7 +39,9 @@ Foundations of Foreign Policy*.
 The page now starts with a chronology of released, declassified, and publicly
 accessible document controls. This is the lead compiler move: establish date
 sequence first, then decide whether the document belongs to Volume I, needs a
-source packet, or should be handed off to a regional or functional volume.
+source packet, or should be handed off to a regional or functional volume. The
+chronology can be exported as CSV for an offline pull sheet or source-note
+reconciliation worksheet.
 
 ## Presidential Daily Diary Search Pass
 

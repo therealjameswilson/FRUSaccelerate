@@ -10,6 +10,7 @@
     />
     <link rel="stylesheet" href="styles.css" />
     <script defer src="app.js"></script>
+    <script defer src="chronology-export.js"></script>
   </head>
   <body>
     <header class="site-header">
@@ -93,6 +94,10 @@
           and publicly accessible document controls in chronological order so the compiler can see
           the policy sequence first, then decide which source trail deserves reading-room time.
         </p>
+        <div class="chronology-actions" aria-label="Document chronology actions">
+          <p id="document-chronology-summary" class="result-summary">Loading document chronology...</p>
+          <button id="export-document-chronology" type="button">Export Chronology CSV</button>
+        </div>
         <div id="document-chronology-root" class="document-chronology" aria-live="polite">
           <p class="loading">Loading document chronology...</p>
         </div>

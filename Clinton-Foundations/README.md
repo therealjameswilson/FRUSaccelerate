@@ -86,7 +86,8 @@ The page now leads with document chronology. That section is intentionally
 ordered by date before office, topic, or record type, so a compiler can see the
 sequence of released/declassified controls first: PRD/PDD anchors, Daily Diary
 file units, public strategy papers, speech draft trails, and late-term handoff
-records.
+records. It can be exported as `clinton-foundations-document-chronology.csv`
+for reading-room pull sheets or source-note reconciliation.
 
 The largest risk is over-collection. NATO, Russia, Balkans, arms control,
 counterterrorism, economic policy, and global-issues implementation records
