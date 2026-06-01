@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="styles.css" />
     <script defer src="app.js"></script>
     <script defer src="chronology-export.js"></script>
+    <script defer src="library-pull-export.js"></script>
   </head>
   <body>
     <header class="site-header">
@@ -262,6 +263,10 @@
             <strong>Capture notes</strong>
             <p>Record OA/ID, folder title, staff office, document type, date, sender/recipient, and restriction clues.</p>
           </article>
+        </div>
+        <div class="library-actions" aria-label="Clinton Library pull sheet actions">
+          <p id="library-pull-summary" class="result-summary">Loading pull sheet...</p>
+          <button id="export-library-pulls" type="button">Export Pull Sheet CSV</button>
         </div>
         <div id="library-root" class="library-grid" aria-live="polite">
           <p class="loading">Loading Clinton Library pull plan...</p>

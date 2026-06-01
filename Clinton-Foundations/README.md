@@ -27,6 +27,8 @@ document edition. It gathers:
 - `index.html`: page structure and workbench sections
 - `styles.css`: responsive visual system
 - `app.js`: source data, filters, rendering, gap board, and CSV exports
+- `chronology-export.js`: first-section document chronology CSV export
+- `library-pull-export.js`: Clinton Library OA/ID pull-sheet CSV export
 - `assets/foundations-source-map.svg`: source map visual
 - `reports/compiler-gap-analysis.md`: source-gap treatment report
 
@@ -38,7 +40,8 @@ into the repository. They are used as folder-title intelligence for a reading
 room pull order: directives and PRS chronologies, speechwriting drafts, NATO
 and Europe files, UN and multilateral files, senior-principal process records,
 global economy folders, transnational-threat records, and press/backgrounder
-support files.
+support files. The section can be exported as `clinton-library-pull-sheet.csv`
+with one row per OA/ID request.
 
 ## Source Notes
 

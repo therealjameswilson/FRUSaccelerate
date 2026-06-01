@@ -24,7 +24,7 @@ Foundations of Foreign Policy*.
 ## Priority Pull List
 
 1. Declassified document chronology: work the first page section in date order before splitting by office or topic.
-2. Clinton Library 2013-0185-M, Parts 1-4: use the Library Sprint pull clusters for OA/ID-level reading-room requests before broader box review.
+2. Clinton Library 2013-0185-M, Parts 1-4: export the Library Sprint pull sheet, then use the OA/ID-level rows for reading-room requests before broader box review.
 3. NSC Records Management Office, NAID 7388808: PRS/RMS files for PDD-1, PDD-2, PRD-35, PRD-26, PDD-25, PDD-39, PDD-42, PDD-63, and PDD-68.
 4. NSC Executive Secretary, NAID 7386739: subject files and routing records around national security strategy and interagency policy review.
 5. NSC Speechwriting Office, NAID 7388842: Lake enlargement speech, UNGA 1993, State of the Union foreign-policy sections, UN 50th anniversary, and second-term new-century speeches.
