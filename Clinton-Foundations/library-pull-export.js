@@ -121,6 +121,25 @@ const selectionDecisionFields = [
   "url"
 ];
 
+const handoffRegisterFields = [
+  "handoff_rank",
+  "date",
+  "title",
+  "action_group",
+  "priority_or_status",
+  "repository_or_source",
+  "identifier",
+  "likely_destination",
+  "why_handoff",
+  "keep_in_volume_i",
+  "volume_i_citation_use",
+  "source_note_status",
+  "next_action",
+  "final_owner",
+  "status",
+  "url"
+];
+
 const verificationQueueFields = [
   "rank",
   "action_group",
@@ -828,6 +847,59 @@ function selectionDecisionRows() {
   }));
 }
 
+function needsHandoff(row) {
+  return /hand off|hand implementation|hand operational/i.test(row.volume_boundary);
+}
+
+function handoffDestination(row) {
+  const text = `${row.title} ${row.identifier} ${row.volume_boundary}`.toLowerCase();
+  if (/nato|europe|russia|ukraine|balkans|bosnia|kosovo|arms-control|arms control|strategic/.test(text)) {
+    return "Europe/Russia/Balkans/arms-control Clinton volumes";
+  }
+  if (/trade|economy|economic|g-?7|g-?8/.test(text)) return "Economic policy/global economy Clinton volumes";
+  if (/terror|cyber|crime|infrastructure|transnational/.test(text)) {
+    return "Global issues/counterterrorism/cyber/transnational-threats Clinton volumes";
+  }
+  return "Adjacent Clinton topical volume to assign";
+}
+
+function volumeIKeep(row) {
+  if (/Europe|Russia|Balkans|arms-control/i.test(row.likely_destination || "")) {
+    return "Keep only doctrine, process, alliance architecture, or strategic-framing evidence that explains the foundations volume.";
+  }
+  if (/Economic/i.test(row.likely_destination || "")) return "Keep broad globalization or economic-doctrine framing; move implementation and sector detail.";
+  if (/Global issues|transnational/i.test(row.likely_destination || "")) {
+    return "Keep broad transnational-threat doctrine; move operational counterterrorism, cyber, infrastructure, or crime detail.";
+  }
+  return "Keep only foundation-level doctrine, process, strategy, or public framing.";
+}
+
+function handoffRegisterRows() {
+  return selectionDecisionRows()
+    .filter(needsHandoff)
+    .map((row, index) => {
+      const likely_destination = handoffDestination(row);
+      return {
+        handoff_rank: index + 1,
+        date: row.date,
+        title: row.title,
+        action_group: row.action_group,
+        priority_or_status: row.priority_or_status,
+        repository_or_source: row.repository_or_source,
+        identifier: row.identifier,
+        likely_destination,
+        why_handoff: row.volume_boundary,
+        keep_in_volume_i: volumeIKeep({ ...row, likely_destination }),
+        volume_i_citation_use: row.editorial_note_use,
+        source_note_status: row.source_note_status,
+        next_action: `Assign implementation material to ${likely_destination}; keep only Volume I framing evidence and source-note bridge text.`,
+        final_owner: "",
+        status: "",
+        url: row.url
+      };
+    });
+}
+
 function uniqueValues(values) {
   return [...new Set(values.filter(Boolean))];
 }
@@ -1097,6 +1169,16 @@ function compilerRunbookRows() {
     },
     {
       sequence: "11",
+      compiler_move: "Register adjacent-volume handoffs",
+      page_section: "Gap Register And Pull Controls",
+      export_button: "Export Handoff Register CSV",
+      output_file: "clinton-foundations-handoff-register.csv",
+      use_for: "Extract selection rows whose boundary warning points to Europe, Russia, Balkans, arms-control, economic, global-issues, or transnational-threat volumes.",
+      decision_supported: "Which implementation records leave Volume I, what framing stays, and who owns the follow-up.",
+      stop_condition: "Stop when every handoff row has a receiving volume/owner, Volume I citation use, and status."
+    },
+    {
+      sequence: "12",
       compiler_move: "Audit source-note readiness",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Source-Note Audit CSV",
@@ -1106,7 +1188,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when no promoted row lacks verification need, next pull, and source-note target."
     },
     {
-      sequence: "12",
+      sequence: "13",
       compiler_move: "Work the readiness queue",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Verification Queue CSV",
@@ -1116,7 +1198,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when priority rows are assigned to a repository request or onsite action."
     },
     {
-      sequence: "13",
+      sequence: "14",
       compiler_move: "Write repository-facing asks",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Request Packets CSV",
@@ -1126,7 +1208,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each ask has identifiers, capture fields, and a source-note target."
     },
     {
-      sequence: "14",
+      sequence: "15",
       compiler_move: "Batch the handoff",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Request Batches CSV",
@@ -1136,7 +1218,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each repository has a compact batch list rather than row-by-row requests."
     },
     {
-      sequence: "15",
+      sequence: "16",
       compiler_move: "Draft repository correspondence",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Correspondence Drafts CSV",
@@ -1146,7 +1228,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each batch has correspondence text that preserves the FRUS source-note capture requirements."
     },
     {
-      sequence: "16",
+      sequence: "17",
       compiler_move: "Review candidate file units",
       page_section: "Records To Pull, Check, Or Promote",
       export_button: "Export CSV",
@@ -1156,7 +1238,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when high-priority candidates have item-level risk notes and repository URLs."
     },
     {
-      sequence: "17",
+      sequence: "18",
       compiler_move: "Pair public doctrine statements",
       page_section: "Public Statements And Strategy Texts",
       export_button: "Export CSV",
@@ -1166,7 +1248,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each public text has a paired archival target or context-only decision."
     },
     {
-      sequence: "18",
+      sequence: "19",
       compiler_move: "Check principal context",
       page_section: "People And Offices",
       export_button: "Export CSV",
@@ -1240,6 +1322,23 @@ function downloadSelectionDecisionCsv() {
   const link = document.createElement("a");
   link.href = url;
   link.download = "clinton-foundations-selection-matrix.csv";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function downloadHandoffRegisterCsv() {
+  const rows = handoffRegisterRows();
+  const lines = [
+    handoffRegisterFields.join(","),
+    ...rows.map((row) => handoffRegisterFields.map((field) => libraryCsvEscape(row[field])).join(","))
+  ];
+  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "clinton-foundations-handoff-register.csv";
   document.body.append(link);
   link.click();
   link.remove();
@@ -1489,6 +1588,32 @@ function makeSelectionDecisionCard(row) {
   return card;
 }
 
+function makeHandoffRegisterCard(row) {
+  const card = document.createElement("article");
+  card.className = "gap-card";
+
+  const header = document.createElement("div");
+  header.className = "gap-card-header";
+  const title = document.createElement("h3");
+  title.textContent = `${row.handoff_rank}. ${row.title}`;
+  const badge = document.createElement("span");
+  badge.className = "chip gap-badge";
+  badge.textContent = "Handoff";
+  header.append(title, badge);
+
+  const why = document.createElement("p");
+  why.textContent = "Why handoff: implementation or operational detail belongs outside Volume I.";
+  const keep = document.createElement("p");
+  keep.className = "risk-note";
+  keep.textContent = `Keep in Volume I: ${row.keep_in_volume_i}`;
+  const action = document.createElement("p");
+  action.className = "gap-pull-list";
+  action.textContent = "Next action: assign receiving volume owner and status; keep only Volume I framing.";
+
+  card.append(header, why, keep, action);
+  return card;
+}
+
 function makeSourceNoteTemplateCard(row) {
   const card = document.createElement("article");
   card.className = "gap-card";
@@ -1614,6 +1739,16 @@ function installSourceNoteAuditPanel() {
   selectionButton.textContent = "Export Selection Matrix CSV";
   selectionButton.addEventListener("click", downloadSelectionDecisionCsv);
 
+  const handoffSummary = document.createElement("p");
+  handoffSummary.id = "handoff-register-summary";
+  handoffSummary.className = "result-summary";
+
+  const handoffButton = document.createElement("button");
+  handoffButton.id = "export-handoff-register";
+  handoffButton.type = "button";
+  handoffButton.textContent = "Export Handoff Register CSV";
+  handoffButton.addEventListener("click", downloadHandoffRegisterCsv);
+
   const queueSummary = document.createElement("p");
   queueSummary.id = "verification-queue-summary";
   queueSummary.className = "result-summary";
@@ -1667,6 +1802,7 @@ function installSourceNoteAuditPanel() {
   const rows = sourceNoteAuditRows();
   const intakeRows = sourceNoteIntakeRows();
   const selectionRows = selectionDecisionRows();
+  const handoffRows = handoffRegisterRows();
   const queueRows = verificationQueueRows();
   const requestRows = requestPacketRows();
   const batchRows = requestBatchRows();
@@ -1677,6 +1813,7 @@ function installSourceNoteAuditPanel() {
   summary.textContent = `${rows.length} source-note audit rows across ${sections} compiler evidence groups`;
   intakeSummary.textContent = `${intakeRows.length} source-note intake rows with blank item-level capture fields`;
   selectionSummary.textContent = `${selectionRows.length} selection decisions queued for print, note, context, or handoff review`;
+  handoffSummary.textContent = `${handoffRows.length} adjacent-volume handoff rows isolated from the selection matrix`;
   queueSummary.textContent = `${queueRows.length} verification tasks sorted by source-note readiness risk`;
   requestSummary.textContent = `${requestRows.length} request packets across ${repositories} repository groups`;
   batchSummary.textContent = `${batchRows.length} grouped request batches for repository handoff`;
@@ -1685,6 +1822,7 @@ function installSourceNoteAuditPanel() {
   button.disabled = rows.length === 0;
   intakeButton.disabled = intakeRows.length === 0;
   selectionButton.disabled = selectionRows.length === 0;
+  handoffButton.disabled = handoffRows.length === 0;
   queueButton.disabled = queueRows.length === 0;
   requestButton.disabled = requestRows.length === 0;
   batchButton.disabled = batchRows.length === 0;
@@ -1698,6 +1836,8 @@ function installSourceNoteAuditPanel() {
     intakeButton,
     selectionSummary,
     selectionButton,
+    handoffSummary,
+    handoffButton,
     queueSummary,
     queueButton,
     requestSummary,
@@ -1724,6 +1864,11 @@ function installSourceNoteAuditPanel() {
   selectionPreview.setAttribute("aria-label", "Selection decision matrix preview");
   selectionPreview.append(...selectionRows.slice(0, 4).map(makeSelectionDecisionCard));
 
+  const handoffPreview = document.createElement("div");
+  handoffPreview.className = "gap-list";
+  handoffPreview.setAttribute("aria-label", "Adjacent-volume handoff register preview");
+  handoffPreview.append(...handoffRows.slice(0, 4).map(makeHandoffRegisterCard));
+
   const requestPreview = document.createElement("div");
   requestPreview.className = "gap-list";
   requestPreview.setAttribute("aria-label", "Top repository request packets");
@@ -1748,13 +1893,14 @@ function installSourceNoteAuditPanel() {
     sectionNote.insertAdjacentElement("afterend", actions);
     actions.insertAdjacentElement("afterend", intakePreview);
     intakePreview.insertAdjacentElement("afterend", selectionPreview);
-    selectionPreview.insertAdjacentElement("afterend", queuePreview);
+    selectionPreview.insertAdjacentElement("afterend", handoffPreview);
+    handoffPreview.insertAdjacentElement("afterend", queuePreview);
     queuePreview.insertAdjacentElement("afterend", requestPreview);
     requestPreview.insertAdjacentElement("afterend", batchPreview);
     batchPreview.insertAdjacentElement("afterend", correspondencePreview);
     correspondencePreview.insertAdjacentElement("afterend", templatePreview);
   } else {
-    gapsSection.append(actions, intakePreview, selectionPreview, queuePreview, requestPreview, batchPreview, correspondencePreview, templatePreview);
+    gapsSection.append(actions, intakePreview, selectionPreview, handoffPreview, queuePreview, requestPreview, batchPreview, correspondencePreview, templatePreview);
   }
 }
 

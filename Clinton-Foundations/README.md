@@ -28,7 +28,7 @@ document edition. It gathers:
 - `styles.css`: responsive visual system
 - `app.js`: source data, filters, rendering, gap board, and source-lead/record/statement/person CSV exports
 - `chronology-export.js`: first-section document chronology and triage CSV exports
-- `library-pull-export.js`: Clinton Library OA/ID pull-sheet, call-slip queue, onsite agenda, Daily Diary controls, compiler runbook, source-note audit, source-note intake, selection matrix, source-note template, verification queue, request-packet, request-batch, and correspondence-draft CSV exports
+- `library-pull-export.js`: Clinton Library OA/ID pull-sheet, call-slip queue, onsite agenda, Daily Diary controls, compiler runbook, source-note audit, source-note intake, selection matrix, adjacent-volume handoff register, source-note template, verification queue, request-packet, request-batch, and correspondence-draft CSV exports
 - `assets/foundations-source-map.svg`: source map visual
 - `reports/compiler-gap-analysis.md`: source-gap treatment report
 
@@ -68,6 +68,9 @@ material;
 `clinton-foundations-selection-matrix.csv`, a print/editorial-note/context/
 handoff worksheet that carries recommended treatment, selection gate, paired
 evidence, source-note status, and volume-boundary cautions;
+`clinton-foundations-handoff-register.csv`, a filtered register for rows whose
+selection boundary points to adjacent Clinton volumes, with destination,
+keep-in-Volume-I rationale, citation use, next action, owner, and status fields;
 `clinton-foundations-verification-queue.csv`, which sorts the same evidence
 into a source-note readiness worklist, and
 `clinton-foundations-request-packets.csv`, which turns those tasks into
@@ -133,13 +136,14 @@ for reading-room pull sheets or source-note reconciliation. The companion
 a promotion worksheet with evidence roles, pairing requirements, source-note
 actions, and volume-boundary cautions.
 
-The source-note audit, source-note intake sheet, selection matrix,
-verification queue, request-packet export, grouped request batches, and
-correspondence drafts are the second reconciliation layer: they keep the
+The source-note audit, source-note intake sheet, selection matrix, handoff
+register, verification queue, request-packet export, grouped request batches,
+and correspondence drafts are the second reconciliation layer: they keep the
 working source-note target, blank item-level capture fields, selection gate,
-volume-boundary caution, verification need, next pull, repository ask, capture
-fields, and outreach text together for each evidence group, then sort and group
-the tasks so archival pulls do not lose their FRUS-style citation requirements.
+volume-boundary caution, adjacent-volume destination, verification need, next
+pull, repository ask, capture fields, and outreach text together for each
+evidence group, then sort and group the tasks so archival pulls do not lose
+their FRUS-style citation requirements.
 
 The Research Ingest Checklist also exports
 `clinton-foundations-compiler-runbook.csv`, a manifest that sequences every
