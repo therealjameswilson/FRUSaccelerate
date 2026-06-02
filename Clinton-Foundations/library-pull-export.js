@@ -72,6 +72,35 @@ const sourceNoteAuditFields = [
   "url"
 ];
 
+const sourceNoteIntakeFields = [
+  "intake_rank",
+  "action_group",
+  "date",
+  "title",
+  "priority_or_status",
+  "repository_or_source",
+  "identifier",
+  "required_capture_fields",
+  "provisional_source_note",
+  "verification_needed",
+  "next_pull",
+  "collection_or_office",
+  "series_or_file_unit",
+  "box",
+  "folder",
+  "document_title",
+  "document_date",
+  "sender_recipient",
+  "classification_marking",
+  "copy_version_status",
+  "release_status",
+  "paired_record",
+  "promotion_decision",
+  "final_source_note",
+  "follow_up",
+  "url"
+];
+
 const verificationQueueFields = [
   "rank",
   "action_group",
@@ -675,6 +704,37 @@ function requestPacketRows() {
   }));
 }
 
+function sourceNoteIntakeRows() {
+  return verificationQueueRows().map((row) => ({
+    intake_rank: row.rank,
+    action_group: row.action_group,
+    date: row.date,
+    title: row.title,
+    priority_or_status: row.priority_or_status,
+    repository_or_source: row.repository_or_source,
+    identifier: row.identifier,
+    required_capture_fields: captureFields(row),
+    provisional_source_note: row.source_note_target,
+    verification_needed: row.verification_needed,
+    next_pull: row.next_pull,
+    collection_or_office: "",
+    series_or_file_unit: "",
+    box: "",
+    folder: "",
+    document_title: "",
+    document_date: "",
+    sender_recipient: "",
+    classification_marking: "",
+    copy_version_status: "",
+    release_status: "",
+    paired_record: "",
+    promotion_decision: "",
+    final_source_note: "",
+    follow_up: row.next_pull,
+    url: row.url
+  }));
+}
+
 function uniqueValues(values) {
   return [...new Set(values.filter(Boolean))];
 }
@@ -924,6 +984,16 @@ function compilerRunbookRows() {
     },
     {
       sequence: "09",
+      compiler_move: "Capture item-level source-note metadata",
+      page_section: "Gap Register And Pull Controls",
+      export_button: "Export Source-Note Intake CSV",
+      output_file: "clinton-foundations-source-note-intake.csv",
+      use_for: "Record box, folder, item title, date, markings, copy status, release status, paired record, promotion decision, and final source note while reviewing pulled material.",
+      decision_supported: "Which provisional locators have been converted into FRUS-ready item-level source notes.",
+      stop_condition: "Stop when every promoted item has source-note metadata, paired-record status, and a final citation or follow-up."
+    },
+    {
+      sequence: "10",
       compiler_move: "Audit source-note readiness",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Source-Note Audit CSV",
@@ -933,7 +1003,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when no promoted row lacks verification need, next pull, and source-note target."
     },
     {
-      sequence: "10",
+      sequence: "11",
       compiler_move: "Work the readiness queue",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Verification Queue CSV",
@@ -943,7 +1013,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when priority rows are assigned to a repository request or onsite action."
     },
     {
-      sequence: "11",
+      sequence: "12",
       compiler_move: "Write repository-facing asks",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Request Packets CSV",
@@ -953,7 +1023,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each ask has identifiers, capture fields, and a source-note target."
     },
     {
-      sequence: "12",
+      sequence: "13",
       compiler_move: "Batch the handoff",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Request Batches CSV",
@@ -963,7 +1033,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each repository has a compact batch list rather than row-by-row requests."
     },
     {
-      sequence: "13",
+      sequence: "14",
       compiler_move: "Draft repository correspondence",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Correspondence Drafts CSV",
@@ -973,7 +1043,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each batch has correspondence text that preserves the FRUS source-note capture requirements."
     },
     {
-      sequence: "14",
+      sequence: "15",
       compiler_move: "Review candidate file units",
       page_section: "Records To Pull, Check, Or Promote",
       export_button: "Export CSV",
@@ -983,7 +1053,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when high-priority candidates have item-level risk notes and repository URLs."
     },
     {
-      sequence: "15",
+      sequence: "16",
       compiler_move: "Pair public doctrine statements",
       page_section: "Public Statements And Strategy Texts",
       export_button: "Export CSV",
@@ -993,7 +1063,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each public text has a paired archival target or context-only decision."
     },
     {
-      sequence: "16",
+      sequence: "17",
       compiler_move: "Check principal context",
       page_section: "People And Offices",
       export_button: "Export CSV",
@@ -1033,6 +1103,23 @@ function downloadSourceNoteAuditCsv() {
   const link = document.createElement("a");
   link.href = url;
   link.download = "clinton-foundations-source-note-audit.csv";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function downloadSourceNoteIntakeCsv() {
+  const rows = sourceNoteIntakeRows();
+  const lines = [
+    sourceNoteIntakeFields.join(","),
+    ...rows.map((row) => sourceNoteIntakeFields.map((field) => libraryCsvEscape(row[field])).join(","))
+  ];
+  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "clinton-foundations-source-note-intake.csv";
   document.body.append(link);
   link.click();
   link.remove();
@@ -1230,6 +1317,32 @@ function makeCorrespondenceDraftCard(row) {
   return card;
 }
 
+function makeSourceNoteIntakeCard(row) {
+  const card = document.createElement("article");
+  card.className = "gap-card";
+
+  const header = document.createElement("div");
+  header.className = "gap-card-header";
+  const title = document.createElement("h3");
+  title.textContent = `${row.intake_rank}. ${row.title}`;
+  const badge = document.createElement("span");
+  badge.className = "chip gap-badge";
+  badge.textContent = row.action_group;
+  header.append(title, badge);
+
+  const required = document.createElement("p");
+  required.textContent = `Required fields: ${row.required_capture_fields}`;
+  const provisional = document.createElement("p");
+  provisional.className = "risk-note";
+  provisional.textContent = `Provisional note: ${row.provisional_source_note}`;
+  const blanks = document.createElement("p");
+  blanks.className = "gap-pull-list";
+  blanks.textContent = "Blank capture columns: box, folder, item date, markings, release status, paired record, promotion decision, final source note.";
+
+  card.append(header, required, provisional, blanks);
+  return card;
+}
+
 function makeSourceNoteTemplateCard(row) {
   const card = document.createElement("article");
   card.className = "gap-card";
@@ -1335,6 +1448,16 @@ function installSourceNoteAuditPanel() {
   button.textContent = "Export Source-Note Audit CSV";
   button.addEventListener("click", downloadSourceNoteAuditCsv);
 
+  const intakeSummary = document.createElement("p");
+  intakeSummary.id = "source-note-intake-summary";
+  intakeSummary.className = "result-summary";
+
+  const intakeButton = document.createElement("button");
+  intakeButton.id = "export-source-note-intake";
+  intakeButton.type = "button";
+  intakeButton.textContent = "Export Source-Note Intake CSV";
+  intakeButton.addEventListener("click", downloadSourceNoteIntakeCsv);
+
   const queueSummary = document.createElement("p");
   queueSummary.id = "verification-queue-summary";
   queueSummary.className = "result-summary";
@@ -1386,6 +1509,7 @@ function installSourceNoteAuditPanel() {
   templateButton.addEventListener("click", downloadSourceNoteTemplatesCsv);
 
   const rows = sourceNoteAuditRows();
+  const intakeRows = sourceNoteIntakeRows();
   const queueRows = verificationQueueRows();
   const requestRows = requestPacketRows();
   const batchRows = requestBatchRows();
@@ -1394,12 +1518,14 @@ function installSourceNoteAuditPanel() {
   const sections = new Set(rows.map((row) => row.section)).size;
   const repositories = new Set(requestRows.map((row) => row.repository_group)).size;
   summary.textContent = `${rows.length} source-note audit rows across ${sections} compiler evidence groups`;
+  intakeSummary.textContent = `${intakeRows.length} source-note intake rows with blank item-level capture fields`;
   queueSummary.textContent = `${queueRows.length} verification tasks sorted by source-note readiness risk`;
   requestSummary.textContent = `${requestRows.length} request packets across ${repositories} repository groups`;
   batchSummary.textContent = `${batchRows.length} grouped request batches for repository handoff`;
   correspondenceSummary.textContent = `${correspondenceRows.length} correspondence drafts for repository outreach`;
   templateSummary.textContent = `${templateRows.length} source-note templates for common Clinton evidence types`;
   button.disabled = rows.length === 0;
+  intakeButton.disabled = intakeRows.length === 0;
   queueButton.disabled = queueRows.length === 0;
   requestButton.disabled = requestRows.length === 0;
   batchButton.disabled = batchRows.length === 0;
@@ -1409,6 +1535,8 @@ function installSourceNoteAuditPanel() {
   actions.append(
     summary,
     button,
+    intakeSummary,
+    intakeButton,
     queueSummary,
     queueButton,
     requestSummary,
@@ -1424,6 +1552,11 @@ function installSourceNoteAuditPanel() {
   queuePreview.className = "gap-list";
   queuePreview.setAttribute("aria-label", "Top source-note verification tasks");
   queuePreview.append(...queueRows.slice(0, 6).map(makeQueueCard));
+
+  const intakePreview = document.createElement("div");
+  intakePreview.className = "gap-list";
+  intakePreview.setAttribute("aria-label", "Source-note intake worksheet preview");
+  intakePreview.append(...intakeRows.slice(0, 4).map(makeSourceNoteIntakeCard));
 
   const requestPreview = document.createElement("div");
   requestPreview.className = "gap-list";
@@ -1447,13 +1580,14 @@ function installSourceNoteAuditPanel() {
 
   if (sectionNote) {
     sectionNote.insertAdjacentElement("afterend", actions);
-    actions.insertAdjacentElement("afterend", queuePreview);
+    actions.insertAdjacentElement("afterend", intakePreview);
+    intakePreview.insertAdjacentElement("afterend", queuePreview);
     queuePreview.insertAdjacentElement("afterend", requestPreview);
     requestPreview.insertAdjacentElement("afterend", batchPreview);
     batchPreview.insertAdjacentElement("afterend", correspondencePreview);
     correspondencePreview.insertAdjacentElement("afterend", templatePreview);
   } else {
-    gapsSection.append(actions, queuePreview, requestPreview, batchPreview, correspondencePreview, templatePreview);
+    gapsSection.append(actions, intakePreview, queuePreview, requestPreview, batchPreview, correspondencePreview, templatePreview);
   }
 }
 
