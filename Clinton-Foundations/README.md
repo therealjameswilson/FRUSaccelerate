@@ -28,7 +28,7 @@ document edition. It gathers:
 - `styles.css`: responsive visual system
 - `app.js`: source data, filters, rendering, gap board, and CSV exports
 - `chronology-export.js`: first-section document chronology and triage CSV exports
-- `library-pull-export.js`: Clinton Library OA/ID pull-sheet, onsite agenda, compiler runbook, source-note audit, source-note template, verification queue, request-packet, and request-batch CSV exports
+- `library-pull-export.js`: Clinton Library OA/ID pull-sheet, onsite agenda, Daily Diary controls, compiler runbook, source-note audit, source-note template, verification queue, request-packet, and request-batch CSV exports
 - `assets/foundations-source-map.svg`: source map visual
 - `reports/compiler-gap-analysis.md`: source-gap treatment report
 
@@ -78,7 +78,10 @@ preparations, and public-event controls only as chronology and source-trail
 evidence. Each entry points to an item-level Catalog record and includes a
 FRUS-style provisional source note; a diary entry still needs a paired call
 transcript, memorandum of conversation, meeting paper, speech draft, or Public
-Papers text before it can support final document selection.
+Papers text before it can support final document selection. The section exports
+`clinton-foundations-daily-diary-controls.csv` with one row per call, meeting,
+briefing, summit-prep, or public-event entry, preserving the NAID, file-unit
+title, follow-up target, and promotion rule.
 
 ## Primary Anchors
 

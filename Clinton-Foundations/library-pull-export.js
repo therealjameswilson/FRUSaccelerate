@@ -28,6 +28,22 @@ const onsiteAgendaFields = [
   "stop_rule"
 ];
 
+const dailyDiaryFields = [
+  "sequence",
+  "date",
+  "title",
+  "type",
+  "naid",
+  "catalog_title",
+  "event_entry",
+  "volume_use",
+  "follow_up",
+  "promotion_rule",
+  "source_note_target",
+  "url",
+  "tags"
+];
+
 const sourceNoteAuditFields = [
   "section",
   "date",
@@ -276,6 +292,73 @@ function installOnsiteAgendaPanel() {
   preview.setAttribute("aria-label", "Clinton Library onsite agenda preview");
   preview.append(...rows.slice(0, 4).map(makeOnsiteAgendaCard));
   libraryActions.insertAdjacentElement("afterend", preview);
+}
+
+function dailyDiaryRows() {
+  const diaryItems = dataList(typeof dailyDiaryReferences === "undefined" ? [] : dailyDiaryReferences);
+  return diaryItems.flatMap((item, index) => {
+    const entries = dataList(item.entries).length > 0 ? item.entries : [""];
+    return entries.map((entry, entryIndex) => ({
+      sequence: `${index + 1}.${entryIndex + 1}`,
+      date: item.date,
+      title: item.title,
+      type: item.type,
+      naid: item.naid,
+      catalog_title: item.catalogTitle,
+      event_entry: entry,
+      volume_use: item.volumeUse,
+      follow_up: item.followUp,
+      promotion_rule: "Use as chronology-control evidence only until paired with a substantive call, meeting, briefing, speech, or Public Papers record.",
+      source_note_target: `Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, ${item.catalogTitle}, NAID ${item.naid}. Schedule-control entry; pair with substantive records before promotion.`,
+      url: item.url,
+      tags: dataList(item.tags).join("; ")
+    }));
+  });
+}
+
+function downloadDailyDiaryCsv() {
+  const rows = dailyDiaryRows();
+  const lines = [
+    dailyDiaryFields.join(","),
+    ...rows.map((row) => dailyDiaryFields.map((field) => libraryCsvEscape(row[field])).join(","))
+  ];
+  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "clinton-foundations-daily-diary-controls.csv";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function installDailyDiaryPanel() {
+  const diarySection = document.querySelector("#diary");
+  const diaryMethod = diarySection?.querySelector(".diary-method");
+  if (!diarySection || !diaryMethod || document.querySelector("#export-daily-diary-controls")) return;
+
+  const rows = dailyDiaryRows();
+  const fileUnits = new Set(rows.map((row) => row.naid)).size;
+
+  const actions = document.createElement("div");
+  actions.className = "chronology-actions";
+  actions.setAttribute("aria-label", "Daily Diary controls actions");
+
+  const summary = document.createElement("p");
+  summary.id = "daily-diary-export-summary";
+  summary.className = "result-summary";
+  summary.textContent = `${rows.length} Daily Diary event rows across ${fileUnits} NARA file units`;
+
+  const button = document.createElement("button");
+  button.id = "export-daily-diary-controls";
+  button.type = "button";
+  button.textContent = "Export Daily Diary CSV";
+  button.disabled = rows.length === 0;
+  button.addEventListener("click", downloadDailyDiaryCsv);
+
+  actions.append(summary, button);
+  diaryMethod.insertAdjacentElement("afterend", actions);
 }
 
 function dataList(value) {
@@ -629,6 +712,16 @@ function compilerRunbookRows() {
     },
     {
       sequence: "03",
+      compiler_move: "Reconcile Daily Diary event controls",
+      page_section: "Calls And Meetings To Reconcile Chronologically",
+      export_button: "Export Daily Diary CSV",
+      output_file: "clinton-foundations-daily-diary-controls.csv",
+      use_for: "Turn the 2010-0083-F search set into event-level rows for calls, briefings, meetings, summit prep, and public doctrine controls.",
+      decision_supported: "Which schedule entries need memcons, call transcripts, briefing books, speech drafts, or Public Papers pairing.",
+      stop_condition: "Stop when every event row has a paired-record target or a context-only decision."
+    },
+    {
+      sequence: "04",
       compiler_move: "Stage Clinton Library pulls",
       page_section: "Clinton Library Sprint",
       export_button: "Export Pull Sheet CSV",
@@ -638,7 +731,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each OA/ID request has a reason, folder target, and reading-room move."
     },
     {
-      sequence: "04",
+      sequence: "05",
       compiler_move: "Plan onsite reading-room order",
       page_section: "Clinton Library Sprint",
       export_button: "Export Onsite Agenda CSV",
@@ -648,7 +741,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when the day plan covers directive, speech, process, strategy, and support clusters."
     },
     {
-      sequence: "05",
+      sequence: "06",
       compiler_move: "Apply FRUS-style source-note patterns",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Source-Note Templates CSV",
@@ -658,7 +751,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when every evidence type has required fields and a no-promotion condition."
     },
     {
-      sequence: "06",
+      sequence: "07",
       compiler_move: "Audit source-note readiness",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Source-Note Audit CSV",
@@ -668,7 +761,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when no promoted row lacks verification need, next pull, and source-note target."
     },
     {
-      sequence: "07",
+      sequence: "08",
       compiler_move: "Work the readiness queue",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Verification Queue CSV",
@@ -678,7 +771,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when priority rows are assigned to a repository request or onsite action."
     },
     {
-      sequence: "08",
+      sequence: "09",
       compiler_move: "Write repository-facing asks",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Request Packets CSV",
@@ -688,7 +781,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each ask has identifiers, capture fields, and a source-note target."
     },
     {
-      sequence: "09",
+      sequence: "10",
       compiler_move: "Batch the handoff",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Request Batches CSV",
@@ -698,7 +791,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each repository has a compact batch list rather than row-by-row requests."
     },
     {
-      sequence: "10",
+      sequence: "11",
       compiler_move: "Review candidate file units",
       page_section: "Records To Pull, Check, Or Promote",
       export_button: "Export CSV",
@@ -708,7 +801,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when high-priority candidates have item-level risk notes and repository URLs."
     },
     {
-      sequence: "11",
+      sequence: "12",
       compiler_move: "Pair public doctrine statements",
       page_section: "Public Statements And Strategy Texts",
       export_button: "Export CSV",
@@ -718,7 +811,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each public text has a paired archival target or context-only decision."
     },
     {
-      sequence: "12",
+      sequence: "13",
       compiler_move: "Check principal context",
       page_section: "People And Offices",
       export_button: "Export CSV",
@@ -1125,5 +1218,6 @@ if (libraryPullRoot && libraryPullSummary && exportLibraryPullsButton) {
 }
 
 installOnsiteAgendaPanel();
+installDailyDiaryPanel();
 installCompilerRunbookPanel();
 installSourceNoteAuditPanel();
