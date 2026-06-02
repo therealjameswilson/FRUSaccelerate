@@ -93,6 +93,17 @@ const sourceNoteTemplateFields = [
   "example_source"
 ];
 
+const compilerRunbookFields = [
+  "sequence",
+  "compiler_move",
+  "page_section",
+  "export_button",
+  "output_file",
+  "use_for",
+  "decision_supported",
+  "stop_condition"
+];
+
 function libraryTextOf(root, selector) {
   return root.querySelector(selector)?.textContent.trim() || "";
 }
@@ -594,6 +605,148 @@ function sourceNoteTemplateRows() {
   ];
 }
 
+function compilerRunbookRows() {
+  return [
+    {
+      sequence: "01",
+      compiler_move: "Establish the chronological spine",
+      page_section: "Chronology Of Declassified Documents",
+      export_button: "Export Chronology CSV",
+      output_file: "clinton-foundations-document-chronology.csv",
+      use_for: "Work released, declassified, and public controls by date before office or topic.",
+      decision_supported: "Which events and documents define the volume sequence.",
+      stop_condition: "Stop when every row has a provisional source-note target and next pull."
+    },
+    {
+      sequence: "02",
+      compiler_move: "Triage promotion status",
+      page_section: "Chronology Of Declassified Documents",
+      export_button: "Export Triage CSV",
+      output_file: "clinton-foundations-chronology-triage.csv",
+      use_for: "Separate anchors, locators, diary controls, public-text trails, and strategy baselines.",
+      decision_supported: "Promote, pair first, cite as context, or route to a topical volume.",
+      stop_condition: "Stop when every chronology row has a pairing target and volume-boundary caution."
+    },
+    {
+      sequence: "03",
+      compiler_move: "Stage Clinton Library pulls",
+      page_section: "Clinton Library Sprint",
+      export_button: "Export Pull Sheet CSV",
+      output_file: "clinton-library-pull-sheet.csv",
+      use_for: "Turn 2013-0185-M finding-aid intelligence into OA/ID-level reading-room requests.",
+      decision_supported: "Which folders deserve first-pass box time.",
+      stop_condition: "Stop when each OA/ID request has a reason, folder target, and reading-room move."
+    },
+    {
+      sequence: "04",
+      compiler_move: "Plan onsite reading-room order",
+      page_section: "Clinton Library Sprint",
+      export_button: "Export Onsite Agenda CSV",
+      output_file: "clinton-library-onsite-agenda.csv",
+      use_for: "Convert pull clusters into day/phase sequencing, first moves, capture fields, tests, and stop rules.",
+      decision_supported: "What to request first at the Clinton Library and when to stop sampling.",
+      stop_condition: "Stop when the day plan covers directive, speech, process, strategy, and support clusters."
+    },
+    {
+      sequence: "05",
+      compiler_move: "Apply FRUS-style source-note patterns",
+      page_section: "Gap Register And Pull Controls",
+      export_button: "Export Source-Note Templates CSV",
+      output_file: "clinton-foundations-source-note-templates.csv",
+      use_for: "Keep directive packets, diary controls, speech drafts, public texts, library items, and editorial notes in citation form.",
+      decision_supported: "What fields must be captured before a locator becomes a source note.",
+      stop_condition: "Stop when every evidence type has required fields and a no-promotion condition."
+    },
+    {
+      sequence: "06",
+      compiler_move: "Audit source-note readiness",
+      page_section: "Gap Register And Pull Controls",
+      export_button: "Export Source-Note Audit CSV",
+      output_file: "clinton-foundations-source-note-audit.csv",
+      use_for: "Reconcile chronology controls, candidates, diary pointers, directives, public texts, and library clusters.",
+      decision_supported: "Which rows remain locators and which have enough item-level evidence.",
+      stop_condition: "Stop when no promoted row lacks verification need, next pull, and source-note target."
+    },
+    {
+      sequence: "07",
+      compiler_move: "Work the readiness queue",
+      page_section: "Gap Register And Pull Controls",
+      export_button: "Export Verification Queue CSV",
+      output_file: "clinton-foundations-verification-queue.csv",
+      use_for: "Sort the highest-risk verification work before writing requests.",
+      decision_supported: "Which directive packets, diary pairings, draft trails, and library pulls come first.",
+      stop_condition: "Stop when priority rows are assigned to a repository request or onsite action."
+    },
+    {
+      sequence: "08",
+      compiler_move: "Write repository-facing asks",
+      page_section: "Gap Register And Pull Controls",
+      export_button: "Export Request Packets CSV",
+      output_file: "clinton-foundations-request-packets.csv",
+      use_for: "Convert verification rows into request text, capture fields, identifiers, and source-note targets.",
+      decision_supported: "What to ask NARA, Clinton Library, or public-record repositories for.",
+      stop_condition: "Stop when each ask has identifiers, capture fields, and a source-note target."
+    },
+    {
+      sequence: "09",
+      compiler_move: "Batch the handoff",
+      page_section: "Gap Register And Pull Controls",
+      export_button: "Export Request Batches CSV",
+      output_file: "clinton-foundations-request-batches.csv",
+      use_for: "Group request packets by repository and request type for reading-room or remote-reference work.",
+      decision_supported: "Which request groups can be sent or staged together.",
+      stop_condition: "Stop when each repository has a compact batch list rather than row-by-row requests."
+    },
+    {
+      sequence: "10",
+      compiler_move: "Review candidate file units",
+      page_section: "Records To Pull, Check, Or Promote",
+      export_button: "Export CSV",
+      output_file: "clinton-foundations-records.csv",
+      use_for: "Filter candidate records by priority, period, and source repository.",
+      decision_supported: "Which file units can become document candidates after verification.",
+      stop_condition: "Stop when high-priority candidates have item-level risk notes and repository URLs."
+    },
+    {
+      sequence: "11",
+      compiler_move: "Pair public doctrine statements",
+      page_section: "Public Statements And Strategy Texts",
+      export_button: "Export CSV",
+      output_file: "clinton-foundations-statements.csv",
+      use_for: "Track public speeches, strategy papers, and statements that need draft or clearance evidence.",
+      decision_supported: "Which public texts belong as documents, editorial-note anchors, or context only.",
+      stop_condition: "Stop when each public text has a paired archival target or context-only decision."
+    },
+    {
+      sequence: "12",
+      compiler_move: "Check principal context",
+      page_section: "People And Offices",
+      export_button: "Export CSV",
+      output_file: "clinton-foundations-persons.csv",
+      use_for: "Keep principals, staff offices, and period responsibilities available while source notes are drafted.",
+      decision_supported: "Which office or person likely owns the next pull.",
+      stop_condition: "Stop when open pulls have an office/person path for follow-up."
+    }
+  ];
+}
+
+function downloadCompilerRunbookCsv() {
+  const rows = compilerRunbookRows();
+  const lines = [
+    compilerRunbookFields.join(","),
+    ...rows.map((row) => compilerRunbookFields.map((field) => libraryCsvEscape(row[field])).join(","))
+  ];
+  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "clinton-foundations-compiler-runbook.csv";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
 function downloadSourceNoteAuditCsv() {
   const rows = sourceNoteAuditRows();
   const lines = [
@@ -785,6 +938,66 @@ function makeSourceNoteTemplateCard(row) {
   return card;
 }
 
+function makeCompilerRunbookCard(row) {
+  const card = document.createElement("article");
+  card.className = "gap-card";
+
+  const header = document.createElement("div");
+  header.className = "gap-card-header";
+  const title = document.createElement("h3");
+  title.textContent = `${row.sequence}. ${row.compiler_move}`;
+  const badge = document.createElement("span");
+  badge.className = "chip gap-badge";
+  badge.textContent = row.output_file;
+  header.append(title, badge);
+
+  const use = document.createElement("p");
+  use.textContent = row.use_for;
+  const decision = document.createElement("p");
+  decision.className = "risk-note";
+  decision.textContent = `Decision: ${row.decision_supported}`;
+  const stop = document.createElement("p");
+  stop.className = "gap-pull-list";
+  stop.textContent = `Stop: ${row.stop_condition}`;
+
+  card.append(header, use, decision, stop);
+  return card;
+}
+
+function installCompilerRunbookPanel() {
+  const ingestSection = document.querySelector("#ingest");
+  const checklist = ingestSection?.querySelector(".checklist");
+  if (!ingestSection || !checklist || document.querySelector("#export-compiler-runbook")) return;
+
+  const rows = compilerRunbookRows();
+
+  const actions = document.createElement("div");
+  actions.className = "chronology-actions";
+  actions.setAttribute("aria-label", "Compiler runbook actions");
+
+  const summary = document.createElement("p");
+  summary.id = "compiler-runbook-summary";
+  summary.className = "result-summary";
+  summary.textContent = `${rows.length} compiler moves sequenced across page worksheets`;
+
+  const button = document.createElement("button");
+  button.id = "export-compiler-runbook";
+  button.type = "button";
+  button.textContent = "Export Runbook CSV";
+  button.disabled = rows.length === 0;
+  button.addEventListener("click", downloadCompilerRunbookCsv);
+
+  actions.append(summary, button);
+
+  const preview = document.createElement("div");
+  preview.className = "gap-list";
+  preview.setAttribute("aria-label", "Compiler runbook preview");
+  preview.append(...rows.slice(0, 4).map(makeCompilerRunbookCard));
+
+  checklist.insertAdjacentElement("beforebegin", actions);
+  actions.insertAdjacentElement("afterend", preview);
+}
+
 function installSourceNoteAuditPanel() {
   const gapsSection = document.querySelector("#gaps");
   const sectionNote = gapsSection?.querySelector(".section-note");
@@ -912,4 +1125,5 @@ if (libraryPullRoot && libraryPullSummary && exportLibraryPullsButton) {
 }
 
 installOnsiteAgendaPanel();
+installCompilerRunbookPanel();
 installSourceNoteAuditPanel();

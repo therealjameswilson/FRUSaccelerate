@@ -28,7 +28,7 @@ document edition. It gathers:
 - `styles.css`: responsive visual system
 - `app.js`: source data, filters, rendering, gap board, and CSV exports
 - `chronology-export.js`: first-section document chronology and triage CSV exports
-- `library-pull-export.js`: Clinton Library OA/ID pull-sheet, onsite agenda, source-note audit, source-note template, verification queue, request-packet, and request-batch CSV exports
+- `library-pull-export.js`: Clinton Library OA/ID pull-sheet, onsite agenda, compiler runbook, source-note audit, source-note template, verification queue, request-packet, and request-batch CSV exports
 - `assets/foundations-source-map.svg`: source map visual
 - `reports/compiler-gap-analysis.md`: source-gap treatment report
 
@@ -118,6 +118,11 @@ request batches are the second reconciliation layer: they keep the working
 source-note target, verification need, next pull, repository ask, and capture
 fields in one row for each evidence group, then sort and group the tasks so
 archival pulls do not lose their FRUS-style citation requirements.
+
+The Research Ingest Checklist also exports
+`clinton-foundations-compiler-runbook.csv`, a manifest that sequences every
+major worksheet by compiler move, page section, export button, output filename,
+decision supported, and stop condition.
 
 The largest risk is over-collection. NATO, Russia, Balkans, arms control,
 counterterrorism, economic policy, and global-issues implementation records
