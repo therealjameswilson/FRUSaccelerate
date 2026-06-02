@@ -26,7 +26,7 @@ document edition. It gathers:
 
 - `index.html`: page structure and workbench sections
 - `styles.css`: responsive visual system
-- `app.js`: source data, filters, rendering, gap board, and CSV exports
+- `app.js`: source data, filters, rendering, gap board, and source-lead/record/statement/person CSV exports
 - `chronology-export.js`: first-section document chronology and triage CSV exports
 - `library-pull-export.js`: Clinton Library OA/ID pull-sheet, onsite agenda, Daily Diary controls, compiler runbook, source-note audit, source-note template, verification queue, request-packet, and request-batch CSV exports
 - `assets/foundations-source-map.svg`: source map visual
@@ -82,6 +82,11 @@ Papers text before it can support final document selection. The section exports
 `clinton-foundations-daily-diary-controls.csv` with one row per call, meeting,
 briefing, summit-prep, or public-event entry, preserving the NAID, file-unit
 title, follow-up target, and promotion rule.
+
+The Source Leads section exports `clinton-foundations-source-leads.csv`,
+respecting the active search, period, and institution filters. Use it to turn
+the page's broad source universe into repository-specific scout lists before
+writing request packets.
 
 ## Primary Anchors
 

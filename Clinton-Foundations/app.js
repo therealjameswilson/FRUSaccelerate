@@ -2011,6 +2011,7 @@ const leadSearch = document.querySelector("#lead-search");
 const periodFilter = document.querySelector("#period-filter");
 const institutionFilter = document.querySelector("#institution-filter");
 const clearLeadFilters = document.querySelector("#clear-lead-filters");
+const exportLeads = document.querySelector("#export-leads");
 const leadSummary = document.querySelector("#lead-summary");
 
 const recordSearch = document.querySelector("#record-search");
@@ -2926,6 +2927,22 @@ function bindEvents() {
     peopleRoleFilter.value = "";
     renderPeople();
     peopleSearch.focus();
+  });
+
+  exportLeads.addEventListener("click", () => {
+    exportCsv("clinton-foundations-source-leads.csv", filteredLeads(), [
+      { label: "title", value: (row) => row.title },
+      { label: "period", value: (row) => periodTitleForValue(row.date) },
+      { label: "date_or_range", value: (row) => row.date },
+      { label: "institution", value: (row) => row.institution },
+      { label: "topic", value: (row) => topicTitle(row.lane) },
+      { label: "type", value: (row) => row.type },
+      { label: "priority", value: (row) => row.priority },
+      { label: "identifier", value: (row) => row.identifier },
+      { label: "url", value: (row) => row.url },
+      { label: "note", value: (row) => row.note },
+      { label: "tags", value: (row) => (row.tags || []).join("; ") }
+    ]);
   });
 
   exportRecords.addEventListener("click", () => {

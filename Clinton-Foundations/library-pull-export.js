@@ -722,6 +722,16 @@ function compilerRunbookRows() {
     },
     {
       sequence: "04",
+      compiler_move: "Survey the source lead universe",
+      page_section: "Source Leads",
+      export_button: "Export CSV",
+      output_file: "clinton-foundations-source-leads.csv",
+      use_for: "Export the filtered source-lead set by repository, topic, priority, date range, identifier, URL, and note.",
+      decision_supported: "Which repositories, finding aids, public sources, and precedent anchors deserve follow-up before request writing.",
+      stop_condition: "Stop when the active source leads can be assigned to chronology, Library pull, NARA scout, public-text, or topical handoff work."
+    },
+    {
+      sequence: "05",
       compiler_move: "Stage Clinton Library pulls",
       page_section: "Clinton Library Sprint",
       export_button: "Export Pull Sheet CSV",
@@ -731,7 +741,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each OA/ID request has a reason, folder target, and reading-room move."
     },
     {
-      sequence: "05",
+      sequence: "06",
       compiler_move: "Plan onsite reading-room order",
       page_section: "Clinton Library Sprint",
       export_button: "Export Onsite Agenda CSV",
@@ -741,7 +751,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when the day plan covers directive, speech, process, strategy, and support clusters."
     },
     {
-      sequence: "06",
+      sequence: "07",
       compiler_move: "Apply FRUS-style source-note patterns",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Source-Note Templates CSV",
@@ -751,7 +761,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when every evidence type has required fields and a no-promotion condition."
     },
     {
-      sequence: "07",
+      sequence: "08",
       compiler_move: "Audit source-note readiness",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Source-Note Audit CSV",
@@ -761,7 +771,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when no promoted row lacks verification need, next pull, and source-note target."
     },
     {
-      sequence: "08",
+      sequence: "09",
       compiler_move: "Work the readiness queue",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Verification Queue CSV",
@@ -771,7 +781,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when priority rows are assigned to a repository request or onsite action."
     },
     {
-      sequence: "09",
+      sequence: "10",
       compiler_move: "Write repository-facing asks",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Request Packets CSV",
@@ -781,7 +791,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each ask has identifiers, capture fields, and a source-note target."
     },
     {
-      sequence: "10",
+      sequence: "11",
       compiler_move: "Batch the handoff",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Request Batches CSV",
@@ -791,7 +801,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each repository has a compact batch list rather than row-by-row requests."
     },
     {
-      sequence: "11",
+      sequence: "12",
       compiler_move: "Review candidate file units",
       page_section: "Records To Pull, Check, Or Promote",
       export_button: "Export CSV",
@@ -801,7 +811,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when high-priority candidates have item-level risk notes and repository URLs."
     },
     {
-      sequence: "12",
+      sequence: "13",
       compiler_move: "Pair public doctrine statements",
       page_section: "Public Statements And Strategy Texts",
       export_button: "Export CSV",
@@ -811,7 +821,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each public text has a paired archival target or context-only decision."
     },
     {
-      sequence: "13",
+      sequence: "14",
       compiler_move: "Check principal context",
       page_section: "People And Offices",
       export_button: "Export CSV",
