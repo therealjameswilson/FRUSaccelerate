@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 620" role="img" aria-labelledby="title desc">
+  <title id="title">Post-Cold War PRC policy source map</title>
+  <desc id="desc">A source map connecting FRUS volumes, presidential libraries, public papers, Congress, State Department records, and intelligence collections.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fffefa"/>
+      <stop offset="1" stop-color="#eee7da"/>
+    </linearGradient>
+    <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse">
+      <path d="M42 0H0v42" fill="none" stroke="#d8d0c2" stroke-width="1" opacity=".45"/>
+    </pattern>
+  </defs>
+  <rect width="920" height="620" rx="8" fill="url(#paper)"/>
+  <rect width="920" height="620" rx="8" fill="url(#grid)"/>
+  <g fill="none" stroke="#bd8b2e" stroke-width="4" stroke-linecap="round" opacity=".72">
+    <path d="M460 145v330"/>
+    <path d="M252 235h416"/>
+    <path d="M250 385h420"/>
+    <path d="M250 235c75-88 344-88 420 0"/>
+    <path d="M250 385c76 88 345 88 420 0"/>
+  </g>
+  <g fill="#20334c" opacity=".12">
+    <circle cx="460" cy="310" r="164"/>
+    <circle cx="460" cy="310" r="88"/>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" letter-spacing="0">
+    <rect x="306" y="247" width="308" height="126" rx="8" fill="#20334c"/>
+    <text x="460" y="286" text-anchor="middle" fill="#fffefa" font-size="18" font-weight="800">PRC Policy Files</text>
+    <text x="460" y="316" text-anchor="middle" fill="#f3dfb6" font-size="14">1989-2001 source desk</text>
+    <text x="460" y="344" text-anchor="middle" fill="#f3dfb6" font-size="14">Tiananmen to WTO accession</text>
+
+    <g>
+      <rect x="58" y="64" width="218" height="96" rx="8" fill="#fffefa" stroke="#d8d0c2"/>
+      <rect x="58" y="64" width="218" height="8" rx="4" fill="#8f3f44"/>
+      <text x="80" y="104" fill="#17212b" font-size="17" font-weight="800">FRUS Spine</text>
+      <text x="80" y="132" fill="#586571" font-size="13">Bush China XVII</text>
+      <text x="80" y="150" fill="#586571" font-size="13">Clinton China XLI-XLII</text>
+    </g>
+    <g>
+      <rect x="642" y="64" width="220" height="96" rx="8" fill="#fffefa" stroke="#d8d0c2"/>
+      <rect x="642" y="64" width="220" height="8" rx="4" fill="#2e6659"/>
+      <text x="664" y="104" fill="#17212b" font-size="17" font-weight="800">Presidential Files</text>
+      <text x="664" y="132" fill="#586571" font-size="13">Bush 41 and Clinton FOIA</text>
+      <text x="664" y="150" fill="#586571" font-size="13">Daily diaries, memcons</text>
+    </g>
+    <g>
+      <rect x="58" y="462" width="218" height="96" rx="8" fill="#fffefa" stroke="#d8d0c2"/>
+      <rect x="58" y="462" width="218" height="8" rx="4" fill="#4c6f92"/>
+      <text x="80" y="502" fill="#17212b" font-size="17" font-weight="800">Congress and Law</text>
+      <text x="80" y="530" fill="#586571" font-size="13">MFN, PNTR, H.R. 4444</text>
+      <text x="80" y="548" fill="#586571" font-size="13">Hearings and CRS trails</text>
+    </g>
+    <g>
+      <rect x="642" y="462" width="220" height="96" rx="8" fill="#fffefa" stroke="#d8d0c2"/>
+      <rect x="642" y="462" width="220" height="8" rx="4" fill="#6b4b72"/>
+      <text x="664" y="502" fill="#17212b" font-size="17" font-weight="800">State and IC</text>
+      <text x="664" y="530" fill="#586571" font-size="13">Central files, cables</text>
+      <text x="664" y="548" fill="#586571" font-size="13">CIA and DNSA leads</text>
+    </g>
+    <g fill="none" stroke="#20334c" stroke-width="2" opacity=".46">
+      <path d="M276 112C344 130 381 177 408 247"/>
+      <path d="M642 112C574 130 536 177 512 247"/>
+      <path d="M276 510c68-18 105-65 132-137"/>
+      <path d="M642 510c-68-18-106-65-130-137"/>
+    </g>
+  </g>
+</svg>
