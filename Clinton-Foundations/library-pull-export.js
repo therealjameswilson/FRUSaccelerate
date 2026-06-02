@@ -98,6 +98,19 @@ const requestBatchFields = [
   "urls"
 ];
 
+const correspondenceDraftFields = [
+  "draft_rank",
+  "repository_group",
+  "request_type",
+  "subject",
+  "recipient_hint",
+  "message_body",
+  "identifiers",
+  "capture_fields",
+  "source_note_targets",
+  "urls"
+];
+
 const sourceNoteTemplateFields = [
   "template_id",
   "evidence_type",
@@ -606,6 +619,47 @@ function requestBatchRows() {
     .sort((a, b) => Number(a.batch_rank) - Number(b.batch_rank) || a.repository_group.localeCompare(b.repository_group));
 }
 
+function recipientHint(repositoryGroupName) {
+  if (/Clinton Presidential Library/i.test(repositoryGroupName)) return "Clinton Presidential Library research room or remote reference";
+  if (/National Archives Catalog/i.test(repositoryGroupName)) return "NARA Catalog and reference staff";
+  if (/Published\/Public Text/i.test(repositoryGroupName)) return "Compiler public-text verification checklist";
+  if (/NSC and White House files/i.test(repositoryGroupName)) return "NARA or Clinton Library reference staff for NSC and White House file units";
+  return `${repositoryGroupName} reference contact`;
+}
+
+function correspondenceSubject(row) {
+  return `FRUS Clinton Volume I source request - ${row.request_type} (${row.request_count} rows)`;
+}
+
+function correspondenceBody(row) {
+  const base =
+    `I am preparing research support for Foreign Relations of the United States, 1993-2000, Volume I, Foundations of Foreign Policy. ` +
+    `Could you help locate, verify, or stage this ${row.request_type.toLowerCase()} batch: ${row.batch_request} `;
+  const fields =
+    `Please prioritize these identifiers: ${row.identifiers}. Capture fields needed for FRUS source-note review: ${row.capture_fields}.`;
+  const close =
+    "If any records are not currently pullable, please point me to the closest available file-unit, finding-aid, FOIA case, or public locator so the source trail can be cited accurately.";
+  if (/Published\/Public Text/i.test(row.repository_group)) {
+    return `Use this as a public-text verification checklist rather than a repository email. ${fields} Confirm stable publication URLs, publication dates, titles, speakers, and any paired archival draft or clearance trail.`;
+  }
+  return `${base}${fields} ${close}`;
+}
+
+function correspondenceDraftRows() {
+  return requestBatchRows().map((row) => ({
+    draft_rank: row.batch_rank,
+    repository_group: row.repository_group,
+    request_type: row.request_type,
+    subject: correspondenceSubject(row),
+    recipient_hint: recipientHint(row.repository_group),
+    message_body: correspondenceBody(row),
+    identifiers: row.identifiers,
+    capture_fields: row.capture_fields,
+    source_note_targets: row.source_note_targets,
+    urls: row.urls
+  }));
+}
+
 function sourceNoteTemplateRows() {
   return [
     {
@@ -802,6 +856,16 @@ function compilerRunbookRows() {
     },
     {
       sequence: "12",
+      compiler_move: "Draft repository correspondence",
+      page_section: "Gap Register And Pull Controls",
+      export_button: "Export Correspondence Drafts CSV",
+      output_file: "clinton-foundations-correspondence-drafts.csv",
+      use_for: "Turn grouped request batches into ready-to-edit email or call-slip language.",
+      decision_supported: "What subject, recipient hint, ask text, identifiers, capture fields, source-note targets, and URLs belong in each outgoing request.",
+      stop_condition: "Stop when each batch has correspondence text that preserves the FRUS source-note capture requirements."
+    },
+    {
+      sequence: "13",
       compiler_move: "Review candidate file units",
       page_section: "Records To Pull, Check, Or Promote",
       export_button: "Export CSV",
@@ -811,7 +875,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when high-priority candidates have item-level risk notes and repository URLs."
     },
     {
-      sequence: "13",
+      sequence: "14",
       compiler_move: "Pair public doctrine statements",
       page_section: "Public Statements And Strategy Texts",
       export_button: "Export CSV",
@@ -821,7 +885,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each public text has a paired archival target or context-only decision."
     },
     {
-      sequence: "14",
+      sequence: "15",
       compiler_move: "Check principal context",
       page_section: "People And Offices",
       export_button: "Export CSV",
@@ -935,6 +999,23 @@ function downloadRequestBatchCsv() {
   URL.revokeObjectURL(url);
 }
 
+function downloadCorrespondenceDraftCsv() {
+  const rows = correspondenceDraftRows();
+  const lines = [
+    correspondenceDraftFields.join(","),
+    ...rows.map((row) => correspondenceDraftFields.map((field) => libraryCsvEscape(row[field])).join(","))
+  ];
+  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "clinton-foundations-correspondence-drafts.csv";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
 function makeQueueCard(row) {
   const card = document.createElement("article");
   card.className = "gap-card";
@@ -1012,6 +1093,32 @@ function makeBatchCard(row) {
   ids.textContent = `IDs: ${row.identifiers}`;
 
   card.append(header, request, fields, ids);
+  return card;
+}
+
+function makeCorrespondenceDraftCard(row) {
+  const card = document.createElement("article");
+  card.className = "gap-card";
+
+  const header = document.createElement("div");
+  header.className = "gap-card-header";
+  const title = document.createElement("h3");
+  title.textContent = `${row.draft_rank}. ${row.repository_group}`;
+  const badge = document.createElement("span");
+  badge.className = "chip gap-badge";
+  badge.textContent = row.request_type;
+  header.append(title, badge);
+
+  const subject = document.createElement("p");
+  subject.textContent = `Subject: ${row.subject}`;
+  const recipient = document.createElement("p");
+  recipient.className = "risk-note";
+  recipient.textContent = `Recipient: ${row.recipient_hint}`;
+  const ids = document.createElement("p");
+  ids.className = "gap-pull-list";
+  ids.textContent = `IDs: ${row.identifiers}`;
+
+  card.append(header, subject, recipient, ids);
   return card;
 }
 
@@ -1150,6 +1257,16 @@ function installSourceNoteAuditPanel() {
   batchButton.textContent = "Export Request Batches CSV";
   batchButton.addEventListener("click", downloadRequestBatchCsv);
 
+  const correspondenceSummary = document.createElement("p");
+  correspondenceSummary.id = "correspondence-draft-summary";
+  correspondenceSummary.className = "result-summary";
+
+  const correspondenceButton = document.createElement("button");
+  correspondenceButton.id = "export-correspondence-drafts";
+  correspondenceButton.type = "button";
+  correspondenceButton.textContent = "Export Correspondence Drafts CSV";
+  correspondenceButton.addEventListener("click", downloadCorrespondenceDraftCsv);
+
   const templateSummary = document.createElement("p");
   templateSummary.id = "source-note-template-summary";
   templateSummary.className = "result-summary";
@@ -1164,6 +1281,7 @@ function installSourceNoteAuditPanel() {
   const queueRows = verificationQueueRows();
   const requestRows = requestPacketRows();
   const batchRows = requestBatchRows();
+  const correspondenceRows = correspondenceDraftRows();
   const templateRows = sourceNoteTemplateRows();
   const sections = new Set(rows.map((row) => row.section)).size;
   const repositories = new Set(requestRows.map((row) => row.repository_group)).size;
@@ -1171,11 +1289,13 @@ function installSourceNoteAuditPanel() {
   queueSummary.textContent = `${queueRows.length} verification tasks sorted by source-note readiness risk`;
   requestSummary.textContent = `${requestRows.length} request packets across ${repositories} repository groups`;
   batchSummary.textContent = `${batchRows.length} grouped request batches for repository handoff`;
+  correspondenceSummary.textContent = `${correspondenceRows.length} correspondence drafts for repository outreach`;
   templateSummary.textContent = `${templateRows.length} source-note templates for common Clinton evidence types`;
   button.disabled = rows.length === 0;
   queueButton.disabled = queueRows.length === 0;
   requestButton.disabled = requestRows.length === 0;
   batchButton.disabled = batchRows.length === 0;
+  correspondenceButton.disabled = correspondenceRows.length === 0;
   templateButton.disabled = templateRows.length === 0;
 
   actions.append(
@@ -1187,6 +1307,8 @@ function installSourceNoteAuditPanel() {
     requestButton,
     batchSummary,
     batchButton,
+    correspondenceSummary,
+    correspondenceButton,
     templateSummary,
     templateButton
   );
@@ -1205,6 +1327,11 @@ function installSourceNoteAuditPanel() {
   batchPreview.setAttribute("aria-label", "Grouped repository request batches");
   batchPreview.append(...batchRows.slice(0, 5).map(makeBatchCard));
 
+  const correspondencePreview = document.createElement("div");
+  correspondencePreview.className = "gap-list";
+  correspondencePreview.setAttribute("aria-label", "Repository correspondence drafts");
+  correspondencePreview.append(...correspondenceRows.slice(0, 4).map(makeCorrespondenceDraftCard));
+
   const templatePreview = document.createElement("div");
   templatePreview.className = "gap-list";
   templatePreview.setAttribute("aria-label", "Source-note citation templates");
@@ -1215,9 +1342,10 @@ function installSourceNoteAuditPanel() {
     actions.insertAdjacentElement("afterend", queuePreview);
     queuePreview.insertAdjacentElement("afterend", requestPreview);
     requestPreview.insertAdjacentElement("afterend", batchPreview);
-    batchPreview.insertAdjacentElement("afterend", templatePreview);
+    batchPreview.insertAdjacentElement("afterend", correspondencePreview);
+    correspondencePreview.insertAdjacentElement("afterend", templatePreview);
   } else {
-    gapsSection.append(actions, queuePreview, requestPreview, batchPreview, templatePreview);
+    gapsSection.append(actions, queuePreview, requestPreview, batchPreview, correspondencePreview, templatePreview);
   }
 }
 
