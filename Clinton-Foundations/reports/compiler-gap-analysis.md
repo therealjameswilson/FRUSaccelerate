@@ -25,25 +25,26 @@ Foundations of Foreign Policy*.
 
 1. Declassified document chronology: work the first page section in date order before splitting by office or topic.
 2. Chronology triage CSV: export the promotion worksheet to separate directive anchors, diary controls, public-text draft trails, strategy baselines, source-note actions, pairing requirements, and topical-volume boundary cautions.
-3. Compiler runbook CSV: use the manifest to move through chronology, triage, Daily Diary controls, source leads, Library pulls, onsite work, source-note templates, audits, queues, request packets, batches, correspondence drafts, candidate records, public statements, and principal context in order.
+3. Compiler runbook CSV: use the manifest to move through chronology, triage, Daily Diary controls, source leads, Library pulls, call-slip queue, onsite work, source-note templates, audits, queues, request packets, batches, correspondence drafts, candidate records, public statements, and principal context in order.
 4. Daily Diary controls CSV: export the 2010-0083-F calls, meetings, briefings, summit-prep, and public-event entries one row at a time before pairing them with substantive records.
 5. Source leads CSV: export the active repository/source-lead filter set by institution, period, topic, priority, identifier, URL, and note before assigning scout passes.
 6. Clinton Library 2013-0185-M, Parts 1-4: export the Library Sprint pull sheet, then use the OA/ID-level rows for reading-room requests before broader box review.
-7. Clinton Library onsite agenda: use the day/phase export for first moves, capture fields, promotion tests, and stop rules while onsite.
-8. Source-note audit CSV: reconcile each chronology control, candidate record, Daily Diary pointer, directive, public statement, and Library pull cluster against FRUS-style citation requirements before promotion.
-9. Source-note template CSV: use copy-ready citation patterns for directive packets, Daily Diary controls, speech drafts, strategy papers, public speeches, Clinton Library items, and editorial-note bridges.
-10. Verification queue CSV: work the sorted readiness queue so directive source packets, Library reading-room pulls, public-text draft trails, and diary pairings are verified in priority order.
-11. Request-packet CSV: use repository-facing ask text and capture fields when writing Clinton Library, NARA, or public-text verification requests.
-12. Request-batch CSV: group packet rows by repository and request type before sending reading-room or remote-reference requests.
-13. Correspondence-drafts CSV: turn grouped request batches into ready-to-edit subject lines, recipient hints, ask text, identifiers, capture fields, source-note targets, and URLs.
-14. NSC Records Management Office, NAID 7388808: PRS/RMS files for PDD-1, PDD-2, PRD-35, PRD-26, PDD-25, PDD-39, PDD-42, PDD-63, and PDD-68.
-15. NSC Executive Secretary, NAID 7386739: subject files and routing records around national security strategy and interagency policy review.
-16. NSC Speechwriting Office, NAID 7388842: Lake enlargement speech, UNGA 1993, State of the Union foreign-policy sections, UN 50th anniversary, and second-term new-century speeches.
-17. Blinken files, 2006-0459-F: draft chains for Lake, Berger, Steinberg, State of the Union, UNGA, and foreign-policy theme memos.
-18. Boorstin files, 2006-0460-F: first-term Clinton/Lake/Berger/Christopher speech drafts and UN 50th anniversary folders.
-19. Widmer files, 2006-0471-F: second-term foreign-policy speech drafts and presidential revision traces.
-20. P.J. Crowley Press and Communications collection: first-year public framing and press guidance.
-21. Presidential Daily Diary, NAID 101784492, and the NARA Catalog `2010-0083-F` search set: chronology control for public doctrine events, calls, strategy meetings, and summit preparation.
+7. Clinton Library call-slip queue: use the OA/ID-level export for row-by-row reading-room request text, capture checklists, promotion tests, and stop rules.
+8. Clinton Library onsite agenda: use the day/phase export for first moves, capture fields, promotion tests, and stop rules while onsite.
+9. Source-note audit CSV: reconcile each chronology control, candidate record, Daily Diary pointer, directive, public statement, and Library pull cluster against FRUS-style citation requirements before promotion.
+10. Source-note template CSV: use copy-ready citation patterns for directive packets, Daily Diary controls, speech drafts, strategy papers, public speeches, Clinton Library items, and editorial-note bridges.
+11. Verification queue CSV: work the sorted readiness queue so directive source packets, Library reading-room pulls, public-text draft trails, and diary pairings are verified in priority order.
+12. Request-packet CSV: use repository-facing ask text and capture fields when writing Clinton Library, NARA, or public-text verification requests.
+13. Request-batch CSV: group packet rows by repository and request type before sending reading-room or remote-reference requests.
+14. Correspondence-drafts CSV: turn grouped request batches into ready-to-edit subject lines, recipient hints, ask text, identifiers, capture fields, source-note targets, and URLs.
+15. NSC Records Management Office, NAID 7388808: PRS/RMS files for PDD-1, PDD-2, PRD-35, PRD-26, PDD-25, PDD-39, PDD-42, PDD-63, and PDD-68.
+16. NSC Executive Secretary, NAID 7386739: subject files and routing records around national security strategy and interagency policy review.
+17. NSC Speechwriting Office, NAID 7388842: Lake enlargement speech, UNGA 1993, State of the Union foreign-policy sections, UN 50th anniversary, and second-term new-century speeches.
+18. Blinken files, 2006-0459-F: draft chains for Lake, Berger, Steinberg, State of the Union, UNGA, and foreign-policy theme memos.
+19. Boorstin files, 2006-0460-F: first-term Clinton/Lake/Berger/Christopher speech drafts and UN 50th anniversary folders.
+20. Widmer files, 2006-0471-F: second-term foreign-policy speech drafts and presidential revision traces.
+21. P.J. Crowley Press and Communications collection: first-year public framing and press guidance.
+22. Presidential Daily Diary, NAID 101784492, and the NARA Catalog `2010-0083-F` search set: chronology control for public doctrine events, calls, strategy meetings, and summit preparation.
 
 ## Chronology-First Treatment
 
@@ -140,6 +141,10 @@ batch into a ready-to-edit outreach row with subject line, recipient hint,
 message text, identifiers, capture fields, source-note targets, and URLs, so
 the compiler can move from the worksheet to an email, call slip, or public-text
 checklist without losing the FRUS citation requirements.
+The `clinton-library-call-slip-queue.csv` export handles the onsite version of
+that problem at the OA/ID level: each row has phase, folder targets, request
+text, capture checklist, promotion test, and stop rule, so the compiler can
+move from pull-sheet planning to reading-room slips without retyping clusters.
 The `clinton-library-onsite-agenda.csv` export translates the Library Sprint
 clusters into day/phase sequencing with first moves, capture fields, promotion
 tests, and stop rules, so reading-room time is spent sampling for document

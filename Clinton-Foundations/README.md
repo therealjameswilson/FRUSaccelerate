@@ -28,7 +28,7 @@ document edition. It gathers:
 - `styles.css`: responsive visual system
 - `app.js`: source data, filters, rendering, gap board, and source-lead/record/statement/person CSV exports
 - `chronology-export.js`: first-section document chronology and triage CSV exports
-- `library-pull-export.js`: Clinton Library OA/ID pull-sheet, onsite agenda, Daily Diary controls, compiler runbook, source-note audit, source-note template, verification queue, request-packet, request-batch, and correspondence-draft CSV exports
+- `library-pull-export.js`: Clinton Library OA/ID pull-sheet, call-slip queue, onsite agenda, Daily Diary controls, compiler runbook, source-note audit, source-note template, verification queue, request-packet, request-batch, and correspondence-draft CSV exports
 - `assets/foundations-source-map.svg`: source map visual
 - `reports/compiler-gap-analysis.md`: source-gap treatment report
 
@@ -41,9 +41,10 @@ room pull order: directives and PRS chronologies, speechwriting drafts, NATO
 and Europe files, UN and multilateral files, senior-principal process records,
 global economy folders, transnational-threat records, and press/backgrounder
 support files. The section can be exported as `clinton-library-pull-sheet.csv`
-with one row per OA/ID request, and as `clinton-library-onsite-agenda.csv` with
-day/phase sequencing, first moves, capture fields, promotion tests, and stop
-rules for reading-room work.
+with one row per OA/ID request, as `clinton-library-call-slip-queue.csv` with
+call-slip request text and capture checklists for each OA/ID, and as
+`clinton-library-onsite-agenda.csv` with day/phase sequencing, first moves,
+capture fields, promotion tests, and stop rules for reading-room work.
 
 ## Source Notes
 

@@ -28,6 +28,20 @@ const onsiteAgendaFields = [
   "stop_rule"
 ];
 
+const callSlipQueueFields = [
+  "call_slip_rank",
+  "onsite_phase",
+  "oaid",
+  "cluster",
+  "priority",
+  "source",
+  "folder_targets",
+  "call_slip_request",
+  "capture_checklist",
+  "promotion_test",
+  "stop_rule"
+];
+
 const dailyDiaryFields = [
   "sequence",
   "date",
@@ -232,6 +246,24 @@ function onsiteAgendaRows() {
   }));
 }
 
+function callSlipQueueRows() {
+  return dataList(typeof libraryPulls === "undefined" ? [] : libraryPulls).flatMap((pull) =>
+    dataList(pull.oaids).map((oaid, index) => ({
+      call_slip_rank: `${String(Number.parseInt(pull.rank, 10)).padStart(2, "0")}.${String(index + 1).padStart(2, "0")}`,
+      onsite_phase: onsitePhase(pull.rank),
+      oaid,
+      cluster: pull.title,
+      priority: pull.priority,
+      source: pull.source,
+      folder_targets: pull.folders,
+      call_slip_request: `Request OA/ID ${oaid} for ${pull.title}. Folder targets: ${pull.folders}. First move: ${pull.onsite}`,
+      capture_checklist: onsiteCaptureFields(pull.title),
+      promotion_test: pull.why,
+      stop_rule: onsiteStopRule(pull.title)
+    }))
+  );
+}
+
 function downloadOnsiteAgendaCsv() {
   const rows = onsiteAgendaRows();
   const lines = [
@@ -243,6 +275,23 @@ function downloadOnsiteAgendaCsv() {
   const link = document.createElement("a");
   link.href = url;
   link.download = "clinton-library-onsite-agenda.csv";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function downloadCallSlipQueueCsv() {
+  const rows = callSlipQueueRows();
+  const lines = [
+    callSlipQueueFields.join(","),
+    ...rows.map((row) => callSlipQueueFields.map((field) => libraryCsvEscape(row[field])).join(","))
+  ];
+  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "clinton-library-call-slip-queue.csv";
   document.body.append(link);
   link.click();
   link.remove();
@@ -278,13 +327,56 @@ function makeOnsiteAgendaCard(row) {
   return card;
 }
 
+function makeCallSlipQueueCard(row) {
+  const card = document.createElement("article");
+  card.className = "library-card";
+
+  const header = document.createElement("div");
+  header.className = "library-card-header";
+  const rank = document.createElement("strong");
+  rank.textContent = row.call_slip_rank;
+  const phase = document.createElement("span");
+  phase.className = "chip";
+  phase.textContent = row.oaid;
+  header.append(rank, phase);
+
+  const title = document.createElement("h3");
+  title.textContent = row.cluster;
+  const request = document.createElement("p");
+  request.className = "library-onsite";
+  request.textContent = row.call_slip_request;
+  const capture = document.createElement("p");
+  capture.className = "risk-note";
+  capture.textContent = `Capture: ${row.capture_checklist}`;
+  const stop = document.createElement("p");
+  stop.className = "gap-pull-list";
+  stop.textContent = `Stop rule: ${row.stop_rule}`;
+
+  card.append(header, title, request, capture, stop);
+  return card;
+}
+
 function installOnsiteAgendaPanel() {
   const librarySection = document.querySelector("#library");
   const libraryActions = document.querySelector(".library-actions");
   if (!librarySection || !libraryActions || document.querySelector("#export-onsite-agenda")) return;
 
   const rows = onsiteAgendaRows();
+  const callSlipRows = callSlipQueueRows();
   const phases = new Set(rows.map((row) => row.onsite_phase)).size;
+  const clusters = new Set(callSlipRows.map((row) => row.cluster)).size;
+
+  const callSlipSummary = document.createElement("p");
+  callSlipSummary.id = "call-slip-queue-summary";
+  callSlipSummary.className = "result-summary";
+  callSlipSummary.textContent = `${callSlipRows.length} call-slip rows across ${clusters} pull clusters`;
+
+  const callSlipButton = document.createElement("button");
+  callSlipButton.id = "export-call-slip-queue";
+  callSlipButton.type = "button";
+  callSlipButton.textContent = "Export Call-Slip Queue CSV";
+  callSlipButton.disabled = callSlipRows.length === 0;
+  callSlipButton.addEventListener("click", downloadCallSlipQueueCsv);
 
   const summary = document.createElement("p");
   summary.id = "onsite-agenda-summary";
@@ -298,13 +390,19 @@ function installOnsiteAgendaPanel() {
   button.disabled = rows.length === 0;
   button.addEventListener("click", downloadOnsiteAgendaCsv);
 
-  libraryActions.append(summary, button);
+  libraryActions.append(callSlipSummary, callSlipButton, summary, button);
+
+  const callSlipPreview = document.createElement("div");
+  callSlipPreview.className = "library-grid";
+  callSlipPreview.setAttribute("aria-label", "Clinton Library call-slip queue preview");
+  callSlipPreview.append(...callSlipRows.slice(0, 4).map(makeCallSlipQueueCard));
 
   const preview = document.createElement("div");
   preview.className = "library-grid";
   preview.setAttribute("aria-label", "Clinton Library onsite agenda preview");
   preview.append(...rows.slice(0, 4).map(makeOnsiteAgendaCard));
-  libraryActions.insertAdjacentElement("afterend", preview);
+  libraryActions.insertAdjacentElement("afterend", callSlipPreview);
+  callSlipPreview.insertAdjacentElement("afterend", preview);
 }
 
 function dailyDiaryRows() {
@@ -796,6 +894,16 @@ function compilerRunbookRows() {
     },
     {
       sequence: "06",
+      compiler_move: "Queue reading-room call slips",
+      page_section: "Clinton Library Sprint",
+      export_button: "Export Call-Slip Queue CSV",
+      output_file: "clinton-library-call-slip-queue.csv",
+      use_for: "Turn every OA/ID in the Library Sprint into a row-level request with phase, folder targets, capture checklist, promotion test, and stop rule.",
+      decision_supported: "Which exact OA/ID requests can be handed to the reading room without retyping pull clusters.",
+      stop_condition: "Stop when each OA/ID has call-slip request text and an item-level capture checklist."
+    },
+    {
+      sequence: "07",
       compiler_move: "Plan onsite reading-room order",
       page_section: "Clinton Library Sprint",
       export_button: "Export Onsite Agenda CSV",
@@ -805,7 +913,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when the day plan covers directive, speech, process, strategy, and support clusters."
     },
     {
-      sequence: "07",
+      sequence: "08",
       compiler_move: "Apply FRUS-style source-note patterns",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Source-Note Templates CSV",
@@ -815,7 +923,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when every evidence type has required fields and a no-promotion condition."
     },
     {
-      sequence: "08",
+      sequence: "09",
       compiler_move: "Audit source-note readiness",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Source-Note Audit CSV",
@@ -825,7 +933,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when no promoted row lacks verification need, next pull, and source-note target."
     },
     {
-      sequence: "09",
+      sequence: "10",
       compiler_move: "Work the readiness queue",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Verification Queue CSV",
@@ -835,7 +943,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when priority rows are assigned to a repository request or onsite action."
     },
     {
-      sequence: "10",
+      sequence: "11",
       compiler_move: "Write repository-facing asks",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Request Packets CSV",
@@ -845,7 +953,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each ask has identifiers, capture fields, and a source-note target."
     },
     {
-      sequence: "11",
+      sequence: "12",
       compiler_move: "Batch the handoff",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Request Batches CSV",
@@ -855,7 +963,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each repository has a compact batch list rather than row-by-row requests."
     },
     {
-      sequence: "12",
+      sequence: "13",
       compiler_move: "Draft repository correspondence",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Correspondence Drafts CSV",
@@ -865,7 +973,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each batch has correspondence text that preserves the FRUS source-note capture requirements."
     },
     {
-      sequence: "13",
+      sequence: "14",
       compiler_move: "Review candidate file units",
       page_section: "Records To Pull, Check, Or Promote",
       export_button: "Export CSV",
@@ -875,7 +983,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when high-priority candidates have item-level risk notes and repository URLs."
     },
     {
-      sequence: "14",
+      sequence: "15",
       compiler_move: "Pair public doctrine statements",
       page_section: "Public Statements And Strategy Texts",
       export_button: "Export CSV",
@@ -885,7 +993,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each public text has a paired archival target or context-only decision."
     },
     {
-      sequence: "15",
+      sequence: "16",
       compiler_move: "Check principal context",
       page_section: "People And Offices",
       export_button: "Export CSV",
