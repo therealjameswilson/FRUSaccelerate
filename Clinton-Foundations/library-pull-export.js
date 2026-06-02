@@ -101,6 +101,26 @@ const sourceNoteIntakeFields = [
   "url"
 ];
 
+const selectionDecisionFields = [
+  "decision_rank",
+  "date",
+  "title",
+  "action_group",
+  "priority_or_status",
+  "repository_or_source",
+  "identifier",
+  "recommended_treatment",
+  "selection_gate",
+  "paired_evidence_needed",
+  "source_note_status",
+  "volume_boundary",
+  "editorial_note_use",
+  "provisional_source_note",
+  "final_decision",
+  "compiler_note",
+  "url"
+];
+
 const verificationQueueFields = [
   "rank",
   "action_group",
@@ -735,6 +755,79 @@ function sourceNoteIntakeRows() {
   }));
 }
 
+function recommendedTreatment(row) {
+  if (/Directive source packet/.test(row.action_group)) return "Print candidate or editorial-note anchor after released text/source packet is verified.";
+  if (/Reading-room pull/.test(row.action_group)) return "Print candidate only after item-level document review proves foundation-level value.";
+  if (/Substantive pairing|Chronology pairing/.test(row.action_group)) return "Chronology/editorial-note context unless paired with a substantive record.";
+  if (/Draft trail pairing/.test(row.action_group)) return "Public baseline; print only with draft, clearance, or policy-file evidence.";
+  if (/Item-level source note/.test(row.action_group)) return "Candidate record; decide print, editorial note, or context after provenance is complete.";
+  return "Review for print, editorial-note, context-only, or handoff treatment.";
+}
+
+function selectionGate(row) {
+  if (/Directive source packet/.test(row.action_group)) return "Does the directive establish broad national-security process, doctrine, or presidential decision machinery for Volume I?";
+  if (/Reading-room pull/.test(row.action_group)) return "Does the item explain foundation-level doctrine/process rather than topical implementation?";
+  if (/Substantive pairing|Chronology pairing/.test(row.action_group)) return "Does the paired substantive record show policy reasoning, decision, or high-level diplomatic activity?";
+  if (/Draft trail pairing/.test(row.action_group)) return "Does the draft/clearance trail show how public doctrine was formed or approved?";
+  if (/Item-level source note/.test(row.action_group)) return "Does the record satisfy the FRUS standard for major foreign-policy decisions or significant diplomatic activity?";
+  return "Can this source carry document-level evidence instead of only locating or contextualizing another record?";
+}
+
+function pairedEvidenceNeeded(row) {
+  if (/Substantive pairing|Chronology pairing/.test(row.action_group)) return "Call transcript, memcon/telcon, meeting paper, briefing book, speech draft, or Public Papers text.";
+  if (/Draft trail pairing/.test(row.action_group)) return "Earliest draft, marked-up draft, clearance comments, policy memorandum, final public text, and diary/event control.";
+  if (/Directive source packet/.test(row.action_group)) return "Released directive text, source packet, distribution/routing record, classification marking, and release status.";
+  if (/Reading-room pull/.test(row.action_group)) return "Folder title page, routing slip, first substantive memo, decision memo, briefing tab, draft, or clearance note.";
+  return row.verification_needed;
+}
+
+function sourceNoteStatus(row) {
+  if (/Chronology|Substantive pairing|Draft trail/.test(row.action_group)) return "Locator or public control until paired evidence is cited.";
+  if (/Directive source packet/.test(row.action_group)) return "Locator until released text/source packet metadata is captured.";
+  if (/Reading-room pull|Item-level source note/.test(row.action_group)) return "Provisional until box, folder, item date, markings, copy status, and release status are captured.";
+  return "Provisional until item-level metadata is verified.";
+}
+
+function volumeBoundary(row) {
+  const text = `${row.title} ${row.identifier} ${row.next_pull} ${row.repository_or_source}`.toLowerCase();
+  if (/nato|europe|russia|ukraine|balkans|bosnia|kosovo|arms control|strategic/.test(text)) return "Promote only if it explains broad foundations; otherwise hand off to Europe/Russia/Balkans/arms-control volumes.";
+  if (/trade|economy|g-?7|g-?8|economic/.test(text)) return "Promote only broad globalization/economic-doctrine framing; hand implementation to economic volumes.";
+  if (/terror|cyber|crime|infrastructure|transnational/.test(text)) return "Promote broad transnational-threat doctrine; hand operational implementation to functional volumes.";
+  if (/daily diary|naid/.test(text)) return "Use for chronology unless paired with substantive evidence.";
+  if (/speech|public papers|strategy|national security strategy|nss/.test(text)) return "Use public text as baseline; print only with internal drafting or clearance record.";
+  return "Keep within Volume I only if it documents doctrine, process, strategy, or foundational policy framing.";
+}
+
+function editorialNoteUse(row) {
+  if (/Substantive pairing|Chronology pairing/.test(row.action_group)) return "Use as editorial-note chronology if no substantive paired record is available.";
+  if (/Draft trail pairing/.test(row.action_group)) return "Use public text plus draft trail in an editorial note if no single internal document is strong enough to print.";
+  if (/Directive source packet/.test(row.action_group)) return "Use as editorial-note anchor if released directive text is unavailable but directive sequence is essential.";
+  if (/Reading-room pull/.test(row.action_group)) return "Use as source-cluster note if folders show context but no print-worthy item emerges.";
+  return "Use to bridge unavailable, public, duplicate, or adjacent-volume material.";
+}
+
+function selectionDecisionRows() {
+  return verificationQueueRows().map((row) => ({
+    decision_rank: row.rank,
+    date: row.date,
+    title: row.title,
+    action_group: row.action_group,
+    priority_or_status: row.priority_or_status,
+    repository_or_source: row.repository_or_source,
+    identifier: row.identifier,
+    recommended_treatment: recommendedTreatment(row),
+    selection_gate: selectionGate(row),
+    paired_evidence_needed: pairedEvidenceNeeded(row),
+    source_note_status: sourceNoteStatus(row),
+    volume_boundary: volumeBoundary(row),
+    editorial_note_use: editorialNoteUse(row),
+    provisional_source_note: row.source_note_target,
+    final_decision: "",
+    compiler_note: "",
+    url: row.url
+  }));
+}
+
 function uniqueValues(values) {
   return [...new Set(values.filter(Boolean))];
 }
@@ -994,6 +1087,16 @@ function compilerRunbookRows() {
     },
     {
       sequence: "10",
+      compiler_move: "Decide print, editorial-note, context, or handoff treatment",
+      page_section: "Gap Register And Pull Controls",
+      export_button: "Export Selection Matrix CSV",
+      output_file: "clinton-foundations-selection-matrix.csv",
+      use_for: "Apply the FRUS selection gate to each verified or provisional source path before over-collecting adjacent-volume material.",
+      decision_supported: "Which candidates should be printed, handled in an editorial note, kept as context, or handed to another Clinton volume.",
+      stop_condition: "Stop when every row has a final decision, boundary note, and compiler rationale."
+    },
+    {
+      sequence: "11",
       compiler_move: "Audit source-note readiness",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Source-Note Audit CSV",
@@ -1003,7 +1106,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when no promoted row lacks verification need, next pull, and source-note target."
     },
     {
-      sequence: "11",
+      sequence: "12",
       compiler_move: "Work the readiness queue",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Verification Queue CSV",
@@ -1013,7 +1116,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when priority rows are assigned to a repository request or onsite action."
     },
     {
-      sequence: "12",
+      sequence: "13",
       compiler_move: "Write repository-facing asks",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Request Packets CSV",
@@ -1023,7 +1126,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each ask has identifiers, capture fields, and a source-note target."
     },
     {
-      sequence: "13",
+      sequence: "14",
       compiler_move: "Batch the handoff",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Request Batches CSV",
@@ -1033,7 +1136,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each repository has a compact batch list rather than row-by-row requests."
     },
     {
-      sequence: "14",
+      sequence: "15",
       compiler_move: "Draft repository correspondence",
       page_section: "Gap Register And Pull Controls",
       export_button: "Export Correspondence Drafts CSV",
@@ -1043,7 +1146,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each batch has correspondence text that preserves the FRUS source-note capture requirements."
     },
     {
-      sequence: "15",
+      sequence: "16",
       compiler_move: "Review candidate file units",
       page_section: "Records To Pull, Check, Or Promote",
       export_button: "Export CSV",
@@ -1053,7 +1156,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when high-priority candidates have item-level risk notes and repository URLs."
     },
     {
-      sequence: "16",
+      sequence: "17",
       compiler_move: "Pair public doctrine statements",
       page_section: "Public Statements And Strategy Texts",
       export_button: "Export CSV",
@@ -1063,7 +1166,7 @@ function compilerRunbookRows() {
       stop_condition: "Stop when each public text has a paired archival target or context-only decision."
     },
     {
-      sequence: "17",
+      sequence: "18",
       compiler_move: "Check principal context",
       page_section: "People And Offices",
       export_button: "Export CSV",
@@ -1120,6 +1223,23 @@ function downloadSourceNoteIntakeCsv() {
   const link = document.createElement("a");
   link.href = url;
   link.download = "clinton-foundations-source-note-intake.csv";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function downloadSelectionDecisionCsv() {
+  const rows = selectionDecisionRows();
+  const lines = [
+    selectionDecisionFields.join(","),
+    ...rows.map((row) => selectionDecisionFields.map((field) => libraryCsvEscape(row[field])).join(","))
+  ];
+  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "clinton-foundations-selection-matrix.csv";
   document.body.append(link);
   link.click();
   link.remove();
@@ -1343,6 +1463,32 @@ function makeSourceNoteIntakeCard(row) {
   return card;
 }
 
+function makeSelectionDecisionCard(row) {
+  const card = document.createElement("article");
+  card.className = "gap-card";
+
+  const header = document.createElement("div");
+  header.className = "gap-card-header";
+  const title = document.createElement("h3");
+  title.textContent = `${row.decision_rank}. ${row.title}`;
+  const badge = document.createElement("span");
+  badge.className = "chip gap-badge";
+  badge.textContent = row.action_group;
+  header.append(title, badge);
+
+  const treatment = document.createElement("p");
+  treatment.textContent = `Treatment: ${row.recommended_treatment}`;
+  const gate = document.createElement("p");
+  gate.className = "risk-note";
+  gate.textContent = `Selection gate: ${row.selection_gate}`;
+  const boundary = document.createElement("p");
+  boundary.className = "gap-pull-list";
+  boundary.textContent = `Boundary: ${row.volume_boundary}`;
+
+  card.append(header, treatment, gate, boundary);
+  return card;
+}
+
 function makeSourceNoteTemplateCard(row) {
   const card = document.createElement("article");
   card.className = "gap-card";
@@ -1458,6 +1604,16 @@ function installSourceNoteAuditPanel() {
   intakeButton.textContent = "Export Source-Note Intake CSV";
   intakeButton.addEventListener("click", downloadSourceNoteIntakeCsv);
 
+  const selectionSummary = document.createElement("p");
+  selectionSummary.id = "selection-matrix-summary";
+  selectionSummary.className = "result-summary";
+
+  const selectionButton = document.createElement("button");
+  selectionButton.id = "export-selection-matrix";
+  selectionButton.type = "button";
+  selectionButton.textContent = "Export Selection Matrix CSV";
+  selectionButton.addEventListener("click", downloadSelectionDecisionCsv);
+
   const queueSummary = document.createElement("p");
   queueSummary.id = "verification-queue-summary";
   queueSummary.className = "result-summary";
@@ -1510,6 +1666,7 @@ function installSourceNoteAuditPanel() {
 
   const rows = sourceNoteAuditRows();
   const intakeRows = sourceNoteIntakeRows();
+  const selectionRows = selectionDecisionRows();
   const queueRows = verificationQueueRows();
   const requestRows = requestPacketRows();
   const batchRows = requestBatchRows();
@@ -1519,6 +1676,7 @@ function installSourceNoteAuditPanel() {
   const repositories = new Set(requestRows.map((row) => row.repository_group)).size;
   summary.textContent = `${rows.length} source-note audit rows across ${sections} compiler evidence groups`;
   intakeSummary.textContent = `${intakeRows.length} source-note intake rows with blank item-level capture fields`;
+  selectionSummary.textContent = `${selectionRows.length} selection decisions queued for print, note, context, or handoff review`;
   queueSummary.textContent = `${queueRows.length} verification tasks sorted by source-note readiness risk`;
   requestSummary.textContent = `${requestRows.length} request packets across ${repositories} repository groups`;
   batchSummary.textContent = `${batchRows.length} grouped request batches for repository handoff`;
@@ -1526,6 +1684,7 @@ function installSourceNoteAuditPanel() {
   templateSummary.textContent = `${templateRows.length} source-note templates for common Clinton evidence types`;
   button.disabled = rows.length === 0;
   intakeButton.disabled = intakeRows.length === 0;
+  selectionButton.disabled = selectionRows.length === 0;
   queueButton.disabled = queueRows.length === 0;
   requestButton.disabled = requestRows.length === 0;
   batchButton.disabled = batchRows.length === 0;
@@ -1537,6 +1696,8 @@ function installSourceNoteAuditPanel() {
     button,
     intakeSummary,
     intakeButton,
+    selectionSummary,
+    selectionButton,
     queueSummary,
     queueButton,
     requestSummary,
@@ -1557,6 +1718,11 @@ function installSourceNoteAuditPanel() {
   intakePreview.className = "gap-list";
   intakePreview.setAttribute("aria-label", "Source-note intake worksheet preview");
   intakePreview.append(...intakeRows.slice(0, 4).map(makeSourceNoteIntakeCard));
+
+  const selectionPreview = document.createElement("div");
+  selectionPreview.className = "gap-list";
+  selectionPreview.setAttribute("aria-label", "Selection decision matrix preview");
+  selectionPreview.append(...selectionRows.slice(0, 4).map(makeSelectionDecisionCard));
 
   const requestPreview = document.createElement("div");
   requestPreview.className = "gap-list";
@@ -1581,13 +1747,14 @@ function installSourceNoteAuditPanel() {
   if (sectionNote) {
     sectionNote.insertAdjacentElement("afterend", actions);
     actions.insertAdjacentElement("afterend", intakePreview);
-    intakePreview.insertAdjacentElement("afterend", queuePreview);
+    intakePreview.insertAdjacentElement("afterend", selectionPreview);
+    selectionPreview.insertAdjacentElement("afterend", queuePreview);
     queuePreview.insertAdjacentElement("afterend", requestPreview);
     requestPreview.insertAdjacentElement("afterend", batchPreview);
     batchPreview.insertAdjacentElement("afterend", correspondencePreview);
     correspondencePreview.insertAdjacentElement("afterend", templatePreview);
   } else {
-    gapsSection.append(actions, intakePreview, queuePreview, requestPreview, batchPreview, correspondencePreview, templatePreview);
+    gapsSection.append(actions, intakePreview, selectionPreview, queuePreview, requestPreview, batchPreview, correspondencePreview, templatePreview);
   }
 }
 
