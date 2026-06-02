@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FRUS Accelerate</title>
+    <title>Compiler Assist</title>
     <style>
       :root {
         --bg: #2b0610;
@@ -474,10 +474,105 @@
         font-size: 0.84rem;
       }
 
+      .compiler-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .compiler-toolbar a,
+      .compiler-card a,
+      .resource-card a {
+        color: var(--accent);
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .compiler-grid,
+      .resource-grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      .compiler-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .resource-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .compiler-card,
+      .resource-card {
+        display: grid;
+        gap: 12px;
+        min-width: 0;
+        border-radius: var(--radius-lg);
+        padding: 18px;
+        border: 1px solid var(--line);
+        background:
+          linear-gradient(145deg, rgba(145, 27, 51, 0.78), rgba(69, 9, 22, 0.86));
+        box-shadow: inset 0 0 0 1px rgba(255, 243, 217, 0.03);
+      }
+
+      .compiler-card.featured {
+        border-color: rgba(241, 196, 111, 0.44);
+        background:
+          linear-gradient(145deg, rgba(168, 42, 62, 0.88), rgba(72, 10, 23, 0.9));
+      }
+
+      .compiler-card h3,
+      .resource-card h3 {
+        font-size: 1.08rem;
+        letter-spacing: 0;
+        line-height: 1.18;
+      }
+
+      .compiler-card p,
+      .resource-card p,
+      .compiler-note {
+        color: var(--muted);
+      }
+
+      .compiler-meta,
+      .card-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .compiler-meta span,
+      .card-actions a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 30px;
+        border-radius: 999px;
+        padding: 0 10px;
+        border: 1px solid rgba(227, 186, 103, 0.18);
+        background: rgba(49, 6, 16, 0.32);
+      }
+
+      .compiler-meta span {
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+
+      .card-actions {
+        margin-top: auto;
+      }
+
+      .resource-card {
+        align-content: start;
+      }
+
       @media (max-width: 1180px) {
         .hero,
         .route-grid,
         .preview-grid,
+        .compiler-grid,
+        .resource-grid,
         .preview-grid.wide {
           grid-template-columns: 1fr;
         }
@@ -527,24 +622,26 @@
       <header class="hero">
         <div class="hero-copy">
           <div class="cover-title-block">
-            <p class="eyebrow">FRUSaccelerate</p>
+            <p class="eyebrow">Compiler Assist</p>
             <p class="cover-series">Foreign Relations of the United States</p>
-            <h1>Portal entry for the FY 2026 acceleration agenda.</h1>
-            <p class="cover-volume">Portal Edition • Decision Briefing</p>
+            <h1>One front door for active FRUS compiler desks.</h1>
+            <p class="cover-volume">Compiler Portal Edition</p>
           </div>
-          <div class="cover-medallion" aria-hidden="true">FRUS</div>
+          <div class="cover-medallion" aria-hidden="true">CA</div>
           <p class="hero-summary" id="heroSummary">
-            A public-facing front door to the FRUS acceleration portal, built to help leadership, historians, and delivery partners move quickly from idea to pilot.
+            A compiler-facing hub for active FRUS assist pages, source desks, Scout searches, Strobe Talbott FOIA material, and the FRUS acceleration portal.
           </p>
           <div class="tag-list">
-            <span class="tag">Ruby-red buckram portal</span>
-            <span class="tag">Federal precedents with click-through links</span>
-            <span class="tag">10 projects scoped for FY 2026</span>
+            <span class="tag">Live assist pages</span>
+            <span class="tag">Official volume-title links</span>
+            <span class="tag">Scout and Strobe shortcuts</span>
           </div>
           <div class="hero-actions">
-            <a class="button primary" href="./dashboard/">Enter full portal</a>
-            <a class="button secondary" href="./dashboard/#topProjects">Open top 10</a>
-            <a class="button secondary" href="./reports/frus-ai-opportunities.md">Read source report</a>
+            <a class="button primary" href="#compiler-sites">Open compiler sites</a>
+            <a class="button secondary" href="https://therealjameswilson.github.io/nara-scout/">Open NARA Scout</a>
+            <a class="button secondary" href="https://therealjameswilson.github.io/strobe-talbott-foia/">Open Strobe FOIA</a>
+            <a class="button secondary" href="https://therealjameswilson.github.io/PRC-PostColdWar/">Open PRC source shop</a>
+            <a class="button secondary" href="./dashboard/">Open acceleration portal</a>
           </div>
         </div>
 
@@ -570,18 +667,250 @@
 
           <article class="brief-card">
             <span class="label" id="deadlineLabel">Start here</span>
-            <h2>Choose the right doorway into the portal.</h2>
+            <h2>Start with the live workbench, then branch to the source system.</h2>
             <p id="entrySummary">
-              The full workspace is dense by design, so this page gives visitors the quickest way to get the answer they need without having to explore everything at once.
+              The nested pages are dense by design, so this page gives compilers the quickest route to the relevant volume, source queue, official status page, or cross-volume tool.
             </p>
             <div class="quick-links">
-              <a class="primary" href="./dashboard/#deliveryMatrix">Decision view</a>
-              <a class="secondary" href="./dashboard/#projectDossiers">Pilot cards</a>
-              <a class="secondary" href="./dashboard/#precedentComparator">Federal precedents</a>
+              <a class="primary" href="#compiler-sites">Volume desks</a>
+              <a class="secondary" href="#source-systems">Source systems</a>
+              <a class="secondary" href="./reports/frus-ai-opportunities.md">AI report</a>
             </div>
           </article>
         </aside>
       </header>
+
+      <section class="landing-section" id="compiler-sites">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Compiler Assist Directory</p>
+            <h2>Active volume desks</h2>
+          </div>
+          <p class="section-summary">
+            Live FRUS assist pages, listed by the volumes they represent. The Eastern Europe 1989-1992 page and the 1981-1988 trade/monetary-policy page remain omitted by request.
+          </p>
+        </div>
+        <div class="compiler-toolbar" aria-label="Primary compiler shortcuts">
+          <a class="button primary" href="https://therealjameswilson.github.io/nara-scout/">NARA Scout</a>
+          <a class="button secondary" href="https://therealjameswilson.github.io/strobe-talbott-foia/">Strobe Talbott FOIA</a>
+          <a class="button secondary" href="https://history.state.gov/historicaldocuments/status-of-the-series">Official FRUS status</a>
+          <a class="button secondary" href="./dashboard/">FRUS acceleration portal</a>
+        </div>
+        <div class="compiler-grid">
+          <article class="compiler-card">
+            <div class="compiler-meta"><span>1989-1992</span><span>Volume II</span><span>Research</span></div>
+            <h3>Organization and Management of Foreign Policy</h3>
+            <p>State Department organization, management, public diplomacy, immigration, refugees, and policy-process source leads.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/org-man-89-92/">Open page</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1989-92v02">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card">
+            <div class="compiler-meta"><span>1989-1992</span><span>Volume IV</span><span>Research</span></div>
+            <h3>Soviet Union, Russia, and Post-Soviet States: Policy</h3>
+            <p>Policy-volume companion to the high-level-contact record, with boundary control against Volume III summit materials.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/89-92-RussiaFSU-Policy/">Open page</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1989-92v04">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card">
+            <div class="compiler-meta"><span>1989-1992</span><span>Volume VI</span><span>Research</span></div>
+            <h3>Eastern Mediterranean</h3>
+            <p>Greece, Cyprus, Turkey, Aegean, and regional Eastern Mediterranean research assistant.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/GCT-89-92/">Open page</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1989-92v06">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card">
+            <div class="compiler-meta"><span>1989-1992</span><span>Volume VIII</span><span>Research</span></div>
+            <h3>Western Europe</h3>
+            <p>Bush-era Western Europe memcons, telcons, country lanes, Germany boundary control, and source-note checks.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/Bush41-Western-Europe/">Open page</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1989-92v08">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card featured">
+            <div class="compiler-meta"><span>1989-1992</span><span>Volume XV</span><span>Research</span></div>
+            <h3>South Asia</h3>
+            <p>Chronology-first South Asia desk with quickstart handoff, page-boundary queue, OCR extraction notes, and gap packets.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/Bush41-SouthAsia/">Open page</a>
+              <a href="https://therealjameswilson.github.io/Bush41-SouthAsia/reports/compiler-quickstart.md?v=compiler-live-20260602">Quickstart</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1989-92v15">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card">
+            <div class="compiler-meta"><span>1989-1992</span><span>Volume XX</span><span>Research</span></div>
+            <h3>North Africa; Sub-Saharan Africa</h3>
+            <p>Volume XX assist page with boundary rows for Southern Africa and Somalia, document packets, persons candidates, and annotation leads.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/NorthAfrica-89-92/">Open page</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1989-92v20">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card">
+            <div class="compiler-meta"><span>1989-1992</span><span>Volume XXV</span><span>Research</span></div>
+            <h3>South America</h3>
+            <p>Latin America and South America memcon/telcon desk with source-note audit, persons authority, and country-year coverage controls.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/Bush41-LatAm/">Open page</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1989-92v25">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card">
+            <div class="compiler-meta"><span>1989-1992</span><span>Volume XXVIII</span><span>Planned</span></div>
+            <h3>Counternarcotics; Counterterrorism</h3>
+            <p>Source files, selection queue, action lane, and source-note drafts for drugs, terrorism, and related transnational-security files.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/Bush41-drugs-thugs/">Open page</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1989-92v28">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card featured">
+            <div class="compiler-meta"><span>1989-1992</span><span>Volume XXIX</span><span>Planned</span></div>
+            <h3>Global Issues</h3>
+            <p>Global Issues assistant with chronology, coverage matrix, ranked next actions, NARA Scout packets, source-note audit, and release ledger.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/global-issues-89-92/">Open page</a>
+              <a href="https://therealjameswilson.github.io/global-issues-89-92/#action-plan">Action plan</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1989-92v29">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card">
+            <div class="compiler-meta"><span>1993-2000</span><span>Volume I</span><span>Research</span></div>
+            <h3>Foundations of Foreign Policy</h3>
+            <p>Clinton foundations source map, source-lead exports, library pull workflow, and strategy-document lanes.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/Clinton-Foundations/">Open page</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1993-00v01">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card">
+            <div class="compiler-meta"><span>1993-2000</span><span>Volume VII</span><span>Planned</span></div>
+            <h3>Arms Control and Nonproliferation, 1993-1996</h3>
+            <p>Released-records-first arms-control desk with NARA Scout packets and source maps for the first Clinton arms-control volume.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/Clinton-armscontrol-93-96/">Open page</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1993-00v07">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card">
+            <div class="compiler-meta"><span>1993-2000</span><span>Volume VIII</span><span>Planned</span></div>
+            <h3>Arms Control and Nonproliferation, 1997-2000</h3>
+            <p>Continuation desk for post-1996 arms control, with chapter packets, closeout board, stage gates, and first-pass action queues.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/armscontrol-97-2000/">Open page</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1993-00v08">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card">
+            <div class="compiler-meta"><span>1993-2000</span><span>Volume XV</span><span>Research</span></div>
+            <h3>Wars in the Balkans, 1993-1995</h3>
+            <p>Balkans compiler workspace for chronological review, BTF markings, search playbooks, and archival source pulls.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/Balkans-93-95/">Open page</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1993-00v15">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card">
+            <div class="compiler-meta"><span>1993-2000</span><span>Volume XVII</span><span>Planned</span></div>
+            <h3>North Atlantic Treaty Organization; European Security</h3>
+            <p>NATO and European security file desk with workbooks, promotion queues, source-note audits, and production workflow controls.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/Clinton-NATO-European-Security/">Open page</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1993-00v17">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card featured">
+            <div class="compiler-meta"><span>1993-2000</span><span>Volume XVIII</span><span>Planned</span></div>
+            <h3>Russia: High-Level Contacts</h3>
+            <p>Clinton-Yeltsin chronology desk with draft selection spine, day-one next actions, reading packet, Strobe context, and hard-gap follow-up.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/Clinton-Russia-High-Level/">Open page</a>
+              <a href="https://therealjameswilson.github.io/Clinton-Russia-High-Level/reports/compiler-next-actions.html">Next actions</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1993-00v18">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card">
+            <div class="compiler-meta"><span>1993-2000</span><span>Volumes XXII-XXIV</span><span>Research/Planned</span></div>
+            <h3>Europe: High-Level Contacts; Europe: Policy, 1993-1996; Europe: Policy, 1997-2000</h3>
+            <p>Clinton Europe assister spanning high-level contacts and two Europe policy volumes, with saved work packs and source routing.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/Clinton-Europe/">Open page</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1993-00v22">XXII</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1993-00v23">XXIII</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1993-00v24">XXIV</a>
+            </div>
+          </article>
+          <article class="compiler-card">
+            <div class="compiler-meta"><span>1993-2000</span><span>Volume XXVII</span><span>Research</span></div>
+            <h3>South Africa; Southern Africa</h3>
+            <p>Released and declassified records for South Africa and Southern Africa, with source-note and declassification quality gates.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/Clinton-South-and-Southern-Africa/">Open page</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1993-00v27">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card">
+            <div class="compiler-meta"><span>1993-2000</span><span>Volume XXXII</span><span>Research</span></div>
+            <h3>Central America</h3>
+            <p>Central America compiler workspace with cross-volume boundary control, document assembly worksheets, and call-slip batches.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/Clinton-CentralAmerica/">Open page</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1993-00v32">Official title</a>
+            </div>
+          </article>
+          <article class="compiler-card">
+            <div class="compiler-meta"><span>1989-2001</span><span>China spine</span><span>Source shop</span></div>
+            <h3>China; China, 1993-1996; China, 1997-2000</h3>
+            <p>Post-Cold War PRC source desk for Bush Volume XVII and Clinton Volumes XLI-XLII, from Tiananmen through WTO accession.</p>
+            <div class="card-actions">
+              <a href="https://therealjameswilson.github.io/PRC-PostColdWar/">Open source shop</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1989-92v17">Bush XVII</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1993-00v41">XLI</a>
+              <a href="https://history.state.gov/historicaldocuments/frus1993-00v42">XLII</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="landing-section" id="source-systems">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Source Systems</p>
+            <h2>Shared tools and source desks</h2>
+          </div>
+          <p class="section-summary">
+            Cross-volume resources for searching, source capture, FOIA review, and production-method evidence.
+          </p>
+        </div>
+        <div class="resource-grid">
+          <article class="resource-card">
+            <h3>NARA Scout</h3>
+            <p>Catalog search and query-packet runner used by multiple compiler pages for file-unit and item-level pulls.</p>
+            <a href="https://therealjameswilson.github.io/nara-scout/">Open Scout</a>
+          </article>
+          <article class="resource-card">
+            <h3>Strobe Talbott FOIA Case F-2017-13804</h3>
+            <p>Searchable FOIA manifest and document-text site supporting Clinton administration volume work.</p>
+            <a href="https://therealjameswilson.github.io/strobe-talbott-foia/">Open Strobe FOIA</a>
+          </article>
+          <article class="resource-card">
+            <h3>Sept10 FRUS Assist</h3>
+            <p>Counterterrorism source-lead workbench for January 20-September 10, 2001.</p>
+            <a href="https://therealjameswilson.github.io/Sept10-FRUS/">Open Sept10</a>
+          </article>
+          <article class="resource-card">
+            <h3>FRUS acceleration portal</h3>
+            <p>The original AI precedent and pilot-planning workspace remains available for program-level planning.</p>
+            <a href="./dashboard/">Open acceleration portal</a>
+          </article>
+        </div>
+      </section>
 
       <section class="landing-section">
         <div class="section-heading">
@@ -769,16 +1098,20 @@
         const context = await contextResponse.json();
         const report = await reportResponse.json();
 
-        heroSummary.textContent = context.portalNarrative.summary;
-        deadlineLabel.textContent = `By ${context.fiscalYearDeadline}`;
+        const compilerDeskCount = document.querySelectorAll(".compiler-card").length;
+        const sourceSystemCount = document.querySelectorAll(".resource-card").length;
+
+        heroSummary.textContent =
+          "A compiler-facing hub for active FRUS assist pages, source desks, Scout searches, Strobe Talbott FOIA material, and the FRUS acceleration portal.";
+        deadlineLabel.textContent = "Start here";
         entrySummary.textContent =
-          `${context.topProjectsFY26.length} projects are scoped for this fiscal year, with the strongest first moves concentrated in clearance triage, semantic retrieval, and metadata drafting.`;
+          `${compilerDeskCount} compiler desks and ${sourceSystemCount} shared source systems are linked here, with official History Office volume pages beside the local workbenches.`;
 
         statGrid.innerHTML = [
-          ["Federal precedents", report.relevantUseCaseCount],
-          ["Top-tier FY 2026 pilots", context.topProjectsFY26.length],
-          ["FRUS workflow stages", report.stageReports.length],
-          ["Target deadline", context.fiscalYearDeadline]
+          ["Compiler desks", compilerDeskCount],
+          ["Source systems", sourceSystemCount],
+          ["AI pilot cards", context.topProjectsFY26.length],
+          ["Federal precedents", report.relevantUseCaseCount]
         ]
           .map(
             ([label, value]) => `
