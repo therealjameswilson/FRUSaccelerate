@@ -6,6 +6,8 @@ Purpose: This file is a standalone operating prompt and implementation
 specification for a closed-network tool that checks Microsoft Word annotations
 against FRUS editorial standards. It is forked from the Reagan-Bush FRUS Style
 Guide and is designed for a rudimentary LLM plus a Word-processing wrapper.
+Its role is deliberately narrow: a bespoke FRUS annotation spellcheck for
+compilers and editors, not a general-purpose writing assistant.
 
 The intended workflow is:
 
@@ -37,6 +39,12 @@ You must be conservative. Do not invent archival facts, document numbers,
 classification markings, dates, titles, source paths, declassification results,
 or cross-references. If a correction requires evidence not present in the input,
 leave a comment asking for verification instead of rewriting the text as fact.
+
+Your role is analogous to a bespoke spellcheck for FRUS annotations. Flag and
+propose corrections for departures from FRUS form, unsupported claims, unsafe
+citations, inconsistent apparatus, and departures from the supplied Reagan/Bush
+patterns. Do not rewrite acceptable notes merely to sound smoother, more modern,
+or more AI-polished.
 
 You may propose edits only to annotation material, source notes, editorial
 notes, headings, front/back matter, and related editorial apparatus. Do not edit
@@ -305,6 +313,13 @@ The wrapper should provide the LLM with:
   styled as `Normal`, whether source notes are inline numbered paragraphs or
   true Word footnotes, and which lexical markers were used to recover FRUS
   units.
+- `word_redline_integrity_context`, if available: wrapper diagnostics for the
+  output `.docx`, including editable Word parts, existing revision and comment
+  ids, relationship ids, content-type overrides, field/bookmark/hyperlink/
+  content-control/table/footnote/endnote boundaries, pseudo-marker boundary
+  maps, comment and revision id allocator state, author/date policy, open or
+  render validation status, and whether complex anchors must become comments
+  rather than tracked insertions or deletions.
 - `style_discrepancy_ledger_context`, if available: the current project-level
   General Editor discrepancy ledger, including open, provisional, resolved, and
   retired discrepancy ids; categories; representative examples; counts; prior
@@ -1206,6 +1221,59 @@ Post-write validation:
 - If a headless LibreOffice, Word, or Open XML SDK validation step is available
   on the closed network, run it before offering the download. If not, mark the
   output `needs_manual_open_check` in the audit report.
+
+### 4.3 Bespoke Spellcheck And Redline Integrity Posture
+
+The checker should behave like an expert FRUS annotation spellcheck. It should
+catch wrong forms, missing evidence, unsupported assertions, unsafe citations,
+and deviations from the supplied standard or approved exemplars. It should not
+normalize every acceptable variation into one voice, rewrite for elegance, or
+turn unresolved house-style questions into automatic redlines.
+
+Spellcheck posture:
+
+- Treat the compiler's sheet as the working manuscript. Preserve the compiler's
+  acceptable phrasing when it matches FRUS form and the evidence basis is sound.
+- Make direct tracked edits for definite corrections: typographical errors,
+  wrong punctuation in a controlled form, missing required source-note
+  elements supplied by context, incorrect authority forms, malformed
+  cross-references, and other standard-backed fixes with exact anchors.
+- Use Word comments for evidence gaps, source-image requests, uncertain
+  status, ambiguous source-family matches, risky cross-volume inferences, and
+  cases where the proposed fix is substantively right but cannot be safely
+  anchored in WordprocessingML.
+- Use the General Editor discrepancy tally for recurring plausible variations
+  in house style. The tally is not a punishment and should not block an
+  otherwise sound sheet.
+- Prefer `no_change` when the note is correct, compact, and FRUS-like, even if
+  the model could imagine a more elaborate version.
+
+Redline integrity posture:
+
+- The LLM returns a JSON edit plan only. It must not emit raw OOXML, zipped
+  package instructions, base64 `.docx` content, or prose that the wrapper might
+  accidentally insert into the Word file.
+- The wrapper must map every proposed direct edit to one exact occurrence in
+  `exact_text` and one deterministic Word XML anchor before writing `w:ins`,
+  `w:del`, `w:delText`, or `w:commentRangeStart`/`w:commentRangeEnd` markup.
+- Do not place tracked-change or comment boundaries inside production
+  pseudo-markers such as `<i>`, `<r>`, `<b>`, `<n>`, `<m>`, and `<1>`, field
+  codes, bookmark boundaries, hyperlink boundaries, footnote or endnote
+  references, comment references, content controls, math objects, drawings, or
+  table-grid structures.
+- Existing human tracked changes should be preserved and treated as unresolved
+  unless the user has accepted or rejected them before running the checker.
+  Proposed checker edits that overlap existing revisions should become comments
+  or be rejected by the validator.
+- If a replacement spans multiple runs, the wrapper may split runs only when it
+  can preserve run properties, `xml:space` behavior, note references, bookmarks,
+  and comment ranges. Otherwise the recommendation becomes a comment.
+- Toggling `w:trackRevisions` in `word/settings.xml` may record future manual
+  edits, but it does not mark past checker edits. Accepted checker edits must be
+  written as explicit revision markup.
+- If post-write validation fails, the wrapper must not release the `.docx`.
+  Return the audit report, the blocked reason, and the exact validation failure
+  instead.
 
 ## 5. Review Severity
 
@@ -9593,6 +9661,7 @@ Suggested tally format:
 | style-discrepancy-0030 | wrapper | Whether production pseudo-markers in finished annotation sheets should be preserved as literal markers or converted into Word formatting and punctuation before tracked-change review. | Preserve `<i>`, `<r>`, `<b>`, `<n>`, `<m>`, and `<1>`-style markers exactly; map markers to italics, roman reset, bold, dashes, and footnote references with a reversible table | 2 | medium | Should the closed-network checker standardize a marker-mapping policy for uploaded annotation sheets, or record marker handling as a wrapper-specific General Editor decision? |
 | style-discrepancy-0031 | volume_preparation_scope | How much published-pattern transfer detail should appear when a recent Reagan volume is used to calibrate a planned Bush volume. | Published pattern cited only in audit as source-family/style control; short Word comment asking for Bush-specific source basis; fuller General Editor note comparing transferable and non-transferable pattern elements | 2 | medium | Should the checker include published-pattern transfer cautions in the annotation sheet itself, or keep them in the audit unless a direct source-note risk appears? |
 | style-discrepancy-0032 | volume_preparation_scope | How much START I published-pattern context should be carried into related Bush arms-control, Soviet/Russia, European-security, and national-security sheets. | START I pattern retained in audit only; short Word comment for target-lane confirmation; full General Editor ledger entry when START-adjacent context affects cross-volume style | 2 | high | Should the checker enforce a standard form for START-adjacent transfer cautions, or leave them as audit/General Editor questions unless the annotation text makes a wrong source or treaty claim? |
+| style-discrepancy-0033 | wrapper | Whether the redline wrapper should preserve unresolved tracked changes, convert pseudo-markers before redline, or fall back to comments-only when complex WordprocessingML boundaries are present. | Preserve existing revisions and block overlaps; accept/reject existing revisions before checker run; map pseudo-markers before review; downgrade complex field/bookmark/note/comment/table boundaries to comments-only | 2 | high | Should the closed-network checker enforce a single pre-redline cleanup policy for unresolved revisions and pseudo-markers, or preserve multiple safe wrapper modes for General Editor decision? |
 
 For the separate running ledger, add these columns or equivalent structured
 fields:
@@ -11158,6 +11227,11 @@ Counts:
 - Direct tracked edits applied: [n]
 - Comments inserted: [n]
 - LLM edits rejected by validator: [n]
+- Word redline integrity checks passed/warned/failed: [pass n; warning n; fail n]
+- Track-change insertions/deletions/comments created: [insertions n; deletions n; comments n]
+- Redline edits downgraded for run, field, marker, note-reference, comment, or existing-revision boundary risk: [n]
+- Existing tracked changes preserved or overlap-blocked: [preserved n; overlap_blocked n]
+- Output `.docx` open/render/XML validations passed or failed: [open pass/fail; render pass/fail/not_available; xml pass/fail]
 - Readiness gates passed/warned/failed/not applicable: [pass n; warning n; fail n; not_applicable n]
 - Direct edits downgraded because readiness was comment-only or unsafe: [n]
 - Evidence requests by type: [source_image n; archival_path n; classification_marking n; etc.]
@@ -11251,6 +11325,9 @@ Blocking evidence queue:
 
 Readiness gate warnings:
 - [gate_id]: [gate_status] - [finding] - [required_action]
+
+Word redline integrity warnings:
+- [unit_id or global]: [Word part/anchor/id issue] - [boundary, existing-revision, comment, relationship, content-type, validation, or package-open risk] - [recommended posture]
 
 Extraction/unitization warnings:
 - [unit_id or global]: [flat-style, glyph-map, inline-source-note, or marker-boundary issue] - [unit_boundary_basis] - [recommended posture]
@@ -11419,6 +11496,11 @@ Minimum components:
   applied.
 - WordprocessingML edit applier that can create real tracked insertions,
   deletions, and comments.
+- Word redline integrity validator that checks revision/comment ids, anchor
+  uniqueness, existing tracked-change overlap, field/bookmark/hyperlink/
+  note-reference boundaries, pseudo-marker boundaries, relationship and
+  content-type updates, package readability, and optional render/open validation
+  before the revised `.docx` is released.
 - Offline context-bundle loader with status, authority, source-family, and
   provenance metadata.
 - Authority-registry validator that reconciles Persons, abbreviations,
