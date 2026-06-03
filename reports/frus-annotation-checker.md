@@ -90,6 +90,11 @@ The wrapper should provide the LLM with:
   controls derived from published FRUS source lists and local authority files,
   including family ids, volume scope, required path components, distinguishing
   tokens, allowed variants, and no-flattening rules.
+- `source_list_front_matter_context`, if available: structured Sources,
+  Abbreviations, Persons, Contents, Preface, About the Series, appendix, errata,
+  special-note, and declassification-review context that ties source-note
+  families, published sources, recurring acronyms, person authority forms, and
+  front-matter claims to the volume-level apparatus.
 - `physical_routing_context`, if available: structured physical/source-image
   evidence for handwritten notes, initials, marginalia, highlighting,
   underlining, checkmarks, stamped notations, read-by or seen stamps, signed or
@@ -234,14 +239,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | physical_evidence_basis | negative_search_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | source_list_basis | physical_evidence_basis | negative_search_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -254,7 +259,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | source_list_front_matter | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -379,6 +384,7 @@ run the semantic and Word-safety validators below.
               "editorial_note",
               "document_metadata",
               "classification_handling",
+              "source_list_front_matter",
               "physical_routing_marginalia",
               "negative_search_no_record",
               "memoir_oral_history_recollection",
@@ -434,6 +440,7 @@ run the semantic and Word-safety validators below.
               "source_image",
               "archival_path",
               "classification_marking",
+              "source_list_basis",
               "physical_evidence_basis",
               "negative_search_basis",
               "attachment_status",
@@ -522,6 +529,7 @@ run the semantic and Word-safety validators below.
               "editorial_note",
               "document_metadata",
               "classification_handling",
+              "source_list_front_matter",
               "physical_routing_marginalia",
               "negative_search_no_record",
               "memoir_oral_history_recollection",
@@ -625,7 +633,8 @@ Semantic validator behavior:
   `verification_target`.
 - Reject any direct edit whose category is `publication_status`,
   `declassification`, `attachment`, `document_metadata`,
-  `classification_handling`, `physical_routing_marginalia`,
+  `classification_handling`, `source_list_front_matter`,
+  `physical_routing_marginalia`,
   `negative_search_no_record`,
   `memoir_oral_history_recollection`, `translation_foreign_origin`,
   `foreign_international_organization`, `treaty_legal_instrument`,
@@ -1077,6 +1086,213 @@ Source-family audit requirements:
   sees a recurring unresolved question, such as whether to enforce Bush H-Files
   subseries names, how much PROFS/W Files/System IV detail to preserve, or when
   a public source should be treated as selected evidence rather than context.
+
+#### 6.1.1A Source-List, Abbreviations, Persons, And Front-Matter Registry Validation
+
+Published Reagan and Bush volumes make source notes intelligible by backing
+them with a volume-level apparatus: narrative source descriptions, an
+`Unpublished Sources` inventory, a `Published Sources` inventory, Abbreviations
+and Terms, Persons, Contents, Preface, About the Series, declassification
+review language, appendices, and special notes when needed. A source note can be
+locally plausible but still create a production problem if the source family,
+public source, abbreviation, person form, appendix, or declassification claim
+does not reconcile with that apparatus.
+
+Use a source-list/front-matter registry when the wrapper can supply one:
+
+```json
+{
+  "source_list_front_matter_registry_id": "frus-1981-1992-source-list-front-matter-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/sources",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries"
+  ],
+  "volume_source_lists": [
+    {
+      "volume_id": "frus1981-88v44p1",
+      "apparatus_component": "sources",
+      "narrative_source_function": "explains Reagan Library NSC files, Shultz/Hoover copies, PROFS, W Files, State CFPF and lot files, agency records, and published sources",
+      "unpublished_source_sections": [
+        "Department of State Central Foreign Policy File",
+        "Department of State Lot Files",
+        "Ronald Reagan Presidential Library",
+        "George H.W. Bush Presidential Library",
+        "Central Intelligence Agency",
+        "Library of Congress",
+        "National Security Council",
+        "Washington National Records Center"
+      ],
+      "published_source_sections": [
+        "Reagan Diaries",
+        "Shultz memoir",
+        "Public Papers",
+        "Department of State Bulletin",
+        "newspapers",
+        "government reports"
+      ],
+      "source_note_alignment_rule": "source notes should preserve the specific source family and the source list should contain a matching repository or published-source home",
+      "front_matter_links_to_check": [
+        "about_series",
+        "preface",
+        "abbreviations",
+        "persons",
+        "appendix"
+      ],
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "volume_id": "frus1989-92v31",
+      "apparatus_component": "sources",
+      "narrative_source_function": "explains Bush Library H-Files, Scowcroft and Gates collections, Vice Presidential Records, State lot files, CFPF D/P/N reels, and published sources",
+      "unpublished_source_sections": [
+        "Department of State Central Foreign Policy File",
+        "Department of State Lot Files",
+        "George H.W. Bush Presidential Library"
+      ],
+      "published_source_sections": [
+        "Department of State Bulletin",
+        "Department of State Dispatch",
+        "New York Times"
+      ],
+      "source_note_alignment_rule": "Bush H-Files, NSC/DC, Scowcroft, Gates, Vice Presidential, State lot, and CFPF source notes should reconcile to the volume source inventory",
+      "front_matter_links_to_check": [
+        "about_series",
+        "preface",
+        "abbreviations",
+        "persons",
+        "chapter_contents"
+      ],
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "volume_id": "frus1981-88v01",
+      "apparatus_component": "sources",
+      "narrative_source_function": "explains public and archival foundations sources, speechwriting files, White House records, State lot files, private papers, diaries, and published sources",
+      "unpublished_source_sections": [
+        "Department of State Central Foreign Policy File",
+        "Department of State Lot Files",
+        "Ronald Reagan Presidential Library",
+        "Library of Congress",
+        "National Security Council",
+        "Washington National Records Center"
+      ],
+      "published_source_sections": [
+        "Public Papers",
+        "Department of State Bulletin",
+        "Congressional Record",
+        "newspapers",
+        "memoirs",
+        "commission reports",
+        "United Nations publications"
+      ],
+      "source_note_alignment_rule": "public-speech, memoir, diary, campaign, and archival control-copy notes should not be flattened into one source family",
+      "front_matter_links_to_check": [
+        "press_release",
+        "about_series",
+        "preface",
+        "abbreviations",
+        "persons",
+        "appendix"
+      ],
+      "verification_status": "verified_published_pattern"
+    }
+  ]
+}
+```
+
+Allowed `apparatus_component` values:
+
+- `sources`
+- `abbreviations`
+- `persons`
+- `contents`
+- `preface`
+- `about_series`
+- `appendix`
+- `declassification_review`
+- `special_note`
+- `errata`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified_published_pattern`
+- `verified_local_front_matter`
+- `needs_source_list`
+- `needs_abbreviation_list`
+- `needs_persons_list`
+- `needs_preface_or_about_series`
+- `needs_appendix_map`
+- `needs_declassification_statement`
+- `needs_special_note_decision`
+- `unknown`
+
+Source-list/front-matter validator sequence:
+
+1. Identify every source-list draft, source note, published-source citation,
+   abbreviation, Persons entry, appendix reference, declassification-review
+   claim, special-note claim, and front-matter cross-reference in the uploaded
+   packet.
+2. Match source-note families against `source_list_front_matter_context`. If a
+   selected source family appears in the notes, the Sources inventory should
+   contain a matching repository, collection, source family, or published-source
+   home before final style.
+3. Preserve the hierarchy of published Sources pages: narrative overview,
+   `Unpublished Sources`, repository heading, subcollection or lot-file heading,
+   file family, and `Published Sources`. Do not flatten this into an alphabetical
+   bibliography or a list of URLs.
+4. Check that public and printed selected sources have a `Published Sources`
+   home when they recur or when the note treats them as selected evidence.
+5. Check recurring technical acronyms, file-family labels, office symbols, and
+   special terms against Abbreviations and Terms. Do not add an abbreviation
+   entry for a one-off obvious term unless the local front-matter standard asks
+   for it.
+6. Check Persons entries against the authority-control context, but keep the
+   front-matter issue separate: a correct person form can still be missing from
+   the volume Persons list.
+7. Check appendix-image, facsimile, table, map, and document-spine references
+   against the appendix or Contents map when supplied.
+8. Check About the Series, Preface, declassification-review, Advisory Committee,
+   and special-note claims only when the wrapper supplies the relevant
+   front-matter context. Do not invent review dates, excision statistics,
+   clearance statements, or special-note text.
+9. For in-preparation volumes, treat missing source-list/front-matter context as
+   a blocker for direct edits to the front matter and as a comment-only issue
+   for annotation sheets whose source-note families cannot be reconciled.
+10. Add `source_list_front_matter` discrepancies to the General Editor tally
+    only when both variants are factually supported and the unresolved question
+    concerns house form, such as how much source-inventory detail to require in
+    a compiler annotation sheet before final front-matter assembly.
+
+Direct-edit posture:
+
+- Safe direct edits may correct narrow source-list or front-matter wording only
+  when the registry supplies the exact volume apparatus and the Word anchor is
+  exact.
+- Use `comment_only` with `evidence_request: source_list_basis` when a source
+  family, published source, abbreviation, Persons entry, appendix reference,
+  declassification statement, or special-note claim needs volume-level support.
+- Do not directly add source-list entries, abbreviations, Persons entries,
+  declassification statistics, Advisory Committee language, or special-note text
+  from a single source note.
+- Do not treat an absent source-list entry as proof that the source note is
+  wrong. It may mean the source-list draft is incomplete.
+
+Source-list/front-matter audit requirements:
+
+- Count unmatched source-list families, missing published-source homes, missing
+  abbreviation entries, Persons-list mismatches, appendix-map gaps, and
+  unsupported front-matter claims separately from source-note defects.
+- Preserve registry id, capture date, source-list URLs, and the specific
+  apparatus component that needs review.
+- Keep a separate General Editor tally item for recurring source-list and
+  front-matter style variation, especially in in-preparation volumes where the
+  compiler may still be assembling the final Sources, Abbreviations, and Persons
+  files.
 
 #### 6.1.2 Communications-Record Registry Validation
 
@@ -6006,6 +6222,7 @@ Evidence-request categories:
 | `source_image` | A scan, facsimile, or control copy must be inspected. | Which visible feature to check, such as marking, marginalia, stamp, attachment, or handwriting. |
 | `archival_path` | Repository, collection, series, box, folder, lot, OA/ID, or file unit is missing or suspect. | Which part of the source path needs confirmation. |
 | `classification_marking` | Original classification, handling, precedence, paragraph marking, or verified absence is missing, guessed, or confused with release status. | To verify the original marking evidence on the document, not the declassification result. |
+| `source_list_basis` | Sources, Published Sources, Abbreviations, Persons, Contents, Preface, About the Series, appendix, declassification-review, special-note, or errata context is missing or inconsistent. | Which source-list/front-matter component, source family, published source, acronym, person form, appendix target, review statement, or special-note decision needs confirmation. |
 | `physical_evidence_basis` | Handwriting, initials, marginalia, highlighting, underlining, checkmark, stamp, read-by/seen notation, signed status, approval box, sent-for-action or information routing, correspondence profile, distribution, physical placement, or unknown-hand evidence is uncertain. | Which visible physical feature, actor/hand, placement, routing status, approval status, profile, attachment, source image, or search/diary context must be checked. |
 | `negative_search_basis` | Negative search, no-record, not-found, not-found-attached, no-minutes, no-memcon, no-telcon, unlocated draft, missing attachment, unresolved source path, found-elsewhere, or pending follow-up evidence is uncertain. | Which item was sought, record type, repository/file scope, search basis, result status, follow-up, and public phrase must be checked. |
 | `attachment_status` | Attached, not attached, printed elsewhere, tabbed, enclosed, or not found claims are uncertain. | Which tab, enclosure, paper, or list must be checked. |
@@ -6079,6 +6296,7 @@ Default blocking rules:
 | `source_image` | yes | yes, if source-note, attachment, marking, handwriting, or marginalia claims depend on it |
 | `archival_path` | yes | yes |
 | `classification_marking` | yes | yes when source-note, handling, precedence, paragraph-marking, attachment, or no-marking claims depend on it |
+| `source_list_basis` | yes for source-list, abbreviation, Persons, appendix, declassification-review, special-note, or front-matter edits | yes when source-note families, published-source homes, abbreviations, Persons, appendices, or front-matter claims cannot be reconciled for final style |
 | `physical_evidence_basis` | yes for handwriting, initials, marginalia, stamp, read-by/seen, signed, approval, routing, correspondence-profile, distribution, placement, or unknown-hand edits | yes when physical/source-image evidence appears in publishable apparatus |
 | `negative_search_basis` | yes for `Not found`, `Not found attached`, `No minutes were found`, no-record, unlocated-draft, missing-attachment, unresolved-source-path, or found-elsewhere edits | yes when negative-search or no-record language appears in publishable apparatus |
 | `attachment_status` | yes | yes when the note asserts attached, not attached, tabbed, enclosed, printed, or not found |
@@ -6110,17 +6328,19 @@ Owner hints:
   identity, event sequence, public-source basis, foreign-government or
   international-organization proof, congressional/legal proof, financial data,
   agency-equity proof, military-operation proof, human-rights/refugee/global-
-  issues proof, physical/routing evidence, retrospective-account basis,
-  sensitive-record source basis, negative-search/no-record basis, translation
-  status, and foreign-copy provenance.
+  issues proof, source-list and front-matter basis, physical/routing evidence,
+  retrospective-account basis, sensitive-record source basis,
+  negative-search/no-record basis, translation status, and foreign-copy
+  provenance.
 - `editor`: wording, heading form, cross-reference form, source-list
   consistency, treaty/legal-instrument placement, public-event note form,
   public-source and public-diplomacy note form, congressional/legal citation
   form, foreign/international-organization note form, economic/financial table
   and note form, military/crisis note form, human-rights/refugee/global-issues
-  note form, physical/routing note form, retrospective-account note form,
-  sensitive-record note form, negative-search/no-record wording,
-  publication-status wording, and General Editor discrepancy preparation.
+  note form, source-list/front-matter form, physical/routing note form,
+  retrospective-account note form, sensitive-record note form,
+  negative-search/no-record wording, publication-status wording, and General
+  Editor discrepancy preparation.
 - `declassification`: classification markings, declassification outcomes,
   release-status separation, withholding, excision, source-and-methods,
   sanitization, and agency-equity language.
@@ -6389,86 +6609,90 @@ For every extracted unit, run checks in this order:
    lines, public-title lines, and captions against the document-metadata
    registry when supplied.
 6. Match source notes against the source-family registry when supplied.
-7. Check telegram, cable, STARS, CFPF, PROFS, W Files, System IV, agency-cable,
+7. Check source-list, Published Sources, Abbreviations, Persons, Contents,
+   Preface, About the Series, appendix, declassification-review, special-note,
+   and errata context against the source-list/front-matter registry when
+   supplied.
+8. Check telegram, cable, STARS, CFPF, PROFS, W Files, System IV, agency-cable,
    and other communications-record metadata against the communications registry
    when supplied.
-8. Check physical evidence, routing, marginalia, initials, stamps, read-by/seen
+9. Check physical evidence, routing, marginalia, initials, stamps, read-by/seen
    notations, approval checkmarks, correspondence profiles, distribution, and
    placement against the physical/routing registry when supplied.
-9. Check classification, handling, precedence, paragraph-marking, and
+10. Check classification, handling, precedence, paragraph-marking, and
    no-classification-marking language against the classification registry when
    supplied.
-10. Check translation, foreign-origin copy, typed-signature, bracket-treatment,
+11. Check translation, foreign-origin copy, typed-signature, bracket-treatment,
    and agency/foreign-equity language against the translation registry when
    supplied.
-11. Check foreign-government, international-organization, multilateral,
+12. Check foreign-government, international-organization, multilateral,
     regional-body, alliance, coalition, treaty-party, conference,
     peacekeeping, foreign-copy, and selected-versus-supplemental role evidence
     against the foreign/international-organization registry when supplied.
-12. Check treaty/legal-instrument component identity, integral-versus-associated
+13. Check treaty/legal-instrument component identity, integral-versus-associated
     status, public/archival source basis, transmittal language, ratification,
     and entry-into-force language against the treaty registry when supplied.
-13. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
+14. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
    against the attachment registry when supplied.
-14. Check negative-search, no-record, not-found, not-found-attached,
+15. Check negative-search, no-record, not-found, not-found-attached,
    no-minutes, no-memcon, no-telcon, unlocated-draft, missing-attachment, and
    found-elsewhere claims against the negative-search registry when supplied.
-15. Check cross-references and follow-on citation form against the
+16. Check cross-references and follow-on citation form against the
    cross-reference registry when supplied.
-16. Check annotation purpose and concision.
-17. Check declassification, omission, original-bracket, release-status, and
+17. Check annotation purpose and concision.
+18. Check declassification, omission, original-bracket, release-status, and
     whole-document withholding language against the declassification registry
     when supplied.
-18. Check target-volume status and whether the note is research-stage,
+19. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-19. Route the unit through the relevant volume family when a 1981-1992
+20. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-20. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
+21. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-21. Check summit, travel, ceremony, public address, interview, press
+22. Check summit, travel, ceremony, public address, interview, press
     conference, toast, testimony, public remarks, and public-event sequence
     evidence against the event-chronology registry when supplied.
-22. Check public diplomacy, speeches, press releases, press conferences,
+23. Check public diplomacy, speeches, press releases, press conferences,
     briefings, interviews, broadcasts, testimony, Public Papers, Department of
     State Bulletin, newspaper excerpts, official transcripts, speech files,
     briefing materials, selected-public-document status, and
     supplemental-public-context evidence against the public-source registry when
     supplied.
-23. Check memoirs, published diaries, personal diaries, oral histories, later
+24. Check memoirs, published diaries, personal diaries, oral histories, later
     interviews, recollections, press retrospectives, newspaper accounts,
     selected/supplemental status, official-record relationship, corroborating
     records, and conflict status against the retrospective-account registry when
     supplied.
-24. Check congressional testimony, hearings, public laws, statutes, continuing
+25. Check congressional testimony, hearings, public laws, statutes, continuing
     resolutions, joint resolutions, congressional notifications, Presidential
     Determinations, certifications, Executive Orders, oversight, independent
     counsel, Senate advice-and-consent, and ratification context against the
     congressional/legal registry when supplied.
-25. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
+26. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
     World Bank, MDB, GATT, UNCTAD, OECD, table, amount, percentage, currency,
     fiscal-year, loan, guarantee, quota, replenishment, conditionality, and
     policy-stage evidence against the economic/financial registry when supplied.
-26. Check intelligence, covert-action, law-enforcement, counternarcotics,
+27. Check intelligence, covert-action, law-enforcement, counternarcotics,
     counterterrorism, agency-equity, source-and-methods, operational, oversight,
     foreign-service-contact, sanitized-record, redaction, and public-policy
     evidence against the sensitive-record registry when supplied.
-27. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
+28. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
     combat-operation, contingency-plan, CONPLAN, host-nation notification,
     coalition, peacekeeping, force/unit, time-zone, casualty/damage, and
     military-assistance evidence against the military/crisis registry when
     supplied.
-28. Check human-rights reports, refugee, immigration, asylum, migration, famine,
+29. Check human-rights reports, refugee, immigration, asylum, migration, famine,
     emergency relief, food aid, public-health, AIDS/HIV, population policy,
     environmental, ozone, sanctions, waivers, certifications, public reports,
     international organizations, PVOs, AID/PRM, PL 480, Section 416, and Section
     206 evidence against the human-rights/refugee/global-issues registry when
     supplied.
-29. Check Persons, abbreviations, and index authority issues.
-30. Assign specific evidence requests and verification targets for unresolved
+30. Check Persons, abbreviations, and index authority issues.
+31. Assign specific evidence requests and verification targets for unresolved
     proof.
-31. Decide direct edit versus comment-only.
-32. Return strict JSON.
-33. After schema and semantic validation, aggregate all unresolved evidence
+32. Decide direct edit versus comment-only.
+33. Return strict JSON.
+34. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -6530,6 +6754,9 @@ Duplicate-suppression rules:
   unit-level comments only where the missing archival path differs.
 - Merge repeated authority-control issues by person, office, acronym, source
   list entry, or index term.
+- Merge repeated source-list/front-matter issues by apparatus component, source
+  family, published-source home, abbreviation, Persons entry, appendix target,
+  declassification statement, special-note decision, or errata item.
 - Merge repeated physical/routing issues by source image, actor or hand,
   physical feature, stamp or notation phrase, placement, approval/checkmark
   status, read-by/seen status, routing status, correspondence profile,
@@ -6713,6 +6940,10 @@ Golden packet composition:
 - At least one document heading, dateline, subject/title line, or public-title
   line from a published Reagan or Bush volume, used as a no-change or
   comment-only metadata control.
+- At least one source-list/front-matter example where a source family, published
+  source, recurring abbreviation, Persons form, appendix reference, or
+  declassification/special-note claim must reconcile with Sources,
+  Abbreviations, Persons, Contents, Preface, or About the Series context.
 - At least one foundations/public diplomacy or organization/management note in
   which public text is the selected evidence, not a defect.
 - At least one summit, travel, ceremony, interview, public-address, press
@@ -6808,6 +7039,11 @@ Expected behavior by test family:
 - Document-metadata test: preserve correct document headings and datelines, and
   comment rather than invent when sender, recipient, place/date, subject, public
   title, or internal number evidence is missing.
+- Source-list/front-matter test: preserve published Sources hierarchy,
+  Published Sources homes, Abbreviations, Persons, appendix references, and
+  front-matter claims when supplied; comment rather than invent source-list
+  entries, abbreviation entries, Persons entries, declassification statistics,
+  or special-note text from a single source note.
 - Public-source test: preserve selected public, printed, speech, hearing,
   testimony, interview, or treaty text when the volume family makes that source
   appropriate.
@@ -6972,6 +7208,11 @@ Use the discrepancy tally for:
 - Variations in where to place translation, foreign-origin copy,
   typed-signature, facsimile, bracket-treatment, or official/unofficial
   translation language when the underlying evidence is sound.
+- Variations in how much source-list/front-matter detail to require before final
+  style, including Sources hierarchy, Published Sources homes, Abbreviations,
+  Persons, Contents, appendix references, Preface, About the Series,
+  declassification-review statements, special notes, and errata routing when
+  the underlying facts are sound.
 - Variations in how much foreign-government, international-organization,
   regional-body, alliance, coalition, peacekeeping, conference, treaty-party,
   successor-state, copy-provenance, concurrence, or selected-versus-supplemental
@@ -7033,6 +7274,7 @@ Suggested tally format:
 | style-discrepancy-0011 | physical_routing_marginalia | How much physical, routing, approval, read-by, and marginalia evidence should appear when the source-image facts are sound. | Full actor/hand plus placement, stamp/notation phrase, action status, and linked attachment/profile; shorter physical-evidence note with supporting detail in audit/comment context | 2 | medium | Should the checker enforce a house form for physical and routing evidence, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0012 | memoir_oral_history_recollection | How much memoir, diary, oral-history, or later-recollection detail should appear when the account and official-record relationship are sound. | Full author/title/page plus official-record relationship and corroborating record; shorter recollection note with supporting detail in audit/comment context | 2 | medium | Should the checker enforce a house form for retrospective accounts, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0013 | negative_search_no_record | How much negative-search/no-record basis should appear in notes when the item sought, search scope, record type, and result are sound. | Compact published phrase such as `Not found.` or `No minutes were found.`; fuller note or audit context naming item sought, repository/file scope, attachment relationship, and follow-up status | 2 | medium | Should the checker enforce a house form for negative-search/no-record wording, or preserve compact published phrases and tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0014 | source_list_front_matter | How much source-list/front-matter reconciliation should be required in annotation sheets before final Sources, Abbreviations, Persons, appendix, Preface, and About the Series assembly. | Full source-list/front-matter reconciliation in the checker audit; lighter compiler-sheet comments that preserve unresolved apparatus questions for later volume-level cleanup | 2 | medium | Should the checker enforce source-list/front-matter reconciliation during annotation review, or tally unresolved apparatus questions for General Editor decision at final assembly? |
 
 Risk levels:
 
@@ -7064,6 +7306,11 @@ Required bundle files:
   family, such as Reagan Library NSC files, PROFS, W Files, System IV, Bush
   H-Files, Scowcroft/Gates files, State CFPF, lot files, STARS, public sources,
   private papers, agency records, or foreign/international-organization records.
+- `source_list_front_matter_map`, when available: Sources narrative, Unpublished
+  Sources inventory, Published Sources inventory, Abbreviations and Terms,
+  Persons, Contents, Preface, About the Series, appendix, declassification
+  review, Advisory Committee, special-note, and errata context needed to
+  reconcile source-note families and front-matter claims.
 - `physical_routing_map`, when available: source-image and physical-evidence
   facts for handwritten notes, initials, marginalia, highlighting, underlining,
   checkmarks, stamps, read-by/seen notations, signed status, approval lines,
@@ -7360,6 +7607,7 @@ Sensitive/intelligence-law-enforcement registry: [sensitive_record_registry_id a
 Military/crisis registry: [military_crisis_registry_id and capture date]
 Human-rights/refugee/global-issues registry: [human_rights_refugee_registry_id and capture date]
 Source-family registry: [source_family_registry_id and capture date]
+Source-list/front-matter registry: [source_list_front_matter_registry_id and capture date]
 Communications registry: [communications_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
 Declassification registry: [declassification_registry_id and capture date]
@@ -7409,6 +7657,7 @@ Counts:
 - Declassification/omission unresolved or conflicting: [n]
 - Chronology/meeting/call record issues: [n]
 - Cross-reference target, document-number, or scheduled-publication issues: [n]
+- Source-list, Published Sources, Abbreviations, Persons, appendix, declassification-review, special-note, or errata issues: [n]
 
 Major issues:
 - [unit_id]: [finding]
@@ -7473,6 +7722,9 @@ Human-rights/refugee/global-issues warnings:
 Source-family warnings:
 - [unit_id or global]: [source-family issue] - [registry target or unmatched family]
 
+Source-list/front-matter warnings:
+- [unit_id or global]: [source-list/front-matter issue] - [apparatus component, source family or published-source home, abbreviation, Persons entry, appendix target, declassification/special-note claim, and verification target]
+
 Communications-record warnings:
 - [unit_id or global]: [record issue] - [record type, identifier, and evidence basis]
 
@@ -7535,6 +7787,10 @@ Minimum components:
   ecologies, distinguishes public/printed selected sources from archival
   control copies, and blocks flattening of specific repositories into generic
   source paths.
+- Source-list/front-matter validator that reconciles source-note families,
+  Published Sources, Abbreviations, Persons, Contents, Preface, About the
+  Series, appendix, declassification-review, special-note, and errata context
+  before tracked changes are applied.
 - Physical/routing evidence validator that distinguishes handwritten notes,
   initials, marginalia, highlighting, underlining, checkmarks, stamps, read-by or
   seen notations, signed status, approval checkmarks, sent-for-action or
@@ -7630,6 +7886,11 @@ Operational cautions:
 - Record the exact context-bundle id and capture date used.
 - Record authority-registry version, unmatched forms, direct authority edits,
   comments, and unresolved General Editor questions.
+- Record source-list/front-matter registry version, unmatched source families,
+  missing Published Sources homes, missing recurring abbreviations, Persons-list
+  mismatches, appendix-map gaps, unsupported declassification-review statements,
+  unresolved special-note decisions, and source-list/front-matter discrepancy
+  questions.
 - Record document-metadata registry version, heading/date/title/caption issues,
   unresolved sender or recipient evidence, public-title questions, internal
   record-number placement, and document-metadata discrepancy questions.
@@ -7747,6 +8008,9 @@ Pass:
 Needs revision:
 
 - Source notes contain incomplete archival paths or guessed classifications.
+- Source-note families, published sources, recurring abbreviations, Persons
+  forms, appendix references, declassification-review statements, or special
+  notes cannot be reconciled to supplied source-list/front-matter context.
 - Follow-on notes are wordy, argumentative, or inconsistent.
 - Attachments are inferred rather than verified.
 - `Not found.`, `Not found attached.`, `Not attached.`, `No minutes were found.`,
@@ -7971,6 +8235,7 @@ Recent Reagan source incorporated:
 - [Presidential Determination and Public Law note in Volume XXXVIII, Document 371](https://history.state.gov/historicaldocuments/frus1981-88v38/d371)
 - [FRUS, 1981-1988, Volume XLIV, Part 1, National Security Policy, 1985-1988](https://history.state.gov/historicaldocuments/frus1981-88v44p1)
 - [Volume XLIV, Part 1 about-the-series source and declassification statement](https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries)
+- [Volume XLIV, Part 1 source list with Reagan Library NSC files, PROFS, W Files, State lot files, agency records, and Published Sources](https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources)
 - [NSPG meeting source note with Daily Diary basis and `No minutes were found`, Document 1](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1)
 - [Action memorandum with Reagan initials, signed stamp, approval checkmark, and tabs printed as next document, Document 50](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d50)
 - [Transition meeting note with `No formal minutes were found`, Document 294](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d294)
@@ -7994,6 +8259,7 @@ Recent Bush source incorporated:
 - [Moscow Summit and START signing editorial note, Document 245](https://history.state.gov/historicaldocuments/frus1989-92v31/d245)
 - [START I treaty text source note, Document 246](https://history.state.gov/historicaldocuments/frus1989-92v31/d246)
 - [START I Presidential transmittal and article-by-article analysis note, Document 247](https://history.state.gov/historicaldocuments/frus1989-92v31/d247)
+- [START I source list with Bush Library H-Files, Scowcroft/Gates collections, Vice Presidential Records, State lot files, CFPF reels, and Published Sources](https://history.state.gov/historicaldocuments/frus1989-92v31/sources)
 - [START I preface discussion of Senate ratification and Lisbon Protocol context](https://history.state.gov/historicaldocuments/frus1989-92v31/preface)
 - [START I about-the-series source and declassification statement](https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries)
 - [Gorbachev letter printed from unofficial translation, Document 91](https://history.state.gov/historicaldocuments/frus1989-92v31/d91)
