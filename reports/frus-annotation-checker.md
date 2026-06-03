@@ -276,6 +276,11 @@ The wrapper should provide the LLM with:
   `status_page`), canonical URL, capture date, retained content regions, removed
   site-chrome regions, and any download, tag, search, bookstore, or footer
   material preserved only as release apparatus or navigation context.
+- `published_pattern_transfer_context`, if available: structured map from a
+  published FRUS pattern volume to an in-preparation target volume, including
+  published source URL, target volume title and stage, transferable pattern
+  elements, non-transferable source facts, General Editor cautions, and whether
+  proposed changes should be direct edits, comments, or discrepancy-tally items.
 - `volume_family_context`, if available: likely FRUS volume family, such as
   foundations/public diplomacy, organization/management, Europe/Russia,
   Americas, Middle East, Africa, East Asia/Pacific, arms control/national
@@ -6458,6 +6463,145 @@ Human-rights/refugee/global-issues audit requirements:
   country/population scope, public-source basis, archival basis, international-
   organization role, PVO role, sanctions/waiver basis, and stage/status warnings.
 
+### 6.8G Published-Pattern Transfer Controls For Planned Bush XXVIII And XXIX
+
+Recent Reagan published volumes are excellent calibration material for planned
+George H.W. Bush work, but the checker must treat them as pattern controls, not
+as source-fact transplants. This matters most for planned Bush Volume XXVIII,
+`Counternarcotics; Counterterrorism`, and planned Bush Volume XXIX, `Global
+Issues`, because the closest published Reagan examples include Volume XXIV
+North Africa and Volume XLI Global Issues II. These volumes teach source
+ecology, issue-stage discipline, public-versus-archival separation, and
+annotation cadence; they do not prove the Bush source family, chapter scope,
+document number, or final editorial wording.
+
+Use a published-pattern transfer context when the wrapper can supply one:
+
+```json
+{
+  "published_pattern_transfer_id": "frus-1981-1992-pattern-transfer-bush-planned-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/sources",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d341",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/sources",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d220",
+    "https://history.state.gov/historicaldocuments/status-of-the-series"
+  ],
+  "transfers": [
+    {
+      "transfer_id": "pattern-v24-to-bush-xxviii",
+      "published_pattern": "Reagan Volume XXIV, North Africa",
+      "target_volume": "1989-1992, Volume XXVIII, Counternarcotics; Counterterrorism",
+      "target_stage": "planned",
+      "transferable_elements": [
+        "separate State counterterrorism, NODIS/EXDIS, DOD/OSD/JCS/DIA, CIA, NSC crisis, and public-source lanes",
+        "preserve operation stage, host-nation notification, chronology, classification/handling, and source-family identity",
+        "treat terrorism/counterterrorism public events as possible selected evidence or supporting context depending on supplied source basis"
+      ],
+      "non_transferable_facts": [
+        "Libya operation facts",
+        "Reagan Library record-family names",
+        "1986 source paths",
+        "document numbers",
+        "planned Bush chapter scope"
+      ],
+      "checker_action": "comment_only unless the Bush wrapper supplies exact archival or public-source basis"
+    },
+    {
+      "transfer_id": "pattern-v41-to-bush-xxix",
+      "published_pattern": "Reagan Volume XLI, Global Issues II",
+      "target_volume": "1989-1992, Volume XXIX, Global Issues",
+      "target_stage": "planned",
+      "transferable_elements": [
+        "separate public reports, public-health sources, international organizations, AID/USAID records, State lot files, NSC files, and published sources",
+        "preserve legal/program authority, amount or metric, public-versus-archival basis, international-organization role, and policy stage",
+        "treat public reports and official publications as possible selected evidence rather than automatic background"
+      ],
+      "non_transferable_facts": [
+        "Reagan-era AID RG 286 file paths",
+        "WHO/UNICEF/UNDRO/UNEP/WMO issue mix unless supplied for Bush",
+        "PL 480 or ozone authority unless the Bush unit supplies it",
+        "document numbers",
+        "planned Bush chapter scope"
+      ],
+      "checker_action": "comment_only unless the Bush wrapper supplies exact archival, public-source, legal, or program basis"
+    }
+  ]
+}
+```
+
+Published-pattern transfer rules:
+
+1. Treat published Reagan pattern controls as `style and risk evidence`, not
+   `fact evidence`, for planned Bush sheets. A published source-list family can
+   show how FRUS distinguishes source lanes; it cannot prove that the same lane
+   exists in the Bush target volume.
+2. For Bush XXVIII, use Reagan Volume XXIV to preserve counterterrorism and
+   crisis distinctions: State counterterrorism files, NODIS/EXDIS telegrams,
+   DOD/OSD/JCS/DIA records, CIA equities, NSC crisis files, host-nation
+   notification, public reaction, operation stage, chronology, and
+   classification/handling. Do not copy Libya-specific facts, Reagan source
+   paths, or strike chronology into Bush counternarcotics/counterterrorism
+   material.
+3. For Bush XXIX, use Reagan Volume XLI to preserve global-issues distinctions:
+   public reports, AID/USAID records, international organizations, public-health
+   sources, PVOs, State lot files, NSC files, legal/program authorities, amounts
+   and metrics, and public-versus-archival roles. Do not infer PL 480, WHO,
+   UNICEF, UNDRO, UNEP, WMO, UNFPA, ozone, population, or AIDS apparatus unless
+   the Bush unit or context bundle supplies it.
+4. A planned target volume makes direct edits riskier. For planned Bush XXVIII
+   or XXIX, use `comment_only` when a correction depends on source family,
+   final volume scope, chapter label, document number, publication status, or
+   issue-stage proof not supplied by the wrapper.
+5. If a draft planned-volume annotation uses a generic phrase such as
+   `counterterrorism files`, `global issues files`, `public report`, `AID
+   records`, `international organization`, or `law enforcement material`, ask
+   for the exact source family and role rather than rewriting it into a
+   polished source note.
+6. If a published Reagan pattern suggests several defensible forms for a Bush
+   planned sheet, add the question to the General Editor discrepancy ledger
+   instead of forcing a house rule. Examples include how much public-report
+   context, international-organization detail, operation-stage language,
+   source-and-methods caution, or program-authority detail should appear in the
+   annotation sheet versus the audit.
+7. Do not demote public or published sources automatically. In both the
+   counterterrorism/counternarcotics and global-issues lanes, public remarks,
+   public reports, congressional testimony, agency publications, press
+   accounts, and official statements may be selected evidence, not merely
+   background, when the wrapper supplies that selection basis.
+8. Preserve the reason a pattern was consulted. The audit report should state
+   whether a published control was used for source-family separation, public
+   source treatment, issue-stage distinction, legal/program authority, or
+   Word-form cadence.
+
+Direct-edit posture:
+
+- Safe direct edits may restore a narrow term or acronym when the uploaded Bush
+  unit supplies the exact evidence and the published pattern merely confirms
+  FRUS form.
+- Use `comment_only` with `evidence_request: source_family` when the target
+  source family is inferred from a Reagan pattern rather than supplied for the
+  Bush unit.
+- Use `evidence_request: military_operation_basis`, `agency_equity`,
+  `humanitarian_rights_basis`, `legal_authority`, `financial_data`,
+  `public_source_basis`, or `foreign_org_basis` when the transfer question
+  depends on operation stage, source-and-methods, program authority, amount,
+  public-source role, or international-organization role.
+- Add `volume_preparation_scope` findings when the problem is target-stage or
+  planned-volume scope, and add General Editor discrepancy items when the
+  underlying facts are sound but transfer style is unsettled.
+
+Audit requirements:
+
+- Count published-pattern transfer checks, blocked transfers, comment-only
+  transfer recommendations, and General Editor transfer discrepancies.
+- Preserve published pattern URL, target volume, target stage, transferable
+  element, non-transferable fact, checker action, and evidence request in the
+  audit report.
+- Record every case where a published Reagan pattern was rejected as a direct
+  source for a Bush planned-volume fact.
+
 ### 6.9 Interagency, Foreign-Government, International-Organization, And Multilateral Records
 
 Foreign-government and international-organization annotation can be source
@@ -9328,6 +9472,7 @@ Suggested tally format:
 | style-discrepancy-0028 | citation | How to handle canonical History Office document URLs, page-image URLs, static ebook/download URLs, and access-date language when the underlying citation target is sound. | Document-number citation with canonical `/d[n]` URL; page-image URL such as `pg_[n]`; volume/chapter/download URL retained as digital-edition apparatus; access date retained or omitted by local rule | 2 | medium | Should the checker enforce a single house form for online History Office citation targets in Reagan/Bush volumes, or keep tallying target-class variation for General Editor decision? |
 | style-discrepancy-0029 | volume_preparation_scope | How much status-page stage, release-bucket, and chapter/subitem routing detail should be visible in annotation sheets versus retained only in the checker audit. | Full preparation matrix in the audit with minimal Word comments; explicit stage/chapter wording in the annotation sheet when cross-volume publication language depends on it; General Editor-only ledger entry for recurring ambiguous routing | 2 | medium | Should the checker enforce a standard form for in-preparation volume routing notes, or keep stage and subitem detail mostly in the audit unless it affects published annotation text? |
 | style-discrepancy-0030 | wrapper | Whether production pseudo-markers in finished annotation sheets should be preserved as literal markers or converted into Word formatting and punctuation before tracked-change review. | Preserve `<i>`, `<r>`, `<b>`, `<n>`, `<m>`, and `<1>`-style markers exactly; map markers to italics, roman reset, bold, dashes, and footnote references with a reversible table | 2 | medium | Should the closed-network checker standardize a marker-mapping policy for uploaded annotation sheets, or record marker handling as a wrapper-specific General Editor decision? |
+| style-discrepancy-0031 | volume_preparation_scope | How much published-pattern transfer detail should appear when a recent Reagan volume is used to calibrate a planned Bush volume. | Published pattern cited only in audit as source-family/style control; short Word comment asking for Bush-specific source basis; fuller General Editor note comparing transferable and non-transferable pattern elements | 2 | medium | Should the checker include published-pattern transfer cautions in the annotation sheet itself, or keep them in the audit unless a direct source-note risk appears? |
 
 For the separate running ledger, add these columns or equivalent structured
 fields:
@@ -10967,6 +11112,10 @@ Counts:
 - Chapter-level publication targets checked: [n]
 - Chapter-level status conflicts or unmapped chapter targets: [n]
 - Partial-publication references downgraded to comment-only: [n]
+- Published-pattern transfer checks applied to in-preparation Bush/Reagan sheets: [n]
+- Published-pattern transfers blocked from becoming source facts: [n]
+- Published-pattern transfer recommendations downgraded to comment-only: [n]
+- General Editor discrepancies opened for published-pattern transfer questions: [n]
 
 Major issues:
 - [unit_id]: [finding]
@@ -11006,6 +11155,9 @@ Volume-preparation routing warnings:
 
 Chapter-level publication warnings:
 - [unit_id or global]: [uploaded phrase] - [volume target] - [chapter target] - [chapter status] - [whole-volume status] - [recommended posture]
+
+Published-pattern transfer warnings:
+- [unit_id or global]: [published pattern source] - [target volume/stage] - [transferable element or non-transferable fact] - [recommended posture]
 
 Authority-control warnings:
 - [unit_id or global]: [authority issue] - [authority type, approved display form, variant or unmatched form, date span, term expansion, source-list or index behavior, registry target, and verification target]
