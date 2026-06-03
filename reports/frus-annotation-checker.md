@@ -236,6 +236,11 @@ The wrapper should provide the LLM with:
   statements, or History Office URL/publication claims. Preserve the phrase,
   unit id, target volume, target chapter or document if supplied, and exact
   surrounding sentence.
+- `chapter_publication_context`, if available: structured chapter-level status
+  for volumes published incrementally, including volume title, chapter label,
+  chapter URL, chapter status (`published`, `in_clearance`, `outstanding`, or
+  `unknown`), published year if supplied, target document numbers if known, and
+  whether the whole volume is published or still has outstanding chapters.
 - `release_apparatus_context`, if available: dated press release, media note,
   release date, public URL, GPO, ISBN, S/N, PDF, EPUB, Mobi, generated-date,
   download-link, bookstore/purchase, errata, online/full-text correction,
@@ -9505,6 +9510,38 @@ Status-claim reconciliation checks:
     versus `scheduled for publication`, to the General Editor discrepancy
     ledger instead of making the checker invent a house rule.
 
+Chapter-level and partial-publication checks:
+
+1. Treat whole-volume status and chapter-level status as separate facts. A
+   chapter may be published, in clearance, or outstanding while the whole volume
+   is not yet fully published.
+2. If the status context says a chapter is published but the volume still has
+   chapters outstanding, allow wording such as `the [chapter label] chapter is
+   published` or `available online in the [chapter label] chapter`, but do not
+   change the reference to `the volume is published` unless the whole-volume
+   status is also `published`.
+3. If an annotation sheet says `printed in` for a target chapter that is only
+   `in_clearance` or `outstanding`, flag a `major` publication-status issue and
+   use `comment_only`. Do not direct-edit to `scheduled for publication` unless
+   the current registry supplies the target chapter and the Word anchor is safe.
+4. If a target chapter is published but the target document number is missing,
+   comment for the compiler to supply the document or section target. Do not
+   infer a document number from the chapter URL or title.
+5. If the uploaded text cites a History Office chapter URL, use it to identify
+   the target chapter, but do not infer that the complete volume is published.
+   The wrapper must still consult `chapter_publication_context` and
+   `status_registry_context`.
+6. If a volume has mixed chapter statuses, preserve the distinction in the
+   audit report: chapters published, chapters in clearance, chapters
+   outstanding, and whole-volume status. Do not flatten mixed status to
+   `published`, `anticipated`, or `being cleared`.
+7. If the checker cannot map an uploaded chapter label to the chapter registry,
+   leave the source wording unchanged and insert a comment requesting a current
+   chapter-status target.
+8. If repeated partial-publication wording is defensible but inconsistent
+   across sheets, add a `publication_status` item to the General Editor
+   discrepancy ledger rather than forcing a house wording.
+
 Status-registry freshness gates:
 
 - For any run that may alter `scheduled for publication`, `printed in`,
@@ -10394,6 +10431,9 @@ Counts:
 - Status claims extracted from uploaded Word file: [n]
 - Status claims matching current registry: [n]
 - Status claims stale, conflicting, or downgraded to comment-only: [n]
+- Chapter-level publication targets checked: [n]
+- Chapter-level status conflicts or unmapped chapter targets: [n]
+- Partial-publication references downgraded to comment-only: [n]
 
 Major issues:
 - [unit_id]: [finding]
@@ -10409,6 +10449,9 @@ Publication-status warnings:
 
 Status-claim reconciliation warnings:
 - [unit_id or global]: [uploaded phrase] - [matched target] - [registry stage/release bucket] - [recommended posture]
+
+Chapter-level publication warnings:
+- [unit_id or global]: [uploaded phrase] - [volume target] - [chapter target] - [chapter status] - [whole-volume status] - [recommended posture]
 
 Authority-control warnings:
 - [unit_id or global]: [authority issue] - [authority type, approved display form, variant or unmatched form, date span, term expansion, source-list or index behavior, registry target, and verification target]
