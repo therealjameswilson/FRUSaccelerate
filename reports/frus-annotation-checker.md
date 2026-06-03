@@ -95,6 +95,11 @@ The wrapper should provide the LLM with:
   special-note, and declassification-review context that ties source-note
   families, published sources, recurring acronyms, person authority forms, and
   front-matter claims to the volume-level apparatus.
+- `selection_balance_context`, if available: structured decision-point,
+  policy-option, dissent, agency-position, intelligence-basis, negotiation,
+  implementation, foreign-response, public-explanation, outcome, related-volume,
+  and known-gap evidence used to audit whether the annotation sheet supports a
+  balanced FRUS documentary record.
 - `physical_routing_context`, if available: structured physical/source-image
   evidence for handwritten notes, initials, marginalia, highlighting,
   underlining, checkmarks, stamped notations, read-by or seen stamps, signed or
@@ -239,14 +244,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | source_list_basis | physical_evidence_basis | negative_search_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | source_list_basis | selection_balance_basis | physical_evidence_basis | negative_search_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -259,7 +264,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | source_list_front_matter | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -385,6 +390,7 @@ run the semantic and Word-safety validators below.
               "document_metadata",
               "classification_handling",
               "source_list_front_matter",
+              "selection_balance_completeness",
               "physical_routing_marginalia",
               "negative_search_no_record",
               "memoir_oral_history_recollection",
@@ -441,6 +447,7 @@ run the semantic and Word-safety validators below.
               "archival_path",
               "classification_marking",
               "source_list_basis",
+              "selection_balance_basis",
               "physical_evidence_basis",
               "negative_search_basis",
               "attachment_status",
@@ -530,6 +537,7 @@ run the semantic and Word-safety validators below.
               "document_metadata",
               "classification_handling",
               "source_list_front_matter",
+              "selection_balance_completeness",
               "physical_routing_marginalia",
               "negative_search_no_record",
               "memoir_oral_history_recollection",
@@ -634,6 +642,7 @@ Semantic validator behavior:
 - Reject any direct edit whose category is `publication_status`,
   `declassification`, `attachment`, `document_metadata`,
   `classification_handling`, `source_list_front_matter`,
+  `selection_balance_completeness`,
   `physical_routing_marginalia`,
   `negative_search_no_record`,
   `memoir_oral_history_recollection`, `translation_foreign_origin`,
@@ -804,6 +813,215 @@ Use severity consistently:
 - `info`: A non-blocking observation or optional improvement.
 
 ## 6. Core FRUS Annotation Standards
+
+### 6.0 Selection, Completeness, Balance, And Coverage Audit
+
+FRUS annotation sheets are not only style sheets. They also help prove that a
+volume documents the most important policy issues with sufficient balance:
+decision points, options, dissent, agency positions, intelligence basis,
+negotiation record, implementation, foreign response, public explanation, and
+outcome. Published Reagan and Bush prefaces model this by naming the volume's
+scope, related volumes, core themes, key actors, and principles of selection.
+The checker should not decide selection policy on its own, but it should flag
+when an annotation sheet lacks the evidence needed for a compiler or General
+Editor to evaluate coverage.
+
+Use a selection-balance registry when the wrapper can supply one:
+
+```json
+{
+  "selection_balance_registry_id": "frus-1981-1992-selection-balance-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/preface",
+    "https://history.state.gov/historicaldocuments/frus1981-88v06/preface",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/preface",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/preface",
+    "https://history.state.gov/historicaldocuments/status-of-the-series"
+  ],
+  "coverage_families": [
+    {
+      "coverage_family_id": "reagan-foundations-intellectual-themes",
+      "volume_id": "frus1981-88v01",
+      "scope_type": "foundations_sampling",
+      "published_selection_rationale": "representative sampling of intellectual assumptions, public record, internal memoranda, correspondence, meeting minutes, and perspectives of principal Reagan foreign-policy actors",
+      "coverage_dimensions": [
+        "intellectual_theme",
+        "public_record",
+        "internal_record",
+        "principal_actor",
+        "administration_year_span",
+        "policy_assumption"
+      ],
+      "known_related_volumes": [
+        "previous foundations volumes",
+        "Reagan topical and regional volumes"
+      ],
+      "checker_use": "do not demand exhaustive bilateral decision coverage from a foundations sampling volume; require clear theme, actor, and source-type rationale"
+    },
+    {
+      "coverage_family_id": "reagan-soviet-volume-vi-summit-policy-balance",
+      "volume_id": "frus1981-88v06",
+      "scope_type": "regional_policy_and_summit",
+      "published_selection_rationale": "coverage of Reykjavik aftermath, Washington and Moscow summits, Soviet-policy framework, key U.S. principals, arms control, human rights, regional conflicts, bilateral contacts, and skeptical views inside the administration",
+      "coverage_dimensions": [
+        "summit_sequence",
+        "related_volume_boundary",
+        "agency_position",
+        "dissent_or_skepticism",
+        "policy_framework",
+        "foreign_counterpart",
+        "outcome"
+      ],
+      "known_related_volumes": [
+        "Reagan Soviet volumes III-V",
+        "Reagan START I",
+        "Reagan INF",
+        "National Security Policy",
+        "regional Cold War volumes"
+      ],
+      "checker_use": "require related-volume routing and dissent/agency-position context when the annotation sheet claims complete Soviet-policy coverage"
+    },
+    {
+      "coverage_family_id": "reagan-national-security-sdi-modernization",
+      "volume_id": "frus1981-88v44p1",
+      "scope_type": "chronological_issue_volume",
+      "published_selection_rationale": "chronological documentation of SDI and strategic modernization, internal U.S. debates, ABM Treaty interpretation, NSDD 250 options, budget pressure, JCS/OSD/State/ACDA/CIA/NSC interactions, and 1988 ABM Treaty review",
+      "coverage_dimensions": [
+        "decision_point",
+        "options_considered",
+        "agency_position",
+        "budget_or_congressional_pressure",
+        "treaty_interpretation",
+        "implementation",
+        "outcome"
+      ],
+      "known_related_volumes": [
+        "Reagan Soviet volumes",
+        "Reagan START I",
+        "Reagan INF",
+        "Global Issues I"
+      ],
+      "checker_use": "flag annotation sheets that describe SDI or modernization decisions without options, agency positions, treaty context, and related-volume boundaries"
+    },
+    {
+      "coverage_family_id": "bush-start-i-negotiation-coverage",
+      "volume_id": "frus1989-92v31",
+      "scope_type": "arms_control_negotiation",
+      "published_selection_rationale": "development and substantive changes to U.S. negotiating positions, Geneva negotiation rounds, forward or backward movement toward agreement, NSC meetings, NSDs, delegation telegrams, Gang of Eight and Ungroup records, summits, experts meetings, domestic and congressional expectations, and treaty outcome",
+      "coverage_dimensions": [
+        "decision_point",
+        "negotiating_position",
+        "negotiation_round",
+        "agency_position",
+        "domestic_congressional_context",
+        "foreign_counterpart",
+        "implementation_or_ratification",
+        "outcome"
+      ],
+      "known_related_volumes": [
+        "Reagan START I",
+        "Bush Soviet/Russia high-level contacts",
+        "Bush Soviet/Russia policy",
+        "Bush Arms Control and Nonproliferation",
+        "Clinton Arms Control and Nonproliferation within the Former Soviet Union"
+      ],
+      "checker_use": "flag START annotation sheets that present a negotiation step without position development, round status, interagency role, Soviet counterpart, domestic context, or outcome routing when those dimensions are required by the packet"
+    }
+  ]
+}
+```
+
+Allowed `scope_type` values:
+
+- `foundations_sampling`
+- `regional_policy_and_summit`
+- `chronological_issue_volume`
+- `arms_control_negotiation`
+- `country_or_region_volume`
+- `crisis_volume`
+- `public_diplomacy_volume`
+- `organization_management_volume`
+- `economic_financial_volume`
+- `global_issues_volume`
+- `terrorism_or_counternarcotics_volume`
+- `unknown`
+
+Allowed coverage dimensions:
+
+- `decision_point`
+- `options_considered`
+- `dissent_or_skepticism`
+- `agency_position`
+- `intelligence_basis`
+- `negotiating_position`
+- `negotiation_round`
+- `foreign_counterpart`
+- `implementation`
+- `public_explanation`
+- `domestic_congressional_context`
+- `budget_or_congressional_pressure`
+- `treaty_interpretation`
+- `declassification_gap`
+- `related_volume_boundary`
+- `principal_actor`
+- `public_record`
+- `internal_record`
+- `outcome`
+- `known_gap`
+
+Selection-balance validator sequence:
+
+1. Identify annotation sheets, chapter plans, source lists, editorial notes, and
+   compiler comments that claim coverage of a decision, issue, negotiation,
+   public theme, country chapter, crisis, or volume family.
+2. Match the packet against `selection_balance_context` when supplied. Use the
+   target volume, chapter, status-page family, related-volume map, and local
+   compiler scope to decide which coverage dimensions are relevant.
+3. Do not require every dimension for every unit. A foundations sampling volume
+   may need theme, actor, public/internal-source balance, and representative
+   rationale; a START or SDI volume may need decision points, options, agency
+   positions, negotiation movement, implementation, and outcome.
+4. Flag missing dimensions only when the uploaded packet or context claims a
+   complete final-style selection, chapter coverage, or General Editor review
+   posture. In light research mode, preserve the gap as an evidence request.
+5. Treat related-volume boundaries as part of balance. If the sheet says a
+   record belongs in another volume, require the related volume, chapter, status,
+   or document target when supplied by context.
+6. Treat declassification loss as a coverage issue only when the packet asserts
+   that missing or withheld documents affect the representation of options,
+   dissent, agency positions, foreign response, or outcome.
+7. Do not invent missing documents, dissent, intelligence basis, foreign
+   reactions, or outcomes. Ask for the coverage matrix or source lead.
+8. Add `selection_balance_completeness` discrepancies to the General Editor
+   tally only when the unresolved issue is house practice: how much selection
+   audit detail should be recorded in annotation sheets versus separate
+   compiler/General Editor coverage files.
+
+Direct-edit posture:
+
+- Safe direct edits are rare. They may correct a narrow phrase such as replacing
+  `complete record` with `selected record` when the uploaded packet explicitly
+  says the chapter is a representative sample and the Word anchor is exact.
+- Use `comment_only` with `evidence_request: selection_balance_basis` when the
+  packet lacks a coverage matrix, related-volume routing, source lead, withheld
+  document ledger, or final scope decision.
+- Do not directly add a missing policy option, dissenting view, agency position,
+  intelligence basis, foreign response, public explanation, or outcome unless it
+  is already present in the uploaded unit or wrapper context.
+- Do not use this validator to second-guess an accepted volume-selection plan;
+  route recurring questions to the General Editor tally.
+
+Selection-balance audit requirements:
+
+- Count selection-balance warnings by scope type and coverage dimension.
+- Record whether the issue blocks final publication, only blocks General Editor
+  review, or is a research-stage gap.
+- Preserve source URLs, related-volume targets, status-page capture date, and
+  representative unit ids.
+- Keep a separate discrepancy tally entry for repeated questions about how much
+  coverage-audit evidence belongs in annotation sheets rather than a separate
+  compiler selection file.
 
 ### 6.1 Source Notes
 
@@ -6223,6 +6441,7 @@ Evidence-request categories:
 | `archival_path` | Repository, collection, series, box, folder, lot, OA/ID, or file unit is missing or suspect. | Which part of the source path needs confirmation. |
 | `classification_marking` | Original classification, handling, precedence, paragraph marking, or verified absence is missing, guessed, or confused with release status. | To verify the original marking evidence on the document, not the declassification result. |
 | `source_list_basis` | Sources, Published Sources, Abbreviations, Persons, Contents, Preface, About the Series, appendix, declassification-review, special-note, or errata context is missing or inconsistent. | Which source-list/front-matter component, source family, published source, acronym, person form, appendix target, review statement, or special-note decision needs confirmation. |
+| `selection_balance_basis` | Decision-point, option, dissent, agency-position, intelligence-basis, negotiation, implementation, foreign-response, public-explanation, outcome, related-volume, withheld-document, or known-gap coverage evidence is missing or inconsistent. | Which coverage dimension, related volume, document family, source lead, withheld-document ledger, or General Editor scope decision needs confirmation. |
 | `physical_evidence_basis` | Handwriting, initials, marginalia, highlighting, underlining, checkmark, stamp, read-by/seen notation, signed status, approval box, sent-for-action or information routing, correspondence profile, distribution, physical placement, or unknown-hand evidence is uncertain. | Which visible physical feature, actor/hand, placement, routing status, approval status, profile, attachment, source image, or search/diary context must be checked. |
 | `negative_search_basis` | Negative search, no-record, not-found, not-found-attached, no-minutes, no-memcon, no-telcon, unlocated draft, missing attachment, unresolved source path, found-elsewhere, or pending follow-up evidence is uncertain. | Which item was sought, record type, repository/file scope, search basis, result status, follow-up, and public phrase must be checked. |
 | `attachment_status` | Attached, not attached, printed elsewhere, tabbed, enclosed, or not found claims are uncertain. | Which tab, enclosure, paper, or list must be checked. |
@@ -6297,6 +6516,7 @@ Default blocking rules:
 | `archival_path` | yes | yes |
 | `classification_marking` | yes | yes when source-note, handling, precedence, paragraph-marking, attachment, or no-marking claims depend on it |
 | `source_list_basis` | yes for source-list, abbreviation, Persons, appendix, declassification-review, special-note, or front-matter edits | yes when source-note families, published-source homes, abbreviations, Persons, appendices, or front-matter claims cannot be reconciled for final style |
+| `selection_balance_basis` | yes for selection-scope, completeness, related-volume, coverage-matrix, or known-gap edits | yes when a final-style packet claims complete or balanced coverage but lacks support for required coverage dimensions |
 | `physical_evidence_basis` | yes for handwriting, initials, marginalia, stamp, read-by/seen, signed, approval, routing, correspondence-profile, distribution, placement, or unknown-hand edits | yes when physical/source-image evidence appears in publishable apparatus |
 | `negative_search_basis` | yes for `Not found`, `Not found attached`, `No minutes were found`, no-record, unlocated-draft, missing-attachment, unresolved-source-path, or found-elsewhere edits | yes when negative-search or no-record language appears in publishable apparatus |
 | `attachment_status` | yes | yes when the note asserts attached, not attached, tabbed, enclosed, printed, or not found |
@@ -6329,7 +6549,7 @@ Owner hints:
   international-organization proof, congressional/legal proof, financial data,
   agency-equity proof, military-operation proof, human-rights/refugee/global-
   issues proof, source-list and front-matter basis, physical/routing evidence,
-  retrospective-account basis, sensitive-record source basis,
+  selection-balance basis, retrospective-account basis, sensitive-record source basis,
   negative-search/no-record basis, translation status, and foreign-copy
   provenance.
 - `editor`: wording, heading form, cross-reference form, source-list
@@ -6337,7 +6557,8 @@ Owner hints:
   public-source and public-diplomacy note form, congressional/legal citation
   form, foreign/international-organization note form, economic/financial table
   and note form, military/crisis note form, human-rights/refugee/global-issues
-  note form, source-list/front-matter form, physical/routing note form,
+  note form, source-list/front-matter form, selection-balance scope questions,
+  physical/routing note form,
   retrospective-account note form, sensitive-record note form,
   negative-search/no-record wording, publication-status wording, and General
   Editor discrepancy preparation.
@@ -6604,95 +6825,97 @@ For every extracted unit, run checks in this order:
 2. Check the wrapper's `edit_safety` and exact-text mapping before considering
    any direct edit.
 3. Check for invented or unverifiable facts.
-4. Check source-note order and completeness.
-5. Check document headings, datelines, internal document numbers, subject/title
+4. Check selection, completeness, balance, related-volume routing, known gaps,
+   and coverage dimensions against the selection-balance registry when supplied.
+5. Check source-note order and completeness.
+6. Check document headings, datelines, internal document numbers, subject/title
    lines, public-title lines, and captions against the document-metadata
    registry when supplied.
-6. Match source notes against the source-family registry when supplied.
-7. Check source-list, Published Sources, Abbreviations, Persons, Contents,
+7. Match source notes against the source-family registry when supplied.
+8. Check source-list, Published Sources, Abbreviations, Persons, Contents,
    Preface, About the Series, appendix, declassification-review, special-note,
    and errata context against the source-list/front-matter registry when
    supplied.
-8. Check telegram, cable, STARS, CFPF, PROFS, W Files, System IV, agency-cable,
+9. Check telegram, cable, STARS, CFPF, PROFS, W Files, System IV, agency-cable,
    and other communications-record metadata against the communications registry
    when supplied.
-9. Check physical evidence, routing, marginalia, initials, stamps, read-by/seen
+10. Check physical evidence, routing, marginalia, initials, stamps, read-by/seen
    notations, approval checkmarks, correspondence profiles, distribution, and
    placement against the physical/routing registry when supplied.
-10. Check classification, handling, precedence, paragraph-marking, and
+11. Check classification, handling, precedence, paragraph-marking, and
    no-classification-marking language against the classification registry when
    supplied.
-11. Check translation, foreign-origin copy, typed-signature, bracket-treatment,
+12. Check translation, foreign-origin copy, typed-signature, bracket-treatment,
    and agency/foreign-equity language against the translation registry when
    supplied.
-12. Check foreign-government, international-organization, multilateral,
+13. Check foreign-government, international-organization, multilateral,
     regional-body, alliance, coalition, treaty-party, conference,
     peacekeeping, foreign-copy, and selected-versus-supplemental role evidence
     against the foreign/international-organization registry when supplied.
-13. Check treaty/legal-instrument component identity, integral-versus-associated
+14. Check treaty/legal-instrument component identity, integral-versus-associated
     status, public/archival source basis, transmittal language, ratification,
     and entry-into-force language against the treaty registry when supplied.
-14. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
+15. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
    against the attachment registry when supplied.
-15. Check negative-search, no-record, not-found, not-found-attached,
+16. Check negative-search, no-record, not-found, not-found-attached,
    no-minutes, no-memcon, no-telcon, unlocated-draft, missing-attachment, and
    found-elsewhere claims against the negative-search registry when supplied.
-16. Check cross-references and follow-on citation form against the
+17. Check cross-references and follow-on citation form against the
    cross-reference registry when supplied.
-17. Check annotation purpose and concision.
-18. Check declassification, omission, original-bracket, release-status, and
+18. Check annotation purpose and concision.
+19. Check declassification, omission, original-bracket, release-status, and
     whole-document withholding language against the declassification registry
     when supplied.
-19. Check target-volume status and whether the note is research-stage,
+20. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-20. Route the unit through the relevant volume family when a 1981-1992
+21. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-21. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
+22. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-22. Check summit, travel, ceremony, public address, interview, press
+23. Check summit, travel, ceremony, public address, interview, press
     conference, toast, testimony, public remarks, and public-event sequence
     evidence against the event-chronology registry when supplied.
-23. Check public diplomacy, speeches, press releases, press conferences,
+24. Check public diplomacy, speeches, press releases, press conferences,
     briefings, interviews, broadcasts, testimony, Public Papers, Department of
     State Bulletin, newspaper excerpts, official transcripts, speech files,
     briefing materials, selected-public-document status, and
     supplemental-public-context evidence against the public-source registry when
     supplied.
-24. Check memoirs, published diaries, personal diaries, oral histories, later
+25. Check memoirs, published diaries, personal diaries, oral histories, later
     interviews, recollections, press retrospectives, newspaper accounts,
     selected/supplemental status, official-record relationship, corroborating
     records, and conflict status against the retrospective-account registry when
     supplied.
-25. Check congressional testimony, hearings, public laws, statutes, continuing
+26. Check congressional testimony, hearings, public laws, statutes, continuing
     resolutions, joint resolutions, congressional notifications, Presidential
     Determinations, certifications, Executive Orders, oversight, independent
     counsel, Senate advice-and-consent, and ratification context against the
     congressional/legal registry when supplied.
-26. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
+27. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
     World Bank, MDB, GATT, UNCTAD, OECD, table, amount, percentage, currency,
     fiscal-year, loan, guarantee, quota, replenishment, conditionality, and
     policy-stage evidence against the economic/financial registry when supplied.
-27. Check intelligence, covert-action, law-enforcement, counternarcotics,
+28. Check intelligence, covert-action, law-enforcement, counternarcotics,
     counterterrorism, agency-equity, source-and-methods, operational, oversight,
     foreign-service-contact, sanitized-record, redaction, and public-policy
     evidence against the sensitive-record registry when supplied.
-28. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
+29. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
     combat-operation, contingency-plan, CONPLAN, host-nation notification,
     coalition, peacekeeping, force/unit, time-zone, casualty/damage, and
     military-assistance evidence against the military/crisis registry when
     supplied.
-29. Check human-rights reports, refugee, immigration, asylum, migration, famine,
+30. Check human-rights reports, refugee, immigration, asylum, migration, famine,
     emergency relief, food aid, public-health, AIDS/HIV, population policy,
     environmental, ozone, sanctions, waivers, certifications, public reports,
     international organizations, PVOs, AID/PRM, PL 480, Section 416, and Section
     206 evidence against the human-rights/refugee/global-issues registry when
     supplied.
-30. Check Persons, abbreviations, and index authority issues.
-31. Assign specific evidence requests and verification targets for unresolved
+31. Check Persons, abbreviations, and index authority issues.
+32. Assign specific evidence requests and verification targets for unresolved
     proof.
-32. Decide direct edit versus comment-only.
-33. Return strict JSON.
-34. After schema and semantic validation, aggregate all unresolved evidence
+33. Decide direct edit versus comment-only.
+34. Return strict JSON.
+35. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -6757,6 +6980,11 @@ Duplicate-suppression rules:
 - Merge repeated source-list/front-matter issues by apparatus component, source
   family, published-source home, abbreviation, Persons entry, appendix target,
   declassification statement, special-note decision, or errata item.
+- Merge repeated selection-balance issues by scope type, decision point, policy
+  option, dissent view, agency position, intelligence basis, negotiation round,
+  implementation stage, foreign response, public explanation, outcome,
+  related-volume target, withheld-document gap, or General Editor scope
+  decision.
 - Merge repeated physical/routing issues by source image, actor or hand,
   physical feature, stamp or notation phrase, placement, approval/checkmark
   status, read-by/seen status, routing status, correspondence profile,
@@ -6913,6 +7141,9 @@ is necessary but not sufficient.
 
 Golden packet composition:
 
+- At least one selection-balance example from a foundations, issue, regional,
+  crisis, or negotiation volume, with a supplied coverage matrix and one missing
+  coverage dimension that should become a comment rather than invented prose.
 - At least one source note from a published Reagan or Bush national-security or
   arms-control volume, used as a no-change control.
 - At least one classification/handling example with verified original markings,
@@ -7007,6 +7238,11 @@ Minimum acceptance gates:
 
 Expected behavior by test family:
 
+- Selection-balance test: preserve the volume's published scope and principles
+  of selection; distinguish representative sampling from exhaustive issue or
+  negotiation coverage; comment rather than invent when options, dissent,
+  agency positions, intelligence basis, foreign response, implementation,
+  outcome, related-volume routing, or known-gap evidence is missing.
 - Published-pattern test: return `no_change` or minor style comments for a
   strong published-style note, and do not force it into a generic template.
 - Classification-handling test: preserve verified classification, handling,
@@ -7213,6 +7449,11 @@ Use the discrepancy tally for:
   Persons, Contents, appendix references, Preface, About the Series,
   declassification-review statements, special notes, and errata routing when
   the underlying facts are sound.
+- Variations in how much selection-balance and completeness evidence to record
+  in annotation sheets, including decision points, options, dissent, agency
+  positions, intelligence basis, negotiation movement, implementation, foreign
+  response, public explanation, outcome, related-volume boundaries, and known
+  gaps when the underlying coverage facts are sound.
 - Variations in how much foreign-government, international-organization,
   regional-body, alliance, coalition, peacekeeping, conference, treaty-party,
   successor-state, copy-provenance, concurrence, or selected-versus-supplemental
@@ -7275,6 +7516,7 @@ Suggested tally format:
 | style-discrepancy-0012 | memoir_oral_history_recollection | How much memoir, diary, oral-history, or later-recollection detail should appear when the account and official-record relationship are sound. | Full author/title/page plus official-record relationship and corroborating record; shorter recollection note with supporting detail in audit/comment context | 2 | medium | Should the checker enforce a house form for retrospective accounts, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0013 | negative_search_no_record | How much negative-search/no-record basis should appear in notes when the item sought, search scope, record type, and result are sound. | Compact published phrase such as `Not found.` or `No minutes were found.`; fuller note or audit context naming item sought, repository/file scope, attachment relationship, and follow-up status | 2 | medium | Should the checker enforce a house form for negative-search/no-record wording, or preserve compact published phrases and tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0014 | source_list_front_matter | How much source-list/front-matter reconciliation should be required in annotation sheets before final Sources, Abbreviations, Persons, appendix, Preface, and About the Series assembly. | Full source-list/front-matter reconciliation in the checker audit; lighter compiler-sheet comments that preserve unresolved apparatus questions for later volume-level cleanup | 2 | medium | Should the checker enforce source-list/front-matter reconciliation during annotation review, or tally unresolved apparatus questions for General Editor decision at final assembly? |
+| style-discrepancy-0015 | selection_balance_completeness | How much selection-balance and completeness audit detail should appear in annotation sheets before General Editor review. | Full coverage matrix with decision points, options, dissent, agencies, foreign response, implementation, outcome, and gaps; shorter annotation-sheet comments with the full audit maintained in a separate compiler selection file | 2 | high | Should the checker require selection-balance audit fields in annotation sheets, or tally unresolved coverage questions for General Editor decision outside the redlined Word file? |
 
 Risk levels:
 
@@ -7311,6 +7553,11 @@ Required bundle files:
   Persons, Contents, Preface, About the Series, appendix, declassification
   review, Advisory Committee, special-note, and errata context needed to
   reconcile source-note families and front-matter claims.
+- `selection_balance_map`, when available: volume scope, principles of
+  selection, chapter scope, decision points, options considered, dissenting
+  views, agency positions, intelligence basis, negotiation rounds, foreign
+  counterparts, implementation records, public explanations, outcomes,
+  related-volume boundaries, withheld-document effects, and known gaps.
 - `physical_routing_map`, when available: source-image and physical-evidence
   facts for handwritten notes, initials, marginalia, highlighting, underlining,
   checkmarks, stamps, read-by/seen notations, signed status, approval lines,
@@ -7608,6 +7855,7 @@ Military/crisis registry: [military_crisis_registry_id and capture date]
 Human-rights/refugee/global-issues registry: [human_rights_refugee_registry_id and capture date]
 Source-family registry: [source_family_registry_id and capture date]
 Source-list/front-matter registry: [source_list_front_matter_registry_id and capture date]
+Selection-balance registry: [selection_balance_registry_id and capture date]
 Communications registry: [communications_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
 Declassification registry: [declassification_registry_id and capture date]
@@ -7658,6 +7906,7 @@ Counts:
 - Chronology/meeting/call record issues: [n]
 - Cross-reference target, document-number, or scheduled-publication issues: [n]
 - Source-list, Published Sources, Abbreviations, Persons, appendix, declassification-review, special-note, or errata issues: [n]
+- Selection, completeness, balance, related-volume, withheld-document, or known-gap issues: [n]
 
 Major issues:
 - [unit_id]: [finding]
@@ -7725,6 +7974,9 @@ Source-family warnings:
 Source-list/front-matter warnings:
 - [unit_id or global]: [source-list/front-matter issue] - [apparatus component, source family or published-source home, abbreviation, Persons entry, appendix target, declassification/special-note claim, and verification target]
 
+Selection-balance warnings:
+- [unit_id or global]: [selection-balance issue] - [scope type, coverage dimension, decision point or chapter, related-volume target, known gap, blocking posture, and verification target]
+
 Communications-record warnings:
 - [unit_id or global]: [record issue] - [record type, identifier, and evidence basis]
 
@@ -7791,6 +8043,11 @@ Minimum components:
   Published Sources, Abbreviations, Persons, Contents, Preface, About the
   Series, appendix, declassification-review, special-note, and errata context
   before tracked changes are applied.
+- Selection-balance validator that checks decision points, options, dissent,
+  agency positions, intelligence basis, negotiation movement, implementation,
+  foreign response, public explanation, outcome, related-volume boundaries,
+  withheld-document effects, and known gaps before final-style coverage claims
+  are accepted.
 - Physical/routing evidence validator that distinguishes handwritten notes,
   initials, marginalia, highlighting, underlining, checkmarks, stamps, read-by or
   seen notations, signed status, approval checkmarks, sent-for-action or
@@ -7891,6 +8148,10 @@ Operational cautions:
   mismatches, appendix-map gaps, unsupported declassification-review statements,
   unresolved special-note decisions, and source-list/front-matter discrepancy
   questions.
+- Record selection-balance registry version, missing coverage dimensions,
+  unresolved related-volume boundaries, unsupported claims of complete coverage,
+  known withheld-document effects, unresolved General Editor scope decisions,
+  and selection-balance discrepancy questions.
 - Record document-metadata registry version, heading/date/title/caption issues,
   unresolved sender or recipient evidence, public-title questions, internal
   record-number placement, and document-metadata discrepancy questions.
@@ -8011,6 +8272,11 @@ Needs revision:
 - Source-note families, published sources, recurring abbreviations, Persons
   forms, appendix references, declassification-review statements, or special
   notes cannot be reconciled to supplied source-list/front-matter context.
+- A final-style sheet claims complete, balanced, representative, or
+  publication-ready coverage without supplied selection-balance evidence for
+  relevant decision points, options, dissent, agency positions, intelligence
+  basis, foreign response, implementation, outcome, related-volume boundaries,
+  or known gaps.
 - Follow-on notes are wordy, argumentative, or inconsistent.
 - Attachments are inferred rather than verified.
 - `Not found.`, `Not found attached.`, `Not attached.`, `No minutes were found.`,
@@ -8157,13 +8423,16 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v38/d324`
 - `https://history.state.gov/historicaldocuments/frus1981-88v38/d371`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/preface`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/sources`
+- `https://history.state.gov/historicaldocuments/frus1981-88v06/preface`
 - `https://history.state.gov/historicaldocuments/frus1981-88v11/d182`
 - `https://history.state.gov/historicaldocuments/frus1981-88v11/d213`
 - `https://history.state.gov/historicaldocuments/frus1981-88v11/d226`
 - `https://history.state.gov/historicaldocuments/frus1981-88v11/d301`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries`
+- `https://history.state.gov/historicaldocuments/frus1981-88v44p1/preface`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d294`
@@ -8173,6 +8442,7 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/pressrelease`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/preface`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d172`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/sources`
 
@@ -8185,6 +8455,7 @@ Recent Reagan source incorporated:
 
 - [Ronald Reagan Administration, 1981-1989](https://history.state.gov/historicaldocuments/reagan)
 - [FRUS, 1981-1988, Volume I, Foundations of Foreign Policy](https://history.state.gov/historicaldocuments/frus1981-88v01)
+- [Volume I preface on representative selection of intellectual themes, public record, internal records, and principal actors](https://history.state.gov/historicaldocuments/frus1981-88v01/preface)
 - [Volume I press release describing public and archival source basis](https://history.state.gov/historicaldocuments/frus1981-88v01/pressrelease)
 - [Volume I source list with speechwriting files, speeches, and published sources](https://history.state.gov/historicaldocuments/frus1981-88v01/sources)
 - [Haig confirmation chronology with memoir supplementation, Document 18](https://history.state.gov/historicaldocuments/frus1981-88v01/d18)
@@ -8204,6 +8475,7 @@ Recent Reagan source incorporated:
 - [Published `Not found.` negative-search pattern in Iran arms press-conference annotation, Document 282](https://history.state.gov/historicaldocuments/frus1981-88v01/d282)
 - [Shultz Papers source note with unknown-hand meeting-folder notation and no-minutes context, Document 316](https://history.state.gov/historicaldocuments/frus1981-88v01/d316)
 - [FRUS, 1981-1988, Volume IV, Soviet Union, January 1983-March 1985](https://history.state.gov/historicaldocuments/frus1981-88v04)
+- [FRUS, 1981-1988, Volume VI preface on Soviet-policy scope, related-volume boundaries, summits, agency roles, and skeptical views](https://history.state.gov/historicaldocuments/frus1981-88v06/preface)
 - [FRUS, 1981-1988, Volume X, Eastern Europe](https://history.state.gov/historicaldocuments/frus1981-88v10)
 - [FRUS, 1981-1988, Volume XI, START I](https://history.state.gov/historicaldocuments/frus1981-88v11)
 - [START I attachment and `not found` distinction, Document 182](https://history.state.gov/historicaldocuments/frus1981-88v11/d182)
@@ -8235,6 +8507,7 @@ Recent Reagan source incorporated:
 - [Presidential Determination and Public Law note in Volume XXXVIII, Document 371](https://history.state.gov/historicaldocuments/frus1981-88v38/d371)
 - [FRUS, 1981-1988, Volume XLIV, Part 1, National Security Policy, 1985-1988](https://history.state.gov/historicaldocuments/frus1981-88v44p1)
 - [Volume XLIV, Part 1 about-the-series source and declassification statement](https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries)
+- [Volume XLIV, Part 1 preface on SDI, strategic modernization, related volumes, internal debates, agency interactions, and outcome boundaries](https://history.state.gov/historicaldocuments/frus1981-88v44p1/preface)
 - [Volume XLIV, Part 1 source list with Reagan Library NSC files, PROFS, W Files, State lot files, agency records, and Published Sources](https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources)
 - [NSPG meeting source note with Daily Diary basis and `No minutes were found`, Document 1](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1)
 - [Action memorandum with Reagan initials, signed stamp, approval checkmark, and tabs printed as next document, Document 50](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d50)
@@ -8253,6 +8526,7 @@ Recent Reagan source incorporated:
 Recent Bush source incorporated:
 
 - [FRUS, 1989-1992, Volume XXXI, START I, 1989-1991](https://history.state.gov/historicaldocuments/frus1989-92v31)
+- [START I preface on selection principles, negotiation movement, interagency records, domestic context, and treaty outcome](https://history.state.gov/historicaldocuments/frus1989-92v31/preface)
 - [Bush Vice Presidential Records source note with Watson initialing and Bush marginalia, Document 1](https://history.state.gov/historicaldocuments/frus1989-92v31/d1)
 - [NSC/DC H-Files source note with sent-for-action and read-by/routing evidence, Document 24](https://history.state.gov/historicaldocuments/frus1989-92v31/d24)
 - [START endgame telegram with London Economic Summit news-conference note, Document 237](https://history.state.gov/historicaldocuments/frus1989-92v31/d237)
