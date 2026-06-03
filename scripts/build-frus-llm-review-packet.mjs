@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -23,6 +23,7 @@ function parseArgs(argv) {
   let sourceListRegistryPath = null;
   let documentMetadataRegistryPath = null;
   let classificationRegistryPath = null;
+  let declassificationRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
   let communicationsRegistryPath = null;
@@ -64,6 +65,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--classification-registry") {
       classificationRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--declassification-registry") {
+      declassificationRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--negative-search-registry") {
       negativeSearchRegistryPath = argv[index + 1];
@@ -112,6 +116,7 @@ function parseArgs(argv) {
     sourceListRegistryPath,
     documentMetadataRegistryPath,
     classificationRegistryPath,
+    declassificationRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
     communicationsRegistryPath,
@@ -385,6 +390,37 @@ function compactClassificationRegistry(registry, targetVolume) {
   };
 }
 
+function compactDeclassificationRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    declassification_registry_id: registry.declassification_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      declassification_id: record.declassification_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      declassification_type: record.declassification_type,
+      approved_phrase: record.approved_phrase,
+      quantity: record.quantity,
+      quantity_unit: record.quantity_unit,
+      review_outcome: record.review_outcome,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactNegativeSearchRegistry(registry, targetVolume) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -524,6 +560,9 @@ function buildPacket(options) {
   const classificationRegistry = options.classificationRegistryPath
     ? readJson(options.classificationRegistryPath, options.classificationRegistryPath)
     : null;
+  const declassificationRegistry = options.declassificationRegistryPath
+    ? readJson(options.declassificationRegistryPath, options.declassificationRegistryPath)
+    : null;
   const negativeSearchRegistry = options.negativeSearchRegistryPath
     ? readJson(options.negativeSearchRegistryPath, options.negativeSearchRegistryPath)
     : null;
@@ -556,6 +595,7 @@ function buildPacket(options) {
       source_list_registry: options.sourceListRegistryPath ? normalizePathForOutput(options.sourceListRegistryPath) : "",
       document_metadata_registry: options.documentMetadataRegistryPath ? normalizePathForOutput(options.documentMetadataRegistryPath) : "",
       classification_registry: options.classificationRegistryPath ? normalizePathForOutput(options.classificationRegistryPath) : "",
+      declassification_registry: options.declassificationRegistryPath ? normalizePathForOutput(options.declassificationRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
       communications_registry: options.communicationsRegistryPath ? normalizePathForOutput(options.communicationsRegistryPath) : "",
@@ -567,7 +607,7 @@ function buildPacket(options) {
       must_return: "Return only one valid JSON object matching checker-output-v1. Do not include Markdown outside the JSON.",
       do_not_do: [
         "Do not claim to edit the Word file directly.",
-        "Do not invent source-note provenance, classification markings, document numbers, dates, or publication status.",
+        "Do not invent source-note provenance, classification markings, declassification or omission quantities, document numbers, dates, or publication status.",
         "Do not recommend direct text edits unless the exact extracted unit anchor and evidence basis make the edit safe.",
         "Do not collapse evidence requests into the General Editor discrepancy tally."
       ],
@@ -589,6 +629,7 @@ function buildPacket(options) {
       source_list_registry_records: sourceListRegistry?.records?.length || 0,
       document_metadata_registry_records: documentMetadataRegistry?.records?.length || 0,
       classification_registry_records: classificationRegistry?.records?.length || 0,
+      declassification_registry_records: declassificationRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
       document_relationship_registry_records: documentRelationshipRegistry?.records?.length || 0,
       communications_registry_records: communicationsRegistry?.records?.length || 0,
@@ -607,6 +648,7 @@ function buildPacket(options) {
       source_list_registry: compactSourceListRegistry(sourceListRegistry, options.targetVolume),
       document_metadata_registry: compactDocumentMetadataRegistry(documentMetadataRegistry, options.targetVolume),
       classification_registry: compactClassificationRegistry(classificationRegistry, options.targetVolume),
+      declassification_registry: compactDeclassificationRegistry(declassificationRegistry, options.targetVolume),
       negative_search_registry: compactNegativeSearchRegistry(negativeSearchRegistry, options.targetVolume),
       document_relationship_registry: compactDocumentRelationshipRegistry(documentRelationshipRegistry, options.targetVolume),
       communications_registry: compactCommunicationsRegistry(communicationsRegistry, options.targetVolume),
@@ -702,6 +744,12 @@ function renderMarkdown(packet) {
     "Use this to check original classification markings, handling controls, and verified absence-of-marking phrases. Do not confuse original markings with later release, redaction, or declassification status. Treat cross-volume or variant classification forms as comment-only unless the registry proves the direct edit.",
     "",
     fencedJson(packet.contexts.classification_registry || {}),
+    "",
+    "## Declassification And Omission Registry Context",
+    "",
+    "Use this to check bracketed omission quantities, pages not declassified, handling-restriction-not-declassified phrases, whole-document withholdings, and About the Series review-statistics language. Do not change omission quantities, bracket wording, page counts, or review statistics unless the registry proves the direct edit.",
+    "",
+    fencedJson(packet.contexts.declassification_registry || {}),
     "",
     "## Negative Search And No-Record Registry Context",
     "",

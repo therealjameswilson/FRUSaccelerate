@@ -42,6 +42,12 @@ registry built from published source notes and attachment notes, including
 original classification markings, handling controls, and verified
 `No classification marking` phrases. The bundled sample is
 `reports/frus-classification-registry.sample.json`.
+For declassification/omission checks, transfer a volume-specific
+declassification registry built from published document pages and About the
+Series language, including bracketed omitted-line/paragraph counts, pages not
+declassified, handling restrictions not declassified, whole-document
+withholding entries, and volume review statistics. The bundled sample is
+`reports/frus-declassification-registry.sample.json`.
 For negative-search/no-record checks, transfer a volume-specific
 negative-search registry built from published notes, including no-minutes,
 not-found, not-attached, not-found-attached, no-memcon/no-telcon,
@@ -90,7 +96,7 @@ node scripts/extract-frus-docx-units.mjs --docx input.docx --out extracted-units
 
 ```sh
 node scripts/extract-frus-status-claims.mjs --units extracted-units.json --registry reports/frus-status-series-1981-1992.current.json --out status-claims.json --format text
-node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --negative-search-registry negative-search-registry.json --document-relationship-registry document-relationship-registry.json --communications-registry communications-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID
+node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --declassification-registry declassification-registry.json --negative-search-registry negative-search-registry.json --document-relationship-registry document-relationship-registry.json --communications-registry communications-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID
 ```
 
    Upload `review-packet.md` to the LLM. Send only editorial apparatus and
@@ -103,7 +109,7 @@ node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out
    result as the corresponding `chunk-####-checker-output.json`.
 
 ```sh
-node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --negative-search-registry negative-search-registry.json --document-relationship-registry document-relationship-registry.json --communications-registry communications-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12
+node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --declassification-registry declassification-registry.json --negative-search-registry negative-search-registry.json --document-relationship-registry document-relationship-registry.json --communications-registry communications-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12
 ```
 
    After all chunks are reviewed, merge them into the single checker output
@@ -146,7 +152,7 @@ node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output outp
    Reagan/Bush routing, add the current context files:
 
 ```sh
-node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --negative-search-registry negative-search-registry.json --document-relationship-registry document-relationship-registry.json --communications-registry communications-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD
+node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --declassification-registry declassification-registry.json --negative-search-registry negative-search-registry.json --document-relationship-registry document-relationship-registry.json --communications-registry communications-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD
 ```
 
    If the wrapper has extracted status-bearing phrases into
@@ -228,7 +234,19 @@ node scripts/validate-frus-classification-registry.mjs --registry classification
 node scripts/audit-frus-classification-usage.mjs --units extracted-units.json --registry classification-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-12. Run negative-search/no-record validation and usage audit when source notes,
+12. Run declassification/omission validation and usage audit when document text,
+   source notes, attachment notes, or About the Series/front matter contain
+   bracketed omissions, pages not declassified, handling restrictions not
+   declassified, whole-document withholding entries, or review statistics. The
+   usage audit fails if the model proposes a direct omission or withholding edit
+   unsupported by the supplied declassification registry.
+
+```sh
+node scripts/validate-frus-declassification-registry.mjs --registry declassification-registry.json --format text
+node scripts/audit-frus-declassification-usage.mjs --units extracted-units.json --registry declassification-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
+```
+
+13. Run negative-search/no-record validation and usage audit when source notes,
    follow-on footnotes, editorial notes, or attachment notes contain
    no-minutes, not-found, not-attached, not-found-attached, no-memcon,
    no-telcon, unlocated-draft, or missing-attachment language. The usage audit
@@ -240,7 +258,7 @@ node scripts/validate-frus-negative-search-registry.mjs --registry negative-sear
 node scripts/audit-frus-negative-search-usage.mjs --units extracted-units.json --registry negative-search-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-13. Run document-relationship validation and usage audit when source notes,
+14. Run document-relationship validation and usage audit when source notes,
    follow-on footnotes, editorial notes, or attachment notes contain
    attached-but-not-printed, printed-as-document, same-volume/cross-volume
    `See Document [n]`, tab/enclosure, not-attached, or mixed attachment
@@ -253,7 +271,7 @@ node scripts/validate-frus-document-relationship-registry.mjs --registry documen
 node scripts/audit-frus-document-relationship-usage.mjs --units extracted-units.json --registry document-relationship-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-14. Run communications validation and usage audit when source notes, follow-on
+15. Run communications validation and usage audit when source notes, follow-on
    notes, editorial notes, headings, or attachment notes contain telegrams,
    cables, special designators, message identifiers, date-time groups,
    origin/addressee lines, precedence/routing, source-family identifiers, or
@@ -266,7 +284,7 @@ node scripts/validate-frus-communications-registry.mjs --registry communications
 node scripts/audit-frus-communications-usage.mjs --units extracted-units.json --registry communications-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-15. Run source-note and production-marker checks when those unit types are
+16. Run source-note and production-marker checks when those unit types are
    present:
 
 ```sh
@@ -355,6 +373,9 @@ node scripts/test-frus-document-metadata-audit.mjs
 node scripts/validate-frus-classification-registry.mjs --registry reports/frus-classification-registry.sample.json --format text
 node scripts/audit-frus-classification-usage.mjs --units reports/frus-classification-units.sample.json --registry reports/frus-classification-registry.sample.json --target-volume frus1989-92v31 --format text
 node scripts/test-frus-classification-audit.mjs
+node scripts/validate-frus-declassification-registry.mjs --registry reports/frus-declassification-registry.sample.json --format text
+node scripts/audit-frus-declassification-usage.mjs --units reports/frus-declassification-units.sample.json --registry reports/frus-declassification-registry.sample.json --target-volume frus1989-92v31 --format text
+node scripts/test-frus-declassification-audit.mjs
 node scripts/validate-frus-negative-search-registry.mjs --registry reports/frus-negative-search-registry.sample.json --format text
 node scripts/audit-frus-negative-search-usage.mjs --units reports/frus-negative-search-units.sample.json --registry reports/frus-negative-search-registry.sample.json --target-volume frus1989-92v31 --format text
 node scripts/test-frus-negative-search-audit.mjs

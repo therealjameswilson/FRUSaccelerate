@@ -43,6 +43,8 @@ try {
     "reports/frus-document-metadata-registry.sample.json",
     "--classification-registry",
     "reports/frus-classification-registry.sample.json",
+    "--declassification-registry",
+    "reports/frus-declassification-registry.sample.json",
     "--negative-search-registry",
     "reports/frus-negative-search-registry.sample.json",
     "--document-relationship-registry",
@@ -86,6 +88,9 @@ try {
   assert(markdown.includes("Classification And Handling Registry Context"), "expected classification registry section");
   assert(markdown.includes("Top Secret; Sensitive; Eyes Only"), "expected classification registry content");
   assert(markdown.includes("No classification marking"), "expected no-classification registry content");
+  assert(markdown.includes("Declassification And Omission Registry Context"), "expected declassification registry section");
+  assert(markdown.includes("[less than 2 lines not declassified]"), "expected line-omission registry content");
+  assert(markdown.includes("6 pages not declassified"), "expected pages-not-declassified registry content");
   assert(markdown.includes("Negative Search And No-Record Registry Context"), "expected negative-search registry section");
   assert(markdown.includes("No minutes were found"), "expected negative-search registry content");
   assert(markdown.includes("Not found attached"), "expected RAC attachment ambiguity content");
@@ -122,6 +127,9 @@ try {
   assert(packet.contexts.document_metadata_registry.target_records.length > 0, "expected target document metadata records");
   assert(packet.contexts.classification_registry.records.length === 5, "expected classification registry records");
   assert(packet.contexts.classification_registry.target_records.length > 0, "expected target classification records");
+  assert(packet.contexts.declassification_registry.records.length === 8, "expected declassification registry records");
+  assert(packet.contexts.declassification_registry.target_records.length > 0, "expected target declassification records");
+  assert(packet.packet_summary.declassification_registry_records === 8, "expected declassification registry count");
   assert(packet.contexts.negative_search_registry.records.length === 6, "expected negative-search registry records");
   assert(packet.contexts.negative_search_registry.target_records.length > 0, "expected target negative-search records");
   assert(packet.contexts.document_relationship_registry.records.length === 10, "expected document-relationship registry records");
@@ -138,7 +146,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

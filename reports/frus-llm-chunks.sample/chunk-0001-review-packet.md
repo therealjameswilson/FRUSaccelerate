@@ -54,9 +54,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -75,6 +75,9 @@ For document-metadata validation and direct-edit safety, run
 For classification/handling validation and direct-edit safety, run
 `node scripts/validate-frus-classification-registry.mjs --registry reports/frus-classification-registry.sample.json --format text` and
 `node scripts/audit-frus-classification-usage.mjs --units extracted-units.json --registry reports/frus-classification-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For declassification/omission validation and direct-edit safety, run
+`node scripts/validate-frus-declassification-registry.mjs --registry reports/frus-declassification-registry.sample.json --format text` and
+`node scripts/audit-frus-declassification-usage.mjs --units extracted-units.json --registry reports/frus-declassification-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For negative-search/no-record validation and direct-edit safety, run
 `node scripts/validate-frus-negative-search-registry.mjs --registry reports/frus-negative-search-registry.sample.json --format text` and
 `node scripts/audit-frus-negative-search-usage.mjs --units extracted-units.json --registry reports/frus-negative-search-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -97,7 +100,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -128,6 +131,13 @@ marking records covering original classification, handling controls, and
 verified `No classification marking` phrases; validate it with
 `scripts/validate-frus-classification-registry.mjs` before direct
 classification edits.
+For real Reagan/Bush 1981-1992 declassification/omission review, replace the
+sample declassification registry with target-volume records for bracketed line
+or paragraph omissions, pages not declassified, handling restrictions not
+declassified, whole-document withholding entries, and About the Series
+declassification-review statistics; validate it with
+`scripts/validate-frus-declassification-registry.mjs` before direct omission or
+withholding edits.
 For real Reagan/Bush 1981-1992 negative-search/no-record review, replace the
 sample negative-search registry with target-volume records for no-minutes,
 not-found, not-attached, not-found-attached, no-memcon, no-telcon, unlocated
@@ -161,6 +171,8 @@ For finished-form annotation-sheet profile checks, run
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units reports/frus-annotation-sheet-profile-units.sample.json --checker-output reports/frus-annotation-sheet-profile-safe-output.sample.json --format text`.
 For sample classification/handling checks, run
 `node scripts/audit-frus-classification-usage.mjs --units reports/frus-classification-units.sample.json --registry reports/frus-classification-registry.sample.json --target-volume frus1989-92v31 --format text`.
+For sample declassification/omission checks, run
+`node scripts/audit-frus-declassification-usage.mjs --units reports/frus-declassification-units.sample.json --registry reports/frus-declassification-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample negative-search/no-record checks, run
 `node scripts/audit-frus-negative-search-usage.mjs --units reports/frus-negative-search-units.sample.json --registry reports/frus-negative-search-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample document-relationship checks, run
@@ -219,8 +231,9 @@ is flawless.
    `display_text`, unit type, and Word XML anchors.
 4. Wrapper builds a per-document `review-packet.md` from the runtime guide,
    extracted units, output schema, status registry, authority registry,
-   source-list registry, document-metadata registry, communications registry,
-   preparation router, and permutation matrix.
+   source-list registry, document-metadata registry, classification registry,
+   declassification registry, communications registry, preparation router, and
+   permutation matrix.
 5. If the model context is too small, wrapper builds numbered chunk packets and
    later merges chunk outputs through the chunk-reconciliation gate.
 6. LLM checks the packet or chunk packet and returns a JSON edit/comment plan
@@ -248,9 +261,13 @@ is flawless.
    precedence/routing, drafting, clearance, and approval strings against the
    supplied communications registry before allowing any communications-record
    redline.
-13. Wrapper applies only safe edits as WordprocessingML tracked insertions,
+13. Wrapper validates declassification and omission brackets, page counts,
+   handling-restriction-not-declassified phrases, whole-document withholdings,
+   and About the Series review statistics against the supplied declassification
+   registry before allowing any declassification redline.
+14. Wrapper applies only safe edits as WordprocessingML tracked insertions,
    deletions, and comments.
-14. User downloads a new `.docx` with changes marked in Track Changes.
+15. User downloads a new `.docx` with changes marked in Track Changes.
 
 Important: the LLM must not write `.docx`, OOXML, base64 files, or package
 instructions. The wrapper creates the revised Word file.
@@ -282,6 +299,10 @@ The wrapper should provide:
 - `classification_context`: original classification, handling, paragraph
   markings, verified absence of marking, release-status separation, and
   classification registry records when available.
+- `declassification_registry_context`: bracketed omissions, pages not
+  declassified, handling restrictions not declassified, whole-document
+  withholding entries, About the Series review statistics, quantities, and
+  declassification registry records when available.
 - `negative_search_context`: no-minutes, no-memcon/no-telcon, not-found,
   not-attached, not-found-attached, missing-attachment, RAC ambiguity, and
   search-log basis records when available.
@@ -488,6 +509,12 @@ Separate original classification/handling from release or declassification
 status. `Declassified`, `released`, `sanitized`, a URL, or an NLR identifier is
 not an original classification marking. Use `No classification marking.` only
 when absence of an original marking is verified.
+
+For omission language, preserve published FRUS bracket form and quantity:
+`[less than 2 lines not declassified]`, `[3 paragraphs (19 lines) not
+declassified]`, `2 pages not declassified`, and `[handling restriction not
+declassified]` are evidentiary claims, not copyediting preferences. Direct
+edits require a target-volume declassification registry match.
 
 ### Cross-References And Status
 
@@ -3258,6 +3285,278 @@ Use this to check original classification markings, handling controls, and verif
       "source_note_basis": "The Haig Papers source note preserves both the classification level and special handling controls.",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d75",
       "verification_status": "verified_published_classification"
+    }
+  ]
+}
+```
+
+## Declassification And Omission Registry Context
+
+Use this to check bracketed omission quantities, pages not declassified, handling-restriction-not-declassified phrases, whole-document withholdings, and About the Series review-statistics language. Do not change omission quantities, bracket wording, page counts, or review statistics unless the registry proves the direct edit.
+
+```json
+{
+  "schema_version": "frus-declassification-registry-v1",
+  "declassification_registry_id": "frus-1981-1992-declassification-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d93",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d449",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d172"
+  ],
+  "scope": "Sample declassification and omission registry for checking FRUS bracketed omissions, handling-restriction-not-declassified phrases, pages-not-declassified source brackets, whole-document withholding, and volume-level declassification-review statistics in Reagan and George H.W. Bush annotation sheets.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "declassification_id": "declass-v31-d172-less-than-2-lines",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d172",
+      "document_number": "172",
+      "unit_scope": "document_text",
+      "declassification_type": "inline_line_omission",
+      "approved_phrase": "[less than 2 lines not declassified]",
+      "quantity": "less than 2",
+      "quantity_unit": "lines",
+      "review_outcome": "minor_excised_text_not_declassified",
+      "source_or_context": "Document 172 text, data-denial discussion",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d172",
+      "verification_status": "verified_published_declassification_record",
+      "variant_forms": [
+        "[less than two lines not declassified]",
+        "less than 2 lines not declassified"
+      ]
+    },
+    {
+      "declassification_id": "declass-v31-d172-two-half-lines",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d172",
+      "document_number": "172",
+      "unit_scope": "document_text",
+      "declassification_type": "inline_fractional_line_omission",
+      "approved_phrase": "[2½ lines not declassified]",
+      "quantity": "2½",
+      "quantity_unit": "lines",
+      "review_outcome": "minor_excised_text_not_declassified",
+      "source_or_context": "Document 172 text, power-levels paragraph",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d172",
+      "verification_status": "verified_published_declassification_record",
+      "variant_forms": [
+        "[2 1/2 lines not declassified]",
+        "2½ lines not declassified"
+      ]
+    },
+    {
+      "declassification_id": "declass-v31-d172-3-paragraphs-19-lines",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d172",
+      "document_number": "172",
+      "unit_scope": "document_text",
+      "declassification_type": "paragraph_omission",
+      "approved_phrase": "[3 paragraphs (19 lines) not declassified]",
+      "quantity": "3",
+      "quantity_unit": "paragraphs (19 lines)",
+      "review_outcome": "paragraph_or_more_excised_text_not_declassified",
+      "source_or_context": "Document 172 text, data-exchange discussion",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d172",
+      "verification_status": "verified_published_declassification_record",
+      "variant_forms": [
+        "[three paragraphs (19 lines) not declassified]",
+        "3 paragraphs 19 lines not declassified"
+      ]
+    },
+    {
+      "declassification_id": "declass-v31-d172-tab1-6-pages",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d172",
+      "document_number": "172",
+      "unit_scope": "source_bracket",
+      "declassification_type": "source_bracket_pages_not_declassified",
+      "approved_phrase": "[Source: George H.W. Bush Library, Bush Presidential Records, National Security Council, John A. Gordon Files, Subject Files, OA/ID CF01033-006, START-December 1990. Secret; [handling restriction not declassified]. 6 pages not declassified.]",
+      "quantity": "6",
+      "quantity_unit": "pages",
+      "review_outcome": "source_bracket_pages_not_declassified",
+      "source_or_context": "Document 172 Tab 1, Paper Prepared in the Central Intelligence Agency",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d172",
+      "verification_status": "verified_published_declassification_record",
+      "variant_forms": [
+        "Secret; [handling restriction not declassified]. 6 pages not declassified.",
+        "6 pages not declassified"
+      ]
+    },
+    {
+      "declassification_id": "declass-v31-about-series-review-stats",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/abouttheseries",
+      "document_number": "about-the-series",
+      "unit_scope": "front_matter",
+      "declassification_type": "volume_review_statistics",
+      "approved_phrase": "The declassification review of this volume, which began in 2017 and was completed in 2024, resulted in the decision to withhold 1 document in full, excise a paragraph or more in 7 documents, and make minor excisions of less than a paragraph in 26 documents.",
+      "quantity": "1 full; 7 paragraph-or-more; 26 minor",
+      "quantity_unit": "documents",
+      "review_outcome": "volume_declassification_review_statistics",
+      "source_or_context": "START I About the Series declassification review paragraph",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries",
+      "verification_status": "verified_published_declassification_record",
+      "variant_forms": [
+        "withhold 1 document in full, excise a paragraph or more in 7 documents, and make minor excisions of less than a paragraph in 26 documents",
+        "began in 2017 and was completed in 2024"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "declassification_id": "declass-v31-d172-less-than-2-lines",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d172",
+      "document_number": "172",
+      "unit_scope": "document_text",
+      "declassification_type": "inline_line_omission",
+      "approved_phrase": "[less than 2 lines not declassified]",
+      "quantity": "less than 2",
+      "quantity_unit": "lines",
+      "review_outcome": "minor_excised_text_not_declassified",
+      "source_or_context": "Document 172 text, data-denial discussion",
+      "variant_forms": [
+        "[less than two lines not declassified]",
+        "less than 2 lines not declassified"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d172",
+      "verification_status": "verified_published_declassification_record"
+    },
+    {
+      "declassification_id": "declass-v31-d172-two-half-lines",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d172",
+      "document_number": "172",
+      "unit_scope": "document_text",
+      "declassification_type": "inline_fractional_line_omission",
+      "approved_phrase": "[2½ lines not declassified]",
+      "quantity": "2½",
+      "quantity_unit": "lines",
+      "review_outcome": "minor_excised_text_not_declassified",
+      "source_or_context": "Document 172 text, power-levels paragraph",
+      "variant_forms": [
+        "[2 1/2 lines not declassified]",
+        "2½ lines not declassified"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d172",
+      "verification_status": "verified_published_declassification_record"
+    },
+    {
+      "declassification_id": "declass-v31-d172-3-paragraphs-19-lines",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d172",
+      "document_number": "172",
+      "unit_scope": "document_text",
+      "declassification_type": "paragraph_omission",
+      "approved_phrase": "[3 paragraphs (19 lines) not declassified]",
+      "quantity": "3",
+      "quantity_unit": "paragraphs (19 lines)",
+      "review_outcome": "paragraph_or_more_excised_text_not_declassified",
+      "source_or_context": "Document 172 text, data-exchange discussion",
+      "variant_forms": [
+        "[three paragraphs (19 lines) not declassified]",
+        "3 paragraphs 19 lines not declassified"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d172",
+      "verification_status": "verified_published_declassification_record"
+    },
+    {
+      "declassification_id": "declass-v31-d172-tab1-6-pages",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d172",
+      "document_number": "172",
+      "unit_scope": "source_bracket",
+      "declassification_type": "source_bracket_pages_not_declassified",
+      "approved_phrase": "[Source: George H.W. Bush Library, Bush Presidential Records, National Security Council, John A. Gordon Files, Subject Files, OA/ID CF01033-006, START-December 1990. Secret; [handling restriction not declassified]. 6 pages not declassified.]",
+      "quantity": "6",
+      "quantity_unit": "pages",
+      "review_outcome": "source_bracket_pages_not_declassified",
+      "source_or_context": "Document 172 Tab 1, Paper Prepared in the Central Intelligence Agency",
+      "variant_forms": [
+        "Secret; [handling restriction not declassified]. 6 pages not declassified.",
+        "6 pages not declassified"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d172",
+      "verification_status": "verified_published_declassification_record"
+    },
+    {
+      "declassification_id": "declass-v31-about-series-review-stats",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/abouttheseries",
+      "document_number": "about-the-series",
+      "unit_scope": "front_matter",
+      "declassification_type": "volume_review_statistics",
+      "approved_phrase": "The declassification review of this volume, which began in 2017 and was completed in 2024, resulted in the decision to withhold 1 document in full, excise a paragraph or more in 7 documents, and make minor excisions of less than a paragraph in 26 documents.",
+      "quantity": "1 full; 7 paragraph-or-more; 26 minor",
+      "quantity_unit": "documents",
+      "review_outcome": "volume_declassification_review_statistics",
+      "source_or_context": "START I About the Series declassification review paragraph",
+      "variant_forms": [
+        "withhold 1 document in full, excise a paragraph or more in 7 documents, and make minor excisions of less than a paragraph in 26 documents",
+        "began in 2017 and was completed in 2024"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries",
+      "verification_status": "verified_published_declassification_record"
+    },
+    {
+      "declassification_id": "declass-v44p1-about-series-review-stats",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/abouttheseries",
+      "document_number": "about-the-series",
+      "unit_scope": "front_matter",
+      "declassification_type": "volume_review_statistics",
+      "approved_phrase": "The declassification review of this volume, which began in 2018 and was completed in 2023, resulted in the decision to withhold 2 documents in full, excise a paragraph or more in 14 documents, and make minor excisions of less than a paragraph in 20 documents.",
+      "quantity": "2 full; 14 paragraph-or-more; 20 minor",
+      "quantity_unit": "documents",
+      "review_outcome": "volume_declassification_review_statistics",
+      "source_or_context": "National Security Policy, 1985-1988, About the Series declassification review paragraph",
+      "variant_forms": [
+        "withhold 2 documents in full, excise a paragraph or more in 14 documents, and make minor excisions of less than a paragraph in 20 documents",
+        "began in 2018 and was completed in 2023"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries",
+      "verification_status": "verified_published_declassification_record"
+    },
+    {
+      "declassification_id": "declass-v11-d93-2-pages",
+      "volume_id": "frus1981-88v11",
+      "document_id": "frus1981-88v11/d93",
+      "document_number": "93",
+      "unit_scope": "source_bracket",
+      "declassification_type": "whole_document_pages_not_declassified",
+      "approved_phrase": "[Source: Reagan Library, Intelligence Files, System II files-INT 8490035-88902478. Secret; Sensitive. Eyes Only. Sent for information. 2 pages not declassified.]",
+      "quantity": "2",
+      "quantity_unit": "pages",
+      "review_outcome": "whole_document_not_declassified",
+      "source_or_context": "Reagan START I Document 93 withheld document entry",
+      "variant_forms": [
+        "2 pages not declassified",
+        "Secret; Sensitive. Eyes Only. Sent for information. 2 pages not declassified."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d93",
+      "verification_status": "verified_published_declassification_record"
+    },
+    {
+      "declassification_id": "declass-v24-d449-tab-a-2-pages",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d449",
+      "document_number": "449",
+      "unit_scope": "tab_source_bracket",
+      "declassification_type": "source_bracket_pages_not_declassified",
+      "approved_phrase": "[Secret; Immediate; [handling restriction not declassified]. 2 pages not declassified.]",
+      "quantity": "2",
+      "quantity_unit": "pages",
+      "review_outcome": "tab_not_declassified",
+      "source_or_context": "North Africa Document 449 Tab A telegram",
+      "variant_forms": [
+        "Secret; Immediate; [handling restriction not declassified]. 2 pages not declassified.",
+        "handling restriction not declassified"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d449",
+      "verification_status": "verified_published_declassification_record"
     }
   ]
 }

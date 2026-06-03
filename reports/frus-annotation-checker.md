@@ -65,6 +65,13 @@ For classification/handling validation, use
 `reports/frus-classification-units.sample.json`; the self-contained smoke test
 is `scripts/test-frus-classification-audit.mjs`, and the sample audit report is
 `reports/frus-classification-audit.sample.json`.
+For declassification/omission validation, use
+`scripts/validate-frus-declassification-registry.mjs` and
+`scripts/audit-frus-declassification-usage.mjs` with
+`reports/frus-declassification-registry.sample.json` and
+`reports/frus-declassification-units.sample.json`; the self-contained smoke
+test is `scripts/test-frus-declassification-audit.mjs`, and the sample audit
+report is `reports/frus-declassification-audit.sample.json`.
 For negative-search/no-record validation, use
 `scripts/validate-frus-negative-search-registry.mjs` and
 `scripts/audit-frus-negative-search-usage.mjs` with
@@ -138,6 +145,11 @@ add `--annotation-sheet-profile
 reports/frus-annotation-sheet-profile.sample.json` to packet, chunk, and
 offline-runner commands so the LLM sees flat Word structure, lexical
 unitization, inline `Source:` recognition, and protected pseudo-marker policy.
+For declassification/omission claims, add `--declassification-registry
+reports/frus-declassification-registry.sample.json` or a target-volume
+replacement to packet, chunk, and offline-runner commands before allowing
+direct edits to bracketed omissions, page counts, withholding language, or
+About the Series review statistics.
 For sample review coverage, use `scripts/audit-frus-review-coverage.mjs` with
 `reports/frus-annotation-checker-extracted-units.sample.json`,
 `reports/frus-annotation-checker-sample-output.json`, and
@@ -164,14 +176,16 @@ The intended workflow is:
 3. The tool extracts the Word document into structured text.
 4. The tool builds `review-packet.md` from this standard, the extracted units,
    the output schema, status context, authority registry, source-list registry,
-   document-metadata registry, preparation router, and permutation matrix.
+   document-metadata registry, classification registry, declassification
+   registry, preparation router, and permutation matrix.
 5. If the model cannot fit the whole packet, the tool builds numbered chunk
    packets and merges chunk outputs through the chunk-reconciliation gate.
 6. The LLM checks the packet against the standards below.
 7. The LLM returns structured proposed edits and comments.
 8. The Word wrapper validates exact anchors, evidence basis, status context,
    authority-control context, source-list/front-matter context,
-   document-metadata context, and Word safety.
+   document-metadata context, classification/declassification context, and Word
+   safety.
 9. The Word wrapper applies the proposed edits as tracked changes and comments.
 10. User downloads a new `.docx` with changes marked in Track Changes.
 
@@ -12051,6 +12065,16 @@ Minimum components:
   handling controls, and verified absence-of-marking phrases; it separates
   later release/declassification language from original markings and fails
   direct classification edits that lack supplied registry support.
+- No-dependency declassification/omission registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-declassification-registry.mjs`,
+  `scripts/audit-frus-declassification-usage.mjs`,
+  `reports/frus-declassification-registry.sample.json`,
+  `reports/frus-declassification-units.sample.json`, and
+  `reports/frus-declassification-audit.sample.json`. The audit reconciles
+  bracketed line/paragraph omissions, pages not declassified, handling
+  restrictions not declassified, whole-document withholding entries, and About
+  the Series review statistics to supplied declassification records and fails
+  direct omission or withholding edits that lack supplied registry support.
 - No-dependency negative-search/no-record registry validator, usage audit, and
   fixtures: `scripts/validate-frus-negative-search-registry.mjs`,
   `scripts/audit-frus-negative-search-usage.mjs`,
@@ -12224,10 +12248,10 @@ Minimum components:
 - Attachment-status validator that separates physical attachment status from
   editorial printing status and checks tab, enclosure, annex, appendix, and
   facsimile cross-references before tracked changes are applied.
-- Declassification and omission validator that distinguishes still-classified
-  excisions, unrelated omissions, original brackets, editor insertions,
-  release-status notes, and whole-document withholdings before tracked changes
-  are applied.
+- Expand the declassification and omission validator to cover more
+  target-volume records for still-classified excisions, unrelated omissions,
+  original brackets, editor insertions, release-status notes, and
+  whole-document withholdings before tracked changes are applied.
 - Editorial-method/transcription validator that distinguishes document body
   text, bracketed corrections, bracketed additions, italic/roman styling,
   underlining printed as italics, abbreviations and contractions, telegram

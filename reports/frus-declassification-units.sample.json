@@ -1,0 +1,108 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample extracted Word units for FRUS declassification and omission audit tests.",
+  "units": [
+    {
+      "unit_id": "declass-note-0001",
+      "unit_type": "declassification_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "START I Document 172 body omission",
+      "exact_text": "They have indicated that they must be free to adopt U.S. practices-[less than 2 lines not declassified]",
+      "display_text": "They have indicated that they must be free to adopt U.S. practices-[less than 2 lines not declassified]",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "declass-note-0002",
+      "unit_type": "declassification_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "START I Document 172 paragraph omission",
+      "exact_text": "The IC can provide a somewhat clearer picture of the implications of the ban on data denial for the narrow issue of START monitoring. [3 paragraphs (19 lines) not declassified]",
+      "display_text": "The IC can provide a somewhat clearer picture of the implications of the ban on data denial for the narrow issue of START monitoring. [3 paragraphs (19 lines) not declassified]",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "declass-note-0003",
+      "unit_type": "source_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "START I Document 172 Tab 1 source bracket",
+      "exact_text": "[Source: George H.W. Bush Library, Bush Presidential Records, National Security Council, John A. Gordon Files, Subject Files, OA/ID CF01033-006, START-December 1990. Secret; [handling restriction not declassified]. 6 pages not declassified.]",
+      "display_text": "[Source: George H.W. Bush Library, Bush Presidential Records, National Security Council, John A. Gordon Files, Subject Files, OA/ID CF01033-006, START-December 1990. Secret; [handling restriction not declassified]. 6 pages not declassified.]",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "declass-note-0004",
+      "unit_type": "front_matter",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "START I About the Series declassification review",
+      "exact_text": "The declassification review of this volume, which began in 2017 and was completed in 2024, resulted in the decision to withhold 1 document in full, excise a paragraph or more in 7 documents, and make minor excisions of less than a paragraph in 26 documents.",
+      "display_text": "The declassification review of this volume, which began in 2017 and was completed in 2024, resulted in the decision to withhold 1 document in full, excise a paragraph or more in 7 documents, and make minor excisions of less than a paragraph in 26 documents.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "declass-note-0005",
+      "unit_type": "declassification_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "START I Document 172 variant wording",
+      "exact_text": "They have indicated that they must be free to adopt U.S. practices-[less than two lines not declassified]",
+      "display_text": "They have indicated that they must be free to adopt U.S. practices-[less than two lines not declassified]",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "declass-note-0006",
+      "unit_type": "source_note",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "Reagan START I Document 93 cross-volume withheld document",
+      "exact_text": "[Source: Reagan Library, Intelligence Files, System II files-INT 8490035-88902478. Secret; Sensitive. Eyes Only. Sent for information. 2 pages not declassified.]",
+      "display_text": "[Source: Reagan Library, Intelligence Files, System II files-INT 8490035-88902478. Secret; Sensitive. Eyes Only. Sent for information. 2 pages not declassified.]",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": [
+        "cross_volume_declassification_context"
+      ]
+    },
+    {
+      "unit_id": "declass-note-0007",
+      "unit_type": "declassification_note",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Unsupported declassification phrase",
+      "exact_text": "[5 lines not declassified]",
+      "display_text": "[5 lines not declassified]",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": [
+        "missing_declassification_registry_basis"
+      ]
+    }
+  ]
+}
