@@ -96,6 +96,10 @@ The wrapper should provide the LLM with:
   unsigned status, approval boxes, sent-for-action or sent-for-information
   routing, correspondence profiles, distribution lists, attached routing slips,
   unknown-hand notes, and verification basis.
+- `retrospective_account_context`, if available: structured memoir, published
+  diary, personal diary, oral history, recollection, later interview, press
+  retrospective, author/editor, publication, page, date, event described,
+  relation to official record, corroborating record, and verification basis.
 - `communications_registry_context`, if available: structured telegram, cable,
   STARS, CFPF, PROFS, W Files, System IV, agency-message, and other
   electronic-communications metadata with source family, message identifier,
@@ -225,14 +229,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | physical_routing_marginalia | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | physical_routing_marginalia | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | physical_evidence_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | physical_evidence_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -245,7 +249,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | physical_routing_marginalia | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | physical_routing_marginalia | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -371,6 +375,7 @@ run the semantic and Word-safety validators below.
               "document_metadata",
               "classification_handling",
               "physical_routing_marginalia",
+              "memoir_oral_history_recollection",
               "translation_foreign_origin",
               "foreign_international_organization",
               "treaty_legal_instrument",
@@ -430,6 +435,7 @@ run the semantic and Word-safety validators below.
               "foreign_org_basis",
               "treaty_component",
               "public_source_basis",
+              "retrospective_account_basis",
               "legal_authority",
               "financial_data",
               "agency_equity",
@@ -510,6 +516,7 @@ run the semantic and Word-safety validators below.
               "document_metadata",
               "classification_handling",
               "physical_routing_marginalia",
+              "memoir_oral_history_recollection",
               "translation_foreign_origin",
               "foreign_international_organization",
               "treaty_legal_instrument",
@@ -611,13 +618,14 @@ Semantic validator behavior:
 - Reject any direct edit whose category is `publication_status`,
   `declassification`, `attachment`, `document_metadata`,
   `classification_handling`, `physical_routing_marginalia`,
-  `translation_foreign_origin`, `foreign_international_organization`,
-  `treaty_legal_instrument`, `public_diplomacy_public_source`,
-  `congressional_legal_authority`, `economic_financial_data`,
-  `intelligence_law_enforcement`, `military_crisis_operations`,
-  `human_rights_refugee_global_issues`, `chronology`, `summit_public_event`,
-  `communications_record`, or `authority_control` when the required proof is
-  absent from the uploaded unit or wrapper context.
+  `memoir_oral_history_recollection`, `translation_foreign_origin`,
+  `foreign_international_organization`, `treaty_legal_instrument`,
+  `public_diplomacy_public_source`, `congressional_legal_authority`,
+  `economic_financial_data`, `intelligence_law_enforcement`,
+  `military_crisis_operations`, `human_rights_refugee_global_issues`,
+  `chronology`, `summit_public_event`, `communications_record`, or
+  `authority_control` when the required proof is absent from the uploaded unit or
+  wrapper context.
 - Downgrade to `comment_only` when a finding passes the JSON schema but fails a
   Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
@@ -3000,6 +3008,219 @@ Public-source audit requirements:
 - Record unresolved publication details, delivery/broadcast basis, transcript
   basis, full-text target, excerpt status, archival-draft context, and
   public-versus-archival selection warnings.
+
+### 6.8A.2 Memoirs, Published Diaries, Oral Histories, Retrospective Accounts, And Recollection Evidence
+
+Memoirs, published diaries, oral histories, later interviews, press
+retrospectives, and recollective accounts can be valuable FRUS annotation
+evidence, especially in Foundations and public-diplomacy volumes. They are also
+dangerous if they are allowed to replace the official record. The checker should
+preserve them as retrospective, supplemental, or interpretive context unless the
+published volume or supplied context clearly treats the recollection itself as
+selected evidence.
+
+Use a retrospective-account registry when the wrapper can supply one:
+
+```json
+{
+  "retrospective_account_registry_id": "frus-1981-1992-memoir-oral-history-recollection-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d18",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d34",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d236",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d260",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d282",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d316"
+  ],
+  "records": [
+    {
+      "retrospective_item_id": "memoir-haig-confirmation-0018",
+      "unit_id": "document-0018",
+      "record_type": "memoir_recollection",
+      "account_author_or_source": "Alexander M. Haig, Jr., Caveat",
+      "publication_or_collection": "Haig memoir",
+      "page_or_locator": "pages 12-14 and 37-52",
+      "event_or_document_described": "Reagan offer to Haig and Haig confirmation hearings",
+      "official_record_relationship": "supplements Senate hearing/public confirmation chronology",
+      "selected_or_supplemental": "supplemental_recollection",
+      "corroborating_record": "Nomination hearing transcript and Senate vote chronology",
+      "verification_status": "verified"
+    },
+    {
+      "retrospective_item_id": "memoir-haig-middle-east-0034",
+      "unit_id": "document-0034",
+      "record_type": "memoir_recollection",
+      "account_author_or_source": "Alexander M. Haig, Jr., Caveat",
+      "publication_or_collection": "Haig memoir",
+      "page_or_locator": "page 89",
+      "event_or_document_described": "Genesis of Haig Middle East trip",
+      "official_record_relationship": "supplements scheduled FRUS trip documentation and Department of State Bulletin remarks",
+      "selected_or_supplemental": "supplemental_recollection",
+      "corroborating_record": "travel schedule, Department of State Bulletin, attached Cairo telegram",
+      "verification_status": "verified"
+    },
+    {
+      "retrospective_item_id": "diary-memoir-chernenko-0236",
+      "unit_id": "document-0236",
+      "record_type": "published_personal_diary_and_memoir",
+      "account_author_or_source": "Ronald Reagan diary; George P. Shultz, Turmoil and Triumph",
+      "publication_or_collection": "The Reagan Diaries; Shultz memoir",
+      "page_or_locator": "Reagan Diaries vol. I, page 434; Shultz memoir page 527",
+      "event_or_document_described": "March 11, 1985 Shultz meeting with Reagan after Chernenko's death",
+      "official_record_relationship": "supplements talking points, Daily Diary, and related letter/document cross-reference",
+      "selected_or_supplemental": "supplemental_diary_and_recollection",
+      "corroborating_record": "President's Daily Diary and selected talking points",
+      "verification_status": "verified"
+    },
+    {
+      "retrospective_item_id": "memoir-shultz-arms-control-0260",
+      "unit_id": "document-0260",
+      "record_type": "memoir_recollection",
+      "account_author_or_source": "George P. Shultz, Turmoil and Triumph",
+      "publication_or_collection": "Shultz memoir",
+      "page_or_locator": "pages 702-703",
+      "event_or_document_described": "January 24, 1986 meeting segment on U.S.-Soviet arms control",
+      "official_record_relationship": "supplements prepared paper and President's Daily Diary meeting evidence",
+      "selected_or_supplemental": "supplemental_recollection",
+      "corroborating_record": "Secretary's Meeting with the President paper and President's Daily Diary",
+      "verification_status": "verified"
+    },
+    {
+      "retrospective_item_id": "memoir-shultz-iran-press-0282",
+      "unit_id": "document-0282",
+      "record_type": "memoir_recollection",
+      "account_author_or_source": "George P. Shultz, Turmoil and Triumph",
+      "publication_or_collection": "Shultz memoir",
+      "page_or_locator": "pages 830-831",
+      "event_or_document_described": "Shultz reaction to Reagan November 19, 1986 Iran arms news conference",
+      "official_record_relationship": "supplements handwritten talking points and Public Papers press-conference source",
+      "selected_or_supplemental": "supplemental_recollection",
+      "corroborating_record": "Hill handwritten talking points and Public Papers press-conference text",
+      "verification_status": "verified"
+    },
+    {
+      "retrospective_item_id": "diary-reagan-foreign-policy-schedule-0316",
+      "unit_id": "document-0316",
+      "record_type": "published_personal_diary",
+      "account_author_or_source": "Ronald Reagan diary edited by Brinkley",
+      "publication_or_collection": "The Reagan Diaries",
+      "page_or_locator": "vol. II, page 822",
+      "event_or_document_described": "January 6, 1988 meeting with Shultz on foreign policy schedule",
+      "official_record_relationship": "supplements no-minutes note, Daily Diary, and Shultz meeting paper",
+      "selected_or_supplemental": "supplemental_diary_context",
+      "corroborating_record": "President's Daily Diary and Shultz meeting paper",
+      "verification_status": "verified"
+    }
+  ]
+}
+```
+
+Allowed `record_type` values:
+
+- `memoir_recollection`
+- `published_personal_diary`
+- `published_personal_diary_and_memoir`
+- `oral_history`
+- `later_interview`
+- `press_retrospective`
+- `published_account`
+- `private_diary_context`
+- `editorial_recollection_context`
+- `unknown`
+
+Allowed `selected_or_supplemental` values:
+
+- `selected_public_document`
+- `supplemental_recollection`
+- `supplemental_diary_context`
+- `supplemental_diary_and_recollection`
+- `corroborating_public_account`
+- `conflicting_recollection`
+- `background_only`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified`
+- `needs_publication_details`
+- `needs_page_or_locator`
+- `needs_author_or_editor_basis`
+- `needs_event_match`
+- `needs_official_record_relationship`
+- `needs_corroborating_record`
+- `needs_selection_status`
+- `needs_conflict_check`
+- `unknown`
+
+Retrospective-account validator sequence:
+
+1. Identify every source note, editorial note, follow-on footnote, or annotation
+   that cites a memoir, published diary, personal diary, oral history, later
+   interview, recollection, press retrospective, newspaper account, edited diary,
+   published account, or phrase such as `in his memoir`, `in his personal diary`,
+   `for his recollection`, or `according to`.
+2. Match the unit against `retrospective_account_context` before directly
+   changing author/editor, publication title, page/locator, date, event described,
+   selected/supplemental status, or relation to an official record.
+3. Separate retrospective accounts from official records. A memoir, oral history,
+   diary, or newspaper account can supplement chronology, intent, reception, or
+   later recollection; it does not by itself prove meeting minutes, official
+   approval, participant lists, source paths, attached documents, or classified
+   text.
+4. Preserve attribution. Do not rewrite a recollective claim as the checker’s
+   narrative voice unless the published FRUS form already does so and the account
+   is clearly identified in the note.
+5. Preserve publication details and page locators. Do not drop page references,
+   volume numbers, editor names, publication titles, or full-text targets when the
+   uploaded note supplies them.
+6. Check whether the account corroborates, supplements, conflicts with, or merely
+   contextualizes the official record. If the account conflicts with a diary,
+   schedule, memcon, source note, or public transcript, flag the conflict rather
+   than smoothing it away.
+7. Coordinate with chronology rules when a diary or memoir supports time, place,
+   sequence, or no-minutes/no-record claims.
+8. Coordinate with public-source rules when the account is a newspaper article,
+   published interview, Department of State Bulletin item, Public Papers text, or
+   selected public document.
+9. Coordinate with legal, congressional, economic, military, sensitive-record, or
+   foreign-organization rules when a recollection claims authority, amount,
+   operation stage, intelligence fact, or foreign/government role.
+
+Direct-edit posture:
+
+- Safe direct edits may restore exact supplied author names, titles, page forms,
+  `memoir`, `personal diary`, `oral history`, `published account`, `recollection`,
+  or `supplemental` wording when the uploaded unit or registry supplies exact
+  evidence.
+- Use `comment_only` with `evidence_request: retrospective_account_basis` when
+  author/editor, title, page/locator, event match, selected/supplemental status,
+  official-record relationship, corroborating record, or conflict status is
+  missing, conflicting, or inferred.
+- Use `evidence_request: chronology` when the blocker is a diary/schedule,
+  meeting time, participant basis, no-minutes/no-record assertion, or sequence
+  claim.
+- Use `evidence_request: public_source_basis` when the blocker is publication,
+  newspaper, interview, transcript, full-text, excerpt, or public-versus-archival
+  status.
+- Add a `memoir_oral_history_recollection` discrepancy to the General Editor
+  tally when published or local examples vary on how much memoir, diary, oral-
+  history, later-interview, newspaper, or recollective detail to print, and the
+  underlying facts are sound.
+
+Retrospective-account audit requirements:
+
+- Count memoir, oral-history, published-diary, personal-diary, later-interview,
+  recollection, press-retrospective, selected-versus-supplemental, official-record
+  relationship, corroboration, and conflict warnings separately from public-source
+  and chronology warnings.
+- Preserve registry id, capture date, source URLs, record type, author/source,
+  publication or collection, page/locator, event or document described,
+  official-record relationship, selected/supplemental status, corroborating
+  record, and verification status in the audit report.
+- Record unresolved author/editor, publication, page/locator, event-match,
+  selected/supplemental, official-record relationship, corroborating-record, and
+  conflict warnings.
 
 ### 6.8B Congressional, Legal, And Public-Authority Records
 
@@ -5544,6 +5765,7 @@ Evidence-request categories:
 | `treaty_component` | Treaty, protocol, annex, memorandum of understanding, executive agreement, letter, declaration, statement, transmittal, ratification, entry-into-force, or associated-document status is uncertain. | Which treaty component, legal status, public source, archival source, or integral-versus-associated relationship must be checked. |
 | `foreign_org_basis` | Foreign-government, international-organization, multilateral, regional-body, alliance, coalition, peacekeeping, conference, treaty-party, copy-provenance, concurrence, or selected-source role is uncertain. | Which foreign copy, organization identity, body role, concurrence basis, treaty-party status, conference/meeting identity, publication detail, or source-versus-subject status must be checked. |
 | `public_source_basis` | Speech, press, interview, broadcast, testimony, Public Papers, Department of State Bulletin, newspaper, official transcript, public-source selected-document, excerpt, full-text target, or archival-draft relationship is uncertain. | Which publication details, delivery or broadcast facts, transcript basis, excerpt/full-text relationship, archival draft context, or public-versus-archival selection status must be checked. |
+| `retrospective_account_basis` | Memoir, published diary, personal diary, oral history, later interview, recollection, press retrospective, newspaper account, author/editor, page/locator, selected/supplemental status, official-record relationship, corroborating record, or conflict status is uncertain. | Which author/source, publication, page/locator, event match, official record, corroborating record, selection status, or conflict must be checked before using the account. |
 | `legal_authority` | Congressional, statutory, executive-order, Presidential Determination, certification, hearing, testimony, vote-stage, oversight, or Senate advice-and-consent authority is uncertain. | Which committee, hearing, Congress/session, public law, Stat. citation, section, vote stage, amount, condition, transmittal, determination/certification, Executive Order, or Senate basis must be checked. |
 | `financial_data` | Economic, trade, debt, assistance, budget, institutional, table, amount, percentage, fiscal-year, currency, loan, guarantee, quota, replenishment, conditionality, or policy-stage evidence is uncertain. | Which figure, unit, fiscal year, institution, program, table, source, attachment, legal basis, or policy stage must be checked. |
 | `agency_equity` | Intelligence, covert-action, law-enforcement, counternarcotics, counterterrorism, source-and-methods, operational, oversight, foreign-service, or agency-equity proof is uncertain. | Which agency identity, source family, law-enforcement context, operational basis, oversight basis, release/redaction basis, or foreign-service contact must be checked. |
@@ -5615,6 +5837,7 @@ Default blocking rules:
 | `foreign_org_basis` | yes for foreign-copy, organization identity, body role, concurrence, treaty-party, conference, publication-detail, or selected-source edits | yes when foreign-government, international-organization, multilateral, coalition, alliance, or treaty-party claims appear in publishable apparatus |
 | `treaty_component` | yes for component identity, integral-versus-associated status, public/archival basis, legal-status, ratification, or entry-into-force edits | yes when the note identifies a treaty component, associated document, transmittal, ratification, or entry into force |
 | `public_source_basis` | yes for public-source title, speaker, publication, page, transcript, excerpt/full-text, delivery/broadcast, archival-draft, or selected-document edits | yes when a speech, press, interview, testimony, broadcast, or public-source selected document appears in publishable apparatus |
+| `retrospective_account_basis` | yes for memoir, published diary, oral-history, later-interview, recollection, author/editor, page/locator, event-match, selected/supplemental, official-record relationship, corroborating-record, or conflict edits | yes when a retrospective account appears in publishable apparatus |
 | `legal_authority` | yes for congressional/legal authority, committee, hearing, public-law, statute, determination, certification, Executive Order, vote-stage, amount, condition, or Senate advice-and-consent edits | yes when congressional or legal authority appears in publishable apparatus |
 | `financial_data` | yes for amount, percentage, currency, fiscal-year, institution, program, table, debt/loan/guarantee, quota, conditionality, or policy-stage edits | yes when economic, trade, debt, foreign-assistance, or financial data appears in publishable apparatus |
 | `agency_equity` | yes for agency identity, sensitive source family, operational claim, source-and-methods, oversight, law-enforcement status, foreign-service contact, or sanitization edits | yes when intelligence, covert-action, law-enforcement, counternarcotics, counterterrorism, agency-equity, or operational claims appear in publishable apparatus |
@@ -5637,15 +5860,16 @@ Owner hints:
   identity, event sequence, public-source basis, foreign-government or
   international-organization proof, congressional/legal proof, financial data,
   agency-equity proof, military-operation proof, human-rights/refugee/global-
-  issues proof, physical/routing evidence, sensitive-record source basis,
-  translation status, and foreign-copy provenance.
+  issues proof, physical/routing evidence, retrospective-account basis,
+  sensitive-record source basis, translation status, and foreign-copy provenance.
 - `editor`: wording, heading form, cross-reference form, source-list
   consistency, treaty/legal-instrument placement, public-event note form,
   public-source and public-diplomacy note form, congressional/legal citation
   form, foreign/international-organization note form, economic/financial table
   and note form, military/crisis note form, human-rights/refugee/global-issues
-  note form, physical/routing note form, sensitive-record note form,
-  publication-status wording, and General Editor discrepancy preparation.
+  note form, physical/routing note form, retrospective-account note form,
+  sensitive-record note form, publication-status wording, and General Editor
+  discrepancy preparation.
 - `declassification`: classification markings, declassification outcomes,
   release-status separation, withholding, excision, source-and-methods,
   sanitization, and agency-equity language.
@@ -5956,36 +6180,41 @@ For every extracted unit, run checks in this order:
     briefing materials, selected-public-document status, and
     supplemental-public-context evidence against the public-source registry when
     supplied.
-22. Check congressional testimony, hearings, public laws, statutes, continuing
+22. Check memoirs, published diaries, personal diaries, oral histories, later
+    interviews, recollections, press retrospectives, newspaper accounts,
+    selected/supplemental status, official-record relationship, corroborating
+    records, and conflict status against the retrospective-account registry when
+    supplied.
+23. Check congressional testimony, hearings, public laws, statutes, continuing
     resolutions, joint resolutions, congressional notifications, Presidential
     Determinations, certifications, Executive Orders, oversight, independent
     counsel, Senate advice-and-consent, and ratification context against the
     congressional/legal registry when supplied.
-23. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
+24. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
     World Bank, MDB, GATT, UNCTAD, OECD, table, amount, percentage, currency,
     fiscal-year, loan, guarantee, quota, replenishment, conditionality, and
     policy-stage evidence against the economic/financial registry when supplied.
-24. Check intelligence, covert-action, law-enforcement, counternarcotics,
+25. Check intelligence, covert-action, law-enforcement, counternarcotics,
     counterterrorism, agency-equity, source-and-methods, operational, oversight,
     foreign-service-contact, sanitized-record, redaction, and public-policy
     evidence against the sensitive-record registry when supplied.
-25. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
+26. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
     combat-operation, contingency-plan, CONPLAN, host-nation notification,
     coalition, peacekeeping, force/unit, time-zone, casualty/damage, and
     military-assistance evidence against the military/crisis registry when
     supplied.
-26. Check human-rights reports, refugee, immigration, asylum, migration, famine,
+27. Check human-rights reports, refugee, immigration, asylum, migration, famine,
     emergency relief, food aid, public-health, AIDS/HIV, population policy,
     environmental, ozone, sanctions, waivers, certifications, public reports,
     international organizations, PVOs, AID/PRM, PL 480, Section 416, and Section
     206 evidence against the human-rights/refugee/global-issues registry when
     supplied.
-27. Check Persons, abbreviations, and index authority issues.
-28. Assign specific evidence requests and verification targets for unresolved
+28. Check Persons, abbreviations, and index authority issues.
+29. Assign specific evidence requests and verification targets for unresolved
     proof.
-29. Decide direct edit versus comment-only.
-30. Return strict JSON.
-31. After schema and semantic validation, aggregate all unresolved evidence
+30. Decide direct edit versus comment-only.
+31. Return strict JSON.
+32. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -6057,6 +6286,10 @@ Duplicate-suppression rules:
 - Merge repeated public-source issues by speaker, event/publication, public
   source, page/range, transcript basis, excerpt/full-text target, archival-draft
   relationship, selected/supplemental status, or broadcast/delivery fact.
+- Merge repeated retrospective-account issues by author/source, publication or
+  collection, page/locator, event described, official-record relationship,
+  selected/supplemental status, corroborating record, conflict status, or
+  recollection type.
 - Merge repeated foreign/international-organization issues by body or actor,
   foreign copy, translation status, treaty party, successor state,
   meeting/conference, publication, selected/source role, concurrence basis, or
@@ -6231,6 +6464,10 @@ Golden packet composition:
   of State Bulletin citation, newspaper excerpt, full-text pointer, diary
   context, speech-file draft, or briefing material that may be selected evidence
   rather than mere background.
+- At least one memoir/oral-history/recollection example with a memoir, published
+  diary, personal diary, later interview, oral history, newspaper retrospective,
+  selected/supplemental status, official-record relationship, corroborating
+  record, or conflict with the official record.
 - At least one congressional/legal-authority example with testimony, hearing,
   public law, Stat. citation, continuing or joint resolution, Presidential
   Determination, certification, Executive Order, oversight, independent counsel,
@@ -6319,6 +6556,11 @@ Expected behavior by test family:
   rather than invent when publication details, transcript status, excerpt/full
   target, delivery/broadcast basis, or public-versus-archival selection is
   missing.
+- Memoir/oral-history/recollection test: preserve author/source, title,
+  page/locator, event match, selected/supplemental status, official-record
+  relationship, corroborating record, attribution, and conflict status; comment
+  rather than letting a memoir, diary, oral history, later interview, or press
+  retrospective replace the official record.
 - Congressional/legal-authority test: preserve committee/hearing identity,
   public-law/statute form, action stage, amount/condition, transmittal basis,
   determination/certification number, Executive Order number, oversight posture,
@@ -6409,6 +6651,10 @@ Use the discrepancy tally for:
   newspaper excerpt, full-text pointer, diary context, speech-file draft,
   briefing material, and selected-versus-supplemental source status when the
   underlying facts are sound.
+- Variations in how much memoir, published diary, personal diary, oral-history,
+  later-interview, press-retrospective, newspaper-recollection, page/locator,
+  official-record relationship, corroborating-record, or conflict-status detail
+  to print when the underlying facts are sound.
 - Variations in how much congressional/legal detail to print, including
   committee and hearing names, Congress/session, Public Law and Stat. citations,
   section numbers, vote/action stage, appropriations conditions,
@@ -6516,6 +6762,7 @@ Suggested tally format:
 | style-discrepancy-0009 | military_crisis_operations | How much military/crisis operation-stage, force/unit, coalition, host-nation, time-zone, or casualty/damage detail should appear when the facts are sound. | Full operation-stage and chronology detail in note; shorter military/crisis phrasing with supporting detail in audit/comment context | 2 | high | Should the checker enforce a house form for military/crisis detail, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0010 | human_rights_refugee_global_issues | How much human-rights/refugee/global-issues basis should appear when the report, program, amount, source, organization, and status facts are sound. | Full report or program authority plus public/archival basis, amount/metric, organization role, and stage/status; shorter issue-area note with supporting detail in audit/comment context | 2 | medium | Should the checker enforce a house form for global-issues detail, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0011 | physical_routing_marginalia | How much physical, routing, approval, read-by, and marginalia evidence should appear when the source-image facts are sound. | Full actor/hand plus placement, stamp/notation phrase, action status, and linked attachment/profile; shorter physical-evidence note with supporting detail in audit/comment context | 2 | medium | Should the checker enforce a house form for physical and routing evidence, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0012 | memoir_oral_history_recollection | How much memoir, diary, oral-history, or later-recollection detail should appear when the account and official-record relationship are sound. | Full author/title/page plus official-record relationship and corroborating record; shorter recollection note with supporting detail in audit/comment context | 2 | medium | Should the checker enforce a house form for retrospective accounts, or tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -6581,6 +6828,12 @@ Required bundle files:
   newspaper excerpt, publication details, delivery/broadcast basis, full-text
   target, excerpt status, diary context, archival draft or briefing-file
   context, selected/supplemental status, verification status, and source URLs.
+- `retrospective_account_map`, when available: memoir, published diary, personal
+  diary, oral history, later interview, recollection, press retrospective,
+  newspaper account, author/source, publication or collection, page/locator,
+  event or document described, official-record relationship,
+  selected/supplemental status, corroborating record, conflict status,
+  verification status, and source URLs.
 - `congressional_legal_map`, when available: testimony, hearing, committee,
   Congress/session, budget message, public law, Stat. citation, statutory
   section, continuing or joint resolution, vote/action stage, amount, condition,
@@ -6823,6 +7076,7 @@ Foreign/international-organization registry: [foreign_international_org_registry
 Treaty/legal-instrument registry: [treaty_registry_id and capture date]
 Event chronology registry: [event_chronology_registry_id and capture date]
 Public-source registry: [public_source_registry_id and capture date]
+Retrospective-account registry: [retrospective_account_registry_id and capture date]
 Congressional/legal registry: [congressional_legal_registry_id and capture date]
 Economic/financial registry: [economic_financial_registry_id and capture date]
 Sensitive/intelligence-law-enforcement registry: [sensitive_record_registry_id and capture date]
@@ -6865,6 +7119,7 @@ Counts:
 - Treaty component, integral/associated status, transmittal, ratification, or entry-into-force issues: [n]
 - Summit, travel, ceremony, interview, press, testimony, or public-event chronology issues: [n]
 - Public diplomacy, speech, press, interview, broadcast, testimony, transcript, full-text, excerpt, diary, or public-source issues: [n]
+- Memoir, oral-history, published-diary, later-interview, recollection, selected/supplemental, official-record relationship, corroborating-record, or conflict issues: [n]
 - Congressional testimony, hearing, public-law, statute, determination, certification, Executive Order, oversight, or Senate advice-and-consent issues: [n]
 - Economic, debt, trade, assistance, amount, fiscal-year, institution, table, or financial-data issues: [n]
 - Intelligence, law-enforcement, agency-equity, source-and-methods, operational, oversight, or sanitized-record issues: [n]
@@ -6915,6 +7170,9 @@ Summit/public-event warnings:
 
 Public-source/public-diplomacy warnings:
 - [unit_id or global]: [public-source issue] - [record type, public-source type, basis, selected/supplemental status, date/span, public event/publication, archival/draft context, and verification target]
+
+Memoir/oral-history/recollection warnings:
+- [unit_id or global]: [retrospective-account issue] - [record type, author/source, publication or collection, page/locator, event or document described, official-record relationship, selected/supplemental status, corroborating record, conflict status, and verification target]
 
 Congressional/legal warnings:
 - [unit_id or global]: [legal-authority issue] - [record type, authority citation, action stage, public/archival basis, and verification target]
@@ -7021,6 +7279,11 @@ Minimum components:
   itinerary, summit schedule, ceremony, speech, interview, press conference,
   toast, testimony, Public Papers citation, diary/schedule basis, press basis,
   participant basis, and full-record target before tracked changes are applied.
+- Memoir/oral-history/recollection validator that distinguishes memoirs,
+  published diaries, personal diaries, oral histories, later interviews, press
+  retrospectives, newspaper accounts, author/source, publication and page
+  locators, selected-versus-supplemental status, official-record relationship,
+  corroborating records, and conflict status before tracked changes are applied.
 - Congressional/legal-authority validator that distinguishes testimony,
   hearings, committees, Congress/session, public laws, statutes, continuing and
   joint resolutions, vote/action stages, budget or message-to-Congress basis,
@@ -7130,6 +7393,12 @@ Operational cautions:
   diary context, archival-draft or briefing-file relationship,
   selected-versus-supplemental status, and public-diplomacy discrepancy
   questions.
+- Record retrospective-account registry version, unresolved memoir, published
+  diary, personal diary, oral-history, later-interview, press-retrospective,
+  newspaper-account, author/source, publication, page/locator, event-match,
+  selected-versus-supplemental, official-record relationship,
+  corroborating-record, conflict-status, and memoir/recollection discrepancy
+  questions.
 - Record congressional/legal registry version, unresolved committee, hearing,
   Congress/session, public-law, Stat., statutory-section, vote/action-stage,
   amount, condition, notification, determination, certification, Executive
@@ -7197,6 +7466,11 @@ Needs revision:
 - Public diplomacy, speech, press, interview, broadcast, testimony, transcript,
   full-text, excerpt, diary, briefing-file, or archival-draft context is changed
   without supplied public-source basis.
+- Memoirs, published diaries, personal diaries, oral histories, later interviews,
+  press retrospectives, newspaper accounts, or recollections are used as official
+  meeting records, approval evidence, source paths, attachment proof, or
+  substantive conversation evidence without supplied retrospective-account basis
+  and corroborating official-record context.
 - Physical evidence such as handwriting, initials, marginalia, stamps,
   read-by/seen notations, signed status, approval checkmarks, sent-for-action or
   information routing, correspondence profiles, placement, distribution, or
@@ -7283,6 +7557,11 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d247`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/preface`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/ch6`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d18`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d34`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d236`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d260`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d282`
 - `https://history.state.gov/historicaldocuments/frus1981-88v13/ch3`
 - `https://history.state.gov/historicaldocuments/frus1981-88v24/d290`
 - `https://history.state.gov/historicaldocuments/frus1981-88v24/sources`
@@ -7344,14 +7623,19 @@ Recent Reagan source incorporated:
 - [FRUS, 1981-1988, Volume I, Foundations of Foreign Policy](https://history.state.gov/historicaldocuments/frus1981-88v01)
 - [Volume I press release describing public and archival source basis](https://history.state.gov/historicaldocuments/frus1981-88v01/pressrelease)
 - [Volume I source list with speechwriting files, speeches, and published sources](https://history.state.gov/historicaldocuments/frus1981-88v01/sources)
+- [Haig confirmation chronology with memoir supplementation, Document 18](https://history.state.gov/historicaldocuments/frus1981-88v01/d18)
+- [Haig Middle East trip editorial note with memoir context, Document 34](https://history.state.gov/historicaldocuments/frus1981-88v01/d34)
 - [Reagan Cronkite interview editorial note, Document 33](https://history.state.gov/historicaldocuments/frus1981-88v01/d33)
 - [Haig Senate Foreign Relations Committee testimony, Document 39](https://history.state.gov/historicaldocuments/frus1981-88v01/d39)
 - [Haig private-paper source note with read-by stamp, marginalia, highlighting, underlining, and checkmark, Document 75](https://history.state.gov/historicaldocuments/frus1981-88v01/d75)
 - [NSC source note with stamped read-by notation and attached correspondence profile, Document 129](https://history.state.gov/historicaldocuments/frus1981-88v01/d129)
 - [Reagan United Nations General Assembly address, Document 169](https://history.state.gov/historicaldocuments/frus1981-88v01/d169)
 - [Reagan United Nations address editorial note, Document 206](https://history.state.gov/historicaldocuments/frus1981-88v01/d206)
+- [Reagan diary and Shultz memoir supplementing Chernenko succession context, Document 236](https://history.state.gov/historicaldocuments/frus1981-88v01/d236)
+- [Shultz memoir supplementing Daily Diary and meeting-paper evidence, Document 260](https://history.state.gov/historicaldocuments/frus1981-88v01/d260)
 - [Contra aid congressional/public-law annotation, Document 274](https://history.state.gov/historicaldocuments/frus1981-88v01/d274)
 - [Iran arms/Contra aid Executive Order and oversight annotation, Document 286](https://history.state.gov/historicaldocuments/frus1981-88v01/d286)
+- [Shultz memoir supplementing Iran arms press-conference context, Document 282](https://history.state.gov/historicaldocuments/frus1981-88v01/d282)
 - [Shultz Papers source note with unknown-hand meeting-folder notation and no-minutes context, Document 316](https://history.state.gov/historicaldocuments/frus1981-88v01/d316)
 - [FRUS, 1981-1988, Volume IV, Soviet Union, January 1983-March 1985](https://history.state.gov/historicaldocuments/frus1981-88v04)
 - [FRUS, 1981-1988, Volume X, Eastern Europe](https://history.state.gov/historicaldocuments/frus1981-88v10)
