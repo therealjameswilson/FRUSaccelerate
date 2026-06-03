@@ -36,6 +36,14 @@
       "role": "Self-contained DOCX unit extractor smoke test"
     },
     {
+      "path": "scripts/build-frus-llm-review-packet.mjs",
+      "role": "No-dependency per-document Markdown/JSON packet builder for closed-network LLM review"
+    },
+    {
+      "path": "scripts/test-frus-llm-review-packet.mjs",
+      "role": "Self-contained LLM review packet smoke test"
+    },
+    {
       "path": "scripts/preflight-frus-checker-plan.mjs",
       "role": "Exact-anchor and Word direct-edit preflight"
     },
@@ -112,6 +120,7 @@
     "reports/frus-annotation-checker-sample-output.json",
     "reports/frus-annotation-checker-direct-edit-sample-output.json",
     "reports/frus-annotation-checker-extracted-units.sample.json",
+    "reports/frus-llm-review-packet.sample.md",
     "reports/frus-status-registry-1981-1992.sample.json",
     "reports/frus-status-claims.sample.json",
     "reports/frus-source-note-units.sample.json",
@@ -142,6 +151,7 @@
     "node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json",
     "node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-direct-edit-sample-output.json",
     "node scripts/test-frus-docx-unit-extractor.mjs",
+    "node scripts/test-frus-llm-review-packet.mjs",
     "node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json",
     "node scripts/test-frus-track-change-applier.mjs",
     "node scripts/test-frus-word-comment-applier.mjs",
@@ -160,6 +170,7 @@
   "negative_tests": [
     "Change a direct-edit original_text so it is missing from exact_text; preflight-frus-checker-plan.mjs must fail.",
     "Change a status claim to direct-edit `printed in` for a target still being cleared; preflight-frus-status-claims.mjs must fail.",
+    "Give build-frus-llm-review-packet.mjs a malformed extracted-units file; it must fail before producing a model packet.",
     "Add an unmapped angle token such as <foo> to extracted text; preflight-frus-pseudo-markers.mjs must fail.",
     "Remove word/document.xml from a DOCX package; extract-frus-docx-units.mjs must fail.",
     "Change a comment-only unit to comment_safety unsafe; apply-frus-word-comments.mjs must fail.",

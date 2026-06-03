@@ -46,8 +46,18 @@ node scripts/extract-frus-docx-units.mjs --docx input.docx --out extracted-units
    The bundled extractor reads body paragraphs, tables, footnotes, endnotes,
    comments, headers, and footers. It marks complex Word boundaries as
    comment-only instead of making them eligible for direct edits.
-3. Send only editorial apparatus and needed context to the LLM. Do not ask the
-   LLM to write `.docx`, OOXML, base64, or raw Track Changes markup.
+3. Build the per-document Markdown packet that the closed-network LLM should
+   receive. The sample packet is
+   `reports/frus-llm-review-packet.sample.md`.
+
+```sh
+node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --status-registry reports/frus-status-series-1981-1992.current.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID
+```
+
+   Upload `review-packet.md` to the LLM. Send only editorial apparatus and
+   needed context to the model. Do not ask the LLM to write `.docx`, OOXML,
+   base64, or raw Track Changes markup. Save the model's single JSON object as
+   `output.json`.
 4. Validate the LLM JSON:
 
 ```sh
@@ -155,6 +165,7 @@ node scripts/verify-frus-offline-bundle.mjs --skip-smoke --format text
 node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json
 node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-direct-edit-sample-output.json
 node scripts/test-frus-docx-unit-extractor.mjs
+node scripts/test-frus-llm-review-packet.mjs
 node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json
 node scripts/test-frus-track-change-applier.mjs
 node scripts/test-frus-word-comment-applier.mjs

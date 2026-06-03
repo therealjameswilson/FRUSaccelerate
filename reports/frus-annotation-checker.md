@@ -19,6 +19,10 @@ any tracked changes.
 For no-dependency DOCX unit extraction, use
 `scripts/extract-frus-docx-units.mjs`; the self-contained smoke test is
 `scripts/test-frus-docx-unit-extractor.mjs`.
+For the per-document Markdown packet that a closed-network LLM should review,
+use `scripts/build-frus-llm-review-packet.mjs`; the self-contained smoke test
+is `scripts/test-frus-llm-review-packet.mjs`, and the sample packet is
+`reports/frus-llm-review-packet.sample.md`.
 For no-dependency closed-network smoke tests, use
 `scripts/validate-frus-checker-output.mjs` against
 `reports/frus-annotation-checker-sample-output.json`.
@@ -78,10 +82,13 @@ The intended workflow is:
 2. User uploads a Microsoft Word `.docx` file containing FRUS annotations,
    source notes, editorial notes, or draft front/back matter.
 3. The tool extracts the Word document into structured text.
-4. The LLM checks the extracted annotation text against the standards below.
-5. The LLM returns structured proposed edits and comments.
-6. The Word wrapper applies the proposed edits as tracked changes and comments.
-7. User downloads a new `.docx` with changes marked in Track Changes.
+4. The tool builds `review-packet.md` from this standard, the extracted units,
+   the output schema, status context, preparation router, and permutation
+   matrix.
+5. The LLM checks the packet against the standards below.
+6. The LLM returns structured proposed edits and comments.
+7. The Word wrapper applies the proposed edits as tracked changes and comments.
+8. User downloads a new `.docx` with changes marked in Track Changes.
 
 Important limitation: the LLM should not be trusted to write `.docx` files
 directly. The LLM should return a strict edit plan. The wrapper must create the
