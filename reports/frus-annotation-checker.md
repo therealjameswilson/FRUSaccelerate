@@ -242,9 +242,10 @@ The wrapper should provide the LLM with:
   `unknown`), published year if supplied, target document numbers if known, and
   whether the whole volume is published or still has outstanding chapters.
 - `release_apparatus_context`, if available: dated press release, media note,
-  release date, public URL, GPO, ISBN, S/N, PDF, EPUB, Mobi, generated-date,
-  download-link, bookstore/purchase, errata, online/full-text correction,
-  printed-volume-revision, publication-status, and capture-date metadata.
+  release date, public URL, GPO, ISBN, S/N, PDF, EPUB, Mobi,
+  e-book-last-updated or generated-date, download-link, bookstore/purchase,
+  errata, online/full-text correction, printed-volume-revision,
+  publication-status, and capture-date metadata.
 - `volume_family_context`, if available: likely FRUS volume family, such as
   foundations/public diplomacy, organization/management, Europe/Russia,
   Americas, Middle East, Africa, East Asia/Pacific, arms control/national
@@ -7632,7 +7633,7 @@ Evidence-request categories:
 | `military_operation_basis` | Military, defense, crisis, operation-stage, DOD/OSD/JCS/DIA, Situation Room, contingency-plan, host-nation, coalition, chronology, force/unit, casualty/damage, or military-assistance proof is uncertain. | Which operation stage, order/authorization, force/unit, source family, time basis, host-nation/coalition role, casualty/damage basis, or military-assistance authority must be checked. |
 | `humanitarian_rights_basis` | Human-rights report, refugee, immigration, asylum, migration, famine, emergency relief, food aid, public-health, population, environmental, sanctions, waiver, certification, public-report, international-organization, PVO, AID, PRM, PL 480, Section 416, or Section 206 proof is uncertain. | Which report basis, country or population scope, source family, public/archival basis, legal/program authority, amount/metric, stage/status, sanctions/waiver basis, international-organization role, or PVO role must be checked. |
 | `publication_status` | `printed in` versus `scheduled for publication` depends on current official status. | Which volume or chapter status must be confirmed. |
-| `release_apparatus_basis` | Press release, media note, release date, public URL, GPO, ISBN, S/N, PDF/EPUB/Mobi download, generated date, errata, online/full-text correction, printed-volume-revision, or status-page capture evidence is uncertain. | Which release, correction, digital-edition, GPO/ISBN/S/N, status-page, public URL, or capture-date target must be checked. |
+| `release_apparatus_basis` | Press release, media note, release date, public URL, GPO, ISBN, S/N, PDF/EPUB/Mobi download, e-book-last-updated/generated date, errata, online/full-text correction, printed-volume-revision, date-type distinction, or status-page capture evidence is uncertain. | Which release, correction, digital-edition, GPO/ISBN/S/N, status-page, public URL, e-book update, errata correction, date-type, or capture-date target must be checked. |
 | `authority_control` | Persons, titles, abbreviations, index terms, names, offices, or dates need authority-list review. | Which name, office, acronym, date span, or index term needs control. |
 | `declassification_status` | Release, withholding, excision, agency-equity, or bracket language is not final. | Which review outcome or bracket claim cannot yet be asserted. |
 | `translation_status` | Language, translation office, official/unofficial status, foreign-origin copy, typed signature, bracket treatment, or translated excerpt is uncertain. | Which language/copy/translation/equity fact needs verification. |
@@ -7717,7 +7718,7 @@ Default blocking rules:
 | `military_operation_basis` | yes for operation stage, order/authorization, force/unit, chronology, time-zone, host-nation, coalition, casualty/damage, contingency-plan, or military-assistance edits | yes when military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room, combat-operation, coalition, peacekeeping, or security-assistance claims appear in publishable apparatus |
 | `humanitarian_rights_basis` | yes for report basis, country/population scope, refugee or asylum status, relief stage, legal/program authority, amount/metric, public/archival basis, sanctions/waiver status, international-organization role, or PVO role edits | yes when human-rights, refugee, immigration, famine, emergency relief, food aid, public-health, population, environmental, sanctions, waiver, certification, public-report, or global-issues claims appear in publishable apparatus |
 | `publication_status` | yes for `printed in` or `scheduled for publication` edits | yes for final style if publication language is present |
-| `release_apparatus_basis` | yes for press-release, media-note, release-date, public-URL, GPO/ISBN/S/N, PDF/EPUB/Mobi, generated-date, errata, online/full-text correction, print-not-revised, or status-capture edits | yes when release, errata, digital-edition, GPO/ISBN/S/N, public URL, or print-versus-online correction language appears in publishable apparatus |
+| `release_apparatus_basis` | yes for press-release, media-note, release-date, public-URL, GPO/ISBN/S/N, PDF/EPUB/Mobi, e-book-last-updated/generated-date, errata, online/full-text correction, print-not-revised, date-type distinction, or status-capture edits | yes when release, errata, digital-edition, GPO/ISBN/S/N, public URL, e-book update, release-date, or print-versus-online correction language appears in publishable apparatus |
 | `authority_control` | yes when a date, identity, title, acronym, or index form is uncertain | yes for final style if repeated or reader-facing |
 | `declassification_status` | yes | yes |
 | `translation_status` | yes when language, translation, typed-signature, bracket-treatment, or foreign-copy identity is asserted | yes when the printed document depends on the claim |
@@ -9575,6 +9576,7 @@ Use a release-apparatus registry when the wrapper can supply one:
     "https://history.state.gov/historicaldocuments/frus1981-88v10/pressrelease",
     "https://history.state.gov/historicaldocuments/frus1981-88v24",
     "https://history.state.gov/historicaldocuments/frus1981-88v24/pressrelease",
+    "https://history.state.gov/historicaldocuments/ebooks",
     "https://history.state.gov/historicaldocuments/frus1981-88v06/errata"
   ],
   "records": [
@@ -9632,7 +9634,7 @@ Use a release-apparatus registry when the wrapper can supply one:
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/pressrelease",
       "release_item_type": "media_note",
       "published_form": "media note announces Reagan Volume XXIV release and public URL",
-      "release_date": "2024-11-14",
+      "release_date": "2024-12-06",
       "public_url": "https://history.state.gov/historicaldocuments/frus1981-88v24",
       "digital_formats": [
         "web_volume"
@@ -9640,6 +9642,24 @@ Use a release-apparatus registry when the wrapper can supply one:
       "gpo_or_isbn": "not supplied in media-note registry entry",
       "errata_or_correction_status": "not supplied",
       "print_revision_status": "not supplied",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "release_item_id": "release-reagan-v24-ebook-index",
+      "unit_id": "frus1981-88v24-ebook-index",
+      "source_url": "https://history.state.gov/historicaldocuments/ebooks",
+      "release_item_type": "ebook_download",
+      "published_form": "ebook index lists Reagan Volume XXIV with an Ebook last updated date and EPUB/Mobi download links",
+      "release_date": "not supplied by ebook index",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1981-88v24",
+      "digital_formats": [
+        "EPUB",
+        "Mobi"
+      ],
+      "gpo_or_isbn": "not applicable",
+      "errata_or_correction_status": "not supplied",
+      "print_revision_status": "not supplied",
+      "ebook_last_updated": "2024-12-05",
       "verification_status": "verified_published_pattern"
     },
     {
@@ -9687,11 +9707,20 @@ Validator sequence:
    current status can change and requires a capture date.
 5. Do not infer GPO/ISBN/S/N, public URLs, download formats, file sizes, or
    generated dates without supplied registry evidence.
-6. For errata, distinguish online/full-text corrected editions from printed
+6. Keep public release dates, volume-page publication years, e-book last-updated
+   or generated dates, download availability dates, and errata correction dates
+   in separate fields. Do not use an `Ebook last updated` date as the release
+   date for a FRUS volume, and do not use a media-note release date as evidence
+   that an EPUB, Mobi, or PDF was generated on that same date.
+7. When the same volume has both a release date and an e-book update date,
+   direct edits may correct the label only when the registry supplies the exact
+   date type. Otherwise use `comment_only` and ask whether the sheet is referring
+   to public release, e-book update, download availability, or errata.
+8. For errata, distinguish online/full-text corrected editions from printed
    volumes not revised. Never rewrite print status from web correction alone.
-7. Coordinate with source-list/front-matter for apparatus and with
+9. Coordinate with source-list/front-matter for apparatus and with
    publication-status logic for `printed in` or `scheduled for publication`.
-8. Add `release_errata_apparatus` discrepancies only when facts are sound but
+10. Add `release_errata_apparatus` discrepancies only when facts are sound but
    practice varies on how much release, errata, or digital-edition detail to
    retain.
 
@@ -9701,8 +9730,8 @@ Direct-edit posture:
   GPO/ISBN/S/N strings, format names, or errata phrases when registry evidence
   and exact Word anchors support the edit.
 - Use `comment_only` with `evidence_request: release_apparatus_basis` when any
-  release, errata, digital-edition, GPO/ISBN/S/N, status-page, or capture-date
-  claim is uncertain.
+  release, errata, digital-edition, e-book-last-updated, GPO/ISBN/S/N,
+  status-page, or capture-date claim is uncertain.
 - Use `evidence_request: publication_status` for cross-volume `printed in` or
   `scheduled for publication` issues; use `source_list_basis` for final front
   matter; use `cross_reference` for unstable target references.
@@ -9713,10 +9742,12 @@ Audit requirements:
 
 - Count press-release/media-note, release-date, GPO/ISBN/S/N, PDF/EPUB/Mobi,
   public URL, status-page capture, errata, online/full-text correction,
-  print-not-revised, generated-date, and stale-capture warnings.
+  print-not-revised, e-book-last-updated/generated-date, date-type-confusion,
+  and stale-capture warnings.
 - Preserve registry id, captured_at, source URLs, release item type, release
   date, public URL, digital formats, GPO/ISBN/S/N basis, correction status,
-  print revision status, and verification status.
+  print revision status, e-book last-updated/generated-date fields, and
+  verification status.
 - Add General Editor tally rows for variations in how much release, errata,
   digital-edition, GPO/ISBN/S/N, or print-versus-online correction apparatus to
   print or keep in audit context.
@@ -10428,6 +10459,7 @@ Counts:
 - Source-list, Published Sources, Abbreviations, Persons, appendix, declassification-review, special-note, or errata issues: [n]
 - Selection, completeness, balance, related-volume, withheld-document, or known-gap issues: [n]
 - Release, errata, press release, media note, GPO/ISBN/S/N, PDF/EPUB/Mobi, online correction, print-not-revised, or digital-publication issues: [n]
+- Release-date, e-book-last-updated/generated-date, download-availability, or errata-correction date-type confusions: [n]
 - Status claims extracted from uploaded Word file: [n]
 - Status claims matching current registry: [n]
 - Status claims stale, conflicting, or downgraded to comment-only: [n]
@@ -11354,6 +11386,7 @@ Release and errata apparatus sources incorporated:
 - [Reagan Volume X press release with release date and GPO/ISBN sale data](https://history.state.gov/historicaldocuments/frus1981-88v10/pressrelease)
 - [Reagan Volume XXIV volume page with Media Note, EPUB/Mobi/PDF, and GPO links](https://history.state.gov/historicaldocuments/frus1981-88v24)
 - [Reagan Volume XXIV Media Note public release example](https://history.state.gov/historicaldocuments/frus1981-88v24/pressrelease)
+- [History Office Ebooks page with `Ebook last updated` dates and EPUB/Mobi download links](https://history.state.gov/historicaldocuments/ebooks)
 - [Reagan Volume VI errata with online/full-text corrections and printed volumes not revised](https://history.state.gov/historicaldocuments/frus1981-88v06/errata)
 
 Editorial-method and transcription-convention sources incorporated:
