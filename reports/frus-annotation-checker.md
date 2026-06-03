@@ -102,6 +102,11 @@ The wrapper should provide the LLM with:
   briefing, travel, diary, schedule, memcon, telcon, minutes, and no-record
   assertions with time, place, participants, record-found status, and evidence
   basis.
+- `event_chronology_context`, if available: structured summit, conference,
+  ceremony, public-event, travel, interview, press conference, speech, toast,
+  delegation-meeting, itinerary, and public-remarks evidence with times, places,
+  participants, public-source basis, diary/schedule basis, press basis, and
+  related full-record targets.
 - `cross_reference_registry_context`, if available: structured same-volume,
   cross-volume, footnote, appendix, tab, attachment, printed-elsewhere,
   scheduled-publication, and public-source references with target status,
@@ -174,14 +179,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | declassification | authority_control | chronology | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | treaty_component | publication_status | authority_control | declassification_status | translation_status | chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | treaty_component | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -194,7 +199,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | declassification | authority_control | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -324,6 +329,7 @@ run the semantic and Word-safety validators below.
               "declassification",
               "authority_control",
               "chronology",
+              "summit_public_event",
               "communications_record",
               "publication_status",
               "wording",
@@ -372,6 +378,7 @@ run the semantic and Word-safety validators below.
               "declassification_status",
               "translation_status",
               "chronology",
+              "event_chronology",
               "communications_metadata",
               "source_family",
               "cross_reference",
@@ -444,6 +451,8 @@ run the semantic and Word-safety validators below.
               "treaty_legal_instrument",
               "declassification",
               "authority_control",
+              "chronology",
+              "summit_public_event",
               "communications_record",
               "publication_status",
               "wording",
@@ -532,9 +541,9 @@ Semantic validator behavior:
 - Reject any direct edit whose category is `publication_status`,
   `declassification`, `attachment`, `document_metadata`,
   `classification_handling`, `translation_foreign_origin`,
-  `treaty_legal_instrument`, `chronology`, `communications_record`, or
-  `authority_control` when the required proof is absent from the uploaded unit
-  or wrapper context.
+  `treaty_legal_instrument`, `chronology`, `summit_public_event`,
+  `communications_record`, or `authority_control` when the required proof is
+  absent from the uploaded unit or wrapper context.
 - Downgrade to `comment_only` when a finding passes the JSON schema but fails a
   Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
@@ -2308,6 +2317,170 @@ Chronology audit requirements:
   evidence unless the volume editor waives the issue and the waiver appears in
   the audit report.
 
+### 6.8A Summit, Travel, And Public-Event Chronology Validation
+
+Published Reagan and Bush volumes often use editorial notes to summarize
+summits, foreign travel, public ceremonies, interviews, speeches, press
+conferences, toasts, arrival/departure events, and public remarks. These notes
+can be excellent FRUS apparatus even when they have no first-footnote source
+note, but they are vulnerable to invented sequence, unsupported attendance,
+blurred public-source basis, and premature cross-volume claims.
+
+Use an event-chronology registry when the wrapper can supply one:
+
+```json
+{
+  "event_chronology_registry_id": "frus-1981-1992-public-event-chronology-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d245",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d237",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d206",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d33"
+  ],
+  "events": [
+    {
+      "event_id": "event-bush-moscow-summit-1991-07-29-31",
+      "unit_id": "editorial-note-0245",
+      "event_family": "summit_travel",
+      "event_type": "foreign_travel_and_summit",
+      "date_span": "1991-07-29/1991-08-01",
+      "place": "Moscow and Kiev",
+      "public_source_basis": "Public Papers: Bush, 1991, pages 986-987",
+      "schedule_or_diary_basis": "travel itinerary and timed editorial chronology",
+      "related_full_record_target": "Foreign Relations, 1989-1992, vol. III, Soviet Union, Russia, and Post-Soviet States: High-Level Contacts",
+      "press_or_ceremony_component": "START signing remarks and live news conference",
+      "verification_status": "verified"
+    },
+    {
+      "event_id": "event-bush-london-summit-1991-07-17",
+      "unit_id": "footnote-0237-0002",
+      "event_family": "summit_press",
+      "event_type": "news_conference",
+      "date_span": "1991-07-17",
+      "place": "London Economic Summit",
+      "public_source_basis": "Public Papers: Bush, 1991, page 907",
+      "schedule_or_diary_basis": "not supplied",
+      "related_full_record_target": "",
+      "press_or_ceremony_component": "evening news conference after joint news conference with Gorbachev",
+      "verification_status": "verified"
+    },
+    {
+      "event_id": "event-reagan-un-address-1984-09-24",
+      "unit_id": "editorial-note-0206",
+      "event_family": "public_address",
+      "event_type": "united_nations_address",
+      "date_span": "1984-09-24",
+      "place": "United Nations General Assembly Hall",
+      "public_source_basis": "Public Papers: Reagan, 1984, Book II, pages 1355-1361",
+      "schedule_or_diary_basis": "Reagan personal diary excerpt",
+      "related_full_record_target": "",
+      "press_or_ceremony_component": "public address",
+      "verification_status": "verified"
+    },
+    {
+      "event_id": "event-reagan-cronkite-interview-1981-03-03",
+      "unit_id": "editorial-note-0033",
+      "event_family": "broadcast_interview",
+      "event_type": "television_interview",
+      "date_span": "1981-03-03",
+      "place": "Oval Office",
+      "public_source_basis": "Public Papers: Reagan, 1981, pages 191-202",
+      "schedule_or_diary_basis": "Reagan Library, President's Daily Diary",
+      "related_full_record_target": "",
+      "press_or_ceremony_component": "CBS Evening News interview",
+      "verification_status": "verified"
+    }
+  ]
+}
+```
+
+Allowed `event_type` values:
+
+- `foreign_travel_and_summit`
+- `delegation_meeting`
+- `working_lunch_or_dinner`
+- `arrival_or_departure`
+- `signing_ceremony`
+- `news_conference`
+- `public_address`
+- `united_nations_address`
+- `television_interview`
+- `toast_or_remarks`
+- `press_backgrounder`
+- `congressional_testimony`
+- `campaign_statement`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified`
+- `needs_time_or_place`
+- `needs_public_source`
+- `needs_diary_or_schedule`
+- `needs_press_basis`
+- `needs_full_record_target`
+- `needs_participant_basis`
+- `unknown`
+
+Summit/public-event validator sequence:
+
+1. Identify editorial notes, footnotes, headings, source notes, and annotations
+   that summarize summit travel, foreign visits, public ceremonies, public
+   addresses, interviews, press conferences, toasts, congressional testimony, or
+   campaign/public statements.
+2. Match the unit against `event_chronology_context` before directly changing
+   event date, time, place, event label, sequence, participant, public-source
+   basis, or cross-volume full-record language.
+3. Preserve the distinction between event occurrence, public remarks, press
+   coverage, travel itinerary, diary/schedule corroboration, and substantive
+   memcon/telcon/minutes. A signing ceremony or news conference does not prove
+   the content of a private meeting.
+4. Do not add a `Source:` footnote merely because an editorial note summarizes
+   a public-event sequence, if the note text supplies its public sources,
+   chronology, and cross-references.
+5. Do not convert Public Papers, Presidential Daily Diary, press, broadcast,
+   congressional, or memoir evidence into an archival control-copy citation
+   unless the archival copy is the selected source.
+6. Check travel and summit sequences for date, time zone, local time, place,
+   event order, and whether the item is a meeting, ceremony, speech, interview,
+   press availability, toast, or travel movement.
+7. For full-record-elsewhere language, require a stable target volume, chapter,
+   document number, or scheduled-publication basis before direct edits.
+8. Coordinate with the treaty registry for signing ceremonies, ratification
+   remarks, and treaty-package public events; with the chronology registry for
+   diary/schedule claims; and with the cross-reference registry for
+   printed-elsewhere or scheduled-volume targets.
+
+Direct-edit posture:
+
+- Safe direct edits may correct event labels, public-source punctuation, or
+  time/place phrasing only when the uploaded unit or registry supplies the exact
+  evidence and the Word anchor is safe.
+- Use `comment_only` with `evidence_request: event_chronology` when event
+  sequence, time zone, public-source basis, press basis, diary/schedule basis,
+  participant basis, or full-record target is missing, conflicting, or inferred.
+- Use `evidence_request: chronology` when the blocker is a diary, schedule,
+  call-log, or no-record claim outside the public-event sequence.
+- Use `evidence_request: cross_reference`, `document_number`, or
+  `publication_status` when the blocker is the target of a full-record-elsewhere
+  or scheduled-publication claim.
+- Add a `summit_public_event` discrepancy to the General Editor tally when
+  published or local examples vary on how much public-event sequence, Public
+  Papers sourcing, press basis, or diary/schedule basis to print, and the
+  underlying facts are sound.
+
+Summit/public-event audit requirements:
+
+- Count public-event chronology warnings separately from ordinary chronology
+  warnings.
+- Preserve event registry id, capture date, source URLs, event type, public
+  source basis, diary/schedule basis, related full-record target, and
+  verification status in the audit report.
+- Record unresolved event-sequence, time-zone, public-source, press-basis,
+  participant-basis, and full-record-target warnings so compilers can decide
+  whether the note is ready for a final style pass.
+
 ### 6.9 Interagency And Foreign-Government Records
 
 Rules:
@@ -3257,6 +3430,11 @@ Permutation matrix for annotation sheets:
   memoranda of understanding, executive agreements, letters, declarations,
   statements, article-by-article analyses, transmittal messages, ratification,
   entry into force, and whether each component is integral or associated.
+- Summit, travel, ceremony, speech, interview, press conference, toast,
+  testimony, or public-event package: check event sequence, local time/time
+  zone, place, participants, public-source basis, diary/schedule basis, press
+  basis, and whether full records are printed, scheduled elsewhere, or not
+  supplied.
 - Attachment/tab note: check `Attached but not printed`, `Printed as Document
   [n]`, `Tabs [letters] are printed as Document [n]`, `Not found attached`, and
   `Attached but not printed is the list of participants` as different claims.
@@ -3379,7 +3557,8 @@ Comment quality rules:
 - If several different facts are missing in one unit, choose the evidence
   request that blocks publication first: source identity, original
   classification, attachment status, document metadata, document number,
-  declassification outcome, authority control, or wrapper safety.
+  event chronology, declassification outcome, authority control, or wrapper
+  safety.
 - If the checker sees a working label such as `TK`, `candidate`, `needs scan`,
   or `verify`, the comment should preserve the research value of the label
   while directing the compiler to the evidence needed for final style.
@@ -3400,6 +3579,7 @@ Evidence-request categories:
 | `declassification_status` | Release, withholding, excision, agency-equity, or bracket language is not final. | Which review outcome or bracket claim cannot yet be asserted. |
 | `translation_status` | Language, translation office, official/unofficial status, foreign-origin copy, typed signature, bracket treatment, or translated excerpt is uncertain. | Which language/copy/translation/equity fact needs verification. |
 | `chronology` | Diary, schedule, call-log, meeting, or sequence evidence is incomplete. | Which time, place, attendance, or sequence point needs corroboration. |
+| `event_chronology` | Summit, travel, ceremony, interview, press conference, speech, toast, public remarks, or public-event sequence evidence is incomplete. | Which event, time zone, place, sequence, public-source basis, press basis, diary/schedule basis, participant basis, or full-record target must be checked. |
 | `source_family` | The note appears to flatten a specific source ecology into a generic form. | Which source family or subseries should be preserved. |
 | `cross_reference` | Related document, footnote, appendix, telegram, or volume reference is unstable. | Which reference anchor must be checked. |
 | `wrapper_safety` | Word XML anchoring, existing revisions, comments, fields, tables, or note references make editing unsafe. | Why the wrapper should reject or downgrade the direct edit. |
@@ -3462,6 +3642,7 @@ Default blocking rules:
 | `declassification_status` | yes | yes |
 | `translation_status` | yes when language, translation, typed-signature, bracket-treatment, or foreign-copy identity is asserted | yes when the printed document depends on the claim |
 | `chronology` | yes when time, attendance, or sequence is rewritten | yes when chronology is central to the note |
+| `event_chronology` | yes when public-event date, time, place, sequence, source basis, participant basis, or full-record target is rewritten | yes when a summit, travel, ceremony, speech, interview, press, testimony, or public-event sequence appears in publishable apparatus |
 | `source_family` | yes when source hierarchy or subseries would be rewritten | no for light review; yes for final style |
 | `cross_reference` | yes | yes when the reference appears in publishable apparatus |
 | `wrapper_safety` | yes | yes for generated `.docx` release until the edit is downgraded or safely anchored |
@@ -3470,10 +3651,10 @@ Owner hints:
 
 - `compiler`: source images, archival path, document metadata, attachment
   status, document numbers, source family, chronology, treaty component
-  identity, translation status, and foreign-copy provenance.
+  identity, event sequence, translation status, and foreign-copy provenance.
 - `editor`: wording, heading form, cross-reference form, source-list
-  consistency, treaty/legal-instrument placement, publication-status wording,
-  and General Editor discrepancy preparation.
+  consistency, treaty/legal-instrument placement, public-event note form,
+  publication-status wording, and General Editor discrepancy preparation.
 - `declassification`: classification markings, declassification outcomes,
   release-status separation, withholding, excision, and agency-equity language.
 - `wrapper`: exact anchors, existing tracked changes, Word XML structures,
@@ -3767,12 +3948,15 @@ For every extracted unit, run checks in this order:
     in-preparation family is known or can be tentatively inferred.
 17. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-18. Check Persons, abbreviations, and index authority issues.
-19. Assign specific evidence requests and verification targets for unresolved
+18. Check summit, travel, ceremony, public address, interview, press
+    conference, toast, testimony, public remarks, and public-event sequence
+    evidence against the event-chronology registry when supplied.
+19. Check Persons, abbreviations, and index authority issues.
+20. Assign specific evidence requests and verification targets for unresolved
     proof.
-20. Decide direct edit versus comment-only.
-21. Return strict JSON.
-22. After schema and semantic validation, aggregate all unresolved evidence
+21. Decide direct edit versus comment-only.
+22. Return strict JSON.
+23. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -3835,6 +4019,8 @@ Duplicate-suppression rules:
 - Merge repeated authority-control issues by person, office, acronym, source
   list entry, or index term.
 - Merge repeated scheduled-publication questions by target volume or chapter.
+- Merge repeated summit/public-event chronology issues by event, date span,
+  public-source basis, diary/schedule basis, press basis, or full-record target.
 - Merge repeated wrapper-safety issues by Word structure, such as tables,
   existing tracked changes, footnote references, fields, or comments.
 - Do not merge findings that require different evidence requests or different
@@ -3969,6 +4155,10 @@ Golden packet composition:
   comment-only metadata control.
 - At least one foundations/public diplomacy or organization/management note in
   which public text is the selected evidence, not a defect.
+- At least one summit, travel, ceremony, interview, public-address, press
+  conference, toast, or congressional-testimony editorial note where public
+  sources, diary/schedule evidence, and cross-volume full-record language must
+  be kept distinct.
 - At least one research-stage sheet with working labels, candidate notes, URL
   locators, or missing scan requests that should become comments rather than
   polished source-note prose.
@@ -4015,6 +4205,10 @@ Expected behavior by test family:
 - Public-source test: preserve selected public, printed, speech, hearing,
   testimony, interview, or treaty text when the volume family makes that source
   appropriate.
+- Summit/public-event test: preserve event sequence, public-source basis,
+  diary/schedule basis, press basis, and full-record-elsewhere language; comment
+  rather than invent when time zone, participant basis, public source, or target
+  record evidence is missing.
 - Research-stage test: identify working labels and missing evidence, but avoid
   converting source leads into publication-ready assertions.
 - Clearance-stage test: protect declassification, attachment, agency-equity,
@@ -4069,6 +4263,10 @@ Use the discrepancy tally for:
   ordering, repository naming, collection naming, or source-family detail.
 - Different treatment of public, printed, speech, hearing, testimony, treaty, or
   memoir sources as selected documents versus supporting context.
+- Variations in how much summit/travel/event sequence to print in an editorial
+  note, how much Public Papers, press, diary, schedule, or itinerary basis to
+  name in the note text, and whether full-record-elsewhere language belongs in
+  the same note or a follow-on footnote when the underlying facts are sound.
 - Variations in how much treaty component detail to print, where to place
   protocol, annex, memorandum-of-understanding, letter, declaration, statement,
   article-by-article analysis, transmittal, ratification, or entry-into-force
@@ -4129,6 +4327,7 @@ Suggested tally format:
 | --- | --- | --- | --- | ---: | --- | --- |
 | style-discrepancy-0001 | source_note | Whether Bush H-Files citations should always name the subseries when supplied. | Generic H-Files; H-Files, NSR Files | 3 | medium | Should the checker enforce subseries naming as direct style when the subseries is present? |
 | style-discrepancy-0002 | treaty_legal_instrument | How much START treaty-package component detail should appear in source notes versus editorial notes. | Treaty text only; treaty plus protocols, annexes, and memorandum of understanding; associated letters and statements in editorial note | 2 | medium | Should the checker enforce a house form for integral treaty components and associated-but-not-integral materials, or only tally the variation? |
+| style-discrepancy-0003 | summit_public_event | How much summit/travel/public-event chronology should be printed inside editorial notes versus follow-on footnotes. | Chronological narrative with Public Papers citations in note text; separate follow-on footnotes for public remarks and full-record targets | 2 | medium | Should the checker enforce a standard form for summit/event editorial notes, or preserve both forms and tally the variation? |
 
 Risk levels:
 
@@ -4171,6 +4370,10 @@ Required bundle files:
 - `treaty_component_map`, when available: treaty family, component type, title,
   integral-versus-associated status, related components, public/archival basis,
   ratification or entry-into-force status, source phrase, and source URLs.
+- `event_chronology_map`, when available: summit, travel, ceremony, speech,
+  interview, press conference, toast, testimony, public remarks, itinerary,
+  diary/schedule basis, public-source basis, press basis, participant basis,
+  full-record target, verification status, and source URLs.
 - `authority_lists`, when available: Persons, abbreviations, source-list
   entries, index terms, known document numbers, chapter titles, and related
   volume cross-references.
@@ -4379,6 +4582,7 @@ Document metadata registry: [document_metadata_registry_id and capture date]
 Classification registry: [classification_registry_id and capture date]
 Translation registry: [translation_registry_id and capture date]
 Treaty/legal-instrument registry: [treaty_registry_id and capture date]
+Event chronology registry: [event_chronology_registry_id and capture date]
 Source-family registry: [source_family_registry_id and capture date]
 Communications registry: [communications_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
@@ -4412,6 +4616,7 @@ Counts:
 - Classification, handling, precedence, or paragraph-marking issues: [n]
 - Translation, foreign-origin copy, or language-services issues: [n]
 - Treaty component, integral/associated status, transmittal, ratification, or entry-into-force issues: [n]
+- Summit, travel, ceremony, interview, press, testimony, or public-event chronology issues: [n]
 - Source-family unmatched or ambiguous matches: [n]
 - Communications records unmatched or incomplete: [n]
 - Attachment status unknown or conflicting: [n]
@@ -4445,6 +4650,9 @@ Translation/foreign-origin warnings:
 
 Treaty/legal-instrument warnings:
 - [unit_id or global]: [treaty issue] - [component type, integral/associated status, source basis, and legal-status evidence]
+
+Summit/public-event warnings:
+- [unit_id or global]: [event issue] - [event type, public-source basis, diary/schedule basis, press basis, and full-record target]
 
 Source-family warnings:
 - [unit_id or global]: [source-family issue] - [registry target or unmatched family]
@@ -4526,6 +4734,10 @@ Minimum components:
 - Chronology and meeting-record validator that distinguishes diary/schedule
   corroboration, call-log evidence, memcons, telcons, minutes, no-record claims,
   and substantive meeting content before tracked changes are applied.
+- Summit/public-event chronology validator that distinguishes travel
+  itinerary, summit schedule, ceremony, speech, interview, press conference,
+  toast, testimony, Public Papers citation, diary/schedule basis, press basis,
+  participant basis, and full-record target before tracked changes are applied.
 - Cross-reference registry validator that checks same-volume documents,
   footnotes, appendix items, tabs, attachments, public-source references,
   scheduled-publication targets, and cross-volume publication status before
@@ -4573,6 +4785,10 @@ Operational cautions:
 - Record chronology-registry version, unknown record statuses, unsupported
   attendance, missing time/place, scheduled-but-unconnected calls, and
   no-record claims lacking search basis.
+- Record event-chronology registry version, unresolved summit/travel/event
+  sequence issues, missing public-source basis, diary/schedule basis, press
+  basis, participant basis, time-zone questions, full-record targets, and
+  summit-public-event discrepancy questions.
 - Record cross-reference-registry version, unresolved target documents,
   footnotes, appendix references, scheduled-publication targets, stale status
   dependencies, and public-source references.
@@ -4609,6 +4825,8 @@ Needs revision:
 - Follow-on notes are wordy, argumentative, or inconsistent.
 - Attachments are inferred rather than verified.
 - Diary/schedule evidence is used as substantive conversation evidence.
+- Summit, travel, ceremony, press, or public-event sequence is asserted without
+  public-source, diary/schedule, press, or full-record target support.
 - Persons, abbreviations, or index entries are inconsistent.
 
 Blocked:
@@ -4656,6 +4874,8 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/ch3`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d49`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d91`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/d237`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/d245`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d242`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d244`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d246`
@@ -4666,6 +4886,8 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d37`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d90`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d145`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d33`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d206`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/sources`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1`
@@ -4682,6 +4904,8 @@ Recent Reagan source incorporated:
 
 - [Ronald Reagan Administration, 1981-1989](https://history.state.gov/historicaldocuments/reagan)
 - [FRUS, 1981-1988, Volume I, Foundations of Foreign Policy](https://history.state.gov/historicaldocuments/frus1981-88v01)
+- [Reagan Cronkite interview editorial note, Document 33](https://history.state.gov/historicaldocuments/frus1981-88v01/d33)
+- [Reagan United Nations address editorial note, Document 206](https://history.state.gov/historicaldocuments/frus1981-88v01/d206)
 - [FRUS, 1981-1988, Volume IV, Soviet Union, January 1983-March 1985](https://history.state.gov/historicaldocuments/frus1981-88v04)
 - [FRUS, 1981-1988, Volume X, Eastern Europe](https://history.state.gov/historicaldocuments/frus1981-88v10)
 - [FRUS, 1981-1988, Volume XI, START I](https://history.state.gov/historicaldocuments/frus1981-88v11)
@@ -4699,6 +4923,8 @@ Recent Reagan source incorporated:
 Recent Bush source incorporated:
 
 - [FRUS, 1989-1992, Volume XXXI, START I, 1989-1991](https://history.state.gov/historicaldocuments/frus1989-92v31)
+- [START endgame telegram with London Economic Summit news-conference note, Document 237](https://history.state.gov/historicaldocuments/frus1989-92v31/d237)
+- [Moscow Summit and START signing editorial note, Document 245](https://history.state.gov/historicaldocuments/frus1989-92v31/d245)
 - [START I treaty text source note, Document 246](https://history.state.gov/historicaldocuments/frus1989-92v31/d246)
 - [START I Presidential transmittal and article-by-article analysis note, Document 247](https://history.state.gov/historicaldocuments/frus1989-92v31/d247)
 - [FRUS, 1989-1992, Volume XXXI, START I, 1989-1991 EPUB](https://static.history.state.gov/frus/frus1989-92v31/ebook/frus1989-92v31.epub)
