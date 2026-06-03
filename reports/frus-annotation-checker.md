@@ -246,6 +246,13 @@ The wrapper should provide the LLM with:
   e-book-last-updated or generated-date, download-link, bookstore/purchase,
   errata, online/full-text correction, printed-volume-revision,
   publication-status, and capture-date metadata.
+- `history_state_page_context`, if available: structured captures of
+  history.state.gov pages used in the offline bundle, with page type
+  (`volume_landing`, `chapter`, `document`, `sources`, `persons`, `terms`,
+  `preface`, `about_series`, `press_release`, `errata`, `ebook_index`, or
+  `status_page`), canonical URL, capture date, retained content regions, removed
+  site-chrome regions, and any download, tag, search, bookstore, or footer
+  material preserved only as release apparatus or navigation context.
 - `volume_family_context`, if available: likely FRUS volume family, such as
   foundations/public diplomacy, organization/management, Europe/Russia,
   Americas, Middle East, Africa, East Asia/Pacific, arms control/national
@@ -9087,6 +9094,11 @@ Required bundle files:
   download or bookstore target, errata item, online/full-text correction,
   printed-volume-revision status, status-page capture, verification status, and
   source URLs.
+- `history_state_page_extracts`, when available: page-type-specific captures of
+  history.state.gov pages with canonical URL, capture date, retained content
+  regions, removed site chrome, content-role labels, download/tag/search/footer
+  treatment, and warnings for any page section that could be mistaken for FRUS
+  annotation.
 - `selection_balance_map`, when available: volume scope, principles of
   selection, chapter scope, decision points, options considered, dissenting
   views, agency positions, intelligence basis, negotiation rounds, foreign
@@ -9277,7 +9289,73 @@ Context freshness guidance:
   stale, unless the run would change `scheduled for publication`, `printed in`,
   document numbers, chapter status, or publication-status language.
 
-### 13.1 Status Snapshot Registry Validation
+### 13.1 History Office Page Extraction Hygiene
+
+When the offline bundle is built from history.state.gov, classify each page
+before extracting examples. Published FRUS pages include both editorial content
+and website furniture. The checker should learn from the editorial content, not
+from breadcrumbs, navigation menus, search controls, tags, download blocks, or
+footers unless those elements are deliberately being captured as release
+apparatus.
+
+Allowed `history_state_page_context.page_type` values:
+
+- `volume_landing`
+- `chapter`
+- `document`
+- `sources`
+- `persons`
+- `terms`
+- `preface`
+- `about_series`
+- `press_release`
+- `errata`
+- `ebook_index`
+- `status_page`
+- `unknown`
+
+Page extraction rules:
+
+1. Preserve canonical URL, capture date, page type, visible title, and stable
+   History Office target id such as `frus1981-88v01`, `frus1981-88v01/d33`, or
+   `frus1989-92v31/sources`.
+2. Strip site chrome before building annotation-style examples: top navigation,
+   breadcrumbs, search boxes, `Ways to Explore`, administration browse lists,
+   subject tags, contact/footer links, accessibility/privacy links, and generic
+   Historical Documents navigation.
+3. On `volume_landing` pages, retain title, editor, General Editor, GPO/publication
+   year, table of contents, chapter/document ranges, appendix links, and official
+   download/GPO links only in the correct context lanes. Do not turn subject tags
+   into Persons, Abbreviations, source-list, or index authority entries.
+4. Treat download links, GPO bookstore links, media-note links, EPUB/Mobi/PDF
+   sizes, and e-book/about-ebooks links as `release_apparatus_context`, not as
+   source notes or editorial notes.
+5. On `document` pages, retain document heading, date/place line, document text,
+   source note, editorial notes, footnotes, attachment/facsimile relationships,
+   and declassification/omission apparatus. Strip page navigation and nearby
+   browse links.
+6. On `sources`, `persons`, `terms`, `preface`, and `about_series` pages, retain
+   only the named front-matter/apparatus content. Do not mix source-list entries
+   with public volume-page download data.
+7. On `press_release`, `errata`, `ebook_index`, and `status_page` pages, route
+   facts to release, errata, digital-edition, or status registries. Do not use
+   those pages as evidence for archival source paths, classification markings,
+   attachment status, or document-number cross-references.
+8. If the wrapper cannot distinguish site chrome from editorial content, mark
+   the affected extract `needs_page_extraction_review`, lower direct-edit
+   confidence, and use comments for any recommendation that depends on the
+   ambiguous material.
+
+Audit requirements:
+
+- Count History Office pages captured by page type.
+- Count page-chrome regions removed and any retained download/tag/footer items.
+- Record every extract that used ambiguous page content or required manual
+  page-extraction review.
+- Preserve canonical URL, capture date, page type, retained-region labels, and
+  removed-region labels in the audit report.
+
+### 13.2 Status Snapshot Registry Validation
 
 Store status-page context as structured data, not prose. A closed-network model
 should not have to infer from a pasted status page whether a volume is
@@ -9599,7 +9677,7 @@ Status-registry freshness gates:
   registry immediately before the batch and record the capture date in the audit
   report.
 
-### 13.2 Release, Errata, Digital Edition, And Publication Apparatus Validation
+### 13.3 Release, Errata, Digital Edition, And Publication Apparatus Validation
 
 Release apparatus is not ordinary source annotation. It controls whether an
 uploaded sheet is talking about a press release, media note, official volume
@@ -9795,7 +9873,7 @@ Audit requirements:
   digital-edition, GPO/ISBN/S/N, or print-versus-online correction apparatus to
   print or keep in audit context.
 
-### 13.3 Persons, Abbreviations, Terms, Index, And Authority-Control Validation
+### 13.4 Persons, Abbreviations, Terms, Index, And Authority-Control Validation
 
 Authority control is not cosmetic. Published Reagan and Bush volumes maintain
 volume-specific Persons lists, Abbreviations and Terms lists, source-list
@@ -9960,7 +10038,7 @@ Audit requirements:
   reconciliation should be done inside annotation sheets versus final
   front-matter or index assembly.
 
-### 13.4 Editorial-Method, Bracket, Styling, Telegram, And Transcription-Conventions Validation
+### 13.5 Editorial-Method, Bracket, Styling, Telegram, And Transcription-Conventions Validation
 
 Editorial-method conventions are not ordinary copyedits. Published Reagan and
 Bush volumes state that original spelling, capitalization, and punctuation are
@@ -10114,7 +10192,7 @@ Audit requirements:
   transcription-convention enforcement belongs in annotation sheets versus final
   production review.
 
-### 13.5 Document Status, Copy, Routing, Approval, And Lifecycle Validation
+### 13.6 Document Status, Copy, Routing, Approval, And Lifecycle Validation
 
 Document lifecycle terms are evidence, not ornament. Published Reagan and Bush
 source notes distinguish drafts from final texts, originals from copies,
@@ -10254,7 +10332,7 @@ Audit requirements:
 - Add General Editor tally rows for variations in how much lifecycle and
   document-status detail to print when the facts are sound.
 
-### 13.6 NSC, Interagency Decision Process, Directives, And Policy-Instrument Validation
+### 13.7 NSC, Interagency Decision Process, Directives, And Policy-Instrument Validation
 
 Decision-process labels carry formal meaning. Published Reagan and Bush volumes
 distinguish NSDDs, NSDs, NSRs, NSPG meetings, NSC/DC meetings, Deputies or
@@ -10469,6 +10547,10 @@ Counts:
 - Flat-style extraction fallback units: [n]
 - Generated or symbol-font glyph mappings recovered before LLM review: [n]
 - Working-label candidates suppressed as legitimate document/person/text usage: [n]
+- History Office pages captured by page type: [volume_landing n; chapter n; document n; sources n; persons n; terms n; preface n; about_series n; press_release n; errata n; ebook_index n; status_page n]
+- History Office site-chrome regions removed before LLM review: [n]
+- History Office download/tag/footer/search items retained only as release or navigation context: [n]
+- History Office extracts needing manual page-extraction review: [n]
 - Status registry conflicts or stale-publication warnings: [n]
 - Authority registry conflicts or unmatched forms: [n]
 - Persons, Abbreviations and Terms, source-list, chapter-label,
@@ -10524,6 +10606,9 @@ Blocking evidence queue:
 
 Extraction/unitization warnings:
 - [unit_id or global]: [flat-style, glyph-map, inline-source-note, or marker-boundary issue] - [unit_boundary_basis] - [recommended posture]
+
+History Office page-extraction warnings:
+- [source_url or global]: [page type] - [retained region or removed site-chrome issue] - [recommended posture]
 
 Publication-status warnings:
 - [unit_id or global]: [status issue] - [registry target]
@@ -11315,6 +11400,7 @@ Recent Reagan source incorporated:
 
 - [Ronald Reagan Administration, 1981-1989](https://history.state.gov/historicaldocuments/reagan)
 - [FRUS, 1981-1988, Volume I, Foundations of Foreign Policy](https://history.state.gov/historicaldocuments/frus1981-88v01)
+- [Volume I landing page showing volume metadata, table of contents, downloads, tags, and site navigation that must be separated during offline extraction](https://history.state.gov/historicaldocuments/frus1981-88v01)
 - [Volume I preface on representative selection of intellectual themes, public record, internal records, and principal actors](https://history.state.gov/historicaldocuments/frus1981-88v01/preface)
 - [Volume I press release describing public and archival source basis](https://history.state.gov/historicaldocuments/frus1981-88v01/pressrelease)
 - [Volume I source list with speechwriting files, speeches, and published sources](https://history.state.gov/historicaldocuments/frus1981-88v01/sources)
