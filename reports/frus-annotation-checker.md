@@ -58,6 +58,10 @@ The wrapper should provide the LLM with:
 - `authority_context`, if available: volume title, administration, date range,
   known document numbers, Persons authority list, abbreviations list, repository
   authority list, and neighboring-volume references.
+- `series_status_context`, if available: current History Office status
+  (`published`, `anticipated`, `being_cleared`, `being_researched`, or
+  `planned`), target volume title, known chapter status, and any official
+  status-page link.
 
 Each extracted unit should have a stable `unit_id`.
 
@@ -962,6 +966,111 @@ Flag these issues:
 - A source note duplicates `Source:` or contains raw extraction artifacts that
   would not appear in finished FRUS form.
 
+### 6.13 Status-Of-Series Watchlist And Stage-Aware Checks
+
+The History Office status page is a living source and should be refreshed by the
+closed-network wrapper whenever fresh status data is available. As of June 3,
+2026, the official status page explains that FRUS volumes proceed through
+Planning, Research, Clearance, and Publication. It also lists current and recent
+publications, planned releases, chapters outstanding, and volumes at various
+stages of production.
+
+Use status as workflow context, not as documentary evidence. A volume's status
+can tell the checker how mature an annotation sheet probably is; it cannot prove
+a source note, classification marking, date, attachment, document number, or
+cross-reference.
+
+Current 1981-1992 status context to keep in view:
+
+- Always prefer the full official volume title and status supplied in
+  `series_status_context`. The shorthand lists below are a watchlist, not a
+  substitute for the current status page.
+- Published in 2025: `1981-1988, Volume XLIV, Part 1, National Security Policy,
+  1985-1988`; `1989-1992, Volume XXXI, START I, 1989-1991`.
+- Anticipated in 2026: `1981-1988, Volume XVI, South America`, with Venezuela
+  specifically listed; `1981-1988, Volume XXVIII, China, 1981-1983`.
+- Reagan volumes being cleared: II; VII; IX; XII; XIV; XV; XVI; XVII, Parts 1
+  and 2; XVIII, Parts 1 and 2; XIX; XX; XXI; XXII; XXV; XXVI; XXVII; XXVIII;
+  XXIX; XXX; XXXI; XXXII; XXXIII; XXXIV; XXXV; XXXVI; XXXIX; XL; XLIII; XLIV,
+  Part 2; XLVI; XLVII, Parts 1 and 2; XLVIII.
+- Reagan volumes being researched: VIII; XXIII; XXXVII; XLII; XLV.
+- Bush volumes being cleared: III; VII; X; XI; XII; XIII; XVII; XIX; XXI; XXVI;
+  XXXIII.
+- Bush volumes being researched: I; II; IV; V; VI; VIII; IX; XIV; XV; XVI;
+  XVIII; XX; XXII; XXIII; XXIV; XXV; XXVII; XXX; XXXII.
+- Bush volumes planned: XXVIII; XXIX.
+
+Stage-aware checker behavior:
+
+- `published`: Treat published volumes as pattern evidence. Direct edits may
+  correct draft annotation toward published FRUS form when the original text is
+  exact and the correction does not invent facts. For published source notes,
+  prefer exact published phrasing over a paraphrase.
+- `anticipated`: Treat the manuscript as late-stage. Check for publication-ready
+  style, precise document-number cross-references, chapter consistency, and
+  final removal of working labels, but do not state that a chapter or volume is
+  published until the official page says so.
+- `being_cleared`: Treat annotation sheets as mature but still subject to
+  clearance movement. Check declassification language, excision brackets,
+  whole-document withholding notes, agency equities, attachment status, and
+  cross-volume scheduling especially carefully. Prefer `comment_only` for any
+  edit that would assert a final declassification outcome, page count, release
+  status, or publication target not present in the uploaded context.
+- `being_researched`: Treat source notes and annotations as more provisional.
+  Encourage precise repository-to-folder source paths, search-basis comments,
+  candidate document rationale, and authority-control cleanup. Do not over-edit
+  into final prose if the source path, classification, attachment evidence, or
+  document numbering is still missing.
+- `planned`: Treat the uploaded material as scoping or research guidance rather
+  than publication annotation unless the user says otherwise. Flag claims that
+  present planned-volume conjecture as verified FRUS annotation. Prefer comments
+  asking for archival verification and authority context.
+
+Status-sensitive direct-edit rules:
+
+- It is acceptable to replace working labels such as `candidate`, `needs scan`,
+  `placeholder`, `TK`, `TBD`, `verify`, `draft note`, or URL-only locators with
+  comments requiring verification. Do not silently delete them if they explain
+  unresolved research status.
+- Do not change a cross-reference from `scheduled for publication` to `printed
+  in` unless the target volume or chapter is published and the document number
+  is supplied.
+- Do not force a source note for an editorial note merely because the target
+  volume is in clearance. Published Reagan and Bush examples include editorial
+  notes without first-footnote source notes when the note itself gives
+  documentary citations and chronology.
+- In clearance-stage files, check whether all document-number cross-references
+  are stable. If not, leave a comment rather than inventing document numbers.
+- In research-stage files, tolerate clearly marked compiler working notes only
+  if the output is not being treated as a publication-ready annotation sheet.
+  If the user asks for a final checker pass, working notes become major issues.
+
+Topic permutations implied by the current 1981-1992 pipeline:
+
+- Organization and management or foundations volumes: expect public statements,
+  briefing books, transition records, public diplomacy material, organizational
+  charts, Department/NSC management records, memoirs, and authority-list
+  sensitivity around offices and dates.
+- Regional bilateral volumes: expect embassy telegrams, country desk files,
+  Presidential Library country files, NSC regional directorate records, CIA/DOD
+  equities, foreign-government copies, translations, and public statements.
+- Crisis volumes: expect situation-room material, memoranda of conversation,
+  telcons, military and intelligence records, diary/schedule corroboration,
+  fast-moving chronology, and attachment/missing-record notes.
+- Arms-control, national-security, and nonproliferation volumes: expect NSC and
+  NSPG records, NSDD/NSSD/directive packages, annexes, verification papers,
+  treaty texts, STARS/CFPF telegrams, paragraph markings, and scheduled
+  cross-volume publication.
+- Public diplomacy, global issues, refugees, counternarcotics, terrorism, and
+  war-on-drugs volumes: expect public records, interagency task-force material,
+  law-enforcement or intelligence equities, congressional hearings, press
+  guidance, speeches, international-organization records, and careful
+  terminology authority control.
+- Economic, trade, monetary, assistance, and debt volumes: expect Treasury,
+  State economic bureau, NSC, World Bank/IMF, public report, summit, and
+  industrialized-country cooperation records; keep public/printed sources and
+  archival control copies distinct.
+
 ## 7. Direct-Edit Rules
 
 The LLM may propose direct tracked changes only when:
@@ -1017,10 +1126,12 @@ For every extracted unit, run checks in this order:
 6. Check cross-references and follow-on citation form.
 7. Check annotation purpose and concision.
 8. Check declassification and omission language.
-9. Check chronology, diary, schedule, and call-log usage.
-10. Check Persons, abbreviations, and index authority issues.
-11. Decide direct edit versus comment-only.
-12. Return strict JSON.
+9. Check target-volume status and whether the note is research-stage,
+   clearance-stage, anticipated, planned, or published.
+10. Check chronology, diary, schedule, and call-log usage.
+11. Check Persons, abbreviations, and index authority issues.
+12. Decide direct edit versus comment-only.
+13. Return strict JSON.
 
 ## 9. Audit Report Summary Template
 
@@ -1154,3 +1265,9 @@ Recent Bush source incorporated:
 
 - [FRUS, 1989-1992, Volume XXXI, START I, 1989-1991](https://history.state.gov/historicaldocuments/frus1989-92v31)
 - [FRUS, 1989-1992, Volume XXXI, START I, 1989-1991 EPUB](https://static.history.state.gov/frus/frus1989-92v31/ebook/frus1989-92v31.epub)
+
+Current status source incorporated:
+
+- [Status of the Foreign Relations of the United States Series](https://history.state.gov/historicaldocuments/status-of-the-series)
+- [Ronald Reagan Administration, 1981-1989](https://history.state.gov/historicaldocuments/reagan)
+- [George H.W. Bush Administration, 1989-1993](https://history.state.gov/historicaldocuments/bush-ghw)
