@@ -1712,7 +1712,86 @@ For every extracted unit, run checks in this order:
 14. Decide direct edit versus comment-only.
 15. Return strict JSON.
 
-## 9. Acceptance And Evaluation Protocol
+## 9. Review Modes And Batch Workflow
+
+The wrapper may ask for a `light`, `normal`, or `exhaustive` redline through
+`annotation_sheet_context`. The mode controls review intensity. It does not
+change the prohibition against invented facts, unsafe Word edits, or edits to
+transcribed document text without user authorization.
+
+Mode behavior:
+
+| Mode | Use for | Direct-edit posture | Comment posture | General Editor tally |
+| --- | --- | --- | --- | --- |
+| `light` | Early research sheets, source leads, scoping packets, or quick sanity checks. | Apply only unambiguous small fixes to editorial apparatus. | Prefer concise comments for missing evidence, source-family uncertainty, and working labels. | Record recurring style variations, but do not dwell on low-risk cosmetic questions. |
+| `normal` | Chapter annotation sheets, routine compiler review, or mixed packets. | Apply safe style and form corrections when exact evidence is present. | Comment on unresolved source, classification, attachment, chronology, and authority issues. | Record variations that recur or could affect house style. |
+| `exhaustive` | Final style pass, pre-clearance cleanup, post-clearance review, or General Editor preparation. | Apply every safe direct correction supported by exact mapped text and evidence. | Comment on every unresolved evidence, style, authority, cross-reference, declassification, and wrapper-safety issue. | Fully populate the discrepancy tally with counts and representative examples. |
+
+Stage and mode interaction:
+
+- `planned` or `being_researched` plus `light`: protect working notes; convert
+  only obvious defects into comments; do not polish research leads into final
+  prose.
+- `being_researched` plus `normal`: clean authority form, source-family
+  descriptions, and obvious source-note order, but keep provisional evidence
+  visible.
+- `being_cleared` plus `normal` or `exhaustive`: focus on declassification,
+  attachment status, agency equities, cross-volume scheduling, and stable
+  document-number references.
+- `anticipated` plus `exhaustive`: treat the sheet as publication-near, but do
+  not change `scheduled for publication` to `printed in` without current proof.
+- `published` plus any mode: use published form as pattern evidence, but do not
+  treat one volume's idiosyncrasy as a universal rule unless the standard says
+  so.
+
+Batch workflow:
+
+1. Preflight the upload: confirm `.docx` readability, context bundle id,
+   review mode, unit count, existing tracked changes, and whether source images
+   are available.
+2. Unitize the Word file before calling the LLM. Keep source notes, follow-on
+   footnotes, editorial notes, headings, table cells, Persons entries, and
+   transcribed document text separate.
+3. Review units in document order, but keep a packet-level memory of recurring
+   issues so duplicate comments can be merged.
+4. Prefer one clear comment per unresolved fact. Do not attach identical
+   comments to every occurrence if a global comment and evidence-request count
+   would serve the compiler better.
+5. If two findings target the same phrase, keep the higher-severity finding and
+   merge the lower-severity rationale into its comment or discrepancy tally.
+6. If a direct edit and a comment both target the same defect, apply the direct
+   edit only when it fully resolves the defect; otherwise use a comment.
+7. After the LLM response, the wrapper validates all edits, applies only safe
+   tracked changes, inserts comments, merges style-discrepancy counts, and
+   writes the audit report.
+
+Duplicate-suppression rules:
+
+- Merge repeated URL-only source-note findings into one global comment plus
+  unit-level comments only where the missing archival path differs.
+- Merge repeated authority-control issues by person, office, acronym, source
+  list entry, or index term.
+- Merge repeated scheduled-publication questions by target volume or chapter.
+- Merge repeated wrapper-safety issues by Word structure, such as tables,
+  existing tracked changes, footnote references, fields, or comments.
+- Do not merge findings that require different evidence requests or different
+  verification targets.
+
+Mode-specific output expectations:
+
+- `light` can return `pass_with_comments` even when many research tasks remain,
+  if the packet is clearly not publication-ready and no unsafe publication
+  assertions were introduced.
+- `normal` should return `needs_revision` when major source-note,
+  classification, attachment, chronology, authority, or cross-reference
+  problems remain in publishable apparatus.
+- `exhaustive` should return `needs_revision` or `blocked` when evidence
+  requests would prevent a final style pass from being completed.
+- Any mode should return `blocked` when extraction cannot distinguish
+  transcribed text from editorial apparatus, or when the wrapper cannot safely
+  apply requested tracked changes.
+
+## 10. Acceptance And Evaluation Protocol
 
 Before using the checker on production annotation sheets, the closed-network
 team should run a small golden packet and confirm that the LLM, validator, and
@@ -1795,7 +1874,7 @@ Human review requirements:
 - Keep the golden packet on the closed network, with document excerpts cleared
   for that environment.
 
-## 10. General Editor Style Discrepancy Tally
+## 11. General Editor Style Discrepancy Tally
 
 The checker should keep a separate running tally of style discrepancies for the
 General Editor. This tally is for questions where published FRUS practice,
@@ -1863,7 +1942,7 @@ Risk levels:
 - `high`: Variation could mislead readers if unresolved, but the checker lacks
   authority to decide the house rule.
 
-## 11. Offline Context Bundle Requirements
+## 12. Offline Context Bundle Requirements
 
 The checker is designed for a closed network. That means the wrapper should not
 ask the LLM to browse live History Office pages during a review run. Instead,
@@ -1942,7 +2021,7 @@ Context freshness guidance:
   stale, unless the run would change `scheduled for publication`, `printed in`,
   document numbers, chapter status, or publication-status language.
 
-## 12. Audit Report Summary Template
+## 13. Audit Report Summary Template
 
 The wrapper may generate a human-readable report after applying changes:
 
@@ -1954,6 +2033,7 @@ Output file: [filename.frus-annotation-check.docx]
 Run date: [date]
 Checker version: [version]
 Context bundle: [bundle_id and capture date]
+Review mode: [light/normal/exhaustive]
 
 Overall status: [pass/pass_with_comments/needs_revision/blocked]
 
@@ -1967,6 +2047,7 @@ Counts:
 - LLM edits rejected by validator: [n]
 - Evidence requests by type: [source_image n; archival_path n; classification_marking n; etc.]
 - Style discrepancies tallied for General Editor: [n]
+- Duplicate findings merged: [n]
 
 Major issues:
 - [unit_id]: [finding]
@@ -1981,7 +2062,7 @@ Rejected edits:
 - [unit_id]: original_text was not found exactly in target unit.
 ```
 
-## 13. Closed-Network Deployment Notes
+## 14. Closed-Network Deployment Notes
 
 Minimum components:
 
@@ -2001,6 +2082,7 @@ Operational cautions:
 - Keep original uploaded files unchanged.
 - Record the exact checker version used.
 - Record the exact context-bundle id and capture date used.
+- Record the selected review mode and whether duplicate findings were merged.
 - Preserve an audit log of all LLM outputs, validator rejections, and applied
   changes.
 - Preserve evidence-request counts so reviewers can see whether a packet is
@@ -2012,7 +2094,7 @@ Operational cautions:
 - Do not accept checker edits automatically for publication; human FRUS editors
   must review every tracked change.
 
-## 14. Quick Pass/Fail Rubric
+## 15. Quick Pass/Fail Rubric
 
 Pass:
 
@@ -2040,7 +2122,7 @@ Blocked:
   matching.
 - The Word wrapper cannot safely apply track changes.
 
-## 15. Source Basis
+## 16. Source Basis
 
 This checker is based on the local file:
 
