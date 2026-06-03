@@ -100,6 +100,10 @@ try {
     "reports/frus-chronology-registry.sample.json",
     "--public-source-registry",
     "reports/frus-public-source-registry.sample.json",
+    "--treaty-registry",
+    "reports/frus-treaty-registry.sample.json",
+    "--recurring-risk-registry",
+    "reports/frus-recurring-risk-registry.sample.json",
     "--negative-search-registry",
     "reports/frus-negative-search-registry.sample.json",
     "--document-relationship-registry",
@@ -141,6 +145,8 @@ try {
   assert(manifest.summary.document_handling_registry_records === 7, "expected document handling registry record count");
   assert(manifest.summary.chronology_registry_records === 6, "expected chronology registry record count");
   assert(manifest.summary.public_source_registry_records === 6, "expected public-source registry record count");
+  assert(manifest.summary.treaty_registry_records === 7, "expected treaty registry record count");
+  assert(manifest.summary.recurring_risk_registry_records === 13, "expected recurring-risk registry record count");
   assert(manifest.summary.negative_search_registry_records === 6, "expected negative-search registry record count");
   assert(manifest.summary.document_relationship_registry_records === 10, "expected document-relationship registry record count");
   assert(manifest.summary.communications_registry_records === 8, "expected communications registry record count");
@@ -155,6 +161,8 @@ try {
   assert(manifest.source_files.document_handling_registry === "reports/frus-document-handling-registry.sample.json", "expected document handling registry source path");
   assert(manifest.source_files.chronology_registry === "reports/frus-chronology-registry.sample.json", "expected chronology registry source path");
   assert(manifest.source_files.public_source_registry === "reports/frus-public-source-registry.sample.json", "expected public-source registry source path");
+  assert(manifest.source_files.treaty_registry === "reports/frus-treaty-registry.sample.json", "expected treaty registry source path");
+  assert(manifest.source_files.recurring_risk_registry === "reports/frus-recurring-risk-registry.sample.json", "expected recurring-risk registry source path");
   assert(manifest.source_files.negative_search_registry === "reports/frus-negative-search-registry.sample.json", "expected negative-search registry source path");
   assert(manifest.source_files.document_relationship_registry === "reports/frus-document-relationship-registry.sample.json", "expected document-relationship registry source path");
   assert(manifest.source_files.communications_registry === "reports/frus-communications-registry.sample.json", "expected communications registry source path");
@@ -186,6 +194,12 @@ try {
   assert(firstPacket.includes("According to the President's Daily Diary, Bush met with Baker"), "expected chronology registry content in chunk packet");
   assert(firstPacket.includes("Public Source And Public Diplomacy Registry Context"), "expected public-source registry context in chunk packet");
   assert(firstPacket.includes("Public Papers: Bush, 1991, pages 986-987"), "expected Public Papers registry content in chunk packet");
+  assert(firstPacket.includes("Treaty And Legal Instrument Registry Context"), "expected treaty registry context in chunk packet");
+  assert(firstPacket.includes("Conversion or Elimination Protocol"), "expected treaty registry content in chunk packet");
+  assert(firstPacket.includes("Recurring Compiler Risk Registry Context"), "expected recurring-risk registry context in chunk packet");
+  assert(firstPacket.includes("Telegram number has a leading zero"), "expected recurring-risk registry content in chunk packet");
+  assert(firstPacket.includes("Document XX cross-reference construction"), "expected Document XX recurring-risk content in chunk packet");
+  assert(firstPacket.includes("Footnote refer-back rule may be missed"), "expected footnote refer-back recurring-risk content in chunk packet");
   assert(firstPacket.includes("Negative Search And No-Record Registry Context"), "expected negative-search registry context in chunk packet");
   assert(firstPacket.includes("Not found attached"), "expected negative-search registry content in chunk packet");
   assert(firstPacket.includes("Document Relationship Registry Context"), "expected document-relationship registry context in chunk packet");
@@ -256,7 +270,7 @@ try {
   assert(badMerge.status !== 0, "expected out-of-chunk unit reference to fail");
   assert(badMerge.stdout.includes("outside chunk-0002"), "expected chunk-boundary failure detail");
 
-  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, chronology, public-source, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
+  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, chronology, public-source, treaty, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

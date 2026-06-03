@@ -1,0 +1,94 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample treaty/legal-instrument extracted units",
+  "units": [
+    {
+      "unit_id": "treaty-0001",
+      "unit_type": "source_note",
+      "location": "word/footnotes.xml#footnote-1",
+      "exact_text": "Source: Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pp. 1-16. Unclassified.",
+      "display_text": "Source: Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pp. 1-16. Unclassified.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "treaty-0002",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-12",
+      "exact_text": "In addition to the main body of the text, the Treaty includes the Protocol on Procedures Governing the Conversion or Elimination of the Items Subject to the Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms (\"Conversion or Elimination Protocol\").",
+      "display_text": "In addition to the main body of the text, the Treaty includes the Protocol on Procedures Governing the Conversion or Elimination of the Items Subject to the Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms (\"Conversion or Elimination Protocol\").",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "treaty-0003",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-14",
+      "exact_text": "The treaty package included the Protocol on Conversion/Elimination.",
+      "display_text": "The treaty package included the Protocol on Conversion/Elimination.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "treaty-0004",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-16",
+      "exact_text": "Our draft START Treaty calls for a Memorandum of Understanding (MOU) and three protocols: Conversion or Elimination, Inspections, and Throwweight.",
+      "display_text": "Our draft START Treaty calls for a Memorandum of Understanding (MOU) and three protocols: Conversion or Elimination, Inspections, and Throwweight.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "treaty-0005",
+      "unit_type": "follow_on_footnote",
+      "location": "word/footnotes.xml#footnote-5",
+      "exact_text": "The delegation reported tabling the U.S. Draft Protocol on Conversion or Elimination.",
+      "display_text": "The delegation reported tabling the U.S. Draft Protocol on Conversion or Elimination.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "treaty-0006",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-18",
+      "exact_text": "The Defense and Space paper listed the form of agreement as US: Separate treaty. | USSR: In START Treaty or protocol to START or ABM Treaty.",
+      "display_text": "The Defense and Space paper listed the form of agreement as US: Separate treaty. | USSR: In START Treaty or protocol to START or ABM Treaty.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "treaty-0007",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-20",
+      "exact_text": "The note states that the START Memorandum of Understanding was central to the negotiating package.",
+      "display_text": "The note states that the START Memorandum of Understanding was central to the negotiating package.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "treaty-0008",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-22",
+      "exact_text": "Treaty Doc. 102-20 says the CFE agreement entered into force after exchange of instruments.",
+      "display_text": "Treaty Doc. 102-20 says the CFE agreement entered into force after exchange of instruments.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "schema_version": "frus-treaty-registry-v1",
+  "treaty_registry_id": "frus-1981-1992-treaty-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d276",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d277",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d251"
+  ],
+  "scope": "Published FRUS treaty, protocol, annex, memorandum-of-understanding, associated-document, Senate transmittal, draft treaty, and legal-instrument patterns for Reagan and George H.W. Bush annotation sheets.",
+  "records": [
+    {
+      "treaty_id": "treaty-v31-d246-start-text-dispatch",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d246",
+      "document_number": "246",
+      "unit_scope": "source_note",
+      "treaty_component_type": "treaty_text",
+      "approved_phrase": "Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pp. 1-16",
+      "instrument_or_package": "START I treaty text",
+      "component_label": "Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms",
+      "signature_or_publication_date": "1991-07-31",
+      "publication_or_source_basis": "Department of State Dispatch Supplement source note for the published treaty text.",
+      "selected_or_supplemental_status": "selected treaty text printed as a FRUS document",
+      "integral_or_associated_status": "main body of the Treaty",
+      "legal_status_or_process": "signed at Moscow on July 31, 1991",
+      "relationship_to_document": "source-note basis for printed treaty text",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 246 source note.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
+      "verification_status": "verified_published_treaty_record",
+      "variant_forms": [
+        "Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pages 1-16",
+        "Department of State Dispatch Supplement, October 1991, Volume 2, Supplement Number 5, pp. 1-16"
+      ]
+    },
+    {
+      "treaty_id": "treaty-v31-d247-conversion-protocol",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "protocol",
+      "approved_phrase": "the Protocol on Procedures Governing the Conversion or Elimination of the Items Subject to the Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms (\"Conversion or Elimination Protocol\")",
+      "instrument_or_package": "START I treaty package",
+      "component_label": "Conversion or Elimination Protocol",
+      "signature_or_publication_date": "1991-11-20",
+      "publication_or_source_basis": "Baker treaty-submission letter lists the integral components of the START I treaty package.",
+      "selected_or_supplemental_status": "integral component listed in treaty-submission document",
+      "integral_or_associated_status": "integral part of the Treaty",
+      "legal_status_or_process": "submitted to the President for transmission to the Senate",
+      "relationship_to_document": "component identity in treaty transmittal/editorial-note context",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 247.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_treaty_record",
+      "variant_forms": [
+        "the Protocol on Procedures Governing Conversion or Elimination",
+        "Protocol on Conversion/Elimination"
+      ]
+    },
+    {
+      "treaty_id": "treaty-v31-d247-mou-database",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "memorandum_of_understanding",
+      "approved_phrase": "the Memorandum of Understanding on the Establishment of the Data Base Relating to the Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms, with 10 annexes (\"Memorandum of Understanding\")",
+      "instrument_or_package": "START I treaty package",
+      "component_label": "Memorandum of Understanding on the Establishment of the Data Base",
+      "signature_or_publication_date": "1991-11-20",
+      "publication_or_source_basis": "Baker treaty-submission letter lists the MOU and its annexes as an integral treaty component.",
+      "selected_or_supplemental_status": "integral component listed in treaty-submission document",
+      "integral_or_associated_status": "integral part of the Treaty",
+      "legal_status_or_process": "submitted to the President for transmission to the Senate",
+      "relationship_to_document": "component identity in treaty transmittal/editorial-note context",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 247.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_treaty_record",
+      "variant_forms": [
+        "START Memorandum of Understanding",
+        "Memorandum of Understanding (MOU)"
+      ]
+    },
+    {
+      "treaty_id": "treaty-v31-d247-associated-not-integral",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "associated_document",
+      "approved_phrase": "associated with, but not integral parts of, the Treaty",
+      "instrument_or_package": "START I associated documents",
+      "component_label": "Associated but non-integral treaty documents",
+      "signature_or_publication_date": "1991-11-20",
+      "publication_or_source_basis": "Baker treaty-submission letter distinguishes integral treaty components from associated documents provided for Senate information.",
+      "selected_or_supplemental_status": "supplemental associated-document context",
+      "integral_or_associated_status": "associated with, but not integral parts of, the Treaty",
+      "legal_status_or_process": "not submitted for Senate advice and consent to ratification",
+      "relationship_to_document": "editorial-note caveat for associated treaty documents",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 247.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_treaty_record",
+      "variant_forms": [
+        "associated but not integral parts of the Treaty",
+        "associated with but not integral parts of the Treaty"
+      ]
+    },
+    {
+      "treaty_id": "treaty-v11-d276-draft-mou-protocols",
+      "volume_id": "frus1981-88v11",
+      "document_id": "frus1981-88v11/d276",
+      "document_number": "276",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "draft_mou",
+      "approved_phrase": "Our draft START Treaty calls for a Memorandum of Understanding (MOU) and three protocols: Conversion or Elimination, Inspections, and Throwweight",
+      "instrument_or_package": "Reagan-era START draft package",
+      "component_label": "Draft START MOU and three protocols",
+      "signature_or_publication_date": "1988-02-24",
+      "publication_or_source_basis": "Reagan START I memorandum describing draft MOU and remaining protocols.",
+      "selected_or_supplemental_status": "draft treaty-package context",
+      "integral_or_associated_status": "draft components under development",
+      "legal_status_or_process": "pre-signature negotiating/drafting stage",
+      "relationship_to_document": "textual treaty-package description in selected document",
+      "source_or_context": "FRUS 1981-1988, volume XI, Document 276.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d276",
+      "verification_status": "verified_published_treaty_record",
+      "variant_forms": [
+        "draft START Treaty calls for a MOU and three protocols",
+        "START Treaty calls for a Memorandum of Understanding and three protocols"
+      ]
+    },
+    {
+      "treaty_id": "treaty-v11-d277-us-draft-protocol",
+      "volume_id": "frus1981-88v11",
+      "document_id": "frus1981-88v11/d277",
+      "document_number": "277",
+      "unit_scope": "follow_on_footnote",
+      "treaty_component_type": "draft_protocol",
+      "approved_phrase": "the U.S. Draft Protocol on Conversion or Elimination",
+      "instrument_or_package": "Reagan-era START draft package",
+      "component_label": "U.S. Draft Protocol on Conversion or Elimination",
+      "signature_or_publication_date": "1988-03-02",
+      "publication_or_source_basis": "Follow-on footnote reporting Geneva tabling of draft MOU/protocol documents.",
+      "selected_or_supplemental_status": "supplemental treaty-component footnote context",
+      "integral_or_associated_status": "draft protocol under negotiation",
+      "legal_status_or_process": "pre-signature tabling at NST Geneva",
+      "relationship_to_document": "follow-on footnote treaty-component context",
+      "source_or_context": "FRUS 1981-1988, volume XI, Document 277, footnote 2.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d277",
+      "verification_status": "verified_published_treaty_record",
+      "variant_forms": [
+        "U.S. Draft Protocol on Conversion or Elimination",
+        "Draft Protocol on Conversion or Elimination"
+      ]
+    },
+    {
+      "treaty_id": "treaty-v11-d251-defense-space-form",
+      "volume_id": "frus1981-88v11",
+      "document_id": "frus1981-88v11/d251",
+      "document_number": "251",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "draft_treaty",
+      "approved_phrase": "US: Separate treaty. | USSR: In START Treaty or protocol to START or ABM Treaty.",
+      "instrument_or_package": "Defense and Space issue paper in START context",
+      "component_label": "Form of Agreement options",
+      "signature_or_publication_date": "",
+      "publication_or_source_basis": "Department of State paper printed in Reagan START I volume.",
+      "selected_or_supplemental_status": "draft treaty/legal-form issue in selected document",
+      "integral_or_associated_status": "negotiating issue rather than final treaty component",
+      "legal_status_or_process": "pre-signature form-of-agreement option",
+      "relationship_to_document": "printed issue-paper treaty-form language",
+      "source_or_context": "FRUS 1981-1988, volume XI, Document 251.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d251",
+      "verification_status": "verified_published_treaty_record",
+      "variant_forms": [
+        "U.S.: Separate treaty; USSR: In START Treaty or protocol to START or ABM Treaty",
+        "US Separate treaty; USSR in START Treaty or protocol to START or ABM Treaty"
+      ]
+    }
+  ]
+}

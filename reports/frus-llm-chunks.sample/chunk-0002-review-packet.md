@@ -1,6 +1,6 @@
 # FRUS Annotation Review Packet Chunk
 
-- run_id: sample-review-chunks
+- run_id: sample-fixture
 - chunk_id: chunk-0002
 - chunk_index: 2
 - chunk_count: 2
@@ -16,7 +16,7 @@ Do not include units outside this chunk. Do not claim to edit the Word file dire
 ```json
 {
   "schema_version": "frus-llm-review-chunk-v1",
-  "run_id": "sample-review-chunks",
+  "run_id": "sample-fixture",
   "chunk_id": "chunk-0002",
   "chunk_index": 2,
   "chunk_count": 2,
@@ -52,9 +52,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -94,6 +94,12 @@ For chronology/time validation and direct-edit safety, run
 For public-source/public-diplomacy validation and direct-edit safety, run
 `node scripts/validate-frus-public-source-registry.mjs --registry reports/frus-public-source-registry.sample.json --format text` and
 `node scripts/audit-frus-public-source-usage.mjs --units extracted-units.json --registry reports/frus-public-source-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For treaty/legal-instrument validation and direct-edit safety, run
+`node scripts/validate-frus-treaty-registry.mjs --registry reports/frus-treaty-registry.sample.json --format text` and
+`node scripts/audit-frus-treaty-usage.mjs --units extracted-units.json --registry reports/frus-treaty-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For recurring compiler-risk spellcheck validation, run
+`node scripts/validate-frus-recurring-risk-registry.mjs --registry reports/frus-recurring-risk-registry.sample.json --format text` and
+`node scripts/audit-frus-recurring-risk-usage.mjs --units extracted-units.json --registry reports/frus-recurring-risk-registry.sample.json --checker-output output.json --format text`.
 For negative-search/no-record validation and direct-edit safety, run
 `node scripts/validate-frus-negative-search-registry.mjs --registry reports/frus-negative-search-registry.sample.json --format text` and
 `node scripts/audit-frus-negative-search-usage.mjs --units extracted-units.json --registry reports/frus-negative-search-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -116,7 +122,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -199,6 +205,22 @@ targets, archival speech or briefing files, diary context, and
 selected-versus-supplemental public-source status; validate it with
 `scripts/validate-frus-public-source-registry.mjs` before direct public-source
 edits.
+For real Reagan/Bush 1981-1992 treaty/legal-instrument review, replace the
+sample treaty registry with target-volume records for treaty text, protocols,
+annexes, memoranda of understanding, associated but non-integral documents,
+Senate transmittal packages, Treaty Doc. references, ratification,
+entry-into-force, legal authority, and draft treaty-package language; validate
+it with `scripts/validate-frus-treaty-registry.mjs` before direct treaty or
+legal-instrument edits.
+For every Reagan/Bush 1981-1992 sheet, keep the recurring-risk registry in the
+packet unless a project-specific version supersedes it. It should check for
+leading-zero telegram numbers, non-State telegram copies without eRecords or
+drafting checks, incomplete cross-reference slugs, malformed Document XX
+construction, missed footnote refer-back discipline, missing page breaks, old
+heading-footnote practice, Word autoformatting, incomplete documents or source
+notes, unhighlighted quoted backup text, missing telegram headers or film/DPN
+reel numbers, and Style Guide inconsistency; validate it with
+`scripts/validate-frus-recurring-risk-registry.mjs`.
 For real Reagan/Bush 1981-1992 negative-search/no-record review, replace the
 sample negative-search registry with target-volume records for no-minutes,
 not-found, not-attached, not-found-attached, no-memcon, no-telcon, unlocated
@@ -246,6 +268,10 @@ For sample chronology/time checks, run
 `node scripts/audit-frus-chronology-usage.mjs --units reports/frus-chronology-units.sample.json --registry reports/frus-chronology-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample public-source/public-diplomacy checks, run
 `node scripts/audit-frus-public-source-usage.mjs --units reports/frus-public-source-units.sample.json --registry reports/frus-public-source-registry.sample.json --target-volume frus1989-92v31 --format text`.
+For sample treaty/legal-instrument checks, run
+`node scripts/audit-frus-treaty-usage.mjs --units reports/frus-treaty-units.sample.json --registry reports/frus-treaty-registry.sample.json --target-volume frus1989-92v31 --format text`.
+For sample recurring compiler-risk checks, run
+`node scripts/audit-frus-recurring-risk-usage.mjs --units reports/frus-recurring-risk-units.sample.json --registry reports/frus-recurring-risk-registry.sample.json --format text`.
 For sample negative-search/no-record checks, run
 `node scripts/audit-frus-negative-search-usage.mjs --units reports/frus-negative-search-units.sample.json --registry reports/frus-negative-search-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample document-relationship checks, run
@@ -305,7 +331,8 @@ is flawless.
 4. Wrapper builds a per-document `review-packet.md` from the runtime guide,
    extracted units, output schema, status registry, authority registry,
    source-list registry, document-metadata registry, classification registry,
-   declassification registry, communications registry, preparation router, and
+   declassification registry, public-source registry, treaty registry,
+   recurring-risk registry, communications registry, preparation router, and
    permutation matrix.
 5. If the model context is too small, wrapper builds numbered chunk packets and
    later merges chunk outputs through the chunk-reconciliation gate.
@@ -344,9 +371,20 @@ is flawless.
    targets, archival speech files, delivery basis, and
    selected-versus-supplemental status against the supplied public-source
    registry before allowing any public-source redline.
-15. Wrapper applies only safe edits as WordprocessingML tracked insertions,
+15. Wrapper validates treaty/legal-instrument claims, including treaty text,
+   protocols, annexes, memoranda of understanding, associated-but-not-integral
+   documents, Senate transmittals, ratification, entry-into-force, legal
+   authority, and draft treaty-package language against the supplied treaty
+   registry before allowing any treaty redline.
+16. Wrapper audits recurring compiler-risk patterns, including leading-zero
+   telegram numbers, non-State telegram copies without eRecords/drafting
+   checks, incomplete cross-reference slugs, missing page breaks, old
+   heading-footnote practice, Word autoformatting, incomplete documents or
+   source notes, unhighlighted quoted backup text, missing telegram headers or
+   film/DPN reel data, and Style Guide inconsistency.
+17. Wrapper applies only safe edits as WordprocessingML tracked insertions,
    deletions, and comments.
-16. User downloads a new `.docx` with changes marked in Track Changes.
+18. User downloads a new `.docx` with changes marked in Track Changes.
 
 Important: the LLM must not write `.docx`, OOXML, base64 files, or package
 instructions. The wrapper creates the revised Word file.
@@ -403,6 +441,15 @@ The wrapper should provide:
   testimony, broadcasts, full-text targets, archival speech or briefing-file
   context, diary context, and selected-versus-supplemental public-source status
   when available.
+- `treaty_registry_context`: treaty text, protocols, annexes, memoranda of
+  understanding, associated but non-integral documents, Senate transmittal
+  packages, Treaty Doc. references, ratification, entry-into-force, legal
+  authority, and draft treaty-package records when available.
+- `recurring_risk_registry_context`: spellcheck-style recurring-risk records
+  for leading-zero telegram numbers, eRecords copy basis, cross-reference
+  slugs, page breaks, heading footnotes, Word autoformatting, completeness,
+  source-note shorthand, backup highlighting, telegram headers/film numbers,
+  and Style Guide consistency.
 - `cross_reference_context`: same-volume, cross-volume, footnote, appendix,
   scheduled-publication, and document-number targets.
 - `word_redline_integrity_context`: existing revisions/comments, fields,
@@ -4892,6 +4939,646 @@ Use this to check speeches, public remarks, press releases, press conferences, b
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d66",
       "verification_status": "verified_published_public_source_record"
+    }
+  ]
+}
+```
+
+## Treaty And Legal Instrument Registry Context
+
+Use this to check treaty text, protocols, annexes, memoranda of understanding, associated-but-not-integral documents, Senate transmittal packages, ratification, entry-into-force, legal-authority, and draft treaty-package language. Do not change component identity, integral/associated status, source basis, legal process, ratification, or entry-into-force language unless the target-volume treaty registry proves the direct edit.
+
+```json
+{
+  "schema_version": "frus-treaty-registry-v1",
+  "treaty_registry_id": "frus-1981-1992-treaty-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d276",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d277",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d251"
+  ],
+  "scope": "Published FRUS treaty, protocol, annex, memorandum-of-understanding, associated-document, Senate transmittal, draft treaty, and legal-instrument patterns for Reagan and George H.W. Bush annotation sheets.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "treaty_id": "treaty-v31-d246-start-text-dispatch",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d246",
+      "document_number": "246",
+      "unit_scope": "source_note",
+      "treaty_component_type": "treaty_text",
+      "approved_phrase": "Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pp. 1-16",
+      "instrument_or_package": "START I treaty text",
+      "component_label": "Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms",
+      "signature_or_publication_date": "1991-07-31",
+      "publication_or_source_basis": "Department of State Dispatch Supplement source note for the published treaty text.",
+      "selected_or_supplemental_status": "selected treaty text printed as a FRUS document",
+      "integral_or_associated_status": "main body of the Treaty",
+      "legal_status_or_process": "signed at Moscow on July 31, 1991",
+      "relationship_to_document": "source-note basis for printed treaty text",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 246 source note.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
+      "verification_status": "verified_published_treaty_record",
+      "variant_forms": [
+        "Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pages 1-16",
+        "Department of State Dispatch Supplement, October 1991, Volume 2, Supplement Number 5, pp. 1-16"
+      ]
+    },
+    {
+      "treaty_id": "treaty-v31-d247-conversion-protocol",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "protocol",
+      "approved_phrase": "the Protocol on Procedures Governing the Conversion or Elimination of the Items Subject to the Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms (\"Conversion or Elimination Protocol\")",
+      "instrument_or_package": "START I treaty package",
+      "component_label": "Conversion or Elimination Protocol",
+      "signature_or_publication_date": "1991-11-20",
+      "publication_or_source_basis": "Baker treaty-submission letter lists the integral components of the START I treaty package.",
+      "selected_or_supplemental_status": "integral component listed in treaty-submission document",
+      "integral_or_associated_status": "integral part of the Treaty",
+      "legal_status_or_process": "submitted to the President for transmission to the Senate",
+      "relationship_to_document": "component identity in treaty transmittal/editorial-note context",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 247.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_treaty_record",
+      "variant_forms": [
+        "the Protocol on Procedures Governing Conversion or Elimination",
+        "Protocol on Conversion/Elimination"
+      ]
+    },
+    {
+      "treaty_id": "treaty-v31-d247-mou-database",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "memorandum_of_understanding",
+      "approved_phrase": "the Memorandum of Understanding on the Establishment of the Data Base Relating to the Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms, with 10 annexes (\"Memorandum of Understanding\")",
+      "instrument_or_package": "START I treaty package",
+      "component_label": "Memorandum of Understanding on the Establishment of the Data Base",
+      "signature_or_publication_date": "1991-11-20",
+      "publication_or_source_basis": "Baker treaty-submission letter lists the MOU and its annexes as an integral treaty component.",
+      "selected_or_supplemental_status": "integral component listed in treaty-submission document",
+      "integral_or_associated_status": "integral part of the Treaty",
+      "legal_status_or_process": "submitted to the President for transmission to the Senate",
+      "relationship_to_document": "component identity in treaty transmittal/editorial-note context",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 247.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_treaty_record",
+      "variant_forms": [
+        "START Memorandum of Understanding",
+        "Memorandum of Understanding (MOU)"
+      ]
+    },
+    {
+      "treaty_id": "treaty-v31-d247-associated-not-integral",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "associated_document",
+      "approved_phrase": "associated with, but not integral parts of, the Treaty",
+      "instrument_or_package": "START I associated documents",
+      "component_label": "Associated but non-integral treaty documents",
+      "signature_or_publication_date": "1991-11-20",
+      "publication_or_source_basis": "Baker treaty-submission letter distinguishes integral treaty components from associated documents provided for Senate information.",
+      "selected_or_supplemental_status": "supplemental associated-document context",
+      "integral_or_associated_status": "associated with, but not integral parts of, the Treaty",
+      "legal_status_or_process": "not submitted for Senate advice and consent to ratification",
+      "relationship_to_document": "editorial-note caveat for associated treaty documents",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 247.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_treaty_record",
+      "variant_forms": [
+        "associated but not integral parts of the Treaty",
+        "associated with but not integral parts of the Treaty"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "treaty_id": "treaty-v31-d246-start-text-dispatch",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d246",
+      "document_number": "246",
+      "unit_scope": "source_note",
+      "treaty_component_type": "treaty_text",
+      "approved_phrase": "Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pp. 1-16",
+      "instrument_or_package": "START I treaty text",
+      "component_label": "Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms",
+      "signature_or_publication_date": "1991-07-31",
+      "publication_or_source_basis": "Department of State Dispatch Supplement source note for the published treaty text.",
+      "selected_or_supplemental_status": "selected treaty text printed as a FRUS document",
+      "integral_or_associated_status": "main body of the Treaty",
+      "legal_status_or_process": "signed at Moscow on July 31, 1991",
+      "relationship_to_document": "source-note basis for printed treaty text",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 246 source note.",
+      "variant_forms": [
+        "Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pages 1-16",
+        "Department of State Dispatch Supplement, October 1991, Volume 2, Supplement Number 5, pp. 1-16"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
+      "verification_status": "verified_published_treaty_record"
+    },
+    {
+      "treaty_id": "treaty-v31-d247-conversion-protocol",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "protocol",
+      "approved_phrase": "the Protocol on Procedures Governing the Conversion or Elimination of the Items Subject to the Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms (\"Conversion or Elimination Protocol\")",
+      "instrument_or_package": "START I treaty package",
+      "component_label": "Conversion or Elimination Protocol",
+      "signature_or_publication_date": "1991-11-20",
+      "publication_or_source_basis": "Baker treaty-submission letter lists the integral components of the START I treaty package.",
+      "selected_or_supplemental_status": "integral component listed in treaty-submission document",
+      "integral_or_associated_status": "integral part of the Treaty",
+      "legal_status_or_process": "submitted to the President for transmission to the Senate",
+      "relationship_to_document": "component identity in treaty transmittal/editorial-note context",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 247.",
+      "variant_forms": [
+        "the Protocol on Procedures Governing Conversion or Elimination",
+        "Protocol on Conversion/Elimination"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_treaty_record"
+    },
+    {
+      "treaty_id": "treaty-v31-d247-mou-database",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "memorandum_of_understanding",
+      "approved_phrase": "the Memorandum of Understanding on the Establishment of the Data Base Relating to the Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms, with 10 annexes (\"Memorandum of Understanding\")",
+      "instrument_or_package": "START I treaty package",
+      "component_label": "Memorandum of Understanding on the Establishment of the Data Base",
+      "signature_or_publication_date": "1991-11-20",
+      "publication_or_source_basis": "Baker treaty-submission letter lists the MOU and its annexes as an integral treaty component.",
+      "selected_or_supplemental_status": "integral component listed in treaty-submission document",
+      "integral_or_associated_status": "integral part of the Treaty",
+      "legal_status_or_process": "submitted to the President for transmission to the Senate",
+      "relationship_to_document": "component identity in treaty transmittal/editorial-note context",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 247.",
+      "variant_forms": [
+        "START Memorandum of Understanding",
+        "Memorandum of Understanding (MOU)"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_treaty_record"
+    },
+    {
+      "treaty_id": "treaty-v31-d247-associated-not-integral",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "associated_document",
+      "approved_phrase": "associated with, but not integral parts of, the Treaty",
+      "instrument_or_package": "START I associated documents",
+      "component_label": "Associated but non-integral treaty documents",
+      "signature_or_publication_date": "1991-11-20",
+      "publication_or_source_basis": "Baker treaty-submission letter distinguishes integral treaty components from associated documents provided for Senate information.",
+      "selected_or_supplemental_status": "supplemental associated-document context",
+      "integral_or_associated_status": "associated with, but not integral parts of, the Treaty",
+      "legal_status_or_process": "not submitted for Senate advice and consent to ratification",
+      "relationship_to_document": "editorial-note caveat for associated treaty documents",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 247.",
+      "variant_forms": [
+        "associated but not integral parts of the Treaty",
+        "associated with but not integral parts of the Treaty"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_treaty_record"
+    },
+    {
+      "treaty_id": "treaty-v11-d276-draft-mou-protocols",
+      "volume_id": "frus1981-88v11",
+      "document_id": "frus1981-88v11/d276",
+      "document_number": "276",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "draft_mou",
+      "approved_phrase": "Our draft START Treaty calls for a Memorandum of Understanding (MOU) and three protocols: Conversion or Elimination, Inspections, and Throwweight",
+      "instrument_or_package": "Reagan-era START draft package",
+      "component_label": "Draft START MOU and three protocols",
+      "signature_or_publication_date": "1988-02-24",
+      "publication_or_source_basis": "Reagan START I memorandum describing draft MOU and remaining protocols.",
+      "selected_or_supplemental_status": "draft treaty-package context",
+      "integral_or_associated_status": "draft components under development",
+      "legal_status_or_process": "pre-signature negotiating/drafting stage",
+      "relationship_to_document": "textual treaty-package description in selected document",
+      "source_or_context": "FRUS 1981-1988, volume XI, Document 276.",
+      "variant_forms": [
+        "draft START Treaty calls for a MOU and three protocols",
+        "START Treaty calls for a Memorandum of Understanding and three protocols"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d276",
+      "verification_status": "verified_published_treaty_record"
+    },
+    {
+      "treaty_id": "treaty-v11-d277-us-draft-protocol",
+      "volume_id": "frus1981-88v11",
+      "document_id": "frus1981-88v11/d277",
+      "document_number": "277",
+      "unit_scope": "follow_on_footnote",
+      "treaty_component_type": "draft_protocol",
+      "approved_phrase": "the U.S. Draft Protocol on Conversion or Elimination",
+      "instrument_or_package": "Reagan-era START draft package",
+      "component_label": "U.S. Draft Protocol on Conversion or Elimination",
+      "signature_or_publication_date": "1988-03-02",
+      "publication_or_source_basis": "Follow-on footnote reporting Geneva tabling of draft MOU/protocol documents.",
+      "selected_or_supplemental_status": "supplemental treaty-component footnote context",
+      "integral_or_associated_status": "draft protocol under negotiation",
+      "legal_status_or_process": "pre-signature tabling at NST Geneva",
+      "relationship_to_document": "follow-on footnote treaty-component context",
+      "source_or_context": "FRUS 1981-1988, volume XI, Document 277, footnote 2.",
+      "variant_forms": [
+        "U.S. Draft Protocol on Conversion or Elimination",
+        "Draft Protocol on Conversion or Elimination"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d277",
+      "verification_status": "verified_published_treaty_record"
+    },
+    {
+      "treaty_id": "treaty-v11-d251-defense-space-form",
+      "volume_id": "frus1981-88v11",
+      "document_id": "frus1981-88v11/d251",
+      "document_number": "251",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "draft_treaty",
+      "approved_phrase": "US: Separate treaty. | USSR: In START Treaty or protocol to START or ABM Treaty.",
+      "instrument_or_package": "Defense and Space issue paper in START context",
+      "component_label": "Form of Agreement options",
+      "signature_or_publication_date": "",
+      "publication_or_source_basis": "Department of State paper printed in Reagan START I volume.",
+      "selected_or_supplemental_status": "draft treaty/legal-form issue in selected document",
+      "integral_or_associated_status": "negotiating issue rather than final treaty component",
+      "legal_status_or_process": "pre-signature form-of-agreement option",
+      "relationship_to_document": "printed issue-paper treaty-form language",
+      "source_or_context": "FRUS 1981-1988, volume XI, Document 251.",
+      "variant_forms": [
+        "U.S.: Separate treaty; USSR: In START Treaty or protocol to START or ABM Treaty",
+        "US Separate treaty; USSR in START Treaty or protocol to START or ABM Treaty"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d251",
+      "verification_status": "verified_published_treaty_record"
+    }
+  ]
+}
+```
+
+## Recurring Compiler Risk Registry Context
+
+Use this as a practical spellcheck list for recurring compiler mistakes: leading-zero telegram numbers, non-State telegram copies without eRecords/drafting checks, incomplete cross-reference slugs, missing page breaks, old heading-footnote practice, Word autoformatting, incomplete documents or source notes, unhighlighted quoted backup text, missing telegram headers/film numbers, and Style Guide inconsistency. Treat these as generalized risk checks, not as personal criticism.
+
+```json
+{
+  "schema_version": "frus-recurring-risk-registry-v1",
+  "recurring_risk_registry_id": "frus-recurring-compiler-risk-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_basis": "Compiler self-disclosure supplied by James Wilson on June 3, 2026; generalized as recurring risks that other compilers and reviewers may also share. Document-reference and footnote-referback forms are checked against Reagan Foundations published examples in FRUS, 1981-1988, volume I, including Documents 45, 74, 161, and 316.",
+  "scope": "Practical spellcheck-style risk register for recurrent FRUS annotation-sheet mistakes: telegram number zeros, eRecords copy basis, cross-reference slugs, Document XX construction, footnote refer-back discipline, page breaks, footnote placement, Word autoformatting, incomplete documents/source notes/backups, quote highlighting, telegram headers, and Style Guide consistency.",
+  "records": [
+    {
+      "risk_id": "risk-telegram-leading-zero",
+      "risk_family": "telegram_numbering",
+      "title": "Telegram number has a leading zero",
+      "anti_pattern": "Leading zeros creep into telegram numbers.",
+      "approved_practice": "Strip leading zeros from telegram numbers unless the source image proves the zero is part of a non-telegram identifier.",
+      "unit_types": [
+        "source_note",
+        "follow_on_footnote",
+        "editorial_note",
+        "communications_metadata",
+        "unknown_editorial_text"
+      ],
+      "detector_patterns": [
+        "\\b(?:telegram|tel\\.?|D|P|N|TOSEC|SECTO)\\s+0\\d{2,}\\b"
+      ],
+      "direct_edit_policy": "allow_exact_cleanup",
+      "evidence_request": "communications_metadata",
+      "comment_template": "Check whether this telegram number has an unintended leading zero. FRUS style should not preserve compiler-added leading zeros in telegram numbers.",
+      "severity": "minor",
+      "source_basis": "James Wilson recurring-risk confession generalized for all compiler sheets.",
+      "variant_forms": [
+        "telegram 01234",
+        "TOSEC 000123",
+        "SECTO 00045"
+      ]
+    },
+    {
+      "risk_id": "risk-telegram-non-state-copy",
+      "risk_family": "telegram_copy_basis",
+      "title": "Telegram sourced from WHSR/NSC copy without eRecords/drafting check",
+      "anti_pattern": "Relying on White House Situation Room or NSC copies of telegrams, especially outgoing Nodis telegrams, without going back to eRecords for the Department of State copy and drafting information.",
+      "approved_practice": "Use eRecords/Department of State telegram copies when available; when WHSR or NSC copies are genuinely needed, capture outgoing drafting, clearance, approval, and header data from eRecords if possible.",
+      "unit_types": [
+        "source_note",
+        "source_list_entry",
+        "communications_metadata",
+        "unknown_editorial_text"
+      ],
+      "detector_patterns": [
+        "\\b(?:White House Situation Room|WHSR|NSC copy|National Security Council copy)\\b(?:(?!eRecords|Central Foreign Policy File|Department of State).){0,240}\\b(?:telegram|Nodis|outgoing)\\b"
+      ],
+      "direct_edit_policy": "comment_only_by_default",
+      "evidence_request": "communications_metadata",
+      "comment_template": "Confirm whether an eRecords/Department of State telegram copy exists and whether outgoing drafting information has been captured before finalizing this source note.",
+      "severity": "major",
+      "source_basis": "James Wilson recurring-risk confession generalized for all compiler sheets.",
+      "variant_forms": [
+        "WHSR copy of outgoing Nodis telegram",
+        "NSC version of telegram without eRecords drafting data"
+      ]
+    },
+    {
+      "risk_id": "risk-cross-reference-slug-incomplete",
+      "risk_family": "cross_reference_slug",
+      "title": "Cross-reference slug or clue is incomplete",
+      "anti_pattern": "Cross-reference clues lack date, sender/recipient, document type, and an above/below/chapter indicator.",
+      "approved_practice": "Before final review, complete intra-volume and inter-volume slugs with date, sender/recipient, type, and above/below/chapter indicator, all struck through if they remain compiler-facing clues.",
+      "unit_types": [
+        "editorial_note",
+        "follow_on_footnote",
+        "source_note",
+        "unknown_editorial_text"
+      ],
+      "detector_patterns": [
+        "\\b(?:xref|cross[- ]reference|slug|clue|See Document\\s+(?:TK|TBD)|above\\/below|chapter\\?)\\b"
+      ],
+      "direct_edit_policy": "comment_only_by_default",
+      "evidence_request": "cross_reference",
+      "comment_template": "Complete the cross-reference clue with date, sender/recipient, document type, and above/below/chapter indicator before final style review.",
+      "severity": "major",
+      "source_basis": "James Wilson recurring-risk confession generalized for all compiler sheets.",
+      "variant_forms": [
+        "xref TK",
+        "slug incomplete",
+        "See Document TK",
+        "above/below"
+      ]
+    },
+    {
+      "risk_id": "risk-document-xx-construction",
+      "risk_family": "document_xx_construction",
+      "title": "Document XX cross-reference construction is incomplete or malformed",
+      "anti_pattern": "Using Document XX, Doc. XX, Document TK/TBD, or a bare/malformed internal Document reference in annotation-sheet clues.",
+      "approved_practice": "For published internal references, follow Reagan Foundations forms such as `See Document 69.`, `Printed as Document 155.`, `see footnote 9, Document 56`, and `See Document 34 and footnote 2 thereto.` For compiler-facing annotation-sheet clues, finish the struck-through bracketed clue with date, sender/recipient, document type, and above/below/chapter indicator before handoff.",
+      "unit_types": [
+        "editorial_note",
+        "follow_on_footnote",
+        "source_note",
+        "unknown_editorial_text"
+      ],
+      "detector_patterns": [
+        "\\b(?:Doc(?:ument)?\\.?\\s+(?:XX|TK|TBD)|Document\\s+\\[?xx\\]?|Document\\s+\\?\\?|Document\\s+\\d+\\s*\\[(?:(?!\\b(?:above|below|chapter)\\b).){0,80}\\])\\b"
+      ],
+      "direct_edit_policy": "comment_only_by_default",
+      "evidence_request": "cross_reference",
+      "comment_template": "Check this Document cross-reference construction against the target volume. If it remains a compiler-facing clue, complete the date, sender/recipient, document type, and above/below/chapter locator; if it is final apparatus, use the published FRUS form.",
+      "severity": "major",
+      "source_basis": "James Wilson recurring-risk confession and follow-up note; Reagan Foundations published examples: Documents 45, 74, 161, and 316.",
+      "variant_forms": [
+        "Document XX",
+        "Doc. XX",
+        "Document TK",
+        "Document 4 [date only]",
+        "See footnote 9, Document 56"
+      ]
+    },
+    {
+      "risk_id": "risk-document-page-break-missing",
+      "risk_family": "document_boundary",
+      "title": "Page break may be missing between document annotations",
+      "anti_pattern": "Annotations for separate documents run together because page breaks were not inserted.",
+      "approved_practice": "Insert a page break between document annotations before handoff unless the production template explicitly manages document boundaries.",
+      "unit_types": [
+        "document_heading",
+        "unknown_editorial_text",
+        "front_matter"
+      ],
+      "detector_patterns": [
+        "\\b(?:page break missing|missing page break|insert page break|no page break between documents)\\b"
+      ],
+      "direct_edit_policy": "comment_only_by_default",
+      "evidence_request": "wrapper_safety",
+      "comment_template": "Check document boundary formatting and insert the missing page break before editor handoff.",
+      "severity": "major",
+      "source_basis": "James Wilson recurring-risk confession generalized for all compiler sheets.",
+      "variant_forms": [
+        "page break missing",
+        "no page break between document annotations"
+      ]
+    },
+    {
+      "risk_id": "risk-first-footnote-on-heading",
+      "risk_family": "footnote_placement",
+      "title": "First footnote remains attached to document heading",
+      "anti_pattern": "The first footnote sits on the document heading although current practice no longer requires it.",
+      "approved_practice": "Do not retain the first footnote on the document heading merely because that used to be standard; place source-note apparatus where current FRUS practice requires.",
+      "unit_types": [
+        "document_heading",
+        "source_note",
+        "unknown_editorial_text"
+      ],
+      "detector_patterns": [
+        "\\b(?:first footnote on (?:the )?document heading|heading footnote|source note on heading)\\b"
+      ],
+      "direct_edit_policy": "comment_only_by_default",
+      "evidence_request": "wrapper_safety",
+      "comment_template": "Check whether the first footnote is still attached to the document heading under an older practice and should be moved.",
+      "severity": "minor",
+      "source_basis": "James Wilson recurring-risk confession generalized for all compiler sheets.",
+      "variant_forms": [
+        "first footnote on document heading",
+        "heading footnote"
+      ]
+    },
+    {
+      "risk_id": "risk-footnote-referback-three-times",
+      "risk_family": "footnote_referback",
+      "title": "Footnote refer-back rule may be missed after repeated references",
+      "anti_pattern": "Repeating full citation/source details after the threshold for a refer-back has been reached, or using a bare see-footnote construction without Document or above/below context.",
+      "approved_practice": "After repeated references to the same item, refer back rather than reciting the citation again: within the same document use `see footnote 5, above`; across documents use `see footnote 9, Document 56`, `see footnote 6, Document 265 and footnote 2, Document 312`, or `See Document 34 and footnote 2 thereto`; straight document references use `See Document 69.` Treat the three-times threshold as a production-review trigger requiring human confirmation of the target.",
+      "unit_types": [
+        "follow_on_footnote",
+        "editorial_note",
+        "source_note",
+        "unknown_editorial_text"
+      ],
+      "detector_patterns": [
+        "\\b(?:refer back|three[- ]times|3[- ]times|third reference|repeat(?:ed|ing)? full citation)\\b",
+        "\\bsee footnote\\s+(?:TK|TBD|XX|\\?\\?)\\b",
+        "\\bsee footnote\\s+\\d+\\b(?!(?:,\\s*(?:above|below|Document\\s+\\d+)|\\s+thereto))"
+      ],
+      "direct_edit_policy": "comment_only_by_default",
+      "evidence_request": "cross_reference",
+      "comment_template": "Check whether this repeated reference should use a footnote refer-back. Reagan Foundations models same-document `see footnote N, above` and cross-document `see footnote N, Document X` forms; confirm the target before rewriting.",
+      "severity": "major",
+      "source_basis": "James Wilson follow-up note on the footnote refer-back rule; Reagan Foundations published examples: Documents 45, 74, 161, and 316.",
+      "variant_forms": [
+        "third reference repeats full citation",
+        "see footnote TK",
+        "see footnote 5",
+        "see footnote 5, above",
+        "see footnote 9, Document 56"
+      ]
+    },
+    {
+      "risk_id": "risk-word-autoformat-footnotes",
+      "risk_family": "word_autoformatting",
+      "title": "Word auto-numbering or auto-formatting may have shaped footnotes",
+      "anti_pattern": "Auto-numbering and auto-formatting remain enabled and can corrupt or obscure FRUS footnote form.",
+      "approved_practice": "Turn off Word auto-numbering/auto-formatting for production footnotes and manually verify numbering/formatting before handoff.",
+      "unit_types": [
+        "source_note",
+        "follow_on_footnote",
+        "unknown_editorial_text"
+      ],
+      "detector_patterns": [
+        "\\b(?:auto[- ]numbering|auto[- ]formatting|Word autoformat|automatic footnote numbering)\\b"
+      ],
+      "direct_edit_policy": "comment_only_by_default",
+      "evidence_request": "wrapper_safety",
+      "comment_template": "Verify that Word auto-numbering/auto-formatting has not controlled FRUS footnote form.",
+      "severity": "major",
+      "source_basis": "James Wilson recurring-risk confession generalized for all compiler sheets.",
+      "variant_forms": [
+        "auto-numbering footnotes",
+        "Word autoformat footnotes"
+      ]
+    },
+    {
+      "risk_id": "risk-incomplete-document-pages",
+      "risk_family": "document_completeness",
+      "title": "Document may be incomplete or missing pages",
+      "anti_pattern": "Incomplete documents are turned in, sometimes with pages missing outright.",
+      "approved_practice": "Confirm page completeness against the source image, scan, or backup before final style review.",
+      "unit_types": [
+        "source_note",
+        "editorial_note",
+        "unknown_editorial_text"
+      ],
+      "detector_patterns": [
+        "\\b(?:incomplete document|pages? missing|missing pages?|partial copy|incomplete copy)\\b"
+      ],
+      "direct_edit_policy": "comment_only_by_default",
+      "evidence_request": "source_image",
+      "comment_template": "Verify document completeness and recover missing pages before finalizing the annotation sheet.",
+      "severity": "critical",
+      "source_basis": "James Wilson recurring-risk confession generalized for all compiler sheets.",
+      "variant_forms": [
+        "pages missing",
+        "incomplete copy",
+        "partial document"
+      ]
+    },
+    {
+      "risk_id": "risk-source-note-shorthand",
+      "risk_family": "source_note_shorthand",
+      "title": "Source note still contains compiler shorthand",
+      "anti_pattern": "Source notes remain incomplete or carry compiler shorthand.",
+      "approved_practice": "Expand shorthand into final FRUS source-note form before redline handoff; unresolved shorthand belongs in comments or the evidence queue, not publishable apparatus.",
+      "unit_types": [
+        "source_note",
+        "source_list_entry",
+        "unknown_editorial_text"
+      ],
+      "detector_patterns": [
+        "\\b(?:SN\\s*TK|source note\\s+(?:TK|TBD|incomplete)|compiler(?:'s)? shorthand|JGW note|TK source|fill source)\\b"
+      ],
+      "direct_edit_policy": "comment_only_by_default",
+      "evidence_request": "archival_path",
+      "comment_template": "Expand compiler shorthand into final source-note form or move the unresolved item to an evidence-request comment.",
+      "severity": "major",
+      "source_basis": "James Wilson recurring-risk confession generalized for all compiler sheets.",
+      "variant_forms": [
+        "SN TK",
+        "source note incomplete",
+        "compiler shorthand",
+        "TK source"
+      ]
+    },
+    {
+      "risk_id": "risk-backup-quote-highlighting",
+      "risk_family": "backup_highlighting",
+      "title": "Quoted material in backup may not be highlighted",
+      "anti_pattern": "Quoted material in backup documents is not highlighted for editors.",
+      "approved_practice": "Highlight quoted material in backup documents so editors can verify quotations quickly.",
+      "unit_types": [
+        "editorial_note",
+        "source_note",
+        "unknown_editorial_text"
+      ],
+      "detector_patterns": [
+        "\\b(?:quoted material (?:not )?highlighted|quote not highlighted|unhighlighted quote|highlight quoted material)\\b"
+      ],
+      "direct_edit_policy": "comment_only_by_default",
+      "evidence_request": "source_image",
+      "comment_template": "Confirm the backup document highlights all quoted material used in the annotation sheet.",
+      "severity": "minor",
+      "source_basis": "James Wilson recurring-risk confession generalized for all compiler sheets.",
+      "variant_forms": [
+        "quote not highlighted",
+        "quoted material not highlighted"
+      ]
+    },
+    {
+      "risk_id": "risk-backup-telegram-header-film",
+      "risk_family": "backup_telegram_header",
+      "title": "Backup telegram copy may omit header or film/reel numbers",
+      "anti_pattern": "Backup telegram copies omit header information, including film number, preventing editors from verifying D, P, and N reel numbers.",
+      "approved_practice": "Print backup telegram headers, including film number and D/P/N reel data, so editors can verify the communications metadata.",
+      "unit_types": [
+        "source_note",
+        "communications_metadata",
+        "unknown_editorial_text"
+      ],
+      "detector_patterns": [
+        "\\b(?:header information missing|film number missing|D,? P,? and N reel|D reel|P reel|N reel|telegram header)\\b"
+      ],
+      "direct_edit_policy": "comment_only_by_default",
+      "evidence_request": "communications_metadata",
+      "comment_template": "Verify that the backup telegram copy includes the full header, film number, and D/P/N reel information.",
+      "severity": "major",
+      "source_basis": "James Wilson recurring-risk confession generalized for all compiler sheets.",
+      "variant_forms": [
+        "film number missing",
+        "D/P/N reel numbers",
+        "telegram header missing"
+      ]
+    },
+    {
+      "risk_id": "risk-style-guide-inconsistency",
+      "risk_family": "style_consistency",
+      "title": "Style Guide adherence is inconsistent",
+      "anti_pattern": "The sheet is inconsistent about adhering to the FRUS Style Guide.",
+      "approved_practice": "Use the checker as a bespoke spellcheck pass for Style Guide consistency; tally recurring unresolved variants separately for General Editor decision.",
+      "unit_types": [
+        "*",
+        "source_note",
+        "editorial_note",
+        "follow_on_footnote"
+      ],
+      "detector_patterns": [
+        "\\b(?:Style Guide inconsistency|inconsistent style|reviewer inconsistency|not adhering to the Style Guide)\\b"
+      ],
+      "direct_edit_policy": "comment_unless_context",
+      "evidence_request": "wrapper_safety",
+      "comment_template": "Run a final Style Guide consistency pass and move unresolved recurring variants to the General Editor discrepancy tally.",
+      "severity": "major",
+      "source_basis": "James Wilson recurring-risk confession generalized for all compiler sheets.",
+      "variant_forms": [
+        "Style Guide inconsistency",
+        "inconsistent style",
+        "reviewer inconsistency"
+      ]
     }
   ]
 }

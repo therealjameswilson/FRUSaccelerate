@@ -114,6 +114,20 @@ For public-source/public-diplomacy validation, use
 `reports/frus-public-source-units.sample.json`; the self-contained smoke test
 is `scripts/test-frus-public-source-audit.mjs`, and the sample audit report is
 `reports/frus-public-source-audit.sample.json`.
+For treaty/legal-instrument validation, use
+`scripts/validate-frus-treaty-registry.mjs` and
+`scripts/audit-frus-treaty-usage.mjs` with
+`reports/frus-treaty-registry.sample.json` and
+`reports/frus-treaty-units.sample.json`; the self-contained smoke test is
+`scripts/test-frus-treaty-audit.mjs`, and the sample audit report is
+`reports/frus-treaty-audit.sample.json`.
+For recurring compiler-risk spellchecks, use
+`scripts/validate-frus-recurring-risk-registry.mjs` and
+`scripts/audit-frus-recurring-risk-usage.mjs` with
+`reports/frus-recurring-risk-registry.sample.json` and
+`reports/frus-recurring-risk-units.sample.json`; the self-contained smoke test
+is `scripts/test-frus-recurring-risk-audit.mjs`, and the sample audit report is
+`reports/frus-recurring-risk-audit.sample.json`.
 For negative-search/no-record validation, use
 `scripts/validate-frus-negative-search-registry.mjs` and
 `scripts/audit-frus-negative-search-usage.mjs` with
@@ -12205,6 +12219,30 @@ Minimum components:
   or briefing-file context, diary context, and selected-versus-supplemental
   public-source status to supplied public-source records and fails direct
   public-source edits that lack target-volume registry support.
+- No-dependency treaty/legal-instrument registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-treaty-registry.mjs`,
+  `scripts/audit-frus-treaty-usage.mjs`,
+  `reports/frus-treaty-registry.sample.json`,
+  `reports/frus-treaty-units.sample.json`, and
+  `reports/frus-treaty-audit.sample.json`. The audit reconciles treaty text,
+  protocols, annexes, memoranda of understanding, associated-but-not-integral
+  documents, Senate transmittal packages, Treaty Doc. references, ratification,
+  entry-into-force, legal-authority, and draft treaty-package language to
+  supplied treaty records and fails direct treaty edits that lack target-volume
+  registry support.
+- No-dependency recurring compiler-risk validator, usage audit, and fixtures:
+  `scripts/validate-frus-recurring-risk-registry.mjs`,
+  `scripts/audit-frus-recurring-risk-usage.mjs`,
+  `reports/frus-recurring-risk-registry.sample.json`,
+  `reports/frus-recurring-risk-units.sample.json`, and
+  `reports/frus-recurring-risk-audit.sample.json`. The audit checks practical
+  spellcheck traps generalized from compiler self-disclosure: leading-zero
+  telegram numbers, non-State telegram copies without eRecords/drafting
+  checks, incomplete cross-reference slugs, malformed Document XX construction,
+  missed footnote refer-back discipline, missing page breaks, old heading-footnote
+  practice, Word autoformatting, incomplete documents or source notes,
+  unhighlighted quoted backup text, missing telegram headers or film/DPN reel
+  data, and Style Guide inconsistency.
 - No-dependency negative-search/no-record registry validator, usage audit, and
   fixtures: `scripts/validate-frus-negative-search-registry.mjs`,
   `scripts/audit-frus-negative-search-usage.mjs`,
@@ -12312,11 +12350,11 @@ Minimum components:
   editor-transcribed translations; foreign-copy provenance,
   typed-signature/facsimile status, bracket treatment, and
   agency/foreign-government equity before tracked changes are applied.
-- Treaty/legal-instrument validator that separates treaty text, protocols,
-  annexes, memoranda of understanding, executive agreements, letters,
-  declarations, statements, presidential messages, article-by-article analyses,
-  ratification, entry into force, and associated-but-not-integral materials
-  before tracked changes are applied.
+- Expand the treaty/legal-instrument validator with additional target-volume
+  records for executive agreements, letters, declarations, statements,
+  presidential messages, article-by-article analyses, ratification, entry into
+  force, and associated-but-not-integral materials before tracked changes are
+  applied.
 - Source-family registry validator that preserves published and local source
   ecologies, distinguishes public/printed selected sources from archival
   control copies, and blocks flattening of specific repositories into generic
@@ -12552,6 +12590,10 @@ Operational cautions:
   integral-versus-associated status, public/archival basis conflicts,
   transmittal questions, ratification or entry-into-force questions, and
   treaty-legal-instrument discrepancy questions.
+- Record recurring-risk registry version, matched risk families, direct
+  recurring-risk edit conflicts, and unresolved compiler-risk items requiring
+  source-image, eRecords, backup, Word-boundary, cross-reference, footnote
+  refer-back, or Style Guide confirmation.
 - Record source-family registry version, unmatched or ambiguous family matches,
   direct source-family edits, and source-family discrepancy questions.
 - Record physical/routing registry version, unresolved handwriting, initials,

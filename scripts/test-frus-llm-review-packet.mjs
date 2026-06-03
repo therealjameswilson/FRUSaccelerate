@@ -57,6 +57,10 @@ try {
     "reports/frus-chronology-registry.sample.json",
     "--public-source-registry",
     "reports/frus-public-source-registry.sample.json",
+    "--treaty-registry",
+    "reports/frus-treaty-registry.sample.json",
+    "--recurring-risk-registry",
+    "reports/frus-recurring-risk-registry.sample.json",
     "--negative-search-registry",
     "reports/frus-negative-search-registry.sample.json",
     "--document-relationship-registry",
@@ -122,6 +126,14 @@ try {
   assert(markdown.includes("Public Source And Public Diplomacy Registry Context"), "expected public-source registry section");
   assert(markdown.includes("Public Papers: Bush, 1991, pages 986-987"), "expected Public Papers registry content");
   assert(markdown.includes("Department of State Dispatch Supplement, October 1991"), "expected Department of State Dispatch registry content");
+  assert(markdown.includes("Treaty And Legal Instrument Registry Context"), "expected treaty registry section");
+  assert(markdown.includes("Conversion or Elimination Protocol"), "expected treaty registry content");
+  assert(markdown.includes("associated with, but not integral parts of, the Treaty"), "expected treaty associated-document content");
+  assert(markdown.includes("Recurring Compiler Risk Registry Context"), "expected recurring-risk registry section");
+  assert(markdown.includes("Telegram number has a leading zero"), "expected recurring-risk registry content");
+  assert(markdown.includes("Cross-reference slug or clue is incomplete"), "expected cross-reference recurring-risk content");
+  assert(markdown.includes("Document XX cross-reference construction"), "expected Document XX recurring-risk content");
+  assert(markdown.includes("Footnote refer-back rule may be missed"), "expected footnote refer-back recurring-risk content");
   assert(markdown.includes("Negative Search And No-Record Registry Context"), "expected negative-search registry section");
   assert(markdown.includes("No minutes were found"), "expected negative-search registry content");
   assert(markdown.includes("Not found attached"), "expected RAC attachment ambiguity content");
@@ -179,6 +191,11 @@ try {
   assert(packet.contexts.public_source_registry.records.length === 6, "expected public-source registry records");
   assert(packet.contexts.public_source_registry.target_records.length > 0, "expected target public-source records");
   assert(packet.packet_summary.public_source_registry_records === 6, "expected public-source registry count");
+  assert(packet.contexts.treaty_registry.records.length === 7, "expected treaty registry records");
+  assert(packet.contexts.treaty_registry.target_records.length > 0, "expected target treaty records");
+  assert(packet.packet_summary.treaty_registry_records === 7, "expected treaty registry count");
+  assert(packet.contexts.recurring_risk_registry.records.length === 13, "expected recurring-risk registry records");
+  assert(packet.packet_summary.recurring_risk_registry_records === 13, "expected recurring-risk registry count");
   assert(packet.contexts.negative_search_registry.records.length === 6, "expected negative-search registry records");
   assert(packet.contexts.negative_search_registry.target_records.length > 0, "expected target negative-search records");
   assert(packet.contexts.document_relationship_registry.records.length === 10, "expected document-relationship registry records");
@@ -195,7 +212,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, public-source, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, public-source, treaty, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

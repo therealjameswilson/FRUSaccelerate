@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--public-source-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--public-source-registry registry.json] [--treaty-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -30,6 +30,8 @@ function parseArgs(argv) {
   let documentHandlingRegistryPath = null;
   let chronologyRegistryPath = null;
   let publicSourceRegistryPath = null;
+  let treatyRegistryPath = null;
+  let recurringRiskRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
   let communicationsRegistryPath = null;
@@ -93,6 +95,12 @@ function parseArgs(argv) {
     } else if (arg === "--public-source-registry") {
       publicSourceRegistryPath = argv[index + 1];
       index += 1;
+    } else if (arg === "--treaty-registry") {
+      treatyRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--recurring-risk-registry") {
+      recurringRiskRegistryPath = argv[index + 1];
+      index += 1;
     } else if (arg === "--negative-search-registry") {
       negativeSearchRegistryPath = argv[index + 1];
       index += 1;
@@ -147,6 +155,8 @@ function parseArgs(argv) {
     documentHandlingRegistryPath,
     chronologyRegistryPath,
     publicSourceRegistryPath,
+    treatyRegistryPath,
+    recurringRiskRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
     communicationsRegistryPath,
@@ -756,6 +766,69 @@ function compactPublicSourceRegistry(registry, targetVolume) {
   };
 }
 
+function compactTreatyRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    treaty_registry_id: registry.treaty_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      treaty_id: record.treaty_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      treaty_component_type: record.treaty_component_type,
+      approved_phrase: record.approved_phrase,
+      instrument_or_package: record.instrument_or_package,
+      component_label: record.component_label,
+      signature_or_publication_date: record.signature_or_publication_date,
+      publication_or_source_basis: record.publication_or_source_basis,
+      selected_or_supplemental_status: record.selected_or_supplemental_status,
+      integral_or_associated_status: record.integral_or_associated_status,
+      legal_status_or_process: record.legal_status_or_process,
+      relationship_to_document: record.relationship_to_document,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
+function compactRecurringRiskRegistry(registry) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  return {
+    schema_version: registry.schema_version,
+    recurring_risk_registry_id: registry.recurring_risk_registry_id,
+    captured_at: registry.captured_at,
+    source_basis: registry.source_basis || "",
+    scope: registry.scope || "",
+    records: records.map((record) => ({
+      risk_id: record.risk_id,
+      risk_family: record.risk_family,
+      title: record.title,
+      anti_pattern: record.anti_pattern,
+      approved_practice: record.approved_practice,
+      unit_types: record.unit_types || [],
+      detector_patterns: record.detector_patterns || [],
+      direct_edit_policy: record.direct_edit_policy,
+      evidence_request: record.evidence_request,
+      comment_template: record.comment_template,
+      severity: record.severity,
+      source_basis: record.source_basis,
+      variant_forms: record.variant_forms || []
+    }))
+  };
+}
+
 function compactAnnotationSheetProfile(profile) {
   if (!profile) return null;
   return {
@@ -827,6 +900,10 @@ function buildPacket(options) {
   const publicSourceRegistry = options.publicSourceRegistryPath
     ? readJson(options.publicSourceRegistryPath, options.publicSourceRegistryPath)
     : null;
+  const treatyRegistry = options.treatyRegistryPath ? readJson(options.treatyRegistryPath, options.treatyRegistryPath) : null;
+  const recurringRiskRegistry = options.recurringRiskRegistryPath
+    ? readJson(options.recurringRiskRegistryPath, options.recurringRiskRegistryPath)
+    : null;
   const preparationRouter = options.preparationRouterPath
     ? readJson(options.preparationRouterPath, options.preparationRouterPath)
     : null;
@@ -857,6 +934,8 @@ function buildPacket(options) {
       document_handling_registry: options.documentHandlingRegistryPath ? normalizePathForOutput(options.documentHandlingRegistryPath) : "",
       chronology_registry: options.chronologyRegistryPath ? normalizePathForOutput(options.chronologyRegistryPath) : "",
       public_source_registry: options.publicSourceRegistryPath ? normalizePathForOutput(options.publicSourceRegistryPath) : "",
+      treaty_registry: options.treatyRegistryPath ? normalizePathForOutput(options.treatyRegistryPath) : "",
+      recurring_risk_registry: options.recurringRiskRegistryPath ? normalizePathForOutput(options.recurringRiskRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
       communications_registry: options.communicationsRegistryPath ? normalizePathForOutput(options.communicationsRegistryPath) : "",
@@ -897,6 +976,8 @@ function buildPacket(options) {
       document_handling_registry_records: documentHandlingRegistry?.records?.length || 0,
       chronology_registry_records: chronologyRegistry?.records?.length || 0,
       public_source_registry_records: publicSourceRegistry?.records?.length || 0,
+      treaty_registry_records: treatyRegistry?.records?.length || 0,
+      recurring_risk_registry_records: recurringRiskRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
       document_relationship_registry_records: documentRelationshipRegistry?.records?.length || 0,
       communications_registry_records: communicationsRegistry?.records?.length || 0,
@@ -922,6 +1003,8 @@ function buildPacket(options) {
       document_handling_registry: compactDocumentHandlingRegistry(documentHandlingRegistry, options.targetVolume),
       chronology_registry: compactChronologyRegistry(chronologyRegistry, options.targetVolume),
       public_source_registry: compactPublicSourceRegistry(publicSourceRegistry, options.targetVolume),
+      treaty_registry: compactTreatyRegistry(treatyRegistry, options.targetVolume),
+      recurring_risk_registry: compactRecurringRiskRegistry(recurringRiskRegistry),
       negative_search_registry: compactNegativeSearchRegistry(negativeSearchRegistry, options.targetVolume),
       document_relationship_registry: compactDocumentRelationshipRegistry(documentRelationshipRegistry, options.targetVolume),
       communications_registry: compactCommunicationsRegistry(communicationsRegistry, options.targetVolume),
@@ -1059,6 +1142,18 @@ function renderMarkdown(packet) {
     "Use this to check speeches, public remarks, press releases, press conferences, briefings, interviews, broadcasts, testimony, Public Papers, Department of State Bulletin/Dispatch, Congressional Record, official transcripts, newspaper excerpts, full-text targets, archival draft or briefing-file context, diary context, and selected-versus-supplemental public-source status. Do not change publication details, delivery or broadcast basis, full-text targets, archival draft context, or selected-public-document status unless the target-volume public-source registry proves the direct edit.",
     "",
     fencedJson(packet.contexts.public_source_registry || {}),
+    "",
+    "## Treaty And Legal Instrument Registry Context",
+    "",
+    "Use this to check treaty text, protocols, annexes, memoranda of understanding, associated-but-not-integral documents, Senate transmittal packages, ratification, entry-into-force, legal-authority, and draft treaty-package language. Do not change component identity, integral/associated status, source basis, legal process, ratification, or entry-into-force language unless the target-volume treaty registry proves the direct edit.",
+    "",
+    fencedJson(packet.contexts.treaty_registry || {}),
+    "",
+    "## Recurring Compiler Risk Registry Context",
+    "",
+    "Use this as a practical spellcheck list for recurring compiler mistakes: leading-zero telegram numbers, non-State telegram copies without eRecords/drafting checks, incomplete cross-reference slugs, missing page breaks, old heading-footnote practice, Word autoformatting, incomplete documents or source notes, unhighlighted quoted backup text, missing telegram headers/film numbers, and Style Guide inconsistency. Treat these as generalized risk checks, not as personal criticism.",
+    "",
+    fencedJson(packet.contexts.recurring_risk_registry || {}),
     "",
     "## Negative Search And No-Record Registry Context",
     "",

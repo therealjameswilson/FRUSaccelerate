@@ -1,0 +1,149 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample recurring compiler-risk extracted units",
+  "units": [
+    {
+      "unit_id": "risk-0001",
+      "unit_type": "source_note",
+      "location": "word/footnotes.xml#footnote-1",
+      "exact_text": "Source: Department of State, Central Foreign Policy File, telegram 01234 from Moscow.",
+      "display_text": "Source: Department of State, Central Foreign Policy File, telegram 01234 from Moscow.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "risk-0002",
+      "unit_type": "source_note",
+      "location": "word/footnotes.xml#footnote-2",
+      "exact_text": "Source: White House Situation Room copy of outgoing Nodis telegram.",
+      "display_text": "Source: White House Situation Room copy of outgoing Nodis telegram.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "risk-0003",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-3",
+      "exact_text": "Cross-reference slug TK: above/below chapter?",
+      "display_text": "Cross-reference slug TK: above/below chapter?",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "risk-0004",
+      "unit_type": "document_heading",
+      "location": "word/document.xml#p-4",
+      "exact_text": "Page break missing before next document annotation.",
+      "display_text": "Page break missing before next document annotation.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "risk-0005",
+      "unit_type": "document_heading",
+      "location": "word/document.xml#p-5",
+      "exact_text": "First footnote on document heading.",
+      "display_text": "First footnote on document heading.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "risk-0006",
+      "unit_type": "follow_on_footnote",
+      "location": "word/footnotes.xml#footnote-6",
+      "exact_text": "Word auto-numbering footnotes still enabled.",
+      "display_text": "Word auto-numbering footnotes still enabled.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "risk-0007",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-7",
+      "exact_text": "Incomplete document: pages missing from backup scan.",
+      "display_text": "Incomplete document: pages missing from backup scan.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "risk-0008",
+      "unit_type": "source_note",
+      "location": "word/footnotes.xml#footnote-8",
+      "exact_text": "Source note incomplete; SN TK from JGW note.",
+      "display_text": "Source note incomplete; SN TK from JGW note.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "risk-0009",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-9",
+      "exact_text": "Quoted material not highlighted in backup document.",
+      "display_text": "Quoted material not highlighted in backup document.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "risk-0010",
+      "unit_type": "source_note",
+      "location": "word/footnotes.xml#footnote-10",
+      "exact_text": "Backup telegram header information missing; film number missing for D, P, and N reel verification.",
+      "display_text": "Backup telegram header information missing; film number missing for D, P, and N reel verification.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "risk-0011",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-11",
+      "exact_text": "Style Guide inconsistency remains across reviewers.",
+      "display_text": "Style Guide inconsistency remains across reviewers.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "risk-0012",
+      "unit_type": "follow_on_footnote",
+      "location": "word/footnotes.xml#footnote-12",
+      "exact_text": "Reference reads: See Document XX [date sender/recipient type].",
+      "display_text": "Reference reads: See Document XX [date sender/recipient type].",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "risk-0013",
+      "unit_type": "follow_on_footnote",
+      "location": "word/footnotes.xml#footnote-13",
+      "exact_text": "Third reference repeats full citation instead of using the footnote refer back.",
+      "display_text": "Third reference repeats full citation instead of using the footnote refer back.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}
