@@ -287,6 +287,13 @@ The wrapper should provide the LLM with:
   source-list draft, Persons/abbreviations draft, or mixed editorial packet;
   whether source images or scans are available to the wrapper; and whether the
   user wants a light, normal, or exhaustive redline.
+- `finished_form_exemplar_context`, if available: structural diagnostics from
+  approved annotation-sheet exemplars, including paragraph count, style count,
+  tracked-change/comment/footnote/endnote/table/hyperlink presence, inline note
+  numbering, document-heading/date/source-note sequence, production
+  pseudo-markers such as `<i>`, `<r>`, `<n>`, `<m>`, and `<1>`, and whether the
+  wrapper should preserve markers, map them to Word formatting, or flag them for
+  review.
 - `extraction_profile_context`, if available: wrapper diagnostics showing
   paragraph-style counts, table counts, footnote/endnote/comment part counts,
   generated or symbol-font character mappings, whether most paragraphs are
@@ -7249,6 +7256,27 @@ Observed calibration facts from the extracted exemplar:
   and NSC files, private papers, public Presidential papers, Department of
   State Bulletin texts, campaign speech files, newspaper accounts, and Daily
   Diary support.
+- A read-only Word XML profile of the exemplar found 5,495 total paragraphs and
+  5,137 nonempty paragraphs. The file had no Word comments, tracked-change
+  insertions/deletions, footnotes, endnotes, tables, or hyperlink paragraphs.
+  Nearly all paragraphs had no explicit Word paragraph style; only `ListParagraph`
+  appeared as a recurring named style.
+- The finished sheet carries annotation apparatus in the body text. A typical
+  selected-record sequence is heading with note marker, place/date line, then
+  numbered note paragraphs such as `1  Source: ...`, followed by numbered
+  annotation footnote paragraphs. Do not require Word footnote parts for good
+  form.
+- The exemplar uses production pseudo-markers as text: `<i>` and `<r>` for
+  italic/roman transitions, `<n>` and `<m>` for dash-like production characters,
+  `<b>` for bold, and `<1>`, `<2>`, etc. for note references. These markers are
+  not extraction garbage. The wrapper should either preserve them exactly for a
+  production-markup workflow or map them deterministically to Word formatting
+  and Unicode punctuation before applying tracked changes.
+- A leading note number before `Source:` is acceptable finished form in a flat
+  annotation sheet. Do not rewrite `1  Source:` to bare `Source:` unless the
+  wrapper supplies a production target that strips body-note numbers.
+- `Editorial Note` headings can stand alone without a following `Source:` note
+  when the note itself supplies citations, chronology, and cross-references.
 
 Positive form rules:
 
@@ -7294,6 +7322,29 @@ Positive form rules:
   date-bounded offices, variant names or nicknames where the authority list uses
   them, and repository organization from broad institution to specific file
   family.
+
+Flat finished-form extraction rules:
+
+- Recover document units from the sequence of heading, place/date line, and
+  inline note paragraphs, even when the Word file supplies no useful paragraph
+  styles and no footnote XML.
+- Treat a paragraph beginning with `1  Source:` as the source note for the
+  preceding selected-record heading, not as a separate document or a style error.
+- Treat numbered paragraphs after the source note as annotation footnotes unless
+  the surrounding unit proves they belong to front matter, a list, or document
+  text. Preserve their numbering while proposing edits inside the note text.
+- Treat `<i>`, `<r>`, `<b>`, `<n>`, `<m>`, and note-reference markers such as
+  `<1>` as production markup until the wrapper declares otherwise. Do not delete
+  them merely because they resemble HTML or XML.
+- If the wrapper maps pseudo-markers to Word formatting, require a reversible
+  mapping table in `extraction_profile_context` and count every unmapped marker
+  in the audit report.
+- Do not place tracked-change boundaries inside a pseudo-marker token. If a
+  proposed edit would split `<i>`, `<r>`, `<n>`, `<m>`, `<b>`, or `<1>`, reject
+  the edit and return a wrapper-safety comment.
+- If the uploaded file already uses true Word italics, footnotes, or comments
+  instead of production pseudo-markers, follow the uploaded file's actual
+  structure and record that the exemplar profile was used only as a fallback.
 
 Flag these issues:
 
@@ -9140,6 +9191,7 @@ Suggested tally format:
 | style-discrepancy-0027 | publication_status | How should status-stage and cross-volume publication language be worded when a related Reagan/Bush volume is being cleared, researched, planned, anticipated, or newly published. | Conservative `scheduled for publication` or `planned for publication` language with comment-only update; direct `printed in` update only when current official status plus stable document/chapter target are supplied | 2 | high | Should the checker ever direct-edit status-stage language from the status registry alone, or should it always tally these cases for General Editor decision unless a document target is supplied? |
 | style-discrepancy-0028 | citation | How to handle canonical History Office document URLs, page-image URLs, static ebook/download URLs, and access-date language when the underlying citation target is sound. | Document-number citation with canonical `/d[n]` URL; page-image URL such as `pg_[n]`; volume/chapter/download URL retained as digital-edition apparatus; access date retained or omitted by local rule | 2 | medium | Should the checker enforce a single house form for online History Office citation targets in Reagan/Bush volumes, or keep tallying target-class variation for General Editor decision? |
 | style-discrepancy-0029 | volume_preparation_scope | How much status-page stage, release-bucket, and chapter/subitem routing detail should be visible in annotation sheets versus retained only in the checker audit. | Full preparation matrix in the audit with minimal Word comments; explicit stage/chapter wording in the annotation sheet when cross-volume publication language depends on it; General Editor-only ledger entry for recurring ambiguous routing | 2 | medium | Should the checker enforce a standard form for in-preparation volume routing notes, or keep stage and subitem detail mostly in the audit unless it affects published annotation text? |
+| style-discrepancy-0030 | wrapper | Whether production pseudo-markers in finished annotation sheets should be preserved as literal markers or converted into Word formatting and punctuation before tracked-change review. | Preserve `<i>`, `<r>`, `<b>`, `<n>`, `<m>`, and `<1>`-style markers exactly; map markers to italics, roman reset, bold, dashes, and footnote references with a reversible table | 2 | medium | Should the closed-network checker standardize a marker-mapping policy for uploaded annotation sheets, or record marker handling as a wrapper-specific General Editor decision? |
 
 For the separate running ledger, add these columns or equivalent structured
 fields:
@@ -10709,6 +10761,10 @@ Counts:
 - Cross-chunk conflicts reconciled: [n]
 - Flat-style extraction fallback units: [n]
 - Generated or symbol-font glyph mappings recovered before LLM review: [n]
+- Finished-form exemplar units recovered from heading/date/source-note sequence: [n]
+- Inline body-note source paragraphs recognized as `1  Source:` form: [n]
+- Production pseudo-markup tokens preserved or mapped: [i n; r n; b n; n-dash n; m-dash n; note-ref n]
+- Pseudo-markup or inline-note ambiguities sent to wrapper-safety comments: [n]
 - Working-label candidates suppressed as legitimate document/person/text usage: [n]
 - History Office pages captured by page type: [volume_landing n; chapter n; document n; sources n; persons n; terms n; preface n; about_series n; press_release n; errata n; ebook_index n; status_page n]
 - History Office site-chrome regions removed before LLM review: [n]
@@ -10781,6 +10837,9 @@ Blocking evidence queue:
 
 Extraction/unitization warnings:
 - [unit_id or global]: [flat-style, glyph-map, inline-source-note, or marker-boundary issue] - [unit_boundary_basis] - [recommended posture]
+
+Finished-form exemplar/production-marker warnings:
+- [unit_id or global]: [inline body-note, pseudo-marker, or heading/date/source sequence issue] - [mapping or unit-boundary basis] - [recommended posture]
 
 History Office page-extraction warnings:
 - [source_url or global]: [page type] - [retained region or removed site-chrome issue] - [recommended posture]
@@ -11443,9 +11502,14 @@ This checker is based on the local file:
 - `reports/frus1989-92v31-annotation-corpus.json`
 - Uploaded exemplar Word file: `Foundations Consolidated.docx`, treated as a
   clean finished-form model for annotation style and source-note cadence.
-  A structural extraction pass showed that polished FRUS Word material can be
-  nearly flat by Word style, with most paragraphs styled `Normal`, so the
-  checker must recover units from FRUS lexical markers as well as styles.
+  A read-only structural extraction pass showed that polished FRUS Word
+  material can be nearly flat by Word style: 5,495 paragraphs, 5,137 nonempty
+  paragraphs, no Word comments, no tracked-change insertions/deletions, no
+  footnote or endnote XML, no tables, and no hyperlink paragraphs. The checker
+  must therefore recover units from FRUS lexical markers, heading/date/source
+  sequence, inline body-note numbers such as `1  Source:`, and production
+  pseudo-markers such as `<i>`, `<r>`, `<n>`, `<m>`, and `<1>`, not from Word
+  styles alone.
 
 Open XML and WordprocessingML implementation references used for the Word
 wrapper contract:
