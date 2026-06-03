@@ -65,6 +65,11 @@ The wrapper should provide the LLM with:
   (`published`, `anticipated`, `being_cleared`, `being_researched`, or
   `planned`), target volume title, known chapter status, and any official
   status-page link.
+- `status_registry_context`, if available: the dated offline registry entry
+  for the target volume and any cross-referenced volume, preserving both the
+  production stage (`being_cleared`, `being_researched`, `planned`, or
+  `published`) and any release bucket (`published_2025`, `anticipated_2026`,
+  chapters outstanding, or similar).
 - `volume_family_context`, if available: likely FRUS volume family, such as
   foundations/public diplomacy, organization/management, Europe/Russia,
   Americas, Middle East, Africa, East Asia/Pacific, arms control/national
@@ -123,7 +128,7 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | declassification | authority_control | chronology | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | declassification | authority_control | chronology | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
@@ -143,7 +148,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | declassification | authority_control | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | declassification | authority_control | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -2113,6 +2118,138 @@ Context freshness guidance:
   stale, unless the run would change `scheduled for publication`, `printed in`,
   document numbers, chapter status, or publication-status language.
 
+### 13.1 Status Snapshot Registry Validation
+
+Store status-page context as structured data, not prose. A closed-network model
+should not have to infer from a pasted status page whether a volume is
+published, anticipated, being cleared, being researched, or planned. The wrapper
+should resolve that before review and supply a compact registry entry for the
+target volume plus any cross-referenced volumes.
+
+Keep two concepts separate:
+
+- `production_stage`: where the manuscript sits in the FRUS production process,
+  such as `being_cleared`, `being_researched`, `planned`, or `published`.
+- `release_bucket`: where the public status page lists it for release tracking,
+  such as `published_2025`, `anticipated_2026`, or `chapters_outstanding`.
+
+Do not treat `anticipated_2026` as a production stage. A volume can be both
+anticipated and being cleared. That is an overlay, not a contradiction.
+
+Minimum registry entry:
+
+```json
+{
+  "status_snapshot": {
+    "captured_at": "2026-06-03",
+    "source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
+    "production_stage_terms": [
+      "planning",
+      "research",
+      "clearance",
+      "publication"
+    ],
+    "release_buckets_seen": [
+      "published_2025",
+      "anticipated_2026",
+      "volumes_with_chapters_outstanding",
+      "volumes_in_progress"
+    ]
+  },
+  "entries": [
+    {
+      "volume_id": "frus1981-88v44p1",
+      "official_title": "1981-1988, Volume XLIV, Part 1, National Security Policy, 1985-1988",
+      "administration": "Reagan",
+      "production_stage": "published",
+      "release_bucket": "published_2025",
+      "chapter_status": [],
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1",
+      "volume_families": [
+        "arms control and national security"
+      ],
+      "checker_use": "published_pattern_evidence"
+    },
+    {
+      "volume_id": "frus1989-92v31",
+      "official_title": "1989-1992, Volume XXXI, START I, 1989-1991",
+      "administration": "George H.W. Bush",
+      "production_stage": "published",
+      "release_bucket": "published_2025",
+      "chapter_status": [],
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v31",
+      "volume_families": [
+        "arms control and national security"
+      ],
+      "checker_use": "published_pattern_evidence"
+    },
+    {
+      "volume_id": "frus1981-88v16",
+      "official_title": "1981-1988, Volume XVI, South America",
+      "administration": "Reagan",
+      "production_stage": "being_cleared",
+      "release_bucket": "anticipated_2026",
+      "chapter_status": [
+        "Venezuela listed under anticipated 2026"
+      ],
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v16",
+      "volume_families": [
+        "Latin America and Caribbean"
+      ],
+      "checker_use": "late_stage_status_context"
+    }
+  ]
+}
+```
+
+Current snapshot summary for 1981-1992 work:
+
+- Recent published pattern controls: Reagan `1981-1988, Volume XLIV, Part 1,
+  National Security Policy, 1985-1988` and Bush `1989-1992, Volume XXXI, START
+  I, 1989-1991`.
+- Anticipated 2026 overlay: Reagan `Volume XVI, South America`, with Venezuela
+  listed, and Reagan `Volume XXVIII, China, 1981-1983`.
+- In-preparation watchlist: the Reagan and Bush cleared, researched, and planned
+  volume lists in section 6.13 are the working router. Refresh them from the
+  official status page before any production batch.
+
+Status-registry preflight checks:
+
+- If the uploaded sheet names a volume that is absent from the registry, add a
+  global `info` comment for a light review and a `major` comment for normal or
+  exhaustive review when cross-references or publication language depend on it.
+- If the uploaded sheet's volume number and title point to different registry
+  entries, treat the affected cross-references as `comment_only` until the
+  compiler resolves the target.
+- If `printed in` or `published in` points to a registry target whose
+  `production_stage` is not `published`, flag a `major` publication-status
+  issue. Do not replace the phrase unless current official status and a stable
+  document number are supplied.
+- If `scheduled for publication` points to a registry target now marked
+  `published`, comment that the language may need updating. Directly changing it
+  to `printed in` still requires the exact target document or chapter evidence.
+- If a volume appears in both `anticipated_2026` and `being_cleared`, preserve
+  both values and do not create a discrepancy item merely for that overlay.
+- If published pattern extracts disagree with the registry status for the
+  uploaded sheet, prefer `series_status_context` for review posture and record
+  the ambiguity in the audit report.
+- If a recurring status-language variation is defensible but unsettled, add it
+  to `style_discrepancy_tally` with `category` set to `publication_status`
+  rather than forcing one house form.
+
+Status-registry freshness gates:
+
+- For any run that may alter `scheduled for publication`, `printed in`,
+  anticipated-release language, chapter status, document numbers, or
+  cross-volume references, treat a stale or missing status registry as a blocker
+  for direct edits and use comments instead.
+- For a source-note-only pass that does not alter publication language, a stale
+  registry should produce an audit warning but should not stop safe edits to
+  source-note form.
+- For final style, post-clearance, or release-deadline work, refresh the
+  registry immediately before the batch and record the capture date in the audit
+  report.
+
 ## 14. Audit Report Summary Template
 
 The wrapper may generate a human-readable report after applying changes:
@@ -2125,6 +2262,8 @@ Output file: [filename.frus-annotation-check.docx]
 Run date: [date]
 Checker version: [version]
 Context bundle: [bundle_id and capture date]
+Status snapshot: [status_snapshot URL and captured_at date]
+Status registry stale: [yes/no/not supplied]
 Review mode: [light/normal/exhaustive]
 Chunks processed: [n]
 Units reviewed: [n]
@@ -2143,12 +2282,16 @@ Counts:
 - Style discrepancies tallied for General Editor: [n]
 - Duplicate findings merged: [n]
 - Cross-chunk conflicts reconciled: [n]
+- Status registry conflicts or stale-publication warnings: [n]
 
 Major issues:
 - [unit_id]: [finding]
 
 Evidence requests:
 - [unit_id]: [evidence_request] - [verification_target]
+
+Publication-status warnings:
+- [unit_id or global]: [status issue] - [registry target]
 
 Style discrepancy tally:
 - [discrepancy_id]: [category] - [style_question] - count [n] - risk [level]
@@ -2170,6 +2313,9 @@ Minimum components:
   deletions, and comments.
 - Offline context-bundle loader with status, authority, source-family, and
   provenance metadata.
+- Status-registry validator that preserves production stage, release bucket,
+  capture date, official URL, and cross-referenced volume targets before the
+  LLM review begins.
 - Chunker and reconciliation layer for long `.docx` packets.
 - Export step that writes a new `.docx`.
 
@@ -2179,6 +2325,8 @@ Operational cautions:
 - Keep original uploaded files unchanged.
 - Record the exact checker version used.
 - Record the exact context-bundle id and capture date used.
+- Record status-registry freshness and every publication-status conflict,
+  especially `scheduled for publication` or `printed in` language.
 - Record the selected review mode and whether duplicate findings were merged.
 - Record chunk count, unit count, and any cross-chunk conflicts.
 - Preserve an audit log of all LLM outputs, validator rejections, and applied
