@@ -191,6 +191,14 @@ try {
       author,
       "--date",
       "2026-06-03T00:00:00.000Z",
+      "--status-registry",
+      "reports/frus-status-series-1981-1992.current.json",
+      "--preparation-router",
+      "reports/frus-preparation-router-1981-1992.current.json",
+      "--permutation-matrix",
+      "reports/frus-annotation-permutation-matrix.json",
+      "--today",
+      "2026-06-03",
       "--format",
       "json"
     ],
@@ -212,9 +220,15 @@ try {
   assert(audit.counts.deletions_expected === 1, "expected one deletion");
   assert(audit.counts.evidence_queue_items === 1, "expected one evidence queue item");
   assert(audit.counts.discrepancy_ledger_items === 1, "expected one discrepancy ledger item");
+  assert(audit.counts.source_note_lint_diagnostics === 1, "expected one source-note lint diagnostic");
 
   for (const artifact of [
     "extracted-units.json",
+    "source-note-lint.json",
+    "pseudo-marker-preflight.txt",
+    "status-registry-validation.json",
+    "preparation-router-validation.json",
+    "permutation-matrix-validation.json",
     "evidence-queue.json",
     "discrepancy-ledger.json",
     "comment-application-report.json",
@@ -227,6 +241,9 @@ try {
 
   const validation = JSON.parse(fs.readFileSync(path.join(artifactDir, "output-validation.json"), "utf8"));
   assert(validation.status === "pass", "expected output validation artifact to pass");
+  assert(audit.reports.status_registry_validation.status === "pass", "expected status registry validation report");
+  assert(audit.reports.preparation_router_validation.status === "pass", "expected preparation router validation report");
+  assert(audit.reports.permutation_matrix_validation.status === "pass", "expected permutation matrix validation report");
 
   const entries = readZip(outputDocx);
   const footnotes = entries.get("word/footnotes.xml").content.toString("utf8");

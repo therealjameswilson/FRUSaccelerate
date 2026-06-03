@@ -61,10 +61,22 @@ node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output outp
 ```
 
    The runner extracts units, reruns checker-output validation, runs exact-anchor
-   preflight, builds the evidence queue and discrepancy ledger, applies safe
-   Word comments, applies safe tracked changes, validates the final `.docx`,
-   and writes `audit.json` plus component reports. Use the remaining commands
-   in this workflow for diagnosis, reruns, or manual operation.
+   preflight, runs source-note lint and pseudo-marker preflight, builds the
+   evidence queue and discrepancy ledger, applies safe Word comments, applies
+   safe tracked changes, validates the final `.docx`, and writes `audit.json`
+   plus component reports. Use the remaining commands in this workflow for
+   diagnosis, reruns, or manual operation.
+
+   For packets that contain publication-status language or family-dependent
+   Reagan/Bush routing, add the current context files:
+
+```sh
+node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID --status-registry reports/frus-status-series-1981-1992.current.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --today YYYY-MM-DD
+```
+
+   If the wrapper has extracted status-bearing phrases into
+   `status-claims.json`, add `--status-claims status-claims.json` so direct
+   publication-status edits are checked against the current registry.
 
 5. Run direct-edit preflight:
 

@@ -26,6 +26,10 @@ For post-write DOCX release validation, run
 `node scripts/validate-frus-docx-output.mjs --docx revised.docx --expect-comments N --expect-insertions N --expect-deletions N`.
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
+For status-sensitive Reagan/Bush packets, add
+`--status-registry reports/frus-status-series-1981-1992.current.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --today YYYY-MM-DD`.
+If status-bearing phrases have been extracted into a claims file, also add
+`--status-claims status-claims.json`.
 For status-language preflight, run
 `node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-registry-1981-1992.sample.json --claims reports/frus-status-claims.sample.json --today 2026-06-03`.
 For real Reagan/Bush 1981-1992 status and cross-reference review, validate and

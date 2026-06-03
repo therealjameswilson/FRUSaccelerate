@@ -11848,9 +11848,11 @@ Minimum components:
 - No-dependency end-to-end wrapper runner:
   `scripts/run-frus-offline-review.mjs`, with smoke test
   `scripts/test-frus-offline-review-runner.mjs`. It extracts units, validates
-  checker output, runs preflight, builds the evidence queue and discrepancy
-  ledger, applies safe Word comments, applies safe tracked changes, validates
-  the revised `.docx`, and writes `audit.json` plus component reports.
+  checker output, runs exact-anchor preflight, runs source-note lint and
+  pseudo-marker preflight, optionally validates status/router/matrix context,
+  builds the evidence queue and discrepancy ledger, applies safe Word comments,
+  applies safe tracked changes, validates the revised `.docx`, and writes
+  `audit.json` plus component reports.
 - No-dependency status-claim preflight validator and status fixtures:
   `scripts/preflight-frus-status-claims.mjs`,
   `reports/frus-status-registry-1981-1992.sample.json`, and
