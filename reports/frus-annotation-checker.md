@@ -7223,6 +7223,125 @@ Checker behavior:
   the source note or a follow-on note; do not move them into transcribed
   document text.
 
+Bush START I pattern transfer controls:
+
+The published Bush START I volume is also useful as a pattern-control source for
+in-preparation Bush arms-control, national-security, European security, and
+Soviet/Russia volumes. Use it to preserve Bush-era source ecology and
+decision-process distinctions; do not use it to manufacture START-specific
+facts, document numbers, treaty components, or Senate status in other volumes.
+
+Use a Bush START pattern-transfer context when the wrapper can supply one:
+
+```json
+{
+  "published_pattern_transfer_id": "frus-bush-start-transfer-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d24",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+    "https://history.state.gov/historicaldocuments/status-of-the-series"
+  ],
+  "transfers": [
+    {
+      "transfer_id": "pattern-bush-start-to-xxvii-arms-control",
+      "published_pattern": "Bush Volume XXXI, START I",
+      "target_volume": "1989-1992, Volume XXVII, Arms Control and Nonproliferation",
+      "target_stage": "being_researched",
+      "transferable_elements": [
+        "preserve H-Files subseries, NSR/NSD forms, Scowcroft/Gates collections, State lot files, CFPF D/P/N reels, STARS records, ACDA/DOD/JCS/CIA roles, verification vocabulary, and treaty-package boundaries",
+        "separate negotiation record, verification/monitoring issue, intelligence or agency-equity basis, treaty text, transmittal package, and Senate/legal status"
+      ],
+      "non_transferable_facts": [
+        "START I document numbers",
+        "START I treaty component status",
+        "Lisbon Protocol or successor-state facts",
+        "Senate advice-and-consent status",
+        "source folder titles not supplied for the target unit"
+      ],
+      "checker_action": "comment_only unless the target wrapper supplies exact source family, treaty component, legal status, and document-number evidence"
+    },
+    {
+      "transfer_id": "pattern-bush-start-to-xxvi-national-security",
+      "published_pattern": "Bush Volume XXXI, START I",
+      "target_volume": "1989-1992, Volume XXVI, National Security Policy",
+      "target_stage": "being_cleared",
+      "transferable_elements": [
+        "preserve NSR/NSD/NSC/DC/NSC meeting-file distinctions, H-Files subseries, Scowcroft/Gates/staff files, option papers, Summary of Conclusions, sent-for-action or read-by/routing evidence, and agency positions",
+        "separate decision-process readiness from final presidential decision or directive status"
+      ],
+      "non_transferable_facts": [
+        "START treaty negotiations",
+        "START verification terminology",
+        "START document numbers",
+        "Senate transmittal package facts"
+      ],
+      "checker_action": "comment_only for any edit that depends on directive number, decision stage, final approval, or folder title not supplied by the target unit"
+    },
+    {
+      "transfer_id": "pattern-bush-start-to-russia-europe-security",
+      "published_pattern": "Bush Volume XXXI, START I",
+      "target_volume": "1989-1992 Volumes III, IV, and X: Soviet/Russia High-Level Contacts, Policy, and European Security",
+      "target_stage": "being_cleared_or_being_researched",
+      "transferable_elements": [
+        "preserve high-level contact versus policy/background file distinction, memcon/telcon and briefing-book forms, Scowcroft/Gates/H-Files source lanes, foreign-leader correspondence, translation status, and cross-volume references",
+        "separate START-adjacent arms-control context from broader Soviet, Russia, post-Soviet, German, NATO, or European security policy"
+      ],
+      "non_transferable_facts": [
+        "START I negotiation chronology",
+        "treaty text or transmittal status",
+        "Russian or Soviet translation status unless supplied for the target unit",
+        "document numbers or chapter labels"
+      ],
+      "checker_action": "comment_only when a START I pattern is being used to infer high-level-contact, policy, Germany, NATO, or European-security facts"
+    }
+  ]
+}
+```
+
+Transfer rules:
+
+1. Treat Bush START I as a Bush-era source-ecology and decision-process pattern,
+   not as a universal national-security template.
+2. For Bush XXVII Arms Control and Nonproliferation, START I can teach treaty
+   component discipline, verification terminology, ACDA/DOD/JCS/CIA equities,
+   State lot/CFPF/STARS forms, H-Files subseries, and Senate/legal separation.
+   It cannot prove which nonproliferation treaty, protocol, export-control,
+   verification, or Senate-status fact applies.
+3. For Bush XXVI National Security Policy, START I can teach NSR/NSD,
+   NSC/DC/meeting-file, option-paper, Summary of Conclusions, Scowcroft/Gates,
+   H-Files, sent-for-action, read-by, and agency-position treatment. It cannot
+   prove that a paper was a START paper, that a directive was approved, or that
+   an option became a decision.
+4. For Bush Volumes III, IV, and X, START I can teach how to preserve high-level
+   contact, briefing-book, memcon/telcon, Scowcroft/Gates/H-Files, translation,
+   and cross-volume forms. It cannot convert broader Soviet/Russia, Germany,
+   NATO, or European-security files into START negotiation records.
+5. If a target sheet contains START-adjacent material, require the wrapper to
+   identify whether the note belongs to the START I published volume, a related
+   in-preparation Bush arms-control volume, a Soviet/Russia high-level contact
+   volume, a European security volume, or a national-security policy volume.
+   Use `volume_preparation_scope` when the lane is unclear.
+6. Do not direct-edit H-Files, Scowcroft, Gates, State lot, CFPF, STARS, ACDA,
+   DOD, JCS, CIA, treaty-package, or Senate-language corrections from the START
+   pattern alone. Direct edits require the target unit or wrapper registry to
+   supply the exact form.
+7. Add a General Editor discrepancy when the issue is how much START-adjacent
+   cross-volume context should appear in a note versus the audit, rather than a
+   wrong source fact.
+
+Audit requirements:
+
+- Count Bush START transfer checks, START-pattern facts blocked from target
+  sheets, target-lane ambiguities, and direct edits downgraded to comments.
+- Preserve published pattern URL, target volume, target stage, transferable
+  element, non-transferable fact, target-lane decision, and evidence request in
+  the audit report.
+- Record every case where the checker rejected a START I pattern as insufficient
+  basis for a non-START Bush source note, treaty fact, decision-stage claim, or
+  document-number cross-reference.
+
 ### 6.10B Reagan XLIV Part 1 Corpus Rules
 
 The local file `reports/frus1981-88v44p1-annotation-corpus.md` records a
@@ -9473,6 +9592,7 @@ Suggested tally format:
 | style-discrepancy-0029 | volume_preparation_scope | How much status-page stage, release-bucket, and chapter/subitem routing detail should be visible in annotation sheets versus retained only in the checker audit. | Full preparation matrix in the audit with minimal Word comments; explicit stage/chapter wording in the annotation sheet when cross-volume publication language depends on it; General Editor-only ledger entry for recurring ambiguous routing | 2 | medium | Should the checker enforce a standard form for in-preparation volume routing notes, or keep stage and subitem detail mostly in the audit unless it affects published annotation text? |
 | style-discrepancy-0030 | wrapper | Whether production pseudo-markers in finished annotation sheets should be preserved as literal markers or converted into Word formatting and punctuation before tracked-change review. | Preserve `<i>`, `<r>`, `<b>`, `<n>`, `<m>`, and `<1>`-style markers exactly; map markers to italics, roman reset, bold, dashes, and footnote references with a reversible table | 2 | medium | Should the closed-network checker standardize a marker-mapping policy for uploaded annotation sheets, or record marker handling as a wrapper-specific General Editor decision? |
 | style-discrepancy-0031 | volume_preparation_scope | How much published-pattern transfer detail should appear when a recent Reagan volume is used to calibrate a planned Bush volume. | Published pattern cited only in audit as source-family/style control; short Word comment asking for Bush-specific source basis; fuller General Editor note comparing transferable and non-transferable pattern elements | 2 | medium | Should the checker include published-pattern transfer cautions in the annotation sheet itself, or keep them in the audit unless a direct source-note risk appears? |
+| style-discrepancy-0032 | volume_preparation_scope | How much START I published-pattern context should be carried into related Bush arms-control, Soviet/Russia, European-security, and national-security sheets. | START I pattern retained in audit only; short Word comment for target-lane confirmation; full General Editor ledger entry when START-adjacent context affects cross-volume style | 2 | high | Should the checker enforce a standard form for START-adjacent transfer cautions, or leave them as audit/General Editor questions unless the annotation text makes a wrong source or treaty claim? |
 
 For the separate running ledger, add these columns or equivalent structured
 fields:
@@ -11116,6 +11236,9 @@ Counts:
 - Published-pattern transfers blocked from becoming source facts: [n]
 - Published-pattern transfer recommendations downgraded to comment-only: [n]
 - General Editor discrepancies opened for published-pattern transfer questions: [n]
+- Bush START I pattern transfers checked for related Bush volumes: [n]
+- START I pattern facts blocked from non-START Bush source notes or treaty claims: [n]
+- START-adjacent target-lane ambiguities routed to `volume_preparation_scope`: [n]
 
 Major issues:
 - [unit_id]: [finding]
@@ -11158,6 +11281,9 @@ Chapter-level publication warnings:
 
 Published-pattern transfer warnings:
 - [unit_id or global]: [published pattern source] - [target volume/stage] - [transferable element or non-transferable fact] - [recommended posture]
+
+Bush START pattern-transfer warnings:
+- [unit_id or global]: [START I pattern source] - [target Bush volume/lane] - [transferable element, non-transferable fact, or target-lane ambiguity] - [recommended posture]
 
 Authority-control warnings:
 - [unit_id or global]: [authority issue] - [authority type, approved display form, variant or unmatched form, date span, term expansion, source-list or index behavior, registry target, and verification target]
