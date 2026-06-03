@@ -121,6 +121,11 @@ The wrapper should provide the LLM with:
   attached-but-not-printed, not-attached, attachment-heading, attachment-source
   note, classification, footnote, cross-reference, and parent-child document
   relationship evidence.
+- `visual_material_context`, if available: structured map, photograph, chart,
+  image, graphic attachment, appendix image, caption, visual title, tab or
+  enclosure, attached-but-not-printed, not-found, source-image, public/archival
+  basis, visual description, person/object/place identification, and
+  publication-suitability evidence.
 - `handwritten_transcription_context`, if available: structured handwritten
   notes, handwritten letters, editor-transcribed portions, unclear or illegible
   readings, original brackets, original ellipses, cut-off lines, preserved
@@ -264,14 +269,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | source_surrogate_release | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | source_surrogate_basis | source_list_basis | selection_balance_basis | physical_evidence_basis | negative_search_basis | printed_attachment_basis | transcription_facsimile_basis | time_zone_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | source_surrogate_basis | source_list_basis | selection_balance_basis | physical_evidence_basis | negative_search_basis | printed_attachment_basis | transcription_facsimile_basis | visual_material_basis | time_zone_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -284,7 +289,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | source_surrogate_release | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -407,6 +412,7 @@ run the semantic and Word-safety validators below.
               "attachment",
               "printed_nested_attachment",
               "handwritten_facsimile_transcription",
+              "visual_material_graphic",
               "source_surrogate_release",
               "annotation",
               "editorial_note",
@@ -477,6 +483,7 @@ run the semantic and Word-safety validators below.
               "negative_search_basis",
               "printed_attachment_basis",
               "transcription_facsimile_basis",
+              "visual_material_basis",
               "time_zone_basis",
               "attachment_status",
               "document_number",
@@ -563,6 +570,7 @@ run the semantic and Word-safety validators below.
               "attachment",
               "printed_nested_attachment",
               "handwritten_facsimile_transcription",
+              "visual_material_graphic",
               "source_surrogate_release",
               "editorial_note",
               "document_metadata",
@@ -674,6 +682,7 @@ Semantic validator behavior:
 - Reject any direct edit whose category is `publication_status`,
   `declassification`, `attachment`, `printed_nested_attachment`,
   `handwritten_facsimile_transcription`,
+  `visual_material_graphic`,
   `source_surrogate_release`,
   `time_zone_chronology`,
   `document_metadata`,
@@ -3161,6 +3170,195 @@ Handwritten/facsimile audit requirements:
 - Keep a General Editor tally item for recurring variation in how much
   transcription-status, uncertain-reading, or appendix-image detail should
   appear in annotation sheets and final FRUS volumes.
+
+### 6.5C Visual Material, Maps, Photographs, Charts, And Graphic Attachments
+
+Visual material can be selected evidence, an attachment not printed, a map or
+photograph mentioned in transcribed text, a treaty or inspection exhibit, an
+appendix image, or a missing item. The checker must not describe what an image,
+map, chart, photograph, diagram, or graphic attachment shows unless the uploaded
+unit, source image, caption, or registry supplies that description.
+
+Use a visual-material registry when the wrapper can supply one:
+
+```json
+{
+  "visual_material_registry_id": "frus-1981-1992-visual-material-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v05/d16",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d61",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+    "https://history.state.gov/historicaldocuments/frus1981-88v06/d151"
+  ],
+  "records": [
+    {
+      "visual_item_id": "visual-v05-photo-spoof-0016",
+      "unit_id": "document-0016-footnote-0002",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v05/d16",
+      "visual_type": "photograph",
+      "relationship_to_document": "attached_but_not_printed",
+      "published_form": "attached but not printed photograph; title, caption, and visible-person identification supplied in annotation",
+      "caption_or_title_basis": "published follow-on footnote",
+      "visual_description_basis": "published footnote description of title, caption, graininess, and identifiable figures",
+      "publication_status": "not_printed",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "visual_item_id": "visual-bush-start-map-0061",
+      "unit_id": "document-0061-map-note",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d61",
+      "visual_type": "map",
+      "relationship_to_document": "handed_over_during_meeting",
+      "published_form": "bracketed text states that Gorbachev handed over a map; follow-on footnote says the map was not found",
+      "caption_or_title_basis": "not supplied",
+      "visual_description_basis": "transcribed meeting text only",
+      "publication_status": "not_found",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "visual_item_id": "visual-bush-start-monitoring-0001",
+      "unit_id": "document-0001-text",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "visual_type": "verification_photography",
+      "relationship_to_document": "substantive_policy_text",
+      "published_form": "START monitoring discussion refers to portal systems that weigh, measure, photograph, and count rail-launcher cars",
+      "caption_or_title_basis": "not applicable",
+      "visual_description_basis": "selected document text",
+      "publication_status": "text_reference_only",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "visual_item_id": "visual-reagan-inf-photo-exchange-0151",
+      "unit_id": "document-0151-text",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v06/d151",
+      "visual_type": "photograph_exchange",
+      "relationship_to_document": "substantive_meeting_discussion",
+      "published_form": "meeting text discusses U.S. and Soviet exchange of missile photographs",
+      "caption_or_title_basis": "not supplied",
+      "visual_description_basis": "selected memorandum of conversation text",
+      "publication_status": "text_reference_only",
+      "verification_status": "verified_published_pattern"
+    }
+  ]
+}
+```
+
+Allowed `visual_type` values:
+
+- `map`
+- `photograph`
+- `chart`
+- `table_image`
+- `diagram`
+- `graphic_attachment`
+- `appendix_image`
+- `facsimile_image`
+- `verification_photography`
+- `photograph_exchange`
+- `captioned_image`
+- `unknown`
+
+Allowed `relationship_to_document` values:
+
+- `selected_visual_document`
+- `attached_but_not_printed`
+- `printed_attachment`
+- `printed_elsewhere`
+- `handed_over_during_meeting`
+- `substantive_policy_text`
+- `treaty_or_inspection_exhibit`
+- `appendix_or_facsimile`
+- `not_found`
+- `not_attached`
+- `public_source_image`
+- `source_image_only`
+- `unknown`
+
+Allowed `publication_status` values:
+
+- `printed`
+- `not_printed`
+- `printed_elsewhere`
+- `not_found`
+- `not_attached`
+- `text_reference_only`
+- `appendix_image`
+- `source_image_only`
+- `publication_unsuitable`
+- `unknown`
+
+Visual-material validator sequence:
+
+1. Identify every map, photograph, chart, diagram, image, graphic attachment,
+   appendix image, facsimile image, visual exhibit, caption, image title,
+   visual-description note, and not-found visual claim.
+2. Separate the visual item from the surrounding textual source. A memorandum
+   that mentions a map, a treaty provision that requires photographs, and an
+   attached photograph all require different annotation treatment.
+3. Match the unit against `visual_material_context` before changing a visual
+   title, caption, description, publication status, printed target, person or
+   object identification, or not-found/not-attached claim.
+4. Preserve `Attached but not printed`, `Not found`, `Not attached`, `printed
+   elsewhere`, and appendix/facsimile relationships exactly unless the uploaded
+   unit or registry supplies the correction.
+5. Do not invent what a map or image shows. If the source says only that a map
+   was handed over, do not add its title, geography, scale, color, markings, or
+   attached status without visual evidence.
+6. Do not identify people, objects, ships, aircraft, facilities, missiles, or
+   locations in photographs or maps unless the caption, source image, or registry
+   supplies that identification.
+7. Preserve captions and titles as evidence. Do not silently modernize, shorten,
+   or sanitize a caption merely because it is humorous, informal, technical, or
+   politically awkward.
+8. Coordinate with the attachment validator for physical attachment status; with
+   printed/nested attachment rules for parent-child apparatus; with
+   handwritten/facsimile rules for appendix images; with negative-search rules
+   for missing maps or photographs; with treaty/legal and military/crisis rules
+   for inspection, verification, and operational graphics; and with
+   public-source rules for published images.
+9. Add `visual_material_graphic` discrepancies to the General Editor tally only
+   when the visual facts are sound but published or local examples vary on how
+   much caption, visual-description, not-found, attached-but-not-printed, or
+   appendix-image detail to print.
+
+Direct-edit posture:
+
+- Safe direct edits may restore exact supplied words such as `photograph`,
+  `map`, `chart`, `Attached but not printed`, `Not found`, `caption`, or an
+  approved visual title only when the uploaded unit or registry supplies the
+  evidence and the Word anchor is exact.
+- Use `comment_only` with `evidence_request: visual_material_basis` when the
+  visual item type, caption, title, visual description, publication status,
+  attachment status, printed target, not-found claim, appendix/facsimile
+  relationship, source-image basis, or person/object/place identification is
+  missing, conflicting, or inferred.
+- Use `evidence_request: attachment_status` when the blocker is physical
+  attached/not-attached status.
+- Use `evidence_request: printed_attachment_basis` when the blocker is the
+  parent-child printed-apparatus relationship.
+- Use `evidence_request: negative_search_basis` when the visual item is sought
+  but not found.
+- Use `evidence_request: transcription_facsimile_basis` when the visual item is
+  an appendix image or facsimile tied to a transcription.
+- Do not add, delete, or rewrite a caption, image description, map description,
+  or person/object/place identification without supplied visual evidence.
+
+Visual-material audit requirements:
+
+- Count map, photograph, chart, diagram, graphic-attachment, appendix-image,
+  caption/title, attached-but-not-printed, printed-elsewhere, not-found,
+  not-attached, public-source-image, treaty/inspection-exhibit, and
+  source-image-only warnings separately.
+- Preserve registry id, capture date, source URLs, visual type, relationship to
+  document, caption/title basis, visual-description basis, publication status,
+  and verification status in the audit report.
+- Record rejected unsupported visual descriptions, invented identifications,
+  unsupported caption changes, and any change that would alter whether a visual
+  item is printed, attached, not attached, not found, or only referenced in text.
+- Keep a General Editor tally item for recurring variation in how much visual
+  title, caption, description, attachment, not-found, or appendix-image detail
+  should appear in final annotation when the underlying facts are sound.
 
 ### 6.6 Declassification And Omissions
 
@@ -7192,6 +7390,7 @@ Evidence-request categories:
 | `negative_search_basis` | Negative search, no-record, not-found, not-found-attached, no-minutes, no-memcon, no-telcon, unlocated draft, missing attachment, unresolved source path, found-elsewhere, or pending follow-up evidence is uncertain. | Which item was sought, record type, repository/file scope, search basis, result status, follow-up, and public phrase must be checked. |
 | `printed_attachment_basis` | Printed attachment, nested document, child heading, child source note, child classification, parent-child map, printed target, translation/original-text status, or printed-versus-attached-not-printed evidence is uncertain. | Which parent document, child unit, tab/enclosure label, heading, date/title, source note, classification, translation status, printed target, and cross-reference must be checked. |
 | `transcription_facsimile_basis` | Handwritten-note, handwritten-letter, editor-transcribed, transcribed-portion, uncertain-reading, original-bracket, original-ellipsis, cut-off-line, appendix-image, facsimile, or reverse-cross-reference evidence is uncertain. | Which source image, handwritten source, transcription claim, uncertain reading, symbol/structure, appendix image, reverse cross-reference, original-bracket/original-ellipsis statement, or cut-off-line basis must be checked. |
+| `visual_material_basis` | Map, photograph, chart, image, graphic attachment, appendix image, caption, visual title, attached-but-not-printed, not-found, printed target, source-image, publication-suitability, or person/object/place identification evidence is uncertain. | Which visual item, caption/title, source image, attachment or publication status, printed target, not-found search, visual description, or identification basis must be checked. |
 | `time_zone_basis` | Washington-time, local-time, GMT/Z, EDT/EST, date-time-group, treaty-notification, event-time, as-of, deadline, conversion, ambiguity, chronological-placement, or international-date-line evidence is uncertain. | Which time label, source time basis, conversion, date-time group, treaty rule, event/call/telegram relationship, ambiguity caveat, or chronological placement must be checked. |
 | `attachment_status` | Attached, not attached, printed elsewhere, tabbed, enclosed, or not found claims are uncertain. | Which tab, enclosure, paper, or list must be checked. |
 | `document_number` | Same-volume or cross-volume reference lacks a stable document number. | Which target document, chapter, or volume must be matched. |
@@ -7271,6 +7470,7 @@ Default blocking rules:
 | `negative_search_basis` | yes for `Not found`, `Not found attached`, `No minutes were found`, no-record, unlocated-draft, missing-attachment, unresolved-source-path, or found-elsewhere edits | yes when negative-search or no-record language appears in publishable apparatus |
 | `printed_attachment_basis` | yes for printed-attachment, nested-document, child-heading, child-source-note, child-classification, parent-child-map, printed-target, or translation/original-text edits | yes when printed or nested attachment apparatus appears in publishable notes |
 | `transcription_facsimile_basis` | yes for handwritten-note, editor-transcribed, uncertain-reading, original-bracket, original-ellipsis, cut-off-line, appendix-image, facsimile, or reverse-cross-reference edits | yes when handwritten, transcribed, or facsimile apparatus appears in publishable notes |
+| `visual_material_basis` | yes for map, photograph, chart, image, graphic-attachment, caption/title, visual description, publication status, attachment status, not-found, printed-target, source-image, or identification edits | yes when visual-material apparatus appears in publishable notes |
 | `time_zone_basis` | yes for Washington-time, local-time, GMT/Z, EDT/EST, date-time-group, treaty-notification, event-time, as-of, deadline, conversion, ambiguity, chronological-placement, or international-date-line edits | yes when time/date sequence, time-zone labels, or chronological placement appear in publishable apparatus |
 | `attachment_status` | yes | yes when the note asserts attached, not attached, tabbed, enclosed, printed, or not found |
 | `document_number` | yes for cross-reference edits | yes when same-volume or cross-volume references are unstable |
@@ -7304,7 +7504,8 @@ Owner hints:
   issues proof, source-list and front-matter basis, physical/routing evidence,
   source-surrogate/release-identifier basis,
   selection-balance basis, printed/nested-attachment basis,
-  transcription/facsimile basis, time-zone/chronology basis,
+  transcription/facsimile basis, visual-material basis, time-zone/chronology
+  basis,
   retrospective-account basis, sensitive-record source basis,
   negative-search/no-record basis, translation status, and foreign-copy
   provenance.
@@ -7316,7 +7517,8 @@ Owner hints:
   note form, source-list/front-matter form, selection-balance scope questions,
   source-surrogate/release-identifier note form,
   printed/nested-attachment note form, physical/routing note form,
-  transcription/facsimile note form, time-zone/chronology note form,
+  transcription/facsimile note form, visual-material note form,
+  time-zone/chronology note form,
   retrospective-account note form, sensitive-record note form,
   negative-search/no-record wording, publication-status wording, and General
   Editor discrepancy preparation.
@@ -7625,69 +7827,73 @@ For every extracted unit, run checks in this order:
    uncertain readings, original brackets, original ellipses, cut-off lines,
    appendix images, facsimiles, and reverse appendix links against the
    handwritten-transcription registry when supplied.
-19. Check negative-search, no-record, not-found, not-found-attached,
+19. Check maps, photographs, charts, images, graphic attachments, visual
+   captions/titles, not-found visual items, appendix images, printed targets,
+   and person/object/place identification against the visual-material registry
+   when supplied.
+20. Check negative-search, no-record, not-found, not-found-attached,
    no-minutes, no-memcon, no-telcon, unlocated-draft, missing-attachment, and
    found-elsewhere claims against the negative-search registry when supplied.
-20. Check cross-references and follow-on citation form against the
+21. Check cross-references and follow-on citation form against the
    cross-reference registry when supplied.
-21. Check annotation purpose and concision.
-22. Check declassification, omission, original-bracket, release-status, and
+22. Check annotation purpose and concision.
+23. Check declassification, omission, original-bracket, release-status, and
     whole-document withholding language against the declassification registry
     when supplied.
-23. Check target-volume status and whether the note is research-stage,
+24. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-24. Route the unit through the relevant volume family when a 1981-1992
+25. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-25. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
+26. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-26. Check Washington-time, local-time, GMT/Z, EDT/EST, date-time groups, treaty
+27. Check Washington-time, local-time, GMT/Z, EDT/EST, date-time groups, treaty
     notification time rules, as-of times, deadlines, conversions, ambiguity, and
     international-date-line placement against the time-zone registry when
     supplied.
-27. Check summit, travel, ceremony, public address, interview, press
+28. Check summit, travel, ceremony, public address, interview, press
     conference, toast, testimony, public remarks, and public-event sequence
     evidence against the event-chronology registry when supplied.
-28. Check public diplomacy, speeches, press releases, press conferences,
+29. Check public diplomacy, speeches, press releases, press conferences,
     briefings, interviews, broadcasts, testimony, Public Papers, Department of
     State Bulletin, newspaper excerpts, official transcripts, speech files,
     briefing materials, selected-public-document status, and
     supplemental-public-context evidence against the public-source registry when
     supplied.
-29. Check memoirs, published diaries, personal diaries, oral histories, later
+30. Check memoirs, published diaries, personal diaries, oral histories, later
     interviews, recollections, press retrospectives, newspaper accounts,
     selected/supplemental status, official-record relationship, corroborating
     records, and conflict status against the retrospective-account registry when
     supplied.
-30. Check congressional testimony, hearings, public laws, statutes, continuing
+31. Check congressional testimony, hearings, public laws, statutes, continuing
     resolutions, joint resolutions, congressional notifications, Presidential
     Determinations, certifications, Executive Orders, oversight, independent
     counsel, Senate advice-and-consent, and ratification context against the
     congressional/legal registry when supplied.
-31. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
+32. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
     World Bank, MDB, GATT, UNCTAD, OECD, table, amount, percentage, currency,
     fiscal-year, loan, guarantee, quota, replenishment, conditionality, and
     policy-stage evidence against the economic/financial registry when supplied.
-32. Check intelligence, covert-action, law-enforcement, counternarcotics,
+33. Check intelligence, covert-action, law-enforcement, counternarcotics,
     counterterrorism, agency-equity, source-and-methods, operational, oversight,
     foreign-service-contact, sanitized-record, redaction, and public-policy
     evidence against the sensitive-record registry when supplied.
-33. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
+34. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
     combat-operation, contingency-plan, CONPLAN, host-nation notification,
     coalition, peacekeeping, force/unit, time-zone, casualty/damage, and
     military-assistance evidence against the military/crisis registry when
     supplied.
-34. Check human-rights reports, refugee, immigration, asylum, migration, famine,
+35. Check human-rights reports, refugee, immigration, asylum, migration, famine,
     emergency relief, food aid, public-health, AIDS/HIV, population policy,
     environmental, ozone, sanctions, waivers, certifications, public reports,
     international organizations, PVOs, AID/PRM, PL 480, Section 416, and Section
     206 evidence against the human-rights/refugee/global-issues registry when
     supplied.
-35. Check Persons, abbreviations, and index authority issues.
-36. Assign specific evidence requests and verification targets for unresolved
+36. Check Persons, abbreviations, and index authority issues.
+37. Assign specific evidence requests and verification targets for unresolved
     proof.
-37. Decide direct edit versus comment-only.
-38. Return strict JSON.
-39. After schema and semantic validation, aggregate all unresolved evidence
+38. Decide direct edit versus comment-only.
+39. Return strict JSON.
+40. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -7812,6 +8018,10 @@ Duplicate-suppression rules:
   cross-reference target, uncertain reading, original-bracket statement,
   original-ellipsis statement, cut-off-line claim, or transcription-status
   phrase.
+- Merge repeated visual-material issues by visual item type, caption or title,
+  source image, map or photograph target, visual description, attachment or
+  publication status, printed target, not-found search, public/archival basis,
+  person/object/place identification, or appendix/facsimile relationship.
 - Merge repeated wrapper-safety issues by Word structure, such as tables,
   existing tracked changes, footnote references, fields, or comments.
 - Do not merge findings that require different evidence requests or different
@@ -7955,6 +8165,10 @@ Golden packet composition:
   editor-transcribed text, an appendix image, a reverse appendix
   cross-reference, original brackets or ellipses, and bracketed `[unclear]` or
   `[illegible]` readings.
+- At least one visual-material example with a map, photograph, chart, image,
+  caption, visual title, graphic attachment, attached-but-not-printed item,
+  not-found visual item, or appendix image where the checker must preserve the
+  supplied visual basis and comment rather than invent a description.
 - At least one translated or foreign-origin document with official,
   unofficial, informal, Language Services, typed-signature, or foreign-copy
   provenance language, used as a no-change or comment-only control.
@@ -8078,6 +8292,12 @@ Expected behavior by test family:
   `[unclear]`, and `[illegible]`; comment rather than normalize prose, remove a
   facsimile link, or invent an uncertain reading when source-image or
   transcription basis is missing.
+- Visual-material test: preserve supplied map, photograph, chart, image,
+  caption, visual title, attached-but-not-printed, printed-target,
+  printed-elsewhere, not-found, not-attached, public-source-image, and
+  appendix-image facts; comment rather than invent when visual description,
+  source-image, attachment status, printed target, or identification basis is
+  missing.
 - Translation/foreign-origin test: preserve official/unofficial/informal
   translation language, foreign-copy provenance, typed-signature notes, and
   bracket-treatment facts; comment rather than invent when the translation basis
@@ -8269,6 +8489,11 @@ Use the discrepancy tally for:
   appendix reverse links, original brackets, original ellipses, uncertain
   readings, cut-off lines, and preserved handwritten structure when the
   underlying facts are sound.
+- Variations in how much visual-material apparatus to print, including map
+  titles, photograph captions, chart labels, visual descriptions, printed-target
+  statements, attached-but-not-printed phrasing, not-found visual items,
+  appendix-image relationships, source-image references, and
+  person/object/place identifications when the underlying facts are sound.
 - Variations in how much source-surrogate or release-identifier detail to
   print, including RAC caveats, NLR strings, FOIA/mandatory-review identifiers,
   NARA catalog references, PDF or scan locators, `no N number` statements,
@@ -8363,6 +8588,7 @@ Suggested tally format:
 | style-discrepancy-0017 | handwritten_facsimile_transcription | How much transcription-status and facsimile apparatus should appear for handwritten notes, handwritten letters, appendix images, and uncertain readings. | Full source note with editor-transcription statement, appendix image, reverse appendix cross-reference, original-bracket/original-ellipsis statement, and uncertain-reading preservation; shorter source note with details preserved in audit/context | 2 | medium | Should the checker enforce full handwritten/facsimile apparatus in source notes, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0018 | source_surrogate_release | How much RAC/NLR/source-surrogate and release-identifier detail should appear in final source notes versus closed-network audit context. | Repository path plus NLR/release identifier in the source note; repository path in the source note with RAC/URL/PDF/catalog/discovery details retained only in the audit/context bundle | 2 | medium | Should the checker enforce a standard form for RAC/NLR/source-surrogate detail, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0019 | time_zone_chronology | How much time-zone, conversion, date-time-group, treaty-time, and ambiguity detail should appear when the time and sequence facts are sound. | Volume-wide Washington-time rule; telegram Z/GMT label retained without conversion; local-time explanatory note; treaty notification rule; ambiguity preserved in comment or note | 2 | medium | Should the checker enforce a house form for time-zone and chronological-placement detail, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0020 | visual_material_graphic | How much visual-material apparatus should appear for maps, photographs, charts, captions, graphic attachments, and not-found visual items when the facts are sound. | Detailed caption/title and visual-description note; compact attached-but-not-printed or not-found phrase; appendix-image cross-reference with details retained in audit/context | 2 | medium | Should the checker enforce a house form for visual-material notes, or tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -8433,6 +8659,12 @@ Required bundle files:
   symbols or structure, appendix image, facsimile target, reverse appendix
   cross-reference, source-note phrase, verification status, and source URLs for
   handwritten/facsimile records.
+- `visual_material_map`, when available: map, photograph, chart, diagram,
+  image, graphic attachment, appendix image, facsimile image, caption, visual
+  title, visual description, person/object/place identification, source image,
+  tab/enclosure label, attached-but-not-printed status, printed target,
+  not-found or not-attached status, public/archival basis, publication
+  suitability, verification status, and source URLs.
 - `classification_marking_map`, when available: original classification,
   handling, precedence, paragraph-marking, verified absence, and source-phrase
   evidence for source notes, attachments, captions, and selected document
@@ -8710,6 +8942,7 @@ Physical/routing registry: [physical_routing_registry_id and capture date]
 Negative-search/no-record registry: [negative_search_registry_id and capture date]
 Printed/nested-attachment registry: [printed_attachment_registry_id and capture date]
 Handwritten/facsimile transcription registry: [handwritten_transcription_registry_id and capture date]
+Visual-material registry: [visual_material_registry_id and capture date]
 Classification registry: [classification_registry_id and capture date]
 Translation registry: [translation_registry_id and capture date]
 Foreign/international-organization registry: [foreign_international_org_registry_id and capture date]
@@ -8761,6 +8994,7 @@ Counts:
 - Negative-search/no-record/not-found/not-attached/no-minutes issues: [n]
 - Printed attachment, nested document, child apparatus, or printed-target issues: [n]
 - Handwritten-note, facsimile, appendix-image, uncertain-reading, original-bracket, original-ellipsis, or transcription-status issues: [n]
+- Visual-material, map, photograph, chart, caption, graphic attachment, appendix-image, not-found, or visual-identification issues: [n]
 - Classification, handling, precedence, or paragraph-marking issues: [n]
 - Translation, foreign-origin copy, or language-services issues: [n]
 - Foreign-government, international-organization, multilateral, alliance, coalition, conference, treaty-party, or foreign-copy issues: [n]
@@ -8815,6 +9049,9 @@ Printed/nested-attachment warnings:
 
 Handwritten/facsimile transcription warnings:
 - [unit_id or global]: [handwritten/facsimile issue] - [handwritten source, source image, transcribed document, appendix/facsimile target, reverse cross-reference, uncertain reading, original-bracket/original-ellipsis statement, cut-off-line basis, and verification target]
+
+Visual-material warnings:
+- [unit_id or global]: [visual-material issue] - [visual type, caption/title, source image, relationship to document, attachment/publication status, printed target, not-found basis, visual description, person/object/place identification, and verification target]
 
 Classification/handling warnings:
 - [unit_id or global]: [marking issue] - [original marking, handling/precedence, and evidence basis]
@@ -8960,6 +9197,11 @@ Minimum components:
   original brackets, original ellipses, cut-off lines, appendix images,
   facsimiles, preserved handwritten structure, and reverse appendix
   cross-references before tracked changes are applied.
+- Visual-material validator that distinguishes maps, photographs, charts,
+  diagrams, images, graphic attachments, appendix images, captions, visual
+  titles, visual descriptions, printed targets, attached-but-not-printed,
+  not-found, not-attached, public-source images, and source-image-only evidence
+  before tracked changes are applied.
 - Communications-record validator that checks telegram, cable, STARS, CFPF,
   PROFS, W Files, System IV, agency-message, and other electronic-message
   identifiers, origin/addressee, date-time group, precedence,
@@ -9080,6 +9322,11 @@ Operational cautions:
   original-bracket or original-ellipsis ambiguity, cut-off-line claims,
   appendix-image and reverse-link failures, rejected attempts to normalize
   transcribed text, and handwritten/facsimile discrepancy questions.
+- Record visual-material registry version, map/photo/chart/image item type,
+  caption or title basis, visual-description basis, source-image gaps,
+  attachment or publication status, printed target, not-found/not-attached
+  basis, public/archival basis, person/object/place identification issues,
+  rejected unsupported descriptions, and visual-material discrepancy questions.
 - Record classification-registry version, missing original markings,
   unsupported `No classification marking` claims, handling/precedence
   mismatches, paragraph-marking questions, release-status confusions, and
@@ -9227,6 +9474,10 @@ Needs revision:
   cut-off lines, or `[unclear]`/`[illegible]` readings are normalized, filled
   in, or changed without supplied transcription/facsimile basis and source-image
   support.
+- Maps, photographs, charts, images, graphic attachments, captions, visual
+  titles, not-found visual items, printed targets, appendix-image references, or
+  person/object/place identifications are described, corrected, or changed
+  without supplied `visual_material_basis`.
 - Diary/schedule evidence is used as substantive conversation evidence.
 - Summit, travel, ceremony, press, or public-event sequence is asserted without
   public-source, diary/schedule, press, or full-record target support.
@@ -9310,6 +9561,7 @@ family router:
 - `https://history.state.gov/historicaldocuments/reagan`
 - `https://history.state.gov/historicaldocuments/bush-ghw`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d1`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/d61`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d24`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d3`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/ch1`
@@ -9332,6 +9584,8 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d260`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d100`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d282`
+- `https://history.state.gov/historicaldocuments/frus1981-88v05/d16`
+- `https://history.state.gov/historicaldocuments/frus1981-88v06/d151`
 - `https://history.state.gov/historicaldocuments/frus1981-88v13/ch3`
 - `https://history.state.gov/historicaldocuments/frus1981-88v13/d43`
 - `https://history.state.gov/historicaldocuments/frus1981-88v13/d160`
@@ -9501,6 +9755,7 @@ Recent Bush source incorporated:
 - [FRUS, 1989-1992, Volume XXXI, START I, 1989-1991](https://history.state.gov/historicaldocuments/frus1989-92v31)
 - [START I preface on selection principles, negotiation movement, interagency records, domestic context, and treaty outcome](https://history.state.gov/historicaldocuments/frus1989-92v31/preface)
 - [Bush Vice Presidential Records source note with Watson initialing and Bush marginalia, Document 1](https://history.state.gov/historicaldocuments/frus1989-92v31/d1)
+- [START I map handed over during Malta session and marked not found, Document 61](https://history.state.gov/historicaldocuments/frus1989-92v31/d61)
 - [NSC/DC H-Files source note with sent-for-action and read-by/routing evidence, Document 24](https://history.state.gov/historicaldocuments/frus1989-92v31/d24)
 - [START endgame telegram with London Economic Summit news-conference note, Document 237](https://history.state.gov/historicaldocuments/frus1989-92v31/d237)
 - [Moscow Summit and START signing editorial note, Document 245](https://history.state.gov/historicaldocuments/frus1989-92v31/d245)
@@ -9513,7 +9768,15 @@ Recent Bush source incorporated:
 - [START I preface on Soviet dissolution and Lisbon Protocol successor-state context](https://history.state.gov/historicaldocuments/frus1989-92v31/preface)
 - [START data-denial, intelligence, DOD, CIA, JCS, and redaction example, Document 172](https://history.state.gov/historicaldocuments/frus1989-92v31/d172)
 - [START I foreign-paper attachment printed inside parent document with child heading and child source note, Document 222](https://history.state.gov/historicaldocuments/frus1989-92v31/d222)
+- [START I monitoring discussion with photographing and counting rail-launcher cars, Document 1](https://history.state.gov/historicaldocuments/frus1989-92v31/d1)
 - [FRUS, 1989-1992, Volume XXXI, START I, 1989-1991 EPUB](https://static.history.state.gov/frus/frus1989-92v31/ebook/frus1989-92v31.epub)
+
+Visual-material source examples incorporated:
+
+- [START I map handed over during Malta session and marked not found, Document 61](https://history.state.gov/historicaldocuments/frus1989-92v31/d61)
+- [START I monitoring discussion with photographing and counting rail-launcher cars, Document 1](https://history.state.gov/historicaldocuments/frus1989-92v31/d1)
+- [Reagan Soviet Union attached-but-not-printed photograph with caption and visible-person description, Document 16](https://history.state.gov/historicaldocuments/frus1981-88v05/d16)
+- [Reagan Soviet Union INF photograph-exchange discussion, Document 151](https://history.state.gov/historicaldocuments/frus1981-88v06/d151)
 
 Current status source incorporated:
 
