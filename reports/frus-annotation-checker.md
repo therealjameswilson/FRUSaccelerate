@@ -243,6 +243,12 @@ The wrapper should provide the LLM with:
   source-list draft, Persons/abbreviations draft, or mixed editorial packet;
   whether source images or scans are available to the wrapper; and whether the
   user wants a light, normal, or exhaustive redline.
+- `style_discrepancy_ledger_context`, if available: the current project-level
+  General Editor discrepancy ledger, including open, provisional, resolved, and
+  retired discrepancy ids; categories; representative examples; counts; prior
+  provisional guidance; and any General Editor decisions. The wrapper should
+  load this so the LLM can update known questions instead of recreating
+  duplicates.
 
 Each extracted unit should have a stable `unit_id`.
 
@@ -320,7 +326,11 @@ The LLM must return valid JSON with this shape:
       "count": 1,
       "risk": "low | medium | high",
       "checker_action": "no_change | comment_only | direct_edit_applied",
-      "general_editor_question": "Decision question for the General Editor."
+      "general_editor_question": "Decision question for the General Editor.",
+      "status": "open | provisional_guidance | resolved | retired",
+      "first_seen": "Run id or date when first recorded, if supplied by the wrapper.",
+      "last_seen": "Current run id or date, if supplied by the wrapper.",
+      "resolution_note": "Empty unless General Editor guidance has been supplied."
     }
   ]
 }
@@ -344,6 +354,9 @@ Rules for JSON edits:
   edits and `no_change` findings.
 - Use `style_discrepancy_tally` for recurring style variations that should be
   reviewed by the General Editor rather than silently normalized by the checker.
+- If `style_discrepancy_ledger_context` is supplied, reuse the existing
+  `discrepancy_id` for the same style question and update count, examples,
+  `last_seen`, and status rather than creating a duplicate item.
 
 ### 3.1 Machine-Readable Output JSON Schema
 
@@ -678,6 +691,24 @@ run the semantic and Word-safety validators below.
           },
           "general_editor_question": {
             "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "provisional_guidance",
+              "resolved",
+              "retired"
+            ]
+          },
+          "first_seen": {
+            "type": "string"
+          },
+          "last_seen": {
+            "type": "string"
+          },
+          "resolution_note": {
+            "type": "string"
           }
         }
       }
@@ -883,6 +914,91 @@ Track-change construction:
 - After writing the output `.docx`, reopen it and confirm that the package is
   readable, all expected parts exist, and the count of applied tracked edits and
   comments matches the audit report.
+
+### 4.2 Minimal WordprocessingML Edit-Applier Contract
+
+The implementation wrapper should treat tracked changes as an Open XML
+construction problem, not as a plain-text find-and-replace problem. Toggling
+track revisions in `word/settings.xml` is not enough; the wrapper must write the
+revision markup for the actual accepted edits and then verify that Word can
+open the resulting package.
+
+Required package preflight:
+
+- Confirm that `[Content_Types].xml`, `_rels/.rels`, `word/document.xml`,
+  `word/_rels/document.xml.rels`, `word/settings.xml`, and every referenced
+  note/comment/header/footer part needed by editable units exists.
+- If `word/comments.xml` is absent and a checker comment must be inserted,
+  create the comments part, add its relationship from `word/document.xml.rels`,
+  and add the required content type override.
+- Preserve package-level metadata, relationship ids, numbering, styles, theme,
+  media, footnotes, endnotes, headers, footers, and custom XML unless an
+  accepted checker operation targets that part.
+- Allocate revision ids and comment ids from the maximum existing id across the
+  relevant Word parts. Never reuse an id already present in the uploaded file.
+- Use one author string for all generated revisions and comments:
+  `FRUS Annotation Checker`.
+
+Run splitting rules:
+
+- Map `original_text` to a sequence of text-bearing run nodes before editing.
+  If the target begins or ends in the middle of a run, split the run into
+  before/target/after runs while preserving run properties.
+- Reject or downgrade any edit whose target crosses a footnote reference,
+  endnote reference, field code, hyperlink boundary, bookmark boundary, comment
+  boundary, content-control boundary, table-cell boundary, paragraph boundary,
+  math object, image, drawing, or existing unresolved revision.
+- Preserve `xml:space="preserve"` behavior when leading, trailing, or repeated
+  spaces matter. Do not trim source-note punctuation or spacing while splitting
+  runs.
+- Apply edits at run level whenever possible. Paragraph, table-row,
+  table-cell, style, numbering, and section-property revisions require a
+  separate human-approved wrapper mode and should otherwise become comments.
+
+Tracked insertion and deletion rules:
+
+- Insertions must be represented as `w:ins` revision content with `w:id`,
+  `w:author`, and `w:date`, containing normal runs and `w:t` text.
+- Deletions must be represented as `w:del` revision content with `w:id`,
+  `w:author`, and `w:date`; deleted literal text should be preserved as
+  `w:delText`, not removed from the package.
+- Replacements must be represented as adjacent deletion and insertion revisions.
+  Do not overwrite text in place and then rely on `w:trackRevisions` to make it
+  visible.
+- Preserve run properties around insertions and deletions unless the accepted
+  edit explicitly changes formatting and the wrapper can represent that format
+  safely.
+- Do not create move revisions for FRUS checker edits. Treat move-like
+  recommendations as comments unless a future wrapper mode explicitly supports
+  `moveFrom` and `moveTo` validation.
+
+Comment construction rules:
+
+- Add each checker comment to `word/comments.xml` with a stable id, author,
+  date, and concise text.
+- Anchor comments in the edited Word story with `w:commentRangeStart`,
+  `w:commentRangeEnd`, and a `w:commentReference` with the same id when a safe
+  range exists.
+- If a range anchor is unsafe, attach the comment to the smallest safe
+  paragraph, footnote, endnote, heading, or table cell and record the downgraded
+  anchor in the audit report.
+- Never place comment range markers inside the comment-content story itself or
+  leave a `w:commentRangeEnd` without a matching range start and reference.
+
+Post-write validation:
+
+- Reopen the output `.docx` as a zip package and parse every edited XML part.
+- Verify that every generated `w:ins`, `w:del`, and comment has an id, author,
+  and date, and that all generated ids are unique within their required scope.
+- Verify that every checker comment id has a comment body, a reference in the
+  document story, and matching range markers when a range anchor was used.
+- Verify that deleted source text still appears in deletion markup and inserted
+  text appears only in insertion markup.
+- Verify that the final counts of accepted insertions, accepted deletions,
+  comments, downgraded edits, and rejected edits match the audit report.
+- If a headless LibreOffice, Word, or Open XML SDK validation step is available
+  on the closed network, run it before offering the download. If not, mark the
+  output `needs_manual_open_check` in the audit report.
 
 ## 5. Review Severity
 
@@ -8633,6 +8749,12 @@ defensible form. The checker should not flatten these variations into one style
 unless the uploaded standard, General Editor guidance, or direct evidence makes
 the answer clear.
 
+Treat the tally as a living General Editor ledger, not as an error list. The
+ledger should help decide proper style for FRUS volumes going forward by
+preserving recurrent questions, representative examples, counts, risk, and any
+later General Editor disposition. A volume can pass review while still adding
+items to this ledger.
+
 Use the discrepancy tally for:
 
 - Published or exemplar notes that use different but plausible source-note
@@ -8795,6 +8917,20 @@ Tally behavior:
   instead of overwriting prior General Editor questions. A later run may update
   counts, examples, and risk, but it should preserve the question history until
   the General Editor resolves or retires it.
+- Each running-ledger item should track `status`, `first_seen`, `last_seen`,
+  representative unit ids, variants observed, count, risk, provisional guidance
+  if any, and a `resolution_note` when the General Editor decides a house rule.
+- Status meanings:
+  - `open`: recurring style question with no house decision yet.
+  - `provisional_guidance`: the checker may suggest a conservative handling,
+    but the General Editor has not yet converted it into a rule.
+  - `resolved`: the General Editor has supplied a decision that should be
+    folded into the standard or volume-specific context bundle.
+  - `retired`: the question is no longer active because the pattern was
+    superseded, irrelevant to the volume family, or based on bad context.
+- The checker may propose provisional guidance, but only General Editor
+  guidance or an uploaded governing standard should mark a discrepancy
+  `resolved`.
 - The tally should preserve representative unit ids, short examples, source
   labels or URLs supplied in context, counts, and the exact question for the
   General Editor.
@@ -8836,6 +8972,18 @@ Suggested tally format:
 | style-discrepancy-0025 | decision_process_directive | How much NSC/interagency decision-process and directive apparatus should appear in source notes or annotations when decision-stage facts are sound. | Full decision-process note with body, directive number, option, Summary of Conclusions, tab, recommendation, agency position, and decision stage; shorter note with process detail retained in audit/context | 2 | high | Should the checker enforce a house form for NSC/interagency decision-process notes, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0026 | communications_record | How much telegram, cable, electronic-message, and communications-system metadata should appear in source notes or annotations when the message facts are sound. | Full message apparatus with CFPF D/N/P or Electronic Telegrams, STARS/PROFS/W Files/System IV label, message number, special designator, DTG, precedence, `no N number`, drafting, clearance, approval, and distribution; shorter source note with metadata retained in audit/context | 2 | medium | Should the checker enforce a house form for communications-record metadata, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0027 | publication_status | How should status-stage and cross-volume publication language be worded when a related Reagan/Bush volume is being cleared, researched, planned, anticipated, or newly published. | Conservative `scheduled for publication` or `planned for publication` language with comment-only update; direct `printed in` update only when current official status plus stable document/chapter target are supplied | 2 | high | Should the checker ever direct-edit status-stage language from the status registry alone, or should it always tally these cases for General Editor decision unless a document target is supplied? |
+
+For the separate running ledger, add these columns or equivalent structured
+fields:
+
+| Field | Use |
+| --- | --- |
+| `status` | `open`, `provisional_guidance`, `resolved`, or `retired`. |
+| `first_seen` | First run id, date, packet, or volume where the discrepancy appeared. |
+| `last_seen` | Most recent run id, date, packet, or volume where it recurred. |
+| `examples` | Representative unit ids plus source labels or published/local examples supplied in context. |
+| `provisional_guidance` | Conservative checker handling while awaiting General Editor decision. |
+| `resolution_note` | General Editor decision, scope, date, and whether it updates the standard, a volume-family rule, or only the current volume. |
 
 Risk levels:
 
@@ -10309,6 +10457,15 @@ Cross-reference warnings:
 Style discrepancy tally:
 - [discrepancy_id]: [category] - [style_question] - count [n] - risk [level]
 
+General Editor running discrepancy ledger:
+- [discrepancy_id]: [status] - [category] - [style_question]
+- First seen: [run/date/volume] - Last seen: [run/date/volume]
+- Variants observed: [variant_a] / [variant_b or additional variants]
+- Representative examples: [unit ids, published URLs, local exemplar labels]
+- Provisional checker handling: [no_change/comment_only/direct_edit policy]
+- General Editor question: [decision question]
+- Resolution note: [empty unless General Editor guidance is supplied]
+
 Rejected edits:
 - [unit_id]: original_text was not found exactly in target unit.
 - [unit_id]: edit rejected because unit was context-only or overlap-only.
@@ -10837,6 +10994,12 @@ This checker is based on the local file:
 - `reports/frus1989-92v31-annotation-corpus.json`
 - Uploaded exemplar Word file: `Foundations Consolidated.docx`, treated as a
   clean finished-form model for annotation style and source-note cadence.
+
+Open XML and WordprocessingML implementation references used for the Word
+wrapper contract:
+
+- [Microsoft Learn TrackRevisions class](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.wordprocessing.trackrevisions?view=openxml-3.0.1)
+- [Microsoft Learn DeletedRun class](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.wordprocessing.deletedrun?view=openxml-3.0.1)
 
 Official History Office pages refreshed for the 1981-1992 status and volume
 family router:
