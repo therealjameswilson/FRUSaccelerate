@@ -23,6 +23,9 @@ For exact-anchor and Word-safety preflight, use
 `scripts/preflight-frus-checker-plan.mjs` with
 `reports/frus-annotation-checker-extracted-units.sample.json` and
 `reports/frus-annotation-checker-direct-edit-sample-output.json`.
+For narrow direct-edit application after validation and preflight, use
+`scripts/apply-frus-track-changes.mjs`; the self-contained smoke test is
+`scripts/test-frus-track-change-applier.mjs`.
 For status-sensitive phrases, use
 `scripts/preflight-frus-status-claims.mjs` with
 `reports/frus-status-registry-1981-1992.sample.json` and
@@ -1057,7 +1060,8 @@ The closed-network application must perform these functions outside the LLM:
 8. Apply accepted edits as Word tracked changes:
    - deleted text becomes Word deletion markup;
    - inserted or replacement text becomes Word insertion markup;
-   - comments become Word comments authored by `FRUS Annotation Checker`;
+   - comments become Word comments authored by `FRUS Annotation Checker` in the
+     fuller wrapper;
    - original document text remains untouched unless explicitly targeted.
 9. Preserve existing tracked changes unless the user chooses to accept or reject
    them before running the checker.
@@ -11845,8 +11849,11 @@ Minimum components:
 - Evidence-request queue builder that groups missing proof by type,
   verification target, owner hint, and blocking state before tracked changes are
   applied.
-- WordprocessingML edit applier that can create real tracked insertions,
-  deletions, and comments.
+- Minimal WordprocessingML edit applier now available:
+  `scripts/apply-frus-track-changes.mjs` can create real tracked insertions and
+  deletions for narrow, verified single-run anchors. Comment anchoring and
+  complex multi-run/table/field/note-reference anchors still require the fuller
+  wrapper or must remain comment-only.
 - Word redline integrity validator that checks revision/comment ids, anchor
   uniqueness, existing tracked-change overlap, field/bookmark/hyperlink/
   note-reference boundaries, pseudo-marker boundaries, relationship and

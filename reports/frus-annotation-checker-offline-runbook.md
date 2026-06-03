@@ -76,9 +76,17 @@ node scripts/build-frus-evidence-queue.mjs --output output.json --review-mode no
 node scripts/build-frus-discrepancy-ledger.mjs --output output.json --existing prior-ledger.json --run-id RUN-ID > discrepancy-ledger.json
 ```
 
-9. Apply only accepted edits as real WordprocessingML tracked insertions,
-   deletions, and comments. Preserve existing human revisions unless the user
-   chose to accept or reject them before the checker run.
+9. Apply only accepted direct edits as real WordprocessingML tracked insertions
+   and deletions. The no-dependency applier handles narrow, verified
+   single-run anchors and fails on complex anchors rather than guessing:
+
+```sh
+node scripts/apply-frus-track-changes.mjs --docx input.docx --units extracted-units.json --checker-output output.json --out revised.docx
+```
+
+   Comments and complex Word anchors should be handled by the fuller wrapper or
+   left as audit/comment-only items. Preserve existing human revisions unless
+   the user chose to accept or reject them before the checker run.
 10. Reopen and validate the revised `.docx`. Do not release the file if XML,
     comments, relationships, tracked-change ids, marker boundaries, or audit
     counts fail validation.
@@ -100,6 +108,7 @@ node scripts/verify-frus-offline-bundle.mjs --skip-smoke --format text
 node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json
 node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-direct-edit-sample-output.json
 node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json
+node scripts/test-frus-track-change-applier.mjs
 node scripts/validate-frus-status-registry.mjs --registry reports/frus-status-series-1981-1992.current.json --today 2026-06-03
 node scripts/validate-frus-preparation-router.mjs --router reports/frus-preparation-router-1981-1992.current.json --status-registry reports/frus-status-series-1981-1992.current.json
 node scripts/validate-frus-permutation-matrix.mjs --matrix reports/frus-annotation-permutation-matrix.json --schema reports/frus-annotation-checker-output.schema.json --router reports/frus-preparation-router-1981-1992.current.json
