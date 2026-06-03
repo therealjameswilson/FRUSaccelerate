@@ -219,6 +219,17 @@ The wrapper should provide the LLM with:
   cross-volume, footnote, appendix, tab, attachment, printed-elsewhere,
   scheduled-publication, and public-source references with target status,
   document number, volume title, and verification basis.
+- `canonical_citation_context`, if available: structured History Office
+  citation guidance and canonical URL mappings, including target volume id,
+  document id, document number, page-image ids such as `pg_190`, volume URL,
+  document URL, page-image URL, access-date policy if supplied, and whether the
+  target volume belongs to the modern document-numbered FRUS corpus or an older
+  page-number-only exception.
+- `general_editor_discrepancy_ledger_context`, if available: a prior running
+  General Editor ledger for this project or volume family, including
+  discrepancy id, category, status, first-seen and last-seen run, variants
+  observed, representative unit ids or published URLs, count, risk, provisional
+  checker handling, General Editor question, and resolution note.
 - `series_status_context`, if available: current History Office status
   (`published`, `anticipated`, `being_cleared`, `being_researched`, or
   `planned`), target volume title, known chapter status, and any official
@@ -690,6 +701,12 @@ run the semantic and Word-safety validators below.
           "variant_b": {
             "type": "string"
           },
+          "additional_variants": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "unit_ids": {
             "type": "array",
             "items": {
@@ -741,6 +758,9 @@ run the semantic and Word-safety validators below.
             "type": "string"
           },
           "resolution_note": {
+            "type": "string"
+          },
+          "ledger_note": {
             "type": "string"
           }
         }
@@ -2690,6 +2710,38 @@ Cross-reference validator sequence:
    published or public source is the selected evidence.
 8. Reconcile cross-references after chunk merging, because targets may appear in
    later chunks.
+
+Canonical History Office citation and URL rules:
+
+1. For Reagan and George H.W. Bush FRUS volumes, prefer document-number
+   references over page-number references when a document number is available.
+   Document numbers are media-neutral across print, web, and ebook formats.
+2. Treat canonical document URLs as structured History Office targets:
+   `https://history.state.gov/historicaldocuments/{volume_id}/d{document_number}`.
+   Example target shapes include `frus1981-88v01/d33` and
+   `frus1989-92v31/d75`.
+3. Treat page-image URLs as a separate citation type. Page-image identifiers use
+   `pg_` plus a page number, such as `pg_190`, and are not substitutes for
+   document-number references when the document number is available.
+4. Treat volume URLs, chapter URLs, document URLs, page-image URLs, static EPUB,
+   Mobi, PDF URLs, OPDS catalog links, and GPO/bookstore links as different
+   target classes. Do not rewrite one class into another without wrapper
+   evidence that the target class is intended.
+5. If a draft annotation cites only a static ebook/download URL for a target
+   document, add a comment asking for the canonical document URL or document
+   number unless the citation is specifically about digital-edition apparatus.
+6. If the target is an older pre-document-number FRUS volume, preserve the page
+   citation unless the wrapper supplies a modern web document id and a
+   user-approved citation policy. Do not force modern document-number style onto
+   older print-page citations.
+7. Do not add an access date to annotation apparatus unless the uploaded
+   standard, wrapper, or General Editor guidance requires it. If an access date
+   is present, preserve it unless it is clearly part of non-editorial site
+   extraction noise.
+8. Route unresolved choices between page-image citation, document-number
+   citation, canonical URL, and download URL to `comment_only` with
+   `evidence_request: cross_reference` or `release_apparatus_basis`, as
+   appropriate.
 
 Direct-edit posture:
 
@@ -9042,6 +9094,7 @@ Suggested tally format:
 | style-discrepancy-0025 | decision_process_directive | How much NSC/interagency decision-process and directive apparatus should appear in source notes or annotations when decision-stage facts are sound. | Full decision-process note with body, directive number, option, Summary of Conclusions, tab, recommendation, agency position, and decision stage; shorter note with process detail retained in audit/context | 2 | high | Should the checker enforce a house form for NSC/interagency decision-process notes, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0026 | communications_record | How much telegram, cable, electronic-message, and communications-system metadata should appear in source notes or annotations when the message facts are sound. | Full message apparatus with CFPF D/N/P or Electronic Telegrams, STARS/PROFS/W Files/System IV label, message number, special designator, DTG, precedence, `no N number`, drafting, clearance, approval, and distribution; shorter source note with metadata retained in audit/context | 2 | medium | Should the checker enforce a house form for communications-record metadata, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0027 | publication_status | How should status-stage and cross-volume publication language be worded when a related Reagan/Bush volume is being cleared, researched, planned, anticipated, or newly published. | Conservative `scheduled for publication` or `planned for publication` language with comment-only update; direct `printed in` update only when current official status plus stable document/chapter target are supplied | 2 | high | Should the checker ever direct-edit status-stage language from the status registry alone, or should it always tally these cases for General Editor decision unless a document target is supplied? |
+| style-discrepancy-0028 | citation | How to handle canonical History Office document URLs, page-image URLs, static ebook/download URLs, and access-date language when the underlying citation target is sound. | Document-number citation with canonical `/d[n]` URL; page-image URL such as `pg_[n]`; volume/chapter/download URL retained as digital-edition apparatus; access date retained or omitted by local rule | 2 | medium | Should the checker enforce a single house form for online History Office citation targets in Reagan/Bush volumes, or keep tallying target-class variation for General Editor decision? |
 
 For the separate running ledger, add these columns or equivalent structured
 fields:
@@ -10573,6 +10626,7 @@ Counts:
 - Evidence requests by type: [source_image n; archival_path n; classification_marking n; etc.]
 - Evidence queue open/resolved/deferred/waived/blocked: [open n; resolved n; deferred n; waived n; blocked n]
 - Style discrepancies tallied for General Editor: [n]
+- General Editor discrepancy ledger status: [open n; provisional_guidance n; resolved n; retired n]
 - Duplicate findings merged: [n]
 - Cross-chunk conflicts reconciled: [n]
 - Flat-style extraction fallback units: [n]
@@ -10582,6 +10636,10 @@ Counts:
 - History Office site-chrome regions removed before LLM review: [n]
 - History Office download/tag/footer/search items retained only as release or navigation context: [n]
 - History Office extracts needing manual page-extraction review: [n]
+- Canonical History Office document URL/document-number targets checked: [n]
+- Page-image, static-download, volume/chapter, OPDS, or GPO links kept out of document-number citations: [n]
+- Page-number citations preserved as older-volume exceptions: [n]
+- Canonical citation target conflicts or missing document-number mappings: [n]
 - Office of the Historian OPDS catalog entries used for download metadata: [n]
 - OPDS acquisition links preserved by media type: [EPUB n; Mobi n; PDF n; cover image n]
 - OPDS updated timestamps rejected as ambiguous publication/release-date evidence: [n]
@@ -10644,6 +10702,9 @@ Extraction/unitization warnings:
 
 History Office page-extraction warnings:
 - [source_url or global]: [page type] - [retained region or removed site-chrome issue] - [recommended posture]
+
+Canonical citation warnings:
+- [unit_id or global]: [uploaded citation or link] - [target class] - [canonical target or missing mapping] - [recommended posture]
 
 OPDS ebook-catalog warnings:
 - [catalog entry or feed]: [download, media-type, updated-timestamp, tag/search, or link-rel issue] - [recommended posture]
@@ -10762,11 +10823,12 @@ Style discrepancy tally:
 General Editor running discrepancy ledger:
 - [discrepancy_id]: [status] - [category] - [style_question]
 - First seen: [run/date/volume] - Last seen: [run/date/volume]
-- Variants observed: [variant_a] / [variant_b or additional variants]
+- Variants observed: [variant_a] / [variant_b] / [additional variants if any]
 - Representative examples: [unit ids, published URLs, local exemplar labels]
 - Provisional checker handling: [no_change/comment_only/direct_edit policy]
 - General Editor question: [decision question]
 - Resolution note: [empty unless General Editor guidance is supplied]
+- Ledger note: [merge/update note, including whether this is new, recurring, resolved, or retired]
 
 Rejected edits:
 - [unit_id]: original_text was not found exactly in target unit.
@@ -11311,6 +11373,7 @@ family router:
 
 - `https://history.state.gov/developer/catalog`
 - `https://history.state.gov/api/v1/catalog`
+- `https://history.state.gov/historicaldocuments/citing-frus`
 - `https://history.state.gov/historicaldocuments/status-of-the-series`
 - `https://history.state.gov/historicaldocuments/reagan`
 - `https://history.state.gov/historicaldocuments/bush-ghw`
