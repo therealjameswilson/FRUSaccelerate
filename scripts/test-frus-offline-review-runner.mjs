@@ -201,6 +201,8 @@ try {
       "reports/frus-source-list-registry.sample.json",
       "--document-metadata-registry",
       "reports/frus-document-metadata-registry.sample.json",
+      "--classification-registry",
+      "reports/frus-classification-registry.sample.json",
       "--preparation-router",
       "reports/frus-preparation-router-1981-1992.current.json",
       "--permutation-matrix",
@@ -241,6 +243,10 @@ try {
   assert(audit.counts.document_metadata_registry_usages === 0, "expected zero document metadata registry usages");
   assert(audit.counts.document_metadata_registry_warnings === 0, "expected zero document metadata registry warnings");
   assert(audit.counts.document_metadata_direct_edit_conflicts === 0, "expected zero document metadata direct-edit conflicts");
+  assert(audit.counts.classification_registry_usages === 1, "expected one classification registry usage");
+  assert(audit.counts.classification_registry_warnings === 0, "expected zero classification registry warnings");
+  assert(audit.counts.classification_release_status_confusions === 0, "expected zero classification release-status confusions");
+  assert(audit.counts.classification_direct_edit_conflicts === 0, "expected zero classification direct-edit conflicts");
   assert(audit.counts.annotation_sheet_profile_lexical_misclassifications === 0, "expected zero profile lexical misses");
   assert(audit.counts.annotation_sheet_profile_unexpected_angle_tokens === 0, "expected zero profile unexpected angle tokens");
   assert(audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts === 0, "expected zero profile marker conflicts");
@@ -261,6 +267,8 @@ try {
     "source-list-usage-audit.json",
     "document-metadata-registry-validation.json",
     "document-metadata-usage-audit.json",
+    "classification-registry-validation.json",
+    "classification-usage-audit.json",
     "preparation-router-validation.json",
     "permutation-matrix-validation.json",
     "evidence-queue.json",

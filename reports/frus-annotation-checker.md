@@ -58,6 +58,13 @@ For document-metadata validation, use
 `reports/frus-document-metadata-units.sample.json`; the self-contained smoke
 test is `scripts/test-frus-document-metadata-audit.mjs`, and the sample audit
 report is `reports/frus-document-metadata-audit.sample.json`.
+For classification/handling validation, use
+`scripts/validate-frus-classification-registry.mjs` and
+`scripts/audit-frus-classification-usage.mjs` with
+`reports/frus-classification-registry.sample.json` and
+`reports/frus-classification-units.sample.json`; the self-contained smoke test
+is `scripts/test-frus-classification-audit.mjs`, and the sample audit report is
+`reports/frus-classification-audit.sample.json`.
 For finished-form annotation-sheet profile validation, use
 `scripts/audit-frus-annotation-sheet-profile.mjs` with
 `reports/frus-annotation-sheet-profile.sample.json`,
@@ -11953,6 +11960,16 @@ Minimum components:
   editorial-note forms, sender/recipient forms, and source-note linkage to
   supplied document-page metadata, and fails direct metadata edits that lack
   supplied registry support.
+- No-dependency classification/handling registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-classification-registry.mjs`,
+  `scripts/audit-frus-classification-usage.mjs`,
+  `reports/frus-classification-registry.sample.json`,
+  `reports/frus-classification-units.sample.json`, and
+  `reports/frus-classification-audit.sample.json`. The audit reconciles source
+  notes and attachment notes to supplied original classification markings,
+  handling controls, and verified absence-of-marking phrases; it separates
+  later release/declassification language from original markings and fails
+  direct classification edits that lack supplied registry support.
 - No-dependency finished-form annotation-sheet profile audit and fixtures:
   `scripts/audit-frus-annotation-sheet-profile.mjs`,
   `scripts/test-frus-annotation-sheet-profile.mjs`,

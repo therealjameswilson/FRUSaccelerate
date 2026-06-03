@@ -1,0 +1,165 @@
+{
+  "schema_version": "frus-classification-usage-audit-v1",
+  "units": "reports/frus-classification-units.sample.json",
+  "registry": "reports/frus-classification-registry.sample.json",
+  "checker_output": "",
+  "target_volume": "frus1989-92v31",
+  "status": "warning",
+  "summary": {
+    "units_scanned": 6,
+    "classification_usages": 5,
+    "warnings": 4,
+    "release_status_confusions": 1,
+    "unmatched_classification_like_units": 1,
+    "direct_classification_edit_conflicts": 0,
+    "by_usage_status": {
+      "approved": 2,
+      "cross_volume_classification": 2,
+      "safe_variant_normalization": 1
+    }
+  },
+  "usages": [
+    {
+      "unit_id": "classification-source-note-0001",
+      "unit_type": "source_note",
+      "location": "START I Document 1 source note",
+      "classification_item_id": "classification-v31-d1-main",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "unit_scope": "source_note",
+      "approved_marking": "Top Secret; Sensitive; Eyes Only",
+      "marking_components": [
+        "Top Secret"
+      ],
+      "handling_controls": [
+        "Sensitive",
+        "Eyes Only"
+      ],
+      "matched_text": "Top Secret; Sensitive; Eyes Only",
+      "match_kind": "approved_marking",
+      "usage_status": "approved",
+      "recommended_action": "no_change",
+      "finding": "Matched approved classification/handling marking for frus1989-92v31/d1.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_classification"
+    },
+    {
+      "unit_id": "classification-attachment-note-0002",
+      "unit_type": "follow_on_footnote",
+      "location": "START I Document 1 attachment classification note",
+      "classification_item_id": "classification-v31-d1-attachment",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "unit_scope": "attachment_note",
+      "approved_marking": "Top Secret",
+      "marking_components": [
+        "Top Secret"
+      ],
+      "handling_controls": [],
+      "matched_text": "Top Secret",
+      "match_kind": "approved_marking",
+      "usage_status": "approved",
+      "recommended_action": "no_change",
+      "finding": "Matched approved classification/handling marking for frus1989-92v31/d1.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_classification"
+    },
+    {
+      "unit_id": "classification-source-note-0003",
+      "unit_type": "source_note",
+      "location": "Reagan NSP source note inside START I packet",
+      "classification_item_id": "classification-v44p1-d1-main",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d1",
+      "document_number": "1",
+      "unit_scope": "source_note",
+      "approved_marking": "Secret",
+      "marking_components": [
+        "Secret"
+      ],
+      "handling_controls": [],
+      "matched_text": "Secret",
+      "match_kind": "approved_marking",
+      "usage_status": "cross_volume_classification",
+      "recommended_action": "comment_only",
+      "finding": "Matched classification evidence tied to frus1981-88v44p1; confirm the target volume and source note before changing marking text.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1",
+      "verification_status": "verified_published_classification"
+    },
+    {
+      "unit_id": "classification-source-note-0004",
+      "unit_type": "source_note",
+      "location": "Reagan Foundations source note inside START I packet",
+      "classification_item_id": "classification-v01-d75-main",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d75",
+      "document_number": "75",
+      "unit_scope": "source_note",
+      "approved_marking": "Secret; Eyes Only; Not for the System",
+      "marking_components": [
+        "Secret"
+      ],
+      "handling_controls": [
+        "Eyes Only",
+        "Not for the System"
+      ],
+      "matched_text": "Secret; Eyes Only; Not for the System",
+      "match_kind": "approved_marking",
+      "usage_status": "cross_volume_classification",
+      "recommended_action": "comment_only",
+      "finding": "Matched classification evidence tied to frus1981-88v01; confirm the target volume and source note before changing marking text.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d75",
+      "verification_status": "verified_published_classification"
+    },
+    {
+      "unit_id": "classification-source-note-0005",
+      "unit_type": "source_note",
+      "location": "START I handwritten notes source note",
+      "classification_item_id": "classification-v31-d73-none",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d73",
+      "document_number": "73",
+      "unit_scope": "source_note",
+      "approved_marking": "No classification marking",
+      "marking_components": [],
+      "handling_controls": [],
+      "matched_text": "No classification",
+      "match_kind": "direct_edit_safe_variant",
+      "usage_status": "safe_variant_normalization",
+      "recommended_action": "no_change",
+      "finding": "Matched a safe variant for frus1989-92v31/d73; direct edit may normalize only to \"No classification marking\".",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d73",
+      "verification_status": "verified_published_classification"
+    }
+  ],
+  "diagnostics": [
+    {
+      "unit_id": "classification-source-note-0006",
+      "unit_type": "source_note",
+      "location": "Unsupported release-status phrasing",
+      "diagnostic_type": "release_status_confusion",
+      "finding": "Release/declassification language appears where original classification marking evidence is required.",
+      "recommended_action": "comment_only",
+      "evidence_request": "classification_marking"
+    },
+    {
+      "unit_id": "classification-source-note-0006",
+      "unit_type": "source_note",
+      "location": "Unsupported release-status phrasing",
+      "diagnostic_type": "unmatched_classification_like_unit",
+      "finding": "Classification-like unit had no match in the supplied classification registry.",
+      "recommended_action": "comment_only",
+      "evidence_request": "classification_marking"
+    }
+  ],
+  "direct_edit_conflicts": [],
+  "warnings": [
+    "classification-source-note-0003: Matched classification evidence tied to frus1981-88v44p1; confirm the target volume and source note before changing marking text.",
+    "classification-source-note-0004: Matched classification evidence tied to frus1981-88v01; confirm the target volume and source note before changing marking text.",
+    "classification-source-note-0006: Release/declassification language appears where original classification marking evidence is required.",
+    "classification-source-note-0006: Classification-like unit had no match in the supplied classification registry."
+  ],
+  "errors": []
+}

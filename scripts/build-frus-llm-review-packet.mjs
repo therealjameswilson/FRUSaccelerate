@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -22,6 +22,7 @@ function parseArgs(argv) {
   let authorityRegistryPath = null;
   let sourceListRegistryPath = null;
   let documentMetadataRegistryPath = null;
+  let classificationRegistryPath = null;
   let preparationRouterPath = null;
   let permutationMatrixPath = null;
   let targetVolume = "";
@@ -57,6 +58,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--document-metadata-registry") {
       documentMetadataRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--classification-registry") {
+      classificationRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--preparation-router") {
       preparationRouterPath = argv[index + 1];
@@ -95,6 +99,7 @@ function parseArgs(argv) {
     authorityRegistryPath,
     sourceListRegistryPath,
     documentMetadataRegistryPath,
+    classificationRegistryPath,
     preparationRouterPath,
     permutationMatrixPath,
     targetVolume,
@@ -335,6 +340,36 @@ function compactDocumentMetadataRegistry(registry, targetVolume) {
   };
 }
 
+function compactClassificationRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    classification_registry_id: registry.classification_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      classification_item_id: record.classification_item_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      approved_marking: record.approved_marking,
+      marking_components: record.marking_components || [],
+      handling_controls: record.handling_controls || [],
+      variant_forms: record.variant_forms || [],
+      direct_edit_safe_variants: record.direct_edit_safe_variants || [],
+      source_note_basis: record.source_note_basis,
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactAnnotationSheetProfile(profile) {
   if (!profile) return null;
   return {
@@ -373,6 +408,9 @@ function buildPacket(options) {
   const documentMetadataRegistry = options.documentMetadataRegistryPath
     ? readJson(options.documentMetadataRegistryPath, options.documentMetadataRegistryPath)
     : null;
+  const classificationRegistry = options.classificationRegistryPath
+    ? readJson(options.classificationRegistryPath, options.classificationRegistryPath)
+    : null;
   const preparationRouter = options.preparationRouterPath
     ? readJson(options.preparationRouterPath, options.preparationRouterPath)
     : null;
@@ -395,6 +433,7 @@ function buildPacket(options) {
       authority_registry: options.authorityRegistryPath ? normalizePathForOutput(options.authorityRegistryPath) : "",
       source_list_registry: options.sourceListRegistryPath ? normalizePathForOutput(options.sourceListRegistryPath) : "",
       document_metadata_registry: options.documentMetadataRegistryPath ? normalizePathForOutput(options.documentMetadataRegistryPath) : "",
+      classification_registry: options.classificationRegistryPath ? normalizePathForOutput(options.classificationRegistryPath) : "",
       preparation_router: options.preparationRouterPath ? normalizePathForOutput(options.preparationRouterPath) : "",
       permutation_matrix: options.permutationMatrixPath ? normalizePathForOutput(options.permutationMatrixPath) : ""
     },
@@ -424,6 +463,7 @@ function buildPacket(options) {
       authority_registry_records: authorityRegistry?.records?.length || 0,
       source_list_registry_records: sourceListRegistry?.records?.length || 0,
       document_metadata_registry_records: documentMetadataRegistry?.records?.length || 0,
+      classification_registry_records: classificationRegistry?.records?.length || 0,
       preparation_routes: preparationRouter?.routes?.length || 0,
       matrix_categories: permutationMatrix?.category_policies?.length || 0,
       matrix_evidence_requests: permutationMatrix?.evidence_request_policies?.length || 0
@@ -438,6 +478,7 @@ function buildPacket(options) {
       authority_registry: compactAuthorityRegistry(authorityRegistry, options.targetVolume),
       source_list_registry: compactSourceListRegistry(sourceListRegistry, options.targetVolume),
       document_metadata_registry: compactDocumentMetadataRegistry(documentMetadataRegistry, options.targetVolume),
+      classification_registry: compactClassificationRegistry(classificationRegistry, options.targetVolume),
       preparation_router: compactRouter(preparationRouter, options.targetVolume),
       permutation_matrix: compactPermutationMatrix(permutationMatrix)
     }
@@ -524,6 +565,12 @@ function renderMarkdown(packet) {
     "Use this to check document numbers, headings, document-type labels, date/place lines, subject/title lines, sender/recipient forms, attachment behavior, editorial-note form, and source-note linkage. Treat metadata variants and cross-volume document forms as comment-only unless the registry proves the direct edit.",
     "",
     fencedJson(packet.contexts.document_metadata_registry || {}),
+    "",
+    "## Classification And Handling Registry Context",
+    "",
+    "Use this to check original classification markings, handling controls, and verified absence-of-marking phrases. Do not confuse original markings with later release, redaction, or declassification status. Treat cross-volume or variant classification forms as comment-only unless the registry proves the direct edit.",
+    "",
+    fencedJson(packet.contexts.classification_registry || {}),
     "",
     "## Preparation Router Context",
     "",

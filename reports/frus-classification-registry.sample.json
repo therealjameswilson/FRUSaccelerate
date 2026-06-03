@@ -1,0 +1,112 @@
+{
+  "schema_version": "frus-classification-registry-v1",
+  "classification_registry_id": "frus-1981-1992-classification-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d73",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d75"
+  ],
+  "scope": "Sample classification and handling registry for validating original classification markings, handling controls, and verified absence-of-marking language in Reagan and George H.W. Bush FRUS annotation sheets.",
+  "records": [
+    {
+      "classification_item_id": "classification-v31-d1-main",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "unit_scope": "source_note",
+      "approved_marking": "Top Secret; Sensitive; Eyes Only",
+      "marking_components": [
+        "Top Secret"
+      ],
+      "handling_controls": [
+        "Sensitive",
+        "Eyes Only"
+      ],
+      "variant_forms": [
+        "Top Secret/Sensitive/Eyes Only"
+      ],
+      "direct_edit_safe_variants": [],
+      "source_note_basis": "First source note supplies the parent memorandum's original classification and handling controls.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_classification"
+    },
+    {
+      "classification_item_id": "classification-v31-d1-attachment",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "unit_scope": "attachment_note",
+      "approved_marking": "Top Secret",
+      "marking_components": [
+        "Top Secret"
+      ],
+      "handling_controls": [],
+      "variant_forms": [],
+      "direct_edit_safe_variants": [],
+      "source_note_basis": "Footnote 3 supplies the printed attachment's separate classification marking.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_classification"
+    },
+    {
+      "classification_item_id": "classification-v31-d73-none",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d73",
+      "document_number": "73",
+      "unit_scope": "source_note",
+      "approved_marking": "No classification marking",
+      "marking_components": [],
+      "handling_controls": [],
+      "variant_forms": [
+        "No Classification Marking"
+      ],
+      "direct_edit_safe_variants": [
+        "No classification"
+      ],
+      "source_note_basis": "The published source note uses absence-of-marking language, not a release-status statement.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d73",
+      "verification_status": "verified_published_classification"
+    },
+    {
+      "classification_item_id": "classification-v44p1-d1-main",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d1",
+      "document_number": "1",
+      "unit_scope": "source_note",
+      "approved_marking": "Secret",
+      "marking_components": [
+        "Secret"
+      ],
+      "handling_controls": [],
+      "variant_forms": [],
+      "direct_edit_safe_variants": [],
+      "source_note_basis": "The published source note supplies `Secret.` followed by routing status `Sent for information.`",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1",
+      "verification_status": "verified_published_classification"
+    },
+    {
+      "classification_item_id": "classification-v01-d75-main",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d75",
+      "document_number": "75",
+      "unit_scope": "source_note",
+      "approved_marking": "Secret; Eyes Only; Not for the System",
+      "marking_components": [
+        "Secret"
+      ],
+      "handling_controls": [
+        "Eyes Only",
+        "Not for the System"
+      ],
+      "variant_forms": [
+        "Secret/Eyes Only/Not for the System",
+        "Secret; Eyes Only; Not in the System"
+      ],
+      "direct_edit_safe_variants": [],
+      "source_note_basis": "The Haig Papers source note preserves both the classification level and special handling controls.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d75",
+      "verification_status": "verified_published_classification"
+    }
+  ]
+}

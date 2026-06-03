@@ -1,0 +1,92 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample extracted Word units for FRUS classification/handling audit tests.",
+  "units": [
+    {
+      "unit_id": "classification-source-note-0001",
+      "unit_type": "source_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "START I Document 1 source note",
+      "exact_text": "Source: George H.W. Bush Library, Bush Vice Presidential Records, Office of National Security Affairs, Donald P. Gregg Files, Subject Files, OA/ID 19863-001, START [1]. Top Secret; Sensitive; Eyes Only. Watson initialed the memorandum on Gregg's behalf.",
+      "display_text": "Source: George H.W. Bush Library, Bush Vice Presidential Records, Office of National Security Affairs, Donald P. Gregg Files, Subject Files, OA/ID 19863-001, START [1]. Top Secret; Sensitive; Eyes Only. Watson initialed the memorandum on Gregg's behalf.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "classification-attachment-note-0002",
+      "unit_type": "follow_on_footnote",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "START I Document 1 attachment classification note",
+      "exact_text": "3. Top Secret.",
+      "display_text": "3. Top Secret.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "classification-source-note-0003",
+      "unit_type": "source_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "Reagan NSP source note inside START I packet",
+      "exact_text": "Source: Reagan Library, John Poindexter Files, Subject File, Miscellaneous Meeting Items 1984. Secret. Sent for information.",
+      "display_text": "Source: Reagan Library, John Poindexter Files, Subject File, Miscellaneous Meeting Items 1984. Secret. Sent for information.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "classification-source-note-0004",
+      "unit_type": "source_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "Reagan Foundations source note inside START I packet",
+      "exact_text": "Source: Library of Congress, Manuscript Division, Alexander Haig Papers, Department of State, Day File, Box CL 62, December 21, 1981. Secret; Eyes Only; Not for the System. A stamped notation indicates that Haig saw it.",
+      "display_text": "Source: Library of Congress, Manuscript Division, Alexander Haig Papers, Department of State, Day File, Box CL 62, December 21, 1981. Secret; Eyes Only; Not for the System. A stamped notation indicates that Haig saw it.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "classification-source-note-0005",
+      "unit_type": "source_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "START I handwritten notes source note",
+      "exact_text": "Source: George H.W. Bush Library, Bush Presidential Records, Brent Scowcroft Collection, Robert M. Gates Files, Memorandum of Conversation Files, OA/ID 91166-007, I Bob Gates Memcons 1989-1992 [7]. No classification. Drafted by Gates, who handwrote the notes.",
+      "display_text": "Source: George H.W. Bush Library, Bush Presidential Records, Brent Scowcroft Collection, Robert M. Gates Files, Memorandum of Conversation Files, OA/ID 91166-007, I Bob Gates Memcons 1989-1992 [7]. No classification. Drafted by Gates, who handwrote the notes.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "classification-source-note-0006",
+      "unit_type": "source_note",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "Unsupported release-status phrasing",
+      "exact_text": "Source: Working copy supplied by compiler. Declassified in full in 2024; released without excisions.",
+      "display_text": "Source: Working copy supplied by compiler. Declassified in full in 2024; released without excisions.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": [
+        "classification_release_status_confusion"
+      ]
+    }
+  ]
+}

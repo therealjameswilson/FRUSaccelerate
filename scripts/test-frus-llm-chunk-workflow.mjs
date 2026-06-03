@@ -84,6 +84,8 @@ try {
     "reports/frus-source-list-registry.sample.json",
     "--document-metadata-registry",
     "reports/frus-document-metadata-registry.sample.json",
+    "--classification-registry",
+    "reports/frus-classification-registry.sample.json",
     "--preparation-router",
     "reports/frus-preparation-router-1981-1992.current.json",
     "--permutation-matrix",
@@ -111,9 +113,11 @@ try {
   assert(manifest.source_files.annotation_sheet_profile === "reports/frus-annotation-sheet-profile.sample.json", "expected annotation-sheet profile source path");
   assert(manifest.summary.source_list_registry_records === 10, "expected source-list registry record count");
   assert(manifest.summary.document_metadata_registry_records === 5, "expected document metadata registry record count");
+  assert(manifest.summary.classification_registry_records === 5, "expected classification registry record count");
   assert(manifest.source_files.authority_registry === "reports/frus-authority-registry.sample.json", "expected authority registry source path");
   assert(manifest.source_files.source_list_registry === "reports/frus-source-list-registry.sample.json", "expected source-list registry source path");
   assert(manifest.source_files.document_metadata_registry === "reports/frus-document-metadata-registry.sample.json", "expected document metadata registry source path");
+  assert(manifest.source_files.classification_registry === "reports/frus-classification-registry.sample.json", "expected classification registry source path");
   assert(fs.existsSync(path.join(outDir, "chunk-0001-review-packet.md")), "expected first chunk packet");
   assert(fs.existsSync(path.join(outDir, "chunk-0002-review-packet.md")), "expected second chunk packet");
   const firstPacket = fs.readFileSync(path.join(outDir, "chunk-0001-review-packet.md"), "utf8");
@@ -125,6 +129,8 @@ try {
   assert(firstPacket.includes("George H.W. Bush Presidential Library"), "expected source-list registry content in chunk packet");
   assert(firstPacket.includes("Document Metadata Registry Context"), "expected document metadata registry context in chunk packet");
   assert(firstPacket.includes("Information Memorandum From the Director of the Policy Planning Staff"), "expected document metadata registry content in chunk packet");
+  assert(firstPacket.includes("Classification And Handling Registry Context"), "expected classification registry context in chunk packet");
+  assert(firstPacket.includes("Top Secret; Sensitive; Eyes Only"), "expected classification registry content in chunk packet");
 
   const chunk1Output = path.join(tmpDir, "chunk-0001-output.json");
   const chunk2Output = path.join(tmpDir, "chunk-0002-output.json");
@@ -189,7 +195,7 @@ try {
   assert(badMerge.status !== 0, "expected out-of-chunk unit reference to fail");
   assert(badMerge.stdout.includes("outside chunk-0002"), "expected chunk-boundary failure detail");
 
-  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile context, merge, validation, and boundary failures work.");
+  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile and classification context, merge, validation, and boundary failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

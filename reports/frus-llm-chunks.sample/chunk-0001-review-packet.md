@@ -54,9 +54,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -72,6 +72,9 @@ For source-list/front-matter validation and direct-edit safety, run
 For document-metadata validation and direct-edit safety, run
 `node scripts/validate-frus-document-metadata-registry.mjs --registry reports/frus-document-metadata-registry.sample.json --format text` and
 `node scripts/audit-frus-document-metadata-usage.mjs --units extracted-units.json --registry reports/frus-document-metadata-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For classification/handling validation and direct-edit safety, run
+`node scripts/validate-frus-classification-registry.mjs --registry reports/frus-classification-registry.sample.json --format text` and
+`node scripts/audit-frus-classification-usage.mjs --units extracted-units.json --registry reports/frus-classification-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For a no-dependency smoke test, run
 `node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json`.
 For direct-edit anchor preflight, run
@@ -85,7 +88,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -110,6 +113,12 @@ document number, heading, date line, subject/title, sender/recipient,
 attachment behavior, editorial-note form, and source-note linkage; validate it
 with `scripts/validate-frus-document-metadata-registry.mjs` before direct
 metadata edits.
+For real Reagan/Bush 1981-1992 classification/handling review, replace the
+sample classification registry with target-volume source-note and attachment
+marking records covering original classification, handling controls, and
+verified `No classification marking` phrases; validate it with
+`scripts/validate-frus-classification-registry.mjs` before direct
+classification edits.
 For volume-family and stage-posture routing, validate and use
 `reports/frus-preparation-router-1981-1992.current.json` with
 `scripts/validate-frus-preparation-router.mjs` before family-dependent direct
@@ -123,6 +132,8 @@ For production pseudo-marker boundary checks, run
 `node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json`.
 For finished-form annotation-sheet profile checks, run
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units reports/frus-annotation-sheet-profile-units.sample.json --checker-output reports/frus-annotation-sheet-profile-safe-output.sample.json --format text`.
+For sample classification/handling checks, run
+`node scripts/audit-frus-classification-usage.mjs --units reports/frus-classification-units.sample.json --registry reports/frus-classification-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample review coverage, run
 `node scripts/audit-frus-review-coverage.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-sample-output.json --matrix reports/frus-annotation-permutation-matrix.json`.
 For unresolved proof tracking, run
@@ -231,7 +242,8 @@ The wrapper should provide:
 - `source_note_component_context`: parsed source-note components when available.
   A wrapper can generate this with `scripts/lint-frus-source-notes.mjs`.
 - `classification_context`: original classification, handling, paragraph
-  markings, verified absence of marking, and release-status separation.
+  markings, verified absence of marking, release-status separation, and
+  classification registry records when available.
 - `document_status_context`: draft/final, original/copy, signed/unsigned,
   routing, approval, distribution, enclosure, attachment, and lifecycle evidence.
 - `cross_reference_context`: same-volume, cross-volume, footnote, appendix,
@@ -3021,6 +3033,186 @@ Use this to recognize finished-form FRUS annotation-sheet structure when Word st
       "source_note_basis": "Citations appear in the editorial-note text rather than as a first-footnote source note.",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d294",
       "verification_status": "verified_published_document"
+    }
+  ]
+}
+```
+
+## Classification And Handling Registry Context
+
+Use this to check original classification markings, handling controls, and verified absence-of-marking phrases. Do not confuse original markings with later release, redaction, or declassification status. Treat cross-volume or variant classification forms as comment-only unless the registry proves the direct edit.
+
+```json
+{
+  "schema_version": "frus-classification-registry-v1",
+  "classification_registry_id": "frus-1981-1992-classification-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d73",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d75"
+  ],
+  "scope": "Sample classification and handling registry for validating original classification markings, handling controls, and verified absence-of-marking language in Reagan and George H.W. Bush FRUS annotation sheets.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "classification_item_id": "classification-v31-d1-main",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "unit_scope": "source_note",
+      "approved_marking": "Top Secret; Sensitive; Eyes Only",
+      "marking_components": [
+        "Top Secret"
+      ],
+      "handling_controls": [
+        "Sensitive",
+        "Eyes Only"
+      ],
+      "variant_forms": [
+        "Top Secret/Sensitive/Eyes Only"
+      ],
+      "direct_edit_safe_variants": [],
+      "source_note_basis": "First source note supplies the parent memorandum's original classification and handling controls.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_classification"
+    },
+    {
+      "classification_item_id": "classification-v31-d1-attachment",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "unit_scope": "attachment_note",
+      "approved_marking": "Top Secret",
+      "marking_components": [
+        "Top Secret"
+      ],
+      "handling_controls": [],
+      "variant_forms": [],
+      "direct_edit_safe_variants": [],
+      "source_note_basis": "Footnote 3 supplies the printed attachment's separate classification marking.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_classification"
+    },
+    {
+      "classification_item_id": "classification-v31-d73-none",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d73",
+      "document_number": "73",
+      "unit_scope": "source_note",
+      "approved_marking": "No classification marking",
+      "marking_components": [],
+      "handling_controls": [],
+      "variant_forms": [
+        "No Classification Marking"
+      ],
+      "direct_edit_safe_variants": [
+        "No classification"
+      ],
+      "source_note_basis": "The published source note uses absence-of-marking language, not a release-status statement.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d73",
+      "verification_status": "verified_published_classification"
+    }
+  ],
+  "records": [
+    {
+      "classification_item_id": "classification-v31-d1-main",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "unit_scope": "source_note",
+      "approved_marking": "Top Secret; Sensitive; Eyes Only",
+      "marking_components": [
+        "Top Secret"
+      ],
+      "handling_controls": [
+        "Sensitive",
+        "Eyes Only"
+      ],
+      "variant_forms": [
+        "Top Secret/Sensitive/Eyes Only"
+      ],
+      "direct_edit_safe_variants": [],
+      "source_note_basis": "First source note supplies the parent memorandum's original classification and handling controls.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_classification"
+    },
+    {
+      "classification_item_id": "classification-v31-d1-attachment",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "unit_scope": "attachment_note",
+      "approved_marking": "Top Secret",
+      "marking_components": [
+        "Top Secret"
+      ],
+      "handling_controls": [],
+      "variant_forms": [],
+      "direct_edit_safe_variants": [],
+      "source_note_basis": "Footnote 3 supplies the printed attachment's separate classification marking.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_classification"
+    },
+    {
+      "classification_item_id": "classification-v31-d73-none",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d73",
+      "document_number": "73",
+      "unit_scope": "source_note",
+      "approved_marking": "No classification marking",
+      "marking_components": [],
+      "handling_controls": [],
+      "variant_forms": [
+        "No Classification Marking"
+      ],
+      "direct_edit_safe_variants": [
+        "No classification"
+      ],
+      "source_note_basis": "The published source note uses absence-of-marking language, not a release-status statement.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d73",
+      "verification_status": "verified_published_classification"
+    },
+    {
+      "classification_item_id": "classification-v44p1-d1-main",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d1",
+      "document_number": "1",
+      "unit_scope": "source_note",
+      "approved_marking": "Secret",
+      "marking_components": [
+        "Secret"
+      ],
+      "handling_controls": [],
+      "variant_forms": [],
+      "direct_edit_safe_variants": [],
+      "source_note_basis": "The published source note supplies `Secret.` followed by routing status `Sent for information.`",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1",
+      "verification_status": "verified_published_classification"
+    },
+    {
+      "classification_item_id": "classification-v01-d75-main",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d75",
+      "document_number": "75",
+      "unit_scope": "source_note",
+      "approved_marking": "Secret; Eyes Only; Not for the System",
+      "marking_components": [
+        "Secret"
+      ],
+      "handling_controls": [
+        "Eyes Only",
+        "Not for the System"
+      ],
+      "variant_forms": [
+        "Secret/Eyes Only/Not for the System",
+        "Secret; Eyes Only; Not in the System"
+      ],
+      "direct_edit_safe_variants": [],
+      "source_note_basis": "The Haig Papers source note preserves both the classification level and special handling controls.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d75",
+      "verification_status": "verified_published_classification"
     }
   ]
 }

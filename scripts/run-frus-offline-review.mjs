@@ -9,7 +9,7 @@ const DIRECT_ACTIONS = new Set(["replace_text", "insert_after_text", "delete_tex
 
 function usage() {
   console.error(
-    "Usage: node scripts/run-frus-offline-review.mjs --docx <input.docx> --checker-output <checker-output.json> --out <revised.docx> [--artifact-dir DIR] [--audit audit.json] [--existing-ledger ledger.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--today YYYY-MM-DD] [--max-age-days N] [--review-mode light|normal|exhaustive] [--run-id RUN] [--author NAME] [--date ISO-DATE] [--format json|text]"
+    "Usage: node scripts/run-frus-offline-review.mjs --docx <input.docx> --checker-output <checker-output.json> --out <revised.docx> [--artifact-dir DIR] [--audit audit.json] [--existing-ledger ledger.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--today YYYY-MM-DD] [--max-age-days N] [--review-mode light|normal|exhaustive] [--run-id RUN] [--author NAME] [--date ISO-DATE] [--format json|text]"
   );
   process.exit(2);
 }
@@ -27,6 +27,7 @@ function parseArgs(argv) {
   let authorityRegistryPath = null;
   let sourceListRegistryPath = null;
   let documentMetadataRegistryPath = null;
+  let classificationRegistryPath = null;
   let preparationRouterPath = null;
   let permutationMatrixPath = null;
   let targetVolume = "";
@@ -75,6 +76,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--document-metadata-registry") {
       documentMetadataRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--classification-registry") {
+      classificationRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--preparation-router") {
       preparationRouterPath = argv[index + 1];
@@ -144,6 +148,7 @@ function parseArgs(argv) {
     authorityRegistryPath,
     sourceListRegistryPath,
     documentMetadataRegistryPath,
+    classificationRegistryPath,
     preparationRouterPath,
     permutationMatrixPath,
     targetVolume,
@@ -247,6 +252,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
   const authorityAudit = reports.authority_usage_audit || null;
   const sourceListAudit = reports.source_list_usage_audit || null;
   const documentMetadataAudit = reports.document_metadata_usage_audit || null;
+  const classificationAudit = reports.classification_usage_audit || null;
   const annotationSheetProfileAudit = reports.annotation_sheet_profile_audit || null;
   const expectedRevisions = countExpectedRevisions(trackReport);
 
@@ -284,6 +290,10 @@ function buildAudit({ options, artifacts, steps, reports }) {
       document_metadata_registry_usages: documentMetadataAudit?.summary?.document_metadata_usages || 0,
       document_metadata_registry_warnings: documentMetadataAudit?.summary?.warnings || 0,
       document_metadata_direct_edit_conflicts: documentMetadataAudit?.summary?.direct_document_metadata_edit_conflicts || 0,
+      classification_registry_usages: classificationAudit?.summary?.classification_usages || 0,
+      classification_registry_warnings: classificationAudit?.summary?.warnings || 0,
+      classification_release_status_confusions: classificationAudit?.summary?.release_status_confusions || 0,
+      classification_direct_edit_conflicts: classificationAudit?.summary?.direct_classification_edit_conflicts || 0,
       annotation_sheet_profile_lexical_misclassifications:
         annotationSheetProfileAudit?.summary?.lexical_misclassifications || 0,
       annotation_sheet_profile_unexpected_angle_tokens:
@@ -307,6 +317,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
       authority_registry: options.authorityRegistryPath ? normalizePathForOutput(options.authorityRegistryPath) : "",
       source_list_registry: options.sourceListRegistryPath ? normalizePathForOutput(options.sourceListRegistryPath) : "",
       document_metadata_registry: options.documentMetadataRegistryPath ? normalizePathForOutput(options.documentMetadataRegistryPath) : "",
+      classification_registry: options.classificationRegistryPath ? normalizePathForOutput(options.classificationRegistryPath) : "",
       preparation_router: options.preparationRouterPath ? normalizePathForOutput(options.preparationRouterPath) : "",
       permutation_matrix: options.permutationMatrixPath ? normalizePathForOutput(options.permutationMatrixPath) : "",
       target_volume: options.targetVolume,
@@ -328,7 +339,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
 function renderText(audit) {
   return [
     `FRUS offline review passed: ${audit.counts.extracted_units} units, ${audit.counts.comments_applied} Word comments, ${audit.counts.tracked_edits_applied} tracked edits.`,
-    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; authority usages: ${audit.counts.authority_registry_usages}; authority warnings: ${audit.counts.authority_registry_warnings}; source-list usages: ${audit.counts.source_list_registry_usages}; source-list warnings: ${audit.counts.source_list_registry_warnings}; document-metadata usages: ${audit.counts.document_metadata_registry_usages}; document-metadata warnings: ${audit.counts.document_metadata_registry_warnings}; annotation-sheet profile lexical misses: ${audit.counts.annotation_sheet_profile_lexical_misclassifications}; marker conflicts: ${audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
+    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; authority usages: ${audit.counts.authority_registry_usages}; authority warnings: ${audit.counts.authority_registry_warnings}; source-list usages: ${audit.counts.source_list_registry_usages}; source-list warnings: ${audit.counts.source_list_registry_warnings}; document-metadata usages: ${audit.counts.document_metadata_registry_usages}; document-metadata warnings: ${audit.counts.document_metadata_registry_warnings}; classification usages: ${audit.counts.classification_registry_usages}; classification warnings: ${audit.counts.classification_registry_warnings}; annotation-sheet profile lexical misses: ${audit.counts.annotation_sheet_profile_lexical_misclassifications}; marker conflicts: ${audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
     `Revised DOCX: ${audit.revised_docx}`,
     `Audit: ${audit.artifacts.audit}`
   ].join("\n") + "\n";
@@ -353,6 +364,8 @@ function runReview(options) {
     source_list_usage_audit: path.join(options.artifactDir, "source-list-usage-audit.json"),
     document_metadata_registry_validation: path.join(options.artifactDir, "document-metadata-registry-validation.json"),
     document_metadata_usage_audit: path.join(options.artifactDir, "document-metadata-usage-audit.json"),
+    classification_registry_validation: path.join(options.artifactDir, "classification-registry-validation.json"),
+    classification_usage_audit: path.join(options.artifactDir, "classification-usage-audit.json"),
     preparation_router_validation: path.join(options.artifactDir, "preparation-router-validation.json"),
     permutation_matrix_validation: path.join(options.artifactDir, "permutation-matrix-validation.json"),
     status_claims_preflight: path.join(options.artifactDir, "status-claims-preflight.txt"),
@@ -596,6 +609,47 @@ function runReview(options) {
     });
     steps.push(documentMetadataAuditStep);
     optionalReports.document_metadata_usage_audit = documentMetadataAuditStep.parsed;
+  }
+  if (options.classificationRegistryPath) {
+    const classificationValidationStep = runNodeStep({
+      label: "validate_classification_registry",
+      args: [
+        "scripts/validate-frus-classification-registry.mjs",
+        "--registry",
+        options.classificationRegistryPath,
+        "--format",
+        "json"
+      ],
+      cwd,
+      stdoutFile: artifacts.classification_registry_validation,
+      parseJson: true
+    });
+    steps.push(classificationValidationStep);
+    optionalReports.classification_registry_validation = classificationValidationStep.parsed;
+
+    const classificationAuditArgs = [
+      "scripts/audit-frus-classification-usage.mjs",
+      "--units",
+      artifacts.extracted_units,
+      "--registry",
+      options.classificationRegistryPath,
+      "--checker-output",
+      options.checkerOutputPath,
+      "--format",
+      "json"
+    ];
+    if (options.targetVolume) {
+      classificationAuditArgs.push("--target-volume", options.targetVolume);
+    }
+    const classificationAuditStep = runNodeStep({
+      label: "audit_classification_usage",
+      args: classificationAuditArgs,
+      cwd,
+      stdoutFile: artifacts.classification_usage_audit,
+      parseJson: true
+    });
+    steps.push(classificationAuditStep);
+    optionalReports.classification_usage_audit = classificationAuditStep.parsed;
   }
   if (options.preparationRouterPath) {
     if (!options.statusRegistryPath) {
