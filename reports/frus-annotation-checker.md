@@ -111,6 +111,14 @@ The wrapper should provide the LLM with:
   controls derived from published FRUS source lists and local authority files,
   including family ids, volume scope, required path components, distinguishing
   tokens, allowed variants, and no-flattening rules.
+- `source_note_component_context`, if available: wrapper-parsed first-footnote
+  component diagnostics for source notes, including source label, repository or
+  originating agency, collection/record group, series/subseries, container or
+  identifier, folder/file title, document form/status, original classification,
+  handling/precedence, distribution, drafting/clearance/approval, routing,
+  read-by/seen/marginalia, attachment/enclosure status, background or policy
+  context, cross-references, source-surrogate identifiers, and whether each
+  component is present, absent, supplied by registry, or unsafe to infer.
 - `source_surrogate_context`, if available: structured RAC, NLR, FOIA,
   mandatory-review, NARA catalog, PDF, scan, URL, digital-surrogate,
   release-package, source-image, and discovery-platform metadata with
@@ -1316,6 +1324,8 @@ Core rule groups:
 | `FAS-SN-002` | Source note | URL, scan, catalog, RAC/NLR/FOIA identifier, or discovery label replacing the controlling repository or selected published source. | Comment unless the full control source is supplied. |
 | `FAS-SN-003` | Source note | Specific Reagan/Bush source family flattened into a generic source path. | Comment or direct edit with exact registry match. |
 | `FAS-SN-004` | Source note | Missing document form, copy/draft/original status, distribution, drafting, clearance, routing, read-by, or policy-background evidence when supplied by context. | Direct edit only from exact supplied evidence. |
+| `FAS-SN-005` | Source note | First-footnote component is missing, duplicated, out of sequence, or assigned to the wrong role after the wrapper parsed the source note. | Comment or direct edit only from supplied component diagnostics. |
+| `FAS-SN-006` | Source note | The checker would overfill a compact but acceptable source note by requiring components not supplied by the document, source image, or registry. | Protect as `no_change` or tally the style question. |
 | `FAS-CLS-001` | Classification | Original classification or handling marking missing, guessed, or confused with release/declassification status. | Comment pending source-image or registry proof. |
 | `FAS-CLS-002` | Classification | `No classification marking` form is wrong when absence of marking is verified. | Safe direct edit if exact anchor exists. |
 | `FAS-DEC-001` | Declassification | Omitted text, whole-document withholding, original brackets, or ellipses handled without supplied declassification/editorial-method basis. | Comment; direct edit only with supplied basis. |
@@ -1671,6 +1681,93 @@ Source: Department of State, Central Foreign Policy File, [Electronic Telegrams/
 ```text
 Source: Department of State, STARS [identifier]. [Classification or no classification marking]. [Drafted by/cleared by]. [Attachment/transmittal note.]
 ```
+
+#### 6.1.0 First-Footnote Source-Note Component Lint
+
+Recent Reagan and Bush About-the-Series pages describe the first footnote as a
+source note that identifies the source, original classification, distribution,
+drafting information, background, and whether the President or senior advisers
+read the document. The checker should translate that method into component
+linting, not into automatic expansion of every compact note.
+
+Use `source_note_component_context` when the wrapper can supply it. The wrapper
+should parse each source note into these possible components:
+
+- `source_label`: the literal `Source:` label or approved flat-sheet equivalent
+  such as `1  Source:`.
+- `repository_or_originating_agency`: Presidential library, Department of
+  State, NARA, agency, private-paper collection, public source, foreign source,
+  or international-organization source.
+- `collection_record_group_or_published_source`: record group, collection,
+  public title, printed source, private-paper collection, or agency system.
+- `series_subseries_or_file_family`: lot file, H-Files subseries, NSC
+  directorate file, STARS/PROFS/W Files/System IV family, State CFPF reel
+  family, speech file, subject file, or other controlled family.
+- `container_identifier_or_locator`: OA/ID, box, folder, document id, telegram
+  number, STARS id, NLR id, RAC/FOIA identifier, catalog id, page, or public
+  source locator.
+- `folder_file_title_or_document_title`: folder title, file title, subject
+  title, speech title, treaty title, report title, or public document title.
+- `document_form_or_copy_status`: memorandum, telegram, paper, letter, draft,
+  final, copy, original, signed, unsigned, printed-from-copy, attachment, tab,
+  annex, or enclosure status.
+- `original_classification_and_handling`: original classification, handling,
+  precedence, paragraph markings, or verified absence of a classification
+  marking.
+- `distribution_drafting_clearance_or_approval`: distribution, drafter,
+  clearance, approval, concurrence, prepared-by, sent-through, sent-for-action,
+  or sent-for-information facts.
+- `physical_read_by_or_marginalia`: stamped notations, initials, read-by/seen
+  evidence, marginalia, highlighting, underlining, handwritten notes,
+  checkmarks, or unknown-hand placement.
+- `attachment_or_negative_search`: attached/not attached, attached but not
+  printed, not found attached, tabs printed elsewhere, no minutes, no memcon,
+  no telcon, or unlocated item status.
+- `background_policy_or_cross_reference`: policy background, related document,
+  printed-elsewhere target, scheduled-publication target, diary/schedule basis,
+  public-statement supplement, or memoir/first-hand-account supplement.
+
+Component-lint rules:
+
+- Do not require every component in every source note. A compact note such as a
+  repository path plus classification and `Sent for information` can be
+  excellent when no other evidence is supplied.
+- Treat components as `required` only when the uploaded unit, source image,
+  registry, or published pattern supplies the fact and the note would mislead
+  without it.
+- Preserve component order: source identity first, document locator next,
+  original classification/handling next, then form/status, drafting/clearance/
+  routing/read-by/physical evidence, and finally background, attachment,
+  negative-search, or cross-reference context when needed.
+- Keep original classification separate from release or declassification status.
+  A release identifier, RAC scan, or online availability is not a classification
+  component.
+- Keep source-surrogate identifiers in their own component. An NLR, FOIA, RAC,
+  NARA catalog, PDF, URL, or scan filename may help locate a source, but it
+  should not displace repository, collection, series, folder, or selected
+  published-source identity.
+- Keep physical and read-by evidence modest. A stamp, checkmark, marginal note,
+  or highlighting can prove a visible feature; it does not prove motive,
+  agreement, or a substantive decision unless the document supplies that fact.
+- Use `FAS-SN-005` when a parsed component is missing, duplicated, out of
+  sequence, or assigned to the wrong role. Use `FAS-SN-006` when the model tries
+  to demand unsupplied components from a note that is already acceptable.
+- Use `comment_only` with the most specific evidence request when the component
+  value is absent. Use a direct edit only when the component value, exact
+  anchor, and Word-safety context are all supplied.
+
+Component audit requirements:
+
+- Count source notes parsed, source notes missing `Source:` or flat-sheet
+  source-label equivalents, component roles present, component roles missing
+  despite supplied evidence, and component roles blocked from inference.
+- Count source notes protected from overfilling under `FAS-SN-006`.
+- Report representative unit ids for missing classification, missing source
+  family, missing document form/status, missing drafting/clearance/routing,
+  missing read-by/physical evidence, missing attachment/negative-search basis,
+  and missing cross-reference target.
+- Preserve the component parser version and source URLs for any published
+  examples used as pattern evidence.
 
 Volume XXXI corpus note: the all-document pass found source notes for 239 of
 247 documents. The 8 documents without source notes are editorial notes. Do not
@@ -9748,6 +9845,7 @@ Suggested tally format:
 | style-discrepancy-0033 | wrapper | Whether the redline wrapper should preserve unresolved tracked changes, convert pseudo-markers before redline, or fall back to comments-only when complex WordprocessingML boundaries are present. | Preserve existing revisions and block overlaps; accept/reject existing revisions before checker run; map pseudo-markers before review; downgrade complex field/bookmark/note/comment/table boundaries to comments-only | 2 | high | Should the closed-network checker enforce a single pre-redline cleanup policy for unresolved revisions and pseudo-markers, or preserve multiple safe wrapper modes for General Editor decision? |
 | style-discrepancy-0034 | publication_status | Whether status-page parser-integrity counts should be treated as a hard gate for all cross-volume publication language or only for direct redlines that change publication wording. | Treat any incomplete status snapshot as a global blocker; allow source-note edits while blocking only publication-status changes; allow comments with stale registry but require fresh capture for final style | 2 | high | Should the checker enforce status-snapshot completeness as a packet-level gate, or only as a gate for publication-status and cross-volume wording? |
 | style-discrepancy-0035 | wrapper | How quickly recurring annotation-checker findings should be promoted from fallback `FAS-GEN-000` to named spellcheck rule ids. | Keep fallback ids for rare issues; promote any recurring issue after two or more packets; promote only after General Editor confirms that the issue reflects house style rather than local practice | 2 | medium | Should the General Editor control additions to the stable rule-id catalog, or may the wrapper maintain provisional rule ids for recurring checker findings? |
+| style-discrepancy-0036 | source_note | How much first-footnote component detail should be printed in compact source notes versus retained only in the checker audit when the facts are sound. | Compact repository path plus classification/status; fuller note with drafting, clearance, routing, read-by, physical evidence, background, attachment, and cross-reference components; audit-only component inventory with minimal Word comments | 2 | medium | Should the checker enforce fuller first-footnote component completion during annotation review, or protect compact notes and keep component inventories in the audit unless a fact is misleading or missing from final apparatus? |
 
 For the separate running ledger, add these columns or equivalent structured
 fields:
@@ -11366,6 +11464,8 @@ Counts:
 - LLM edits rejected by validator: [n]
 - Spellcheck rule ids triggered: [FAS-SN-001 n; FAS-CLS-001 n; FAS-WRAP-001 n; etc.]
 - Findings using fallback `FAS-GEN-000`: [n]
+- Source-note component lint results: [parsed n; missing_supplied_component n; out_of_sequence n; protected_from_overfill n; inference_blocked n]
+- Source-note component gaps by role: [source_label n; repository n; series_subseries n; locator n; classification n; document_status n; drafting_clearance_routing n; read_by_physical n; attachment_negative_search n; cross_reference n]
 - Word redline integrity checks passed/warned/failed: [pass n; warning n; fail n]
 - Track-change insertions/deletions/comments created: [insertions n; deletions n; comments n]
 - Redline edits downgraded for run, field, marker, note-reference, comment, or existing-revision boundary risk: [n]
@@ -11582,6 +11682,9 @@ Human-rights/refugee/global-issues warnings:
 Source-family warnings:
 - [unit_id or global]: [source-family issue] - [registry target or unmatched family]
 
+Source-note component warnings:
+- [unit_id or global]: [component role] - [missing, duplicated, out_of_sequence, wrong_role, protected_from_overfill, or inference_blocked] - [supplied evidence or verification target] - [recommended posture]
+
 Source-list/front-matter warnings:
 - [unit_id or global]: [source-list/front-matter issue] - [apparatus component, source family or published-source home, abbreviation, Persons entry, appendix target, declassification/special-note claim, and verification target]
 
@@ -11692,6 +11795,12 @@ Minimum components:
   ecologies, distinguishes public/printed selected sources from archival
   control copies, and blocks flattening of specific repositories into generic
   source paths.
+- Source-note component validator that parses first-footnote source notes into
+  source label, repository, collection, series/subseries, locator, folder/title,
+  document form/status, original classification/handling, distribution,
+  drafting/clearance/approval, routing, physical/read-by evidence,
+  attachment/negative-search status, source-surrogate identifiers, and
+  cross-reference/background components before LLM review.
 - Source-surrogate/release validator that separates RAC caveats, NLR
   identifiers, FOIA or mandatory-review identifiers, NARA catalog ids, PDF or
   scan filenames, source-image URLs, `no N number`, and discovery labels from
