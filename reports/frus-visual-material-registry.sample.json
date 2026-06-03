@@ -1,0 +1,134 @@
+{
+  "schema_version": "frus-visual-material-registry-v1",
+  "visual_material_registry_id": "frus-1981-1992-visual-material-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d61",
+    "https://history.state.gov/historicaldocuments/frus1981-88v05/d16",
+    "https://history.state.gov/historicaldocuments/frus1981-88v06/d151",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d272",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/appendix-A"
+  ],
+  "scope": "Published FRUS map, photograph, visual-attachment, appendix-image, and visual not-found patterns for Reagan and George H.W. Bush annotation sheets.",
+  "records": [
+    {
+      "visual_material_id": "visual-v31-d61-map-not-found",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d61",
+      "document_number": "61",
+      "unit_scope": "source note and document text",
+      "visual_type": "map",
+      "approved_phrase": "At this point Chairman Gorbachev hands over a map of U.S. bases surrounding the Soviet Union.",
+      "caption_or_title": "map of U.S. bases surrounding the Soviet Union",
+      "visual_description": "Map handed over during the Malta conversation; the published source note records that the map was not found.",
+      "relationship_to_document": "not_found",
+      "attachment_or_publication_status": "not_found",
+      "source_image_or_url": "",
+      "printed_target": "",
+      "cross_reference_target": "",
+      "identification_basis": "Published document text identifies the map and source note records the not-found status.",
+      "source_or_context": "Document 61 prints the conversational handover of a map and preserves the source-note not-found status instead of inventing image details.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d61",
+      "verification_status": "verified_published_visual_material_record",
+      "variant_forms": [
+        "Gorbachev hands over a map of U.S. bases surrounding the Soviet Union",
+        "map of U.S. bases surrounding the Soviet Union"
+      ]
+    },
+    {
+      "visual_material_id": "visual-v05-d16-photograph-attached",
+      "volume_id": "frus1981-88v05",
+      "document_id": "frus1981-88v05/d16",
+      "document_number": "16",
+      "unit_scope": "follow-on footnote",
+      "visual_type": "photograph",
+      "approved_phrase": "Attached but not printed is a photograph with the spoof title “Top Soviet Pop Group.”",
+      "caption_or_title": "Top Soviet Pop Group",
+      "visual_description": "Photograph identified by spoof title and visible-person description; published note leaves it attached but not printed.",
+      "relationship_to_document": "attached_but_not_printed",
+      "attachment_or_publication_status": "attached_not_printed",
+      "source_image_or_url": "",
+      "printed_target": "",
+      "cross_reference_target": "",
+      "identification_basis": "Published annotation supplies title and visual identification without printing the photograph.",
+      "source_or_context": "Reagan Soviet Union example for caption/title and visible-person description in an attached-but-not-printed photograph note.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v05/d16",
+      "verification_status": "verified_published_visual_material_record",
+      "variant_forms": [
+        "photograph with the spoof title “Top Soviet Pop Group”",
+        "Attached but not printed is a photograph"
+      ]
+    },
+    {
+      "visual_material_id": "visual-v06-d151-inf-photographs",
+      "volume_id": "frus1981-88v06",
+      "document_id": "frus1981-88v06/d151",
+      "document_number": "151",
+      "unit_scope": "document text and annotation context",
+      "visual_type": "photograph_exchange",
+      "approved_phrase": "photographs of the SS–12 and SS–23 with their front ends",
+      "caption_or_title": "SS-12 and SS-23 photographs",
+      "visual_description": "Photographic evidence discussed as part of INF exchange and verification context.",
+      "relationship_to_document": "discussed_in_document",
+      "attachment_or_publication_status": "discussed_only",
+      "source_image_or_url": "",
+      "printed_target": "",
+      "cross_reference_target": "",
+      "identification_basis": "Published document text supplies the photographic-evidence context.",
+      "source_or_context": "INF photograph-exchange language should be handled as visual material context, not as an attached photograph unless the source note supplies attachment status.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v06/d151",
+      "verification_status": "verified_published_visual_material_record",
+      "variant_forms": [
+        "photographs of the SS-12 and SS-23",
+        "photograph exchange"
+      ]
+    },
+    {
+      "visual_material_id": "visual-v01-d272-appendix-image",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d272",
+      "document_number": "272",
+      "unit_scope": "source note and appendix link",
+      "visual_type": "appendix_image",
+      "approved_phrase": "An image of the notes is Appendix A.",
+      "caption_or_title": "Appendix A image of handwritten notes",
+      "visual_description": "Appendix image linked from transcribed handwritten notes.",
+      "relationship_to_document": "appendix_image_link",
+      "attachment_or_publication_status": "printed_appendix",
+      "source_image_or_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/appendix-A",
+      "printed_target": "Appendix A",
+      "cross_reference_target": "frus1981-88v01/appendix-A",
+      "identification_basis": "Published source note links the transcribed notes to the appendix image.",
+      "source_or_context": "Appendix-image link should preserve the two-way relationship between transcription and image target.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d272",
+      "verification_status": "verified_published_visual_material_record",
+      "variant_forms": [
+        "image of the notes is Appendix A",
+        "Appendix A image"
+      ]
+    },
+    {
+      "visual_material_id": "visual-v01-appendix-a-reverse-link",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/appendix-A",
+      "document_number": "Appendix A",
+      "unit_scope": "appendix source note",
+      "visual_type": "facsimile",
+      "approved_phrase": "For the transcribed copy of these notes, see Document 272.",
+      "caption_or_title": "Appendix A",
+      "visual_description": "Appendix image points back to the transcribed document.",
+      "relationship_to_document": "appendix_image_reverse_link",
+      "attachment_or_publication_status": "printed_appendix",
+      "source_image_or_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/appendix-A",
+      "printed_target": "Document 272",
+      "cross_reference_target": "frus1981-88v01/d272",
+      "identification_basis": "Published appendix source note supplies the reverse cross-reference.",
+      "source_or_context": "Reverse appendix link must not be dropped when normalizing image/facsimile apparatus.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/appendix-A",
+      "verification_status": "verified_published_visual_material_record",
+      "variant_forms": [
+        "transcribed copy of these notes, see Document 272"
+      ]
+    }
+  ]
+}

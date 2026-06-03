@@ -49,6 +49,8 @@ try {
     "reports/frus-translation-registry.sample.json",
     "--printed-attachment-registry",
     "reports/frus-printed-attachment-registry.sample.json",
+    "--visual-material-registry",
+    "reports/frus-visual-material-registry.sample.json",
     "--negative-search-registry",
     "reports/frus-negative-search-registry.sample.json",
     "--document-relationship-registry",
@@ -101,6 +103,10 @@ try {
   assert(markdown.includes("Printed And Nested Attachment Registry Context"), "expected printed attachment registry section");
   assert(markdown.includes("Paper Prepared in the Soviet Ministry of Foreign Affairs"), "expected printed-in-parent attachment registry content");
   assert(markdown.includes("Attached but not printed are two papers drafted by the Arms Control Support Group"), "expected attached-but-not-printed registry content");
+  assert(markdown.includes("Visual Material Registry Context"), "expected visual material registry section");
+  assert(markdown.includes("map of U.S. bases surrounding the Soviet Union"), "expected map visual-material registry content");
+  assert(markdown.includes("Top Soviet Pop Group"), "expected photograph caption/title registry content");
+  assert(markdown.includes("An image of the notes is Appendix A"), "expected appendix-image registry content");
   assert(markdown.includes("Negative Search And No-Record Registry Context"), "expected negative-search registry section");
   assert(markdown.includes("No minutes were found"), "expected negative-search registry content");
   assert(markdown.includes("Not found attached"), "expected RAC attachment ambiguity content");
@@ -146,6 +152,9 @@ try {
   assert(packet.contexts.printed_attachment_registry.records.length === 6, "expected printed attachment registry records");
   assert(packet.contexts.printed_attachment_registry.target_records.length > 0, "expected target printed attachment records");
   assert(packet.packet_summary.printed_attachment_registry_records === 6, "expected printed attachment registry count");
+  assert(packet.contexts.visual_material_registry.records.length === 5, "expected visual material registry records");
+  assert(packet.contexts.visual_material_registry.target_records.length > 0, "expected target visual material records");
+  assert(packet.packet_summary.visual_material_registry_records === 5, "expected visual material registry count");
   assert(packet.contexts.negative_search_registry.records.length === 6, "expected negative-search registry records");
   assert(packet.contexts.negative_search_registry.target_records.length > 0, "expected target negative-search records");
   assert(packet.contexts.document_relationship_registry.records.length === 10, "expected document-relationship registry records");
@@ -162,7 +171,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

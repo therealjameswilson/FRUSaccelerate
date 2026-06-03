@@ -52,9 +52,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -82,6 +82,9 @@ For translation/foreign-origin validation and direct-edit safety, run
 For printed/nested attachment validation and direct-edit safety, run
 `node scripts/validate-frus-printed-attachment-registry.mjs --registry reports/frus-printed-attachment-registry.sample.json --format text` and
 `node scripts/audit-frus-printed-attachment-usage.mjs --units extracted-units.json --registry reports/frus-printed-attachment-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For visual-material validation and direct-edit safety, run
+`node scripts/validate-frus-visual-material-registry.mjs --registry reports/frus-visual-material-registry.sample.json --format text` and
+`node scripts/audit-frus-visual-material-usage.mjs --units extracted-units.json --registry reports/frus-visual-material-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For negative-search/no-record validation and direct-edit safety, run
 `node scripts/validate-frus-negative-search-registry.mjs --registry reports/frus-negative-search-registry.sample.json --format text` and
 `node scripts/audit-frus-negative-search-usage.mjs --units extracted-units.json --registry reports/frus-negative-search-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -104,7 +107,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -157,6 +160,13 @@ date/place lines, child source notes, child classification markings, and
 parent-child maps; validate it with
 `scripts/validate-frus-printed-attachment-registry.mjs` before direct printed
 attachment edits.
+For real Reagan/Bush 1981-1992 visual-material review, replace the sample
+visual-material registry with target-volume records for maps, photographs,
+charts, images, graphic attachments, appendix images, captions, visual titles,
+not-found or not-attached visual items, source-image links, printed targets,
+and person/object/place identification; validate it with
+`scripts/validate-frus-visual-material-registry.mjs` before direct
+visual-material edits.
 For real Reagan/Bush 1981-1992 negative-search/no-record review, replace the
 sample negative-search registry with target-volume records for no-minutes,
 not-found, not-attached, not-found-attached, no-memcon, no-telcon, unlocated
@@ -196,6 +206,8 @@ For sample translation/foreign-origin checks, run
 `node scripts/audit-frus-translation-usage.mjs --units reports/frus-translation-units.sample.json --registry reports/frus-translation-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample printed/nested attachment checks, run
 `node scripts/audit-frus-printed-attachment-usage.mjs --units reports/frus-printed-attachment-units.sample.json --registry reports/frus-printed-attachment-registry.sample.json --target-volume frus1989-92v31 --format text`.
+For sample visual-material checks, run
+`node scripts/audit-frus-visual-material-usage.mjs --units reports/frus-visual-material-units.sample.json --registry reports/frus-visual-material-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample negative-search/no-record checks, run
 `node scripts/audit-frus-negative-search-usage.mjs --units reports/frus-negative-search-units.sample.json --registry reports/frus-negative-search-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample document-relationship checks, run
@@ -3997,6 +4009,174 @@ Use this to check printed-in-parent child papers, attached-but-not-printed detai
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d276",
       "verification_status": "verified_published_printed_attachment_record"
+    }
+  ]
+}
+```
+
+## Visual Material Registry Context
+
+Use this to check maps, photographs, charts, images, graphic attachments, appendix images, captions, visual titles, not-found/not-attached visual items, visual descriptions, source-image references, printed targets, and person/object/place identification. Do not change captions, image links, visual descriptions, or attachment/not-found status unless the registry proves the direct edit.
+
+```json
+{
+  "schema_version": "frus-visual-material-registry-v1",
+  "visual_material_registry_id": "frus-1981-1992-visual-material-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d61",
+    "https://history.state.gov/historicaldocuments/frus1981-88v05/d16",
+    "https://history.state.gov/historicaldocuments/frus1981-88v06/d151",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d272",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/appendix-A"
+  ],
+  "scope": "Published FRUS map, photograph, visual-attachment, appendix-image, and visual not-found patterns for Reagan and George H.W. Bush annotation sheets.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "visual_material_id": "visual-v31-d61-map-not-found",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d61",
+      "document_number": "61",
+      "unit_scope": "source note and document text",
+      "visual_type": "map",
+      "approved_phrase": "At this point Chairman Gorbachev hands over a map of U.S. bases surrounding the Soviet Union.",
+      "caption_or_title": "map of U.S. bases surrounding the Soviet Union",
+      "visual_description": "Map handed over during the Malta conversation; the published source note records that the map was not found.",
+      "relationship_to_document": "not_found",
+      "attachment_or_publication_status": "not_found",
+      "source_image_or_url": "",
+      "printed_target": "",
+      "cross_reference_target": "",
+      "identification_basis": "Published document text identifies the map and source note records the not-found status.",
+      "source_or_context": "Document 61 prints the conversational handover of a map and preserves the source-note not-found status instead of inventing image details.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d61",
+      "verification_status": "verified_published_visual_material_record",
+      "variant_forms": [
+        "Gorbachev hands over a map of U.S. bases surrounding the Soviet Union",
+        "map of U.S. bases surrounding the Soviet Union"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "visual_material_id": "visual-v31-d61-map-not-found",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d61",
+      "document_number": "61",
+      "unit_scope": "source note and document text",
+      "visual_type": "map",
+      "approved_phrase": "At this point Chairman Gorbachev hands over a map of U.S. bases surrounding the Soviet Union.",
+      "caption_or_title": "map of U.S. bases surrounding the Soviet Union",
+      "visual_description": "Map handed over during the Malta conversation; the published source note records that the map was not found.",
+      "relationship_to_document": "not_found",
+      "attachment_or_publication_status": "not_found",
+      "source_image_or_url": "",
+      "printed_target": "",
+      "cross_reference_target": "",
+      "identification_basis": "Published document text identifies the map and source note records the not-found status.",
+      "source_or_context": "Document 61 prints the conversational handover of a map and preserves the source-note not-found status instead of inventing image details.",
+      "variant_forms": [
+        "Gorbachev hands over a map of U.S. bases surrounding the Soviet Union",
+        "map of U.S. bases surrounding the Soviet Union"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d61",
+      "verification_status": "verified_published_visual_material_record"
+    },
+    {
+      "visual_material_id": "visual-v05-d16-photograph-attached",
+      "volume_id": "frus1981-88v05",
+      "document_id": "frus1981-88v05/d16",
+      "document_number": "16",
+      "unit_scope": "follow-on footnote",
+      "visual_type": "photograph",
+      "approved_phrase": "Attached but not printed is a photograph with the spoof title “Top Soviet Pop Group.”",
+      "caption_or_title": "Top Soviet Pop Group",
+      "visual_description": "Photograph identified by spoof title and visible-person description; published note leaves it attached but not printed.",
+      "relationship_to_document": "attached_but_not_printed",
+      "attachment_or_publication_status": "attached_not_printed",
+      "source_image_or_url": "",
+      "printed_target": "",
+      "cross_reference_target": "",
+      "identification_basis": "Published annotation supplies title and visual identification without printing the photograph.",
+      "source_or_context": "Reagan Soviet Union example for caption/title and visible-person description in an attached-but-not-printed photograph note.",
+      "variant_forms": [
+        "photograph with the spoof title “Top Soviet Pop Group”",
+        "Attached but not printed is a photograph"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v05/d16",
+      "verification_status": "verified_published_visual_material_record"
+    },
+    {
+      "visual_material_id": "visual-v06-d151-inf-photographs",
+      "volume_id": "frus1981-88v06",
+      "document_id": "frus1981-88v06/d151",
+      "document_number": "151",
+      "unit_scope": "document text and annotation context",
+      "visual_type": "photograph_exchange",
+      "approved_phrase": "photographs of the SS–12 and SS–23 with their front ends",
+      "caption_or_title": "SS-12 and SS-23 photographs",
+      "visual_description": "Photographic evidence discussed as part of INF exchange and verification context.",
+      "relationship_to_document": "discussed_in_document",
+      "attachment_or_publication_status": "discussed_only",
+      "source_image_or_url": "",
+      "printed_target": "",
+      "cross_reference_target": "",
+      "identification_basis": "Published document text supplies the photographic-evidence context.",
+      "source_or_context": "INF photograph-exchange language should be handled as visual material context, not as an attached photograph unless the source note supplies attachment status.",
+      "variant_forms": [
+        "photographs of the SS-12 and SS-23",
+        "photograph exchange"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v06/d151",
+      "verification_status": "verified_published_visual_material_record"
+    },
+    {
+      "visual_material_id": "visual-v01-d272-appendix-image",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d272",
+      "document_number": "272",
+      "unit_scope": "source note and appendix link",
+      "visual_type": "appendix_image",
+      "approved_phrase": "An image of the notes is Appendix A.",
+      "caption_or_title": "Appendix A image of handwritten notes",
+      "visual_description": "Appendix image linked from transcribed handwritten notes.",
+      "relationship_to_document": "appendix_image_link",
+      "attachment_or_publication_status": "printed_appendix",
+      "source_image_or_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/appendix-A",
+      "printed_target": "Appendix A",
+      "cross_reference_target": "frus1981-88v01/appendix-A",
+      "identification_basis": "Published source note links the transcribed notes to the appendix image.",
+      "source_or_context": "Appendix-image link should preserve the two-way relationship between transcription and image target.",
+      "variant_forms": [
+        "image of the notes is Appendix A",
+        "Appendix A image"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d272",
+      "verification_status": "verified_published_visual_material_record"
+    },
+    {
+      "visual_material_id": "visual-v01-appendix-a-reverse-link",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/appendix-A",
+      "document_number": "Appendix A",
+      "unit_scope": "appendix source note",
+      "visual_type": "facsimile",
+      "approved_phrase": "For the transcribed copy of these notes, see Document 272.",
+      "caption_or_title": "Appendix A",
+      "visual_description": "Appendix image points back to the transcribed document.",
+      "relationship_to_document": "appendix_image_reverse_link",
+      "attachment_or_publication_status": "printed_appendix",
+      "source_image_or_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/appendix-A",
+      "printed_target": "Document 272",
+      "cross_reference_target": "frus1981-88v01/d272",
+      "identification_basis": "Published appendix source note supplies the reverse cross-reference.",
+      "source_or_context": "Reverse appendix link must not be dropped when normalizing image/facsimile apparatus.",
+      "variant_forms": [
+        "transcribed copy of these notes, see Document 272"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/appendix-A",
+      "verification_status": "verified_published_visual_material_record"
     }
   ]
 }

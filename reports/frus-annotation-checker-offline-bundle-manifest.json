@@ -200,6 +200,18 @@
       "role": "Self-contained printed/nested attachment registry and usage audit smoke test"
     },
     {
+      "path": "scripts/validate-frus-visual-material-registry.mjs",
+      "role": "Visual-material, map, photograph, caption, appendix-image, and not-found visual registry validator"
+    },
+    {
+      "path": "scripts/audit-frus-visual-material-usage.mjs",
+      "role": "Visual-material usage audit for extracted Word units and direct-edit safety"
+    },
+    {
+      "path": "scripts/test-frus-visual-material-audit.mjs",
+      "role": "Self-contained visual-material registry and usage audit smoke test"
+    },
+    {
       "path": "scripts/validate-frus-negative-search-registry.mjs",
       "role": "Negative-search, no-record, and attachment-ambiguity registry validator"
     },
@@ -307,6 +319,9 @@
     "reports/frus-printed-attachment-registry.sample.json",
     "reports/frus-printed-attachment-units.sample.json",
     "reports/frus-printed-attachment-audit.sample.json",
+    "reports/frus-visual-material-registry.sample.json",
+    "reports/frus-visual-material-units.sample.json",
+    "reports/frus-visual-material-audit.sample.json",
     "reports/frus-negative-search-registry.sample.json",
     "reports/frus-negative-search-units.sample.json",
     "reports/frus-negative-search-audit.sample.json",
@@ -365,6 +380,10 @@
     {
       "path": "reports/frus-printed-attachment-registry.sample.json",
       "role": "Published printed-in-parent child paper, attached-but-not-printed, printed-as-document, and child-apparatus sample for Reagan and George H.W. Bush fixtures"
+    },
+    {
+      "path": "reports/frus-visual-material-registry.sample.json",
+      "role": "Published map, photograph, caption/title, visual not-found, and appendix-image sample for Reagan and George H.W. Bush fixtures"
     },
     {
       "path": "reports/frus-negative-search-registry.sample.json",
@@ -428,6 +447,9 @@
     "node scripts/validate-frus-printed-attachment-registry.mjs --registry reports/frus-printed-attachment-registry.sample.json --format text",
     "node scripts/audit-frus-printed-attachment-usage.mjs --units reports/frus-printed-attachment-units.sample.json --registry reports/frus-printed-attachment-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-printed-attachment-audit.mjs",
+    "node scripts/validate-frus-visual-material-registry.mjs --registry reports/frus-visual-material-registry.sample.json --format text",
+    "node scripts/audit-frus-visual-material-usage.mjs --units reports/frus-visual-material-units.sample.json --registry reports/frus-visual-material-registry.sample.json --target-volume frus1989-92v31 --format text",
+    "node scripts/test-frus-visual-material-audit.mjs",
     "node scripts/validate-frus-negative-search-registry.mjs --registry reports/frus-negative-search-registry.sample.json --format text",
     "node scripts/audit-frus-negative-search-usage.mjs --units reports/frus-negative-search-units.sample.json --registry reports/frus-negative-search-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-negative-search-audit.mjs",
@@ -462,6 +484,8 @@
     "Give validate-frus-translation-registry.mjs a duplicate translation_id or malformed translation-registry schema; it must fail.",
     "Give audit-frus-printed-attachment-usage.mjs a direct edit that changes `Printed as Document 277.` to `Printed as Document 276.` without target-volume registry support; it must fail.",
     "Give validate-frus-printed-attachment-registry.mjs a duplicate printed_attachment_id or malformed printed-attachment-registry schema; it must fail.",
+    "Give audit-frus-visual-material-usage.mjs a direct edit that changes a map marked not found into a printed appendix claim without target-volume registry support; it must fail.",
+    "Give validate-frus-visual-material-registry.mjs a duplicate visual_material_id or malformed visual-material-registry schema; it must fail.",
     "Give audit-frus-negative-search-usage.mjs a direct edit that changes `Not found attached` to `Not attached` without target-volume registry support; it must fail.",
     "Give validate-frus-negative-search-registry.mjs a duplicate negative_search_id or malformed negative-search-registry schema; it must fail.",
     "Give audit-frus-document-relationship-usage.mjs a direct edit that changes `Attached but not printed. See Document 10` to `Attached but not printed. See Document 9` without target-volume registry support; it must fail.",

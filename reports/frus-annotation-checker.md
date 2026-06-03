@@ -79,6 +79,20 @@ For translation/foreign-origin validation, use
 `reports/frus-translation-units.sample.json`; the self-contained smoke test is
 `scripts/test-frus-translation-audit.mjs`, and the sample audit report is
 `reports/frus-translation-audit.sample.json`.
+For printed/nested attachment validation, use
+`scripts/validate-frus-printed-attachment-registry.mjs` and
+`scripts/audit-frus-printed-attachment-usage.mjs` with
+`reports/frus-printed-attachment-registry.sample.json` and
+`reports/frus-printed-attachment-units.sample.json`; the self-contained smoke
+test is `scripts/test-frus-printed-attachment-audit.mjs`, and the sample audit
+report is `reports/frus-printed-attachment-audit.sample.json`.
+For visual-material validation, use
+`scripts/validate-frus-visual-material-registry.mjs` and
+`scripts/audit-frus-visual-material-usage.mjs` with
+`reports/frus-visual-material-registry.sample.json` and
+`reports/frus-visual-material-units.sample.json`; the self-contained smoke test
+is `scripts/test-frus-visual-material-audit.mjs`, and the sample audit report is
+`reports/frus-visual-material-audit.sample.json`.
 For negative-search/no-record validation, use
 `scripts/validate-frus-negative-search-registry.mjs` and
 `scripts/audit-frus-negative-search-usage.mjs` with
@@ -162,6 +176,16 @@ reports/frus-translation-registry.sample.json` or a target-volume replacement
 to packet, chunk, and offline-runner commands before allowing direct edits to
 official, unofficial, informal, original-language, foreign-copy, or
 foreign-text-in-file apparatus.
+For printed/nested attachment claims, add `--printed-attachment-registry
+reports/frus-printed-attachment-registry.sample.json` or a target-volume
+replacement to packet, chunk, and offline-runner commands before allowing direct
+edits to child headings, child source notes, tab/enclosure labels,
+attached-but-not-printed status, printed targets, or parent-child maps.
+For visual-material claims, add `--visual-material-registry
+reports/frus-visual-material-registry.sample.json` or a target-volume
+replacement to packet, chunk, and offline-runner commands before allowing direct
+edits to maps, photographs, captions/titles, appendix-image links, visual
+descriptions, not-found/not-attached visual status, or source-image targets.
 For sample review coverage, use `scripts/audit-frus-review-coverage.mjs` with
 `reports/frus-annotation-checker-extracted-units.sample.json`,
 `reports/frus-annotation-checker-sample-output.json`, and
@@ -12108,6 +12132,17 @@ Minimum components:
   source notes, child classifications, and parent-child maps to supplied
   printed-attachment records and fails direct printed-attachment edits that
   lack supplied registry support.
+- No-dependency visual-material registry validator, usage audit, and fixtures:
+  `scripts/validate-frus-visual-material-registry.mjs`,
+  `scripts/audit-frus-visual-material-usage.mjs`,
+  `reports/frus-visual-material-registry.sample.json`,
+  `reports/frus-visual-material-units.sample.json`, and
+  `reports/frus-visual-material-audit.sample.json`. The audit reconciles maps,
+  photographs, photograph exchanges, captions/titles, appendix images,
+  facsimile reverse links, visual not-found status, source-image or URL targets,
+  printed targets, and visual-identification basis to supplied visual-material
+  records and fails direct visual-material edits that lack supplied registry
+  support.
 - No-dependency negative-search/no-record registry validator, usage audit, and
   fixtures: `scripts/validate-frus-negative-search-registry.mjs`,
   `scripts/audit-frus-negative-search-usage.mjs`,
@@ -12270,11 +12305,12 @@ Minimum components:
   original brackets, original ellipses, cut-off lines, appendix images,
   facsimiles, preserved handwritten structure, and reverse appendix
   cross-references before tracked changes are applied.
-- Visual-material validator that distinguishes maps, photographs, charts,
-  diagrams, images, graphic attachments, appendix images, captions, visual
-  titles, visual descriptions, printed targets, attached-but-not-printed,
-  not-found, not-attached, public-source images, and source-image-only evidence
-  before tracked changes are applied.
+- Expand the visual-material validator to cover more target-volume records for
+  maps, photographs, charts, diagrams, images, graphic attachments, appendix
+  images, captions, visual titles, visual descriptions, printed targets,
+  attached-but-not-printed, not-found, not-attached, public-source images,
+  source-image-only evidence, and person/object/place identification before
+  tracked changes are applied.
 - Communications-record validator that checks telegram, cable, STARS, CFPF,
   PROFS, W Files, System IV, agency-message, and other electronic-message
   identifiers, origin/addressee, date-time group, precedence,

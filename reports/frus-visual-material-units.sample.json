@@ -1,0 +1,66 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample visual-material FRUS annotation units",
+  "units": [
+    {
+      "unit_id": "visual-material-0001",
+      "unit_type": "transcribed_document_text",
+      "location": "START I Document 61 map handover",
+      "exact_text": "At this point Chairman Gorbachev hands over a map of U.S. bases surrounding the Soviet Union.",
+      "display_text": "At this point Chairman Gorbachev hands over a map of U.S. bases surrounding the Soviet Union.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "visual-material-0002",
+      "unit_type": "follow_on_footnote",
+      "location": "Reagan Soviet Union attached photograph note",
+      "exact_text": "Attached but not printed is a photograph with the spoof title “Top Soviet Pop Group.”",
+      "display_text": "Attached but not printed is a photograph with the spoof title “Top Soviet Pop Group.”",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "visual-material-0003",
+      "unit_type": "source_note",
+      "location": "Reagan handwritten notes appendix image",
+      "exact_text": "An image of the notes is Appendix A.",
+      "display_text": "An image of the notes is Appendix A.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "visual-material-0004",
+      "unit_type": "editorial_note",
+      "location": "INF photograph exchange variant",
+      "exact_text": "The parties discussed photographs of the SS-12 and SS-23 during the exchange.",
+      "display_text": "The parties discussed photographs of the SS-12 and SS-23 during the exchange.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "visual-material-0005",
+      "unit_type": "editorial_note",
+      "location": "START I map variant",
+      "exact_text": "Gorbachev hands over a map of U.S. bases surrounding the Soviet Union.",
+      "display_text": "Gorbachev hands over a map of U.S. bases surrounding the Soviet Union.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "visual-material-0006",
+      "unit_type": "follow_on_footnote",
+      "location": "Unsupported visual-material phrase",
+      "exact_text": "Attached but not printed is the photograph of the meeting room.",
+      "display_text": "Attached but not printed is the photograph of the meeting room.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    }
+  ]
+}
