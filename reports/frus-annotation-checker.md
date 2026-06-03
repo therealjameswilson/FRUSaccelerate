@@ -77,6 +77,10 @@ The wrapper should provide the LLM with:
   bracket, excision, withholding, original-bracket, release-status, and
   declassification-review assertions with quantity, type, evidence basis, and
   reviewer status.
+- `chronology_registry_context`, if available: structured meeting, call,
+  briefing, travel, diary, schedule, memcon, telcon, minutes, and no-record
+  assertions with time, place, participants, record-found status, and evidence
+  basis.
 - `series_status_context`, if available: current History Office status
   (`published`, `anticipated`, `being_cleared`, `being_researched`, or
   `planned`), target volume title, known chapter status, and any official
@@ -1563,6 +1567,137 @@ Flag these issues:
 - "No minutes were found" is used without enough context to show what meeting or
   source search is being described.
 
+Chronology registry:
+
+When the wrapper can supply diary, schedule, call-log, or meeting-record
+evidence, keep it in a structured registry. Published Reagan and Bush examples
+use Presidential Daily Diary entries to establish that a meeting occurred, where
+it occurred, and how long it lasted, while separately noting whether minutes,
+memoranda of conversation, or other records were found. Do not collapse those
+claims into one assertion.
+
+```json
+{
+  "chronology_registry_id": "frus-chronology-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d219",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1"
+  ],
+  "events": [
+    {
+      "event_id": "event-bush-nsc-1989-05-25",
+      "unit_id": "source-note-0023",
+      "event_type": "meeting",
+      "date": "1989-05-25",
+      "time_start": "09:39",
+      "time_end": "11:04",
+      "location": "Cabinet Room",
+      "evidence_source": "President's Daily Diary",
+      "participants_basis": "not supplied",
+      "record_status": "no_minutes_found",
+      "record_target": "NSC meeting minutes",
+      "substantive_content_supported": false,
+      "confidence": "verified"
+    },
+    {
+      "event_id": "event-reagan-oval-1984-11-14",
+      "unit_id": "source-note-0001",
+      "event_type": "meeting",
+      "date": "1984-11-14",
+      "time_start": "13:30",
+      "time_end": "14:45",
+      "location": "Oval Office",
+      "evidence_source": "Reagan Library, President's Daily Diary",
+      "participants_basis": "diary and note context",
+      "record_status": "no_minutes_found",
+      "record_target": "meeting minutes",
+      "substantive_content_supported": false,
+      "confidence": "verified"
+    }
+  ]
+}
+```
+
+Allowed `event_type` values:
+
+- `meeting`
+- `call`
+- `briefing`
+- `travel`
+- `diary_entry`
+- `schedule_entry`
+- `memoir_or_personal_diary_context`
+- `unknown`
+
+Allowed `record_status` values:
+
+- `record_printed`: a memcon, telcon, minutes, summary, or substantive record is
+  printed in the same document or another cited document.
+- `record_scheduled_elsewhere`: the full record is scheduled for another
+  volume, chapter, or document.
+- `no_minutes_found`: the search found no minutes for the meeting.
+- `no_memcon_found`: the search found no memorandum of conversation.
+- `no_telcon_found`: the search found no telephone conversation transcript or
+  memorandum.
+- `not_found`: a specific related record was not located, but the type is not
+  narrowed further.
+- `unknown`: the uploaded context does not prove whether a substantive record
+  exists.
+
+Chronology validator sequence:
+
+1. Identify every meeting, call, briefing, travel event, schedule entry, diary
+   reference, memoir/personal-diary supplement, and no-record claim.
+2. Separate event occurrence from substantive record. A Daily Diary or schedule
+   can prove time, place, sequence, and sometimes participants; it does not by
+   itself prove what was said.
+3. For `No minutes were found`, `No memorandum of conversation has been found`,
+   and `No telcon was found`, require the event, record type, and search target
+   to be clear enough for the compiler to understand the claim.
+4. Check whether a scheduled call was placed, connected, completed, missed, or
+   merely planned. Do not turn a scheduled call into a conversation without
+   connection evidence.
+5. Check whether participant lists come from the source, the diary/schedule, an
+   attachment, or later editorial inference. Do not infer attendance from
+   agenda distribution or briefing-paper routing.
+6. When a memoir, personal diary, public account, or press report supplements a
+   diary/schedule entry, keep it as corroborating or recollective context unless
+   it is the selected documentary source.
+7. For full-record-elsewhere language, require the target FRUS volume, document
+   number, chapter, or scheduled-publication evidence before direct edits.
+8. Reconcile time ranges, locations, and document dates across source note,
+   heading, editorial note, and chronology registry before applying a direct
+   edit.
+
+Direct-edit posture:
+
+- Safe direct edits may correct narrow chronology wording when the registry
+  supplies final event facts and the Word anchor is exact, such as changing
+  `according to the Daily Diary` to `According to the President's Daily Diary`
+  when that is the supplied source form.
+- Use `comment_only` when time, place, duration, attendance, call connection,
+  record-found status, or target document number is missing or inferred.
+- Use `evidence_request: chronology` for time, place, attendance, sequence,
+  briefing, travel, diary, schedule, call-log, or meeting-record uncertainty.
+- Use `evidence_request: cross_reference` or `document_number` when the problem
+  is the target of a full-record-elsewhere claim.
+- Use `style_discrepancy_tally` when published or local examples vary on
+  `No minutes were found` versus `No memorandum of conversation has been found`
+  for similar records, but do not tally an unresolved search result as style.
+
+Chronology audit requirements:
+
+- Count chronology warnings by event type and record status.
+- Record unresolved `unknown`, missing time/place, conflicting event date,
+  unsupported attendance, scheduled-but-unconnected calls, and no-record claims
+  without search basis.
+- Do not release a final-style `.docx` when a source note or editorial note
+  asserts substantive meeting content based only on diary, schedule, or call-log
+  evidence unless the volume editor waives the issue and the waiver appears in
+  the audit report.
+
 ### 6.9 Interagency And Foreign-Government Records
 
 Rules:
@@ -2682,7 +2817,8 @@ For every extracted unit, run checks in this order:
    clearance-stage, anticipated, planned, or published.
 12. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-13. Check chronology, diary, schedule, and call-log usage.
+13. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
+    no-record usage against the chronology registry when supplied.
 14. Check Persons, abbreviations, and index authority issues.
 15. Assign specific evidence requests and verification targets for unresolved
     proof.
@@ -3238,6 +3374,7 @@ Authority registry: [authority_registry_id and capture date]
 Source-family registry: [source_family_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
 Declassification registry: [declassification_registry_id and capture date]
+Chronology registry: [chronology_registry_id and capture date]
 Status snapshot: [status_snapshot URL and captured_at date]
 Status registry stale: [yes/no/not supplied]
 Review mode: [light/normal/exhaustive]
@@ -3264,6 +3401,7 @@ Counts:
 - Source-family unmatched or ambiguous matches: [n]
 - Attachment status unknown or conflicting: [n]
 - Declassification/omission unresolved or conflicting: [n]
+- Chronology/meeting/call record issues: [n]
 
 Major issues:
 - [unit_id]: [finding]
@@ -3288,6 +3426,9 @@ Attachment warnings:
 
 Declassification warnings:
 - [unit_id or global]: [declassification issue] - [claim type, quantity, and review status]
+
+Chronology warnings:
+- [unit_id or global]: [chronology issue] - [event type, record status, and evidence basis]
 
 Style discrepancy tally:
 - [discrepancy_id]: [category] - [style_question] - count [n] - risk [level]
@@ -3326,6 +3467,9 @@ Minimum components:
   excisions, unrelated omissions, original brackets, editor insertions,
   release-status notes, and whole-document withholdings before tracked changes
   are applied.
+- Chronology and meeting-record validator that distinguishes diary/schedule
+  corroboration, call-log evidence, memcons, telcons, minutes, no-record claims,
+  and substantive meeting content before tracked changes are applied.
 - Status-registry validator that preserves production stage, release bucket,
   capture date, official URL, and cross-referenced volume targets before the
   LLM review begins.
@@ -3347,6 +3491,9 @@ Operational cautions:
 - Record declassification-registry version, provisional or unknown review
   statuses, omitted-text quantities, whole-document withholdings, original
   bracket notes, and unresolved release-status warnings.
+- Record chronology-registry version, unknown record statuses, unsupported
+  attendance, missing time/place, scheduled-but-unconnected calls, and
+  no-record claims lacking search basis.
 - Record status-registry freshness and every publication-status conflict,
   especially `scheduled for publication` or `printed in` language.
 - Record the selected review mode and whether duplicate findings were merged.
