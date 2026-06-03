@@ -216,6 +216,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
   const trackReport = reports.track_change_application;
   const outputValidation = reports.output_validation;
   const sourceNoteLint = reports.source_note_lint;
+  const coverageAudit = reports.review_coverage;
   const expectedRevisions = countExpectedRevisions(trackReport);
 
   return {
@@ -242,6 +243,8 @@ function buildAudit({ options, artifacts, steps, reports }) {
       insertions_expected: expectedRevisions.insertions,
       deletions_expected: expectedRevisions.deletions,
       source_note_lint_diagnostics: sourceNoteLint?.summary?.diagnostics_count || 0,
+      review_coverage_unreviewed_units: coverageAudit?.summary?.unreviewed_units || 0,
+      review_coverage_signal_gaps: coverageAudit?.summary?.signal_category_gaps || 0,
       evidence_queue_items: evidenceQueue.queue.length,
       discrepancy_ledger_items: discrepancyLedger.ledger.length
     },
@@ -273,7 +276,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
 function renderText(audit) {
   return [
     `FRUS offline review passed: ${audit.counts.extracted_units} units, ${audit.counts.comments_applied} Word comments, ${audit.counts.tracked_edits_applied} tracked edits.`,
-    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}.`,
+    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
     `Revised DOCX: ${audit.revised_docx}`,
     `Audit: ${audit.artifacts.audit}`
   ].join("\n") + "\n";
@@ -286,6 +289,7 @@ function runReview(options) {
     extracted_units: path.join(options.artifactDir, "extracted-units.json"),
     evidence_queue: path.join(options.artifactDir, "evidence-queue.json"),
     discrepancy_ledger: path.join(options.artifactDir, "discrepancy-ledger.json"),
+    review_coverage: path.join(options.artifactDir, "review-coverage.json"),
     source_note_lint: path.join(options.artifactDir, "source-note-lint.json"),
     pseudo_marker_preflight: path.join(options.artifactDir, "pseudo-marker-preflight.txt"),
     status_registry_validation: path.join(options.artifactDir, "status-registry-validation.json"),
@@ -457,6 +461,29 @@ function runReview(options) {
       })
     );
   }
+  const coverageArgs = [
+    "scripts/audit-frus-review-coverage.mjs",
+    "--units",
+    artifacts.extracted_units,
+    "--output",
+    options.checkerOutputPath,
+    "--review-mode",
+    options.reviewMode,
+    "--format",
+    "json"
+  ];
+  if (options.permutationMatrixPath) {
+    coverageArgs.push("--matrix", options.permutationMatrixPath);
+  }
+  const coverageStep = runNodeStep({
+    label: "audit_review_coverage",
+    args: coverageArgs,
+    cwd,
+    stdoutFile: artifacts.review_coverage,
+    parseJson: true
+  });
+  steps.push(coverageStep);
+  optionalReports.review_coverage = coverageStep.parsed;
   steps.push(
     runNodeStep({
       label: "build_evidence_queue",

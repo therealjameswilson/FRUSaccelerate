@@ -221,9 +221,11 @@ try {
   assert(audit.counts.evidence_queue_items === 1, "expected one evidence queue item");
   assert(audit.counts.discrepancy_ledger_items === 1, "expected one discrepancy ledger item");
   assert(audit.counts.source_note_lint_diagnostics === 1, "expected one source-note lint diagnostic");
+  assert(audit.counts.review_coverage_unreviewed_units === 0, "expected no unreviewed reviewable units");
 
   for (const artifact of [
     "extracted-units.json",
+    "review-coverage.json",
     "source-note-lint.json",
     "pseudo-marker-preflight.txt",
     "status-registry-validation.json",
@@ -244,6 +246,7 @@ try {
   assert(audit.reports.status_registry_validation.status === "pass", "expected status registry validation report");
   assert(audit.reports.preparation_router_validation.status === "pass", "expected preparation router validation report");
   assert(audit.reports.permutation_matrix_validation.status === "pass", "expected permutation matrix validation report");
+  assert(audit.reports.review_coverage.status === "pass", "expected review coverage audit report");
 
   const entries = readZip(outputDocx);
   const footnotes = entries.get("word/footnotes.xml").content.toString("utf8");

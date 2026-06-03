@@ -17,6 +17,8 @@ For no-dependency DOCX unit extraction, run
 For the per-document Markdown packet that a closed-network LLM should review,
 run
 `node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --status-registry reports/frus-status-series-1981-1992.current.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+For per-document review coverage, run
+`node scripts/audit-frus-review-coverage.mjs --units extracted-units.json --output output.json --matrix reports/frus-annotation-permutation-matrix.json`.
 For a no-dependency smoke test, run
 `node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json`.
 For direct-edit anchor preflight, run
@@ -49,6 +51,8 @@ For source-note component diagnostics, run
 `node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json`.
 For production pseudo-marker boundary checks, run
 `node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json`.
+For sample review coverage, run
+`node scripts/audit-frus-review-coverage.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-sample-output.json --matrix reports/frus-annotation-permutation-matrix.json`.
 For unresolved proof tracking, run
 `node scripts/build-frus-evidence-queue.mjs --output reports/frus-annotation-checker-sample-output.json --review-mode normal`.
 For General Editor style governance, run
@@ -84,6 +88,11 @@ as editorial apparatus.
 
 Return only valid JSON in the required schema. Do not include prose outside
 the JSON.
+
+Every reviewable extracted editorial unit should have a checker entry. Use
+`recommended_action: "no_change"` when a unit has been reviewed and needs no
+comment or redline. Silent omission is a coverage gap, not proof that the unit
+is flawless.
 ```
 
 ## 2. Wrapper Workflow

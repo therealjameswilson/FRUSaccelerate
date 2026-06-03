@@ -1,0 +1,191 @@
+{
+  "schema_version": "frus-review-coverage-audit-v1",
+  "review_mode": "normal",
+  "summary": {
+    "units_total": 3,
+    "reviewable_units": 3,
+    "reviewed_units": 3,
+    "unreviewed_units": 0,
+    "checks_total": 3,
+    "checked_unit_references": 3,
+    "unknown_unit_references": 0,
+    "categories_seen": 2,
+    "evidence_requests_seen": 2,
+    "applicable_categories": 10,
+    "signal_category_gaps": 3,
+    "matrix_categories": 40,
+    "matrix_evidence_requests": 39
+  },
+  "counts": {
+    "by_unit_type": {
+      "source_note": 2,
+      "editorial_note": 1
+    },
+    "by_coverage_status": {
+      "reviewed": 3
+    },
+    "by_checked_category": {
+      "source_note": 2,
+      "editorial_note": 1
+    },
+    "by_checked_evidence_request": {
+      "archival_path": 1,
+      "none": 2
+    }
+  },
+  "applicable_categories": [
+    "attachment",
+    "chronology",
+    "citation",
+    "classification_handling",
+    "communications_record",
+    "decision_process_directive",
+    "editorial_note",
+    "publication_status",
+    "source_note",
+    "source_surrogate_release"
+  ],
+  "applicable_evidence_requests": [
+    "attachment_status",
+    "classification_marking",
+    "communications_metadata",
+    "decision_process_basis",
+    "publication_status",
+    "source_surrogate_basis"
+  ],
+  "categories_seen": [
+    "editorial_note",
+    "source_note"
+  ],
+  "evidence_requests_seen": [
+    "archival_path",
+    "none"
+  ],
+  "unit_coverage": [
+    {
+      "unit_id": "source-note-0001",
+      "unit_type": "source_note",
+      "location": "Document 1, footnote 1",
+      "review_required": true,
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "expected_categories": [
+        "attachment",
+        "source_note",
+        "source_surrogate_release"
+      ],
+      "signal_categories": [
+        {
+          "category": "attachment",
+          "evidence_request": "attachment_status",
+          "note": "attachment or child-document phrase"
+        },
+        {
+          "category": "source_surrogate_release",
+          "evidence_request": "source_surrogate_basis",
+          "note": "source surrogate, release package, or discovery URL"
+        }
+      ],
+      "checked_categories": [
+        "source_note"
+      ],
+      "checked_evidence_requests": [
+        "archival_path"
+      ],
+      "check_indexes": [
+        0
+      ],
+      "coverage_status": "reviewed",
+      "missing_signal_categories": [
+        "attachment",
+        "source_surrogate_release"
+      ]
+    },
+    {
+      "unit_id": "editorial-note-0002",
+      "unit_type": "editorial_note",
+      "location": "Editorial Note after Document 2",
+      "review_required": true,
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "expected_categories": [
+        "chronology",
+        "citation",
+        "communications_record",
+        "editorial_note",
+        "publication_status"
+      ],
+      "signal_categories": [
+        {
+          "category": "publication_status",
+          "evidence_request": "publication_status",
+          "note": "publication-status phrase"
+        },
+        {
+          "category": "communications_record",
+          "evidence_request": "communications_metadata",
+          "note": "communications-record phrase"
+        }
+      ],
+      "checked_categories": [
+        "editorial_note"
+      ],
+      "checked_evidence_requests": [
+        "none"
+      ],
+      "check_indexes": [
+        1
+      ],
+      "coverage_status": "reviewed",
+      "missing_signal_categories": [
+        "communications_record",
+        "publication_status"
+      ]
+    },
+    {
+      "unit_id": "source-note-0003",
+      "unit_type": "source_note",
+      "location": "Document 3, footnote 1",
+      "review_required": true,
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "expected_categories": [
+        "classification_handling",
+        "decision_process_directive",
+        "source_note"
+      ],
+      "signal_categories": [
+        {
+          "category": "classification_handling",
+          "evidence_request": "classification_marking",
+          "note": "classification or handling phrase"
+        },
+        {
+          "category": "decision_process_directive",
+          "evidence_request": "decision_process_basis",
+          "note": "decision-process or directive phrase"
+        }
+      ],
+      "checked_categories": [
+        "source_note"
+      ],
+      "checked_evidence_requests": [
+        "none"
+      ],
+      "check_indexes": [
+        2
+      ],
+      "coverage_status": "reviewed",
+      "missing_signal_categories": [
+        "classification_handling",
+        "decision_process_directive"
+      ]
+    }
+  ],
+  "unknown_unit_references": [],
+  "unknown_categories": [],
+  "unknown_evidence_requests": [],
+  "warnings": [],
+  "errors": [],
+  "status": "pass"
+}

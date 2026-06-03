@@ -52,6 +52,20 @@
       "comment_text": "",
       "evidence_request": "none",
       "verification_target": ""
+    },
+    {
+      "unit_id": "source-note-0003",
+      "rule_id": "FAS-SN-001",
+      "severity": "info",
+      "category": "source_note",
+      "finding": "No source-path issue. The source note identifies a repository, collection, file family, and date before any surrogate locator.",
+      "standard": "FRUS source notes should identify the controlling repository, collection, file family, folder, file, or selected published source before URLs, scans, catalog records, or other discovery aids.",
+      "recommended_action": "no_change",
+      "original_text": "",
+      "replacement_text": "",
+      "comment_text": "",
+      "evidence_request": "none",
+      "verification_target": ""
     }
   ],
   "global_comments": [

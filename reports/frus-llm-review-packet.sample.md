@@ -2,7 +2,7 @@
 
 - schema_version: frus-llm-review-packet-v1
 - run_id: sample-llm-packet
-- generated_at: 2026-06-03T14:01:37.094Z
+- generated_at: 2026-06-03T14:11:36.711Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -12,6 +12,8 @@ Review extracted Microsoft Word FRUS annotation-sheet units as a bespoke spellch
 **Return only one valid JSON object matching `checker-output-v1`. Do not include Markdown outside the JSON.**
 
 Do not claim to edit the Word file directly. The wrapper will validate this JSON and apply only safe Word comments or tracked changes.
+
+Every reviewable extracted editorial unit should have a checker entry. Use `recommended_action: "no_change"` when the unit is already sound.
 
 ## Packet Summary
 
@@ -174,6 +176,11 @@ Wrappers can validate LLM output with
 changes.
 For no-dependency DOCX unit extraction, run
 `node scripts/extract-frus-docx-units.mjs --docx input.docx --out extracted-units.json --format text`.
+For the per-document Markdown packet that a closed-network LLM should review,
+run
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --status-registry reports/frus-status-series-1981-1992.current.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+For per-document review coverage, run
+`node scripts/audit-frus-review-coverage.mjs --units extracted-units.json --output output.json --matrix reports/frus-annotation-permutation-matrix.json`.
 For a no-dependency smoke test, run
 `node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json`.
 For direct-edit anchor preflight, run
@@ -206,6 +213,8 @@ For source-note component diagnostics, run
 `node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json`.
 For production pseudo-marker boundary checks, run
 `node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json`.
+For sample review coverage, run
+`node scripts/audit-frus-review-coverage.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-sample-output.json --matrix reports/frus-annotation-permutation-matrix.json`.
 For unresolved proof tracking, run
 `node scripts/build-frus-evidence-queue.mjs --output reports/frus-annotation-checker-sample-output.json --review-mode normal`.
 For General Editor style governance, run
@@ -241,6 +250,11 @@ as editorial apparatus.
 
 Return only valid JSON in the required schema. Do not include prose outside
 the JSON.
+
+Every reviewable extracted editorial unit should have a checker entry. Use
+`recommended_action: "no_change"` when a unit has been reviewed and needs no
+comment or redline. Silent omission is a coverage gap, not proof that the unit
+is flawless.
 ```
 
 ## 2. Wrapper Workflow
@@ -249,17 +263,20 @@ the JSON.
 2. User uploads a `.docx` annotation sheet.
 3. Wrapper extracts Word units with stable `unit_id`, `exact_text`,
    `display_text`, unit type, and Word XML anchors.
-4. LLM checks extracted units and returns JSON edit/comment plan.
-5. Wrapper validates JSON, exact anchors, evidence basis, and Word safety.
+4. Wrapper builds a per-document `review-packet.md` from the runtime guide,
+   extracted units, output schema, status registry, preparation router, and
+   permutation matrix.
+5. LLM checks `review-packet.md` and returns a JSON edit/comment plan only.
+6. Wrapper validates JSON, exact anchors, evidence basis, and Word safety.
    Direct edits require one exact `original_text` match in an editable unit
    with no existing revisions or blocked Word boundaries.
-6. Wrapper validates publication-status phrases against a dated official
+7. Wrapper validates publication-status phrases against a dated official
    status registry before allowing any redline that changes `printed in`,
    `scheduled for publication`, `forthcoming`, `anticipated`, `being cleared`,
    `being researched`, or `planned` language.
-7. Wrapper applies only safe edits as WordprocessingML tracked insertions,
+8. Wrapper applies only safe edits as WordprocessingML tracked insertions,
    deletions, and comments.
-8. User downloads a new `.docx` with changes marked in Track Changes.
+9. User downloads a new `.docx` with changes marked in Track Changes.
 
 Important: the LLM must not write `.docx`, OOXML, base64 files, or package
 instructions. The wrapper creates the revised Word file.

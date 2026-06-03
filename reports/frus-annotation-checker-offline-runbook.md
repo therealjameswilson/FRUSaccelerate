@@ -64,6 +64,15 @@ node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out
 node scripts/validate-frus-checker-output.mjs output.json
 ```
 
+   Then audit whether the model actually reviewed every extracted editorial
+   unit. A reviewable unit with no checker entry should be treated as a silent
+   coverage gap, even when the final recommendation would have been
+   `no_change`.
+
+```sh
+node scripts/audit-frus-review-coverage.mjs --units extracted-units.json --output output.json --matrix reports/frus-annotation-permutation-matrix.json --format text
+```
+
    Preferred one-command wrapper path after validation:
 
 ```sh
@@ -72,10 +81,10 @@ node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output outp
 
    The runner extracts units, reruns checker-output validation, runs exact-anchor
    preflight, runs source-note lint and pseudo-marker preflight, builds the
-   evidence queue and discrepancy ledger, applies safe Word comments, applies
-   safe tracked changes, validates the final `.docx`, and writes `audit.json`
-   plus component reports. Use the remaining commands in this workflow for
-   diagnosis, reruns, or manual operation.
+   review-coverage audit, evidence queue, and discrepancy ledger, applies safe
+   Word comments, applies safe tracked changes, validates the final `.docx`,
+   and writes `audit.json` plus component reports. Use the remaining commands
+   in this workflow for diagnosis, reruns, or manual operation.
 
    For packets that contain publication-status language or family-dependent
    Reagan/Bush routing, add the current context files:
@@ -166,6 +175,7 @@ node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sa
 node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-direct-edit-sample-output.json
 node scripts/test-frus-docx-unit-extractor.mjs
 node scripts/test-frus-llm-review-packet.mjs
+node scripts/test-frus-review-coverage-audit.mjs
 node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json
 node scripts/test-frus-track-change-applier.mjs
 node scripts/test-frus-word-comment-applier.mjs

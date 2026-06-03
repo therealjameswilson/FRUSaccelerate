@@ -265,6 +265,7 @@ function buildPacket(options) {
       ],
       reviewer_posture: [
         "Treat the LLM as a conservative proofreader, not as the authority of record.",
+        "Return a checker entry for every reviewable extracted editorial unit, using no_change when the unit is already sound.",
         "Use comment_only when evidence is missing or a Word boundary is unsafe.",
         "Keep the running discrepancy tally separate for the General Editor."
       ]
@@ -308,6 +309,8 @@ function renderMarkdown(packet) {
     "**Return only one valid JSON object matching `checker-output-v1`. Do not include Markdown outside the JSON.**",
     "",
     "Do not claim to edit the Word file directly. The wrapper will validate this JSON and apply only safe Word comments or tracked changes.",
+    "",
+    "Every reviewable extracted editorial unit should have a checker entry. Use `recommended_action: \"no_change\"` when the unit is already sound.",
     "",
     "## Packet Summary",
     "",

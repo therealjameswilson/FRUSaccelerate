@@ -23,6 +23,10 @@ For the per-document Markdown packet that a closed-network LLM should review,
 use `scripts/build-frus-llm-review-packet.mjs`; the self-contained smoke test
 is `scripts/test-frus-llm-review-packet.mjs`, and the sample packet is
 `reports/frus-llm-review-packet.sample.md`.
+For per-document review coverage, use
+`scripts/audit-frus-review-coverage.mjs`; the self-contained smoke test is
+`scripts/test-frus-review-coverage-audit.mjs`, and the sample coverage report
+is `reports/frus-review-coverage.sample.json`.
 For no-dependency closed-network smoke tests, use
 `scripts/validate-frus-checker-output.mjs` against
 `reports/frus-annotation-checker-sample-output.json`.
@@ -62,6 +66,10 @@ For production pseudo-marker boundary checks, use
 `scripts/preflight-frus-pseudo-markers.mjs` with
 `reports/frus-pseudo-marker-units.sample.json` and
 `reports/frus-pseudo-marker-safe-output.sample.json`.
+For sample review coverage, use `scripts/audit-frus-review-coverage.mjs` with
+`reports/frus-annotation-checker-extracted-units.sample.json`,
+`reports/frus-annotation-checker-sample-output.json`, and
+`reports/frus-annotation-permutation-matrix.json`.
 For unresolved proof tracking, use
 `scripts/build-frus-evidence-queue.mjs` with
 `reports/frus-annotation-checker-sample-output.json`; the expected sample queue
@@ -123,6 +131,11 @@ editorial annotation or the user asks for transcription review.
 
 Return only valid JSON in the required schema. Do not include prose outside the
 JSON.
+
+Every reviewable extracted editorial unit should have a checker entry. Use
+`recommended_action: "no_change"` when the unit has been reviewed and needs no
+comment or redline. Silent omission is a coverage gap, not proof that the unit
+is flawless.
 ```
 
 ## 2. Required Inputs
