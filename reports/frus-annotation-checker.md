@@ -107,6 +107,12 @@ The wrapper should provide the LLM with:
   delegation-meeting, itinerary, and public-remarks evidence with times, places,
   participants, public-source basis, diary/schedule basis, press basis, and
   related full-record targets.
+- `congressional_legal_context`, if available: structured congressional
+  testimony, hearing, committee, budget message, public law, statute, continuing
+  resolution, joint resolution, congressional notification, Presidential
+  Determination, certification, Executive Order, independent counsel,
+  congressional oversight, Senate advice-and-consent, ratification, and
+  report-to-Congress metadata.
 - `cross_reference_registry_context`, if available: structured same-volume,
   cross-volume, footnote, appendix, tab, attachment, printed-elsewhere,
   scheduled-publication, and public-source references with target status,
@@ -179,14 +185,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | congressional_legal_authority | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | treaty_component | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | treaty_component | legal_authority | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -199,7 +205,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | congressional_legal_authority | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -326,6 +332,7 @@ run the semantic and Word-safety validators below.
               "classification_handling",
               "translation_foreign_origin",
               "treaty_legal_instrument",
+              "congressional_legal_authority",
               "declassification",
               "authority_control",
               "chronology",
@@ -373,6 +380,7 @@ run the semantic and Word-safety validators below.
               "document_number",
               "document_metadata",
               "treaty_component",
+              "legal_authority",
               "publication_status",
               "authority_control",
               "declassification_status",
@@ -449,6 +457,7 @@ run the semantic and Word-safety validators below.
               "classification_handling",
               "translation_foreign_origin",
               "treaty_legal_instrument",
+              "congressional_legal_authority",
               "declassification",
               "authority_control",
               "chronology",
@@ -541,9 +550,9 @@ Semantic validator behavior:
 - Reject any direct edit whose category is `publication_status`,
   `declassification`, `attachment`, `document_metadata`,
   `classification_handling`, `translation_foreign_origin`,
-  `treaty_legal_instrument`, `chronology`, `summit_public_event`,
-  `communications_record`, or `authority_control` when the required proof is
-  absent from the uploaded unit or wrapper context.
+  `treaty_legal_instrument`, `congressional_legal_authority`, `chronology`,
+  `summit_public_event`, `communications_record`, or `authority_control` when
+  the required proof is absent from the uploaded unit or wrapper context.
 - Downgrade to `comment_only` when a finding passes the JSON schema but fails a
   Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
@@ -2481,6 +2490,212 @@ Summit/public-event audit requirements:
   participant-basis, and full-record-target warnings so compilers can decide
   whether the note is ready for a final style pass.
 
+### 6.8B Congressional, Legal, And Public-Authority Records
+
+Reagan and Bush annotation sheets often cite congressional testimony, hearings,
+budget messages, public laws, continuing resolutions, joint resolutions,
+Presidential Determinations, certifications, Executive Orders, independent
+counsel actions, congressional oversight, and Senate advice-and-consent context.
+These records are not just generic public sources. They often establish legal
+authority, funding conditions, oversight posture, ratification posture, or the
+reason a public statement mattered.
+
+Use a congressional/legal registry when the wrapper can supply one:
+
+```json
+{
+  "congressional_legal_registry_id": "frus-1981-1992-congressional-legal-authority-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d39",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d274",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d286",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d371",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/preface"
+  ],
+  "records": [
+    {
+      "legal_item_id": "legal-testimony-0039",
+      "unit_id": "source-note-0039",
+      "record_type": "congressional_testimony",
+      "institution_or_body": "Senate Foreign Relations Committee; House Foreign Affairs Committee",
+      "authority_or_citation": "Department of State Bulletin, April 1981, pp. A-C; House Foreign Affairs Committee hearing citation",
+      "action_stage": "testimony_given",
+      "public_or_archival_basis": "selected public testimony with archival memorandum context",
+      "related_publication_or_law": "Foreign Assistance Legislation for Fiscal Year 1982",
+      "verification_status": "verified"
+    },
+    {
+      "legal_item_id": "legal-public-law-0274",
+      "unit_id": "footnote-0274-0004",
+      "record_type": "public_law",
+      "institution_or_body": "House of Representatives; Senate; President",
+      "authority_or_citation": "Public Law 99-591, 100 Stat. 3341",
+      "action_stage": "enacted_signed",
+      "public_or_archival_basis": "congressional vote sequence and public-law authority in annotation",
+      "related_publication_or_law": "FY 1987 continuing appropriations resolution",
+      "verification_status": "verified"
+    },
+    {
+      "legal_item_id": "legal-executive-order-0286",
+      "unit_id": "footnote-0286-0006",
+      "record_type": "executive_order",
+      "institution_or_body": "President; Special Review Board; Congress; independent counsel",
+      "authority_or_citation": "Executive Order 12575",
+      "action_stage": "executive_order_issued",
+      "public_or_archival_basis": "Public Papers citation with congressional oversight context",
+      "related_publication_or_law": "Iran arms and Contra aid investigation",
+      "verification_status": "verified"
+    },
+    {
+      "legal_item_id": "legal-determination-0371",
+      "unit_id": "footnote-0371-0002",
+      "record_type": "presidential_determination",
+      "institution_or_body": "President; Congress; multilateral development banks",
+      "authority_or_citation": "Presidential Determination No. 87-4; Section 560; Public Law 99-500",
+      "action_stage": "determination_transmitted",
+      "public_or_archival_basis": "archival memorandum with attached-but-not-printed certification and justification",
+      "related_publication_or_law": "Foreign Assistance and Related Programs Appropriations Act, 1987",
+      "verification_status": "verified"
+    },
+    {
+      "legal_item_id": "legal-senate-advice-consent-start",
+      "unit_id": "editorial-note-0247",
+      "record_type": "senate_advice_and_consent",
+      "institution_or_body": "Senate; President; Department of State",
+      "authority_or_citation": "START I Senate advice and consent to ratification",
+      "action_stage": "transmitted_for_consideration",
+      "public_or_archival_basis": "public treaty transmittal and volume preface context",
+      "related_publication_or_law": "START I and Lisbon Protocol context",
+      "verification_status": "verified"
+    }
+  ]
+}
+```
+
+Allowed `record_type` values:
+
+- `congressional_testimony`
+- `hearing`
+- `committee_report`
+- `budget_message`
+- `message_to_congress`
+- `congressional_notification`
+- `public_law`
+- `statute`
+- `continuing_resolution`
+- `joint_resolution`
+- `authorization_or_appropriation`
+- `presidential_determination`
+- `presidential_certification`
+- `executive_order`
+- `independent_counsel`
+- `oversight_investigation`
+- `senate_advice_and_consent`
+- `ratification`
+- `report_to_congress`
+- `unknown`
+
+Allowed `action_stage` values:
+
+- `proposed`
+- `testimony_given`
+- `reported`
+- `voted`
+- `passed_house`
+- `passed_senate`
+- `enacted_signed`
+- `transmitted_to_congress`
+- `transmitted_for_consideration`
+- `determination_transmitted`
+- `certification_required`
+- `executive_order_issued`
+- `investigation_announced`
+- `ratified`
+- `entered_into_force`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified`
+- `needs_committee_identity`
+- `needs_hearing_citation`
+- `needs_public_law_citation`
+- `needs_statute_citation`
+- `needs_vote_or_stage`
+- `needs_transmittal_basis`
+- `needs_authority_or_section`
+- `needs_attachment_status`
+- `needs_public_source`
+- `unknown`
+
+Congressional/legal validator sequence:
+
+1. Identify every source note, editorial note, footnote, heading, annotation,
+   attachment note, or source-list entry that names Congress, a committee,
+   hearing, testimony, public law, statute, continuing resolution, joint
+   resolution, budget message, congressional notification, Presidential
+   Determination, certification, Executive Order, independent counsel, oversight
+   inquiry, Senate advice and consent, ratification, or report to Congress.
+2. Match the unit against `congressional_legal_context` before directly changing
+   committee identity, hearing title, Congress/session, legal citation, public
+   law number, Stat. citation, vote sequence, action stage, amount, condition,
+   transmittal date, determination/certification number, Executive Order number,
+   or Senate advice-and-consent language.
+3. Preserve the difference between selected documentary source and supporting
+   legal context. A Department of State Bulletin testimony text, Public Papers
+   message, GPO hearing, public law, Presidential Determination, or Executive
+   Order can be the selected document or a supporting footnote depending on the
+   volume's purpose.
+4. Do not convert a hearing, testimony, Public Papers message, public law,
+   statute, Executive Order, or Presidential Determination into an archival
+   source-note template unless the archival copy is the selected source.
+5. Separate proposed requests, testimony, House action, Senate action, enacted
+   law, signed law, transmitted certification, and attached-but-not-printed
+   legal materials. Do not collapse these stages into a single "Congress
+   approved" claim without evidence.
+6. For funding, aid, waiver, certification, and notification claims, preserve
+   amounts, conditions, effective dates, earmarks, release restrictions, and
+   statutory section numbers only when supplied.
+7. For treaty and arms-control material, coordinate with the treaty registry to
+   distinguish Senate advice and consent, ratification, entry into force,
+   associated-but-not-integral documents, and pre-ratification negotiation
+   strategy.
+8. For oversight and independent counsel material, preserve the public-source
+   basis and do not treat public investigative posture as proof of underlying
+   classified facts.
+
+Direct-edit posture:
+
+- Safe direct edits may correct narrow citation punctuation or restore a
+  supplied public-law, Executive Order, committee, or hearing form when the
+  uploaded unit or registry supplies the exact evidence.
+- Use `comment_only` with `evidence_request: legal_authority` when committee
+  identity, hearing citation, public-law citation, statutory section, vote
+  sequence, action stage, transmittal basis, amount, condition, attachment
+  status, or authority number is missing, conflicting, or inferred.
+- Use `evidence_request: treaty_component` when the legal-authority issue is
+  really treaty component identity or integral-versus-associated status.
+- Use `evidence_request: publication_status`, `cross_reference`, or
+  `document_number` when the blocker is whether a legal or congressional record
+  is printed, scheduled elsewhere, or tied to a target document.
+- Add a `congressional_legal_authority` discrepancy to the General Editor tally
+  when published or local examples vary on how much legal citation, hearing
+  detail, vote-stage detail, or public-law/statute form to print, and the
+  underlying facts are sound.
+
+Congressional/legal audit requirements:
+
+- Count congressional/legal warnings separately from ordinary citation,
+  publication-status, treaty, and public-source warnings.
+- Preserve registry id, capture date, source URLs, record type, action stage,
+  legal citation, public/archival basis, and verification status in the audit
+  report.
+- Record unresolved committee, hearing, public-law, Stat., section, vote-stage,
+  transmittal, determination/certification, Executive Order, independent
+  counsel, attachment-status, and Senate advice-and-consent warnings.
+
 ### 6.9 Interagency And Foreign-Government Records
 
 Rules:
@@ -3435,6 +3650,13 @@ Permutation matrix for annotation sheets:
   zone, place, participants, public-source basis, diary/schedule basis, press
   basis, and whether full records are printed, scheduled elsewhere, or not
   supplied.
+- Congressional or legal-authority package: check committee/hearing identity,
+  Congress/session, testimony source, budget or message-to-Congress basis,
+  public law, Stat. citation, section number, joint/continuing resolution,
+  vote/action stage, amount, condition, notification, Presidential
+  Determination, certification, Executive Order, independent counsel, oversight,
+  Senate advice-and-consent, ratification, and attached-but-not-printed legal
+  materials.
 - Attachment/tab note: check `Attached but not printed`, `Printed as Document
   [n]`, `Tabs [letters] are printed as Document [n]`, `Not found attached`, and
   `Attached but not printed is the list of participants` as different claims.
@@ -3574,6 +3796,7 @@ Evidence-request categories:
 | `document_number` | Same-volume or cross-volume reference lacks a stable document number. | Which target document, chapter, or volume must be matched. |
 | `document_metadata` | Heading, dateline, subject/title line, public title, sender, recipient, internal number, or document form is missing or suspect. | Which heading field and evidence source must be checked before rewriting. |
 | `treaty_component` | Treaty, protocol, annex, memorandum of understanding, executive agreement, letter, declaration, statement, transmittal, ratification, entry-into-force, or associated-document status is uncertain. | Which treaty component, legal status, public source, archival source, or integral-versus-associated relationship must be checked. |
+| `legal_authority` | Congressional, statutory, executive-order, Presidential Determination, certification, hearing, testimony, vote-stage, oversight, or Senate advice-and-consent authority is uncertain. | Which committee, hearing, Congress/session, public law, Stat. citation, section, vote stage, amount, condition, transmittal, determination/certification, Executive Order, or Senate basis must be checked. |
 | `publication_status` | `printed in` versus `scheduled for publication` depends on current official status. | Which volume or chapter status must be confirmed. |
 | `authority_control` | Persons, titles, abbreviations, index terms, names, offices, or dates need authority-list review. | Which name, office, acronym, date span, or index term needs control. |
 | `declassification_status` | Release, withholding, excision, agency-equity, or bracket language is not final. | Which review outcome or bracket claim cannot yet be asserted. |
@@ -3637,6 +3860,7 @@ Default blocking rules:
 | `document_number` | yes for cross-reference edits | yes when same-volume or cross-volume references are unstable |
 | `document_metadata` | yes for heading, dateline, title, subject, or caption edits | yes when publishable apparatus identifies the document |
 | `treaty_component` | yes for component identity, integral-versus-associated status, public/archival basis, legal-status, ratification, or entry-into-force edits | yes when the note identifies a treaty component, associated document, transmittal, ratification, or entry into force |
+| `legal_authority` | yes for congressional/legal authority, committee, hearing, public-law, statute, determination, certification, Executive Order, vote-stage, amount, condition, or Senate advice-and-consent edits | yes when congressional or legal authority appears in publishable apparatus |
 | `publication_status` | yes for `printed in` or `scheduled for publication` edits | yes for final style if publication language is present |
 | `authority_control` | yes when a date, identity, title, acronym, or index form is uncertain | yes for final style if repeated or reader-facing |
 | `declassification_status` | yes | yes |
@@ -3651,10 +3875,12 @@ Owner hints:
 
 - `compiler`: source images, archival path, document metadata, attachment
   status, document numbers, source family, chronology, treaty component
-  identity, event sequence, translation status, and foreign-copy provenance.
+  identity, event sequence, congressional/legal proof, translation status, and
+  foreign-copy provenance.
 - `editor`: wording, heading form, cross-reference form, source-list
   consistency, treaty/legal-instrument placement, public-event note form,
-  publication-status wording, and General Editor discrepancy preparation.
+  congressional/legal citation form, publication-status wording, and General
+  Editor discrepancy preparation.
 - `declassification`: classification markings, declassification outcomes,
   release-status separation, withholding, excision, and agency-equity language.
 - `wrapper`: exact anchors, existing tracked changes, Word XML structures,
@@ -3951,12 +4177,17 @@ For every extracted unit, run checks in this order:
 18. Check summit, travel, ceremony, public address, interview, press
     conference, toast, testimony, public remarks, and public-event sequence
     evidence against the event-chronology registry when supplied.
-19. Check Persons, abbreviations, and index authority issues.
-20. Assign specific evidence requests and verification targets for unresolved
+19. Check congressional testimony, hearings, public laws, statutes, continuing
+    resolutions, joint resolutions, congressional notifications, Presidential
+    Determinations, certifications, Executive Orders, oversight, independent
+    counsel, Senate advice-and-consent, and ratification context against the
+    congressional/legal registry when supplied.
+20. Check Persons, abbreviations, and index authority issues.
+21. Assign specific evidence requests and verification targets for unresolved
     proof.
-21. Decide direct edit versus comment-only.
-22. Return strict JSON.
-23. After schema and semantic validation, aggregate all unresolved evidence
+22. Decide direct edit versus comment-only.
+23. Return strict JSON.
+24. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -4021,6 +4252,9 @@ Duplicate-suppression rules:
 - Merge repeated scheduled-publication questions by target volume or chapter.
 - Merge repeated summit/public-event chronology issues by event, date span,
   public-source basis, diary/schedule basis, press basis, or full-record target.
+- Merge repeated congressional/legal authority issues by committee, hearing,
+  public law, statute, section, vote/action stage, determination, certification,
+  Executive Order, oversight body, or Senate advice-and-consent target.
 - Merge repeated wrapper-safety issues by Word structure, such as tables,
   existing tracked changes, footnote references, fields, or comments.
 - Do not merge findings that require different evidence requests or different
@@ -4159,6 +4393,10 @@ Golden packet composition:
   conference, toast, or congressional-testimony editorial note where public
   sources, diary/schedule evidence, and cross-volume full-record language must
   be kept distinct.
+- At least one congressional/legal-authority example with testimony, hearing,
+  public law, Stat. citation, continuing or joint resolution, Presidential
+  Determination, certification, Executive Order, oversight, independent counsel,
+  Senate advice-and-consent, or attached-but-not-printed legal material.
 - At least one research-stage sheet with working labels, candidate notes, URL
   locators, or missing scan requests that should become comments rather than
   polished source-note prose.
@@ -4209,6 +4447,11 @@ Expected behavior by test family:
   diary/schedule basis, press basis, and full-record-elsewhere language; comment
   rather than invent when time zone, participant basis, public source, or target
   record evidence is missing.
+- Congressional/legal-authority test: preserve committee/hearing identity,
+  public-law/statute form, action stage, amount/condition, transmittal basis,
+  determination/certification number, Executive Order number, oversight posture,
+  and Senate advice-and-consent language; comment rather than invent when the
+  legal authority basis is missing.
 - Research-stage test: identify working labels and missing evidence, but avoid
   converting source leads into publication-ready assertions.
 - Clearance-stage test: protect declassification, attachment, agency-equity,
@@ -4267,6 +4510,12 @@ Use the discrepancy tally for:
   note, how much Public Papers, press, diary, schedule, or itinerary basis to
   name in the note text, and whether full-record-elsewhere language belongs in
   the same note or a follow-on footnote when the underlying facts are sound.
+- Variations in how much congressional/legal detail to print, including
+  committee and hearing names, Congress/session, Public Law and Stat. citations,
+  section numbers, vote/action stage, appropriations conditions,
+  determination/certification numbers, Executive Order numbers, oversight
+  bodies, independent counsel language, and Senate advice-and-consent context
+  when the underlying facts are sound.
 - Variations in how much treaty component detail to print, where to place
   protocol, annex, memorandum-of-understanding, letter, declaration, statement,
   article-by-article analysis, transmittal, ratification, or entry-into-force
@@ -4328,6 +4577,7 @@ Suggested tally format:
 | style-discrepancy-0001 | source_note | Whether Bush H-Files citations should always name the subseries when supplied. | Generic H-Files; H-Files, NSR Files | 3 | medium | Should the checker enforce subseries naming as direct style when the subseries is present? |
 | style-discrepancy-0002 | treaty_legal_instrument | How much START treaty-package component detail should appear in source notes versus editorial notes. | Treaty text only; treaty plus protocols, annexes, and memorandum of understanding; associated letters and statements in editorial note | 2 | medium | Should the checker enforce a house form for integral treaty components and associated-but-not-integral materials, or only tally the variation? |
 | style-discrepancy-0003 | summit_public_event | How much summit/travel/public-event chronology should be printed inside editorial notes versus follow-on footnotes. | Chronological narrative with Public Papers citations in note text; separate follow-on footnotes for public remarks and full-record targets | 2 | medium | Should the checker enforce a standard form for summit/event editorial notes, or preserve both forms and tally the variation? |
+| style-discrepancy-0004 | congressional_legal_authority | How much legal-authority detail should appear in notes when the law, hearing, or transmittal fact is sound. | Public Law and Stat. citation plus action stage; shorter public-law or committee reference with source citation elsewhere | 2 | medium | Should the checker enforce full legal-authority citation form, or tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -4374,6 +4624,12 @@ Required bundle files:
   interview, press conference, toast, testimony, public remarks, itinerary,
   diary/schedule basis, public-source basis, press basis, participant basis,
   full-record target, verification status, and source URLs.
+- `congressional_legal_map`, when available: testimony, hearing, committee,
+  Congress/session, budget message, public law, Stat. citation, statutory
+  section, continuing or joint resolution, vote/action stage, amount, condition,
+  congressional notification, Presidential Determination, certification,
+  Executive Order, independent counsel, oversight body, Senate advice-and-consent
+  context, attachment status, verification status, and source URLs.
 - `authority_lists`, when available: Persons, abbreviations, source-list
   entries, index terms, known document numbers, chapter titles, and related
   volume cross-references.
@@ -4583,6 +4839,7 @@ Classification registry: [classification_registry_id and capture date]
 Translation registry: [translation_registry_id and capture date]
 Treaty/legal-instrument registry: [treaty_registry_id and capture date]
 Event chronology registry: [event_chronology_registry_id and capture date]
+Congressional/legal registry: [congressional_legal_registry_id and capture date]
 Source-family registry: [source_family_registry_id and capture date]
 Communications registry: [communications_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
@@ -4617,6 +4874,7 @@ Counts:
 - Translation, foreign-origin copy, or language-services issues: [n]
 - Treaty component, integral/associated status, transmittal, ratification, or entry-into-force issues: [n]
 - Summit, travel, ceremony, interview, press, testimony, or public-event chronology issues: [n]
+- Congressional testimony, hearing, public-law, statute, determination, certification, Executive Order, oversight, or Senate advice-and-consent issues: [n]
 - Source-family unmatched or ambiguous matches: [n]
 - Communications records unmatched or incomplete: [n]
 - Attachment status unknown or conflicting: [n]
@@ -4653,6 +4911,9 @@ Treaty/legal-instrument warnings:
 
 Summit/public-event warnings:
 - [unit_id or global]: [event issue] - [event type, public-source basis, diary/schedule basis, press basis, and full-record target]
+
+Congressional/legal warnings:
+- [unit_id or global]: [legal-authority issue] - [record type, authority citation, action stage, public/archival basis, and verification target]
 
 Source-family warnings:
 - [unit_id or global]: [source-family issue] - [registry target or unmatched family]
@@ -4738,6 +4999,13 @@ Minimum components:
   itinerary, summit schedule, ceremony, speech, interview, press conference,
   toast, testimony, Public Papers citation, diary/schedule basis, press basis,
   participant basis, and full-record target before tracked changes are applied.
+- Congressional/legal-authority validator that distinguishes testimony,
+  hearings, committees, Congress/session, public laws, statutes, continuing and
+  joint resolutions, vote/action stages, budget or message-to-Congress basis,
+  congressional notifications, Presidential Determinations, certifications,
+  Executive Orders, oversight, independent counsel, Senate advice and consent,
+  ratification, and attached-but-not-printed legal materials before tracked
+  changes are applied.
 - Cross-reference registry validator that checks same-volume documents,
   footnotes, appendix items, tabs, attachments, public-source references,
   scheduled-publication targets, and cross-volume publication status before
@@ -4789,6 +5057,11 @@ Operational cautions:
   sequence issues, missing public-source basis, diary/schedule basis, press
   basis, participant basis, time-zone questions, full-record targets, and
   summit-public-event discrepancy questions.
+- Record congressional/legal registry version, unresolved committee, hearing,
+  Congress/session, public-law, Stat., statutory-section, vote/action-stage,
+  amount, condition, notification, determination, certification, Executive
+  Order, oversight, independent counsel, Senate advice-and-consent, ratification,
+  attachment-status, and congressional-legal discrepancy questions.
 - Record cross-reference-registry version, unresolved target documents,
   footnotes, appendix references, scheduled-publication targets, stale status
   dependencies, and public-source references.
@@ -4827,6 +5100,9 @@ Needs revision:
 - Diary/schedule evidence is used as substantive conversation evidence.
 - Summit, travel, ceremony, press, or public-event sequence is asserted without
   public-source, diary/schedule, press, or full-record target support.
+- Congressional/legal authority is asserted without committee, hearing,
+  public-law, statute, vote/action-stage, determination, certification,
+  Executive Order, oversight, or Senate advice-and-consent support.
 - Persons, abbreviations, or index entries are inconsistent.
 
 Blocked:
@@ -4880,6 +5156,7 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d244`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d246`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d247`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/preface`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/ch6`
 - `https://history.state.gov/historicaldocuments/frus1981-88v13/ch3`
 - `https://history.state.gov/historicaldocuments/frus1981-88v24/d290`
@@ -4887,7 +5164,11 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d90`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d145`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d33`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d39`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d274`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d286`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d206`
+- `https://history.state.gov/historicaldocuments/frus1981-88v38/d371`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/sources`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1`
@@ -4905,12 +5186,16 @@ Recent Reagan source incorporated:
 - [Ronald Reagan Administration, 1981-1989](https://history.state.gov/historicaldocuments/reagan)
 - [FRUS, 1981-1988, Volume I, Foundations of Foreign Policy](https://history.state.gov/historicaldocuments/frus1981-88v01)
 - [Reagan Cronkite interview editorial note, Document 33](https://history.state.gov/historicaldocuments/frus1981-88v01/d33)
+- [Haig Senate Foreign Relations Committee testimony, Document 39](https://history.state.gov/historicaldocuments/frus1981-88v01/d39)
 - [Reagan United Nations address editorial note, Document 206](https://history.state.gov/historicaldocuments/frus1981-88v01/d206)
+- [Contra aid congressional/public-law annotation, Document 274](https://history.state.gov/historicaldocuments/frus1981-88v01/d274)
+- [Iran arms/Contra aid Executive Order and oversight annotation, Document 286](https://history.state.gov/historicaldocuments/frus1981-88v01/d286)
 - [FRUS, 1981-1988, Volume IV, Soviet Union, January 1983-March 1985](https://history.state.gov/historicaldocuments/frus1981-88v04)
 - [FRUS, 1981-1988, Volume X, Eastern Europe](https://history.state.gov/historicaldocuments/frus1981-88v10)
 - [FRUS, 1981-1988, Volume XI, START I](https://history.state.gov/historicaldocuments/frus1981-88v11)
 - [FRUS, 1981-1988, Volume XXIV, North Africa](https://history.state.gov/historicaldocuments/frus1981-88v24)
 - [FRUS, 1981-1988, Volume XXXVIII, International Economic Development; International Debt; Foreign Assistance](https://history.state.gov/historicaldocuments/frus1981-88v38)
+- [Presidential Determination and Public Law note in Volume XXXVIII, Document 371](https://history.state.gov/historicaldocuments/frus1981-88v38/d371)
 - [FRUS, 1981-1988, Volume XLIV, Part 1, National Security Policy, 1985-1988](https://history.state.gov/historicaldocuments/frus1981-88v44p1)
 - [FRUS, 1981-1988, Volume I EPUB](https://static.history.state.gov/frus/frus1981-88v01/ebook/frus1981-88v01.epub)
 - [FRUS, 1981-1988, Volume IV EPUB](https://static.history.state.gov/frus/frus1981-88v04/ebook/frus1981-88v04.epub)
@@ -4927,6 +5212,7 @@ Recent Bush source incorporated:
 - [Moscow Summit and START signing editorial note, Document 245](https://history.state.gov/historicaldocuments/frus1989-92v31/d245)
 - [START I treaty text source note, Document 246](https://history.state.gov/historicaldocuments/frus1989-92v31/d246)
 - [START I Presidential transmittal and article-by-article analysis note, Document 247](https://history.state.gov/historicaldocuments/frus1989-92v31/d247)
+- [START I preface discussion of Senate ratification and Lisbon Protocol context](https://history.state.gov/historicaldocuments/frus1989-92v31/preface)
 - [FRUS, 1989-1992, Volume XXXI, START I, 1989-1991 EPUB](https://static.history.state.gov/frus/frus1989-92v31/ebook/frus1989-92v31.epub)
 
 Current status source incorporated:
