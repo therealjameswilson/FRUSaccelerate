@@ -136,6 +136,21 @@ The LLM must return valid JSON with this shape:
       "severity": "major | minor | info",
       "comment_text": "Document-wide observation."
     }
+  ],
+  "style_discrepancy_tally": [
+    {
+      "discrepancy_id": "style-discrepancy-0001",
+      "category": "source_note | citation | attachment | editorial_note | declassification | authority_control | wording | format | wrapper",
+      "style_question": "Short description of the unresolved style variation.",
+      "variant_a": "One observed form.",
+      "variant_b": "Another observed form.",
+      "unit_ids": ["footnote-0012"],
+      "published_or_local_examples": ["Short source label or URL if supplied in context."],
+      "count": 1,
+      "risk": "low | medium | high",
+      "checker_action": "no_change | comment_only | direct_edit_applied",
+      "general_editor_question": "Decision question for the General Editor."
+    }
   ]
 }
 ```
@@ -154,6 +169,8 @@ Rules for JSON edits:
 - Use `evidence_request` and `verification_target` when the finding requires
   human or wrapper verification. Use `none` and an empty target for safe direct
   edits and `no_change` findings.
+- Use `style_discrepancy_tally` for recurring style variations that should be
+  reviewed by the General Editor rather than silently normalized by the checker.
 
 ## 4. Word Wrapper Requirements
 
@@ -1778,7 +1795,75 @@ Human review requirements:
 - Keep the golden packet on the closed network, with document excerpts cleared
   for that environment.
 
-## 10. Offline Context Bundle Requirements
+## 10. General Editor Style Discrepancy Tally
+
+The checker should keep a separate running tally of style discrepancies for the
+General Editor. This tally is for questions where published FRUS practice,
+local exemplar sheets, or in-preparation volume habits show more than one
+defensible form. The checker should not flatten these variations into one style
+unless the uploaded standard, General Editor guidance, or direct evidence makes
+the answer clear.
+
+Use the discrepancy tally for:
+
+- Published or exemplar notes that use different but plausible source-note
+  ordering, repository naming, collection naming, or source-family detail.
+- Different treatment of public, printed, speech, hearing, testimony, treaty, or
+  memoir sources as selected documents versus supporting context.
+- Variations in `No classification marking`, classification/handling order,
+  declassification phrasing, or omission/bracket language where the underlying
+  evidence is sound.
+- Variations in `Attached but not printed`, `Not found attached`, `Printed as
+  Document [n]`, appendix, tab, enclosure, or facsimile wording.
+- Variations in `scheduled for publication`, `printed in`, same-volume
+  cross-references, footnote cross-references, or document-number style.
+- Different Persons, abbreviations, source-list, or index authority forms that
+  may reflect volume-specific practice rather than error.
+- Repeated wrapper-safety or extraction ambiguities that suggest the tool needs
+  a house rule before it can safely redline similar Word structures.
+
+Do not use the discrepancy tally for:
+
+- Invented facts, missing evidence, wrong source paths, guessed classifications,
+  or unsafe direct edits. These are findings, not style discrepancies.
+- Clear violations of the current standard, such as URL-only source notes when
+  the archival path is supplied.
+- One-off typos, punctuation slips, or local formatting errors that can be
+  corrected directly.
+- Transcribed document text that the checker is not authorized to edit.
+
+Tally behavior:
+
+- The LLM should add a `style_discrepancy_tally` item when it sees a real style
+  variation that could affect future FRUS house practice.
+- The wrapper should merge duplicate discrepancy items across the uploaded
+  packet and, if configured, across prior runs of the same project.
+- The tally should preserve representative unit ids, short examples, source
+  labels or URLs supplied in context, counts, and the exact question for the
+  General Editor.
+- The tally should not force a redline. For the affected unit, use `no_change`
+  when the note is acceptable as written, or `comment_only` when the compiler
+  needs guidance before final style.
+- The audit report should separate the discrepancy tally from defects. A volume
+  can pass the checker while still producing style questions for future
+  guidance.
+
+Suggested tally format:
+
+| Discrepancy id | Category | Style question | Variants observed | Count | Risk | General Editor question |
+| --- | --- | --- | --- | ---: | --- | --- |
+| style-discrepancy-0001 | source_note | Whether Bush H-Files citations should always name the subseries when supplied. | Generic H-Files; H-Files, NSR Files | 3 | medium | Should the checker enforce subseries naming as direct style when the subseries is present? |
+
+Risk levels:
+
+- `low`: Variation is harmless and mostly cosmetic, but worth recording for
+  consistency.
+- `medium`: Variation could affect source clarity, cross-reference stability, or
+  authority-control consistency.
+- `high`: Variation could mislead readers if unresolved, but the checker lacks
+  authority to decide the house rule.
+
+## 11. Offline Context Bundle Requirements
 
 The checker is designed for a closed network. That means the wrapper should not
 ask the LLM to browse live History Office pages during a review run. Instead,
@@ -1857,7 +1942,7 @@ Context freshness guidance:
   stale, unless the run would change `scheduled for publication`, `printed in`,
   document numbers, chapter status, or publication-status language.
 
-## 11. Audit Report Summary Template
+## 12. Audit Report Summary Template
 
 The wrapper may generate a human-readable report after applying changes:
 
@@ -1881,6 +1966,7 @@ Counts:
 - Comments inserted: [n]
 - LLM edits rejected by validator: [n]
 - Evidence requests by type: [source_image n; archival_path n; classification_marking n; etc.]
+- Style discrepancies tallied for General Editor: [n]
 
 Major issues:
 - [unit_id]: [finding]
@@ -1888,11 +1974,14 @@ Major issues:
 Evidence requests:
 - [unit_id]: [evidence_request] - [verification_target]
 
+Style discrepancy tally:
+- [discrepancy_id]: [category] - [style_question] - count [n] - risk [level]
+
 Rejected edits:
 - [unit_id]: original_text was not found exactly in target unit.
 ```
 
-## 12. Closed-Network Deployment Notes
+## 13. Closed-Network Deployment Notes
 
 Minimum components:
 
@@ -1923,7 +2012,7 @@ Operational cautions:
 - Do not accept checker edits automatically for publication; human FRUS editors
   must review every tracked change.
 
-## 13. Quick Pass/Fail Rubric
+## 14. Quick Pass/Fail Rubric
 
 Pass:
 
@@ -1951,7 +2040,7 @@ Blocked:
   matching.
 - The Word wrapper cannot safely apply track changes.
 
-## 14. Source Basis
+## 15. Source Basis
 
 This checker is based on the local file:
 
