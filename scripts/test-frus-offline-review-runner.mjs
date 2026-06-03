@@ -221,6 +221,7 @@ try {
   assert(audit.counts.evidence_queue_items === 1, "expected one evidence queue item");
   assert(audit.counts.discrepancy_ledger_items === 1, "expected one discrepancy ledger item");
   assert(audit.counts.source_note_lint_diagnostics === 1, "expected one source-note lint diagnostic");
+  assert(audit.counts.status_claims_extracted === 0, "expected zero extracted status claims");
   assert(audit.counts.review_coverage_unreviewed_units === 0, "expected no unreviewed reviewable units");
 
   for (const artifact of [
@@ -228,6 +229,8 @@ try {
     "review-coverage.json",
     "source-note-lint.json",
     "pseudo-marker-preflight.txt",
+    "status-claims.json",
+    "status-claims-preflight.txt",
     "status-registry-validation.json",
     "preparation-router-validation.json",
     "permutation-matrix-validation.json",
@@ -244,6 +247,7 @@ try {
   const validation = JSON.parse(fs.readFileSync(path.join(artifactDir, "output-validation.json"), "utf8"));
   assert(validation.status === "pass", "expected output validation artifact to pass");
   assert(audit.reports.status_registry_validation.status === "pass", "expected status registry validation report");
+  assert(audit.reports.status_claims_extraction.summary.claims_found === 0, "expected status claim extraction report");
   assert(audit.reports.preparation_router_validation.status === "pass", "expected preparation router validation report");
   assert(audit.reports.permutation_matrix_validation.status === "pass", "expected permutation matrix validation report");
   assert(audit.reports.review_coverage.status === "pass", "expected review coverage audit report");

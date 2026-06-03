@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--status-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--status-registry registry.json] [--status-claims claims.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -17,6 +17,7 @@ function parseArgs(argv) {
   let guidePath = "reports/frus-annotation-checker-core.md";
   let schemaPath = "reports/frus-annotation-checker-output.schema.json";
   let statusRegistryPath = null;
+  let statusClaimsPath = null;
   let preparationRouterPath = null;
   let permutationMatrixPath = null;
   let targetVolume = "";
@@ -37,6 +38,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--status-registry") {
       statusRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--status-claims") {
+      statusClaimsPath = argv[index + 1];
       index += 1;
     } else if (arg === "--preparation-router") {
       preparationRouterPath = argv[index + 1];
@@ -70,6 +74,7 @@ function parseArgs(argv) {
     guidePath,
     schemaPath,
     statusRegistryPath,
+    statusClaimsPath,
     preparationRouterPath,
     permutationMatrixPath,
     targetVolume,
@@ -234,6 +239,7 @@ function buildPacket(options) {
   }
 
   const statusRegistry = options.statusRegistryPath ? readJson(options.statusRegistryPath, options.statusRegistryPath) : null;
+  const statusClaims = options.statusClaimsPath ? readJson(options.statusClaimsPath, options.statusClaimsPath) : null;
   const preparationRouter = options.preparationRouterPath
     ? readJson(options.preparationRouterPath, options.preparationRouterPath)
     : null;
@@ -251,6 +257,7 @@ function buildPacket(options) {
       schema: normalizePathForOutput(options.schemaPath),
       units: normalizePathForOutput(options.unitsPath),
       status_registry: options.statusRegistryPath ? normalizePathForOutput(options.statusRegistryPath) : "",
+      status_claims: options.statusClaimsPath ? normalizePathForOutput(options.statusClaimsPath) : "",
       preparation_router: options.preparationRouterPath ? normalizePathForOutput(options.preparationRouterPath) : "",
       permutation_matrix: options.permutationMatrixPath ? normalizePathForOutput(options.permutationMatrixPath) : ""
     },
@@ -274,6 +281,7 @@ function buildPacket(options) {
       units: unitSummary(unitsDocument),
       output_schema: schemaSummary(schema),
       status_registry_entries: statusRegistry?.entries?.length || 0,
+      status_claims: statusClaims?.claims?.length || 0,
       preparation_routes: preparationRouter?.routes?.length || 0,
       matrix_categories: permutationMatrix?.category_policies?.length || 0,
       matrix_evidence_requests: permutationMatrix?.evidence_request_policies?.length || 0
@@ -283,6 +291,7 @@ function buildPacket(options) {
     extracted_units: unitsDocument,
     contexts: {
       status_registry: compactStatusRegistry(statusRegistry, options.targetVolume),
+      status_claims: statusClaims || null,
       preparation_router: compactRouter(preparationRouter, options.targetVolume),
       permutation_matrix: compactPermutationMatrix(permutationMatrix)
     }
@@ -339,6 +348,12 @@ function renderMarkdown(packet) {
     "Use this only to check publication-status language and volume-stage posture. It is not source-note provenance.",
     "",
     fencedJson(packet.contexts.status_registry || {}),
+    "",
+    "## Extracted Status Claims",
+    "",
+    "These are deterministic wrapper-extracted publication-status phrases. Use them to avoid silently missing status drift; do not treat them as provenance.",
+    "",
+    fencedJson(packet.contexts.status_claims || {}),
     "",
     "## Preparation Router Context",
     "",

@@ -1,6 +1,25 @@
 {
   "schema_version": "frus-status-claims-v1",
-  "source": "Sample extracted status claims from uploaded annotation-sheet text.",
+  "source": "Extracted status-bearing phrases from FRUS annotation-sheet units.",
+  "generated_at": "2026-06-03T14:19:18.980Z",
+  "registry_source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
+  "registry_captured_at": "2026-06-03",
+  "target_entry_id_fallback": "",
+  "summary": {
+    "units_scanned": 4,
+    "claims_found": 4,
+    "direct_edit_requested": 0,
+    "by_claim_type": {
+      "scheduled_for_publication": 1,
+      "anticipated_in_year": 1,
+      "being_cleared": 1,
+      "history_office_url": 1
+    },
+    "by_target_inference": {
+      "high": 3,
+      "medium": 1
+    }
+  },
   "claims": [
     {
       "claim_id": "status-claim-0001",
@@ -14,12 +33,15 @@
       "target_chapter": "",
       "target_document": "",
       "claimed_year": "",
-      "direct_edit_requested": false
+      "direct_edit_requested": false,
+      "target_inference": "high",
+      "inference_note": "target inferred with score 70",
+      "direct_edit_rule_ids": []
     },
     {
       "claim_id": "status-claim-0002",
       "unit_id": "annotation-0051",
-      "phrase": "anticipated in 2026 in the Venezuela chapter of the South America volume",
+      "phrase": "anticipated in 2026 in the South America volume",
       "claim_type": "anticipated_in_year",
       "target_entry_id": "frus1981-88v16",
       "target_title": "South America",
@@ -28,7 +50,10 @@
       "target_chapter": "",
       "target_document": "",
       "claimed_year": "2026",
-      "direct_edit_requested": false
+      "direct_edit_requested": false,
+      "target_inference": "high",
+      "inference_note": "target inferred with score 138",
+      "direct_edit_rule_ids": []
     },
     {
       "claim_id": "status-claim-0003",
@@ -42,7 +67,27 @@
       "target_chapter": "",
       "target_document": "",
       "claimed_year": "",
-      "direct_edit_requested": false
+      "direct_edit_requested": false,
+      "target_inference": "medium",
+      "inference_note": "target inferred with score 50",
+      "direct_edit_rule_ids": []
+    },
+    {
+      "claim_id": "status-claim-0004",
+      "unit_id": "annotation-0099",
+      "phrase": "https://history.state.gov/historicaldocuments/frus1981-88v44p1",
+      "claim_type": "history_office_url",
+      "target_entry_id": "frus1981-88v44p1",
+      "target_title": "National Security Policy, 1985-1988",
+      "target_volume_number": "XLIV, Part 1",
+      "target_subitem": "",
+      "target_chapter": "",
+      "target_document": "",
+      "claimed_year": "",
+      "direct_edit_requested": false,
+      "target_inference": "high",
+      "inference_note": "target inferred with score 220",
+      "direct_edit_rule_ids": []
     }
   ]
 }

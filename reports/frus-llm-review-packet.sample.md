@@ -2,7 +2,7 @@
 
 - schema_version: frus-llm-review-packet-v1
 - run_id: sample-llm-packet
-- generated_at: 2026-06-03T14:11:36.711Z
+- generated_at: 2026-06-03T14:20:50.077Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -152,6 +152,7 @@ Every reviewable extracted editorial unit should have a checker entry. Use `reco
     ]
   },
   "status_registry_entries": 74,
+  "status_claims": 4,
   "preparation_routes": 74,
   "matrix_categories": 40,
   "matrix_evidence_requests": 39
@@ -2379,6 +2380,106 @@ Use this only to check publication-status language and volume-stage posture. It 
       "published_date": "",
       "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v29",
       "subitems": []
+    }
+  ]
+}
+```
+
+## Extracted Status Claims
+
+These are deterministic wrapper-extracted publication-status phrases. Use them to avoid silently missing status drift; do not treat them as provenance.
+
+```json
+{
+  "schema_version": "frus-status-claims-v1",
+  "source": "Extracted status-bearing phrases from FRUS annotation-sheet units.",
+  "generated_at": "2026-06-03T14:19:18.980Z",
+  "registry_source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
+  "registry_captured_at": "2026-06-03",
+  "target_entry_id_fallback": "",
+  "summary": {
+    "units_scanned": 4,
+    "claims_found": 4,
+    "direct_edit_requested": 0,
+    "by_claim_type": {
+      "scheduled_for_publication": 1,
+      "anticipated_in_year": 1,
+      "being_cleared": 1,
+      "history_office_url": 1
+    },
+    "by_target_inference": {
+      "high": 3,
+      "medium": 1
+    }
+  },
+  "claims": [
+    {
+      "claim_id": "status-claim-0001",
+      "unit_id": "annotation-0042",
+      "phrase": "scheduled for publication in Foreign Relations, 1989-1992, Volume XXXI",
+      "claim_type": "scheduled_for_publication",
+      "target_entry_id": "frus1989-92v31",
+      "target_title": "START I, 1989-1991",
+      "target_volume_number": "XXXI",
+      "target_subitem": "",
+      "target_chapter": "",
+      "target_document": "",
+      "claimed_year": "",
+      "direct_edit_requested": false,
+      "target_inference": "high",
+      "inference_note": "target inferred with score 70",
+      "direct_edit_rule_ids": []
+    },
+    {
+      "claim_id": "status-claim-0002",
+      "unit_id": "annotation-0051",
+      "phrase": "anticipated in 2026 in the South America volume",
+      "claim_type": "anticipated_in_year",
+      "target_entry_id": "frus1981-88v16",
+      "target_title": "South America",
+      "target_volume_number": "XVI",
+      "target_subitem": "Venezuela",
+      "target_chapter": "",
+      "target_document": "",
+      "claimed_year": "2026",
+      "direct_edit_requested": false,
+      "target_inference": "high",
+      "inference_note": "target inferred with score 138",
+      "direct_edit_rule_ids": []
+    },
+    {
+      "claim_id": "status-claim-0003",
+      "unit_id": "annotation-0077",
+      "phrase": "being cleared in the Bush National Security Policy volume",
+      "claim_type": "being_cleared",
+      "target_entry_id": "frus1989-92v26",
+      "target_title": "National Security Policy",
+      "target_volume_number": "XXVI",
+      "target_subitem": "",
+      "target_chapter": "",
+      "target_document": "",
+      "claimed_year": "",
+      "direct_edit_requested": false,
+      "target_inference": "medium",
+      "inference_note": "target inferred with score 50",
+      "direct_edit_rule_ids": []
+    },
+    {
+      "claim_id": "status-claim-0004",
+      "unit_id": "annotation-0099",
+      "phrase": "https://history.state.gov/historicaldocuments/frus1981-88v44p1",
+      "claim_type": "history_office_url",
+      "target_entry_id": "frus1981-88v44p1",
+      "target_title": "National Security Policy, 1985-1988",
+      "target_volume_number": "XLIV, Part 1",
+      "target_subitem": "",
+      "target_chapter": "",
+      "target_document": "",
+      "claimed_year": "",
+      "direct_edit_requested": false,
+      "target_inference": "high",
+      "inference_note": "target inferred with score 220",
+      "direct_edit_rule_ids": []
     }
   ]
 }

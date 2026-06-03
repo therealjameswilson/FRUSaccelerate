@@ -1,0 +1,66 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample extracted units for automatic publication-status claim extraction.",
+  "units": [
+    {
+      "unit_id": "annotation-0042",
+      "unit_type": "editorial_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Editorial note",
+      "exact_text": "The memorandum was scheduled for publication in Foreign Relations, 1989-1992, Volume XXXI.",
+      "display_text": "The memorandum was scheduled for publication in Foreign Relations, 1989-1992, Volume XXXI.",
+      "surrounding_text": "",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "annotation-0051",
+      "unit_type": "editorial_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Editorial note",
+      "exact_text": "The Venezuela chapter was anticipated in 2026 in the South America volume.",
+      "display_text": "The Venezuela chapter was anticipated in 2026 in the South America volume.",
+      "surrounding_text": "",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "annotation-0077",
+      "unit_type": "editorial_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Editorial note",
+      "exact_text": "The related material is being cleared in the Bush National Security Policy volume.",
+      "display_text": "The related material is being cleared in the Bush National Security Policy volume.",
+      "surrounding_text": "",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "annotation-0099",
+      "unit_type": "editorial_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Editorial note",
+      "exact_text": "See https://history.state.gov/historicaldocuments/frus1981-88v44p1.",
+      "display_text": "See https://history.state.gov/historicaldocuments/frus1981-88v44p1.",
+      "surrounding_text": "",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    }
+  ]
+}

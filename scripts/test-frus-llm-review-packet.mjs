@@ -31,6 +31,8 @@ try {
     "reports/frus-annotation-checker-output.schema.json",
     "--status-registry",
     "reports/frus-status-series-1981-1992.current.json",
+    "--status-claims",
+    "reports/frus-status-claims.sample.json",
     "--preparation-router",
     "reports/frus-preparation-router-1981-1992.current.json",
     "--permutation-matrix",
@@ -54,6 +56,8 @@ try {
   assert(markdown.includes("checker-output-v1"), "expected checker-output schema contract");
   assert(markdown.includes("source-note-0001"), "expected extracted unit anchor");
   assert(markdown.includes("frus1989-92v31"), "expected target volume context");
+  assert(markdown.includes("Extracted Status Claims"), "expected status claims section");
+  assert(markdown.includes("status-claim-0001"), "expected status claim context");
   assert(markdown.includes("style_discrepancy_tally"), "expected General Editor discrepancy field");
   assert(markdown.includes("Permutation Matrix Context"), "expected permutation matrix section");
 
@@ -70,6 +74,7 @@ try {
   assert(packet.extracted_units.units.length === 3, "expected three sample units");
   assert(packet.contexts.status_registry.entries.length === 74, "expected current status entries");
   assert(packet.contexts.status_registry.target_volume.entry_id === "frus1989-92v31", "expected target status entry");
+  assert(packet.contexts.status_claims.claims.length === 4, "expected extracted status claims");
   assert(packet.contexts.preparation_router.routes.length === 74, "expected preparation routes");
   assert(packet.contexts.permutation_matrix.category_policies.length > 0, "expected matrix categories");
   assert(packet.packet_summary.output_schema.categories.includes("source_note"), "expected source_note category");

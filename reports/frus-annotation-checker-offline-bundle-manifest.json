@@ -92,6 +92,14 @@
       "role": "Publication-status claim preflight"
     },
     {
+      "path": "scripts/extract-frus-status-claims.mjs",
+      "role": "Automatic publication-status claim extractor from extracted Word units"
+    },
+    {
+      "path": "scripts/test-frus-status-claim-extractor.mjs",
+      "role": "Self-contained status-claim extractor smoke test"
+    },
+    {
       "path": "scripts/validate-frus-status-registry.mjs",
       "role": "Status registry count and integrity validator"
     },
@@ -131,6 +139,7 @@
     "reports/frus-llm-review-packet.sample.md",
     "reports/frus-review-coverage.sample.json",
     "reports/frus-status-registry-1981-1992.sample.json",
+    "reports/frus-status-claim-units.sample.json",
     "reports/frus-status-claims.sample.json",
     "reports/frus-source-note-units.sample.json",
     "reports/frus-pseudo-marker-units.sample.json",
@@ -170,6 +179,8 @@
     "node scripts/validate-frus-status-registry.mjs --registry reports/frus-status-series-1981-1992.current.json --today 2026-06-03",
     "node scripts/validate-frus-preparation-router.mjs --router reports/frus-preparation-router-1981-1992.current.json --status-registry reports/frus-status-series-1981-1992.current.json",
     "node scripts/validate-frus-permutation-matrix.mjs --matrix reports/frus-annotation-permutation-matrix.json --schema reports/frus-annotation-checker-output.schema.json --router reports/frus-preparation-router-1981-1992.current.json",
+    "node scripts/test-frus-status-claim-extractor.mjs",
+    "node scripts/extract-frus-status-claims.mjs --units reports/frus-status-claim-units.sample.json --registry reports/frus-status-series-1981-1992.current.json --format text",
     "node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-registry-1981-1992.sample.json --claims reports/frus-status-claims.sample.json --today 2026-06-03",
     "node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-series-1981-1992.current.json --claims reports/frus-status-claims.sample.json --today 2026-06-03",
     "node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json",
@@ -180,6 +191,7 @@
   "negative_tests": [
     "Change a direct-edit original_text so it is missing from exact_text; preflight-frus-checker-plan.mjs must fail.",
     "Change a status claim to direct-edit `printed in` for a target still being cleared; preflight-frus-status-claims.mjs must fail.",
+    "Give extract-frus-status-claims.mjs status text with a direct publication-status edit but no exact target; preflight-frus-status-claims.mjs must fail.",
     "Give build-frus-llm-review-packet.mjs a malformed extracted-units file; it must fail before producing a model packet.",
     "Point audit-frus-review-coverage.mjs at checker output with an unknown unit id; it must fail.",
     "Add an unmapped angle token such as <foo> to extracted text; preflight-frus-pseudo-markers.mjs must fail.",

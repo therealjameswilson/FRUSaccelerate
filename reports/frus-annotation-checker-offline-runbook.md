@@ -46,12 +46,14 @@ node scripts/extract-frus-docx-units.mjs --docx input.docx --out extracted-units
    The bundled extractor reads body paragraphs, tables, footnotes, endnotes,
    comments, headers, and footers. It marks complex Word boundaries as
    comment-only instead of making them eligible for direct edits.
-3. Build the per-document Markdown packet that the closed-network LLM should
-   receive. The sample packet is
+3. Extract publication-status claims when current status context is available,
+   then build the per-document Markdown packet that the closed-network LLM
+   should receive. The sample packet is
    `reports/frus-llm-review-packet.sample.md`.
 
 ```sh
-node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --status-registry reports/frus-status-series-1981-1992.current.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID
+node scripts/extract-frus-status-claims.mjs --units extracted-units.json --registry reports/frus-status-series-1981-1992.current.json --out status-claims.json --format text
+node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID
 ```
 
    Upload `review-packet.md` to the LLM. Send only editorial apparatus and
@@ -95,7 +97,9 @@ node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output outp
 
    If the wrapper has extracted status-bearing phrases into
    `status-claims.json`, add `--status-claims status-claims.json` so direct
-   publication-status edits are checked against the current registry.
+   publication-status edits are checked against the current registry. The
+   one-command runner creates `status-claims.json` automatically when
+   `--status-registry` is supplied.
 
 5. Run direct-edit preflight:
 
@@ -106,6 +110,7 @@ node scripts/preflight-frus-checker-plan.mjs --units extracted-units.json --outp
 6. Run status preflight when the packet contains publication-status language:
 
 ```sh
+node scripts/extract-frus-status-claims.mjs --units extracted-units.json --registry status-registry.json --checker-output output.json --out status-claims.json --format text
 node scripts/validate-frus-status-registry.mjs --registry status-registry.json --today YYYY-MM-DD
 node scripts/validate-frus-preparation-router.mjs --router preparation-router.json --status-registry status-registry.json
 node scripts/validate-frus-permutation-matrix.mjs --matrix permutation-matrix.json --schema reports/frus-annotation-checker-output.schema.json --router preparation-router.json
@@ -184,6 +189,8 @@ node scripts/test-frus-offline-review-runner.mjs
 node scripts/validate-frus-status-registry.mjs --registry reports/frus-status-series-1981-1992.current.json --today 2026-06-03
 node scripts/validate-frus-preparation-router.mjs --router reports/frus-preparation-router-1981-1992.current.json --status-registry reports/frus-status-series-1981-1992.current.json
 node scripts/validate-frus-permutation-matrix.mjs --matrix reports/frus-annotation-permutation-matrix.json --schema reports/frus-annotation-checker-output.schema.json --router reports/frus-preparation-router-1981-1992.current.json
+node scripts/test-frus-status-claim-extractor.mjs
+node scripts/extract-frus-status-claims.mjs --units reports/frus-status-claim-units.sample.json --registry reports/frus-status-series-1981-1992.current.json --format text
 node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-registry-1981-1992.sample.json --claims reports/frus-status-claims.sample.json --today 2026-06-03
 node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-series-1981-1992.current.json --claims reports/frus-status-claims.sample.json --today 2026-06-03
 node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json

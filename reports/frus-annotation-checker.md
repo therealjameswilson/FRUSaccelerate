@@ -23,6 +23,11 @@ For the per-document Markdown packet that a closed-network LLM should review,
 use `scripts/build-frus-llm-review-packet.mjs`; the self-contained smoke test
 is `scripts/test-frus-llm-review-packet.mjs`, and the sample packet is
 `reports/frus-llm-review-packet.sample.md`.
+For automatic publication-status claim extraction, use
+`scripts/extract-frus-status-claims.mjs` with
+`reports/frus-status-claim-units.sample.json`; the self-contained smoke test is
+`scripts/test-frus-status-claim-extractor.mjs`, and the generated sample claim
+file is `reports/frus-status-claims.sample.json`.
 For per-document review coverage, use
 `scripts/audit-frus-review-coverage.mjs`; the self-contained smoke test is
 `scripts/test-frus-review-coverage-audit.mjs`, and the sample coverage report

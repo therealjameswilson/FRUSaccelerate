@@ -217,6 +217,8 @@ function buildAudit({ options, artifacts, steps, reports }) {
   const outputValidation = reports.output_validation;
   const sourceNoteLint = reports.source_note_lint;
   const coverageAudit = reports.review_coverage;
+  const statusClaimsPath = options.statusClaimsPath || (fs.existsSync(artifacts.status_claims) ? artifacts.status_claims : "");
+  const statusClaims = statusClaimsPath ? readJson(statusClaimsPath) : null;
   const expectedRevisions = countExpectedRevisions(trackReport);
 
   return {
@@ -243,6 +245,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
       insertions_expected: expectedRevisions.insertions,
       deletions_expected: expectedRevisions.deletions,
       source_note_lint_diagnostics: sourceNoteLint?.summary?.diagnostics_count || 0,
+      status_claims_extracted: Array.isArray(statusClaims?.claims) ? statusClaims.claims.length : 0,
       review_coverage_unreviewed_units: coverageAudit?.summary?.unreviewed_units || 0,
       review_coverage_signal_gaps: coverageAudit?.summary?.signal_category_gaps || 0,
       evidence_queue_items: evidenceQueue.queue.length,
@@ -255,7 +258,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
     },
     optional_context: {
       status_registry: options.statusRegistryPath ? normalizePathForOutput(options.statusRegistryPath) : "",
-      status_claims: options.statusClaimsPath ? normalizePathForOutput(options.statusClaimsPath) : "",
+      status_claims: statusClaimsPath ? normalizePathForOutput(statusClaimsPath) : "",
       preparation_router: options.preparationRouterPath ? normalizePathForOutput(options.preparationRouterPath) : "",
       permutation_matrix: options.permutationMatrixPath ? normalizePathForOutput(options.permutationMatrixPath) : "",
       today: options.today,
@@ -276,7 +279,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
 function renderText(audit) {
   return [
     `FRUS offline review passed: ${audit.counts.extracted_units} units, ${audit.counts.comments_applied} Word comments, ${audit.counts.tracked_edits_applied} tracked edits.`,
-    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
+    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
     `Revised DOCX: ${audit.revised_docx}`,
     `Audit: ${audit.artifacts.audit}`
   ].join("\n") + "\n";
@@ -292,6 +295,7 @@ function runReview(options) {
     review_coverage: path.join(options.artifactDir, "review-coverage.json"),
     source_note_lint: path.join(options.artifactDir, "source-note-lint.json"),
     pseudo_marker_preflight: path.join(options.artifactDir, "pseudo-marker-preflight.txt"),
+    status_claims: path.join(options.artifactDir, "status-claims.json"),
     status_registry_validation: path.join(options.artifactDir, "status-registry-validation.json"),
     preparation_router_validation: path.join(options.artifactDir, "preparation-router-validation.json"),
     permutation_matrix_validation: path.join(options.artifactDir, "permutation-matrix-validation.json"),
@@ -438,7 +442,32 @@ function runReview(options) {
     steps.push(matrixStep);
     optionalReports.permutation_matrix_validation = matrixStep.parsed;
   }
-  if (options.statusClaimsPath) {
+  let effectiveStatusClaimsPath = options.statusClaimsPath;
+  if (options.statusRegistryPath && !effectiveStatusClaimsPath) {
+    const extractionStep = runNodeStep({
+      label: "extract_status_claims",
+      args: [
+        "scripts/extract-frus-status-claims.mjs",
+        "--units",
+        artifacts.extracted_units,
+        "--registry",
+        options.statusRegistryPath,
+        "--checker-output",
+        options.checkerOutputPath,
+        "--out",
+        artifacts.status_claims,
+        "--format",
+        "json"
+      ],
+      cwd,
+      stdoutFile: artifacts.status_claims,
+      parseJson: true
+    });
+    steps.push(extractionStep);
+    optionalReports.status_claims_extraction = extractionStep.parsed;
+    effectiveStatusClaimsPath = artifacts.status_claims;
+  }
+  if (effectiveStatusClaimsPath) {
     if (!options.statusRegistryPath) {
       throw new Error("--status-claims requires --status-registry");
     }
@@ -450,7 +479,7 @@ function runReview(options) {
           "--registry",
           options.statusRegistryPath,
           "--claims",
-          options.statusClaimsPath,
+          effectiveStatusClaimsPath,
           "--today",
           options.today,
           "--max-age-days",
