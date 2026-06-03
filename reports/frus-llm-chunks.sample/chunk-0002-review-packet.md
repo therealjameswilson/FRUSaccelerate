@@ -52,9 +52,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -76,6 +76,9 @@ For classification/handling validation and direct-edit safety, run
 For declassification/omission validation and direct-edit safety, run
 `node scripts/validate-frus-declassification-registry.mjs --registry reports/frus-declassification-registry.sample.json --format text` and
 `node scripts/audit-frus-declassification-usage.mjs --units extracted-units.json --registry reports/frus-declassification-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For translation/foreign-origin validation and direct-edit safety, run
+`node scripts/validate-frus-translation-registry.mjs --registry reports/frus-translation-registry.sample.json --format text` and
+`node scripts/audit-frus-translation-usage.mjs --units extracted-units.json --registry reports/frus-translation-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For negative-search/no-record validation and direct-edit safety, run
 `node scripts/validate-frus-negative-search-registry.mjs --registry reports/frus-negative-search-registry.sample.json --format text` and
 `node scripts/audit-frus-negative-search-usage.mjs --units extracted-units.json --registry reports/frus-negative-search-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -98,7 +101,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -136,6 +139,13 @@ declassified, whole-document withholding entries, and About the Series
 declassification-review statistics; validate it with
 `scripts/validate-frus-declassification-registry.mjs` before direct omission or
 withholding edits.
+For real Reagan/Bush 1981-1992 translation/foreign-origin review, replace the
+sample translation registry with target-volume records for official,
+unofficial, informal, Language Services, and editor-transcribed translations,
+foreign-copy provenance, original-language text retained in file, and
+translation-status source-note phrases; validate it with
+`scripts/validate-frus-translation-registry.mjs` before direct translation or
+foreign-origin edits.
 For real Reagan/Bush 1981-1992 negative-search/no-record review, replace the
 sample negative-search registry with target-volume records for no-minutes,
 not-found, not-attached, not-found-attached, no-memcon, no-telcon, unlocated
@@ -171,6 +181,8 @@ For sample classification/handling checks, run
 `node scripts/audit-frus-classification-usage.mjs --units reports/frus-classification-units.sample.json --registry reports/frus-classification-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample declassification/omission checks, run
 `node scripts/audit-frus-declassification-usage.mjs --units reports/frus-declassification-units.sample.json --registry reports/frus-declassification-registry.sample.json --target-volume frus1989-92v31 --format text`.
+For sample translation/foreign-origin checks, run
+`node scripts/audit-frus-translation-usage.mjs --units reports/frus-translation-units.sample.json --registry reports/frus-translation-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample negative-search/no-record checks, run
 `node scripts/audit-frus-negative-search-usage.mjs --units reports/frus-negative-search-units.sample.json --registry reports/frus-negative-search-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample document-relationship checks, run
@@ -301,6 +313,9 @@ The wrapper should provide:
   declassified, handling restrictions not declassified, whole-document
   withholding entries, About the Series review statistics, quantities, and
   declassification registry records when available.
+- `translation_registry_context`: official, unofficial, informal, Language
+  Services, editor-transcribed, original-language, foreign-copy, and
+  foreign-text-in-file apparatus records when available.
 - `negative_search_context`: no-minutes, no-memcon/no-telcon, not-found,
   not-attached, not-found-attached, missing-attachment, RAC ambiguity, and
   search-log basis records when available.
@@ -3539,6 +3554,209 @@ Use this to check bracketed omission quantities, pages not declassified, handlin
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d449",
       "verification_status": "verified_published_declassification_record"
+    }
+  ]
+}
+```
+
+## Translation And Foreign-Origin Registry Context
+
+Use this to check official, unofficial, informal, Language Services, editor-transcribed, original-language, foreign-copy, and foreign-text-in-file apparatus. Do not simplify translation status, original-language basis, foreign-copy provenance, or selected-versus-supplemental foreign-origin records unless the registry proves the direct edit.
+
+```json
+{
+  "schema_version": "frus-translation-foreign-origin-registry-v1",
+  "translation_registry_id": "frus-1981-1992-translation-foreign-origin-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d49",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d91",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d222",
+    "https://history.state.gov/historicaldocuments/frus1981-88v13/d30",
+    "https://history.state.gov/historicaldocuments/frus1981-88v13/d159",
+    "https://history.state.gov/historicaldocuments/frus1981-88v13/d275"
+  ],
+  "scope": "Published FRUS translation, foreign-origin, and original-language apparatus patterns for Reagan and George H.W. Bush annotation sheets.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "translation_id": "translation-v31-d49-typed-unofficial",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d49",
+      "document_number": "49",
+      "unit_scope": "source_note",
+      "translation_type": "typed_notation_unofficial_translation",
+      "approved_phrase": "A typed notation at the top of the letter reads “Unofficial translation.”",
+      "language_or_origin": "Soviet/Russian original or copy basis not printed in source note",
+      "translation_status": "unofficial_translation_marked_on_source",
+      "source_or_context": "Gorbachev letter delivered by Shevardnadze; source note preserves typed notation at top of letter.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d49",
+      "verification_status": "verified_published_translation_record",
+      "variant_forms": [
+        "A typed notation at the top of the letter reads \"Unofficial translation.\"",
+        "typed notation: “Unofficial translation.”"
+      ]
+    },
+    {
+      "translation_id": "translation-v31-d91-printed-copy-unofficial",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d91",
+      "document_number": "91",
+      "unit_scope": "source_note",
+      "translation_type": "printed_from_unofficial_translation_copy",
+      "approved_phrase": "Printed from a copy marked: “Unofficial translation.”",
+      "language_or_origin": "Soviet/Russian original or copy basis not printed in source note",
+      "translation_status": "printed_from_copy_marked_unofficial_translation",
+      "source_or_context": "Gorbachev letter source note states the printed copy was marked unofficial translation.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d91",
+      "verification_status": "verified_published_translation_record",
+      "variant_forms": [
+        "Printed from a copy marked \"Unofficial translation.\"",
+        "Printed from a copy marked unofficial translation."
+      ]
+    },
+    {
+      "translation_id": "translation-v31-d222-russian-text-ibid",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d222",
+      "document_number": "222",
+      "unit_scope": "attachment_footnote",
+      "translation_type": "foreign_text_retained_in_same_file",
+      "approved_phrase": "The Russian text of the paper is ibid.",
+      "language_or_origin": "Russian text",
+      "translation_status": "foreign_original_text_in_same_file",
+      "source_or_context": "Attachment note for a Soviet MFA paper states the Russian text is in the same source file.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d222",
+      "verification_status": "verified_published_translation_record",
+      "variant_forms": [
+        "Russian text of the paper is ibid.",
+        "The Russian text is ibid."
+      ]
+    }
+  ],
+  "records": [
+    {
+      "translation_id": "translation-v31-d49-typed-unofficial",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d49",
+      "document_number": "49",
+      "unit_scope": "source_note",
+      "translation_type": "typed_notation_unofficial_translation",
+      "approved_phrase": "A typed notation at the top of the letter reads “Unofficial translation.”",
+      "language_or_origin": "Soviet/Russian original or copy basis not printed in source note",
+      "translation_status": "unofficial_translation_marked_on_source",
+      "source_or_context": "Gorbachev letter delivered by Shevardnadze; source note preserves typed notation at top of letter.",
+      "variant_forms": [
+        "A typed notation at the top of the letter reads \"Unofficial translation.\"",
+        "typed notation: “Unofficial translation.”"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d49",
+      "verification_status": "verified_published_translation_record"
+    },
+    {
+      "translation_id": "translation-v31-d91-printed-copy-unofficial",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d91",
+      "document_number": "91",
+      "unit_scope": "source_note",
+      "translation_type": "printed_from_unofficial_translation_copy",
+      "approved_phrase": "Printed from a copy marked: “Unofficial translation.”",
+      "language_or_origin": "Soviet/Russian original or copy basis not printed in source note",
+      "translation_status": "printed_from_copy_marked_unofficial_translation",
+      "source_or_context": "Gorbachev letter source note states the printed copy was marked unofficial translation.",
+      "variant_forms": [
+        "Printed from a copy marked \"Unofficial translation.\"",
+        "Printed from a copy marked unofficial translation."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d91",
+      "verification_status": "verified_published_translation_record"
+    },
+    {
+      "translation_id": "translation-v31-d222-russian-text-ibid",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d222",
+      "document_number": "222",
+      "unit_scope": "attachment_footnote",
+      "translation_type": "foreign_text_retained_in_same_file",
+      "approved_phrase": "The Russian text of the paper is ibid.",
+      "language_or_origin": "Russian text",
+      "translation_status": "foreign_original_text_in_same_file",
+      "source_or_context": "Attachment note for a Soviet MFA paper states the Russian text is in the same source file.",
+      "variant_forms": [
+        "Russian text of the paper is ibid.",
+        "The Russian text is ibid."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d222",
+      "verification_status": "verified_published_translation_record"
+    },
+    {
+      "translation_id": "translation-v13-d159-printed-unofficial",
+      "volume_id": "frus1981-88v13",
+      "document_id": "frus1981-88v13/d159",
+      "document_number": "159",
+      "unit_scope": "source_note",
+      "translation_type": "printed_from_unofficial_translation",
+      "approved_phrase": "Printed from an unofficial translation.",
+      "language_or_origin": "Spanish original",
+      "translation_status": "printed_from_unofficial_translation",
+      "source_or_context": "Costa Mendez letter source note says it was printed from an unofficial translation.",
+      "variant_forms": [
+        "printed from an unofficial translation"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v13/d159",
+      "verification_status": "verified_published_translation_record"
+    },
+    {
+      "translation_id": "translation-v13-d159-original-spanish-signed",
+      "volume_id": "frus1981-88v13",
+      "document_id": "frus1981-88v13/d159",
+      "document_number": "159",
+      "unit_scope": "follow_on_footnote",
+      "translation_type": "translation_indicates_original_signed",
+      "approved_phrase": "The translation indicates that Costa Méndez signed the original Spanish text.",
+      "language_or_origin": "Spanish original",
+      "translation_status": "translation_indicates_original_signature",
+      "source_or_context": "Follow-on footnote preserves the translation's indication about the signed original Spanish text.",
+      "variant_forms": [
+        "The translation indicates that Costa Mendez signed the original Spanish text."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v13/d159",
+      "verification_status": "verified_published_translation_record"
+    },
+    {
+      "translation_id": "translation-v13-d275-un-secretariat-heading",
+      "volume_id": "frus1981-88v13",
+      "document_id": "frus1981-88v13/d275",
+      "document_number": "275",
+      "unit_scope": "attachment_heading",
+      "translation_type": "un_secretariat_unofficial_translation_heading",
+      "approved_phrase": "Unofficial Translation Prepared in the United Nations Secretariat",
+      "language_or_origin": "Argentine paper translated by UN Secretariat",
+      "translation_status": "un_secretariat_unofficial_translation",
+      "source_or_context": "Attachment heading identifies the United Nations Secretariat as the source of the unofficial translation.",
+      "variant_forms": [
+        "UN Secretariat’s unofficial translation",
+        "UN Secretariat's unofficial translation"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v13/d275",
+      "verification_status": "verified_published_translation_record"
+    },
+    {
+      "translation_id": "translation-v13-d30-informal-translation-transmitted",
+      "volume_id": "frus1981-88v13",
+      "document_id": "frus1981-88v13/d30",
+      "document_number": "30",
+      "unit_scope": "follow_on_footnote",
+      "translation_type": "informal_translation_transmitted",
+      "approved_phrase": "an informal translation of which Shlaudeman transmitted to the Department in telegram 1908 from Buenos Aires, April 1.",
+      "language_or_origin": "Argentine written follow-up",
+      "translation_status": "informal_translation_transmitted_by_embassy",
+      "source_or_context": "Follow-on annotation preserves informal translation transmission path and telegram number.",
+      "variant_forms": [
+        "informal translation transmitted to the Department"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v13/d30",
+      "verification_status": "verified_published_translation_record"
     }
   ]
 }

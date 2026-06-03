@@ -88,6 +88,8 @@ try {
     "reports/frus-classification-registry.sample.json",
     "--declassification-registry",
     "reports/frus-declassification-registry.sample.json",
+    "--translation-registry",
+    "reports/frus-translation-registry.sample.json",
     "--negative-search-registry",
     "reports/frus-negative-search-registry.sample.json",
     "--document-relationship-registry",
@@ -123,6 +125,7 @@ try {
   assert(manifest.summary.document_metadata_registry_records === 5, "expected document metadata registry record count");
   assert(manifest.summary.classification_registry_records === 5, "expected classification registry record count");
   assert(manifest.summary.declassification_registry_records === 8, "expected declassification registry record count");
+  assert(manifest.summary.translation_registry_records === 7, "expected translation registry record count");
   assert(manifest.summary.negative_search_registry_records === 6, "expected negative-search registry record count");
   assert(manifest.summary.document_relationship_registry_records === 10, "expected document-relationship registry record count");
   assert(manifest.summary.communications_registry_records === 8, "expected communications registry record count");
@@ -131,6 +134,7 @@ try {
   assert(manifest.source_files.document_metadata_registry === "reports/frus-document-metadata-registry.sample.json", "expected document metadata registry source path");
   assert(manifest.source_files.classification_registry === "reports/frus-classification-registry.sample.json", "expected classification registry source path");
   assert(manifest.source_files.declassification_registry === "reports/frus-declassification-registry.sample.json", "expected declassification registry source path");
+  assert(manifest.source_files.translation_registry === "reports/frus-translation-registry.sample.json", "expected translation registry source path");
   assert(manifest.source_files.negative_search_registry === "reports/frus-negative-search-registry.sample.json", "expected negative-search registry source path");
   assert(manifest.source_files.document_relationship_registry === "reports/frus-document-relationship-registry.sample.json", "expected document-relationship registry source path");
   assert(manifest.source_files.communications_registry === "reports/frus-communications-registry.sample.json", "expected communications registry source path");
@@ -149,6 +153,8 @@ try {
   assert(firstPacket.includes("Top Secret; Sensitive; Eyes Only"), "expected classification registry content in chunk packet");
   assert(firstPacket.includes("Declassification And Omission Registry Context"), "expected declassification registry context in chunk packet");
   assert(firstPacket.includes("[less than 2 lines not declassified]"), "expected declassification registry content in chunk packet");
+  assert(firstPacket.includes("Translation And Foreign-Origin Registry Context"), "expected translation registry context in chunk packet");
+  assert(firstPacket.includes("Printed from a copy marked: “Unofficial translation.”"), "expected translation registry content in chunk packet");
   assert(firstPacket.includes("Negative Search And No-Record Registry Context"), "expected negative-search registry context in chunk packet");
   assert(firstPacket.includes("Not found attached"), "expected negative-search registry content in chunk packet");
   assert(firstPacket.includes("Document Relationship Registry Context"), "expected document-relationship registry context in chunk packet");
@@ -219,7 +225,7 @@ try {
   assert(badMerge.status !== 0, "expected out-of-chunk unit reference to fail");
   assert(badMerge.stdout.includes("outside chunk-0002"), "expected chunk-boundary failure detail");
 
-  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
+  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -24,6 +24,7 @@ function parseArgs(argv) {
   let documentMetadataRegistryPath = null;
   let classificationRegistryPath = null;
   let declassificationRegistryPath = null;
+  let translationRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
   let communicationsRegistryPath = null;
@@ -68,6 +69,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--declassification-registry") {
       declassificationRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--translation-registry") {
+      translationRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--negative-search-registry") {
       negativeSearchRegistryPath = argv[index + 1];
@@ -117,6 +121,7 @@ function parseArgs(argv) {
     documentMetadataRegistryPath,
     classificationRegistryPath,
     declassificationRegistryPath,
+    translationRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
     communicationsRegistryPath,
@@ -421,6 +426,36 @@ function compactDeclassificationRegistry(registry, targetVolume) {
   };
 }
 
+function compactTranslationRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    translation_registry_id: registry.translation_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      translation_id: record.translation_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      translation_type: record.translation_type,
+      approved_phrase: record.approved_phrase,
+      language_or_origin: record.language_or_origin,
+      translation_status: record.translation_status,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactNegativeSearchRegistry(registry, targetVolume) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -563,6 +598,9 @@ function buildPacket(options) {
   const declassificationRegistry = options.declassificationRegistryPath
     ? readJson(options.declassificationRegistryPath, options.declassificationRegistryPath)
     : null;
+  const translationRegistry = options.translationRegistryPath
+    ? readJson(options.translationRegistryPath, options.translationRegistryPath)
+    : null;
   const negativeSearchRegistry = options.negativeSearchRegistryPath
     ? readJson(options.negativeSearchRegistryPath, options.negativeSearchRegistryPath)
     : null;
@@ -596,6 +634,7 @@ function buildPacket(options) {
       document_metadata_registry: options.documentMetadataRegistryPath ? normalizePathForOutput(options.documentMetadataRegistryPath) : "",
       classification_registry: options.classificationRegistryPath ? normalizePathForOutput(options.classificationRegistryPath) : "",
       declassification_registry: options.declassificationRegistryPath ? normalizePathForOutput(options.declassificationRegistryPath) : "",
+      translation_registry: options.translationRegistryPath ? normalizePathForOutput(options.translationRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
       communications_registry: options.communicationsRegistryPath ? normalizePathForOutput(options.communicationsRegistryPath) : "",
@@ -630,6 +669,7 @@ function buildPacket(options) {
       document_metadata_registry_records: documentMetadataRegistry?.records?.length || 0,
       classification_registry_records: classificationRegistry?.records?.length || 0,
       declassification_registry_records: declassificationRegistry?.records?.length || 0,
+      translation_registry_records: translationRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
       document_relationship_registry_records: documentRelationshipRegistry?.records?.length || 0,
       communications_registry_records: communicationsRegistry?.records?.length || 0,
@@ -649,6 +689,7 @@ function buildPacket(options) {
       document_metadata_registry: compactDocumentMetadataRegistry(documentMetadataRegistry, options.targetVolume),
       classification_registry: compactClassificationRegistry(classificationRegistry, options.targetVolume),
       declassification_registry: compactDeclassificationRegistry(declassificationRegistry, options.targetVolume),
+      translation_registry: compactTranslationRegistry(translationRegistry, options.targetVolume),
       negative_search_registry: compactNegativeSearchRegistry(negativeSearchRegistry, options.targetVolume),
       document_relationship_registry: compactDocumentRelationshipRegistry(documentRelationshipRegistry, options.targetVolume),
       communications_registry: compactCommunicationsRegistry(communicationsRegistry, options.targetVolume),
@@ -750,6 +791,12 @@ function renderMarkdown(packet) {
     "Use this to check bracketed omission quantities, pages not declassified, handling-restriction-not-declassified phrases, whole-document withholdings, and About the Series review-statistics language. Do not change omission quantities, bracket wording, page counts, or review statistics unless the registry proves the direct edit.",
     "",
     fencedJson(packet.contexts.declassification_registry || {}),
+    "",
+    "## Translation And Foreign-Origin Registry Context",
+    "",
+    "Use this to check official, unofficial, informal, Language Services, editor-transcribed, original-language, foreign-copy, and foreign-text-in-file apparatus. Do not simplify translation status, original-language basis, foreign-copy provenance, or selected-versus-supplemental foreign-origin records unless the registry proves the direct edit.",
+    "",
+    fencedJson(packet.contexts.translation_registry || {}),
     "",
     "## Negative Search And No-Record Registry Context",
     "",

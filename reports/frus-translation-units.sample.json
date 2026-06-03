@@ -1,0 +1,76 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample translation and foreign-origin FRUS annotation units",
+  "units": [
+    {
+      "unit_id": "translation-note-0001",
+      "unit_type": "source_note",
+      "location": "START I Document 91 source note",
+      "exact_text": "Source: George H.W. Bush Library, Bush Presidential Records, Brent Scowcroft Collection, Special Separate USSR Notes Files, Gorbachev Files, OA/ID 91126–004, Gorbachev (Dobrynin) Sensitive 1989–June 1990 [4]. No classification marking. Printed from a copy marked: “Unofficial translation.”",
+      "display_text": "Source: George H.W. Bush Library, Bush Presidential Records, Brent Scowcroft Collection, Special Separate USSR Notes Files, Gorbachev Files, OA/ID 91126–004, Gorbachev (Dobrynin) Sensitive 1989–June 1990 [4]. No classification marking. Printed from a copy marked: “Unofficial translation.”",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "translation-note-0002",
+      "unit_type": "source_note",
+      "location": "START I Document 49 source note",
+      "exact_text": "A typed notation at the top of the letter reads “Unofficial translation.”",
+      "display_text": "A typed notation at the top of the letter reads “Unofficial translation.”",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "translation-note-0003",
+      "unit_type": "attachment_note",
+      "location": "START I Document 222 attachment footnote",
+      "exact_text": "Secret. An unknown hand wrote at the top of the paper: “Oral message from A. Bessmertnykh to Secretary J. Baker.” A stamped notation indicates Scowcroft saw the paper. The Russian text of the paper is ibid.",
+      "display_text": "Secret. An unknown hand wrote at the top of the paper: “Oral message from A. Bessmertnykh to Secretary J. Baker.” A stamped notation indicates Scowcroft saw the paper. The Russian text of the paper is ibid.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "translation-note-0004",
+      "unit_type": "source_note",
+      "location": "South Atlantic Document 159 source note",
+      "exact_text": "Source: Department of State, Central Foreign Policy File, P820069–0211. Secret; Nodis. Printed from an unofficial translation.",
+      "display_text": "Source: Department of State, Central Foreign Policy File, P820069–0211. Secret; Nodis. Printed from an unofficial translation.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "translation-note-0005",
+      "unit_type": "source_note",
+      "location": "START I Document 91 variant wording",
+      "exact_text": "Source: George H.W. Bush Library, Bush Presidential Records, Brent Scowcroft Collection. No classification marking. Printed from a copy marked \"Unofficial translation.\"",
+      "display_text": "Source: George H.W. Bush Library, Bush Presidential Records, Brent Scowcroft Collection. No classification marking. Printed from a copy marked \"Unofficial translation.\"",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "translation-note-0006",
+      "unit_type": "document_heading",
+      "location": "South Atlantic Document 275 attachment heading",
+      "exact_text": "Unofficial Translation Prepared in the United Nations Secretariat",
+      "display_text": "Unofficial Translation Prepared in the United Nations Secretariat",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "translation-note-0007",
+      "unit_type": "source_note",
+      "location": "Unsupported translation wording",
+      "exact_text": "Source: Working copy. Translated from Russian.",
+      "display_text": "Source: Working copy. Translated from Russian.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    }
+  ]
+}

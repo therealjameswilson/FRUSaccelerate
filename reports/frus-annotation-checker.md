@@ -72,6 +72,13 @@ For declassification/omission validation, use
 `reports/frus-declassification-units.sample.json`; the self-contained smoke
 test is `scripts/test-frus-declassification-audit.mjs`, and the sample audit
 report is `reports/frus-declassification-audit.sample.json`.
+For translation/foreign-origin validation, use
+`scripts/validate-frus-translation-registry.mjs` and
+`scripts/audit-frus-translation-usage.mjs` with
+`reports/frus-translation-registry.sample.json` and
+`reports/frus-translation-units.sample.json`; the self-contained smoke test is
+`scripts/test-frus-translation-audit.mjs`, and the sample audit report is
+`reports/frus-translation-audit.sample.json`.
 For negative-search/no-record validation, use
 `scripts/validate-frus-negative-search-registry.mjs` and
 `scripts/audit-frus-negative-search-usage.mjs` with
@@ -150,6 +157,11 @@ reports/frus-declassification-registry.sample.json` or a target-volume
 replacement to packet, chunk, and offline-runner commands before allowing
 direct edits to bracketed omissions, page counts, withholding language, or
 About the Series review statistics.
+For translation/foreign-origin claims, add `--translation-registry
+reports/frus-translation-registry.sample.json` or a target-volume replacement
+to packet, chunk, and offline-runner commands before allowing direct edits to
+official, unofficial, informal, original-language, foreign-copy, or
+foreign-text-in-file apparatus.
 For sample review coverage, use `scripts/audit-frus-review-coverage.mjs` with
 `reports/frus-annotation-checker-extracted-units.sample.json`,
 `reports/frus-annotation-checker-sample-output.json`, and
@@ -12075,6 +12087,16 @@ Minimum components:
   restrictions not declassified, whole-document withholding entries, and About
   the Series review statistics to supplied declassification records and fails
   direct omission or withholding edits that lack supplied registry support.
+- No-dependency translation/foreign-origin registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-translation-registry.mjs`,
+  `scripts/audit-frus-translation-usage.mjs`,
+  `reports/frus-translation-registry.sample.json`,
+  `reports/frus-translation-units.sample.json`, and
+  `reports/frus-translation-audit.sample.json`. The audit reconciles official,
+  unofficial, informal, Language Services, editor-transcribed,
+  original-language, foreign-copy, and foreign-text-in-file apparatus to
+  supplied translation records and fails direct translation or foreign-origin
+  edits that lack supplied registry support.
 - No-dependency negative-search/no-record registry validator, usage audit, and
   fixtures: `scripts/validate-frus-negative-search-registry.mjs`,
   `scripts/audit-frus-negative-search-usage.mjs`,
@@ -12177,10 +12199,11 @@ Minimum components:
   handling controls, precedence, paragraph markings, verified absence of
   markings, and later release/declassification status before tracked changes
   are applied.
-- Translation/foreign-origin validator that separates official, unofficial,
-  informal, Language Services, and editor-transcribed translations; preserves
-  foreign-copy provenance, typed-signature/facsimile status, bracket treatment,
-  and agency/foreign-government equity before tracked changes are applied.
+- Expand the translation/foreign-origin validator to cover more target-volume
+  records for official, unofficial, informal, Language Services, and
+  editor-transcribed translations; foreign-copy provenance,
+  typed-signature/facsimile status, bracket treatment, and
+  agency/foreign-government equity before tracked changes are applied.
 - Treaty/legal-instrument validator that separates treaty text, protocols,
   annexes, memoranda of understanding, executive agreements, letters,
   declarations, statements, presidential messages, article-by-article analyses,

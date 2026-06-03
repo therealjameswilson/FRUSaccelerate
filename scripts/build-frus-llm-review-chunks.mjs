@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -38,6 +38,7 @@ function parseArgs(argv) {
   let documentMetadataRegistryPath = null;
   let classificationRegistryPath = null;
   let declassificationRegistryPath = null;
+  let translationRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
   let communicationsRegistryPath = null;
@@ -86,6 +87,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--declassification-registry") {
       declassificationRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--translation-registry") {
+      translationRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--negative-search-registry") {
       negativeSearchRegistryPath = argv[index + 1];
@@ -147,6 +151,7 @@ function parseArgs(argv) {
     documentMetadataRegistryPath,
     classificationRegistryPath,
     declassificationRegistryPath,
+    translationRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
     communicationsRegistryPath,
@@ -396,6 +401,35 @@ function compactDeclassificationRegistry(registry, targetVolume) {
   };
 }
 
+function compactTranslationRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  return {
+    schema_version: registry.schema_version,
+    translation_registry_id: registry.translation_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [],
+    records: records.map((record) => ({
+      translation_id: record.translation_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      translation_type: record.translation_type,
+      approved_phrase: record.approved_phrase,
+      language_or_origin: record.language_or_origin,
+      translation_status: record.translation_status,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactNegativeSearchRegistry(registry, targetVolume) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -519,6 +553,7 @@ function renderPacket({
   documentMetadataRegistry,
   classificationRegistry,
   declassificationRegistry,
+  translationRegistry,
   negativeSearchRegistry,
   documentRelationshipRegistry,
   communicationsRegistry,
@@ -607,6 +642,12 @@ function renderPacket({
     "",
     fencedJson(declassificationRegistry || {}),
     "",
+    "## Translation And Foreign-Origin Registry Context",
+    "",
+    "Use this to check official, unofficial, informal, Language Services, editor-transcribed, original-language, foreign-copy, and foreign-text-in-file apparatus. Do not simplify translation status, original-language basis, foreign-copy provenance, or selected-versus-supplemental foreign-origin records unless the registry proves the direct edit.",
+    "",
+    fencedJson(translationRegistry || {}),
+    "",
     "## Negative Search And No-Record Registry Context",
     "",
     "Use this to check `No minutes were found`, `Not found`, `Not attached`, `Not found attached`, no-memcon/no-telcon, missing-attachment, and RAC attachment-ambiguity language. Do not collapse one no-record relationship into another unless the registry proves the direct edit.",
@@ -656,6 +697,7 @@ function buildChunks(options) {
   const declassificationRegistry = options.declassificationRegistryPath
     ? readJson(options.declassificationRegistryPath)
     : null;
+  const translationRegistry = options.translationRegistryPath ? readJson(options.translationRegistryPath) : null;
   const negativeSearchRegistry = options.negativeSearchRegistryPath ? readJson(options.negativeSearchRegistryPath) : null;
   const documentRelationshipRegistry = options.documentRelationshipRegistryPath
     ? readJson(options.documentRelationshipRegistryPath)
@@ -671,6 +713,7 @@ function buildChunks(options) {
     declassificationRegistry,
     options.targetVolume
   );
+  const translationRegistryContext = compactTranslationRegistry(translationRegistry, options.targetVolume);
   const negativeSearchRegistryContext = compactNegativeSearchRegistry(negativeSearchRegistry, options.targetVolume);
   const documentRelationshipRegistryContext = compactDocumentRelationshipRegistry(
     documentRelationshipRegistry,
@@ -699,6 +742,7 @@ function buildChunks(options) {
       document_metadata_registry: options.documentMetadataRegistryPath ? normalizePathForOutput(options.documentMetadataRegistryPath) : "",
       classification_registry: options.classificationRegistryPath ? normalizePathForOutput(options.classificationRegistryPath) : "",
       declassification_registry: options.declassificationRegistryPath ? normalizePathForOutput(options.declassificationRegistryPath) : "",
+      translation_registry: options.translationRegistryPath ? normalizePathForOutput(options.translationRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
       communications_registry: options.communicationsRegistryPath ? normalizePathForOutput(options.communicationsRegistryPath) : "",
@@ -718,6 +762,7 @@ function buildChunks(options) {
       document_metadata_registry_records: documentMetadataRegistry?.records?.length || 0,
       classification_registry_records: classificationRegistry?.records?.length || 0,
       declassification_registry_records: declassificationRegistry?.records?.length || 0,
+      translation_registry_records: translationRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
       document_relationship_registry_records: documentRelationshipRegistry?.records?.length || 0,
       communications_registry_records: communicationsRegistry?.records?.length || 0
@@ -763,6 +808,7 @@ function buildChunks(options) {
         documentMetadataRegistry: documentMetadataRegistryContext,
         classificationRegistry: classificationRegistryContext,
         declassificationRegistry: declassificationRegistryContext,
+        translationRegistry: translationRegistryContext,
         negativeSearchRegistry: negativeSearchRegistryContext,
         documentRelationshipRegistry: documentRelationshipRegistryContext,
         communicationsRegistry: communicationsRegistryContext,
