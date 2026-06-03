@@ -9,6 +9,9 @@ the core behavior: act as a bespoke FRUS annotation spellcheck, return strict
 JSON, and let a wrapper apply real Word tracked changes.
 
 The full reference standard remains `reports/frus-annotation-checker.md`.
+Wrappers can validate LLM output with
+`reports/frus-annotation-checker-output.schema.json` before applying tracked
+changes.
 
 ## 1. System Role
 
@@ -388,4 +391,3 @@ Office pages for:
 - `https://history.state.gov/historicaldocuments/frus1981-88v01`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31`
-

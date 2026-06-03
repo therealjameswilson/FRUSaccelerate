@@ -13,6 +13,10 @@ Small-context option: if the closed-network LLM cannot fit this full reference
 standard, use `reports/frus-annotation-checker-core.md` as the compact
 standalone runtime prompt and keep this file as the deeper reference.
 
+Implementation option: wrappers can validate LLM output against the standalone
+schema in `reports/frus-annotation-checker-output.schema.json` before applying
+any tracked changes.
+
 The intended workflow is:
 
 1. User uploads this Markdown file as the standard.
@@ -11742,6 +11746,8 @@ Minimum components:
   tables, headings, and tracked changes.
 - LLM prompt runner with this Markdown standard loaded.
 - JSON schema validator for `checker-output-v1`.
+- Standalone output schema file:
+  `reports/frus-annotation-checker-output.schema.json`.
 - Spellcheck rule-id validator that rejects unknown `rule_id` values, counts
   findings by rule, flags excessive `FAS-GEN-000` fallback use, and preserves
   rule-id tallies in the audit report before tracked changes are applied.

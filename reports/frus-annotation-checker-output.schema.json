@@ -1,0 +1,563 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/therealjameswilson/FRUSaccelerate/blob/main/reports/frus-annotation-checker-output.schema.json",
+  "title": "FRUS Annotation Checker Output",
+  "description": "Strict output contract for the FRUS Annotation Checker closed-network LLM before Word tracked-change application.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "document_assessment",
+    "batch_readiness",
+    "checks",
+    "global_comments",
+    "style_discrepancy_tally"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "checker-output-v1"
+    },
+    "document_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "overall_status",
+        "summary",
+        "blocked_reason"
+      ],
+      "properties": {
+        "overall_status": {
+          "enum": [
+            "pass",
+            "pass_with_comments",
+            "needs_revision",
+            "blocked"
+          ]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "blocked_reason": {
+          "type": "string"
+        }
+      }
+    },
+    "batch_readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "readiness_status",
+        "safe_to_apply_tracked_changes",
+        "readiness_summary",
+        "gates"
+      ],
+      "properties": {
+        "readiness_status": {
+          "enum": [
+            "ready_for_tracked_changes",
+            "comment_only_review",
+            "needs_human_triage",
+            "blocked"
+          ]
+        },
+        "safe_to_apply_tracked_changes": {
+          "type": "boolean"
+        },
+        "readiness_summary": {
+          "type": "string"
+        },
+        "gates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/readiness_gate"
+          }
+        }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/check"
+      }
+    },
+    "global_comments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/global_comment"
+      }
+    },
+    "style_discrepancy_tally": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/style_discrepancy"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "document_assessment": {
+            "properties": {
+              "overall_status": {
+                "const": "blocked"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "document_assessment": {
+            "properties": {
+              "blocked_reason": {
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "readiness_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gate_id",
+        "gate_status",
+        "finding",
+        "required_action"
+      ],
+      "properties": {
+        "gate_id": {
+          "enum": [
+            "extraction_unitization",
+            "word_anchoring",
+            "context_bundle",
+            "status_registry",
+            "authority_registry",
+            "evidence_basis",
+            "style_discrepancy_ledger",
+            "chunk_reconciliation",
+            "wrapper_output"
+          ]
+        },
+        "gate_status": {
+          "enum": [
+            "pass",
+            "warning",
+            "fail",
+            "not_applicable"
+          ]
+        },
+        "finding": {
+          "type": "string"
+        },
+        "required_action": {
+          "type": "string"
+        }
+      }
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unit_id",
+        "rule_id",
+        "severity",
+        "category",
+        "finding",
+        "standard",
+        "recommended_action",
+        "original_text",
+        "replacement_text",
+        "comment_text",
+        "evidence_request",
+        "verification_target"
+      ],
+      "properties": {
+        "unit_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rule_id": {
+          "type": "string",
+          "pattern": "^FAS-[A-Z]{2,6}-[0-9]{3}$"
+        },
+        "severity": {
+          "enum": [
+            "blocker",
+            "major",
+            "minor",
+            "info"
+          ]
+        },
+        "category": {
+          "$ref": "#/$defs/category"
+        },
+        "finding": {
+          "type": "string",
+          "minLength": 1
+        },
+        "standard": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recommended_action": {
+          "enum": [
+            "replace_text",
+            "insert_after_text",
+            "delete_text",
+            "comment_only",
+            "no_change"
+          ]
+        },
+        "original_text": {
+          "type": "string"
+        },
+        "replacement_text": {
+          "type": "string"
+        },
+        "comment_text": {
+          "type": "string"
+        },
+        "evidence_request": {
+          "$ref": "#/$defs/evidence_request"
+        },
+        "verification_target": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "recommended_action": {
+                "enum": [
+                  "replace_text",
+                  "insert_after_text",
+                  "delete_text"
+                ]
+              }
+            },
+            "required": [
+              "recommended_action"
+            ]
+          },
+          "then": {
+            "properties": {
+              "original_text": {
+                "minLength": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "recommended_action": {
+                "enum": [
+                  "replace_text",
+                  "insert_after_text"
+                ]
+              }
+            },
+            "required": [
+              "recommended_action"
+            ]
+          },
+          "then": {
+            "properties": {
+              "replacement_text": {
+                "minLength": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "recommended_action": {
+                "const": "comment_only"
+              }
+            },
+            "required": [
+              "recommended_action"
+            ]
+          },
+          "then": {
+            "properties": {
+              "comment_text": {
+                "minLength": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "evidence_request": {
+                "not": {
+                  "const": "none"
+                }
+              }
+            },
+            "required": [
+              "evidence_request"
+            ]
+          },
+          "then": {
+            "properties": {
+              "verification_target": {
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "global_comment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "severity",
+        "comment_text"
+      ],
+      "properties": {
+        "severity": {
+          "enum": [
+            "major",
+            "minor",
+            "info"
+          ]
+        },
+        "comment_text": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "style_discrepancy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "discrepancy_id",
+        "category",
+        "style_question",
+        "variant_a",
+        "variant_b",
+        "unit_ids",
+        "published_or_local_examples",
+        "count",
+        "risk",
+        "checker_action",
+        "general_editor_question",
+        "status",
+        "first_seen",
+        "last_seen",
+        "resolution_note"
+      ],
+      "properties": {
+        "discrepancy_id": {
+          "type": "string",
+          "pattern": "^style-discrepancy-[0-9]{4}$"
+        },
+        "category": {
+          "$ref": "#/$defs/style_category"
+        },
+        "style_question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "variant_a": {
+          "type": "string"
+        },
+        "variant_b": {
+          "type": "string"
+        },
+        "unit_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "published_or_local_examples": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "risk": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "checker_action": {
+          "enum": [
+            "no_change",
+            "comment_only",
+            "direct_edit_applied"
+          ]
+        },
+        "general_editor_question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "open",
+            "provisional_guidance",
+            "resolved",
+            "retired"
+          ]
+        },
+        "first_seen": {
+          "type": "string"
+        },
+        "last_seen": {
+          "type": "string"
+        },
+        "resolution_note": {
+          "type": "string"
+        }
+      }
+    },
+    "category": {
+      "enum": [
+        "source_note",
+        "citation",
+        "attachment",
+        "printed_nested_attachment",
+        "handwritten_facsimile_transcription",
+        "visual_material_graphic",
+        "source_surrogate_release",
+        "editorial_method_transcription",
+        "document_status_lifecycle",
+        "decision_process_directive",
+        "annotation",
+        "editorial_note",
+        "document_metadata",
+        "classification_handling",
+        "source_list_front_matter",
+        "selection_balance_completeness",
+        "physical_routing_marginalia",
+        "negative_search_no_record",
+        "memoir_oral_history_recollection",
+        "translation_foreign_origin",
+        "foreign_international_organization",
+        "treaty_legal_instrument",
+        "public_diplomacy_public_source",
+        "congressional_legal_authority",
+        "economic_financial_data",
+        "intelligence_law_enforcement",
+        "military_crisis_operations",
+        "human_rights_refugee_global_issues",
+        "declassification",
+        "authority_control",
+        "chronology",
+        "time_zone_chronology",
+        "summit_public_event",
+        "communications_record",
+        "publication_status",
+        "volume_preparation_scope",
+        "release_errata_apparatus",
+        "wording",
+        "evidence",
+        "format"
+      ]
+    },
+    "style_category": {
+      "enum": [
+        "source_note",
+        "citation",
+        "attachment",
+        "printed_nested_attachment",
+        "handwritten_facsimile_transcription",
+        "visual_material_graphic",
+        "source_surrogate_release",
+        "editorial_method_transcription",
+        "document_status_lifecycle",
+        "decision_process_directive",
+        "editorial_note",
+        "document_metadata",
+        "classification_handling",
+        "source_list_front_matter",
+        "selection_balance_completeness",
+        "physical_routing_marginalia",
+        "negative_search_no_record",
+        "memoir_oral_history_recollection",
+        "translation_foreign_origin",
+        "foreign_international_organization",
+        "treaty_legal_instrument",
+        "public_diplomacy_public_source",
+        "congressional_legal_authority",
+        "economic_financial_data",
+        "intelligence_law_enforcement",
+        "military_crisis_operations",
+        "human_rights_refugee_global_issues",
+        "declassification",
+        "authority_control",
+        "chronology",
+        "time_zone_chronology",
+        "summit_public_event",
+        "communications_record",
+        "publication_status",
+        "release_errata_apparatus",
+        "volume_preparation_scope",
+        "wording",
+        "format",
+        "wrapper"
+      ]
+    },
+    "evidence_request": {
+      "enum": [
+        "none",
+        "source_image",
+        "archival_path",
+        "classification_marking",
+        "source_surrogate_basis",
+        "source_list_basis",
+        "selection_balance_basis",
+        "physical_evidence_basis",
+        "negative_search_basis",
+        "printed_attachment_basis",
+        "transcription_facsimile_basis",
+        "visual_material_basis",
+        "time_zone_basis",
+        "editorial_method_basis",
+        "document_status_basis",
+        "decision_process_basis",
+        "attachment_status",
+        "document_number",
+        "document_metadata",
+        "foreign_org_basis",
+        "treaty_component",
+        "public_source_basis",
+        "retrospective_account_basis",
+        "legal_authority",
+        "financial_data",
+        "agency_equity",
+        "military_operation_basis",
+        "humanitarian_rights_basis",
+        "publication_status",
+        "release_apparatus_basis",
+        "authority_control",
+        "declassification_status",
+        "translation_status",
+        "chronology",
+        "event_chronology",
+        "communications_metadata",
+        "source_family",
+        "cross_reference",
+        "wrapper_safety"
+      ]
+    }
+  }
+}
