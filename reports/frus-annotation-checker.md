@@ -73,6 +73,10 @@ The wrapper should provide the LLM with:
   classification marking, handling markings, precedence, paragraph markings,
   verified absence of classification marking, release-status separation, and
   source-image or published-pattern basis.
+- `translation_registry_context`, if available: structured language,
+  translation source, official/unofficial/informal translation status,
+  foreign-origin provenance, copy basis, typed-signature or facsimile status,
+  bracket/translator-note treatment, and agency or foreign-government equity.
 - `source_family_registry_context`, if available: structured source-family
   controls derived from published FRUS source lists and local authority files,
   including family ids, volume scope, required path components, distinguishing
@@ -166,7 +170,7 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | declassification | authority_control | chronology | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | declassification | authority_control | chronology | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
@@ -186,7 +190,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | declassification | authority_control | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | declassification | authority_control | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -311,6 +315,7 @@ run the semantic and Word-safety validators below.
               "editorial_note",
               "document_metadata",
               "classification_handling",
+              "translation_foreign_origin",
               "declassification",
               "authority_control",
               "chronology",
@@ -429,6 +434,7 @@ run the semantic and Word-safety validators below.
               "editorial_note",
               "document_metadata",
               "classification_handling",
+              "translation_foreign_origin",
               "declassification",
               "authority_control",
               "communications_record",
@@ -518,9 +524,9 @@ Semantic validator behavior:
   `verification_target`.
 - Reject any direct edit whose category is `publication_status`,
   `declassification`, `attachment`, `document_metadata`,
-  `classification_handling`, `chronology`, `communications_record`, or
-  `authority_control` when the required proof is absent from the uploaded unit
-  or wrapper context.
+  `classification_handling`, `translation_foreign_origin`, `chronology`,
+  `communications_record`, or `authority_control` when the required proof is
+  absent from the uploaded unit or wrapper context.
 - Downgrade to `comment_only` when a finding passes the JSON schema but fails a
   Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
@@ -2310,6 +2316,171 @@ Rules:
 Flag unsupported claims about originator control, translation, foreign
 government concurrence, or agency review.
 
+### 6.9A Translation And Foreign-Origin Copy Registry Validation
+
+Use a translation and foreign-origin registry when the wrapper can supply one.
+Published Reagan and Bush examples distinguish official Department of State
+Language Services translations, Division of Language Services translations,
+unofficial translations, informal translations transmitted in telegrams,
+foreign-government originals, embassy-held copies, and copies bearing typed
+signatures. These are evidence facts, not decorative wording.
+
+Minimum translation and foreign-origin registry:
+
+```json
+{
+  "translation_registry_id": "frus-1981-1992-translation-foreign-origin-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d49",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d91",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/ch8",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d290"
+  ],
+  "records": [
+    {
+      "translation_item_id": "translation-source-0001",
+      "unit_id": "source-note-0049",
+      "document_language": "[original language if supplied]",
+      "translation_status": "unofficial_translation",
+      "translation_source": "typed notation on the source document",
+      "source_phrase": "A typed notation at the top of the letter reads \"Unofficial translation.\"",
+      "foreign_origin": "Soviet",
+      "copy_basis": "Bush Library copy",
+      "signature_or_facsimile_status": "",
+      "bracket_treatment": "",
+      "agency_or_foreign_equity": "foreign-government document",
+      "verification_status": "verified"
+    },
+    {
+      "translation_item_id": "translation-source-0002",
+      "unit_id": "source-note-0224",
+      "document_language": "[original language if supplied]",
+      "translation_status": "official_state_language_services",
+      "translation_source": "Department of State Language Services",
+      "source_phrase": "Printed from the official translation of the Department of State Language Services.",
+      "foreign_origin": "Soviet",
+      "copy_basis": "Department of State lot file",
+      "signature_or_facsimile_status": "",
+      "bracket_treatment": "",
+      "agency_or_foreign_equity": "foreign-government document",
+      "verification_status": "verified"
+    },
+    {
+      "translation_item_id": "translation-source-0003",
+      "unit_id": "source-note-0290",
+      "document_language": "[original language if supplied]",
+      "translation_status": "division_language_services_translation",
+      "translation_source": "Division of Language Services, Department of State",
+      "source_phrase": "Printed from a translation, dated November 13, prepared in the Division of Language Services, Department of State.",
+      "foreign_origin": "Tunisian",
+      "copy_basis": "Reagan Library copy",
+      "signature_or_facsimile_status": "",
+      "bracket_treatment": "Brackets are in the original.",
+      "agency_or_foreign_equity": "foreign-government document",
+      "verification_status": "verified"
+    }
+  ]
+}
+```
+
+Allowed `translation_status` values:
+
+- `official_state_language_services`
+- `division_language_services_translation`
+- `unofficial_translation`
+- `informal_translation`
+- `editor_transcription`
+- `source_language_original`
+- `translated_excerpt`
+- `not_a_translation`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified`
+- `needs_source_image`
+- `needs_translation_basis`
+- `needs_language_confirmation`
+- `needs_foreign_copy_provenance`
+- `needs_agency_or_foreign_equity`
+- `unknown`
+
+Translation and foreign-origin validator sequence:
+
+1. Identify every source note, heading, editorial note, attachment note, caption,
+   appendix item, source-list entry, or follow-on footnote that asserts
+   translation, original language, foreign origin, foreign-government
+   provenance, embassy-held copy status, typed signature, facsimile status,
+   bracket treatment, translator note, or foreign/international-organization
+   equity.
+2. Match the unit against `translation_registry_context` before proposing a
+   direct edit to translation or foreign-origin language.
+3. Preserve the difference between an official translation, an unofficial
+   translation, an informal translation, a translation prepared by the Division
+   or Department of State Language Services, an editor transcription, and a
+   translated excerpt embedded in an annotation.
+4. Preserve selected-source identity. Do not replace a foreign-government
+   original, treaty text, public source, or embassy-held copy with a generic
+   U.S. archival source if that foreign or translated source is the printed
+   document.
+5. Do not infer original language, translator, translation office, typed
+   signature, facsimile status, or foreign-government concurrence from country,
+   sender, addressee, or topic alone.
+6. Coordinate with the attachment registry when annexes, attachments, or
+   translated enclosures are attached but not printed, and with the
+   declassification registry when translation notes are adjacent to omissions
+   or brackets.
+7. Coordinate with authority-control checks for transliterated names, titles,
+   offices, geographic terms, and foreign institution names.
+8. Treat variations in whether translation language appears in the source note,
+   caption, heading, or follow-on footnote as possible General Editor
+   discrepancies when the underlying translation fact is verified.
+
+Flag these issues:
+
+- Translation status is missing where the source note prints a translated
+  foreign-origin document.
+- `Official`, `unofficial`, `informal`, `editor-transcribed`, and
+  Language-Services translation language is used interchangeably.
+- Foreign-origin provenance, embassy-held copy status, or selected-source
+  identity is flattened into a generic U.S. archival path.
+- Typed-signature, facsimile, copy, or bracket-treatment claims are made without
+  source-image or registry support.
+- A translated excerpt in an annotation is treated as if the full document is
+  printed in translation.
+- Foreign-government concurrence, agency equity, or international-organization
+  provenance is asserted without evidence.
+
+Direct-edit posture:
+
+- Safe direct edits may restore a supplied translation phrase, foreign-origin
+  phrase, or typed-signature note when the registry supplies the exact
+  replacement and the Word anchor is exact.
+- Use `comment_only` with `evidence_request: translation_status` when language,
+  translator, translation office, official/unofficial status, copy basis,
+  typed-signature status, bracket treatment, or foreign-origin provenance is
+  missing, conflicting, or inferred.
+- Do not directly add `official translation`, `unofficial translation`,
+  `translated by`, `printed from a translation`, or foreign-government
+  concurrence unless the uploaded unit or registry supplies the evidence.
+- Do not edit transcribed document text to standardize translation wording
+  unless the user has explicitly requested transcription review.
+
+Translation and foreign-origin audit requirements:
+
+- Count missing translation status, uncertain original language, unsupported
+  official/unofficial claims, foreign-origin provenance issues, typed-signature
+  or facsimile issues, and foreign/agency-equity warnings separately from
+  ordinary source-note issues.
+- Preserve the translation registry id, capture date, source URLs,
+  source-phrase basis, and unresolved language/copy/equity fields in the audit
+  report.
+- Add `translation_foreign_origin` discrepancies to the General Editor tally
+  when published or local examples vary on where to place translation language,
+  how to phrase official versus unofficial translation status, or how much
+  foreign-copy provenance to print.
+
 ### 6.10 Treaty Transmittal Packages And State STARS
 
 Rules:
@@ -3072,7 +3243,7 @@ Evidence-request categories:
 | `publication_status` | `printed in` versus `scheduled for publication` depends on current official status. | Which volume or chapter status must be confirmed. |
 | `authority_control` | Persons, titles, abbreviations, index terms, names, offices, or dates need authority-list review. | Which name, office, acronym, date span, or index term needs control. |
 | `declassification_status` | Release, withholding, excision, agency-equity, or bracket language is not final. | Which review outcome or bracket claim cannot yet be asserted. |
-| `translation_status` | Language, translation, foreign-origin copy, or translated excerpt is uncertain. | Which language/copy/translation fact needs verification. |
+| `translation_status` | Language, translation office, official/unofficial status, foreign-origin copy, typed signature, bracket treatment, or translated excerpt is uncertain. | Which language/copy/translation/equity fact needs verification. |
 | `chronology` | Diary, schedule, call-log, meeting, or sequence evidence is incomplete. | Which time, place, attendance, or sequence point needs corroboration. |
 | `source_family` | The note appears to flatten a specific source ecology into a generic form. | Which source family or subseries should be preserved. |
 | `cross_reference` | Related document, footnote, appendix, telegram, or volume reference is unstable. | Which reference anchor must be checked. |
@@ -3133,7 +3304,7 @@ Default blocking rules:
 | `publication_status` | yes for `printed in` or `scheduled for publication` edits | yes for final style if publication language is present |
 | `authority_control` | yes when a date, identity, title, acronym, or index form is uncertain | yes for final style if repeated or reader-facing |
 | `declassification_status` | yes | yes |
-| `translation_status` | yes when language, translation, or foreign-copy identity is asserted | yes when the printed document depends on the claim |
+| `translation_status` | yes when language, translation, typed-signature, bracket-treatment, or foreign-copy identity is asserted | yes when the printed document depends on the claim |
 | `chronology` | yes when time, attendance, or sequence is rewritten | yes when chronology is central to the note |
 | `source_family` | yes when source hierarchy or subseries would be rewritten | no for light review; yes for final style |
 | `cross_reference` | yes | yes when the reference appears in publishable apparatus |
@@ -3142,7 +3313,8 @@ Default blocking rules:
 Owner hints:
 
 - `compiler`: source images, archival path, document metadata, attachment
-  status, document numbers, source family, chronology, and translation status.
+  status, document numbers, source family, chronology, translation status, and
+  foreign-copy provenance.
 - `editor`: wording, heading form, cross-reference form, source-list
   consistency, publication-status wording, and General Editor discrepancy
   preparation.
@@ -3419,26 +3591,29 @@ For every extracted unit, run checks in this order:
 8. Check classification, handling, precedence, paragraph-marking, and
    no-classification-marking language against the classification registry when
    supplied.
-9. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
+9. Check translation, foreign-origin copy, typed-signature, bracket-treatment,
+   and agency/foreign-equity language against the translation registry when
+   supplied.
+10. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
    against the attachment registry when supplied.
-10. Check cross-references and follow-on citation form against the
+11. Check cross-references and follow-on citation form against the
    cross-reference registry when supplied.
-11. Check annotation purpose and concision.
-12. Check declassification, omission, original-bracket, release-status, and
+12. Check annotation purpose and concision.
+13. Check declassification, omission, original-bracket, release-status, and
     whole-document withholding language against the declassification registry
     when supplied.
-13. Check target-volume status and whether the note is research-stage,
+14. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-14. Route the unit through the relevant volume family when a 1981-1992
+15. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-15. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
+16. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-16. Check Persons, abbreviations, and index authority issues.
-17. Assign specific evidence requests and verification targets for unresolved
+17. Check Persons, abbreviations, and index authority issues.
+18. Assign specific evidence requests and verification targets for unresolved
     proof.
-18. Decide direct edit versus comment-only.
-19. Return strict JSON.
-20. After schema and semantic validation, aggregate all unresolved evidence
+19. Decide direct edit versus comment-only.
+20. Return strict JSON.
+21. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -3623,6 +3798,9 @@ Golden packet composition:
 - At least one classification/handling example with verified original markings,
   handling controls, precedence, `No classification marking`, or paragraph
   markings, used as a no-change or comment-only control.
+- At least one translated or foreign-origin document with official,
+  unofficial, informal, Language Services, typed-signature, or foreign-copy
+  provenance language, used as a no-change or comment-only control.
 - At least one document heading, dateline, subject/title line, or public-title
   line from a published Reagan or Bush volume, used as a no-change or
   comment-only metadata control.
@@ -3660,6 +3838,10 @@ Expected behavior by test family:
   precedence, and no-marking phrases; comment rather than invent when original
   marking evidence is missing or release status is confused with original
   classification.
+- Translation/foreign-origin test: preserve official/unofficial/informal
+  translation language, foreign-copy provenance, typed-signature notes, and
+  bracket-treatment facts; comment rather than invent when the translation basis
+  is missing.
 - Document-metadata test: preserve correct document headings and datelines, and
   comment rather than invent when sender, recipient, place/date, subject, public
   title, or internal number evidence is missing.
@@ -3730,6 +3912,9 @@ Use the discrepancy tally for:
 - Variations in document-heading form, place/date line placement,
   subject/title-line treatment, public-title treatment, internal record-number
   placement, or office-title detail where the underlying metadata is sound.
+- Variations in where to place translation, foreign-origin copy,
+  typed-signature, facsimile, bracket-treatment, or official/unofficial
+  translation language when the underlying evidence is sound.
 - Different Persons, abbreviations, source-list, or index authority forms that
   may reflect volume-specific practice rather than error.
 - Variations in telegram, cable, STARS, CFPF, PROFS, W Files, System IV, or
@@ -3804,6 +3989,10 @@ Required bundle files:
   handling, precedence, paragraph-marking, verified absence, and source-phrase
   evidence for source notes, attachments, captions, and selected document
   components.
+- `translation_map`, when available: original language, translation status,
+  translation office, source phrase, foreign-origin provenance, copy basis,
+  typed-signature or facsimile status, bracket treatment, and agency or
+  foreign-government equity.
 - `authority_lists`, when available: Persons, abbreviations, source-list
   entries, index terms, known document numbers, chapter titles, and related
   volume cross-references.
@@ -4010,6 +4199,7 @@ Context bundle: [bundle_id and capture date]
 Authority registry: [authority_registry_id and capture date]
 Document metadata registry: [document_metadata_registry_id and capture date]
 Classification registry: [classification_registry_id and capture date]
+Translation registry: [translation_registry_id and capture date]
 Source-family registry: [source_family_registry_id and capture date]
 Communications registry: [communications_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
@@ -4041,6 +4231,7 @@ Counts:
 - Authority registry conflicts or unmatched forms: [n]
 - Document heading, dateline, title, or caption issues: [n]
 - Classification, handling, precedence, or paragraph-marking issues: [n]
+- Translation, foreign-origin copy, or language-services issues: [n]
 - Source-family unmatched or ambiguous matches: [n]
 - Communications records unmatched or incomplete: [n]
 - Attachment status unknown or conflicting: [n]
@@ -4068,6 +4259,9 @@ Document-metadata warnings:
 
 Classification/handling warnings:
 - [unit_id or global]: [marking issue] - [original marking, handling/precedence, and evidence basis]
+
+Translation/foreign-origin warnings:
+- [unit_id or global]: [translation/provenance issue] - [translation status, copy basis, and evidence basis]
 
 Source-family warnings:
 - [unit_id or global]: [source-family issue] - [registry target or unmatched family]
@@ -4121,6 +4315,10 @@ Minimum components:
   handling controls, precedence, paragraph markings, verified absence of
   markings, and later release/declassification status before tracked changes
   are applied.
+- Translation/foreign-origin validator that separates official, unofficial,
+  informal, Language Services, and editor-transcribed translations; preserves
+  foreign-copy provenance, typed-signature/facsimile status, bracket treatment,
+  and agency/foreign-government equity before tracked changes are applied.
 - Source-family registry validator that preserves published and local source
   ecologies, distinguishes public/printed selected sources from archival
   control copies, and blocks flattening of specific repositories into generic
@@ -4165,6 +4363,10 @@ Operational cautions:
   unsupported `No classification marking` claims, handling/precedence
   mismatches, paragraph-marking questions, release-status confusions, and
   classification-handling discrepancy questions.
+- Record translation-registry version, missing translation status, uncertain
+  original language, unsupported official/unofficial claims, foreign-copy
+  provenance issues, typed-signature/facsimile questions, and
+  translation-foreign-origin discrepancy questions.
 - Record source-family registry version, unmatched or ambiguous family matches,
   direct source-family edits, and source-family discrepancy questions.
 - Record communications-registry version, unmatched message identifiers,
@@ -4260,8 +4462,11 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d3`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/ch1`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/ch3`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/d49`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/d91`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/ch6`
 - `https://history.state.gov/historicaldocuments/frus1981-88v13/ch3`
+- `https://history.state.gov/historicaldocuments/frus1981-88v24/d290`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d37`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d90`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d145`
