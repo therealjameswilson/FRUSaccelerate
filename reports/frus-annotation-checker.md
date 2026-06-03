@@ -77,6 +77,11 @@ The wrapper should provide the LLM with:
   translation source, official/unofficial/informal translation status,
   foreign-origin provenance, copy basis, typed-signature or facsimile status,
   bracket/translator-note treatment, and agency or foreign-government equity.
+- `foreign_international_org_context`, if available: structured
+  foreign-government, international-organization, multilateral, regional-body,
+  alliance, coalition, treaty-depositary, peacekeeping, development-bank,
+  conference, published-organization-source, copy-provenance, concurrence,
+  translation, and selected-versus-supplemental metadata.
 - `treaty_registry_context`, if available: structured treaty, protocol, annex,
   memorandum of understanding, executive agreement, letter, declaration,
   statement, presidential transmittal, article-by-article analysis,
@@ -202,14 +207,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | treaty_component | public_source_basis | legal_authority | financial_data | agency_equity | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | legal_authority | financial_data | agency_equity | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -222,7 +227,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -348,6 +353,7 @@ run the semantic and Word-safety validators below.
               "document_metadata",
               "classification_handling",
               "translation_foreign_origin",
+              "foreign_international_organization",
               "treaty_legal_instrument",
               "public_diplomacy_public_source",
               "congressional_legal_authority",
@@ -399,6 +405,7 @@ run the semantic and Word-safety validators below.
               "attachment_status",
               "document_number",
               "document_metadata",
+              "foreign_org_basis",
               "treaty_component",
               "public_source_basis",
               "legal_authority",
@@ -479,6 +486,7 @@ run the semantic and Word-safety validators below.
               "document_metadata",
               "classification_handling",
               "translation_foreign_origin",
+              "foreign_international_organization",
               "treaty_legal_instrument",
               "public_diplomacy_public_source",
               "congressional_legal_authority",
@@ -576,11 +584,11 @@ Semantic validator behavior:
 - Reject any direct edit whose category is `publication_status`,
   `declassification`, `attachment`, `document_metadata`,
   `classification_handling`, `translation_foreign_origin`,
-  `treaty_legal_instrument`, `public_diplomacy_public_source`,
-  `congressional_legal_authority`, `economic_financial_data`,
-  `intelligence_law_enforcement`, `chronology`, `summit_public_event`,
-  `communications_record`, or `authority_control` when the required proof is
-  absent from the uploaded unit or wrapper context.
+  `foreign_international_organization`, `treaty_legal_instrument`,
+  `public_diplomacy_public_source`, `congressional_legal_authority`,
+  `economic_financial_data`, `intelligence_law_enforcement`, `chronology`,
+  `summit_public_event`, `communications_record`, or `authority_control` when
+  the required proof is absent from the uploaded unit or wrapper context.
 - Downgrade to `comment_only` when a finding passes the JSON schema but fails a
   Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
@@ -3351,21 +3359,251 @@ Sensitive-record audit requirements:
   redaction/sanitization, classification/handling, and public-versus-archival
   basis warnings.
 
-### 6.9 Interagency And Foreign-Government Records
+### 6.9 Interagency, Foreign-Government, International-Organization, And Multilateral Records
 
-Rules:
+Foreign-government and international-organization annotation can be source
+provenance, selected public text, meeting venue, treaty party, diplomatic actor,
+policy subject, conference setting, financial institution, coalition context, or
+translation problem. The checker must not flatten those different roles into a
+generic "foreign source" or a generic U.S. archival source note.
 
-- Cite the U.S. archival control copy used for transcription unless the foreign
-  copy, treaty text, or published source is the selected document.
-- Identify foreign-government documents, translations, and non-U.S. copies when
-  provenance affects reliability.
-- Track agency equities in comments when the note needs verification.
-- For joint papers, identify the office or interagency body controlling the
-  printed version.
-- Do not convert an embassy-held informational copy into the originating source.
+Use a foreign/international-organization registry when the wrapper can supply
+one:
 
-Flag unsupported claims about originator control, translation, foreign
-government concurrence, or agency review.
+```json
+{
+  "foreign_international_org_registry_id": "frus-1981-1992-foreign-international-organization-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/sources",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d169",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d177",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d267",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d91",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/preface",
+    "https://history.state.gov/historicaldocuments/status-of-the-series"
+  ],
+  "records": [
+    {
+      "foreign_org_item_id": "foreign-org-un-source-list-v01",
+      "unit_id": "sources-frus1981-88v01",
+      "record_type": "published_international_organization_source",
+      "body_or_actor": "United Nations",
+      "role_in_unit": "published source ecology",
+      "source_or_copy_basis": "Volume source list cites Public Papers of the Secretaries-General of the United Nations, UN conference reports, General Assembly official records, and Yearbook of the United Nations",
+      "selected_or_supplemental": "published_source_ecology",
+      "translation_or_copy_status": "not applicable",
+      "treaty_or_conference_context": "UN General Assembly and UN conference publications",
+      "verification_status": "verified"
+    },
+    {
+      "foreign_org_item_id": "foreign-org-un-address-0169",
+      "unit_id": "document-0169",
+      "record_type": "international_organization_public_address",
+      "body_or_actor": "United Nations General Assembly; NATO Special Consultative Group; Organization of American States; Contadora group",
+      "role_in_unit": "venue, policy subject, and public-source context",
+      "source_or_copy_basis": "Public Papers: Reagan, 1983, Book II, pages 1350-1354; diary and radio-address context supplied in note",
+      "selected_or_supplemental": "selected_public_document_with_international_organization_context",
+      "translation_or_copy_status": "not applicable",
+      "treaty_or_conference_context": "38th Session of the United Nations General Assembly",
+      "verification_status": "verified"
+    },
+    {
+      "foreign_org_item_id": "foreign-org-imf-worldbank-0177",
+      "unit_id": "document-0177",
+      "record_type": "international_financial_institution_event",
+      "body_or_actor": "International Monetary Fund; World Bank Group; finance ministers; central bank governors",
+      "role_in_unit": "meeting context and policy actor",
+      "source_or_copy_basis": "Reagan Library Roger Robinson Files; memorandum on IMF/World Bank annual meetings",
+      "selected_or_supplemental": "selected_u_s_archival_record_about_international_organization",
+      "translation_or_copy_status": "not applicable",
+      "treaty_or_conference_context": "IMF/World Bank annual meetings, Washington, September 24-27, 1984",
+      "verification_status": "verified"
+    },
+    {
+      "foreign_org_item_id": "foreign-org-mdb-imf-0267",
+      "unit_id": "document-0267",
+      "record_type": "multilateral_development_bank_policy",
+      "body_or_actor": "Multilateral development banks; IMF; IBRD; World Bank Group",
+      "role_in_unit": "policy subject, budget target, and meeting context",
+      "source_or_copy_basis": "Reagan Library Richard Darman Files, Cabinet Council on Economic Affairs minutes",
+      "selected_or_supplemental": "selected_u_s_archival_record_about_international_organization",
+      "translation_or_copy_status": "not applicable",
+      "treaty_or_conference_context": "World Bank Group and International Monetary Fund annual meeting",
+      "verification_status": "verified"
+    },
+    {
+      "foreign_org_item_id": "foreign-org-gorbachev-letter-0091",
+      "unit_id": "document-0091",
+      "record_type": "foreign_government_leader_correspondence",
+      "body_or_actor": "Soviet President Gorbachev; Soviet Government",
+      "role_in_unit": "foreign-government selected document",
+      "source_or_copy_basis": "George H.W. Bush Library, Brent Scowcroft Collection, Special Separate USSR Notes Files",
+      "selected_or_supplemental": "selected_foreign_government_document_in_u_s_files",
+      "translation_or_copy_status": "printed from copy marked unofficial translation",
+      "treaty_or_conference_context": "START I U.S.-Soviet strategic arms negotiations",
+      "verification_status": "verified"
+    },
+    {
+      "foreign_org_item_id": "foreign-org-lisbon-protocol-preface",
+      "unit_id": "preface-frus1989-92v31",
+      "record_type": "foreign_successor_state_treaty_context",
+      "body_or_actor": "Belarus; Ukraine; Kazakhstan; Soviet Union; Russia",
+      "role_in_unit": "foreign treaty-party and cross-volume scheduling context",
+      "source_or_copy_basis": "START I preface explains Soviet dissolution and scheduled Lisbon Protocol coverage",
+      "selected_or_supplemental": "volume_scope_and_cross_volume_context",
+      "translation_or_copy_status": "not applicable",
+      "treaty_or_conference_context": "Lisbon Protocol to START I and Senate advice-and-consent posture",
+      "verification_status": "verified"
+    }
+  ]
+}
+```
+
+Allowed `record_type` values:
+
+- `foreign_government_original`
+- `foreign_government_leader_correspondence`
+- `foreign_successor_state_treaty_context`
+- `embassy_held_foreign_copy`
+- `unofficial_translation_foreign_document`
+- `international_organization_public_address`
+- `published_international_organization_source`
+- `international_organization_resolution`
+- `international_organization_report`
+- `international_financial_institution_event`
+- `multilateral_development_bank_policy`
+- `regional_organization_context`
+- `alliance_consultation`
+- `coalition_record`
+- `peacekeeping_context`
+- `conference_record`
+- `joint_paper`
+- `treaty_depositary_or_party_context`
+- `unknown`
+
+Allowed `role_in_unit` values:
+
+- `selected_foreign_government_document`
+- `selected_foreign_government_document_in_u_s_files`
+- `selected_international_organization_publication`
+- `selected_u_s_archival_record_about_international_organization`
+- `published_source_ecology`
+- `venue`
+- `policy_subject`
+- `meeting_context`
+- `treaty_party`
+- `depositary_or_ratification_context`
+- `coalition_or_alliance_context`
+- `translation_or_copy_context`
+- `cross_volume_context`
+- `unknown`
+
+Allowed `selected_or_supplemental` values:
+
+- `published_source_ecology`
+- `selected_public_document_with_international_organization_context`
+- `selected_u_s_archival_record_about_international_organization`
+- `selected_foreign_government_document_in_u_s_files`
+- `volume_scope_and_cross_volume_context`
+- `supplemental_context`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified`
+- `needs_foreign_copy_basis`
+- `needs_translation_status`
+- `needs_publication_details`
+- `needs_organization_identity`
+- `needs_body_role`
+- `needs_concurrence_basis`
+- `needs_treaty_party_status`
+- `needs_conference_or_meeting_basis`
+- `needs_cross_volume_status`
+- `unknown`
+
+Foreign/international-organization validator sequence:
+
+1. Identify every source note, editorial note, heading, treaty note,
+   translation note, source-list entry, Persons/abbreviations item, or
+   annotation that names a foreign government, successor state, international
+   organization, regional body, alliance, coalition, conference, financial
+   institution, peacekeeping force, treaty party, depositary, or foreign copy.
+   Typical triggers include United Nations, General Assembly, Secretary-General,
+   NATO, OAS, Contadora, CSCE, IMF, World Bank, IBRD, MDB, GATT, OECD, G-7,
+   G-77, Warsaw Pact, Soviet Union, Russia, Ukraine, Belarus, Kazakhstan, and
+   foreign ministry or embassy copies.
+2. Match the unit against `foreign_international_org_context` before directly
+   changing organization name, country/successor-state identity, body role,
+   copy provenance, translation status, concurrence claim, treaty-party status,
+   meeting/conference title, publication title, or selected-versus-supplemental
+   status.
+3. Separate selected source identity from subject matter. A U.S. archival
+   memorandum about the IMF, World Bank, NATO, or UN remains a U.S. archival
+   record unless an international-organization publication or foreign copy is
+   the selected source.
+4. Separate venue from actor. A speech at the United Nations or an IMF/World
+   Bank annual meeting does not by itself make the UN, IMF, or World Bank the
+   source of the document.
+5. Preserve exact body names and abbreviations. Do not collapse World Bank
+   Group, IBRD, MDBs, IMF, United Nations General Assembly, NATO Special
+   Consultative Group, OAS, Contadora, CSCE, or successor states into generic
+   "international organization" wording when the evidence supplies the precise
+   body.
+6. For foreign-government documents in U.S. files, identify copy and
+   translation status before rewriting. Coordinate with the translation registry
+   for official, unofficial, informal, foreign-origin, typed-signature, and
+   facsimile claims.
+7. For treaty or protocol context, coordinate with treaty and congressional/legal
+   validators before changing treaty party, ratification, Senate
+   advice-and-consent, depositary, Lisbon Protocol, successor-state, or
+   scheduled-publication language.
+8. For international-organization publications, require publication details,
+   document symbol, supplement number, report title, session, date span, and
+   issuing body when those facts affect citation form.
+9. For alliance, coalition, peacekeeping, or regional-organization context,
+   distinguish selected records from policy descriptions and public remarks.
+   Do not infer concurrence, approval, membership position, or operational role
+   from a passing reference to the body.
+10. Coordinate with event chronology for conferences, annual meetings, General
+    Assembly sessions, summit meetings, and peacekeeping events; with
+    public-source rules for speeches and published texts; and with economic/
+    financial rules for international financial institutions.
+
+Direct-edit posture:
+
+- Safe direct edits may restore supplied organization acronyms, exact body
+  names, source-title punctuation, or narrow copy-provenance wording when the
+  uploaded unit or registry supplies exact evidence.
+- Use `comment_only` with `evidence_request: foreign_org_basis` when foreign
+  copy basis, organization identity, body role, concurrence, translation status,
+  treaty-party status, meeting/conference identity, publication details,
+  source-versus-subject status, or cross-volume successor-state context is
+  missing, conflicting, or inferred.
+- Use `evidence_request: translation_status` when the blocker is official,
+  unofficial, informal, typed-signature, original-language, or foreign-origin
+  translation treatment.
+- Use `evidence_request: treaty_component` or `legal_authority` when the
+  blocker is treaty-party status, ratification, Senate advice-and-consent,
+  protocol coverage, depositary status, or statutory/oversight authority.
+- Add a `foreign_international_organization` discrepancy to the General Editor
+  tally when published or local examples vary on how much foreign-copy,
+  international-organization, regional-body, treaty-party, or multilateral
+  context to print, and the underlying facts are sound.
+
+Foreign/international-organization audit requirements:
+
+- Count foreign-government, international-organization, multilateral, alliance,
+  coalition, peacekeeping, and conference warnings separately from translation,
+  treaty, economic/financial, public-source, and event warnings.
+- Preserve registry id, capture date, source URLs, record type, body/actor,
+  role in unit, source or copy basis, selected/supplemental status, translation
+  or copy status, treaty/conference context, and verification status in the
+  audit report.
+- Record unresolved foreign-copy, translation-status, organization-identity,
+  body-role, concurrence, treaty-party, conference/meeting, publication-detail,
+  and cross-volume-status warnings.
 
 ### 6.9A Translation And Foreign-Origin Copy Registry Validation
 
@@ -4311,6 +4549,12 @@ Permutation matrix for annotation sheets:
   excerpt/full-text relationship, archival draft or briefing context,
   selected-public-document status, supplemental-public-context status, and
   whether public evidence is being used as selected text or corroboration.
+- Foreign-government, international-organization, regional-body, alliance,
+  coalition, peacekeeping, conference, or multilateral package: check body or
+  actor identity, source-versus-subject status, foreign-copy provenance,
+  translation status, concurrence basis, treaty-party or successor-state status,
+  meeting/conference title, publication details, venue versus actor role, and
+  selected-versus-supplemental status.
 - Congressional or legal-authority package: check committee/hearing identity,
   Congress/session, testimony source, budget or message-to-Congress basis,
   public law, Stat. citation, section number, joint/continuing resolution,
@@ -4469,6 +4713,7 @@ Evidence-request categories:
 | `document_number` | Same-volume or cross-volume reference lacks a stable document number. | Which target document, chapter, or volume must be matched. |
 | `document_metadata` | Heading, dateline, subject/title line, public title, sender, recipient, internal number, or document form is missing or suspect. | Which heading field and evidence source must be checked before rewriting. |
 | `treaty_component` | Treaty, protocol, annex, memorandum of understanding, executive agreement, letter, declaration, statement, transmittal, ratification, entry-into-force, or associated-document status is uncertain. | Which treaty component, legal status, public source, archival source, or integral-versus-associated relationship must be checked. |
+| `foreign_org_basis` | Foreign-government, international-organization, multilateral, regional-body, alliance, coalition, peacekeeping, conference, treaty-party, copy-provenance, concurrence, or selected-source role is uncertain. | Which foreign copy, organization identity, body role, concurrence basis, treaty-party status, conference/meeting identity, publication detail, or source-versus-subject status must be checked. |
 | `public_source_basis` | Speech, press, interview, broadcast, testimony, Public Papers, Department of State Bulletin, newspaper, official transcript, public-source selected-document, excerpt, full-text target, or archival-draft relationship is uncertain. | Which publication details, delivery or broadcast facts, transcript basis, excerpt/full-text relationship, archival draft context, or public-versus-archival selection status must be checked. |
 | `legal_authority` | Congressional, statutory, executive-order, Presidential Determination, certification, hearing, testimony, vote-stage, oversight, or Senate advice-and-consent authority is uncertain. | Which committee, hearing, Congress/session, public law, Stat. citation, section, vote stage, amount, condition, transmittal, determination/certification, Executive Order, or Senate basis must be checked. |
 | `financial_data` | Economic, trade, debt, assistance, budget, institutional, table, amount, percentage, fiscal-year, currency, loan, guarantee, quota, replenishment, conditionality, or policy-stage evidence is uncertain. | Which figure, unit, fiscal year, institution, program, table, source, attachment, legal basis, or policy stage must be checked. |
@@ -4535,6 +4780,7 @@ Default blocking rules:
 | `attachment_status` | yes | yes when the note asserts attached, not attached, tabbed, enclosed, printed, or not found |
 | `document_number` | yes for cross-reference edits | yes when same-volume or cross-volume references are unstable |
 | `document_metadata` | yes for heading, dateline, title, subject, or caption edits | yes when publishable apparatus identifies the document |
+| `foreign_org_basis` | yes for foreign-copy, organization identity, body role, concurrence, treaty-party, conference, publication-detail, or selected-source edits | yes when foreign-government, international-organization, multilateral, coalition, alliance, or treaty-party claims appear in publishable apparatus |
 | `treaty_component` | yes for component identity, integral-versus-associated status, public/archival basis, legal-status, ratification, or entry-into-force edits | yes when the note identifies a treaty component, associated document, transmittal, ratification, or entry into force |
 | `public_source_basis` | yes for public-source title, speaker, publication, page, transcript, excerpt/full-text, delivery/broadcast, archival-draft, or selected-document edits | yes when a speech, press, interview, testimony, broadcast, or public-source selected document appears in publishable apparatus |
 | `legal_authority` | yes for congressional/legal authority, committee, hearing, public-law, statute, determination, certification, Executive Order, vote-stage, amount, condition, or Senate advice-and-consent edits | yes when congressional or legal authority appears in publishable apparatus |
@@ -4554,14 +4800,16 @@ Owner hints:
 
 - `compiler`: source images, archival path, document metadata, attachment
   status, document numbers, source family, chronology, treaty component
-  identity, event sequence, public-source basis, congressional/legal proof,
-  financial data, agency-equity proof, sensitive-record source basis,
-  translation status, and foreign-copy provenance.
+  identity, event sequence, public-source basis, foreign-government or
+  international-organization proof, congressional/legal proof, financial data,
+  agency-equity proof, sensitive-record source basis, translation status, and
+  foreign-copy provenance.
 - `editor`: wording, heading form, cross-reference form, source-list
   consistency, treaty/legal-instrument placement, public-event note form,
   public-source and public-diplomacy note form, congressional/legal citation
-  form, economic/financial table and note form, sensitive-record note form,
-  publication-status wording, and General Editor discrepancy preparation.
+  form, foreign/international-organization note form, economic/financial table
+  and note form, sensitive-record note form, publication-status wording, and
+  General Editor discrepancy preparation.
 - `declassification`: classification markings, declassification outcomes,
   release-status separation, withholding, excision, source-and-methods,
   sanitization, and agency-equity language.
@@ -4839,51 +5087,55 @@ For every extracted unit, run checks in this order:
 9. Check translation, foreign-origin copy, typed-signature, bracket-treatment,
    and agency/foreign-equity language against the translation registry when
    supplied.
-10. Check treaty/legal-instrument component identity, integral-versus-associated
+10. Check foreign-government, international-organization, multilateral,
+    regional-body, alliance, coalition, treaty-party, conference,
+    peacekeeping, foreign-copy, and selected-versus-supplemental role evidence
+    against the foreign/international-organization registry when supplied.
+11. Check treaty/legal-instrument component identity, integral-versus-associated
     status, public/archival source basis, transmittal language, ratification,
     and entry-into-force language against the treaty registry when supplied.
-11. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
+12. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
    against the attachment registry when supplied.
-12. Check cross-references and follow-on citation form against the
+13. Check cross-references and follow-on citation form against the
    cross-reference registry when supplied.
-13. Check annotation purpose and concision.
-14. Check declassification, omission, original-bracket, release-status, and
+14. Check annotation purpose and concision.
+15. Check declassification, omission, original-bracket, release-status, and
     whole-document withholding language against the declassification registry
     when supplied.
-15. Check target-volume status and whether the note is research-stage,
+16. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-16. Route the unit through the relevant volume family when a 1981-1992
+17. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-17. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
+18. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-18. Check summit, travel, ceremony, public address, interview, press
+19. Check summit, travel, ceremony, public address, interview, press
     conference, toast, testimony, public remarks, and public-event sequence
     evidence against the event-chronology registry when supplied.
-19. Check public diplomacy, speeches, press releases, press conferences,
+20. Check public diplomacy, speeches, press releases, press conferences,
     briefings, interviews, broadcasts, testimony, Public Papers, Department of
     State Bulletin, newspaper excerpts, official transcripts, speech files,
     briefing materials, selected-public-document status, and
     supplemental-public-context evidence against the public-source registry when
     supplied.
-20. Check congressional testimony, hearings, public laws, statutes, continuing
+21. Check congressional testimony, hearings, public laws, statutes, continuing
     resolutions, joint resolutions, congressional notifications, Presidential
     Determinations, certifications, Executive Orders, oversight, independent
     counsel, Senate advice-and-consent, and ratification context against the
     congressional/legal registry when supplied.
-21. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
+22. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
     World Bank, MDB, GATT, UNCTAD, OECD, table, amount, percentage, currency,
     fiscal-year, loan, guarantee, quota, replenishment, conditionality, and
     policy-stage evidence against the economic/financial registry when supplied.
-22. Check intelligence, covert-action, law-enforcement, counternarcotics,
+23. Check intelligence, covert-action, law-enforcement, counternarcotics,
     counterterrorism, agency-equity, source-and-methods, operational, oversight,
     foreign-service-contact, sanitized-record, redaction, and public-policy
     evidence against the sensitive-record registry when supplied.
-23. Check Persons, abbreviations, and index authority issues.
-24. Assign specific evidence requests and verification targets for unresolved
+24. Check Persons, abbreviations, and index authority issues.
+25. Assign specific evidence requests and verification targets for unresolved
     proof.
-25. Decide direct edit versus comment-only.
-26. Return strict JSON.
-27. After schema and semantic validation, aggregate all unresolved evidence
+26. Decide direct edit versus comment-only.
+27. Return strict JSON.
+28. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -4951,6 +5203,10 @@ Duplicate-suppression rules:
 - Merge repeated public-source issues by speaker, event/publication, public
   source, page/range, transcript basis, excerpt/full-text target, archival-draft
   relationship, selected/supplemental status, or broadcast/delivery fact.
+- Merge repeated foreign/international-organization issues by body or actor,
+  foreign copy, translation status, treaty party, successor state,
+  meeting/conference, publication, selected/source role, concurrence basis, or
+  cross-volume target.
 - Merge repeated congressional/legal authority issues by committee, hearing,
   public law, statute, section, vote/action stage, determination, certification,
   Executive Order, oversight body, or Senate advice-and-consent target.
@@ -5085,6 +5341,11 @@ Golden packet composition:
 - At least one translated or foreign-origin document with official,
   unofficial, informal, Language Services, typed-signature, or foreign-copy
   provenance language, used as a no-change or comment-only control.
+- At least one foreign-government, international-organization, regional-body,
+  alliance, coalition, peacekeeping, conference, or multilateral example with
+  selected-source role, venue role, policy-subject role, foreign-copy
+  provenance, translation status, treaty-party status, or successor-state
+  context.
 - At least one treaty/legal-instrument package with treaty text, protocol,
   annex, memorandum of understanding, associated letter, declaration, statement,
   article-by-article analysis, public transmittal, ratification, or
@@ -5152,6 +5413,11 @@ Expected behavior by test family:
   translation language, foreign-copy provenance, typed-signature notes, and
   bracket-treatment facts; comment rather than invent when the translation basis
   is missing.
+- Foreign/international-organization test: preserve exact body identity,
+  source-versus-subject status, venue versus actor role, foreign-copy
+  provenance, concurrence basis, treaty-party or successor-state status,
+  publication details, and selected/supplemental role; comment rather than
+  invent when the foreign or organization basis is missing.
 - Treaty/legal-instrument test: preserve component identity,
   integral-versus-associated distinctions, public/archival basis, transmittal
   context, ratification, and entry-into-force language; comment rather than
@@ -5283,6 +5549,10 @@ Use the discrepancy tally for:
 - Variations in where to place translation, foreign-origin copy,
   typed-signature, facsimile, bracket-treatment, or official/unofficial
   translation language when the underlying evidence is sound.
+- Variations in how much foreign-government, international-organization,
+  regional-body, alliance, coalition, peacekeeping, conference, treaty-party,
+  successor-state, copy-provenance, concurrence, or selected-versus-supplemental
+  role detail to print when the underlying facts are sound.
 - Different Persons, abbreviations, source-list, or index authority forms that
   may reflect volume-specific practice rather than error.
 - Variations in telegram, cable, STARS, CFPF, PROFS, W Files, System IV, or
@@ -5334,6 +5604,7 @@ Suggested tally format:
 | style-discrepancy-0005 | economic_financial_data | How much economic/financial data detail should appear in notes when figures and source basis are sound. | Full institution acronym plus amount, fiscal year, and table/source basis; shorter policy-description form with figure citation elsewhere | 2 | medium | Should the checker enforce full financial-data citation form, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0006 | intelligence_law_enforcement | How much agency-equity, source-and-methods, oversight, redaction/sanitization, or public-policy-only detail should appear when the facts are sound. | Full agency/source-family and oversight basis in note; shorter sensitive-record phrasing with supporting detail in audit/comment context | 2 | high | Should the checker enforce a house form for sensitive-record detail, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0007 | public_diplomacy_public_source | How much public-source and archival-draft context should appear when a speech, interview, testimony, or press item is selected evidence. | Public Papers or Bulletin citation plus full-text, diary, and briefing-file context; shorter selected-public-document note with archival context elsewhere | 2 | medium | Should the checker enforce a standard public-source selected-document form, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0008 | foreign_international_organization | How much foreign-copy, international-organization, regional-body, treaty-party, successor-state, or multilateral role detail should appear when the facts are sound. | Full body/actor identity plus source-versus-subject and copy-status detail; shorter organization reference with supporting detail in source/audit context | 2 | medium | Should the checker enforce a house form for foreign/international-organization role detail, or tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -5373,6 +5644,12 @@ Required bundle files:
   translation office, source phrase, foreign-origin provenance, copy basis,
   typed-signature or facsimile status, bracket treatment, and agency or
   foreign-government equity.
+- `foreign_international_org_map`, when available: foreign government,
+  successor state, international organization, regional body, alliance,
+  coalition, peacekeeping force, conference, international financial
+  institution, treaty party, depositary, body role, source-versus-subject
+  status, copy provenance, translation status, concurrence basis, publication
+  details, selected/supplemental status, verification status, and source URLs.
 - `treaty_component_map`, when available: treaty family, component type, title,
   integral-versus-associated status, related components, public/archival basis,
   ratification or entry-into-force status, source phrase, and source URLs.
@@ -5610,6 +5887,7 @@ Authority registry: [authority_registry_id and capture date]
 Document metadata registry: [document_metadata_registry_id and capture date]
 Classification registry: [classification_registry_id and capture date]
 Translation registry: [translation_registry_id and capture date]
+Foreign/international-organization registry: [foreign_international_org_registry_id and capture date]
 Treaty/legal-instrument registry: [treaty_registry_id and capture date]
 Event chronology registry: [event_chronology_registry_id and capture date]
 Public-source registry: [public_source_registry_id and capture date]
@@ -5648,6 +5926,7 @@ Counts:
 - Document heading, dateline, title, or caption issues: [n]
 - Classification, handling, precedence, or paragraph-marking issues: [n]
 - Translation, foreign-origin copy, or language-services issues: [n]
+- Foreign-government, international-organization, multilateral, alliance, coalition, conference, treaty-party, or foreign-copy issues: [n]
 - Treaty component, integral/associated status, transmittal, ratification, or entry-into-force issues: [n]
 - Summit, travel, ceremony, interview, press, testimony, or public-event chronology issues: [n]
 - Public diplomacy, speech, press, interview, broadcast, testimony, transcript, full-text, excerpt, diary, or public-source issues: [n]
@@ -5684,6 +5963,9 @@ Classification/handling warnings:
 
 Translation/foreign-origin warnings:
 - [unit_id or global]: [translation/provenance issue] - [translation status, copy basis, and evidence basis]
+
+Foreign/international-organization warnings:
+- [unit_id or global]: [foreign/organization issue] - [record type, body/actor, role in unit, source or copy basis, selected/supplemental status, translation/copy status, treaty/conference context, and verification target]
 
 Treaty/legal-instrument warnings:
 - [unit_id or global]: [treaty issue] - [component type, integral/associated status, source basis, and legal-status evidence]
@@ -5811,6 +6093,12 @@ Minimum components:
   transcripts, newspaper excerpts, full-text targets, archival drafts, briefing
   materials, diary context, and selected-versus-supplemental status before
   tracked changes are applied.
+- Foreign/international-organization validator that distinguishes foreign
+  governments, successor states, international organizations, regional bodies,
+  alliances, coalitions, peacekeeping forces, conferences, international
+  financial institutions, treaty parties, selected-source roles, venue roles,
+  policy-subject roles, copy provenance, translation status, concurrence basis,
+  and publication details before tracked changes are applied.
 - Cross-reference registry validator that checks same-volume documents,
   footnotes, appendix items, tabs, attachments, public-source references,
   scheduled-publication targets, and cross-volume publication status before
@@ -5840,6 +6128,11 @@ Operational cautions:
   original language, unsupported official/unofficial claims, foreign-copy
   provenance issues, typed-signature/facsimile questions, and
   translation-foreign-origin discrepancy questions.
+- Record foreign/international-organization registry version, unresolved
+  foreign-copy basis, organization identity, body role, concurrence basis,
+  treaty-party or successor-state status, meeting/conference identity,
+  international-organization publication details, selected-versus-supplemental
+  status, and foreign-international-organization discrepancy questions.
 - Record treaty-registry version, unresolved component identities,
   integral-versus-associated status, public/archival basis conflicts,
   transmittal questions, ratification or entry-into-force questions, and
@@ -5923,6 +6216,10 @@ Needs revision:
 - Public diplomacy, speech, press, interview, broadcast, testimony, transcript,
   full-text, excerpt, diary, briefing-file, or archival-draft context is changed
   without supplied public-source basis.
+- Foreign-government, international-organization, regional-body, alliance,
+  coalition, peacekeeping, conference, treaty-party, successor-state,
+  foreign-copy, concurrence, publication-detail, or selected-source role is
+  changed without supplied foreign/organization basis.
 - Congressional/legal authority is asserted without committee, hearing,
   public-law, statute, vote/action-stage, determination, certification,
   Executive Order, oversight, or Senate advice-and-consent support.
@@ -5995,13 +6292,14 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d145`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d33`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d39`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d169`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d274`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d286`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d206`
 - `https://history.state.gov/historicaldocuments/frus1981-88v38/preface`
 - `https://history.state.gov/historicaldocuments/frus1981-88v38/d177`
-- `https://history.state.gov/historicaldocuments/frus1981-88v38/d223`
 - `https://history.state.gov/historicaldocuments/frus1981-88v38/d267`
+- `https://history.state.gov/historicaldocuments/frus1981-88v38/d223`
 - `https://history.state.gov/historicaldocuments/frus1981-88v38/d324`
 - `https://history.state.gov/historicaldocuments/frus1981-88v38/d371`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01`
@@ -6031,6 +6329,7 @@ Recent Reagan source incorporated:
 - [Volume I source list with speechwriting files, speeches, and published sources](https://history.state.gov/historicaldocuments/frus1981-88v01/sources)
 - [Reagan Cronkite interview editorial note, Document 33](https://history.state.gov/historicaldocuments/frus1981-88v01/d33)
 - [Haig Senate Foreign Relations Committee testimony, Document 39](https://history.state.gov/historicaldocuments/frus1981-88v01/d39)
+- [Reagan United Nations General Assembly address, Document 169](https://history.state.gov/historicaldocuments/frus1981-88v01/d169)
 - [Reagan United Nations address editorial note, Document 206](https://history.state.gov/historicaldocuments/frus1981-88v01/d206)
 - [Contra aid congressional/public-law annotation, Document 274](https://history.state.gov/historicaldocuments/frus1981-88v01/d274)
 - [Iran arms/Contra aid Executive Order and oversight annotation, Document 286](https://history.state.gov/historicaldocuments/frus1981-88v01/d286)
@@ -6041,8 +6340,8 @@ Recent Reagan source incorporated:
 - [FRUS, 1981-1988, Volume XXXVIII, International Economic Development; International Debt; Foreign Assistance](https://history.state.gov/historicaldocuments/frus1981-88v38)
 - [Volume XXXVIII preface on developing-world economic policy, debt, assistance, IFIs, and companion trade/monetary volumes](https://history.state.gov/historicaldocuments/frus1981-88v38/preface)
 - [IMF/World Bank annual meetings and debt-crisis context, Document 177](https://history.state.gov/historicaldocuments/frus1981-88v38/d177)
+- [Multilateral development banks, IMF, and World Bank context, Document 267](https://history.state.gov/historicaldocuments/frus1981-88v38/d267)
 - [Strengthened debt strategy memorandum, Document 223](https://history.state.gov/historicaldocuments/frus1981-88v38/d223)
-- [MDB budget reduction and IMF/World Bank meeting note, Document 267](https://history.state.gov/historicaldocuments/frus1981-88v38/d267)
 - [Private enterprise, trade, and assistance recommendations with dollar figures, Document 324](https://history.state.gov/historicaldocuments/frus1981-88v38/d324)
 - [Presidential Determination and Public Law note in Volume XXXVIII, Document 371](https://history.state.gov/historicaldocuments/frus1981-88v38/d371)
 - [FRUS, 1981-1988, Volume XLIV, Part 1, National Security Policy, 1985-1988](https://history.state.gov/historicaldocuments/frus1981-88v44p1)
@@ -6067,6 +6366,8 @@ Recent Bush source incorporated:
 - [START I Presidential transmittal and article-by-article analysis note, Document 247](https://history.state.gov/historicaldocuments/frus1989-92v31/d247)
 - [START I preface discussion of Senate ratification and Lisbon Protocol context](https://history.state.gov/historicaldocuments/frus1989-92v31/preface)
 - [START I about-the-series source and declassification statement](https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries)
+- [Gorbachev letter printed from unofficial translation, Document 91](https://history.state.gov/historicaldocuments/frus1989-92v31/d91)
+- [START I preface on Soviet dissolution and Lisbon Protocol successor-state context](https://history.state.gov/historicaldocuments/frus1989-92v31/preface)
 - [START data-denial, intelligence, DOD, CIA, JCS, and redaction example, Document 172](https://history.state.gov/historicaldocuments/frus1989-92v31/d172)
 - [FRUS, 1989-1992, Volume XXXI, START I, 1989-1991 EPUB](https://static.history.state.gov/frus/frus1989-92v31/ebook/frus1989-92v31.epub)
 
