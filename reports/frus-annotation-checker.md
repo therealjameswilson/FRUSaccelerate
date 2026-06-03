@@ -90,6 +90,12 @@ The wrapper should provide the LLM with:
   controls derived from published FRUS source lists and local authority files,
   including family ids, volume scope, required path components, distinguishing
   tokens, allowed variants, and no-flattening rules.
+- `physical_routing_context`, if available: structured physical/source-image
+  evidence for handwritten notes, initials, marginalia, highlighting,
+  underlining, checkmarks, stamped notations, read-by or seen stamps, signed or
+  unsigned status, approval boxes, sent-for-action or sent-for-information
+  routing, correspondence profiles, distribution lists, attached routing slips,
+  unknown-hand notes, and verification basis.
 - `communications_registry_context`, if available: structured telegram, cable,
   STARS, CFPF, PROFS, W Files, System IV, agency-message, and other
   electronic-communications metadata with source family, message identifier,
@@ -219,14 +225,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | physical_routing_marginalia | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | physical_evidence_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -239,7 +245,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | physical_routing_marginalia | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -364,6 +370,7 @@ run the semantic and Word-safety validators below.
               "editorial_note",
               "document_metadata",
               "classification_handling",
+              "physical_routing_marginalia",
               "translation_foreign_origin",
               "foreign_international_organization",
               "treaty_legal_instrument",
@@ -416,6 +423,7 @@ run the semantic and Word-safety validators below.
               "source_image",
               "archival_path",
               "classification_marking",
+              "physical_evidence_basis",
               "attachment_status",
               "document_number",
               "document_metadata",
@@ -501,6 +509,7 @@ run the semantic and Word-safety validators below.
               "editorial_note",
               "document_metadata",
               "classification_handling",
+              "physical_routing_marginalia",
               "translation_foreign_origin",
               "foreign_international_organization",
               "treaty_legal_instrument",
@@ -601,14 +610,14 @@ Semantic validator behavior:
   `verification_target`.
 - Reject any direct edit whose category is `publication_status`,
   `declassification`, `attachment`, `document_metadata`,
-  `classification_handling`, `translation_foreign_origin`,
-  `foreign_international_organization`, `treaty_legal_instrument`,
-  `public_diplomacy_public_source`, `congressional_legal_authority`,
-  `economic_financial_data`, `intelligence_law_enforcement`,
-  `military_crisis_operations`, `human_rights_refugee_global_issues`,
-  `chronology`, `summit_public_event`, `communications_record`, or
-  `authority_control` when the required proof is absent from the uploaded unit or
-  wrapper context.
+  `classification_handling`, `physical_routing_marginalia`,
+  `translation_foreign_origin`, `foreign_international_organization`,
+  `treaty_legal_instrument`, `public_diplomacy_public_source`,
+  `congressional_legal_authority`, `economic_financial_data`,
+  `intelligence_law_enforcement`, `military_crisis_operations`,
+  `human_rights_refugee_global_issues`, `chronology`, `summit_public_event`,
+  `communications_record`, or `authority_control` when the required proof is
+  absent from the uploaded unit or wrapper context.
 - Downgrade to `comment_only` when a finding passes the JSON schema but fails a
   Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
@@ -1192,6 +1201,229 @@ Communications audit requirements:
   notes, how to handle PROFS/W Files/System IV identifiers, or whether drafting
   and clearance lines should appear when the message metadata is otherwise
   complete.
+
+#### 6.1.2A Physical Evidence, Routing, Marginalia, And Approval Registry Validation
+
+Published Reagan and Bush source notes frequently preserve physical evidence:
+initials, handwritten marginalia, highlighting, underlining, checkmarks, read-by
+stamps, stamped `Signed` or `Seen` notations, sent-for-action routing,
+correspondence profiles, and attached routing slips. These are not decorative
+details. They establish who saw a document, how it moved, whether an action was
+approved, whether an attachment was present, and how much weight the printed
+copy can bear. The checker should validate these claims before it changes them.
+
+Use a physical/routing registry when the wrapper can supply one:
+
+```json
+{
+  "physical_routing_registry_id": "frus-1981-1992-physical-routing-marginalia-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d24",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d50",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d75",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d129",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d316"
+  ],
+  "records": [
+    {
+      "physical_item_id": "physical-bush-start-marginalia-0001",
+      "unit_id": "document-0001",
+      "record_type": "principal_marginalia",
+      "source_family": "George H.W. Bush Library, Bush Vice Presidential Records, Office of National Security Affairs, Donald P. Gregg Files",
+      "physical_evidence": "Watson initialed memorandum on Gregg's behalf; Bush wrote a top-right margin note on the memorandum and a bottom note on the attached letter",
+      "actor_or_hand": "Samuel Watson; George H.W. Bush",
+      "action_or_status": "initialed_on_behalf; handwritten_marginalia",
+      "placement": "top right-hand margin of memorandum; bottom of attached letter",
+      "linked_source_or_attachment": "Armstrong letter and two attached GRIP papers",
+      "verification_status": "verified"
+    },
+    {
+      "physical_item_id": "physical-bush-start-routing-0024",
+      "unit_id": "document-0024",
+      "record_type": "sent_for_action_and_read_by",
+      "source_family": "George H.W. Bush Library, Bush Presidential Records, National Security Council, H-Files, NSC/DC Meetings Files",
+      "physical_evidence": "sent-for-action status, read-by/routing evidence, and Deputies Committee meeting linkage",
+      "actor_or_hand": "Gates; NSC/DC routing context",
+      "action_or_status": "sent_for_action; read_by_stamp",
+      "placement": "source note and follow-on footnote",
+      "linked_source_or_attachment": "Summary of Conclusions for NSC/DC meeting",
+      "verification_status": "verified"
+    },
+    {
+      "physical_item_id": "physical-reagan-nsdd-approval-0050",
+      "unit_id": "document-0050",
+      "record_type": "approval_checkmark_and_signed_stamp",
+      "source_family": "National Security Council, National Security Council Institutional Files, Box SR-090, NSDD 178",
+      "physical_evidence": "sent for action; prepared by Douglass; Reagan initials in upper right-hand corner; stamped notation reads Signed; approval shown by checkmark and initials",
+      "actor_or_hand": "Ronald Reagan; John Douglass",
+      "action_or_status": "sent_for_action; initialed; signed; approval_checkmark",
+      "placement": "upper right-hand corner and top of memorandum; recommendation line",
+      "linked_source_or_attachment": "Tabs A and B printed as following document",
+      "verification_status": "verified"
+    },
+    {
+      "physical_item_id": "physical-haig-private-paper-0075",
+      "unit_id": "document-0075",
+      "record_type": "private_paper_marginalia",
+      "source_family": "Library of Congress, Manuscript Division, Alexander Haig Papers, Department of State, Day File",
+      "physical_evidence": "Haig saw stamp, handwritten top-right note, highlighting, underlining, margin note, and checkmark",
+      "actor_or_hand": "Alexander Haig",
+      "action_or_status": "seen_stamp; handwritten_marginalia; highlighting; underlining; checkmark",
+      "placement": "top of memorandum; upper right-hand corner; right-hand margin; specific sentences",
+      "linked_source_or_attachment": "",
+      "verification_status": "verified"
+    },
+    {
+      "physical_item_id": "physical-reagan-readby-routing-0129",
+      "unit_id": "document-0129",
+      "record_type": "read_by_stamp_and_correspondence_profile",
+      "source_family": "Reagan Library, Executive Secretariat, NSC Subject File, Public Affairs (January 1983)",
+      "physical_evidence": "stamped WPC HAS SEEN notation; attached NSC Correspondence Profile showing action and information routing",
+      "actor_or_hand": "William P. Clark; NSC Correspondence Profile",
+      "action_or_status": "seen_stamp; sent_for_action; sent_for_information",
+      "placement": "source note",
+      "linked_source_or_attachment": "attached NSC Correspondence Profile",
+      "verification_status": "verified"
+    },
+    {
+      "physical_item_id": "physical-shultz-meeting-folder-0316",
+      "unit_id": "document-0316",
+      "record_type": "unknown_hand_folder_notation",
+      "source_family": "Reagan Library, George Shultz Papers, Secretary's Meetings with the President",
+      "physical_evidence": "unknown-hand top-right notation identifying meeting folder; daily diary and Reagan diary provide meeting context; no minutes found",
+      "actor_or_hand": "unknown hand; President's Daily Diary; Reagan diary",
+      "action_or_status": "unknown_hand_notation; diary_context; no_minutes_found",
+      "placement": "top-right hand corner of paper",
+      "linked_source_or_attachment": "President's Daily Diary and Reagan diary entry",
+      "verification_status": "verified"
+    }
+  ]
+}
+```
+
+Allowed `record_type` values:
+
+- `principal_marginalia`
+- `private_paper_marginalia`
+- `handwritten_note`
+- `unknown_hand_notation`
+- `initialed_on_behalf`
+- `approval_checkmark_and_initials`
+- `approval_checkmark_and_signed_stamp`
+- `signed_or_stamped_status`
+- `read_by_stamp_and_correspondence_profile`
+- `sent_for_action_and_read_by`
+- `sent_for_information`
+- `routing_slip`
+- `distribution_list`
+- `highlighting_or_underlining`
+- `attachment_physical_profile`
+- `no_minutes_or_no_record_with_physical_context`
+- `unknown`
+
+Allowed `action_or_status` values:
+
+- `seen_stamp`
+- `read_by_stamp`
+- `signed`
+- `initialed`
+- `initialed_on_behalf`
+- `approval_checkmark`
+- `handwritten_marginalia`
+- `highlighting`
+- `underlining`
+- `checkmark`
+- `sent_for_action`
+- `sent_for_information`
+- `prepared_by`
+- `drafted_by`
+- `cleared_by`
+- `unknown_hand_notation`
+- `attached_profile`
+- `diary_context`
+- `no_minutes_found`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified`
+- `needs_source_image`
+- `needs_handwriting_basis`
+- `needs_actor_or_hand_basis`
+- `needs_routing_basis`
+- `needs_action_status_basis`
+- `needs_attachment_profile`
+- `needs_placement_basis`
+- `needs_diary_or_search_basis`
+- `unknown`
+
+Physical/routing validator sequence:
+
+1. Identify every source note, follow-on footnote, editorial note, attachment
+   note, caption, or annotation that names initials, marginalia, handwritten
+   notes, highlighting, underlining, checkmarks, stamps, read-by/seen notations,
+   signed/unsigned status, sent-for-action routing, information copies,
+   correspondence profiles, approval boxes, attached routing slips, distribution
+   lists, unknown hands, or top/bottom/left/right placement.
+2. Match the unit against `physical_routing_context` before directly changing
+   actor/hand, placement, physical status, action status, approval status, routing
+   status, distribution, attachment-profile wording, or read-by/seen language.
+3. Separate physical evidence from substantive policy content. A checkmark,
+   initial, or `HAS SEEN` stamp can prove review or approval only to the extent
+   stated by the source note or registry; it does not prove agreement with every
+   statement in the document.
+4. Separate source-image facts from editorial inference. Do not convert "unknown
+   hand" to a named person, "initialed" to "approved," "sent for action" to
+   "approved," or "read/seen" to "cleared" unless the uploaded source image or
+   registry supplies exact evidence.
+5. Preserve placement when it matters: upper right-hand corner, top of the
+   memorandum, right-hand margin, recommendation line, bottom of an attached
+   letter, attached profile, tab, or appendix image.
+6. Coordinate with attachment rules when physical evidence concerns attached-but-
+   not-printed tabs, attached correspondence profiles, printed attachments, or
+   missing routing slips.
+7. Coordinate with chronology rules when a physical notation is paired with diary
+   or schedule evidence, meeting folders, no-minutes claims, or no-record claims.
+8. Coordinate with classification/handling rules when a stamped notation, routing
+   slip, distribution list, special-access marking, or handling control appears
+   near classification language.
+
+Direct-edit posture:
+
+- Safe direct edits may restore exact supplied phrases such as `initialed`,
+  `sent for action`, `A stamped notation reads`, `in the upper right-hand
+  corner`, `attached NSC Correspondence Profile`, `checkmark`, `underlined`, or
+  `highlighted` when the unit or registry supplies the evidence.
+- Use `comment_only` with `evidence_request: physical_evidence_basis` when
+  handwriting identity, actor/hand, placement, read-by/seen status, signed status,
+  approval checkmark, sent-for-action/information routing, correspondence
+  profile, distribution, attachment profile, or no-minutes/no-record physical
+  context is missing, conflicting, or inferred.
+- Use `evidence_request: source_image` when the blocker is visible handwriting,
+  initials, stamps, marginalia, highlighting, underlining, checkmarks, or
+  physical placement on the source image.
+- Use `evidence_request: attachment_status` when the blocker is whether a profile,
+  tab, routing slip, list, or attached memorandum was physically present.
+- Add a `physical_routing_marginalia` discrepancy to the General Editor tally
+  when published or local examples vary on how much physical, routing, read-by,
+  approval, unknown-hand, or marginalia detail to print, and the underlying facts
+  are sound.
+
+Physical/routing audit requirements:
+
+- Count physical evidence, handwriting, initials, marginalia, read-by/seen,
+  stamp, signature, approval, routing, correspondence-profile, distribution,
+  placement, and no-record-with-physical-context warnings separately from
+  source-family, communications-record, attachment, chronology, and
+  classification warnings.
+- Preserve registry id, capture date, source URLs, record type, source family,
+  physical evidence, actor or hand, action/status, placement, linked source or
+  attachment, and verification status in the audit report.
+- Record unresolved source-image, handwriting, actor/hand, placement, routing,
+  approval, attachment-profile, distribution, diary/search, and unknown-hand
+  warnings.
 
 #### 6.1.3 Classification And Handling Registry Validation
 
@@ -5104,6 +5336,12 @@ Permutation matrix for annotation sheets:
 - Telegram source note: check CFPF or other source family, telegram number,
   origin/addressee, date/time group, classification/precedence, drafter and
   approval when present, and related telegram citations.
+- Physical/routing/marginalia source note: check source image, handwriting,
+  initials, actor or hand, stamp language, read-by/seen status, signed status,
+  approval checkmark, sent-for-action or sent-for-information routing,
+  correspondence profile, distribution, placement, attached profile, and whether
+  the physical evidence proves review, approval, routing, or only copy
+  provenance.
 - Memcon/telcon/minutes note: check meeting/call location, date/time, source
   type, participants only when supported, Diary/schedule corroboration, and
   whether a full record is scheduled elsewhere.
@@ -5299,6 +5537,7 @@ Evidence-request categories:
 | `source_image` | A scan, facsimile, or control copy must be inspected. | Which visible feature to check, such as marking, marginalia, stamp, attachment, or handwriting. |
 | `archival_path` | Repository, collection, series, box, folder, lot, OA/ID, or file unit is missing or suspect. | Which part of the source path needs confirmation. |
 | `classification_marking` | Original classification, handling, precedence, paragraph marking, or verified absence is missing, guessed, or confused with release status. | To verify the original marking evidence on the document, not the declassification result. |
+| `physical_evidence_basis` | Handwriting, initials, marginalia, highlighting, underlining, checkmark, stamp, read-by/seen notation, signed status, approval box, sent-for-action or information routing, correspondence profile, distribution, physical placement, or unknown-hand evidence is uncertain. | Which visible physical feature, actor/hand, placement, routing status, approval status, profile, attachment, source image, or search/diary context must be checked. |
 | `attachment_status` | Attached, not attached, printed elsewhere, tabbed, enclosed, or not found claims are uncertain. | Which tab, enclosure, paper, or list must be checked. |
 | `document_number` | Same-volume or cross-volume reference lacks a stable document number. | Which target document, chapter, or volume must be matched. |
 | `document_metadata` | Heading, dateline, subject/title line, public title, sender, recipient, internal number, or document form is missing or suspect. | Which heading field and evidence source must be checked before rewriting. |
@@ -5369,6 +5608,7 @@ Default blocking rules:
 | `source_image` | yes | yes, if source-note, attachment, marking, handwriting, or marginalia claims depend on it |
 | `archival_path` | yes | yes |
 | `classification_marking` | yes | yes when source-note, handling, precedence, paragraph-marking, attachment, or no-marking claims depend on it |
+| `physical_evidence_basis` | yes for handwriting, initials, marginalia, stamp, read-by/seen, signed, approval, routing, correspondence-profile, distribution, placement, or unknown-hand edits | yes when physical/source-image evidence appears in publishable apparatus |
 | `attachment_status` | yes | yes when the note asserts attached, not attached, tabbed, enclosed, printed, or not found |
 | `document_number` | yes for cross-reference edits | yes when same-volume or cross-volume references are unstable |
 | `document_metadata` | yes for heading, dateline, title, subject, or caption edits | yes when publishable apparatus identifies the document |
@@ -5397,15 +5637,15 @@ Owner hints:
   identity, event sequence, public-source basis, foreign-government or
   international-organization proof, congressional/legal proof, financial data,
   agency-equity proof, military-operation proof, human-rights/refugee/global-
-  issues proof, sensitive-record source basis, translation status, and
-  foreign-copy provenance.
+  issues proof, physical/routing evidence, sensitive-record source basis,
+  translation status, and foreign-copy provenance.
 - `editor`: wording, heading form, cross-reference form, source-list
   consistency, treaty/legal-instrument placement, public-event note form,
   public-source and public-diplomacy note form, congressional/legal citation
   form, foreign/international-organization note form, economic/financial table
   and note form, military/crisis note form, human-rights/refugee/global-issues
-  note form, sensitive-record note form, publication-status wording, and General
-  Editor discrepancy preparation.
+  note form, physical/routing note form, sensitive-record note form,
+  publication-status wording, and General Editor discrepancy preparation.
 - `declassification`: classification markings, declassification outcomes,
   release-status separation, withholding, excision, source-and-methods,
   sanitization, and agency-equity language.
@@ -5677,72 +5917,75 @@ For every extracted unit, run checks in this order:
 7. Check telegram, cable, STARS, CFPF, PROFS, W Files, System IV, agency-cable,
    and other communications-record metadata against the communications registry
    when supplied.
-8. Check classification, handling, precedence, paragraph-marking, and
+8. Check physical evidence, routing, marginalia, initials, stamps, read-by/seen
+   notations, approval checkmarks, correspondence profiles, distribution, and
+   placement against the physical/routing registry when supplied.
+9. Check classification, handling, precedence, paragraph-marking, and
    no-classification-marking language against the classification registry when
    supplied.
-9. Check translation, foreign-origin copy, typed-signature, bracket-treatment,
+10. Check translation, foreign-origin copy, typed-signature, bracket-treatment,
    and agency/foreign-equity language against the translation registry when
    supplied.
-10. Check foreign-government, international-organization, multilateral,
+11. Check foreign-government, international-organization, multilateral,
     regional-body, alliance, coalition, treaty-party, conference,
     peacekeeping, foreign-copy, and selected-versus-supplemental role evidence
     against the foreign/international-organization registry when supplied.
-11. Check treaty/legal-instrument component identity, integral-versus-associated
+12. Check treaty/legal-instrument component identity, integral-versus-associated
     status, public/archival source basis, transmittal language, ratification,
     and entry-into-force language against the treaty registry when supplied.
-12. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
+13. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
    against the attachment registry when supplied.
-13. Check cross-references and follow-on citation form against the
+14. Check cross-references and follow-on citation form against the
    cross-reference registry when supplied.
-14. Check annotation purpose and concision.
-15. Check declassification, omission, original-bracket, release-status, and
+15. Check annotation purpose and concision.
+16. Check declassification, omission, original-bracket, release-status, and
     whole-document withholding language against the declassification registry
     when supplied.
-16. Check target-volume status and whether the note is research-stage,
+17. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-17. Route the unit through the relevant volume family when a 1981-1992
+18. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-18. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
+19. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-19. Check summit, travel, ceremony, public address, interview, press
+20. Check summit, travel, ceremony, public address, interview, press
     conference, toast, testimony, public remarks, and public-event sequence
     evidence against the event-chronology registry when supplied.
-20. Check public diplomacy, speeches, press releases, press conferences,
+21. Check public diplomacy, speeches, press releases, press conferences,
     briefings, interviews, broadcasts, testimony, Public Papers, Department of
     State Bulletin, newspaper excerpts, official transcripts, speech files,
     briefing materials, selected-public-document status, and
     supplemental-public-context evidence against the public-source registry when
     supplied.
-21. Check congressional testimony, hearings, public laws, statutes, continuing
+22. Check congressional testimony, hearings, public laws, statutes, continuing
     resolutions, joint resolutions, congressional notifications, Presidential
     Determinations, certifications, Executive Orders, oversight, independent
     counsel, Senate advice-and-consent, and ratification context against the
     congressional/legal registry when supplied.
-22. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
+23. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
     World Bank, MDB, GATT, UNCTAD, OECD, table, amount, percentage, currency,
     fiscal-year, loan, guarantee, quota, replenishment, conditionality, and
     policy-stage evidence against the economic/financial registry when supplied.
-23. Check intelligence, covert-action, law-enforcement, counternarcotics,
+24. Check intelligence, covert-action, law-enforcement, counternarcotics,
     counterterrorism, agency-equity, source-and-methods, operational, oversight,
     foreign-service-contact, sanitized-record, redaction, and public-policy
     evidence against the sensitive-record registry when supplied.
-24. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
+25. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
     combat-operation, contingency-plan, CONPLAN, host-nation notification,
     coalition, peacekeeping, force/unit, time-zone, casualty/damage, and
     military-assistance evidence against the military/crisis registry when
     supplied.
-25. Check human-rights reports, refugee, immigration, asylum, migration, famine,
+26. Check human-rights reports, refugee, immigration, asylum, migration, famine,
     emergency relief, food aid, public-health, AIDS/HIV, population policy,
     environmental, ozone, sanctions, waivers, certifications, public reports,
     international organizations, PVOs, AID/PRM, PL 480, Section 416, and Section
     206 evidence against the human-rights/refugee/global-issues registry when
     supplied.
-26. Check Persons, abbreviations, and index authority issues.
-27. Assign specific evidence requests and verification targets for unresolved
+27. Check Persons, abbreviations, and index authority issues.
+28. Assign specific evidence requests and verification targets for unresolved
     proof.
-28. Decide direct edit versus comment-only.
-29. Return strict JSON.
-30. After schema and semantic validation, aggregate all unresolved evidence
+29. Decide direct edit versus comment-only.
+30. Return strict JSON.
+31. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -5804,6 +6047,10 @@ Duplicate-suppression rules:
   unit-level comments only where the missing archival path differs.
 - Merge repeated authority-control issues by person, office, acronym, source
   list entry, or index term.
+- Merge repeated physical/routing issues by source image, actor or hand,
+  physical feature, stamp or notation phrase, placement, approval/checkmark
+  status, read-by/seen status, routing status, correspondence profile,
+  distribution list, attached profile, or no-record/search context.
 - Merge repeated scheduled-publication questions by target volume or chapter.
 - Merge repeated summit/public-event chronology issues by event, date span,
   public-source basis, diary/schedule basis, press basis, or full-record target.
@@ -5954,6 +6201,10 @@ Golden packet composition:
 - At least one classification/handling example with verified original markings,
   handling controls, precedence, `No classification marking`, or paragraph
   markings, used as a no-change or comment-only control.
+- At least one physical/routing/marginalia example with initials, handwritten
+  marginalia, highlighting, underlining, checkmark, stamped notation, read-by or
+  seen stamp, sent-for-action routing, correspondence profile, approval box,
+  unknown-hand note, or source-image placement evidence.
 - At least one translated or foreign-origin document with official,
   unofficial, informal, Language Services, typed-signature, or foreign-copy
   provenance language, used as a no-change or comment-only control.
@@ -6034,6 +6285,11 @@ Expected behavior by test family:
   precedence, and no-marking phrases; comment rather than invent when original
   marking evidence is missing or release status is confused with original
   classification.
+- Physical/routing/marginalia test: preserve exact actor/hand, stamp language,
+  initials, marginalia, highlighting, underlining, checkmarks, signed/seen/read
+  status, sent-for-action or information routing, correspondence profile,
+  approval-line status, placement, and linked attachment context; comment rather
+  than infer when physical-evidence basis is missing.
 - Translation/foreign-origin test: preserve official/unofficial/informal
   translation language, foreign-copy provenance, typed-signature notes, and
   bracket-treatment facts; comment rather than invent when the translation basis
@@ -6186,6 +6442,11 @@ Use the discrepancy tally for:
 - Variations in `No classification marking`, classification/handling order,
   handling punctuation, paragraph-marking treatment, declassification phrasing,
   or omission/bracket language where the underlying evidence is sound.
+- Variations in how much handwriting, initials, stamps, read-by/seen notations,
+  signed status, approval checkmarks, highlighting, underlining, marginalia,
+  sent-for-action or information routing, correspondence profiles, distribution,
+  source-image placement, or unknown-hand evidence to print when the underlying
+  facts are sound.
 - Variations in `Attached but not printed`, `Not found attached`, `Printed as
   Document [n]`, appendix, tab, enclosure, or facsimile wording.
 - Variations in `scheduled for publication`, `printed in`, same-volume
@@ -6254,6 +6515,7 @@ Suggested tally format:
 | style-discrepancy-0008 | foreign_international_organization | How much foreign-copy, international-organization, regional-body, treaty-party, successor-state, or multilateral role detail should appear when the facts are sound. | Full body/actor identity plus source-versus-subject and copy-status detail; shorter organization reference with supporting detail in source/audit context | 2 | medium | Should the checker enforce a house form for foreign/international-organization role detail, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0009 | military_crisis_operations | How much military/crisis operation-stage, force/unit, coalition, host-nation, time-zone, or casualty/damage detail should appear when the facts are sound. | Full operation-stage and chronology detail in note; shorter military/crisis phrasing with supporting detail in audit/comment context | 2 | high | Should the checker enforce a house form for military/crisis detail, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0010 | human_rights_refugee_global_issues | How much human-rights/refugee/global-issues basis should appear when the report, program, amount, source, organization, and status facts are sound. | Full report or program authority plus public/archival basis, amount/metric, organization role, and stage/status; shorter issue-area note with supporting detail in audit/comment context | 2 | medium | Should the checker enforce a house form for global-issues detail, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0011 | physical_routing_marginalia | How much physical, routing, approval, read-by, and marginalia evidence should appear when the source-image facts are sound. | Full actor/hand plus placement, stamp/notation phrase, action status, and linked attachment/profile; shorter physical-evidence note with supporting detail in audit/comment context | 2 | medium | Should the checker enforce a house form for physical and routing evidence, or tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -6285,6 +6547,13 @@ Required bundle files:
   family, such as Reagan Library NSC files, PROFS, W Files, System IV, Bush
   H-Files, Scowcroft/Gates files, State CFPF, lot files, STARS, public sources,
   private papers, agency records, or foreign/international-organization records.
+- `physical_routing_map`, when available: source-image and physical-evidence
+  facts for handwritten notes, initials, marginalia, highlighting, underlining,
+  checkmarks, stamps, read-by/seen notations, signed status, approval lines,
+  sent-for-action or sent-for-information routing, correspondence profiles,
+  distribution lists, attached routing slips, actor/hand, placement,
+  linked-attachment context, no-record/search context, verification status, and
+  source URLs.
 - `classification_marking_map`, when available: original classification,
   handling, precedence, paragraph-marking, verified absence, and source-phrase
   evidence for source notes, attachments, captions, and selected document
@@ -6547,6 +6816,7 @@ Output schema: checker-output-v1
 Context bundle: [bundle_id and capture date]
 Authority registry: [authority_registry_id and capture date]
 Document metadata registry: [document_metadata_registry_id and capture date]
+Physical/routing registry: [physical_routing_registry_id and capture date]
 Classification registry: [classification_registry_id and capture date]
 Translation registry: [translation_registry_id and capture date]
 Foreign/international-organization registry: [foreign_international_org_registry_id and capture date]
@@ -6588,6 +6858,7 @@ Counts:
 - Status registry conflicts or stale-publication warnings: [n]
 - Authority registry conflicts or unmatched forms: [n]
 - Document heading, dateline, title, or caption issues: [n]
+- Physical evidence, routing, marginalia, read-by/seen, approval, or placement issues: [n]
 - Classification, handling, precedence, or paragraph-marking issues: [n]
 - Translation, foreign-origin copy, or language-services issues: [n]
 - Foreign-government, international-organization, multilateral, alliance, coalition, conference, treaty-party, or foreign-copy issues: [n]
@@ -6623,6 +6894,9 @@ Authority-control warnings:
 
 Document-metadata warnings:
 - [unit_id or global]: [metadata issue] - [heading field, evidence basis, and registry target]
+
+Physical/routing/marginalia warnings:
+- [unit_id or global]: [physical/routing issue] - [record type, source family, physical evidence, actor or hand, action/status, placement, linked source or attachment, and verification target]
 
 Classification/handling warnings:
 - [unit_id or global]: [marking issue] - [original marking, handling/precedence, and evidence basis]
@@ -6722,6 +6996,12 @@ Minimum components:
   ecologies, distinguishes public/printed selected sources from archival
   control copies, and blocks flattening of specific repositories into generic
   source paths.
+- Physical/routing evidence validator that distinguishes handwritten notes,
+  initials, marginalia, highlighting, underlining, checkmarks, stamps, read-by or
+  seen notations, signed status, approval checkmarks, sent-for-action or
+  sent-for-information routing, correspondence profiles, distribution lists,
+  attached routing slips, actor/hand, placement, and linked attachment or search
+  context before tracked changes are applied.
 - Communications-record validator that checks telegram, cable, STARS, CFPF,
   PROFS, W Files, System IV, agency-message, and other electronic-message
   identifiers, origin/addressee, date-time group, precedence,
@@ -6824,6 +7104,11 @@ Operational cautions:
   treaty-legal-instrument discrepancy questions.
 - Record source-family registry version, unmatched or ambiguous family matches,
   direct source-family edits, and source-family discrepancy questions.
+- Record physical/routing registry version, unresolved handwriting, initials,
+  marginalia, stamps, read-by/seen status, signed status, approval checkmarks,
+  actor/hand identity, placement, routing status, correspondence-profile,
+  distribution, attachment-profile, no-record/search context, source-image basis,
+  and physical-routing discrepancy questions.
 - Record communications-registry version, unmatched message identifiers,
   missing D/N/P/STARS/PROFS/W Files/System IV data, unsupported
   origin/addressee/date-time group claims, drafting or clearance questions, and
@@ -6912,6 +7197,10 @@ Needs revision:
 - Public diplomacy, speech, press, interview, broadcast, testimony, transcript,
   full-text, excerpt, diary, briefing-file, or archival-draft context is changed
   without supplied public-source basis.
+- Physical evidence such as handwriting, initials, marginalia, stamps,
+  read-by/seen notations, signed status, approval checkmarks, sent-for-action or
+  information routing, correspondence profiles, placement, distribution, or
+  unknown-hand notes is changed without supplied physical-evidence basis.
 - Foreign-government, international-organization, regional-body, alliance,
   coalition, peacekeeping, conference, treaty-party, successor-state,
   foreign-copy, concurrence, publication-detail, or selected-source role is
@@ -6979,6 +7268,8 @@ family router:
 - `https://history.state.gov/historicaldocuments/status-of-the-series`
 - `https://history.state.gov/historicaldocuments/reagan`
 - `https://history.state.gov/historicaldocuments/bush-ghw`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/d1`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/d24`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d3`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/ch1`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/ch3`
@@ -7010,14 +7301,18 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v41/d355`
 - `https://history.state.gov/historicaldocuments/frus1981-88v41/d358`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d37`
+- `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d50`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d90`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d145`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d33`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d39`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d75`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d129`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d169`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d274`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d286`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d206`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d316`
 - `https://history.state.gov/historicaldocuments/frus1981-88v38/preface`
 - `https://history.state.gov/historicaldocuments/frus1981-88v38/d177`
 - `https://history.state.gov/historicaldocuments/frus1981-88v38/d267`
@@ -7051,10 +7346,13 @@ Recent Reagan source incorporated:
 - [Volume I source list with speechwriting files, speeches, and published sources](https://history.state.gov/historicaldocuments/frus1981-88v01/sources)
 - [Reagan Cronkite interview editorial note, Document 33](https://history.state.gov/historicaldocuments/frus1981-88v01/d33)
 - [Haig Senate Foreign Relations Committee testimony, Document 39](https://history.state.gov/historicaldocuments/frus1981-88v01/d39)
+- [Haig private-paper source note with read-by stamp, marginalia, highlighting, underlining, and checkmark, Document 75](https://history.state.gov/historicaldocuments/frus1981-88v01/d75)
+- [NSC source note with stamped read-by notation and attached correspondence profile, Document 129](https://history.state.gov/historicaldocuments/frus1981-88v01/d129)
 - [Reagan United Nations General Assembly address, Document 169](https://history.state.gov/historicaldocuments/frus1981-88v01/d169)
 - [Reagan United Nations address editorial note, Document 206](https://history.state.gov/historicaldocuments/frus1981-88v01/d206)
 - [Contra aid congressional/public-law annotation, Document 274](https://history.state.gov/historicaldocuments/frus1981-88v01/d274)
 - [Iran arms/Contra aid Executive Order and oversight annotation, Document 286](https://history.state.gov/historicaldocuments/frus1981-88v01/d286)
+- [Shultz Papers source note with unknown-hand meeting-folder notation and no-minutes context, Document 316](https://history.state.gov/historicaldocuments/frus1981-88v01/d316)
 - [FRUS, 1981-1988, Volume IV, Soviet Union, January 1983-March 1985](https://history.state.gov/historicaldocuments/frus1981-88v04)
 - [FRUS, 1981-1988, Volume X, Eastern Europe](https://history.state.gov/historicaldocuments/frus1981-88v10)
 - [FRUS, 1981-1988, Volume XI, START I](https://history.state.gov/historicaldocuments/frus1981-88v11)
@@ -7083,6 +7381,7 @@ Recent Reagan source incorporated:
 - [Presidential Determination and Public Law note in Volume XXXVIII, Document 371](https://history.state.gov/historicaldocuments/frus1981-88v38/d371)
 - [FRUS, 1981-1988, Volume XLIV, Part 1, National Security Policy, 1985-1988](https://history.state.gov/historicaldocuments/frus1981-88v44p1)
 - [Volume XLIV, Part 1 about-the-series source and declassification statement](https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries)
+- [Action memorandum with Reagan initials, signed stamp, approval checkmark, and tabs printed as next document, Document 50](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d50)
 - [Covert-action memorandum of notification, Document 46](https://history.state.gov/historicaldocuments/frus1981-88v10/d46)
 - [CIA paper on Soviet/East European program, Document 56](https://history.state.gov/historicaldocuments/frus1981-88v10/d56)
 - [Andean narcotics and terrorism policy initiative, Document 294](https://history.state.gov/historicaldocuments/frus1981-88v01/d294)
@@ -7097,6 +7396,8 @@ Recent Reagan source incorporated:
 Recent Bush source incorporated:
 
 - [FRUS, 1989-1992, Volume XXXI, START I, 1989-1991](https://history.state.gov/historicaldocuments/frus1989-92v31)
+- [Bush Vice Presidential Records source note with Watson initialing and Bush marginalia, Document 1](https://history.state.gov/historicaldocuments/frus1989-92v31/d1)
+- [NSC/DC H-Files source note with sent-for-action and read-by/routing evidence, Document 24](https://history.state.gov/historicaldocuments/frus1989-92v31/d24)
 - [START endgame telegram with London Economic Summit news-conference note, Document 237](https://history.state.gov/historicaldocuments/frus1989-92v31/d237)
 - [Moscow Summit and START signing editorial note, Document 245](https://history.state.gov/historicaldocuments/frus1989-92v31/d245)
 - [START I treaty text source note, Document 246](https://history.state.gov/historicaldocuments/frus1989-92v31/d246)
