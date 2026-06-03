@@ -8835,6 +8835,7 @@ Suggested tally format:
 | style-discrepancy-0024 | document_status_lifecycle | How much document-status and lifecycle evidence should appear in source notes or annotations when draft/final, copy, signature, routing, transmission, approval, or clearance facts are sound. | Full lifecycle note with draft/final, original/copy, signed/unsigned, sent/approved/drafted/cleared/distributed details; shorter status note with lifecycle details retained in audit/context | 2 | medium | Should the checker enforce a house form for document-status/lifecycle notes, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0025 | decision_process_directive | How much NSC/interagency decision-process and directive apparatus should appear in source notes or annotations when decision-stage facts are sound. | Full decision-process note with body, directive number, option, Summary of Conclusions, tab, recommendation, agency position, and decision stage; shorter note with process detail retained in audit/context | 2 | high | Should the checker enforce a house form for NSC/interagency decision-process notes, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0026 | communications_record | How much telegram, cable, electronic-message, and communications-system metadata should appear in source notes or annotations when the message facts are sound. | Full message apparatus with CFPF D/N/P or Electronic Telegrams, STARS/PROFS/W Files/System IV label, message number, special designator, DTG, precedence, `no N number`, drafting, clearance, approval, and distribution; shorter source note with metadata retained in audit/context | 2 | medium | Should the checker enforce a house form for communications-record metadata, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0027 | publication_status | How should status-stage and cross-volume publication language be worded when a related Reagan/Bush volume is being cleared, researched, planned, anticipated, or newly published. | Conservative `scheduled for publication` or `planned for publication` language with comment-only update; direct `printed in` update only when current official status plus stable document/chapter target are supplied | 2 | high | Should the checker ever direct-edit status-stage language from the status registry alone, or should it always tally these cases for General Editor decision unless a document target is supplied? |
 
 Risk levels:
 
@@ -9165,6 +9166,123 @@ Current snapshot summary for 1981-1992 work:
 - In-preparation watchlist: the Reagan and Bush cleared, researched, and planned
   volume lists in section 6.13 are the working router. Refresh them from the
   official status page before any production batch.
+
+Recommended compact 1981-1992 status registry:
+
+```json
+{
+  "status_registry_id": "frus-1981-1992-status-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
+  "scope": "1981-1992 Reagan and George H.W. Bush volumes on the official status page",
+  "published_2025_pattern_evidence": [
+    "1981-1988, Volume XLIV, Part 1, National Security Policy, 1985-1988",
+    "1989-1992, Volume XXXI, START I, 1989-1991"
+  ],
+  "anticipated_2026_overlay": [
+    {
+      "title": "1981-1988, Volume XVI, South America",
+      "listed_detail": "Venezuela"
+    },
+    {
+      "title": "1981-1988, Volume XXVIII, China, 1981-1983",
+      "listed_detail": ""
+    }
+  ],
+  "being_cleared": {
+    "reagan": [
+      "1981-1988, Volume II, Organization and Management of Foreign Policy",
+      "1981-1988, Volume VII, Western Europe, 1981-1984",
+      "1981-1988, Volume IX, Poland, 1982-1988",
+      "1981-1988, Volume XII, INF, 1984-1988",
+      "1981-1988, Volume XIV, Central America, 1981-1984",
+      "1981-1988, Volume XV, Central America, 1985-1988",
+      "1981-1988, Volume XVI, South America",
+      "1981-1988, Volume XVII, Part 1, Mexico; Western Caribbean",
+      "1981-1988, Volume XVII, Part 2, Eastern Caribbean",
+      "1981-1988, Volume XVIII, Part 1, Lebanon, April 1981-August 1982",
+      "1981-1988, Volume XVIII, Part 2, Lebanon, September 1982-March 1984",
+      "1981-1988, Volume XIX, Arab-Israeli Dispute",
+      "1981-1988, Volume XX, Iran; Iraq, April 1980-January 1985",
+      "1981-1988, Volume XXI, Iran; Iraq, 1985-1988",
+      "1981-1988, Volume XXII, Middle East Region; Arabian Peninsula",
+      "1981-1988, Volume XXV, Southern Africa, 1981-1984",
+      "1981-1988, Volume XXVI, Southern Africa, 1985-1988",
+      "1981-1988, Volume XXVII, Sub-Saharan Africa",
+      "1981-1988, Volume XXVIII, China, 1981-1983",
+      "1981-1988, Volume XXIX, China, 1984-1988",
+      "1981-1988, Volume XXX, Japan; Korea, 1981-1984",
+      "1981-1988, Volume XXXI, Japan; Korea, 1985-1988",
+      "1981-1988, Volume XXXII, Southeast Asia; Pacific",
+      "1981-1988, Volume XXXIII, South Asia",
+      "1981-1988, Volume XXXIV, Afghanistan, February 1981-October 1985",
+      "1981-1988, Volume XXXV, Afghanistan, November 1985-February 1989",
+      "1981-1988, Volume XXXVI, Trade; Monetary Policy; Industrialized Country Cooperation, 1981-1984",
+      "1981-1988, Volume XXXIX, Public Diplomacy",
+      "1981-1988, Volume XL, Global Issues I",
+      "1981-1988, Volume XLIII, National Security Policy, 1981-1984",
+      "1981-1988, Volume XLIV, Part 2, National Security Policy, 1985-1988",
+      "1981-1988, Volume XLVI, War on Drugs",
+      "1981-1988, Volume XLVII, Part 1, Terrorism, January 1977-May 1985",
+      "1981-1988, Volume XLVII, Part 2, Terrorism, June 1985-January 1989",
+      "1981-1988, Volume XLVIII, Libya; Chad"
+    ],
+    "bush": [
+      "1989-1992, Volume III, Soviet Union, Russia, and Post-Soviet States: High-Level Contacts",
+      "1989-1992, Volume VII, Yugoslavia",
+      "1989-1992, Volume X, European Security, 1984-1992",
+      "1989-1992, Volume XI, Persian Gulf Crisis, 1989-1990",
+      "1989-1992, Volume XII, Persian Gulf Crisis, 1990-1991",
+      "1989-1992, Volume XIII, Persian Gulf Crisis, 1991-1992",
+      "1989-1992, Volume XVII, China",
+      "1989-1992, Volume XIX, Southern Africa",
+      "1989-1992, Volume XXI, Somalia, 1989-1994",
+      "1989-1992, Volume XXVI, National Security Policy",
+      "1989-1992, Volume XXXIII, Canada and Mexico"
+    ]
+  },
+  "being_researched": {
+    "reagan": [
+      "1981-1988, Volume VIII, Western Europe, 1985-1988",
+      "1981-1988, Volume XXIII, Iran-Contra Affair, 1985-1988",
+      "1981-1988, Volume XXXVII, Trade; Monetary Policy; Industrialized Country Cooperation, 1985-1988",
+      "1981-1988, Volume XLII, Refugees and Immigration, 1975-1984",
+      "1981-1988, Volume XLV, Eastern Mediterranean"
+    ],
+    "bush": [
+      "1989-1992, Volume I, Foundations of Foreign Policy; Public Diplomacy",
+      "1989-1992, Volume II, Organization and Management of Foreign Policy",
+      "1989-1992, Volume IV, Soviet Union, Russia, and Post-Soviet States: Policy",
+      "1989-1992, Volume V, Eastern Europe",
+      "1989-1992, Volume VI, Eastern Mediterranean",
+      "1989-1992, Volume VIII, Western Europe",
+      "1989-1992, Volume IX, Germany",
+      "1989-1992, Volume XIV, Arab-Israeli Dispute",
+      "1989-1992, Volume XV, South Asia",
+      "1989-1992, Volume XVI, Southeast Asia and the Pacific",
+      "1989-1992, Volume XVIII, Japan; Korea",
+      "1989-1992, Volume XX, North Africa; Sub-Saharan Africa",
+      "1989-1992, Volume XXII, Cuba; Haiti; Caribbean",
+      "1989-1992, Volume XXIII, Central America",
+      "1989-1992, Volume XXIV, Panama, 1981-1992",
+      "1989-1992, Volume XXV, South America",
+      "1989-1992, Volume XXVII, Arms Control and Nonproliferation",
+      "1989-1992, Volume XXX, Foreign Economic Policy",
+      "1989-1992, Volume XXXII, Iran"
+    ]
+  },
+  "planned": {
+    "bush": [
+      "1989-1992, Volume XXVIII, Counternarcotics; Counterterrorism",
+      "1989-1992, Volume XXIX, Global Issues"
+    ]
+  }
+}
+```
+
+Use this compact registry as a routing and risk-control aid. It should not be
+quoted inside source notes, and it must be replaced by a fresh capture if the
+official page changes.
 
 Status-registry preflight checks:
 
