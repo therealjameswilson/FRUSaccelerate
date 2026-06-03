@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -28,6 +28,7 @@ function parseArgs(argv) {
   let printedAttachmentRegistryPath = null;
   let visualMaterialRegistryPath = null;
   let documentHandlingRegistryPath = null;
+  let chronologyRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
   let communicationsRegistryPath = null;
@@ -85,6 +86,9 @@ function parseArgs(argv) {
     } else if (arg === "--document-handling-registry") {
       documentHandlingRegistryPath = argv[index + 1];
       index += 1;
+    } else if (arg === "--chronology-registry") {
+      chronologyRegistryPath = argv[index + 1];
+      index += 1;
     } else if (arg === "--negative-search-registry") {
       negativeSearchRegistryPath = argv[index + 1];
       index += 1;
@@ -137,6 +141,7 @@ function parseArgs(argv) {
     printedAttachmentRegistryPath,
     visualMaterialRegistryPath,
     documentHandlingRegistryPath,
+    chronologyRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
     communicationsRegistryPath,
@@ -676,6 +681,41 @@ function compactCommunicationsRegistry(registry, targetVolume) {
   };
 }
 
+function compactChronologyRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    chronology_registry_id: registry.chronology_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      chronology_id: record.chronology_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      chronology_type: record.chronology_type,
+      approved_phrase: record.approved_phrase,
+      event_date: record.event_date,
+      start_time: record.start_time,
+      end_time: record.end_time,
+      time_basis: record.time_basis,
+      place: record.place,
+      participants_or_actors: record.participants_or_actors,
+      relationship_to_document: record.relationship_to_document,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactAnnotationSheetProfile(profile) {
   if (!profile) return null;
   return {
@@ -741,6 +781,9 @@ function buildPacket(options) {
   const communicationsRegistry = options.communicationsRegistryPath
     ? readJson(options.communicationsRegistryPath, options.communicationsRegistryPath)
     : null;
+  const chronologyRegistry = options.chronologyRegistryPath
+    ? readJson(options.chronologyRegistryPath, options.chronologyRegistryPath)
+    : null;
   const preparationRouter = options.preparationRouterPath
     ? readJson(options.preparationRouterPath, options.preparationRouterPath)
     : null;
@@ -769,6 +812,7 @@ function buildPacket(options) {
       printed_attachment_registry: options.printedAttachmentRegistryPath ? normalizePathForOutput(options.printedAttachmentRegistryPath) : "",
       visual_material_registry: options.visualMaterialRegistryPath ? normalizePathForOutput(options.visualMaterialRegistryPath) : "",
       document_handling_registry: options.documentHandlingRegistryPath ? normalizePathForOutput(options.documentHandlingRegistryPath) : "",
+      chronology_registry: options.chronologyRegistryPath ? normalizePathForOutput(options.chronologyRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
       communications_registry: options.communicationsRegistryPath ? normalizePathForOutput(options.communicationsRegistryPath) : "",
@@ -807,6 +851,7 @@ function buildPacket(options) {
       printed_attachment_registry_records: printedAttachmentRegistry?.records?.length || 0,
       visual_material_registry_records: visualMaterialRegistry?.records?.length || 0,
       document_handling_registry_records: documentHandlingRegistry?.records?.length || 0,
+      chronology_registry_records: chronologyRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
       document_relationship_registry_records: documentRelationshipRegistry?.records?.length || 0,
       communications_registry_records: communicationsRegistry?.records?.length || 0,
@@ -830,6 +875,7 @@ function buildPacket(options) {
       printed_attachment_registry: compactPrintedAttachmentRegistry(printedAttachmentRegistry, options.targetVolume),
       visual_material_registry: compactVisualMaterialRegistry(visualMaterialRegistry, options.targetVolume),
       document_handling_registry: compactDocumentHandlingRegistry(documentHandlingRegistry, options.targetVolume),
+      chronology_registry: compactChronologyRegistry(chronologyRegistry, options.targetVolume),
       negative_search_registry: compactNegativeSearchRegistry(negativeSearchRegistry, options.targetVolume),
       document_relationship_registry: compactDocumentRelationshipRegistry(documentRelationshipRegistry, options.targetVolume),
       communications_registry: compactCommunicationsRegistry(communicationsRegistry, options.targetVolume),
@@ -955,6 +1001,12 @@ function renderMarkdown(packet) {
     "Use this to check initials, handwritten marginalia, underlining, checkmarks, stamped notations, saw notations, sent-for-action/sent-for-information routing, copy status, bracket/original-status phrases, and approval/disapproval language. Do not change document-face handling, mark locations, actors, routing status, or copy status unless the registry proves the direct edit.",
     "",
     fencedJson(packet.contexts.document_handling_registry || {}),
+    "",
+    "## Chronology And Time Registry Context",
+    "",
+    "Use this to check President's Daily Diary, meeting-time, call-time, no-precise-time, actual-versus-planned, diary/schedule, place, attendance, and event-sequence language. Do not change times, dates, places, attendance, sequence, or no-minutes/no-precise-time caveats unless the target-volume chronology registry proves the direct edit.",
+    "",
+    fencedJson(packet.contexts.chronology_registry || {}),
     "",
     "## Negative Search And No-Record Registry Context",
     "",

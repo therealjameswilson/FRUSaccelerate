@@ -2,7 +2,7 @@
 
 - schema_version: frus-llm-review-packet-v1
 - run_id: sample-packet
-- generated_at: 2026-06-03T20:08:36.169Z
+- generated_at: 2026-06-03T20:49:49.368Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -164,6 +164,7 @@ Every reviewable extracted editorial unit should have a checker entry. Use `reco
   "printed_attachment_registry_records": 6,
   "visual_material_registry_records": 5,
   "document_handling_registry_records": 7,
+  "chronology_registry_records": 6,
   "negative_search_registry_records": 6,
   "document_relationship_registry_records": 10,
   "communications_registry_records": 8,
@@ -196,9 +197,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -232,6 +233,9 @@ For visual-material validation and direct-edit safety, run
 For document-handling/marginalia validation and direct-edit safety, run
 `node scripts/validate-frus-document-handling-registry.mjs --registry reports/frus-document-handling-registry.sample.json --format text` and
 `node scripts/audit-frus-document-handling-usage.mjs --units extracted-units.json --registry reports/frus-document-handling-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For chronology/time validation and direct-edit safety, run
+`node scripts/validate-frus-chronology-registry.mjs --registry reports/frus-chronology-registry.sample.json --format text` and
+`node scripts/audit-frus-chronology-usage.mjs --units extracted-units.json --registry reports/frus-chronology-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For negative-search/no-record validation and direct-edit safety, run
 `node scripts/validate-frus-negative-search-registry.mjs --registry reports/frus-negative-search-registry.sample.json --format text` and
 `node scripts/audit-frus-negative-search-usage.mjs --units extracted-units.json --registry reports/frus-negative-search-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -254,7 +258,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -322,6 +326,12 @@ status, bracket/original-status phrases, approval/disapproval, unknown-hand
 marks, and signed status; validate it with
 `scripts/validate-frus-document-handling-registry.mjs` before direct
 document-handling edits.
+For real Reagan/Bush 1981-1992 chronology review, replace the sample chronology
+registry with target-volume records for President's Daily Diary entries,
+meeting and call times, place and attendance, actual-versus-planned meeting
+times, schedule/diary absences, no-precise-time caveats, and event-sequence
+facts; validate it with `scripts/validate-frus-chronology-registry.mjs` before
+direct chronology edits.
 For real Reagan/Bush 1981-1992 negative-search/no-record review, replace the
 sample negative-search registry with target-volume records for no-minutes,
 not-found, not-attached, not-found-attached, no-memcon, no-telcon, unlocated
@@ -365,6 +375,8 @@ For sample visual-material checks, run
 `node scripts/audit-frus-visual-material-usage.mjs --units reports/frus-visual-material-units.sample.json --registry reports/frus-visual-material-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample document-handling/marginalia checks, run
 `node scripts/audit-frus-document-handling-usage.mjs --units reports/frus-document-handling-units.sample.json --registry reports/frus-document-handling-registry.sample.json --target-volume frus1989-92v31 --format text`.
+For sample chronology/time checks, run
+`node scripts/audit-frus-chronology-usage.mjs --units reports/frus-chronology-units.sample.json --registry reports/frus-chronology-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample negative-search/no-record checks, run
 `node scripts/audit-frus-negative-search-usage.mjs --units reports/frus-negative-search-units.sample.json --registry reports/frus-negative-search-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample document-relationship checks, run
@@ -4815,6 +4827,216 @@ Use this to check initials, handwritten marginalia, underlining, checkmarks, sta
 }
 ```
 
+## Chronology And Time Registry Context
+
+Use this to check President's Daily Diary, meeting-time, call-time, no-precise-time, actual-versus-planned, diary/schedule, place, attendance, and event-sequence language. Do not change times, dates, places, attendance, sequence, or no-minutes/no-precise-time caveats unless the target-volume chronology registry proves the direct edit.
+
+```json
+{
+  "schema_version": "frus-chronology-registry-v1",
+  "chronology_registry_id": "frus-1981-1992-chronology-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d14",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d32",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d21",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d27"
+  ],
+  "scope": "Published FRUS chronology, President's Daily Diary, meeting-time, no-precise-time, and event-time patterns for Reagan and George H.W. Bush annotation sheets.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "chronology_id": "chron-v31-d14-daily-diary-meeting",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d14",
+      "document_number": "14",
+      "unit_scope": "follow-on footnote",
+      "chronology_type": "daily_diary_meeting_time",
+      "approved_phrase": "According to the President's Daily Diary, Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4. No minutes were found.",
+      "event_date": "1989-05-04",
+      "start_time": "2:23 p.m.",
+      "end_time": "2:55 p.m.",
+      "time_basis": "President's Daily Diary",
+      "place": "Oval Office",
+      "participants_or_actors": "Bush; Baker; Cheney; Webster; Crowe; Gates; Sununu",
+      "relationship_to_document": "background_meeting_for_document",
+      "source_or_context": "Follow-on note ties the May 4 White House meeting to Baker's Moscow Ministerial talking points and explicitly records that no minutes were found.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d14",
+      "verification_status": "verified_published_chronology_record",
+      "variant_forms": [
+        "Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4",
+        "Oval Office from 2:23 to 2:55 p.m. on May 4"
+      ]
+    },
+    {
+      "chronology_id": "chron-v31-d23-nsc-daily-diary",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d23",
+      "document_number": "23",
+      "unit_scope": "source note",
+      "chronology_type": "daily_diary_meeting_time",
+      "approved_phrase": "According to the President's Daily Diary, on May 25 Bush presided over a meeting of the National Security Council in the Cabinet Room lasting from 9:39-11:04 a.m. No minutes were found.",
+      "event_date": "1989-05-25",
+      "start_time": "9:39 a.m.",
+      "end_time": "11:04 a.m.",
+      "time_basis": "President's Daily Diary",
+      "place": "Cabinet Room",
+      "participants_or_actors": "Bush; National Security Council",
+      "relationship_to_document": "source_note_meeting_context",
+      "source_or_context": "Source note establishes the NSC meeting time and location from the President's Daily Diary and preserves the no-minutes result.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "verification_status": "verified_published_chronology_record",
+      "variant_forms": [
+        "Bush presided over a meeting of the National Security Council in the Cabinet Room lasting from 9:39-11:04 a.m.",
+        "Cabinet Room lasting from 9:39-11:04 a.m."
+      ]
+    }
+  ],
+  "records": [
+    {
+      "chronology_id": "chron-v31-d14-daily-diary-meeting",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d14",
+      "document_number": "14",
+      "unit_scope": "follow-on footnote",
+      "chronology_type": "daily_diary_meeting_time",
+      "approved_phrase": "According to the President's Daily Diary, Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4. No minutes were found.",
+      "event_date": "1989-05-04",
+      "start_time": "2:23 p.m.",
+      "end_time": "2:55 p.m.",
+      "time_basis": "President's Daily Diary",
+      "place": "Oval Office",
+      "participants_or_actors": "Bush; Baker; Cheney; Webster; Crowe; Gates; Sununu",
+      "relationship_to_document": "background_meeting_for_document",
+      "source_or_context": "Follow-on note ties the May 4 White House meeting to Baker's Moscow Ministerial talking points and explicitly records that no minutes were found.",
+      "variant_forms": [
+        "Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4",
+        "Oval Office from 2:23 to 2:55 p.m. on May 4"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d14",
+      "verification_status": "verified_published_chronology_record"
+    },
+    {
+      "chronology_id": "chron-v31-d23-nsc-daily-diary",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d23",
+      "document_number": "23",
+      "unit_scope": "source note",
+      "chronology_type": "daily_diary_meeting_time",
+      "approved_phrase": "According to the President's Daily Diary, on May 25 Bush presided over a meeting of the National Security Council in the Cabinet Room lasting from 9:39-11:04 a.m. No minutes were found.",
+      "event_date": "1989-05-25",
+      "start_time": "9:39 a.m.",
+      "end_time": "11:04 a.m.",
+      "time_basis": "President's Daily Diary",
+      "place": "Cabinet Room",
+      "participants_or_actors": "Bush; National Security Council",
+      "relationship_to_document": "source_note_meeting_context",
+      "source_or_context": "Source note establishes the NSC meeting time and location from the President's Daily Diary and preserves the no-minutes result.",
+      "variant_forms": [
+        "Bush presided over a meeting of the National Security Council in the Cabinet Room lasting from 9:39-11:04 a.m.",
+        "Cabinet Room lasting from 9:39-11:04 a.m."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "verification_status": "verified_published_chronology_record"
+    },
+    {
+      "chronology_id": "chron-v44p1-d1-reagan-shultz-meeting",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d1",
+      "document_number": "1",
+      "unit_scope": "follow-on footnote",
+      "chronology_type": "daily_diary_meeting_time",
+      "approved_phrase": "Reagan met with Shultz and McFarlane in the Oval Office on November 14 from 1:30 until 2:45 p.m. to discuss the global agenda and foreign policy in the second term. (Reagan Library, President's Daily Diary) No minutes were found.",
+      "event_date": "1984-11-14",
+      "start_time": "1:30 p.m.",
+      "end_time": "2:45 p.m.",
+      "time_basis": "Reagan Library, President's Daily Diary",
+      "place": "Oval Office",
+      "participants_or_actors": "Reagan; Shultz; McFarlane",
+      "relationship_to_document": "meeting_context_and_no_minutes",
+      "source_or_context": "Reagan National Security Policy note preserves a Daily Diary meeting time and links it to a diary entry and no-minutes finding.",
+      "variant_forms": [
+        "Reagan met with Shultz and McFarlane in the Oval Office on November 14 from 1:30 until 2:45 p.m.",
+        "Oval Office on November 14 from 1:30 until 2:45 p.m."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1",
+      "verification_status": "verified_published_chronology_record"
+    },
+    {
+      "chronology_id": "chron-v44p1-d32-casey-reagan-meeting",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d32",
+      "document_number": "32",
+      "unit_scope": "source note",
+      "chronology_type": "daily_diary_meeting_time",
+      "approved_phrase": "According to the President's Daily Diary, Reagan met with Casey, Regan, and McFarlane in the Oval Office from 9:52-10:12 a.m. (Reagan Library, President's Daily Diary) No minutes were found.",
+      "event_date": "1985-04-26",
+      "start_time": "9:52 a.m.",
+      "end_time": "10:12 a.m.",
+      "time_basis": "Reagan Library, President's Daily Diary",
+      "place": "Oval Office",
+      "participants_or_actors": "Reagan; Casey; Regan; McFarlane",
+      "relationship_to_document": "source_note_meeting_context",
+      "source_or_context": "Reagan National Security Policy source note records a short Daily Diary meeting and the no-minutes result.",
+      "variant_forms": [
+        "Reagan met with Casey, Regan, and McFarlane in the Oval Office from 9:52-10:12 a.m.",
+        "Oval Office from 9:52-10:12 a.m."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d32",
+      "verification_status": "verified_published_chronology_record"
+    },
+    {
+      "chronology_id": "chron-v01-d21-no-precise-time",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d21",
+      "document_number": "21",
+      "unit_scope": "source note",
+      "chronology_type": "no_precise_time",
+      "approved_phrase": "The President's Daily Diary does not contain an entry for January 21; there is no indication as to when precisely the telephone calls took place. (Reagan Library, President's Daily Diary)",
+      "event_date": "1981-01-21",
+      "start_time": "",
+      "end_time": "",
+      "time_basis": "President's Daily Diary absence of entry",
+      "place": "",
+      "participants_or_actors": "Reagan; allied heads of government",
+      "relationship_to_document": "telephone_call_time_uncertain",
+      "source_or_context": "Published source note preserves the absence of a Daily Diary entry rather than inventing call times.",
+      "variant_forms": [
+        "there is no indication as to when precisely the telephone calls took place",
+        "Daily Diary does not contain an entry for January 21"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d21",
+      "verification_status": "verified_published_chronology_record"
+    },
+    {
+      "chronology_id": "chron-v01-d27-first-nsc-meeting",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d27",
+      "document_number": "27",
+      "unit_scope": "source note and follow-on footnote",
+      "chronology_type": "actual_vs_planned_meeting_time",
+      "approved_phrase": "The first NSC meeting of the Reagan administration took place in the Cabinet Room at the White House on February 6 from 1:30 until 2:40 p.m. (Reagan Library, President's Daily Diary)",
+      "event_date": "1981-02-06",
+      "start_time": "1:30 p.m.",
+      "end_time": "2:40 p.m.",
+      "time_basis": "Reagan Library, President's Daily Diary",
+      "place": "Cabinet Room at the White House",
+      "participants_or_actors": "Reagan; National Security Council",
+      "relationship_to_document": "actual_meeting_time_corrects_planned_subject_time",
+      "source_or_context": "Published source note gives actual Daily Diary meeting time after the document subject line gave planned meeting time.",
+      "variant_forms": [
+        "Cabinet Room at the White House on February 6 from 1:30 until 2:40 p.m.",
+        "February 6 from 1:30 until 2:40 p.m."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d27",
+      "verification_status": "verified_published_chronology_record"
+    }
+  ]
+}
+```
+
 ## Negative Search And No-Record Registry Context
 
 Use this to check `No minutes were found`, `Not found`, `Not attached`, `Not found attached`, no-memcon/no-telcon, missing-attachment, and RAC attachment-ambiguity language. Do not collapse one no-record relationship into another unless the registry proves the direct edit.
@@ -7469,6 +7691,7 @@ Use this to check telegram/cable/message identifiers, SECTO/TOSEC/special design
       "direct_edit_policy": "comment_unless_context",
       "required_context": [
         "time_zone_context",
+        "chronology_registry_context",
         "communications_registry_context"
       ],
       "primary_evidence_requests": [
@@ -7491,6 +7714,7 @@ Use this to check telegram/cable/message identifiers, SECTO/TOSEC/special design
       "direct_edit_policy": "comment_unless_context",
       "required_context": [
         "event_chronology_context",
+        "chronology_registry_context",
         "public_diplomacy_context"
       ],
       "primary_evidence_requests": [

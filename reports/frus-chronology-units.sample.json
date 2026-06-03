@@ -1,0 +1,86 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample chronology and time-basis FRUS annotation units",
+  "units": [
+    {
+      "unit_id": "chronology-0001",
+      "unit_type": "follow_on_footnote",
+      "location": "START I Document 14 Daily Diary note",
+      "exact_text": "According to the President's Daily Diary, Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4. No minutes were found.",
+      "display_text": "According to the President's Daily Diary, Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4. No minutes were found.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "chronology-0002",
+      "unit_type": "source_note",
+      "location": "START I Document 23 NSC meeting time",
+      "exact_text": "According to the President's Daily Diary, on May 25 Bush presided over a meeting of the National Security Council in the Cabinet Room lasting from 9:39-11:04 a.m. No minutes were found.",
+      "display_text": "According to the President's Daily Diary, on May 25 Bush presided over a meeting of the National Security Council in the Cabinet Room lasting from 9:39-11:04 a.m. No minutes were found.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "chronology-0003",
+      "unit_type": "follow_on_footnote",
+      "location": "START I Document 14 variant missing Daily Diary lead",
+      "exact_text": "Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4.",
+      "display_text": "Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "chronology-0004",
+      "unit_type": "follow_on_footnote",
+      "location": "Reagan National Security Policy meeting time",
+      "exact_text": "Reagan met with Shultz and McFarlane in the Oval Office on November 14 from 1:30 until 2:45 p.m. to discuss the global agenda and foreign policy in the second term. (Reagan Library, President's Daily Diary) No minutes were found.",
+      "display_text": "Reagan met with Shultz and McFarlane in the Oval Office on November 14 from 1:30 until 2:45 p.m. to discuss the global agenda and foreign policy in the second term. (Reagan Library, President's Daily Diary) No minutes were found.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "chronology-0005",
+      "unit_type": "source_note",
+      "location": "Reagan Casey Daily Diary meeting",
+      "exact_text": "According to the President's Daily Diary, Reagan met with Casey, Regan, and McFarlane in the Oval Office from 9:52-10:12 a.m. (Reagan Library, President's Daily Diary) No minutes were found.",
+      "display_text": "According to the President's Daily Diary, Reagan met with Casey, Regan, and McFarlane in the Oval Office from 9:52-10:12 a.m. (Reagan Library, President's Daily Diary) No minutes were found.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "chronology-0006",
+      "unit_type": "source_note",
+      "location": "Reagan phone-call no precise time note",
+      "exact_text": "The President's Daily Diary does not contain an entry for January 21; there is no indication as to when precisely the telephone calls took place. (Reagan Library, President's Daily Diary)",
+      "display_text": "The President's Daily Diary does not contain an entry for January 21; there is no indication as to when precisely the telephone calls took place. (Reagan Library, President's Daily Diary)",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "chronology-0007",
+      "unit_type": "source_note",
+      "location": "Reagan first NSC meeting actual time",
+      "exact_text": "The first NSC meeting of the Reagan administration took place in the Cabinet Room at the White House on February 6 from 1:30 until 2:40 p.m. (Reagan Library, President's Daily Diary)",
+      "display_text": "The first NSC meeting of the Reagan administration took place in the Cabinet Room at the White House on February 6 from 1:30 until 2:40 p.m. (Reagan Library, President's Daily Diary)",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "chronology-0008",
+      "unit_type": "follow_on_footnote",
+      "location": "Unsupported Daily Diary time claim",
+      "exact_text": "According to the President's Daily Diary, the meeting lasted from 3:00 to 3:30 p.m. in the Oval Office.",
+      "display_text": "According to the President's Daily Diary, the meeting lasted from 3:00 to 3:30 p.m. in the Oval Office.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    }
+  ]
+}

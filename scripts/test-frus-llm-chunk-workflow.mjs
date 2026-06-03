@@ -96,6 +96,8 @@ try {
     "reports/frus-visual-material-registry.sample.json",
     "--document-handling-registry",
     "reports/frus-document-handling-registry.sample.json",
+    "--chronology-registry",
+    "reports/frus-chronology-registry.sample.json",
     "--negative-search-registry",
     "reports/frus-negative-search-registry.sample.json",
     "--document-relationship-registry",
@@ -135,6 +137,7 @@ try {
   assert(manifest.summary.printed_attachment_registry_records === 6, "expected printed attachment registry record count");
   assert(manifest.summary.visual_material_registry_records === 5, "expected visual material registry record count");
   assert(manifest.summary.document_handling_registry_records === 7, "expected document handling registry record count");
+  assert(manifest.summary.chronology_registry_records === 6, "expected chronology registry record count");
   assert(manifest.summary.negative_search_registry_records === 6, "expected negative-search registry record count");
   assert(manifest.summary.document_relationship_registry_records === 10, "expected document-relationship registry record count");
   assert(manifest.summary.communications_registry_records === 8, "expected communications registry record count");
@@ -147,6 +150,7 @@ try {
   assert(manifest.source_files.printed_attachment_registry === "reports/frus-printed-attachment-registry.sample.json", "expected printed attachment registry source path");
   assert(manifest.source_files.visual_material_registry === "reports/frus-visual-material-registry.sample.json", "expected visual material registry source path");
   assert(manifest.source_files.document_handling_registry === "reports/frus-document-handling-registry.sample.json", "expected document handling registry source path");
+  assert(manifest.source_files.chronology_registry === "reports/frus-chronology-registry.sample.json", "expected chronology registry source path");
   assert(manifest.source_files.negative_search_registry === "reports/frus-negative-search-registry.sample.json", "expected negative-search registry source path");
   assert(manifest.source_files.document_relationship_registry === "reports/frus-document-relationship-registry.sample.json", "expected document-relationship registry source path");
   assert(manifest.source_files.communications_registry === "reports/frus-communications-registry.sample.json", "expected communications registry source path");
@@ -174,6 +178,8 @@ try {
   assert(firstPacket.includes("Top Soviet Pop Group"), "expected photograph caption/title content in chunk packet");
   assert(firstPacket.includes("Document Handling And Marginalia Registry Context"), "expected document handling registry context in chunk packet");
   assert(firstPacket.includes("Watson initialed the memorandum on Gregg"), "expected document handling registry content in chunk packet");
+  assert(firstPacket.includes("Chronology And Time Registry Context"), "expected chronology registry context in chunk packet");
+  assert(firstPacket.includes("According to the President's Daily Diary, Bush met with Baker"), "expected chronology registry content in chunk packet");
   assert(firstPacket.includes("Negative Search And No-Record Registry Context"), "expected negative-search registry context in chunk packet");
   assert(firstPacket.includes("Not found attached"), "expected negative-search registry content in chunk packet");
   assert(firstPacket.includes("Document Relationship Registry Context"), "expected document-relationship registry context in chunk packet");
@@ -244,7 +250,7 @@ try {
   assert(badMerge.status !== 0, "expected out-of-chunk unit reference to fail");
   assert(badMerge.stdout.includes("outside chunk-0002"), "expected chunk-boundary failure detail");
 
-  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
+  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, chronology, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

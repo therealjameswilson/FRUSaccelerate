@@ -100,6 +100,13 @@ For document-handling/marginalia validation, use
 `reports/frus-document-handling-units.sample.json`; the self-contained smoke
 test is `scripts/test-frus-document-handling-audit.mjs`, and the sample audit
 report is `reports/frus-document-handling-audit.sample.json`.
+For chronology/time validation, use
+`scripts/validate-frus-chronology-registry.mjs` and
+`scripts/audit-frus-chronology-usage.mjs` with
+`reports/frus-chronology-registry.sample.json` and
+`reports/frus-chronology-units.sample.json`; the self-contained smoke test is
+`scripts/test-frus-chronology-audit.mjs`, and the sample audit report is
+`reports/frus-chronology-audit.sample.json`.
 For negative-search/no-record validation, use
 `scripts/validate-frus-negative-search-registry.mjs` and
 `scripts/audit-frus-negative-search-usage.mjs` with
@@ -12168,6 +12175,17 @@ Minimum components:
   routing, copy status, bracket/original-status phrases, approval/disapproval,
   unknown-hand marks, and signed status to supplied document-handling records
   and fails direct document-handling edits that lack supplied registry support.
+- No-dependency chronology/time registry validator, usage audit, and fixtures:
+  `scripts/validate-frus-chronology-registry.mjs`,
+  `scripts/audit-frus-chronology-usage.mjs`,
+  `reports/frus-chronology-registry.sample.json`,
+  `reports/frus-chronology-units.sample.json`, and
+  `reports/frus-chronology-audit.sample.json`. The audit reconciles President's
+  Daily Diary entries, meeting and call times, place and attendance,
+  actual-versus-planned meeting times, schedule/diary absences,
+  no-precise-time caveats, and event-sequence facts to supplied chronology
+  records and fails direct chronology edits that lack target-volume registry
+  support.
 - No-dependency negative-search/no-record registry validator, usage audit, and
   fixtures: `scripts/validate-frus-negative-search-registry.mjs`,
   `scripts/audit-frus-negative-search-usage.mjs`,

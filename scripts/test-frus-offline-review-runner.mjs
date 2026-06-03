@@ -213,6 +213,8 @@ try {
       "reports/frus-visual-material-registry.sample.json",
       "--document-handling-registry",
       "reports/frus-document-handling-registry.sample.json",
+      "--chronology-registry",
+      "reports/frus-chronology-registry.sample.json",
       "--negative-search-registry",
       "reports/frus-negative-search-registry.sample.json",
       "--document-relationship-registry",
@@ -278,6 +280,9 @@ try {
   assert(audit.counts.document_handling_registry_usages === 0, "expected zero document handling registry usages");
   assert(audit.counts.document_handling_registry_warnings === 0, "expected zero document handling registry warnings");
   assert(audit.counts.document_handling_direct_edit_conflicts === 0, "expected zero document handling direct-edit conflicts");
+  assert(audit.counts.chronology_registry_usages === 0, "expected zero chronology registry usages");
+  assert(audit.counts.chronology_registry_warnings === 0, "expected zero chronology registry warnings");
+  assert(audit.counts.chronology_direct_edit_conflicts === 0, "expected zero chronology direct-edit conflicts");
   assert(audit.counts.negative_search_registry_usages === 0, "expected zero negative-search registry usages");
   assert(audit.counts.negative_search_registry_warnings === 0, "expected zero negative-search registry warnings");
   assert(audit.counts.negative_search_direct_edit_conflicts === 0, "expected zero negative-search direct-edit conflicts");
@@ -319,6 +324,8 @@ try {
     "visual-material-usage-audit.json",
     "document-handling-registry-validation.json",
     "document-handling-usage-audit.json",
+    "chronology-registry-validation.json",
+    "chronology-usage-audit.json",
     "negative-search-registry-validation.json",
     "negative-search-usage-audit.json",
     "document-relationship-registry-validation.json",
@@ -356,6 +363,8 @@ try {
   assert(audit.reports.visual_material_usage_audit.status === "pass", "expected visual material usage audit report");
   assert(audit.reports.document_handling_registry_validation.summary.records === 7, "expected document handling registry validation report");
   assert(audit.reports.document_handling_usage_audit.status === "pass", "expected document handling usage audit report");
+  assert(audit.reports.chronology_registry_validation.summary.records === 6, "expected chronology registry validation report");
+  assert(audit.reports.chronology_usage_audit.status === "pass", "expected chronology usage audit report");
   assert(audit.reports.document_relationship_registry_validation.summary.records === 10, "expected document relationship registry validation report");
   assert(audit.reports.document_relationship_usage_audit.status === "pass", "expected document relationship usage audit report");
   assert(audit.reports.communications_registry_validation.summary.records === 8, "expected communications registry validation report");
@@ -373,7 +382,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/chronology/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

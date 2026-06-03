@@ -262,7 +262,7 @@
     {
       "category": "time_zone_chronology",
       "direct_edit_policy": "comment_unless_context",
-      "required_context": ["time_zone_context", "communications_registry_context"],
+      "required_context": ["time_zone_context", "chronology_registry_context", "communications_registry_context"],
       "primary_evidence_requests": ["time_zone_basis", "chronology", "communications_metadata"],
       "safe_actions": ["comment_only", "replace_text", "no_change"],
       "hazard_tags": ["time_zone_chronology", "time_zone_basis"]
@@ -270,7 +270,7 @@
     {
       "category": "summit_public_event",
       "direct_edit_policy": "comment_unless_context",
-      "required_context": ["event_chronology_context", "public_diplomacy_context"],
+      "required_context": ["event_chronology_context", "chronology_registry_context", "public_diplomacy_context"],
       "primary_evidence_requests": ["event_chronology", "public_source_basis", "chronology"],
       "safe_actions": ["comment_only", "replace_text", "no_change"],
       "hazard_tags": ["summit_public_event", "event_chronology"]

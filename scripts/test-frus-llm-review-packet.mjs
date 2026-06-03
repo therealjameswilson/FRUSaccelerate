@@ -53,6 +53,8 @@ try {
     "reports/frus-visual-material-registry.sample.json",
     "--document-handling-registry",
     "reports/frus-document-handling-registry.sample.json",
+    "--chronology-registry",
+    "reports/frus-chronology-registry.sample.json",
     "--negative-search-registry",
     "reports/frus-negative-search-registry.sample.json",
     "--document-relationship-registry",
@@ -112,6 +114,9 @@ try {
   assert(markdown.includes("Document Handling And Marginalia Registry Context"), "expected document handling registry section");
   assert(markdown.includes("Watson initialed the memorandum on Gregg"), "expected initials and marginalia registry content");
   assert(markdown.includes("A stamped notation at the top of the memorandum reads: “Signed.”"), "expected stamped signed registry content");
+  assert(markdown.includes("Chronology And Time Registry Context"), "expected chronology registry section");
+  assert(markdown.includes("According to the President's Daily Diary, Bush met with Baker"), "expected chronology registry content");
+  assert(markdown.includes("there is no indication as to when precisely the telephone calls took place"), "expected no-precise-time chronology content");
   assert(markdown.includes("Negative Search And No-Record Registry Context"), "expected negative-search registry section");
   assert(markdown.includes("No minutes were found"), "expected negative-search registry content");
   assert(markdown.includes("Not found attached"), "expected RAC attachment ambiguity content");
@@ -163,6 +168,9 @@ try {
   assert(packet.contexts.document_handling_registry.records.length === 7, "expected document handling registry records");
   assert(packet.contexts.document_handling_registry.target_records.length > 0, "expected target document handling records");
   assert(packet.packet_summary.document_handling_registry_records === 7, "expected document handling registry count");
+  assert(packet.contexts.chronology_registry.records.length === 6, "expected chronology registry records");
+  assert(packet.contexts.chronology_registry.target_records.length > 0, "expected target chronology records");
+  assert(packet.packet_summary.chronology_registry_records === 6, "expected chronology registry count");
   assert(packet.contexts.negative_search_registry.records.length === 6, "expected negative-search registry records");
   assert(packet.contexts.negative_search_registry.target_records.length > 0, "expected target negative-search records");
   assert(packet.contexts.document_relationship_registry.records.length === 10, "expected document-relationship registry records");
@@ -179,7 +187,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

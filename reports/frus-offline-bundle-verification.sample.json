@@ -3,44 +3,27 @@
   "manifest": "reports/frus-annotation-checker-offline-bundle-manifest.json",
   "bundle_schema_version": "frus-annotation-checker-offline-bundle-v1",
   "required_files": {
-    "count": 73,
+    "count": 76,
     "missing": []
   },
   "sample_files": {
-    "count": 61,
+    "count": 64,
     "missing": []
   },
   "context_files": {
-    "count": 16,
+    "count": 17,
     "missing": []
   },
   "json_files": {
-    "checked": 63,
-    "invalid": [
-      {
-        "path": "reports/frus-offline-bundle-verification.sample.json",
-        "error": "/Users/jameswilson/Documents/New project/reports/frus-offline-bundle-verification.sample.json: invalid JSON: Unexpected end of JSON input"
-      }
-    ]
+    "checked": 66,
+    "invalid": []
   },
   "smoke_tests": {
-    "count": 61,
+    "count": 64,
     "skipped": false,
-    "passed": 60,
-    "failed": [
-      {
-        "command": "node scripts/verify-frus-offline-bundle.mjs --skip-smoke --format text",
-        "status": 1,
-        "signal": "",
-        "error": "",
-        "stdout": "",
-        "stderr": "FRUS offline bundle verification failed: 1 problem.\n- reports/frus-offline-bundle-verification.sample.json: invalid JSON: /Users/jameswilson/Documents/New project/reports/frus-offline-bundle-verification.sample.json: invalid JSON: Unexpected end of JSON input"
-      }
-    ]
+    "passed": 64,
+    "failed": []
   },
-  "status": "fail",
-  "problems": [
-    "reports/frus-offline-bundle-verification.sample.json: invalid JSON: /Users/jameswilson/Documents/New project/reports/frus-offline-bundle-verification.sample.json: invalid JSON: Unexpected end of JSON input",
-    "smoke test failed: node scripts/verify-frus-offline-bundle.mjs --skip-smoke --format text"
-  ]
+  "status": "pass",
+  "problems": []
 }
