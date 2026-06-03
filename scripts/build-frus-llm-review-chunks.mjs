@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--negative-search-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -38,6 +38,7 @@ function parseArgs(argv) {
   let documentMetadataRegistryPath = null;
   let classificationRegistryPath = null;
   let negativeSearchRegistryPath = null;
+  let documentRelationshipRegistryPath = null;
   let preparationRouterPath = null;
   let permutationMatrixPath = null;
   let targetVolume = "";
@@ -83,6 +84,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--negative-search-registry") {
       negativeSearchRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--document-relationship-registry") {
+      documentRelationshipRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--preparation-router") {
       preparationRouterPath = argv[index + 1];
@@ -135,6 +139,7 @@ function parseArgs(argv) {
     documentMetadataRegistryPath,
     classificationRegistryPath,
     negativeSearchRegistryPath,
+    documentRelationshipRegistryPath,
     preparationRouterPath,
     permutationMatrixPath,
     targetVolume,
@@ -378,6 +383,37 @@ function compactNegativeSearchRegistry(registry, targetVolume) {
   };
 }
 
+function compactDocumentRelationshipRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  return {
+    schema_version: registry.schema_version,
+    document_relationship_registry_id: registry.document_relationship_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [],
+    records: records.map((record) => ({
+      relationship_id: record.relationship_id,
+      volume_id: record.volume_id,
+      source_document_id: record.source_document_id,
+      source_document_number: record.source_document_number,
+      source_unit_label: record.source_unit_label,
+      relationship_type: record.relationship_type,
+      approved_phrase: record.approved_phrase,
+      variant_forms: record.variant_forms || [],
+      relationship_basis: record.relationship_basis,
+      target_document_id: record.target_document_id,
+      target_document_number: record.target_document_number,
+      target_label: record.target_label,
+      source_url: record.source_url,
+      target_url: record.target_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactAnnotationSheetProfile(profile) {
   if (!profile) return null;
   return {
@@ -406,6 +442,7 @@ function renderPacket({
   documentMetadataRegistry,
   classificationRegistry,
   negativeSearchRegistry,
+  documentRelationshipRegistry,
   router,
   matrix
 }) {
@@ -491,6 +528,12 @@ function renderPacket({
     "",
     fencedJson(negativeSearchRegistry || {}),
     "",
+    "## Document Relationship Registry Context",
+    "",
+    "Use this to check `Attached but not printed`, `Printed as Document [n]`, `See Document [n]`, tab/enclosure references, not-attached items, and mixed attachment notes. Do not change target document numbers, tab labels, or attachment status unless the registry proves the same source-document relationship.",
+    "",
+    fencedJson(documentRelationshipRegistry || {}),
+    "",
     "## Preparation Router Context",
     "",
     fencedJson(router || {}),
@@ -520,6 +563,9 @@ function buildChunks(options) {
   const documentMetadataRegistry = options.documentMetadataRegistryPath ? readJson(options.documentMetadataRegistryPath) : null;
   const classificationRegistry = options.classificationRegistryPath ? readJson(options.classificationRegistryPath) : null;
   const negativeSearchRegistry = options.negativeSearchRegistryPath ? readJson(options.negativeSearchRegistryPath) : null;
+  const documentRelationshipRegistry = options.documentRelationshipRegistryPath
+    ? readJson(options.documentRelationshipRegistryPath)
+    : null;
   const router = options.preparationRouterPath ? readJson(options.preparationRouterPath) : null;
   const matrix = options.permutationMatrixPath ? readJson(options.permutationMatrixPath) : null;
   const authorityRegistryContext = compactAuthorityRegistry(authorityRegistry, options.targetVolume);
@@ -527,6 +573,10 @@ function buildChunks(options) {
   const documentMetadataRegistryContext = compactDocumentMetadataRegistry(documentMetadataRegistry, options.targetVolume);
   const classificationRegistryContext = compactClassificationRegistry(classificationRegistry, options.targetVolume);
   const negativeSearchRegistryContext = compactNegativeSearchRegistry(negativeSearchRegistry, options.targetVolume);
+  const documentRelationshipRegistryContext = compactDocumentRelationshipRegistry(
+    documentRelationshipRegistry,
+    options.targetVolume
+  );
   const annotationSheetProfileContext = compactAnnotationSheetProfile(annotationSheetProfile);
   const unitChunks = chunkUnits(unitsDocument.units, options.maxUnits, options.maxChars);
 
@@ -549,6 +599,7 @@ function buildChunks(options) {
       document_metadata_registry: options.documentMetadataRegistryPath ? normalizePathForOutput(options.documentMetadataRegistryPath) : "",
       classification_registry: options.classificationRegistryPath ? normalizePathForOutput(options.classificationRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
+      document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
       preparation_router: options.preparationRouterPath ? normalizePathForOutput(options.preparationRouterPath) : "",
       permutation_matrix: options.permutationMatrixPath ? normalizePathForOutput(options.permutationMatrixPath) : ""
     },
@@ -564,7 +615,8 @@ function buildChunks(options) {
       source_list_registry_records: sourceListRegistry?.records?.length || 0,
       document_metadata_registry_records: documentMetadataRegistry?.records?.length || 0,
       classification_registry_records: classificationRegistry?.records?.length || 0,
-      negative_search_registry_records: negativeSearchRegistry?.records?.length || 0
+      negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
+      document_relationship_registry_records: documentRelationshipRegistry?.records?.length || 0
     },
     chunks: []
   };
@@ -607,6 +659,7 @@ function buildChunks(options) {
         documentMetadataRegistry: documentMetadataRegistryContext,
         classificationRegistry: classificationRegistryContext,
         negativeSearchRegistry: negativeSearchRegistryContext,
+        documentRelationshipRegistry: documentRelationshipRegistryContext,
         router,
         matrix
       })

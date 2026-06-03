@@ -1,0 +1,94 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample extracted Word units for FRUS document-relationship audit tests.",
+  "units": [
+    {
+      "unit_id": "relationship-note-0001",
+      "unit_type": "follow_on_footnote",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "START I Document 8 footnote 2",
+      "exact_text": "2. Attached but not printed. See Document 10.",
+      "display_text": "2. Attached but not printed. See Document 10.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "relationship-note-0002",
+      "unit_type": "follow_on_footnote",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "START I Document 23 footnote 2",
+      "exact_text": "2. Attached but not printed. See Tab A, Document 21.",
+      "display_text": "2. Attached but not printed. See Tab A, Document 21.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "relationship-note-0003",
+      "unit_type": "follow_on_footnote",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "START I Document 23 footnote 3",
+      "exact_text": "3. Not attached.",
+      "display_text": "3. Not attached.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "relationship-note-0004",
+      "unit_type": "follow_on_footnote",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "START I Document 25 footnote 2",
+      "exact_text": "2. Printed as Document 26.",
+      "display_text": "2. Printed as Document 26.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "relationship-note-0005",
+      "unit_type": "follow_on_footnote",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "START I Document 25 footnote 8",
+      "exact_text": "8. Tab C was not attached. Tab A and Tab B are printed as Document 26.",
+      "display_text": "8. Tab C was not attached. Tab A and Tab B are printed as Document 26.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": [
+        "mixed_attachment_relationship"
+      ]
+    },
+    {
+      "unit_id": "relationship-note-0006",
+      "unit_type": "follow_on_footnote",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "Unsupported relationship",
+      "exact_text": "6. Attached but not printed. See Document 99.",
+      "display_text": "6. Attached but not printed. See Document 99.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": [
+        "missing_document_relationship_basis"
+      ]
+    }
+  ]
+}

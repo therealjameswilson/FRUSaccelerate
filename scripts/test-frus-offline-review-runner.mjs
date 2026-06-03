@@ -205,6 +205,8 @@ try {
       "reports/frus-classification-registry.sample.json",
       "--negative-search-registry",
       "reports/frus-negative-search-registry.sample.json",
+      "--document-relationship-registry",
+      "reports/frus-document-relationship-registry.sample.json",
       "--preparation-router",
       "reports/frus-preparation-router-1981-1992.current.json",
       "--permutation-matrix",
@@ -252,6 +254,9 @@ try {
   assert(audit.counts.negative_search_registry_usages === 0, "expected zero negative-search registry usages");
   assert(audit.counts.negative_search_registry_warnings === 0, "expected zero negative-search registry warnings");
   assert(audit.counts.negative_search_direct_edit_conflicts === 0, "expected zero negative-search direct-edit conflicts");
+  assert(audit.counts.document_relationship_registry_usages === 0, "expected zero document-relationship registry usages");
+  assert(audit.counts.document_relationship_registry_warnings === 0, "expected zero document-relationship registry warnings");
+  assert(audit.counts.document_relationship_direct_edit_conflicts === 0, "expected zero document-relationship direct-edit conflicts");
   assert(audit.counts.annotation_sheet_profile_lexical_misclassifications === 0, "expected zero profile lexical misses");
   assert(audit.counts.annotation_sheet_profile_unexpected_angle_tokens === 0, "expected zero profile unexpected angle tokens");
   assert(audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts === 0, "expected zero profile marker conflicts");
@@ -276,6 +281,8 @@ try {
     "classification-usage-audit.json",
     "negative-search-registry-validation.json",
     "negative-search-usage-audit.json",
+    "document-relationship-registry-validation.json",
+    "document-relationship-usage-audit.json",
     "preparation-router-validation.json",
     "permutation-matrix-validation.json",
     "evidence-queue.json",
@@ -297,6 +304,8 @@ try {
   assert(audit.reports.source_list_usage_audit.status === "warning", "expected source-list usage audit warning report");
   assert(audit.reports.document_metadata_registry_validation.summary.records === 5, "expected document metadata registry validation report");
   assert(audit.reports.document_metadata_usage_audit.status === "pass", "expected document metadata usage audit report");
+  assert(audit.reports.document_relationship_registry_validation.summary.records === 10, "expected document relationship registry validation report");
+  assert(audit.reports.document_relationship_usage_audit.status === "pass", "expected document relationship usage audit report");
   assert(audit.reports.status_claims_extraction.summary.claims_found === 0, "expected status claim extraction report");
   assert(audit.reports.preparation_router_validation.status === "pass", "expected preparation router validation report");
   assert(audit.reports.permutation_matrix_validation.status === "pass", "expected permutation matrix validation report");
@@ -310,7 +319,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/document-relationship audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

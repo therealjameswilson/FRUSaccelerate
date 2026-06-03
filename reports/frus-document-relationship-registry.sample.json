@@ -1,0 +1,214 @@
+{
+  "schema_version": "frus-document-relationship-registry-v1",
+  "document_relationship_registry_id": "frus-1981-1992-document-relationship-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d2",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d25",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d128"
+  ],
+  "scope": "Sample document-relationship registry for validating attachment, printed-target, same-volume cross-reference, and not-attached language in Reagan and George H.W. Bush FRUS annotation sheets.",
+  "records": [
+    {
+      "relationship_id": "relationship-v31-d2-fn2-attachment-d1",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d2",
+      "source_document_number": "2",
+      "source_unit_label": "footnote 2",
+      "relationship_type": "attached_but_not_printed_cross_reference",
+      "approved_phrase": "Attached but not printed. See Attachment, Document 1",
+      "variant_forms": [
+        "Attached but not printed. See Document 1",
+        "See Attachment, Document 1"
+      ],
+      "relationship_basis": "Document 2 footnote 2 distinguishes the unprinted attachment from the printed attachment embedded with Document 1.",
+      "target_document_id": "frus1989-92v31/d1",
+      "target_document_number": "1",
+      "target_label": "Attachment, Document 1",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d2",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d8-fn2-document-10",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d8",
+      "source_document_number": "8",
+      "source_unit_label": "footnote 2",
+      "relationship_type": "attached_but_not_printed_cross_reference",
+      "approved_phrase": "Attached but not printed. See Document 10",
+      "variant_forms": [
+        "See Document 10",
+        "Attached but not printed, see Document 10"
+      ],
+      "relationship_basis": "Document 8 footnote 2 points the unprinted attachment to a separately printed target document.",
+      "target_document_id": "frus1989-92v31/d10",
+      "target_document_number": "10",
+      "target_label": "Document 10",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d10",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d8-fn3-document-9",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d8",
+      "source_document_number": "8",
+      "source_unit_label": "footnote 3",
+      "relationship_type": "attached_but_not_printed_cross_reference",
+      "approved_phrase": "Attached but not printed. See Document 9",
+      "variant_forms": [
+        "See Document 9",
+        "Attached but not printed, see Document 9"
+      ],
+      "relationship_basis": "Document 8 footnote 3 points the forwarding memorandum to a separately printed target document.",
+      "target_document_id": "frus1989-92v31/d9",
+      "target_document_number": "9",
+      "target_label": "Document 9",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d9",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d23-fn2-tab-a-document-21",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d23",
+      "source_document_number": "23",
+      "source_unit_label": "footnote 2",
+      "relationship_type": "attached_but_not_printed_cross_reference",
+      "approved_phrase": "Attached but not printed. See Tab A, Document 21",
+      "variant_forms": [
+        "See Tab A, Document 21",
+        "Attached but not printed. See Document 21"
+      ],
+      "relationship_basis": "Document 23 footnote 2 points the discussion paper at Tab A to Document 21.",
+      "target_document_id": "frus1989-92v31/d21",
+      "target_document_number": "21",
+      "target_label": "Tab A, Document 21",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d21",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d23-fn3-not-attached",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d23",
+      "source_document_number": "23",
+      "source_unit_label": "footnote 3",
+      "relationship_type": "not_attached",
+      "approved_phrase": "Not attached",
+      "variant_forms": [
+        "The item was not attached"
+      ],
+      "relationship_basis": "Document 23 footnote 3 reports an absent attachment and does not point to a printed target.",
+      "target_document_id": "",
+      "target_document_number": "",
+      "target_label": "",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "target_url": "",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d23-fn4-agenda",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d23",
+      "source_document_number": "23",
+      "source_unit_label": "footnote 4",
+      "relationship_type": "attached_but_not_printed_no_target",
+      "approved_phrase": "Attached but not printed is the agenda",
+      "variant_forms": [
+        "The agenda is attached but not printed",
+        "Attached but not printed: agenda"
+      ],
+      "relationship_basis": "Document 23 footnote 4 identifies an unprinted agenda without a separate printed document target.",
+      "target_document_id": "",
+      "target_document_number": "",
+      "target_label": "agenda",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "target_url": "",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d25-fn2-document-26",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d25",
+      "source_document_number": "25",
+      "source_unit_label": "footnote 2",
+      "relationship_type": "printed_as_document",
+      "approved_phrase": "Printed as Document 26",
+      "variant_forms": [
+        "The memorandum is printed as Document 26",
+        "printed as Document 26"
+      ],
+      "relationship_basis": "Document 25 footnotes 2 and 7 point readers to the printed memorandum at Document 26.",
+      "target_document_id": "frus1989-92v31/d26",
+      "target_document_number": "26",
+      "target_label": "Document 26",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d25",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d26",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d25-fn3-tabs-d1-d2-document-26",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d25",
+      "source_document_number": "25",
+      "source_unit_label": "footnote 3",
+      "relationship_type": "attached_but_not_printed_cross_reference",
+      "approved_phrase": "Attached but not printed. See Tabs D1 and D2, Document 26",
+      "variant_forms": [
+        "See Tabs D1 and D2, Document 26",
+        "Attached but not printed. See Document 26"
+      ],
+      "relationship_basis": "Document 25 footnote 3 links unprinted tabs to the separately printed Document 26 apparatus.",
+      "target_document_id": "frus1989-92v31/d26",
+      "target_document_number": "26",
+      "target_label": "Tabs D1 and D2, Document 26",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d25",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d26",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d25-fn8-tabs-a-b-document-26",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d25",
+      "source_document_number": "25",
+      "source_unit_label": "footnote 8",
+      "relationship_type": "mixed_not_attached_and_printed_tabs",
+      "approved_phrase": "The List of Participants, cited here as Tab C, was not attached. The Talking Points and Agenda for the June 7 NSC meeting are printed as Tab A and Tab B, Document 26",
+      "variant_forms": [
+        "Tab C was not attached. Tab A and Tab B are printed as Document 26",
+        "Talking Points and Agenda are printed as Tab A and Tab B, Document 26"
+      ],
+      "relationship_basis": "Document 25 footnote 8 combines a not-attached participant list with printed tab targets in Document 26.",
+      "target_document_id": "frus1989-92v31/d26",
+      "target_document_number": "26",
+      "target_label": "Tab A and Tab B, Document 26",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d25",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d26",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d128-fn3-notification-annex",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d128",
+      "source_document_number": "128",
+      "source_unit_label": "footnote 3",
+      "relationship_type": "attached_but_not_printed_no_target",
+      "approved_phrase": "Attached but not printed is a copy of the draft Notification Annex covering the arrival of the first missile of a new type of long-range non-nuclear ALCM",
+      "variant_forms": [
+        "The draft Notification Annex is attached but not printed",
+        "Attached but not printed: draft Notification Annex"
+      ],
+      "relationship_basis": "Document 128 footnote 3 describes an attached draft Notification Annex without a separate printed target.",
+      "target_document_id": "",
+      "target_document_number": "",
+      "target_label": "draft Notification Annex",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d128",
+      "target_url": "",
+      "verification_status": "verified_published_relationship"
+    }
+  ]
+}

@@ -88,6 +88,8 @@ try {
     "reports/frus-classification-registry.sample.json",
     "--negative-search-registry",
     "reports/frus-negative-search-registry.sample.json",
+    "--document-relationship-registry",
+    "reports/frus-document-relationship-registry.sample.json",
     "--preparation-router",
     "reports/frus-preparation-router-1981-1992.current.json",
     "--permutation-matrix",
@@ -117,11 +119,13 @@ try {
   assert(manifest.summary.document_metadata_registry_records === 5, "expected document metadata registry record count");
   assert(manifest.summary.classification_registry_records === 5, "expected classification registry record count");
   assert(manifest.summary.negative_search_registry_records === 6, "expected negative-search registry record count");
+  assert(manifest.summary.document_relationship_registry_records === 10, "expected document-relationship registry record count");
   assert(manifest.source_files.authority_registry === "reports/frus-authority-registry.sample.json", "expected authority registry source path");
   assert(manifest.source_files.source_list_registry === "reports/frus-source-list-registry.sample.json", "expected source-list registry source path");
   assert(manifest.source_files.document_metadata_registry === "reports/frus-document-metadata-registry.sample.json", "expected document metadata registry source path");
   assert(manifest.source_files.classification_registry === "reports/frus-classification-registry.sample.json", "expected classification registry source path");
   assert(manifest.source_files.negative_search_registry === "reports/frus-negative-search-registry.sample.json", "expected negative-search registry source path");
+  assert(manifest.source_files.document_relationship_registry === "reports/frus-document-relationship-registry.sample.json", "expected document-relationship registry source path");
   assert(fs.existsSync(path.join(outDir, "chunk-0001-review-packet.md")), "expected first chunk packet");
   assert(fs.existsSync(path.join(outDir, "chunk-0002-review-packet.md")), "expected second chunk packet");
   const firstPacket = fs.readFileSync(path.join(outDir, "chunk-0001-review-packet.md"), "utf8");
@@ -137,6 +141,8 @@ try {
   assert(firstPacket.includes("Top Secret; Sensitive; Eyes Only"), "expected classification registry content in chunk packet");
   assert(firstPacket.includes("Negative Search And No-Record Registry Context"), "expected negative-search registry context in chunk packet");
   assert(firstPacket.includes("Not found attached"), "expected negative-search registry content in chunk packet");
+  assert(firstPacket.includes("Document Relationship Registry Context"), "expected document-relationship registry context in chunk packet");
+  assert(firstPacket.includes("Attached but not printed. See Document 10"), "expected document-relationship registry content in chunk packet");
 
   const chunk1Output = path.join(tmpDir, "chunk-0001-output.json");
   const chunk2Output = path.join(tmpDir, "chunk-0002-output.json");
@@ -201,7 +207,7 @@ try {
   assert(badMerge.status !== 0, "expected out-of-chunk unit reference to fail");
   assert(badMerge.stdout.includes("outside chunk-0002"), "expected chunk-boundary failure detail");
 
-  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, and negative-search context, merge, validation, and boundary failures work.");
+  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, negative-search, and document-relationship context, merge, validation, and boundary failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

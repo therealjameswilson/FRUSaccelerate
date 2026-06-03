@@ -45,6 +45,8 @@ try {
     "reports/frus-classification-registry.sample.json",
     "--negative-search-registry",
     "reports/frus-negative-search-registry.sample.json",
+    "--document-relationship-registry",
+    "reports/frus-document-relationship-registry.sample.json",
     "--preparation-router",
     "reports/frus-preparation-router-1981-1992.current.json",
     "--permutation-matrix",
@@ -85,6 +87,9 @@ try {
   assert(markdown.includes("Negative Search And No-Record Registry Context"), "expected negative-search registry section");
   assert(markdown.includes("No minutes were found"), "expected negative-search registry content");
   assert(markdown.includes("Not found attached"), "expected RAC attachment ambiguity content");
+  assert(markdown.includes("Document Relationship Registry Context"), "expected document-relationship registry section");
+  assert(markdown.includes("Attached but not printed. See Document 10"), "expected document-relationship registry content");
+  assert(markdown.includes("Printed as Document 26"), "expected printed-as-document registry content");
   assert(markdown.includes("style_discrepancy_tally"), "expected General Editor discrepancy field");
   assert(markdown.includes("Permutation Matrix Context"), "expected permutation matrix section");
 
@@ -114,6 +119,8 @@ try {
   assert(packet.contexts.classification_registry.target_records.length > 0, "expected target classification records");
   assert(packet.contexts.negative_search_registry.records.length === 6, "expected negative-search registry records");
   assert(packet.contexts.negative_search_registry.target_records.length > 0, "expected target negative-search records");
+  assert(packet.contexts.document_relationship_registry.records.length === 10, "expected document-relationship registry records");
+  assert(packet.contexts.document_relationship_registry.target_records.length > 0, "expected target document-relationship records");
   assert(packet.contexts.preparation_router.routes.length === 74, "expected preparation routes");
   assert(packet.contexts.permutation_matrix.category_policies.length > 0, "expected matrix categories");
   assert(packet.packet_summary.output_schema.categories.includes("source_note"), "expected source_note category");
@@ -124,7 +131,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, negative-search, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, negative-search, document-relationship, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

@@ -72,6 +72,13 @@ For negative-search/no-record validation, use
 `reports/frus-negative-search-units.sample.json`; the self-contained smoke test
 is `scripts/test-frus-negative-search-audit.mjs`, and the sample audit report
 is `reports/frus-negative-search-audit.sample.json`.
+For document-relationship validation, use
+`scripts/validate-frus-document-relationship-registry.mjs` and
+`scripts/audit-frus-document-relationship-usage.mjs` with
+`reports/frus-document-relationship-registry.sample.json` and
+`reports/frus-document-relationship-units.sample.json`; the self-contained
+smoke test is `scripts/test-frus-document-relationship-audit.mjs`, and the
+sample audit report is `reports/frus-document-relationship-audit.sample.json`.
 For finished-form annotation-sheet profile validation, use
 `scripts/audit-frus-annotation-sheet-profile.mjs` with
 `reports/frus-annotation-sheet-profile.sample.json`,
@@ -5097,6 +5104,66 @@ Negative-search audit requirements:
 - Keep a separate General Editor tally item for recurring wording variation in
   `Not found.`, `Not found attached.`, `Not attached.`, `No minutes were found.`,
   and related no-record phrases.
+
+### 6.8.2 Document Relationship, Attachment, And Printed-Target Evidence
+
+Published FRUS annotation often compresses several factual relationships into
+very short footnotes. Keep these distinct before proposing any tracked change:
+
+- `Attached but not printed. See Document [n].` means the item was attached to
+  the source apparatus, omitted from this document, and represented elsewhere.
+- `Printed as Document [n].` means the cited item is the separately printed
+  target; do not rewrite it as merely attached or not printed.
+- `Attached but not printed is [description].` identifies an unprinted item
+  without a separate document target.
+- `See Tab [letter], Document [n]` and `See footnote [n], Document [n]` are
+  target labels, not decorative wording.
+- `Not attached.` is an attachment-status fact and does not prove a broader
+  negative search.
+- Mixed notes such as a not-attached participant list plus printed talking
+  points require separate relationship records before direct edits.
+
+Use a document-relationship registry when the wrapper can supply one:
+
+```json
+{
+  "document_relationship_registry_id": "frus-1981-1992-document-relationship-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d25"
+  ],
+  "records": [
+    {
+      "relationship_id": "relationship-v31-d8-fn2-document-10",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d8",
+      "source_unit_label": "footnote 2",
+      "relationship_type": "attached_but_not_printed_cross_reference",
+      "approved_phrase": "Attached but not printed. See Document 10",
+      "target_document_id": "frus1989-92v31/d10",
+      "target_label": "Document 10",
+      "verification_status": "verified_published_relationship"
+    }
+  ]
+}
+```
+
+Document-relationship validator sequence:
+
+1. Identify every `Attached but not printed`, `Printed as Document [n]`, `See
+   Document [n]`, tab/enclosure target, not-attached item, and mixed attachment
+   note.
+2. Match the source document, source footnote or apparatus unit, relationship
+   type, approved phrase, target document, target label, and published source
+   URL against the supplied registry.
+3. Use `evidence_request: cross_reference`, `document_number`,
+   `printed_attachment_basis`, or `attachment_status` when proof is missing.
+4. Fail direct edits that change target document numbers, tab labels, or
+   attachment status without a target-volume approved relationship match.
+5. Tally recurring defensible wording variation separately for General Editor
+   review rather than forcing one house form across all volumes.
 
 ### 6.8A Summit, Travel, And Public-Event Chronology Validation
 
@@ -11987,6 +12054,16 @@ Minimum components:
   unlocated-draft, missing-attachment, and RAC attachment-ambiguity language to
   supplied search-basis records and fails direct no-record edits that collapse
   one relationship into another without registry support.
+- No-dependency document-relationship registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-document-relationship-registry.mjs`,
+  `scripts/audit-frus-document-relationship-usage.mjs`,
+  `reports/frus-document-relationship-registry.sample.json`,
+  `reports/frus-document-relationship-units.sample.json`, and
+  `reports/frus-document-relationship-audit.sample.json`. The audit reconciles
+  attached-but-not-printed, printed-as-document, `See Document [n]`,
+  tab/enclosure, not-attached, and mixed attachment language to supplied
+  relationship records and fails direct relationship edits that change target
+  documents, tab labels, or attachment status without registry support.
 - No-dependency finished-form annotation-sheet profile audit and fixtures:
   `scripts/audit-frus-annotation-sheet-profile.mjs`,
   `scripts/test-frus-annotation-sheet-profile.mjs`,

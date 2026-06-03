@@ -1,8 +1,8 @@
 # FRUS Annotation Review Packet
 
 - schema_version: frus-llm-review-packet-v1
-- run_id: sample-review-packet
-- generated_at: 2026-06-03T16:07:29.621Z
+- run_id: sample-packet
+- generated_at: 2026-06-03T16:23:52.437Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -160,6 +160,7 @@ Every reviewable extracted editorial unit should have a checker entry. Use `reco
   "document_metadata_registry_records": 5,
   "classification_registry_records": 5,
   "negative_search_registry_records": 6,
+  "document_relationship_registry_records": 10,
   "preparation_routes": 74,
   "matrix_categories": 40,
   "matrix_evidence_requests": 39
@@ -189,9 +190,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -213,6 +214,9 @@ For classification/handling validation and direct-edit safety, run
 For negative-search/no-record validation and direct-edit safety, run
 `node scripts/validate-frus-negative-search-registry.mjs --registry reports/frus-negative-search-registry.sample.json --format text` and
 `node scripts/audit-frus-negative-search-usage.mjs --units extracted-units.json --registry reports/frus-negative-search-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For document-relationship validation and direct-edit safety, run
+`node scripts/validate-frus-document-relationship-registry.mjs --registry reports/frus-document-relationship-registry.sample.json --format text` and
+`node scripts/audit-frus-document-relationship-usage.mjs --units extracted-units.json --registry reports/frus-document-relationship-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For a no-dependency smoke test, run
 `node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json`.
 For direct-edit anchor preflight, run
@@ -226,7 +230,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -263,6 +267,12 @@ not-found, not-attached, not-found-attached, no-memcon, no-telcon, unlocated
 draft, and RAC attachment-ambiguity phrases; validate it with
 `scripts/validate-frus-negative-search-registry.mjs` before direct no-record
 edits.
+For real Reagan/Bush 1981-1992 document-relationship review, replace the sample
+document-relationship registry with target-volume records for `Attached but not
+printed`, `Printed as Document [n]`, `See Document [n]`, tab/enclosure labels,
+not-attached items, and mixed attachment notes; validate it with
+`scripts/validate-frus-document-relationship-registry.mjs` before direct
+attachment or cross-reference edits.
 For volume-family and stage-posture routing, validate and use
 `reports/frus-preparation-router-1981-1992.current.json` with
 `scripts/validate-frus-preparation-router.mjs` before family-dependent direct
@@ -280,6 +290,8 @@ For sample classification/handling checks, run
 `node scripts/audit-frus-classification-usage.mjs --units reports/frus-classification-units.sample.json --registry reports/frus-classification-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample negative-search/no-record checks, run
 `node scripts/audit-frus-negative-search-usage.mjs --units reports/frus-negative-search-units.sample.json --registry reports/frus-negative-search-registry.sample.json --target-volume frus1989-92v31 --format text`.
+For sample document-relationship checks, run
+`node scripts/audit-frus-document-relationship-usage.mjs --units reports/frus-document-relationship-units.sample.json --registry reports/frus-document-relationship-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample review coverage, run
 `node scripts/audit-frus-review-coverage.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-sample-output.json --matrix reports/frus-annotation-permutation-matrix.json`.
 For unresolved proof tracking, run
@@ -3756,6 +3768,429 @@ Use this to check `No minutes were found`, `Not found`, `Not attached`, `Not fou
       "relationship_to_document": "rac_attachment_ambiguity",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v03/AbouttheSeries",
       "verification_status": "verified_published_negative_search"
+    }
+  ]
+}
+```
+
+## Document Relationship Registry Context
+
+Use this to check `Attached but not printed`, `Printed as Document [n]`, `See Document [n]`, tab/enclosure references, not-attached items, and mixed attachment notes. Do not change target document numbers, tab labels, or attachment status unless the registry proves the same source-document relationship.
+
+```json
+{
+  "schema_version": "frus-document-relationship-registry-v1",
+  "document_relationship_registry_id": "frus-1981-1992-document-relationship-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d2",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d25",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d128"
+  ],
+  "scope": "Sample document-relationship registry for validating attachment, printed-target, same-volume cross-reference, and not-attached language in Reagan and George H.W. Bush FRUS annotation sheets.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "relationship_id": "relationship-v31-d2-fn2-attachment-d1",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d2",
+      "source_document_number": "2",
+      "source_unit_label": "footnote 2",
+      "relationship_type": "attached_but_not_printed_cross_reference",
+      "approved_phrase": "Attached but not printed. See Attachment, Document 1",
+      "variant_forms": [
+        "Attached but not printed. See Document 1",
+        "See Attachment, Document 1"
+      ],
+      "relationship_basis": "Document 2 footnote 2 distinguishes the unprinted attachment from the printed attachment embedded with Document 1.",
+      "target_document_id": "frus1989-92v31/d1",
+      "target_document_number": "1",
+      "target_label": "Attachment, Document 1",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d2",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d8-fn2-document-10",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d8",
+      "source_document_number": "8",
+      "source_unit_label": "footnote 2",
+      "relationship_type": "attached_but_not_printed_cross_reference",
+      "approved_phrase": "Attached but not printed. See Document 10",
+      "variant_forms": [
+        "See Document 10",
+        "Attached but not printed, see Document 10"
+      ],
+      "relationship_basis": "Document 8 footnote 2 points the unprinted attachment to a separately printed target document.",
+      "target_document_id": "frus1989-92v31/d10",
+      "target_document_number": "10",
+      "target_label": "Document 10",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d10",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d8-fn3-document-9",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d8",
+      "source_document_number": "8",
+      "source_unit_label": "footnote 3",
+      "relationship_type": "attached_but_not_printed_cross_reference",
+      "approved_phrase": "Attached but not printed. See Document 9",
+      "variant_forms": [
+        "See Document 9",
+        "Attached but not printed, see Document 9"
+      ],
+      "relationship_basis": "Document 8 footnote 3 points the forwarding memorandum to a separately printed target document.",
+      "target_document_id": "frus1989-92v31/d9",
+      "target_document_number": "9",
+      "target_label": "Document 9",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d9",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d23-fn2-tab-a-document-21",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d23",
+      "source_document_number": "23",
+      "source_unit_label": "footnote 2",
+      "relationship_type": "attached_but_not_printed_cross_reference",
+      "approved_phrase": "Attached but not printed. See Tab A, Document 21",
+      "variant_forms": [
+        "See Tab A, Document 21",
+        "Attached but not printed. See Document 21"
+      ],
+      "relationship_basis": "Document 23 footnote 2 points the discussion paper at Tab A to Document 21.",
+      "target_document_id": "frus1989-92v31/d21",
+      "target_document_number": "21",
+      "target_label": "Tab A, Document 21",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d21",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d23-fn3-not-attached",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d23",
+      "source_document_number": "23",
+      "source_unit_label": "footnote 3",
+      "relationship_type": "not_attached",
+      "approved_phrase": "Not attached",
+      "variant_forms": [
+        "The item was not attached"
+      ],
+      "relationship_basis": "Document 23 footnote 3 reports an absent attachment and does not point to a printed target.",
+      "target_document_id": "",
+      "target_document_number": "",
+      "target_label": "",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "target_url": "",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d23-fn4-agenda",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d23",
+      "source_document_number": "23",
+      "source_unit_label": "footnote 4",
+      "relationship_type": "attached_but_not_printed_no_target",
+      "approved_phrase": "Attached but not printed is the agenda",
+      "variant_forms": [
+        "The agenda is attached but not printed",
+        "Attached but not printed: agenda"
+      ],
+      "relationship_basis": "Document 23 footnote 4 identifies an unprinted agenda without a separate printed document target.",
+      "target_document_id": "",
+      "target_document_number": "",
+      "target_label": "agenda",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "target_url": "",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d25-fn2-document-26",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d25",
+      "source_document_number": "25",
+      "source_unit_label": "footnote 2",
+      "relationship_type": "printed_as_document",
+      "approved_phrase": "Printed as Document 26",
+      "variant_forms": [
+        "The memorandum is printed as Document 26",
+        "printed as Document 26"
+      ],
+      "relationship_basis": "Document 25 footnotes 2 and 7 point readers to the printed memorandum at Document 26.",
+      "target_document_id": "frus1989-92v31/d26",
+      "target_document_number": "26",
+      "target_label": "Document 26",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d25",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d26",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d25-fn3-tabs-d1-d2-document-26",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d25",
+      "source_document_number": "25",
+      "source_unit_label": "footnote 3",
+      "relationship_type": "attached_but_not_printed_cross_reference",
+      "approved_phrase": "Attached but not printed. See Tabs D1 and D2, Document 26",
+      "variant_forms": [
+        "See Tabs D1 and D2, Document 26",
+        "Attached but not printed. See Document 26"
+      ],
+      "relationship_basis": "Document 25 footnote 3 links unprinted tabs to the separately printed Document 26 apparatus.",
+      "target_document_id": "frus1989-92v31/d26",
+      "target_document_number": "26",
+      "target_label": "Tabs D1 and D2, Document 26",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d25",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d26",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d25-fn8-tabs-a-b-document-26",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d25",
+      "source_document_number": "25",
+      "source_unit_label": "footnote 8",
+      "relationship_type": "mixed_not_attached_and_printed_tabs",
+      "approved_phrase": "The List of Participants, cited here as Tab C, was not attached. The Talking Points and Agenda for the June 7 NSC meeting are printed as Tab A and Tab B, Document 26",
+      "variant_forms": [
+        "Tab C was not attached. Tab A and Tab B are printed as Document 26",
+        "Talking Points and Agenda are printed as Tab A and Tab B, Document 26"
+      ],
+      "relationship_basis": "Document 25 footnote 8 combines a not-attached participant list with printed tab targets in Document 26.",
+      "target_document_id": "frus1989-92v31/d26",
+      "target_document_number": "26",
+      "target_label": "Tab A and Tab B, Document 26",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d25",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d26",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d128-fn3-notification-annex",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d128",
+      "source_document_number": "128",
+      "source_unit_label": "footnote 3",
+      "relationship_type": "attached_but_not_printed_no_target",
+      "approved_phrase": "Attached but not printed is a copy of the draft Notification Annex covering the arrival of the first missile of a new type of long-range non-nuclear ALCM",
+      "variant_forms": [
+        "The draft Notification Annex is attached but not printed",
+        "Attached but not printed: draft Notification Annex"
+      ],
+      "relationship_basis": "Document 128 footnote 3 describes an attached draft Notification Annex without a separate printed target.",
+      "target_document_id": "",
+      "target_document_number": "",
+      "target_label": "draft Notification Annex",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d128",
+      "target_url": "",
+      "verification_status": "verified_published_relationship"
+    }
+  ],
+  "records": [
+    {
+      "relationship_id": "relationship-v31-d2-fn2-attachment-d1",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d2",
+      "source_document_number": "2",
+      "source_unit_label": "footnote 2",
+      "relationship_type": "attached_but_not_printed_cross_reference",
+      "approved_phrase": "Attached but not printed. See Attachment, Document 1",
+      "variant_forms": [
+        "Attached but not printed. See Document 1",
+        "See Attachment, Document 1"
+      ],
+      "relationship_basis": "Document 2 footnote 2 distinguishes the unprinted attachment from the printed attachment embedded with Document 1.",
+      "target_document_id": "frus1989-92v31/d1",
+      "target_document_number": "1",
+      "target_label": "Attachment, Document 1",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d2",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d8-fn2-document-10",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d8",
+      "source_document_number": "8",
+      "source_unit_label": "footnote 2",
+      "relationship_type": "attached_but_not_printed_cross_reference",
+      "approved_phrase": "Attached but not printed. See Document 10",
+      "variant_forms": [
+        "See Document 10",
+        "Attached but not printed, see Document 10"
+      ],
+      "relationship_basis": "Document 8 footnote 2 points the unprinted attachment to a separately printed target document.",
+      "target_document_id": "frus1989-92v31/d10",
+      "target_document_number": "10",
+      "target_label": "Document 10",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d10",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d8-fn3-document-9",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d8",
+      "source_document_number": "8",
+      "source_unit_label": "footnote 3",
+      "relationship_type": "attached_but_not_printed_cross_reference",
+      "approved_phrase": "Attached but not printed. See Document 9",
+      "variant_forms": [
+        "See Document 9",
+        "Attached but not printed, see Document 9"
+      ],
+      "relationship_basis": "Document 8 footnote 3 points the forwarding memorandum to a separately printed target document.",
+      "target_document_id": "frus1989-92v31/d9",
+      "target_document_number": "9",
+      "target_label": "Document 9",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d9",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d23-fn2-tab-a-document-21",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d23",
+      "source_document_number": "23",
+      "source_unit_label": "footnote 2",
+      "relationship_type": "attached_but_not_printed_cross_reference",
+      "approved_phrase": "Attached but not printed. See Tab A, Document 21",
+      "variant_forms": [
+        "See Tab A, Document 21",
+        "Attached but not printed. See Document 21"
+      ],
+      "relationship_basis": "Document 23 footnote 2 points the discussion paper at Tab A to Document 21.",
+      "target_document_id": "frus1989-92v31/d21",
+      "target_document_number": "21",
+      "target_label": "Tab A, Document 21",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d21",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d23-fn3-not-attached",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d23",
+      "source_document_number": "23",
+      "source_unit_label": "footnote 3",
+      "relationship_type": "not_attached",
+      "approved_phrase": "Not attached",
+      "variant_forms": [
+        "The item was not attached"
+      ],
+      "relationship_basis": "Document 23 footnote 3 reports an absent attachment and does not point to a printed target.",
+      "target_document_id": "",
+      "target_document_number": "",
+      "target_label": "",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "target_url": "",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d23-fn4-agenda",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d23",
+      "source_document_number": "23",
+      "source_unit_label": "footnote 4",
+      "relationship_type": "attached_but_not_printed_no_target",
+      "approved_phrase": "Attached but not printed is the agenda",
+      "variant_forms": [
+        "The agenda is attached but not printed",
+        "Attached but not printed: agenda"
+      ],
+      "relationship_basis": "Document 23 footnote 4 identifies an unprinted agenda without a separate printed document target.",
+      "target_document_id": "",
+      "target_document_number": "",
+      "target_label": "agenda",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "target_url": "",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d25-fn2-document-26",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d25",
+      "source_document_number": "25",
+      "source_unit_label": "footnote 2",
+      "relationship_type": "printed_as_document",
+      "approved_phrase": "Printed as Document 26",
+      "variant_forms": [
+        "The memorandum is printed as Document 26",
+        "printed as Document 26"
+      ],
+      "relationship_basis": "Document 25 footnotes 2 and 7 point readers to the printed memorandum at Document 26.",
+      "target_document_id": "frus1989-92v31/d26",
+      "target_document_number": "26",
+      "target_label": "Document 26",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d25",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d26",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d25-fn3-tabs-d1-d2-document-26",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d25",
+      "source_document_number": "25",
+      "source_unit_label": "footnote 3",
+      "relationship_type": "attached_but_not_printed_cross_reference",
+      "approved_phrase": "Attached but not printed. See Tabs D1 and D2, Document 26",
+      "variant_forms": [
+        "See Tabs D1 and D2, Document 26",
+        "Attached but not printed. See Document 26"
+      ],
+      "relationship_basis": "Document 25 footnote 3 links unprinted tabs to the separately printed Document 26 apparatus.",
+      "target_document_id": "frus1989-92v31/d26",
+      "target_document_number": "26",
+      "target_label": "Tabs D1 and D2, Document 26",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d25",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d26",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d25-fn8-tabs-a-b-document-26",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d25",
+      "source_document_number": "25",
+      "source_unit_label": "footnote 8",
+      "relationship_type": "mixed_not_attached_and_printed_tabs",
+      "approved_phrase": "The List of Participants, cited here as Tab C, was not attached. The Talking Points and Agenda for the June 7 NSC meeting are printed as Tab A and Tab B, Document 26",
+      "variant_forms": [
+        "Tab C was not attached. Tab A and Tab B are printed as Document 26",
+        "Talking Points and Agenda are printed as Tab A and Tab B, Document 26"
+      ],
+      "relationship_basis": "Document 25 footnote 8 combines a not-attached participant list with printed tab targets in Document 26.",
+      "target_document_id": "frus1989-92v31/d26",
+      "target_document_number": "26",
+      "target_label": "Tab A and Tab B, Document 26",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d25",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d26",
+      "verification_status": "verified_published_relationship"
+    },
+    {
+      "relationship_id": "relationship-v31-d128-fn3-notification-annex",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d128",
+      "source_document_number": "128",
+      "source_unit_label": "footnote 3",
+      "relationship_type": "attached_but_not_printed_no_target",
+      "approved_phrase": "Attached but not printed is a copy of the draft Notification Annex covering the arrival of the first missile of a new type of long-range non-nuclear ALCM",
+      "variant_forms": [
+        "The draft Notification Annex is attached but not printed",
+        "Attached but not printed: draft Notification Annex"
+      ],
+      "relationship_basis": "Document 128 footnote 3 describes an attached draft Notification Annex without a separate printed target.",
+      "target_document_id": "",
+      "target_document_number": "",
+      "target_label": "draft Notification Annex",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d128",
+      "target_url": "",
+      "verification_status": "verified_published_relationship"
     }
   ]
 }
