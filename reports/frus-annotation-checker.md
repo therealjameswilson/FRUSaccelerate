@@ -65,6 +65,10 @@ The wrapper should provide the LLM with:
   abbreviations, source-list, repository, chapter, document-number, and index
   registries with stable ids, approved display forms, variants, date spans, and
   source URLs or local provenance.
+- `document_metadata_registry_context`, if available: structured document
+  number, heading, document type, sender, recipient, offices, place/date line,
+  internal document number, subject/title line, caption, public-title line,
+  source-note linkage, and verification basis.
 - `source_family_registry_context`, if available: structured source-family
   controls derived from published FRUS source lists and local authority files,
   including family ids, volume scope, required path components, distinguishing
@@ -158,14 +162,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | declassification | authority_control | chronology | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | declassification | authority_control | chronology | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | publication_status | authority_control | declassification_status | translation_status | chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | publication_status | authority_control | declassification_status | translation_status | chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -178,7 +182,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | declassification | authority_control | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | declassification | authority_control | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -301,6 +305,7 @@ run the semantic and Word-safety validators below.
               "attachment",
               "annotation",
               "editorial_note",
+              "document_metadata",
               "declassification",
               "authority_control",
               "chronology",
@@ -345,6 +350,7 @@ run the semantic and Word-safety validators below.
               "classification_marking",
               "attachment_status",
               "document_number",
+              "document_metadata",
               "publication_status",
               "authority_control",
               "declassification_status",
@@ -416,6 +422,7 @@ run the semantic and Word-safety validators below.
               "citation",
               "attachment",
               "editorial_note",
+              "document_metadata",
               "declassification",
               "authority_control",
               "communications_record",
@@ -504,9 +511,9 @@ Semantic validator behavior:
 - If `evidence_request` is not `none`, require a non-empty
   `verification_target`.
 - Reject any direct edit whose category is `publication_status`,
-  `declassification`, `attachment`, `chronology`, `communications_record`, or
-  `authority_control` when the required proof is absent from the uploaded unit
-  or wrapper context.
+  `declassification`, `attachment`, `document_metadata`, `chronology`,
+  `communications_record`, or `authority_control` when the required proof is
+  absent from the uploaded unit or wrapper context.
 - Downgrade to `comment_only` when a finding passes the JSON schema but fails a
   Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
@@ -1292,6 +1299,164 @@ Cross-reference audit requirements:
   numbers separately from ordinary citation style issues.
 - Add a General Editor discrepancy item when published or local examples vary on
   cross-reference wording, but do not tally missing target evidence as style.
+
+### 6.2A Document Headings, Datelines, And Internal Titles
+
+Document headings are editorial apparatus. Published Reagan and Bush FRUS
+documents commonly combine a numbered FRUS heading, document form, sender and
+recipient offices, a place/date line, and sometimes a subject, public-title,
+meeting, briefing, or internal record label. The checker should verify this
+metadata before changing a heading or moving facts between the heading, source
+note, and annotation.
+
+Use a document-metadata registry when the wrapper can supply one:
+
+```json
+{
+  "document_metadata_registry_id": "frus-1981-1992-document-metadata-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d3",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d37",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d90",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d145"
+  ],
+  "records": [
+    {
+      "metadata_id": "docmeta-0001",
+      "unit_id": "document-heading-0003",
+      "document_number": "Document 3",
+      "document_type": "memorandum",
+      "heading_text": "Memorandum From [sender office/name] to [recipient]",
+      "sender": "[sender name if supplied]",
+      "sender_office": "[sender office or title if supplied]",
+      "recipient": "[recipient name or office if supplied]",
+      "place_date_line": "Washington, [date]",
+      "internal_document_number": "",
+      "subject_or_title_line": "[SUBJECT line if supplied]",
+      "public_title_line": "",
+      "source_note_linkage": "footnote 1",
+      "verification_status": "verified"
+    },
+    {
+      "metadata_id": "docmeta-0002",
+      "unit_id": "document-heading-0145",
+      "document_number": "Document 145",
+      "document_type": "public_address",
+      "heading_text": "[public address or remarks heading]",
+      "sender": "President Reagan",
+      "sender_office": "President",
+      "recipient": "",
+      "place_date_line": "[place/date line or broadcast setting if supplied]",
+      "internal_document_number": "",
+      "subject_or_title_line": "[speech title if supplied]",
+      "public_title_line": "[Public Papers title or broadcast title if supplied]",
+      "source_note_linkage": "footnote 1",
+      "verification_status": "needs_source_image"
+    }
+  ]
+}
+```
+
+Allowed `document_type` values:
+
+- `memorandum`
+- `memorandum_of_conversation`
+- `telegram`
+- `letter`
+- `message`
+- `minutes`
+- `briefing`
+- `decision_directive`
+- `report`
+- `public_address`
+- `statement`
+- `interview`
+- `editorial_note`
+- `other`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified`
+- `needs_source_image`
+- `needs_document_image`
+- `needs_date_or_place`
+- `needs_heading_authority`
+- `unknown`
+
+Heading and dateline validator sequence:
+
+1. Identify every document heading, supplied title, dateline, subject line,
+   caption, internal document number, meeting title, briefing label, public
+   title, source-list document title, and editorial-note heading.
+2. Match the unit against `document_metadata_registry_context` before proposing
+   a direct edit to heading or dateline text.
+3. Preserve the distinction between FRUS heading text and original-document
+   text. A `SUBJECT`, `DATE`, `LOCATION`, `TIME`, routing line, record number,
+   or title printed in the source document should not be silently converted into
+   editorial prose.
+4. Preserve the distinction between a folder title and a document title. A
+   folder label can support a source path, but it should not become the FRUS
+   document heading unless the registry or source image proves that it is the
+   document's title.
+5. Reconcile date, place, time, meeting title, and participants across the
+   heading, source note, chronology registry, diary/schedule evidence, and
+   source image before applying direct edits.
+6. For public speeches, remarks, statements, broadcasts, testimony, and
+   interviews, preserve the selected public-source title or event description
+   when supplied. Do not replace it with an archival control-copy title unless
+   that copy is the selected document.
+7. For memcons, telcons, minutes, and meeting records, check whether the heading
+   form agrees with the record type and whether date/place/time evidence belongs
+   in the heading, chronology note, source note, or annotation.
+8. For telegrams and cables, coordinate with the communications registry before
+   changing a telegram number, origin/addressee line, date-time group, or
+   heading label.
+
+Flag these issues:
+
+- Heading omits the document form, sender, recipient, office/title, or date when
+  the registry supplies those facts and the omission would misidentify the
+  document.
+- Place/date line conflicts with the source note, chronology registry, or
+  source image.
+- Subject line, internal record number, meeting label, or public-title line is
+  moved into the wrong apparatus layer.
+- A working title such as `candidate`, `possible`, `needs scan`, `TK`, or
+  `draft title` remains in final-style apparatus.
+- A source folder title is treated as the document title without source-image or
+  registry support.
+- A public speech or remarks heading is flattened into a memorandum-style
+  heading.
+- A memcon, telcon, minutes, briefing, or directive heading is normalized into a
+  generic `Memorandum` heading when the source identifies a more specific record
+  form.
+
+Direct-edit posture:
+
+- Safe direct edits may fix narrow punctuation, restore a supplied document
+  number, or apply a verified heading form when the exact old text maps to a
+  single Word unit and the registry supplies the replacement.
+- Use `comment_only` with `evidence_request: document_metadata` when sender,
+  recipient, date, place, subject, public title, internal number, or document
+  form is missing, conflicting, or inferred.
+- Use `comment_only` when the correct heading depends on source images,
+  chronology evidence, or a General Editor decision about house form.
+- Do not change transcribed original-document headings unless the uploaded unit
+  is explicitly marked as editorial apparatus or the user requests transcription
+  review.
+
+Document-metadata audit requirements:
+
+- Count heading, dateline, subject/title-line, public-title, internal-number,
+  and source-folder-as-title issues separately from ordinary formatting issues.
+- Preserve the document-metadata registry id, capture date, source URLs, and
+  unresolved metadata fields in the audit report.
+- Add `document_metadata` discrepancies to the General Editor tally when
+  published or local examples vary on heading form, subject-line placement,
+  public-title treatment, office-title detail, or whether to include an internal
+  document number in the heading or source note.
 
 ### 6.3 Annotation
 
@@ -2576,6 +2741,9 @@ Major-issue signals:
 - Attachment claims that infer from context rather than the source note:
   attached, not attached, printed elsewhere, not found attached, tabbed, or
   included in an appendix.
+- Heading metadata drift: document form, sender, recipient, place/date line,
+  subject/title line, public-title line, or internal record number is changed
+  without registry or source-image support.
 - Cross-reference drift: page references where document numbers exist, obsolete
   document numbers, missing volume title in scheduled-publication notes, or
   conversion of `scheduled for publication` to `printed` without proof.
@@ -2589,6 +2757,9 @@ Permutation matrix for annotation sheets:
   file unit, box/folder/OA/ID/lot/identifier, classification/handling, document
   form, drafting/clearance/routing, attachments, read-by/marginalia, and
   cross-reference.
+- Document heading or dateline: check document number, form, sender, recipient,
+  office titles, place/date line, subject/title line, internal number, caption,
+  public title, and source-note linkage.
 - Source note from public/printed source: check edition, publication date,
   page/range, issuing office, delivery or release facts, and whether archival
   draft/control-copy context is available.
@@ -2722,8 +2893,8 @@ Comment quality rules:
   report is useful when read offline.
 - If several different facts are missing in one unit, choose the evidence
   request that blocks publication first: source identity, original
-  classification, attachment status, document number, declassification outcome,
-  authority control, or wrapper safety.
+  classification, attachment status, document metadata, document number,
+  declassification outcome, authority control, or wrapper safety.
 - If the checker sees a working label such as `TK`, `candidate`, `needs scan`,
   or `verify`, the comment should preserve the research value of the label
   while directing the compiler to the evidence needed for final style.
@@ -2737,6 +2908,7 @@ Evidence-request categories:
 | `classification_marking` | Original classification or handling is missing, guessed, or confused with release status. | To verify the original marking on the document, not the declassification result. |
 | `attachment_status` | Attached, not attached, printed elsewhere, tabbed, enclosed, or not found claims are uncertain. | Which tab, enclosure, paper, or list must be checked. |
 | `document_number` | Same-volume or cross-volume reference lacks a stable document number. | Which target document, chapter, or volume must be matched. |
+| `document_metadata` | Heading, dateline, subject/title line, public title, sender, recipient, internal number, or document form is missing or suspect. | Which heading field and evidence source must be checked before rewriting. |
 | `publication_status` | `printed in` versus `scheduled for publication` depends on current official status. | Which volume or chapter status must be confirmed. |
 | `authority_control` | Persons, titles, abbreviations, index terms, names, offices, or dates need authority-list review. | Which name, office, acronym, date span, or index term needs control. |
 | `declassification_status` | Release, withholding, excision, agency-equity, or bracket language is not final. | Which review outcome or bracket claim cannot yet be asserted. |
@@ -2797,6 +2969,7 @@ Default blocking rules:
 | `classification_marking` | yes | yes |
 | `attachment_status` | yes | yes when the note asserts attached, not attached, tabbed, enclosed, printed, or not found |
 | `document_number` | yes for cross-reference edits | yes when same-volume or cross-volume references are unstable |
+| `document_metadata` | yes for heading, dateline, title, subject, or caption edits | yes when publishable apparatus identifies the document |
 | `publication_status` | yes for `printed in` or `scheduled for publication` edits | yes for final style if publication language is present |
 | `authority_control` | yes when a date, identity, title, acronym, or index form is uncertain | yes for final style if repeated or reader-facing |
 | `declassification_status` | yes | yes |
@@ -2808,10 +2981,11 @@ Default blocking rules:
 
 Owner hints:
 
-- `compiler`: source images, archival path, attachment status, document numbers,
-  source family, chronology, and translation status.
-- `editor`: wording, cross-reference form, source-list consistency,
-  publication-status wording, and General Editor discrepancy preparation.
+- `compiler`: source images, archival path, document metadata, attachment
+  status, document numbers, source family, chronology, and translation status.
+- `editor`: wording, heading form, cross-reference form, source-list
+  consistency, publication-status wording, and General Editor discrepancy
+  preparation.
 - `declassification`: classification markings, declassification outcomes,
   withholding, excision, and agency-equity language.
 - `wrapper`: exact anchors, existing tracked changes, Word XML structures,
@@ -3075,31 +3249,34 @@ For every extracted unit, run checks in this order:
    any direct edit.
 3. Check for invented or unverifiable facts.
 4. Check source-note order and completeness.
-5. Match source notes against the source-family registry when supplied.
-6. Check telegram, cable, STARS, CFPF, PROFS, W Files, System IV, agency-cable,
+5. Check document headings, datelines, internal document numbers, subject/title
+   lines, public-title lines, and captions against the document-metadata
+   registry when supplied.
+6. Match source notes against the source-family registry when supplied.
+7. Check telegram, cable, STARS, CFPF, PROFS, W Files, System IV, agency-cable,
    and other communications-record metadata against the communications registry
    when supplied.
-7. Check classification and handling language.
-8. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
+8. Check classification and handling language.
+9. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
    against the attachment registry when supplied.
-9. Check cross-references and follow-on citation form against the
+10. Check cross-references and follow-on citation form against the
    cross-reference registry when supplied.
-10. Check annotation purpose and concision.
-11. Check declassification, omission, original-bracket, release-status, and
+11. Check annotation purpose and concision.
+12. Check declassification, omission, original-bracket, release-status, and
     whole-document withholding language against the declassification registry
     when supplied.
-12. Check target-volume status and whether the note is research-stage,
+13. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-13. Route the unit through the relevant volume family when a 1981-1992
+14. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-14. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
+15. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-15. Check Persons, abbreviations, and index authority issues.
-16. Assign specific evidence requests and verification targets for unresolved
+16. Check Persons, abbreviations, and index authority issues.
+17. Assign specific evidence requests and verification targets for unresolved
     proof.
-17. Decide direct edit versus comment-only.
-18. Return strict JSON.
-19. After schema and semantic validation, aggregate all unresolved evidence
+18. Decide direct edit versus comment-only.
+19. Return strict JSON.
+20. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -3281,6 +3458,9 @@ Golden packet composition:
 
 - At least one source note from a published Reagan or Bush national-security or
   arms-control volume, used as a no-change control.
+- At least one document heading, dateline, subject/title line, or public-title
+  line from a published Reagan or Bush volume, used as a no-change or
+  comment-only metadata control.
 - At least one foundations/public diplomacy or organization/management note in
   which public text is the selected evidence, not a defect.
 - At least one research-stage sheet with working labels, candidate notes, URL
@@ -3311,6 +3491,9 @@ Expected behavior by test family:
 
 - Published-pattern test: return `no_change` or minor style comments for a
   strong published-style note, and do not force it into a generic template.
+- Document-metadata test: preserve correct document headings and datelines, and
+  comment rather than invent when sender, recipient, place/date, subject, public
+  title, or internal number evidence is missing.
 - Public-source test: preserve selected public, printed, speech, hearing,
   testimony, interview, or treaty text when the volume family makes that source
   appropriate.
@@ -3375,6 +3558,9 @@ Use the discrepancy tally for:
   Document [n]`, appendix, tab, enclosure, or facsimile wording.
 - Variations in `scheduled for publication`, `printed in`, same-volume
   cross-references, footnote cross-references, or document-number style.
+- Variations in document-heading form, place/date line placement,
+  subject/title-line treatment, public-title treatment, internal record-number
+  placement, or office-title detail where the underlying metadata is sound.
 - Different Persons, abbreviations, source-list, or index authority forms that
   may reflect volume-specific practice rather than error.
 - Variations in telegram, cable, STARS, CFPF, PROFS, W Files, System IV, or
@@ -3649,6 +3835,7 @@ Checker version: [version]
 Output schema: checker-output-v1
 Context bundle: [bundle_id and capture date]
 Authority registry: [authority_registry_id and capture date]
+Document metadata registry: [document_metadata_registry_id and capture date]
 Source-family registry: [source_family_registry_id and capture date]
 Communications registry: [communications_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
@@ -3678,6 +3865,7 @@ Counts:
 - Cross-chunk conflicts reconciled: [n]
 - Status registry conflicts or stale-publication warnings: [n]
 - Authority registry conflicts or unmatched forms: [n]
+- Document heading, dateline, title, or caption issues: [n]
 - Source-family unmatched or ambiguous matches: [n]
 - Communications records unmatched or incomplete: [n]
 - Attachment status unknown or conflicting: [n]
@@ -3699,6 +3887,9 @@ Publication-status warnings:
 
 Authority-control warnings:
 - [unit_id or global]: [authority issue] - [registry target or unmatched form]
+
+Document-metadata warnings:
+- [unit_id or global]: [metadata issue] - [heading field, evidence basis, and registry target]
 
 Source-family warnings:
 - [unit_id or global]: [source-family issue] - [registry target or unmatched family]
@@ -3744,6 +3935,10 @@ Minimum components:
 - Authority-registry validator that reconciles Persons, abbreviations,
   repository/source-list forms, chapter labels, document numbers, and index
   terms before track changes are applied.
+- Document-metadata validator that checks document headings, datelines,
+  internal document numbers, subject/title lines, public-title lines, captions,
+  sender/recipient offices, and source-note linkage before tracked changes are
+  applied.
 - Source-family registry validator that preserves published and local source
   ecologies, distinguishes public/printed selected sources from archival
   control copies, and blocks flattening of specific repositories into generic
@@ -3781,6 +3976,9 @@ Operational cautions:
 - Record the exact context-bundle id and capture date used.
 - Record authority-registry version, unmatched forms, direct authority edits,
   comments, and unresolved General Editor questions.
+- Record document-metadata registry version, heading/date/title/caption issues,
+  unresolved sender or recipient evidence, public-title questions, internal
+  record-number placement, and document-metadata discrepancy questions.
 - Record source-family registry version, unmatched or ambiguous family matches,
   direct source-family edits, and source-family discrepancy questions.
 - Record communications-registry version, unmatched message identifiers,
@@ -3873,6 +4071,10 @@ family router:
 - `https://history.state.gov/historicaldocuments/status-of-the-series`
 - `https://history.state.gov/historicaldocuments/reagan`
 - `https://history.state.gov/historicaldocuments/bush-ghw`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/d3`
+- `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d37`
+- `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d90`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d145`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/sources`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1`
