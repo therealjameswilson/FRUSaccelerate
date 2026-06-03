@@ -62,6 +62,12 @@ The wrapper should provide the LLM with:
   (`published`, `anticipated`, `being_cleared`, `being_researched`, or
   `planned`), target volume title, known chapter status, and any official
   status-page link.
+- `volume_family_context`, if available: likely FRUS volume family, such as
+  foundations/public diplomacy, organization/management, Europe/Russia,
+  Americas, Middle East, Africa, East Asia/Pacific, arms control/national
+  security, economic policy, global issues, terrorism/counternarcotics, or
+  mixed. This should come from the wrapper's volume-title/status match or from
+  explicit user context, not from LLM guesswork alone.
 - `annotation_sheet_context`, if available: whether the uploaded file is a
   research sheet, chapter annotation sheet, clearance pass, final style pass,
   source-list draft, Persons/abbreviations draft, or mixed editorial packet;
@@ -1200,6 +1206,75 @@ Permutation matrix for annotation sheets:
   date-bounded office, acronym definition, repository hierarchy, document-number
   references, and consistency across the uploaded packet.
 
+### 6.15 Volume-Family Router For In-Preparation 1981-1992 Sheets
+
+Use this router with the status-aware checks and the redline playbook when the
+uploaded sheet belongs, or may belong, to an in-preparation Reagan or George
+H.W. Bush volume. The router is a triage aid. It does not prove source facts and
+it must not be cited as evidence inside a source note.
+
+Routing method:
+
+1. Prefer an explicit `series_status_context.volume_title` or
+   `volume_family_context` supplied by the wrapper.
+2. If no title is supplied, infer only a tentative family from document
+   headings, source families, country/subject vocabulary, and date span.
+3. If two families are plausible, mark the unit as `mixed` and use
+   `comment_only` for changes that depend on the family choice.
+4. Apply the family-specific risks below before style polish.
+5. Keep the published 2025 Reagan national-security and Bush START I volumes as
+   pattern evidence, not as universal templates.
+
+Reagan in-preparation routing:
+
+| Volume family | Current in-preparation volumes | Source families to preserve | Redline priorities |
+| --- | --- | --- | --- |
+| Organization and management | II, Organization and Management of Foreign Policy | Reagan transition material; White House staff and office files; Executive Secretariat records; State management and policy-planning files; public organizational records | Date-bound offices, title changes, action/information routing, management memoranda, and separation of public organizational facts from internal policy evidence. |
+| Europe, Poland, and NATO | VII, Western Europe, 1981-1984; VIII, Western Europe, 1985-1988; IX, Poland, 1982-1988 | State EUR and CFPF files; embassy telegrams; NSC European/Soviet directorate records; NATO and foreign-government copies; public statements | Do not flatten country files into generic regional files; preserve foreign-origin or embassy-held copy status; check document-number cross-references across related Europe and Soviet volumes. |
+| Arms control and national security | XII, INF, 1984-1988; XLIII, National Security Policy, 1981-1984; XLIV, Part 2, National Security Policy, 1985-1988 | NSDD/NSSD packages; NSPG/NSC meeting files; System IV, W Files, PROFS, State lot files, ACDA, DOD/JCS/CIA records, treaty and verification papers | Guard paragraph markings, directive/annex/tab relationships, scheduled-publication wording, treaty terminology, and original classification versus later release status. |
+| Latin America and Caribbean | XIV, Central America, 1981-1984; XV, Central America, 1985-1988; XVI, South America; XVII, Part 1, Mexico; Western Caribbean; XVII, Part 2, Eastern Caribbean | Embassy telegrams; NSC Latin America directorate files; State country/desk files; CIA/DOD equities; public diplomacy and congressional records; foreign-government or organization records | Check country/chapter routing, source-copy identity, covert-action or intelligence caution, missing attachments, translations, and whether public statements are selected evidence or supplemental context. |
+| Middle East and regional crises | XVIII, Parts 1-2, Lebanon; XIX, Arab-Israeli Dispute; XX, Iran; Iraq, April 1980-January 1985; XXI, Iran; Iraq, 1985-1988; XXII, Middle East Region; Arabian Peninsula; XLV, Eastern Mediterranean | Situation-room records; memcons/telcons; embassy telegrams; State NEA files; NSC regional files; DOD/CIA equities; foreign-government copies; public peace-process documents | Be strict on chronology, participants, "no minutes found," attachment status, translation status, foreign-origin copy handling, and distinctions between crisis record and later memoir/public context. |
+| Africa | XXV, Southern Africa, 1981-1984; XXVI, Southern Africa, 1985-1988; XXVII, Sub-Saharan Africa; XLVIII, Libya; Chad | Embassy telegrams; State Africa bureau and country desk records; NSC regional directorate files; CIA/DOD equities; international-organization records; public statements | Preserve regional/country split, sanctions and congressional context, intelligence or military equities, and cautious wording for foreign-government or international-organization records. |
+| East Asia, Pacific, South Asia, and Afghanistan | XXVIII, China, 1981-1983; XXIX, China, 1984-1988; XXX, Japan; Korea, 1981-1984; XXXI, Japan; Korea, 1985-1988; XXXII, Southeast Asia; Pacific; XXXIII, South Asia; XXXIV, Afghanistan, February 1981-October 1985; XXXV, Afghanistan, November 1985-February 1989 | Embassy telegrams; State EAP/SCA files; NSC Asia directorate records; intelligence and defense files; foreign-government copies; translations; public statements | Check names, transliterations, translations, country/chapter routing, intelligence/military equities, and whether public statements or treaty texts are selected documents. |
+| Economic, trade, debt, and assistance | XXXVI, Trade; Monetary Policy; Industrialized Country Cooperation, 1981-1984; XXXVII, Trade; Monetary Policy; Industrialized Country Cooperation, 1985-1988 | Treasury, State economic bureau, NSC, summit, IMF/World Bank, congressional, public report, and industrialized-country cooperation records | Preserve public/printed-source identity, meeting/summit context, agency authorship, economic acronyms, and whether a table, report, or testimony excerpt is the selected document. |
+| Public diplomacy, global issues, refugees, terrorism, and counternarcotics | XXXIX, Public Diplomacy; XL, Global Issues I; XLII, Refugees and Immigration, 1975-1984; XLVI, War on Drugs; XLVII, Parts 1-2, Terrorism | Public statements; press guidance; USIA/public diplomacy records; interagency task-force files; law-enforcement and intelligence equities; congressional hearings; international organizations | Do not demote public material to mere background when it is selected evidence. Watch terminology, agency equities, sensitive operational claims, and authority-list consistency. |
+
+Bush in-preparation routing:
+
+| Volume family | Current in-preparation volumes | Source families to preserve | Redline priorities |
+| --- | --- | --- | --- |
+| Foundations, public diplomacy, and organization | I, Foundations of Foreign Policy; Public Diplomacy; II, Organization and Management of Foreign Policy | Bush Library public statements and speech records; transition records; White House/NSC staff files; State Executive Secretariat and policy-planning records; public printed sources | Treat speeches, testimony, interviews, and public statements as possible selected documents. Check date-bounded offices, title transitions, public-versus-internal source identity, and source-list authority form. |
+| Soviet Union, Russia, Europe, Germany, and NATO | III, Soviet Union, Russia, and Post-Soviet States: High-Level Contacts; IV, Soviet Union, Russia, and Post-Soviet States: Policy; V, Eastern Europe; VIII, Western Europe; IX, Germany; X, European Security, 1984-1992 | Bush Library Scowcroft, Gates, NSC staff, and H-Files; State EUR/S/P/CFPF records; embassy telegrams; NATO and foreign-government records | Separate high-level contact records from policy/background files; preserve memcon/telcon and briefing-book forms; check cross-references across START I, Europe, Germany, and Soviet/Russia volumes. |
+| Balkans, crises, and peacekeeping | VII, Yugoslavia; XXI, Somalia, 1989-1994 | Situation-room and NSC records; State regional bureau files; embassy telegrams; military/intelligence records; United Nations and international-organization records | Require precise chronology, agency equities, foreign/international-organization copy status, and cautious wording for operational or military claims. |
+| Persian Gulf and Middle East | XI, Persian Gulf Crisis, 1989-1990; XII, Persian Gulf Crisis, 1990-1991; XIII, Persian Gulf Crisis, 1991-1992; XIV, Arab-Israeli Dispute; XXXII, Iran; VI, Eastern Mediterranean | NSC/Situation Room records; State NEA and CFPF records; memcons/telcons; DOD/JCS/CIA equities; coalition and foreign-government copies; public statements | Preserve crisis chronology, meeting/call status, coalition/foreign-origin records, not-found notes, translation status, and declassification bracket discipline. |
+| Asia and Pacific | XV, South Asia; XVI, Southeast Asia and the Pacific; XVII, China; XVIII, Japan; Korea | Bush Library NSC regional staff files; State regional bureau and CFPF records; embassy telegrams; foreign-government copies; translations; public statements | Check transliteration/name authority, country routing, translation claims, intelligence/military equities, and whether related Reagan-era documents require scheduled-publication language. |
+| Africa and Americas | XIX, Southern Africa; XX, North Africa; Sub-Saharan Africa; XXII, Cuba; Haiti; Caribbean; XXIII, Central America; XXIV, Panama, 1981-1992; XXV, South America; XXXIII, Canada and Mexico | State country/desk files; embassy telegrams; Bush Library NSC regional files; congressional/public diplomacy records; intelligence, defense, law-enforcement, and foreign-government records | Preserve country and regional chapter identity, source-copy status, sensitive intelligence or law-enforcement equities, and careful chronology for crises or interventions. |
+| National security, arms control, and nonproliferation | XXVI, National Security Policy; XXVII, Arms Control and Nonproliferation; XXXI, START I, 1989-1991 as published pattern evidence | H-Files, NSR/NSD files, Scowcroft/Gates files, State lot files, ACDA/DOD/JCS/CIA records, CFPF D/P/N reels, treaty and verification records | Preserve H-Files subseries, NSR/NSD forms, paragraph markings, annex/tabs, verification terms, and original classification. Do not use the published START I template to overwrite a different national-security source family. |
+| Economic policy, global issues, counternarcotics, and counterterrorism | XXVIII, Counternarcotics; Counterterrorism; XXIX, Global Issues; XXX, Foreign Economic Policy | Treasury and State economic bureau records; NSC files; public reports; law-enforcement, intelligence, and interagency task-force records; international-organization records | Keep public/printed sources distinct from control copies; watch agency equities, terminology, congressional/public-report citations, and planned-volume research labels. |
+
+Family-sensitive output rules:
+
+- When the family is known and the uploaded context supplies source evidence,
+  the checker may propose exact style edits that restore the family-specific
+  source form.
+- When the family is only inferred, use comments to ask the compiler to confirm
+  the volume title, chapter, source family, and stage before applying a direct
+  replacement.
+- Do not make every note look like Bush START I or Reagan XLIV Part 1. These
+  volumes are excellent pattern evidence for national-security and arms-control
+  annotation, but they are not templates for public diplomacy, economic policy,
+  regional crisis, or authority-list material.
+- Do not demote public sources automatically. Foundations, public diplomacy,
+  economic, global-issues, and congressional contexts can select published text
+  as documentary evidence.
+- Do not upgrade working labels into facts. In research-stage and planned
+  volumes, labels such as `lead`, `candidate`, `possible`, `verify`, or `needs
+  scan` should become verification comments, not finished source-note prose.
+- For clearance-stage crisis, arms-control, intelligence, law-enforcement, or
+  foreign-government material, prefer `comment_only` when a change would imply a
+  final declassification result, agency concurrence, foreign-government
+  clearance, or attachment status not present in the uploaded context.
+
 ## 7. Direct-Edit Rules
 
 The LLM may propose direct tracked changes only when:
@@ -1423,10 +1498,12 @@ For every extracted unit, run checks in this order:
 8. Check declassification and omission language.
 9. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-10. Check chronology, diary, schedule, and call-log usage.
-11. Check Persons, abbreviations, and index authority issues.
-12. Decide direct edit versus comment-only.
-13. Return strict JSON.
+10. Route the unit through the relevant volume family when a 1981-1992
+    in-preparation family is known or can be tentatively inferred.
+11. Check chronology, diary, schedule, and call-log usage.
+12. Check Persons, abbreviations, and index authority issues.
+13. Decide direct edit versus comment-only.
+14. Return strict JSON.
 
 ## 9. Audit Report Summary Template
 
@@ -1532,6 +1609,19 @@ This checker is based on the local file:
 - `reports/frus1989-92v31-annotation-corpus.json`
 - Uploaded exemplar Word file: `Foundations Consolidated.docx`, treated as a
   clean finished-form model for annotation style and source-note cadence.
+
+Official History Office pages refreshed for the 1981-1992 status and volume
+family router:
+
+- `https://history.state.gov/historicaldocuments/status-of-the-series`
+- `https://history.state.gov/historicaldocuments/reagan`
+- `https://history.state.gov/historicaldocuments/bush-ghw`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/sources`
+- `https://history.state.gov/historicaldocuments/frus1981-88v44p1`
+- `https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/sources`
 
 That guide distills patterns from published Reagan and Bush FRUS volumes on
 history.state.gov, especially rules for source notes, annotation, editorial
