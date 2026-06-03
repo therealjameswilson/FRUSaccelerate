@@ -107,6 +107,12 @@ The wrapper should provide the LLM with:
   delegation-meeting, itinerary, and public-remarks evidence with times, places,
   participants, public-source basis, diary/schedule basis, press basis, and
   related full-record targets.
+- `public_diplomacy_context`, if available: structured speeches, press
+  releases, press conferences, briefings, interviews, testimony, public remarks,
+  official transcripts, Public Papers citations, Department of State Bulletin
+  citations, newspaper excerpts, broadcast facts, speech-file drafts, briefing
+  materials, selected-public-document status, and supplemental-public-context
+  metadata.
 - `congressional_legal_context`, if available: structured congressional
   testimony, hearing, committee, budget message, public law, statute, continuing
   resolution, joint resolution, congressional notification, Presidential
@@ -196,14 +202,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | treaty_component | legal_authority | financial_data | agency_equity | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | treaty_component | public_source_basis | legal_authority | financial_data | agency_equity | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -216,7 +222,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -343,6 +349,7 @@ run the semantic and Word-safety validators below.
               "classification_handling",
               "translation_foreign_origin",
               "treaty_legal_instrument",
+              "public_diplomacy_public_source",
               "congressional_legal_authority",
               "economic_financial_data",
               "intelligence_law_enforcement",
@@ -393,6 +400,7 @@ run the semantic and Word-safety validators below.
               "document_number",
               "document_metadata",
               "treaty_component",
+              "public_source_basis",
               "legal_authority",
               "financial_data",
               "agency_equity",
@@ -472,6 +480,7 @@ run the semantic and Word-safety validators below.
               "classification_handling",
               "translation_foreign_origin",
               "treaty_legal_instrument",
+              "public_diplomacy_public_source",
               "congressional_legal_authority",
               "economic_financial_data",
               "intelligence_law_enforcement",
@@ -567,10 +576,11 @@ Semantic validator behavior:
 - Reject any direct edit whose category is `publication_status`,
   `declassification`, `attachment`, `document_metadata`,
   `classification_handling`, `translation_foreign_origin`,
-  `treaty_legal_instrument`, `congressional_legal_authority`,
-  `economic_financial_data`, `intelligence_law_enforcement`, `chronology`,
-  `summit_public_event`, `communications_record`, or `authority_control` when
-  the required proof is absent from the uploaded unit or wrapper context.
+  `treaty_legal_instrument`, `public_diplomacy_public_source`,
+  `congressional_legal_authority`, `economic_financial_data`,
+  `intelligence_law_enforcement`, `chronology`, `summit_public_event`,
+  `communications_record`, or `authority_control` when the required proof is
+  absent from the uploaded unit or wrapper context.
 - Downgrade to `comment_only` when a finding passes the JSON schema but fails a
   Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
@@ -2508,6 +2518,229 @@ Summit/public-event audit requirements:
   participant-basis, and full-record-target warnings so compilers can decide
   whether the note is ready for a final style pass.
 
+### 6.8A.1 Public Diplomacy, Public Sources, Speeches, Interviews, Press, And Testimony
+
+Public-source annotation is not second-class FRUS evidence. Recent Reagan
+Foundations practice shows that speeches, press releases, press conferences,
+briefings, interviews, Congressional testimony, public addresses, newspaper
+excerpts, Public Papers entries, Department of State Bulletin texts, archival
+speech files, briefing files, and diary corroboration can together document the
+policy assumptions of a volume. The checker must not automatically demote a
+public source to background merely because an archival control copy also exists.
+
+Use a public-source registry when the wrapper can supply one:
+
+```json
+{
+  "public_source_registry_id": "frus-1981-1992-public-diplomacy-source-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/pressrelease",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/sources",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d33",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d39",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d206",
+    "https://history.state.gov/historicaldocuments/status-of-the-series"
+  ],
+  "records": [
+    {
+      "public_item_id": "public-volume-scope-foundations-v01",
+      "unit_id": "pressrelease-frus1981-88v01",
+      "record_type": "volume_scope_statement",
+      "public_source_type": "mixed_public_and_archival",
+      "public_source_basis": "press release states the volume draws on speeches, press releases, press conferences and briefings, interviews, Congressional testimony, and internal records",
+      "selected_or_supplemental": "volume_scope",
+      "date_or_span": "2022-09-09",
+      "public_event_or_publication": "FRUS Volume I press release",
+      "archival_or_draft_context": "internal memoranda, correspondence, meeting minutes, and other records also used",
+      "verification_status": "verified"
+    },
+    {
+      "public_item_id": "public-cronkite-interview-0033",
+      "unit_id": "document-0033",
+      "record_type": "interview_editorial_note",
+      "public_source_type": "television_interview",
+      "public_source_basis": "Public Papers: Reagan, 1981, pages 191-202; excerpts also printed in New York Times, March 4, 1981, page A22",
+      "selected_or_supplemental": "selected_public_document_with_archival_context",
+      "date_or_span": "1981-03-03",
+      "public_event_or_publication": "CBS Evening News interview with Walter Cronkite, videotaped in Oval Office and broadcast that evening",
+      "archival_or_draft_context": "President's Daily Diary, David Gergen briefing materials, Reagan diary",
+      "verification_status": "verified"
+    },
+    {
+      "public_item_id": "public-haig-testimony-0039",
+      "unit_id": "document-0039",
+      "record_type": "congressional_testimony_public_text",
+      "public_source_type": "department_bulletin_testimony",
+      "public_source_basis": "Department of State Bulletin, May 1981, page 72",
+      "selected_or_supplemental": "selected_public_document",
+      "date_or_span": "1981-03-19",
+      "public_event_or_publication": "Statement by Secretary Haig before the Senate Foreign Relations Committee",
+      "archival_or_draft_context": "",
+      "verification_status": "verified"
+    },
+    {
+      "public_item_id": "public-un-address-0206",
+      "unit_id": "document-0206",
+      "record_type": "public_address_editorial_note",
+      "public_source_type": "public_papers_address",
+      "public_source_basis": "Public Papers: Reagan, 1984, Book II, pages 1355-1361",
+      "selected_or_supplemental": "selected_public_document_with_diary_context",
+      "date_or_span": "1984-09-24",
+      "public_event_or_publication": "President Reagan address to the United Nations General Assembly",
+      "archival_or_draft_context": "Reagan diary entry on UN General Assembly appearance",
+      "verification_status": "verified"
+    },
+    {
+      "public_item_id": "public-speech-files-source-list-v01",
+      "unit_id": "sources-frus1981-88v01",
+      "record_type": "source_list_public_draft_context",
+      "public_source_type": "speech_file_and_published_sources",
+      "public_source_basis": "Volume source list names White House Office of Speechwriting files, speeches, and published sources",
+      "selected_or_supplemental": "source_ecology",
+      "date_or_span": "1981-1989",
+      "public_event_or_publication": "Speeches and published-source ecology for Foundations volume",
+      "archival_or_draft_context": "White House Office of Speechwriting Files and White House Office of Records Management Speeches subject file",
+      "verification_status": "verified"
+    }
+  ]
+}
+```
+
+Allowed `record_type` values:
+
+- `volume_scope_statement`
+- `speech_source_note`
+- `public_address_editorial_note`
+- `interview_editorial_note`
+- `press_conference`
+- `press_briefing`
+- `press_release`
+- `congressional_testimony_public_text`
+- `public_papers_entry`
+- `department_bulletin_entry`
+- `newspaper_excerpt`
+- `broadcast_record`
+- `speech_file_draft`
+- `briefing_material`
+- `diary_public_event_context`
+- `source_list_public_draft_context`
+- `unknown`
+
+Allowed `public_source_type` values:
+
+- `public_papers_address`
+- `television_interview`
+- `radio_address`
+- `press_release`
+- `press_conference`
+- `press_briefing`
+- `department_bulletin_testimony`
+- `congressional_record`
+- `newspaper`
+- `official_transcript`
+- `speech_file`
+- `speech_file_and_published_sources`
+- `briefing_file`
+- `diary`
+- `mixed_public_and_archival`
+- `unknown`
+
+Allowed `selected_or_supplemental` values:
+
+- `selected_public_document`
+- `selected_public_document_with_archival_context`
+- `selected_public_document_with_diary_context`
+- `supplemental_public_context`
+- `supplemental_archival_context`
+- `source_ecology`
+- `volume_scope`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified`
+- `needs_publication_details`
+- `needs_delivery_or_broadcast_basis`
+- `needs_transcript_basis`
+- `needs_archival_draft_context`
+- `needs_full_text_target`
+- `needs_excerpt_status`
+- `needs_public_vs_archival_selection`
+- `unknown`
+
+Public-source validator sequence:
+
+1. Identify every source note, editorial note, heading, follow-on footnote,
+   source-list entry, or annotation that names speeches, public remarks, press
+   releases, press conferences, press briefings, interviews, broadcasts,
+   Congressional testimony, Public Papers, Department of State Bulletin,
+   Congressional Record, official transcripts, newspapers, magazines, briefing
+   books, speechwriting files, diary corroboration, USIA, public diplomacy, or
+   press guidance.
+2. Match the unit against `public_diplomacy_context` before directly changing
+   public-source title, speaker, publication, edition, page, date, delivery
+   place, broadcast facts, transcript status, full-text target, excerpt status,
+   archival draft context, or selected-versus-supplemental status.
+3. Determine whether the public source is the selected document, a supporting
+   citation inside an editorial note, corroborating event chronology, or
+   archival context for a public event.
+4. Preserve public-source precision. Do not flatten `Public Papers`, Department
+   of State Bulletin, Congressional Record, official transcript, press release,
+   New York Times excerpt, diary, briefing material, or speechwriting file into
+   a generic "public source" label when the evidence supplies the exact form.
+5. Separate delivered/broadcast/final public text from draft speech files,
+   briefing materials, press guidance, diary entries, and newspaper excerpts. A
+   draft can explain preparation; it does not automatically replace the
+   delivered text as the selected document.
+6. Preserve full-text and excerpt relationships. If an editorial note prints an
+   excerpt and points to the complete text elsewhere, do not remove the full
+   target or treat the excerpt as the entire public record.
+7. For interviews and press events, verify speaker, interlocutor, network or
+   issuing office, recording or broadcast fact, time, place, date, publication
+   details, and whether the quote is transcript text or a paraphrased summary.
+8. For testimony, coordinate with the congressional/legal validator for
+   committee identity, hearing, Congress/session, authorization or appropriation
+   context, and official-publication basis.
+9. For UN, summit, travel, ceremony, toast, and public-address material,
+   coordinate with event chronology; public-source evidence does not by itself
+   prove private meeting content.
+10. For in-preparation Foundations/Public Diplomacy volumes, do not change a
+    valid public-source selected document into an archival source note merely
+    because archival materials are also present.
+
+Direct-edit posture:
+
+- Safe direct edits may restore supplied publication punctuation, page form,
+  speaker name, title capitalization, broadcast date, or source title when the
+  uploaded unit or registry supplies exact evidence.
+- Use `comment_only` with `evidence_request: public_source_basis` when
+  publication details, transcript status, delivery/broadcast basis, full-text
+  target, excerpt status, archival draft relationship, or
+  selected-versus-supplemental status is missing, conflicting, or inferred.
+- Use `evidence_request: event_chronology` when the blocker is event time,
+  place, participant, itinerary, diary/schedule, press basis, or full-record
+  target.
+- Use `evidence_request: legal_authority` when the public source is testimony,
+  a hearing, committee record, budget message, public law, or Senate record.
+- Add a `public_diplomacy_public_source` discrepancy to the General Editor
+  tally when published or local examples vary on how much public-source,
+  full-text, excerpt, diary, briefing-file, press, or archival-draft detail to
+  print, and the underlying facts are sound.
+
+Public-source audit requirements:
+
+- Count public-diplomacy/public-source warnings separately from event,
+  congressional/legal, source-family, publication-status, and authority-control
+  warnings.
+- Preserve registry id, capture date, source URLs, record type, public-source
+  type, basis, selected/supplemental status, date/span, public event or
+  publication, archival/draft context, and verification status in the audit
+  report.
+- Record unresolved publication details, delivery/broadcast basis, transcript
+  basis, full-text target, excerpt status, archival-draft context, and
+  public-versus-archival selection warnings.
+
 ### 6.8B Congressional, Legal, And Public-Authority Records
 
 Reagan and Bush annotation sheets often cite congressional testimony, hearings,
@@ -4072,6 +4305,12 @@ Permutation matrix for annotation sheets:
   zone, place, participants, public-source basis, diary/schedule basis, press
   basis, and whether full records are printed, scheduled elsewhere, or not
   supplied.
+- Public diplomacy, speech, press, interview, broadcast, testimony, or
+  public-source package: check speaker, title, issuing office, publication,
+  edition, page/range, delivery or broadcast fact, transcript status,
+  excerpt/full-text relationship, archival draft or briefing context,
+  selected-public-document status, supplemental-public-context status, and
+  whether public evidence is being used as selected text or corroboration.
 - Congressional or legal-authority package: check committee/hearing identity,
   Congress/session, testimony source, budget or message-to-Congress basis,
   public law, Stat. citation, section number, joint/continuing resolution,
@@ -4230,6 +4469,7 @@ Evidence-request categories:
 | `document_number` | Same-volume or cross-volume reference lacks a stable document number. | Which target document, chapter, or volume must be matched. |
 | `document_metadata` | Heading, dateline, subject/title line, public title, sender, recipient, internal number, or document form is missing or suspect. | Which heading field and evidence source must be checked before rewriting. |
 | `treaty_component` | Treaty, protocol, annex, memorandum of understanding, executive agreement, letter, declaration, statement, transmittal, ratification, entry-into-force, or associated-document status is uncertain. | Which treaty component, legal status, public source, archival source, or integral-versus-associated relationship must be checked. |
+| `public_source_basis` | Speech, press, interview, broadcast, testimony, Public Papers, Department of State Bulletin, newspaper, official transcript, public-source selected-document, excerpt, full-text target, or archival-draft relationship is uncertain. | Which publication details, delivery or broadcast facts, transcript basis, excerpt/full-text relationship, archival draft context, or public-versus-archival selection status must be checked. |
 | `legal_authority` | Congressional, statutory, executive-order, Presidential Determination, certification, hearing, testimony, vote-stage, oversight, or Senate advice-and-consent authority is uncertain. | Which committee, hearing, Congress/session, public law, Stat. citation, section, vote stage, amount, condition, transmittal, determination/certification, Executive Order, or Senate basis must be checked. |
 | `financial_data` | Economic, trade, debt, assistance, budget, institutional, table, amount, percentage, fiscal-year, currency, loan, guarantee, quota, replenishment, conditionality, or policy-stage evidence is uncertain. | Which figure, unit, fiscal year, institution, program, table, source, attachment, legal basis, or policy stage must be checked. |
 | `agency_equity` | Intelligence, covert-action, law-enforcement, counternarcotics, counterterrorism, source-and-methods, operational, oversight, foreign-service, or agency-equity proof is uncertain. | Which agency identity, source family, law-enforcement context, operational basis, oversight basis, release/redaction basis, or foreign-service contact must be checked. |
@@ -4296,6 +4536,7 @@ Default blocking rules:
 | `document_number` | yes for cross-reference edits | yes when same-volume or cross-volume references are unstable |
 | `document_metadata` | yes for heading, dateline, title, subject, or caption edits | yes when publishable apparatus identifies the document |
 | `treaty_component` | yes for component identity, integral-versus-associated status, public/archival basis, legal-status, ratification, or entry-into-force edits | yes when the note identifies a treaty component, associated document, transmittal, ratification, or entry into force |
+| `public_source_basis` | yes for public-source title, speaker, publication, page, transcript, excerpt/full-text, delivery/broadcast, archival-draft, or selected-document edits | yes when a speech, press, interview, testimony, broadcast, or public-source selected document appears in publishable apparatus |
 | `legal_authority` | yes for congressional/legal authority, committee, hearing, public-law, statute, determination, certification, Executive Order, vote-stage, amount, condition, or Senate advice-and-consent edits | yes when congressional or legal authority appears in publishable apparatus |
 | `financial_data` | yes for amount, percentage, currency, fiscal-year, institution, program, table, debt/loan/guarantee, quota, conditionality, or policy-stage edits | yes when economic, trade, debt, foreign-assistance, or financial data appears in publishable apparatus |
 | `agency_equity` | yes for agency identity, sensitive source family, operational claim, source-and-methods, oversight, law-enforcement status, foreign-service contact, or sanitization edits | yes when intelligence, covert-action, law-enforcement, counternarcotics, counterterrorism, agency-equity, or operational claims appear in publishable apparatus |
@@ -4313,14 +4554,14 @@ Owner hints:
 
 - `compiler`: source images, archival path, document metadata, attachment
   status, document numbers, source family, chronology, treaty component
-  identity, event sequence, congressional/legal proof, financial data,
-  agency-equity proof, sensitive-record source basis, translation status, and
-  foreign-copy provenance.
+  identity, event sequence, public-source basis, congressional/legal proof,
+  financial data, agency-equity proof, sensitive-record source basis,
+  translation status, and foreign-copy provenance.
 - `editor`: wording, heading form, cross-reference form, source-list
   consistency, treaty/legal-instrument placement, public-event note form,
-  congressional/legal citation form, economic/financial table and note form,
-  sensitive-record note form, publication-status wording, and General Editor
-  discrepancy preparation.
+  public-source and public-diplomacy note form, congressional/legal citation
+  form, economic/financial table and note form, sensitive-record note form,
+  publication-status wording, and General Editor discrepancy preparation.
 - `declassification`: classification markings, declassification outcomes,
   release-status separation, withholding, excision, source-and-methods,
   sanitization, and agency-equity language.
@@ -4618,25 +4859,31 @@ For every extracted unit, run checks in this order:
 18. Check summit, travel, ceremony, public address, interview, press
     conference, toast, testimony, public remarks, and public-event sequence
     evidence against the event-chronology registry when supplied.
-19. Check congressional testimony, hearings, public laws, statutes, continuing
+19. Check public diplomacy, speeches, press releases, press conferences,
+    briefings, interviews, broadcasts, testimony, Public Papers, Department of
+    State Bulletin, newspaper excerpts, official transcripts, speech files,
+    briefing materials, selected-public-document status, and
+    supplemental-public-context evidence against the public-source registry when
+    supplied.
+20. Check congressional testimony, hearings, public laws, statutes, continuing
     resolutions, joint resolutions, congressional notifications, Presidential
     Determinations, certifications, Executive Orders, oversight, independent
     counsel, Senate advice-and-consent, and ratification context against the
     congressional/legal registry when supplied.
-20. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
+21. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
     World Bank, MDB, GATT, UNCTAD, OECD, table, amount, percentage, currency,
     fiscal-year, loan, guarantee, quota, replenishment, conditionality, and
     policy-stage evidence against the economic/financial registry when supplied.
-21. Check intelligence, covert-action, law-enforcement, counternarcotics,
+22. Check intelligence, covert-action, law-enforcement, counternarcotics,
     counterterrorism, agency-equity, source-and-methods, operational, oversight,
     foreign-service-contact, sanitized-record, redaction, and public-policy
     evidence against the sensitive-record registry when supplied.
-22. Check Persons, abbreviations, and index authority issues.
-23. Assign specific evidence requests and verification targets for unresolved
+23. Check Persons, abbreviations, and index authority issues.
+24. Assign specific evidence requests and verification targets for unresolved
     proof.
-24. Decide direct edit versus comment-only.
-25. Return strict JSON.
-26. After schema and semantic validation, aggregate all unresolved evidence
+25. Decide direct edit versus comment-only.
+26. Return strict JSON.
+27. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -4701,6 +4948,9 @@ Duplicate-suppression rules:
 - Merge repeated scheduled-publication questions by target volume or chapter.
 - Merge repeated summit/public-event chronology issues by event, date span,
   public-source basis, diary/schedule basis, press basis, or full-record target.
+- Merge repeated public-source issues by speaker, event/publication, public
+  source, page/range, transcript basis, excerpt/full-text target, archival-draft
+  relationship, selected/supplemental status, or broadcast/delivery fact.
 - Merge repeated congressional/legal authority issues by committee, hearing,
   public law, statute, section, vote/action stage, determination, certification,
   Executive Order, oversight body, or Senate advice-and-consent target.
@@ -4848,6 +5098,11 @@ Golden packet composition:
   conference, toast, or congressional-testimony editorial note where public
   sources, diary/schedule evidence, and cross-volume full-record language must
   be kept distinct.
+- At least one public-diplomacy/public-source example with a speech, press
+  release, interview, broadcast, testimony, Public Papers citation, Department
+  of State Bulletin citation, newspaper excerpt, full-text pointer, diary
+  context, speech-file draft, or briefing material that may be selected evidence
+  rather than mere background.
 - At least one congressional/legal-authority example with testimony, hearing,
   public law, Stat. citation, continuing or joint resolution, Presidential
   Determination, certification, Executive Order, oversight, independent counsel,
@@ -4911,6 +5166,12 @@ Expected behavior by test family:
   diary/schedule basis, press basis, and full-record-elsewhere language; comment
   rather than invent when time zone, participant basis, public source, or target
   record evidence is missing.
+- Public-diplomacy/public-source test: preserve selected public documents,
+  Public Papers, Department of State Bulletin, official transcript, newspaper,
+  broadcast, diary, speech-file, and briefing-material relationships; comment
+  rather than invent when publication details, transcript status, excerpt/full
+  target, delivery/broadcast basis, or public-versus-archival selection is
+  missing.
 - Congressional/legal-authority test: preserve committee/hearing identity,
   public-law/statute form, action stage, amount/condition, transmittal basis,
   determination/certification number, Executive Order number, oversight posture,
@@ -4983,6 +5244,12 @@ Use the discrepancy tally for:
   note, how much Public Papers, press, diary, schedule, or itinerary basis to
   name in the note text, and whether full-record-elsewhere language belongs in
   the same note or a follow-on footnote when the underlying facts are sound.
+- Variations in how much public-diplomacy/public-source detail to print,
+  including speech title, issuing office, broadcast facts, Public Papers,
+  Department of State Bulletin, Congressional Record, official transcript,
+  newspaper excerpt, full-text pointer, diary context, speech-file draft,
+  briefing material, and selected-versus-supplemental source status when the
+  underlying facts are sound.
 - Variations in how much congressional/legal detail to print, including
   committee and hearing names, Congress/session, Public Law and Stat. citations,
   section numbers, vote/action stage, appropriations conditions,
@@ -5066,6 +5333,7 @@ Suggested tally format:
 | style-discrepancy-0004 | congressional_legal_authority | How much legal-authority detail should appear in notes when the law, hearing, or transmittal fact is sound. | Public Law and Stat. citation plus action stage; shorter public-law or committee reference with source citation elsewhere | 2 | medium | Should the checker enforce full legal-authority citation form, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0005 | economic_financial_data | How much economic/financial data detail should appear in notes when figures and source basis are sound. | Full institution acronym plus amount, fiscal year, and table/source basis; shorter policy-description form with figure citation elsewhere | 2 | medium | Should the checker enforce full financial-data citation form, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0006 | intelligence_law_enforcement | How much agency-equity, source-and-methods, oversight, redaction/sanitization, or public-policy-only detail should appear when the facts are sound. | Full agency/source-family and oversight basis in note; shorter sensitive-record phrasing with supporting detail in audit/comment context | 2 | high | Should the checker enforce a house form for sensitive-record detail, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0007 | public_diplomacy_public_source | How much public-source and archival-draft context should appear when a speech, interview, testimony, or press item is selected evidence. | Public Papers or Bulletin citation plus full-text, diary, and briefing-file context; shorter selected-public-document note with archival context elsewhere | 2 | medium | Should the checker enforce a standard public-source selected-document form, or tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -5112,6 +5380,12 @@ Required bundle files:
   interview, press conference, toast, testimony, public remarks, itinerary,
   diary/schedule basis, public-source basis, press basis, participant basis,
   full-record target, verification status, and source URLs.
+- `public_source_map`, when available: speech, interview, press release, press
+  conference, briefing, broadcast, testimony, public remarks, Public Papers,
+  Department of State Bulletin, Congressional Record, official transcript,
+  newspaper excerpt, publication details, delivery/broadcast basis, full-text
+  target, excerpt status, diary context, archival draft or briefing-file
+  context, selected/supplemental status, verification status, and source URLs.
 - `congressional_legal_map`, when available: testimony, hearing, committee,
   Congress/session, budget message, public law, Stat. citation, statutory
   section, continuing or joint resolution, vote/action stage, amount, condition,
@@ -5338,6 +5612,7 @@ Classification registry: [classification_registry_id and capture date]
 Translation registry: [translation_registry_id and capture date]
 Treaty/legal-instrument registry: [treaty_registry_id and capture date]
 Event chronology registry: [event_chronology_registry_id and capture date]
+Public-source registry: [public_source_registry_id and capture date]
 Congressional/legal registry: [congressional_legal_registry_id and capture date]
 Economic/financial registry: [economic_financial_registry_id and capture date]
 Sensitive/intelligence-law-enforcement registry: [sensitive_record_registry_id and capture date]
@@ -5375,6 +5650,7 @@ Counts:
 - Translation, foreign-origin copy, or language-services issues: [n]
 - Treaty component, integral/associated status, transmittal, ratification, or entry-into-force issues: [n]
 - Summit, travel, ceremony, interview, press, testimony, or public-event chronology issues: [n]
+- Public diplomacy, speech, press, interview, broadcast, testimony, transcript, full-text, excerpt, diary, or public-source issues: [n]
 - Congressional testimony, hearing, public-law, statute, determination, certification, Executive Order, oversight, or Senate advice-and-consent issues: [n]
 - Economic, debt, trade, assistance, amount, fiscal-year, institution, table, or financial-data issues: [n]
 - Intelligence, law-enforcement, agency-equity, source-and-methods, operational, oversight, or sanitized-record issues: [n]
@@ -5414,6 +5690,9 @@ Treaty/legal-instrument warnings:
 
 Summit/public-event warnings:
 - [unit_id or global]: [event issue] - [event type, public-source basis, diary/schedule basis, press basis, and full-record target]
+
+Public-source/public-diplomacy warnings:
+- [unit_id or global]: [public-source issue] - [record type, public-source type, basis, selected/supplemental status, date/span, public event/publication, archival/draft context, and verification target]
 
 Congressional/legal warnings:
 - [unit_id or global]: [legal-authority issue] - [record type, authority citation, action stage, public/archival basis, and verification target]
@@ -5526,6 +5805,12 @@ Minimum components:
   source-and-methods, operational claims, oversight basis, redaction or
   sanitization, public-policy-only mentions, and foreign-service contacts before
   tracked changes are applied.
+- Public-source validator that distinguishes public diplomacy, speeches, press
+  releases, press conferences, briefings, interviews, broadcasts, testimony,
+  Public Papers, Department of State Bulletin, Congressional Record, official
+  transcripts, newspaper excerpts, full-text targets, archival drafts, briefing
+  materials, diary context, and selected-versus-supplemental status before
+  tracked changes are applied.
 - Cross-reference registry validator that checks same-volume documents,
   footnotes, appendix items, tabs, attachments, public-source references,
   scheduled-publication targets, and cross-volume publication status before
@@ -5577,6 +5862,11 @@ Operational cautions:
   sequence issues, missing public-source basis, diary/schedule basis, press
   basis, participant basis, time-zone questions, full-record targets, and
   summit-public-event discrepancy questions.
+- Record public-source registry version, unresolved publication details,
+  delivery/broadcast basis, transcript basis, full-text target, excerpt status,
+  diary context, archival-draft or briefing-file relationship,
+  selected-versus-supplemental status, and public-diplomacy discrepancy
+  questions.
 - Record congressional/legal registry version, unresolved committee, hearing,
   Congress/session, public-law, Stat., statutory-section, vote/action-stage,
   amount, condition, notification, determination, certification, Executive
@@ -5630,6 +5920,9 @@ Needs revision:
 - Diary/schedule evidence is used as substantive conversation evidence.
 - Summit, travel, ceremony, press, or public-event sequence is asserted without
   public-source, diary/schedule, press, or full-record target support.
+- Public diplomacy, speech, press, interview, broadcast, testimony, transcript,
+  full-text, excerpt, diary, briefing-file, or archival-draft context is changed
+  without supplied public-source basis.
 - Congressional/legal authority is asserted without committee, hearing,
   public-law, statute, vote/action-stage, determination, certification,
   Executive Order, oversight, or Senate advice-and-consent support.
@@ -5719,6 +6012,7 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v10/d46`
 - `https://history.state.gov/historicaldocuments/frus1981-88v10/d56`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d294`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/pressrelease`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d172`
@@ -5733,6 +6027,8 @@ Recent Reagan source incorporated:
 
 - [Ronald Reagan Administration, 1981-1989](https://history.state.gov/historicaldocuments/reagan)
 - [FRUS, 1981-1988, Volume I, Foundations of Foreign Policy](https://history.state.gov/historicaldocuments/frus1981-88v01)
+- [Volume I press release describing public and archival source basis](https://history.state.gov/historicaldocuments/frus1981-88v01/pressrelease)
+- [Volume I source list with speechwriting files, speeches, and published sources](https://history.state.gov/historicaldocuments/frus1981-88v01/sources)
 - [Reagan Cronkite interview editorial note, Document 33](https://history.state.gov/historicaldocuments/frus1981-88v01/d33)
 - [Haig Senate Foreign Relations Committee testimony, Document 39](https://history.state.gov/historicaldocuments/frus1981-88v01/d39)
 - [Reagan United Nations address editorial note, Document 206](https://history.state.gov/historicaldocuments/frus1981-88v01/d206)
