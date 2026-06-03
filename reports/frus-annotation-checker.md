@@ -119,6 +119,7 @@ The LLM must return valid JSON with this shape:
 
 ```json
 {
+  "schema_version": "checker-output-v1",
   "document_assessment": {
     "overall_status": "pass | pass_with_comments | needs_revision | blocked",
     "summary": "Short assessment of annotation quality.",
@@ -165,6 +166,8 @@ The LLM must return valid JSON with this shape:
 
 Rules for JSON edits:
 
+- `schema_version` must be `checker-output-v1`. Reject any output that omits the
+  version or uses an unknown version.
 - `original_text` must be an exact substring of the extracted unit when
   `recommended_action` is `replace_text`, `insert_after_text`, or
   `delete_text`.
@@ -179,6 +182,300 @@ Rules for JSON edits:
   edits and `no_change` findings.
 - Use `style_discrepancy_tally` for recurring style variations that should be
   reviewed by the General Editor rather than silently normalized by the checker.
+
+### 3.1 Machine-Readable Output JSON Schema
+
+Use this schema in the wrapper before applying any tracked changes. Passing this
+schema only proves that the output is shaped correctly. The wrapper must still
+run the semantic and Word-safety validators below.
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/frus-annotation-checker-output.schema.json",
+  "title": "FRUS Annotation Checker Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "document_assessment",
+    "checks",
+    "global_comments",
+    "style_discrepancy_tally"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "checker-output-v1"
+    },
+    "document_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "overall_status",
+        "summary",
+        "blocked_reason"
+      ],
+      "properties": {
+        "overall_status": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "pass_with_comments",
+            "needs_revision",
+            "blocked"
+          ]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "blocked_reason": {
+          "type": "string"
+        }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "unit_id",
+          "severity",
+          "category",
+          "finding",
+          "standard",
+          "recommended_action",
+          "original_text",
+          "replacement_text",
+          "comment_text",
+          "evidence_request",
+          "verification_target"
+        ],
+        "properties": {
+          "unit_id": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "blocker",
+              "major",
+              "minor",
+              "info"
+            ]
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "source_note",
+              "citation",
+              "attachment",
+              "annotation",
+              "editorial_note",
+              "declassification",
+              "authority_control",
+              "chronology",
+              "publication_status",
+              "wording",
+              "evidence",
+              "format"
+            ]
+          },
+          "finding": {
+            "type": "string"
+          },
+          "standard": {
+            "type": "string"
+          },
+          "recommended_action": {
+            "type": "string",
+            "enum": [
+              "replace_text",
+              "insert_after_text",
+              "delete_text",
+              "comment_only",
+              "no_change"
+            ]
+          },
+          "original_text": {
+            "type": "string"
+          },
+          "replacement_text": {
+            "type": "string"
+          },
+          "comment_text": {
+            "type": "string"
+          },
+          "evidence_request": {
+            "type": "string",
+            "enum": [
+              "none",
+              "source_image",
+              "archival_path",
+              "classification_marking",
+              "attachment_status",
+              "document_number",
+              "publication_status",
+              "authority_control",
+              "declassification_status",
+              "translation_status",
+              "chronology",
+              "source_family",
+              "cross_reference",
+              "wrapper_safety"
+            ]
+          },
+          "verification_target": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "global_comments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "severity",
+          "comment_text"
+        ],
+        "properties": {
+          "severity": {
+            "type": "string",
+            "enum": [
+              "major",
+              "minor",
+              "info"
+            ]
+          },
+          "comment_text": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "style_discrepancy_tally": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "discrepancy_id",
+          "category",
+          "style_question",
+          "variant_a",
+          "variant_b",
+          "unit_ids",
+          "published_or_local_examples",
+          "count",
+          "risk",
+          "checker_action",
+          "general_editor_question"
+        ],
+        "properties": {
+          "discrepancy_id": {
+            "type": "string",
+            "pattern": "^style-discrepancy-[0-9]{4}$"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "source_note",
+              "citation",
+              "attachment",
+              "editorial_note",
+              "declassification",
+              "authority_control",
+              "publication_status",
+              "wording",
+              "format",
+              "wrapper"
+            ]
+          },
+          "style_question": {
+            "type": "string"
+          },
+          "variant_a": {
+            "type": "string"
+          },
+          "variant_b": {
+            "type": "string"
+          },
+          "unit_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "published_or_local_examples": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "risk": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          },
+          "checker_action": {
+            "type": "string",
+            "enum": [
+              "no_change",
+              "comment_only",
+              "direct_edit_applied"
+            ]
+          },
+          "general_editor_question": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Schema validator behavior:
+
+- Reject the entire LLM response if JSON parsing fails, the schema version is
+  missing, a required top-level array is missing, or an enum value is outside
+  the schema.
+- Treat empty arrays as valid. A perfect packet may have no findings and no
+  discrepancy-tally items.
+- Reject unknown properties. Extra prose, markdown, model reasoning, or
+  unrecognized fields should not pass silently into the Word wrapper.
+- Preserve the raw rejected response in the audit log, but do not insert it into
+  the Word file.
+
+Semantic validator behavior:
+
+- If `overall_status` is `blocked`, require a non-empty `blocked_reason`.
+- If `overall_status` is not `blocked`, require `blocked_reason` to be empty.
+- For `replace_text`, `insert_after_text`, and `delete_text`, require non-empty
+  `original_text` and exact one-time matching against the mapped `exact_text`.
+- For `replace_text` and `insert_after_text`, require non-empty
+  `replacement_text`.
+- For `delete_text`, require empty `replacement_text`.
+- For `comment_only`, require non-empty `comment_text`.
+- For `no_change`, require empty `original_text`, `replacement_text`,
+  `comment_text`, and `verification_target`, with `evidence_request` set to
+  `none`.
+- If `evidence_request` is not `none`, require a non-empty
+  `verification_target`.
+- Reject any direct edit whose category is `publication_status`,
+  `declassification`, `attachment`, `chronology`, or `authority_control` when
+  the required proof is absent from the uploaded unit or wrapper context.
+- Downgrade to `comment_only` when a finding passes the JSON schema but fails a
+  Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
 ## 4. Word Wrapper Requirements
 
@@ -2261,6 +2558,7 @@ Input file: [filename]
 Output file: [filename.frus-annotation-check.docx]
 Run date: [date]
 Checker version: [version]
+Output schema: checker-output-v1
 Context bundle: [bundle_id and capture date]
 Status snapshot: [status_snapshot URL and captured_at date]
 Status registry stale: [yes/no/not supplied]
@@ -2308,7 +2606,7 @@ Minimum components:
 - `.docx` extractor that reads body paragraphs, footnotes, endnotes, comments,
   tables, headings, and tracked changes.
 - LLM prompt runner with this Markdown standard loaded.
-- JSON schema validator.
+- JSON schema validator for `checker-output-v1`.
 - WordprocessingML edit applier that can create real tracked insertions,
   deletions, and comments.
 - Offline context-bundle loader with status, authority, source-family, and
