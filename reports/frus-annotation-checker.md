@@ -111,6 +111,11 @@ The wrapper should provide the LLM with:
   telegrams, related papers, source paths, daily-diary leads, repository or
   folder searches, published phrase, item sought, search scope, result, and
   follow-up status.
+- `printed_attachment_context`, if available: structured attachment, tab,
+  enclosure, annex, appendix, nested-document, printed-as-document,
+  attached-but-not-printed, not-attached, attachment-heading, attachment-source
+  note, classification, footnote, cross-reference, and parent-child document
+  relationship evidence.
 - `retrospective_account_context`, if available: structured memoir, published
   diary, personal diary, oral history, recollection, later interview, press
   retrospective, author/editor, publication, page, date, event described,
@@ -244,14 +249,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | printed_nested_attachment | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | source_list_basis | selection_balance_basis | physical_evidence_basis | negative_search_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | source_list_basis | selection_balance_basis | physical_evidence_basis | negative_search_basis | printed_attachment_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -264,7 +269,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | printed_nested_attachment | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -385,6 +390,7 @@ run the semantic and Word-safety validators below.
               "source_note",
               "citation",
               "attachment",
+              "printed_nested_attachment",
               "annotation",
               "editorial_note",
               "document_metadata",
@@ -450,6 +456,7 @@ run the semantic and Word-safety validators below.
               "selection_balance_basis",
               "physical_evidence_basis",
               "negative_search_basis",
+              "printed_attachment_basis",
               "attachment_status",
               "document_number",
               "document_metadata",
@@ -533,6 +540,7 @@ run the semantic and Word-safety validators below.
               "source_note",
               "citation",
               "attachment",
+              "printed_nested_attachment",
               "editorial_note",
               "document_metadata",
               "classification_handling",
@@ -640,7 +648,8 @@ Semantic validator behavior:
 - If `evidence_request` is not `none`, require a non-empty
   `verification_target`.
 - Reject any direct edit whose category is `publication_status`,
-  `declassification`, `attachment`, `document_metadata`,
+  `declassification`, `attachment`, `printed_nested_attachment`,
+  `document_metadata`,
   `classification_handling`, `source_list_front_matter`,
   `selection_balance_completeness`,
   `physical_routing_marginalia`,
@@ -2592,6 +2601,216 @@ Attachment audit requirements:
 - Do not release a final-style `.docx` when attachment claims remain `unknown`
   in publishable apparatus unless the volume editor waives the issue and the
   waiver is included in the audit report.
+
+### 6.5A Printed Attachments, Tabs, Nested Documents, And Child Apparatus
+
+Some attachments are not merely mentioned in a note; they are printed as part
+of the same numbered document, printed as another document, printed as an
+attachment to another document, or omitted with a precise `Attached but not
+printed` note. These child units may need their own supplied headings, date or
+place lines, classification notes, source-note footnotes, cross-references, and
+translation or foreign-copy treatment. Do not collapse this into generic
+attachment status.
+
+Use a printed/nested-attachment registry when the wrapper can supply one:
+
+```json
+{
+  "printed_attachment_registry_id": "frus-1981-1992-printed-nested-attachments-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d26",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d181",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d276",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d222"
+  ],
+  "items": [
+    {
+      "printed_attachment_item_id": "printed-attachment-reagan-start-0181-tab-a",
+      "parent_unit_id": "document-0181",
+      "child_unit_id": "document-0181-attachment-0001",
+      "relationship_type": "printed_nested_attachment",
+      "source_label": "Attachment",
+      "tab_or_attachment_label": "Tab A",
+      "child_heading": "Paper Prepared in the National Security Council",
+      "child_date_or_place": "Washington, undated",
+      "child_title_or_subject": "Overall Instructions--Round VII",
+      "child_source_note_or_footnote": "Secret. Prepared by Brooks.",
+      "child_classification_or_marking": "Secret",
+      "editorial_status": "printed_in_parent",
+      "printed_target": "Document 181",
+      "cross_reference_target": "",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "printed_attachment_item_id": "printed-attachment-reagan-start-0181-tab-c",
+      "parent_unit_id": "document-0181",
+      "child_unit_id": "document-0181-attachment-0002",
+      "relationship_type": "printed_nested_attachment",
+      "source_label": "Attachment",
+      "tab_or_attachment_label": "Tab C",
+      "child_heading": "Paper Prepared in the National Security Council",
+      "child_date_or_place": "Washington, undated",
+      "child_title_or_subject": "START Instructions--Round VII",
+      "child_source_note_or_footnote": "Secret. Prepared by Brooks.",
+      "child_classification_or_marking": "Secret",
+      "editorial_status": "printed_in_parent",
+      "printed_target": "Document 181",
+      "cross_reference_target": "",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "printed_attachment_item_id": "printed-attachment-bush-start-0222-foreign-paper",
+      "parent_unit_id": "document-0222",
+      "child_unit_id": "document-0222-attachment-0001",
+      "relationship_type": "printed_nested_attachment",
+      "source_label": "Attachment",
+      "tab_or_attachment_label": "Attachment",
+      "child_heading": "Paper Prepared in the Soviet Ministry of Foreign Affairs",
+      "child_date_or_place": "Moscow, undated",
+      "child_title_or_subject": "oral message context",
+      "child_source_note_or_footnote": "Secret; unknown-hand note; Scowcroft saw stamp; Russian text in same file",
+      "child_classification_or_marking": "Secret",
+      "editorial_status": "printed_in_parent",
+      "printed_target": "Document 222",
+      "cross_reference_target": "",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "printed_attachment_item_id": "printed-attachment-bush-start-0001-grip-papers",
+      "parent_unit_id": "document-0001",
+      "child_unit_id": "document-0001-footnote-0002",
+      "relationship_type": "attached_but_not_printed",
+      "source_label": "attached papers",
+      "tab_or_attachment_label": "",
+      "child_heading": "",
+      "child_date_or_place": "March 12, 1988; March 7, 1988",
+      "child_title_or_subject": "GRIP 34 H (Mobile ICBMs); GRIP 59A (Suspect Site Inspections)",
+      "child_source_note_or_footnote": "Attached but not printed",
+      "child_classification_or_marking": "",
+      "editorial_status": "attached_not_printed",
+      "printed_target": "",
+      "cross_reference_target": "",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "printed_attachment_item_id": "printed-attachment-reagan-start-0276-tabs",
+      "parent_unit_id": "document-0276",
+      "child_unit_id": "document-0276-footnote-0007",
+      "relationship_type": "printed_as_document",
+      "source_label": "Tab I",
+      "tab_or_attachment_label": "Tab I",
+      "child_heading": "",
+      "child_date_or_place": "",
+      "child_title_or_subject": "memorandum approving START Memorandum of Understanding",
+      "child_source_note_or_footnote": "Printed as Document 277.",
+      "child_classification_or_marking": "",
+      "editorial_status": "printed_elsewhere",
+      "printed_target": "Document 277",
+      "cross_reference_target": "Document 277",
+      "verification_status": "verified_published_pattern"
+    }
+  ]
+}
+```
+
+Allowed `relationship_type` values:
+
+- `printed_nested_attachment`
+- `printed_as_document`
+- `printed_as_tab_or_attachment`
+- `attached_but_not_printed`
+- `not_attached`
+- `not_found_attached`
+- `appendix_or_facsimile`
+- `foreign_paper_attachment`
+- `translation_or_original_text_pair`
+- `treaty_component_attachment`
+- `participant_list_or_agenda`
+- `unknown`
+
+Allowed `editorial_status` values:
+
+- `printed_in_parent`
+- `printed_elsewhere`
+- `attached_not_printed`
+- `not_attached`
+- `not_found_attached`
+- `excerpted`
+- `appendix`
+- `scheduled_elsewhere`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified_published_pattern`
+- `verified_internal_packet`
+- `needs_child_heading`
+- `needs_child_source_note`
+- `needs_child_classification`
+- `needs_printed_target`
+- `needs_parent_child_map`
+- `needs_translation_or_original_text_status`
+- `needs_attachment_status`
+- `unknown`
+
+Printed/nested-attachment validator sequence:
+
+1. Identify every printed attachment, tab, enclosure, annex, child paper,
+   embedded memorandum, foreign paper, treaty component, participant list,
+   appendix image, and `Printed as Document [n]` relationship.
+2. Match against `printed_attachment_context` before changing attachment
+   headings, source notes, classifications, dates, titles, or cross-references.
+3. Separate parent source note from child apparatus. A child attachment printed
+   inside the parent may need its own heading and footnote; a child printed as a
+   separate document needs a stable target document number.
+4. Keep `printed_in_parent`, `printed_elsewhere`, `attached_not_printed`,
+   `not_attached`, and `not_found_attached` distinct. Do not convert one into
+   another without supplied evidence.
+5. Require a child heading when the attachment is printed as a distinct paper,
+   message, treaty component, foreign note, or minutes record inside the parent.
+6. Require child classification or source-note basis when the printed child has
+   its own marking, typed signature, stamp, unknown-hand note, translation
+   status, or source phrase.
+7. Coordinate with document metadata, attachment status, cross-reference,
+   treaty, translation, foreign/international-organization, and negative-search
+   validators instead of duplicating their findings.
+8. For `Attached but not printed`, preserve specific title, date, drafter, tab,
+   recommendation, or description when supplied. A bare phrase is acceptable
+   only when the source or local standard supplies no further safe detail.
+9. For foreign-paper attachments, preserve source-versus-subject status,
+   original-language status, translation status, and whether the original text
+   is in the same file.
+10. Add `printed_nested_attachment` discrepancies to the General Editor tally
+    only when the facts are sound but published or local practice varies on how
+    much child apparatus to print.
+
+Direct-edit posture:
+
+- Safe direct edits may correct narrow attachment wording only when the registry
+  supplies final parent-child facts and the exact Word anchor is safe.
+- Use `comment_only` with `evidence_request: printed_attachment_basis` when the
+  child heading, child source note, child classification, printed target,
+  parent-child map, translation/original-text status, or attachment relationship
+  is missing.
+- Use `evidence_request: attachment_status` for physical attached/not-attached
+  proof; use `document_number` or `cross_reference` for the target document;
+  use `classification_marking`, `translation_status`, or `foreign_org_basis`
+  when the blocker belongs to the child record's own apparatus.
+- Do not directly add a child heading, source note, classification marking,
+  translation note, or target document number unless the exact evidence appears
+  in the uploaded packet or registry.
+
+Printed/nested-attachment audit requirements:
+
+- Count printed-in-parent, printed-elsewhere, attached-but-not-printed,
+  not-attached, not-found-attached, appendix/facsimile, treaty-component, and
+  foreign-paper attachment warnings separately.
+- Record missing child headings, child source notes, child classification,
+  parent-child map failures, and missing printed targets.
+- Keep a General Editor tally item for recurring variation in how much child
+  apparatus should be printed in annotation sheets and final FRUS volumes.
 
 ### 6.6 Declassification And Omissions
 
@@ -6444,6 +6663,7 @@ Evidence-request categories:
 | `selection_balance_basis` | Decision-point, option, dissent, agency-position, intelligence-basis, negotiation, implementation, foreign-response, public-explanation, outcome, related-volume, withheld-document, or known-gap coverage evidence is missing or inconsistent. | Which coverage dimension, related volume, document family, source lead, withheld-document ledger, or General Editor scope decision needs confirmation. |
 | `physical_evidence_basis` | Handwriting, initials, marginalia, highlighting, underlining, checkmark, stamp, read-by/seen notation, signed status, approval box, sent-for-action or information routing, correspondence profile, distribution, physical placement, or unknown-hand evidence is uncertain. | Which visible physical feature, actor/hand, placement, routing status, approval status, profile, attachment, source image, or search/diary context must be checked. |
 | `negative_search_basis` | Negative search, no-record, not-found, not-found-attached, no-minutes, no-memcon, no-telcon, unlocated draft, missing attachment, unresolved source path, found-elsewhere, or pending follow-up evidence is uncertain. | Which item was sought, record type, repository/file scope, search basis, result status, follow-up, and public phrase must be checked. |
+| `printed_attachment_basis` | Printed attachment, nested document, child heading, child source note, child classification, parent-child map, printed target, translation/original-text status, or printed-versus-attached-not-printed evidence is uncertain. | Which parent document, child unit, tab/enclosure label, heading, date/title, source note, classification, translation status, printed target, and cross-reference must be checked. |
 | `attachment_status` | Attached, not attached, printed elsewhere, tabbed, enclosed, or not found claims are uncertain. | Which tab, enclosure, paper, or list must be checked. |
 | `document_number` | Same-volume or cross-volume reference lacks a stable document number. | Which target document, chapter, or volume must be matched. |
 | `document_metadata` | Heading, dateline, subject/title line, public title, sender, recipient, internal number, or document form is missing or suspect. | Which heading field and evidence source must be checked before rewriting. |
@@ -6519,6 +6739,7 @@ Default blocking rules:
 | `selection_balance_basis` | yes for selection-scope, completeness, related-volume, coverage-matrix, or known-gap edits | yes when a final-style packet claims complete or balanced coverage but lacks support for required coverage dimensions |
 | `physical_evidence_basis` | yes for handwriting, initials, marginalia, stamp, read-by/seen, signed, approval, routing, correspondence-profile, distribution, placement, or unknown-hand edits | yes when physical/source-image evidence appears in publishable apparatus |
 | `negative_search_basis` | yes for `Not found`, `Not found attached`, `No minutes were found`, no-record, unlocated-draft, missing-attachment, unresolved-source-path, or found-elsewhere edits | yes when negative-search or no-record language appears in publishable apparatus |
+| `printed_attachment_basis` | yes for printed-attachment, nested-document, child-heading, child-source-note, child-classification, parent-child-map, printed-target, or translation/original-text edits | yes when printed or nested attachment apparatus appears in publishable notes |
 | `attachment_status` | yes | yes when the note asserts attached, not attached, tabbed, enclosed, printed, or not found |
 | `document_number` | yes for cross-reference edits | yes when same-volume or cross-volume references are unstable |
 | `document_metadata` | yes for heading, dateline, title, subject, or caption edits | yes when publishable apparatus identifies the document |
@@ -6549,7 +6770,8 @@ Owner hints:
   international-organization proof, congressional/legal proof, financial data,
   agency-equity proof, military-operation proof, human-rights/refugee/global-
   issues proof, source-list and front-matter basis, physical/routing evidence,
-  selection-balance basis, retrospective-account basis, sensitive-record source basis,
+  selection-balance basis, printed/nested-attachment basis,
+  retrospective-account basis, sensitive-record source basis,
   negative-search/no-record basis, translation status, and foreign-copy
   provenance.
 - `editor`: wording, heading form, cross-reference form, source-list
@@ -6558,7 +6780,7 @@ Owner hints:
   form, foreign/international-organization note form, economic/financial table
   and note form, military/crisis note form, human-rights/refugee/global-issues
   note form, source-list/front-matter form, selection-balance scope questions,
-  physical/routing note form,
+  printed/nested-attachment note form, physical/routing note form,
   retrospective-account note form, sensitive-record note form,
   negative-search/no-record wording, publication-status wording, and General
   Editor discrepancy preparation.
@@ -6857,65 +7079,68 @@ For every extracted unit, run checks in this order:
     and entry-into-force language against the treaty registry when supplied.
 15. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
    against the attachment registry when supplied.
-16. Check negative-search, no-record, not-found, not-found-attached,
+16. Check printed attachments, nested documents, child headings, child source
+   notes, child classifications, printed-targets, and parent-child maps against
+   the printed/nested-attachment registry when supplied.
+17. Check negative-search, no-record, not-found, not-found-attached,
    no-minutes, no-memcon, no-telcon, unlocated-draft, missing-attachment, and
    found-elsewhere claims against the negative-search registry when supplied.
-17. Check cross-references and follow-on citation form against the
+18. Check cross-references and follow-on citation form against the
    cross-reference registry when supplied.
-18. Check annotation purpose and concision.
-19. Check declassification, omission, original-bracket, release-status, and
+19. Check annotation purpose and concision.
+20. Check declassification, omission, original-bracket, release-status, and
     whole-document withholding language against the declassification registry
     when supplied.
-20. Check target-volume status and whether the note is research-stage,
+21. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-21. Route the unit through the relevant volume family when a 1981-1992
+22. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-22. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
+23. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-23. Check summit, travel, ceremony, public address, interview, press
+24. Check summit, travel, ceremony, public address, interview, press
     conference, toast, testimony, public remarks, and public-event sequence
     evidence against the event-chronology registry when supplied.
-24. Check public diplomacy, speeches, press releases, press conferences,
+25. Check public diplomacy, speeches, press releases, press conferences,
     briefings, interviews, broadcasts, testimony, Public Papers, Department of
     State Bulletin, newspaper excerpts, official transcripts, speech files,
     briefing materials, selected-public-document status, and
     supplemental-public-context evidence against the public-source registry when
     supplied.
-25. Check memoirs, published diaries, personal diaries, oral histories, later
+26. Check memoirs, published diaries, personal diaries, oral histories, later
     interviews, recollections, press retrospectives, newspaper accounts,
     selected/supplemental status, official-record relationship, corroborating
     records, and conflict status against the retrospective-account registry when
     supplied.
-26. Check congressional testimony, hearings, public laws, statutes, continuing
+27. Check congressional testimony, hearings, public laws, statutes, continuing
     resolutions, joint resolutions, congressional notifications, Presidential
     Determinations, certifications, Executive Orders, oversight, independent
     counsel, Senate advice-and-consent, and ratification context against the
     congressional/legal registry when supplied.
-27. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
+28. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
     World Bank, MDB, GATT, UNCTAD, OECD, table, amount, percentage, currency,
     fiscal-year, loan, guarantee, quota, replenishment, conditionality, and
     policy-stage evidence against the economic/financial registry when supplied.
-28. Check intelligence, covert-action, law-enforcement, counternarcotics,
+29. Check intelligence, covert-action, law-enforcement, counternarcotics,
     counterterrorism, agency-equity, source-and-methods, operational, oversight,
     foreign-service-contact, sanitized-record, redaction, and public-policy
     evidence against the sensitive-record registry when supplied.
-29. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
+30. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
     combat-operation, contingency-plan, CONPLAN, host-nation notification,
     coalition, peacekeeping, force/unit, time-zone, casualty/damage, and
     military-assistance evidence against the military/crisis registry when
     supplied.
-30. Check human-rights reports, refugee, immigration, asylum, migration, famine,
+31. Check human-rights reports, refugee, immigration, asylum, migration, famine,
     emergency relief, food aid, public-health, AIDS/HIV, population policy,
     environmental, ozone, sanctions, waivers, certifications, public reports,
     international organizations, PVOs, AID/PRM, PL 480, Section 416, and Section
     206 evidence against the human-rights/refugee/global-issues registry when
     supplied.
-31. Check Persons, abbreviations, and index authority issues.
-32. Assign specific evidence requests and verification targets for unresolved
+32. Check Persons, abbreviations, and index authority issues.
+33. Assign specific evidence requests and verification targets for unresolved
     proof.
-33. Decide direct edit versus comment-only.
-34. Return strict JSON.
-35. After schema and semantic validation, aggregate all unresolved evidence
+34. Decide direct edit versus comment-only.
+35. Return strict JSON.
+36. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -7024,6 +7249,10 @@ Duplicate-suppression rules:
 - Merge repeated negative-search/no-record issues by claim type, item sought,
   record type, repository or folder scope, attachment relationship, search
   result, follow-up status, found-elsewhere target, or public phrase.
+- Merge repeated printed/nested-attachment issues by parent document, child
+  unit, tab/enclosure label, relationship type, child heading, child source
+  note, child classification, printed target, translation/original-text status,
+  or parent-child map.
 - Merge repeated wrapper-safety issues by Word structure, such as tables,
   existing tracked changes, footnote references, fields, or comments.
 - Do not merge findings that require different evidence requests or different
@@ -7156,6 +7385,9 @@ Golden packet composition:
 - At least one negative-search/no-record example with `Not found.`, `Not found
   attached.`, `Not attached.`, `No minutes were found.`, or an unlocated draft,
   including one verified no-change control and one missing-search-basis control.
+- At least one printed/nested-attachment example with a parent document, child
+  heading, child source note or classification, `Attached but not printed`,
+  `Printed as Document [n]`, or foreign-paper attachment relationship.
 - At least one translated or foreign-origin document with official,
   unofficial, informal, Language Services, typed-signature, or foreign-copy
   provenance language, used as a no-change or comment-only control.
@@ -7259,6 +7491,11 @@ Expected behavior by test family:
   when the search basis is supplied; comment rather than convert working labels
   into publishable no-record claims when item identity, repository scope,
   record type, attachment relationship, or target document is missing.
+- Printed/nested-attachment test: preserve parent-child mapping, child headings,
+  child source notes, child classification, printed-target references, and
+  attached-but-not-printed distinctions; comment rather than invent when the
+  child apparatus, printed target, translation/original-text status, or
+  attachment relationship is missing.
 - Translation/foreign-origin test: preserve official/unofficial/informal
   translation language, foreign-copy provenance, typed-signature notes, and
   bracket-treatment facts; comment rather than invent when the translation basis
@@ -7436,6 +7673,11 @@ Use the discrepancy tally for:
   found.`, `Not found attached.`, `Not attached.`, `No minutes were found.`,
   no-memcon/no-telcon claims, unlocated drafts, unresolved source paths, or
   found-elsewhere targets when the underlying search facts are sound.
+- Variations in how much printed/nested-attachment apparatus to print,
+  including child headings, child source notes, child classification markings,
+  tab labels, parent-child maps, foreign-paper attachment treatment,
+  attached-but-not-printed descriptions, and printed-target references when the
+  underlying facts are sound.
 - Variations in `scheduled for publication`, `printed in`, same-volume
   cross-references, footnote cross-references, or document-number style.
 - Variations in document-heading form, place/date line placement,
@@ -7517,6 +7759,7 @@ Suggested tally format:
 | style-discrepancy-0013 | negative_search_no_record | How much negative-search/no-record basis should appear in notes when the item sought, search scope, record type, and result are sound. | Compact published phrase such as `Not found.` or `No minutes were found.`; fuller note or audit context naming item sought, repository/file scope, attachment relationship, and follow-up status | 2 | medium | Should the checker enforce a house form for negative-search/no-record wording, or preserve compact published phrases and tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0014 | source_list_front_matter | How much source-list/front-matter reconciliation should be required in annotation sheets before final Sources, Abbreviations, Persons, appendix, Preface, and About the Series assembly. | Full source-list/front-matter reconciliation in the checker audit; lighter compiler-sheet comments that preserve unresolved apparatus questions for later volume-level cleanup | 2 | medium | Should the checker enforce source-list/front-matter reconciliation during annotation review, or tally unresolved apparatus questions for General Editor decision at final assembly? |
 | style-discrepancy-0015 | selection_balance_completeness | How much selection-balance and completeness audit detail should appear in annotation sheets before General Editor review. | Full coverage matrix with decision points, options, dissent, agencies, foreign response, implementation, outcome, and gaps; shorter annotation-sheet comments with the full audit maintained in a separate compiler selection file | 2 | high | Should the checker require selection-balance audit fields in annotation sheets, or tally unresolved coverage questions for General Editor decision outside the redlined Word file? |
+| style-discrepancy-0016 | printed_nested_attachment | How much child apparatus should appear for printed attachments, nested documents, tabs, foreign papers, and printed-elsewhere targets. | Full parent-child map with child heading, child source note, classification, translation/original-text status, and printed target; shorter attachment note with details preserved in audit/context | 2 | medium | Should the checker enforce full child-apparatus treatment for printed/nested attachments, or tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -7571,6 +7814,11 @@ Required bundle files:
   verification status, and source URLs for `Not found`, `Not found attached`,
   `Not attached`, no-minutes, no-memcon, no-telcon, missing-attachment,
   unlocated-draft, unresolved-source-path, and found-elsewhere claims.
+- `printed_attachment_map`, when available: parent document, child unit,
+  relationship type, source label, tab/enclosure label, child heading, child
+  date/title, child source note, child classification, editorial status,
+  printed target, cross-reference target, translation/original-text status,
+  verification status, and source URLs for printed/nested attachments.
 - `classification_marking_map`, when available: original classification,
   handling, precedence, paragraph-marking, verified absence, and source-phrase
   evidence for source notes, attachments, captions, and selected document
@@ -7841,6 +8089,7 @@ Authority registry: [authority_registry_id and capture date]
 Document metadata registry: [document_metadata_registry_id and capture date]
 Physical/routing registry: [physical_routing_registry_id and capture date]
 Negative-search/no-record registry: [negative_search_registry_id and capture date]
+Printed/nested-attachment registry: [printed_attachment_registry_id and capture date]
 Classification registry: [classification_registry_id and capture date]
 Translation registry: [translation_registry_id and capture date]
 Foreign/international-organization registry: [foreign_international_org_registry_id and capture date]
@@ -7887,6 +8136,7 @@ Counts:
 - Document heading, dateline, title, or caption issues: [n]
 - Physical evidence, routing, marginalia, read-by/seen, approval, or placement issues: [n]
 - Negative-search/no-record/not-found/not-attached/no-minutes issues: [n]
+- Printed attachment, nested document, child apparatus, or printed-target issues: [n]
 - Classification, handling, precedence, or paragraph-marking issues: [n]
 - Translation, foreign-origin copy, or language-services issues: [n]
 - Foreign-government, international-organization, multilateral, alliance, coalition, conference, treaty-party, or foreign-copy issues: [n]
@@ -7931,6 +8181,9 @@ Physical/routing/marginalia warnings:
 
 Negative-search/no-record warnings:
 - [unit_id or global]: [negative-search issue] - [claim type, item sought, record type, repository or folder scope, attachment relationship, search result, found-elsewhere target, follow-up status, and verification target]
+
+Printed/nested-attachment warnings:
+- [unit_id or global]: [printed/nested attachment issue] - [parent document, child unit, relationship type, tab or attachment label, child heading, child source/classification basis, printed target, translation/original-text status, and verification target]
 
 Classification/handling warnings:
 - [unit_id or global]: [marking issue] - [original marking, handling/precedence, and evidence basis]
@@ -8058,6 +8311,11 @@ Minimum components:
   found attached.`, `Not attached.`, no-minutes, no-memcon, no-telcon,
   missing-attachment, unlocated-draft, unresolved-source-path, and
   found-elsewhere claims before tracked changes are applied.
+- Printed/nested-attachment validator that distinguishes printed-in-parent,
+  printed-elsewhere, attached-but-not-printed, not-attached, not-found-attached,
+  child headings, child source notes, child classifications, parent-child maps,
+  foreign-paper attachments, treaty-component attachments, and
+  translation/original-text pairs before tracked changes are applied.
 - Communications-record validator that checks telegram, cable, STARS, CFPF,
   PROFS, W Files, System IV, agency-message, and other electronic-message
   identifiers, origin/addressee, date-time group, precedence,
@@ -8159,6 +8417,11 @@ Operational cautions:
   repository-scope gaps, missing search logs, unresolved attachment
   relationships, found-elsewhere targets without document numbers, and
   negative-search discrepancy questions.
+- Record printed/nested-attachment registry version, parent-child map gaps,
+  missing child headings, missing child source notes, missing child
+  classifications, missing printed targets, unresolved translation/original-text
+  status, foreign-paper attachment questions, and printed/nested-attachment
+  discrepancy questions.
 - Record classification-registry version, missing original markings,
   unsupported `No classification marking` claims, handling/precedence
   mismatches, paragraph-marking questions, release-status confusions, and
@@ -8283,6 +8546,11 @@ Needs revision:
   no-memcon/no-telcon, unlocated-draft, missing-attachment,
   unresolved-source-path, or found-elsewhere language is asserted without
   supplied negative-search basis.
+- Printed attachments, nested documents, tabs, foreign-paper attachments, treaty
+  components, or appendix/facsimile relationships lack supplied parent-child
+  map, child heading, child source note, child classification, printed target,
+  or translation/original-text basis when those facts are needed for final
+  apparatus.
 - Diary/schedule evidence is used as substantive conversation evidence.
 - Summit, travel, ceremony, press, or public-event sequence is asserted without
   public-source, diary/schedule, press, or full-record target support.
@@ -8427,6 +8695,9 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/sources`
 - `https://history.state.gov/historicaldocuments/frus1981-88v06/preface`
 - `https://history.state.gov/historicaldocuments/frus1981-88v11/d182`
+- `https://history.state.gov/historicaldocuments/frus1981-88v11/d181`
+- `https://history.state.gov/historicaldocuments/frus1981-88v11/d26`
+- `https://history.state.gov/historicaldocuments/frus1981-88v11/d276`
 - `https://history.state.gov/historicaldocuments/frus1981-88v11/d213`
 - `https://history.state.gov/historicaldocuments/frus1981-88v11/d226`
 - `https://history.state.gov/historicaldocuments/frus1981-88v11/d301`
@@ -8444,6 +8715,7 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/preface`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d172`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/d222`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/sources`
 
 That guide distills patterns from published Reagan and Bush FRUS volumes on
@@ -8478,9 +8750,12 @@ Recent Reagan source incorporated:
 - [FRUS, 1981-1988, Volume VI preface on Soviet-policy scope, related-volume boundaries, summits, agency roles, and skeptical views](https://history.state.gov/historicaldocuments/frus1981-88v06/preface)
 - [FRUS, 1981-1988, Volume X, Eastern Europe](https://history.state.gov/historicaldocuments/frus1981-88v10)
 - [FRUS, 1981-1988, Volume XI, START I](https://history.state.gov/historicaldocuments/frus1981-88v11)
+- [START I attached-but-not-printed papers and printed-as-document follow-up, Document 26](https://history.state.gov/historicaldocuments/frus1981-88v11/d26)
+- [START I nested printed attachments with child `Paper Prepared...` headings and child footnotes, Document 181](https://history.state.gov/historicaldocuments/frus1981-88v11/d181)
 - [START I attachment and `not found` distinction, Document 182](https://history.state.gov/historicaldocuments/frus1981-88v11/d182)
 - [START I no-minutes and not-attached distinction, Document 213](https://history.state.gov/historicaldocuments/frus1981-88v11/d213)
 - [START I tabs not-attached/not-found distinction, Document 226](https://history.state.gov/historicaldocuments/frus1981-88v11/d226)
+- [START I draft MOU attached-but-not-printed and printed-as-document tab logic, Document 276](https://history.state.gov/historicaldocuments/frus1981-88v11/d276)
 - [START I no-minutes and not-attached distinction, Document 301](https://history.state.gov/historicaldocuments/frus1981-88v11/d301)
 - [FRUS, 1981-1988, Volume XXIV, North Africa](https://history.state.gov/historicaldocuments/frus1981-88v24)
 - [Volume XXIV source list with DOD, NSC Crisis Management Center, OSD, CIA, and State NODIS/EXDIS records](https://history.state.gov/historicaldocuments/frus1981-88v24/sources)
@@ -8539,6 +8814,7 @@ Recent Bush source incorporated:
 - [Gorbachev letter printed from unofficial translation, Document 91](https://history.state.gov/historicaldocuments/frus1989-92v31/d91)
 - [START I preface on Soviet dissolution and Lisbon Protocol successor-state context](https://history.state.gov/historicaldocuments/frus1989-92v31/preface)
 - [START data-denial, intelligence, DOD, CIA, JCS, and redaction example, Document 172](https://history.state.gov/historicaldocuments/frus1989-92v31/d172)
+- [START I foreign-paper attachment printed inside parent document with child heading and child source note, Document 222](https://history.state.gov/historicaldocuments/frus1989-92v31/d222)
 - [FRUS, 1989-1992, Volume XXXI, START I, 1989-1991 EPUB](https://static.history.state.gov/frus/frus1989-92v31/ebook/frus1989-92v31.epub)
 
 Current status source incorporated:
