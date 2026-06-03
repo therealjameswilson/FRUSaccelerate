@@ -9,7 +9,7 @@ const DIRECT_ACTIONS = new Set(["replace_text", "insert_after_text", "delete_tex
 
 function usage() {
   console.error(
-    "Usage: node scripts/run-frus-offline-review.mjs --docx <input.docx> --checker-output <checker-output.json> --out <revised.docx> [--artifact-dir DIR] [--audit audit.json] [--existing-ledger ledger.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--today YYYY-MM-DD] [--max-age-days N] [--review-mode light|normal|exhaustive] [--run-id RUN] [--author NAME] [--date ISO-DATE] [--format json|text]"
+    "Usage: node scripts/run-frus-offline-review.mjs --docx <input.docx> --checker-output <checker-output.json> --out <revised.docx> [--artifact-dir DIR] [--audit audit.json] [--existing-ledger ledger.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--negative-search-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--today YYYY-MM-DD] [--max-age-days N] [--review-mode light|normal|exhaustive] [--run-id RUN] [--author NAME] [--date ISO-DATE] [--format json|text]"
   );
   process.exit(2);
 }
@@ -28,6 +28,7 @@ function parseArgs(argv) {
   let sourceListRegistryPath = null;
   let documentMetadataRegistryPath = null;
   let classificationRegistryPath = null;
+  let negativeSearchRegistryPath = null;
   let preparationRouterPath = null;
   let permutationMatrixPath = null;
   let targetVolume = "";
@@ -79,6 +80,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--classification-registry") {
       classificationRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--negative-search-registry") {
+      negativeSearchRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--preparation-router") {
       preparationRouterPath = argv[index + 1];
@@ -149,6 +153,7 @@ function parseArgs(argv) {
     sourceListRegistryPath,
     documentMetadataRegistryPath,
     classificationRegistryPath,
+    negativeSearchRegistryPath,
     preparationRouterPath,
     permutationMatrixPath,
     targetVolume,
@@ -253,6 +258,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
   const sourceListAudit = reports.source_list_usage_audit || null;
   const documentMetadataAudit = reports.document_metadata_usage_audit || null;
   const classificationAudit = reports.classification_usage_audit || null;
+  const negativeSearchAudit = reports.negative_search_usage_audit || null;
   const annotationSheetProfileAudit = reports.annotation_sheet_profile_audit || null;
   const expectedRevisions = countExpectedRevisions(trackReport);
 
@@ -294,6 +300,9 @@ function buildAudit({ options, artifacts, steps, reports }) {
       classification_registry_warnings: classificationAudit?.summary?.warnings || 0,
       classification_release_status_confusions: classificationAudit?.summary?.release_status_confusions || 0,
       classification_direct_edit_conflicts: classificationAudit?.summary?.direct_classification_edit_conflicts || 0,
+      negative_search_registry_usages: negativeSearchAudit?.summary?.negative_search_usages || 0,
+      negative_search_registry_warnings: negativeSearchAudit?.summary?.warnings || 0,
+      negative_search_direct_edit_conflicts: negativeSearchAudit?.summary?.direct_negative_search_edit_conflicts || 0,
       annotation_sheet_profile_lexical_misclassifications:
         annotationSheetProfileAudit?.summary?.lexical_misclassifications || 0,
       annotation_sheet_profile_unexpected_angle_tokens:
@@ -318,6 +327,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
       source_list_registry: options.sourceListRegistryPath ? normalizePathForOutput(options.sourceListRegistryPath) : "",
       document_metadata_registry: options.documentMetadataRegistryPath ? normalizePathForOutput(options.documentMetadataRegistryPath) : "",
       classification_registry: options.classificationRegistryPath ? normalizePathForOutput(options.classificationRegistryPath) : "",
+      negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       preparation_router: options.preparationRouterPath ? normalizePathForOutput(options.preparationRouterPath) : "",
       permutation_matrix: options.permutationMatrixPath ? normalizePathForOutput(options.permutationMatrixPath) : "",
       target_volume: options.targetVolume,
@@ -339,7 +349,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
 function renderText(audit) {
   return [
     `FRUS offline review passed: ${audit.counts.extracted_units} units, ${audit.counts.comments_applied} Word comments, ${audit.counts.tracked_edits_applied} tracked edits.`,
-    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; authority usages: ${audit.counts.authority_registry_usages}; authority warnings: ${audit.counts.authority_registry_warnings}; source-list usages: ${audit.counts.source_list_registry_usages}; source-list warnings: ${audit.counts.source_list_registry_warnings}; document-metadata usages: ${audit.counts.document_metadata_registry_usages}; document-metadata warnings: ${audit.counts.document_metadata_registry_warnings}; classification usages: ${audit.counts.classification_registry_usages}; classification warnings: ${audit.counts.classification_registry_warnings}; annotation-sheet profile lexical misses: ${audit.counts.annotation_sheet_profile_lexical_misclassifications}; marker conflicts: ${audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
+    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; authority usages: ${audit.counts.authority_registry_usages}; authority warnings: ${audit.counts.authority_registry_warnings}; source-list usages: ${audit.counts.source_list_registry_usages}; source-list warnings: ${audit.counts.source_list_registry_warnings}; document-metadata usages: ${audit.counts.document_metadata_registry_usages}; document-metadata warnings: ${audit.counts.document_metadata_registry_warnings}; classification usages: ${audit.counts.classification_registry_usages}; classification warnings: ${audit.counts.classification_registry_warnings}; negative-search usages: ${audit.counts.negative_search_registry_usages}; negative-search warnings: ${audit.counts.negative_search_registry_warnings}; annotation-sheet profile lexical misses: ${audit.counts.annotation_sheet_profile_lexical_misclassifications}; marker conflicts: ${audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
     `Revised DOCX: ${audit.revised_docx}`,
     `Audit: ${audit.artifacts.audit}`
   ].join("\n") + "\n";
@@ -366,6 +376,8 @@ function runReview(options) {
     document_metadata_usage_audit: path.join(options.artifactDir, "document-metadata-usage-audit.json"),
     classification_registry_validation: path.join(options.artifactDir, "classification-registry-validation.json"),
     classification_usage_audit: path.join(options.artifactDir, "classification-usage-audit.json"),
+    negative_search_registry_validation: path.join(options.artifactDir, "negative-search-registry-validation.json"),
+    negative_search_usage_audit: path.join(options.artifactDir, "negative-search-usage-audit.json"),
     preparation_router_validation: path.join(options.artifactDir, "preparation-router-validation.json"),
     permutation_matrix_validation: path.join(options.artifactDir, "permutation-matrix-validation.json"),
     status_claims_preflight: path.join(options.artifactDir, "status-claims-preflight.txt"),
@@ -650,6 +662,47 @@ function runReview(options) {
     });
     steps.push(classificationAuditStep);
     optionalReports.classification_usage_audit = classificationAuditStep.parsed;
+  }
+  if (options.negativeSearchRegistryPath) {
+    const negativeSearchValidationStep = runNodeStep({
+      label: "validate_negative_search_registry",
+      args: [
+        "scripts/validate-frus-negative-search-registry.mjs",
+        "--registry",
+        options.negativeSearchRegistryPath,
+        "--format",
+        "json"
+      ],
+      cwd,
+      stdoutFile: artifacts.negative_search_registry_validation,
+      parseJson: true
+    });
+    steps.push(negativeSearchValidationStep);
+    optionalReports.negative_search_registry_validation = negativeSearchValidationStep.parsed;
+
+    const negativeSearchAuditArgs = [
+      "scripts/audit-frus-negative-search-usage.mjs",
+      "--units",
+      artifacts.extracted_units,
+      "--registry",
+      options.negativeSearchRegistryPath,
+      "--checker-output",
+      options.checkerOutputPath,
+      "--format",
+      "json"
+    ];
+    if (options.targetVolume) {
+      negativeSearchAuditArgs.push("--target-volume", options.targetVolume);
+    }
+    const negativeSearchAuditStep = runNodeStep({
+      label: "audit_negative_search_usage",
+      args: negativeSearchAuditArgs,
+      cwd,
+      stdoutFile: artifacts.negative_search_usage_audit,
+      parseJson: true
+    });
+    steps.push(negativeSearchAuditStep);
+    optionalReports.negative_search_usage_audit = negativeSearchAuditStep.parsed;
   }
   if (options.preparationRouterPath) {
     if (!options.statusRegistryPath) {

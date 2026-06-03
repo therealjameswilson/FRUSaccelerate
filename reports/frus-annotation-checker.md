@@ -65,6 +65,13 @@ For classification/handling validation, use
 `reports/frus-classification-units.sample.json`; the self-contained smoke test
 is `scripts/test-frus-classification-audit.mjs`, and the sample audit report is
 `reports/frus-classification-audit.sample.json`.
+For negative-search/no-record validation, use
+`scripts/validate-frus-negative-search-registry.mjs` and
+`scripts/audit-frus-negative-search-usage.mjs` with
+`reports/frus-negative-search-registry.sample.json` and
+`reports/frus-negative-search-units.sample.json`; the self-contained smoke test
+is `scripts/test-frus-negative-search-audit.mjs`, and the sample audit report
+is `reports/frus-negative-search-audit.sample.json`.
 For finished-form annotation-sheet profile validation, use
 `scripts/audit-frus-annotation-sheet-profile.mjs` with
 `reports/frus-annotation-sheet-profile.sample.json`,
@@ -11970,6 +11977,16 @@ Minimum components:
   handling controls, and verified absence-of-marking phrases; it separates
   later release/declassification language from original markings and fails
   direct classification edits that lack supplied registry support.
+- No-dependency negative-search/no-record registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-negative-search-registry.mjs`,
+  `scripts/audit-frus-negative-search-usage.mjs`,
+  `reports/frus-negative-search-registry.sample.json`,
+  `reports/frus-negative-search-units.sample.json`, and
+  `reports/frus-negative-search-audit.sample.json`. The audit reconciles
+  no-minutes, not-found, not-attached, not-found-attached, no-memcon/no-telcon,
+  unlocated-draft, missing-attachment, and RAC attachment-ambiguity language to
+  supplied search-basis records and fails direct no-record edits that collapse
+  one relationship into another without registry support.
 - No-dependency finished-form annotation-sheet profile audit and fixtures:
   `scripts/audit-frus-annotation-sheet-profile.mjs`,
   `scripts/test-frus-annotation-sheet-profile.mjs`,

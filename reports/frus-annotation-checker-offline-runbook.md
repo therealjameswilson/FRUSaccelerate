@@ -42,6 +42,11 @@ registry built from published source notes and attachment notes, including
 original classification markings, handling controls, and verified
 `No classification marking` phrases. The bundled sample is
 `reports/frus-classification-registry.sample.json`.
+For negative-search/no-record checks, transfer a volume-specific
+negative-search registry built from published notes, including no-minutes,
+not-found, not-attached, not-found-attached, no-memcon/no-telcon,
+missing-attachment, and RAC attachment-ambiguity phrases. The bundled sample is
+`reports/frus-negative-search-registry.sample.json`.
 For finished-form annotation-sheet checks, transfer
 `reports/frus-annotation-sheet-profile.sample.json`. It records the uploaded
 good-form exemplar's flat Word structure, lexical FRUS apparatus patterns, and
@@ -75,7 +80,7 @@ node scripts/extract-frus-docx-units.mjs --docx input.docx --out extracted-units
 
 ```sh
 node scripts/extract-frus-status-claims.mjs --units extracted-units.json --registry reports/frus-status-series-1981-1992.current.json --out status-claims.json --format text
-node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID
+node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --negative-search-registry negative-search-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID
 ```
 
    Upload `review-packet.md` to the LLM. Send only editorial apparatus and
@@ -88,7 +93,7 @@ node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out
    result as the corresponding `chunk-####-checker-output.json`.
 
 ```sh
-node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12
+node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --negative-search-registry negative-search-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12
 ```
 
    After all chunks are reviewed, merge them into the single checker output
@@ -131,7 +136,7 @@ node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output outp
    Reagan/Bush routing, add the current context files:
 
 ```sh
-node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD
+node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --negative-search-registry negative-search-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD
 ```
 
    If the wrapper has extracted status-bearing phrases into
@@ -213,7 +218,19 @@ node scripts/validate-frus-classification-registry.mjs --registry classification
 node scripts/audit-frus-classification-usage.mjs --units extracted-units.json --registry classification-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-12. Run source-note and production-marker checks when those unit types are
+12. Run negative-search/no-record validation and usage audit when source notes,
+   follow-on footnotes, editorial notes, or attachment notes contain
+   no-minutes, not-found, not-attached, not-found-attached, no-memcon,
+   no-telcon, unlocated-draft, or missing-attachment language. The usage audit
+   fails if the model proposes a direct no-record edit that collapses one
+   relationship into another without supplied registry support.
+
+```sh
+node scripts/validate-frus-negative-search-registry.mjs --registry negative-search-registry.json --format text
+node scripts/audit-frus-negative-search-usage.mjs --units extracted-units.json --registry negative-search-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
+```
+
+13. Run source-note and production-marker checks when those unit types are
    present:
 
 ```sh
@@ -221,14 +238,14 @@ node scripts/lint-frus-source-notes.mjs --units extracted-units.json
 node scripts/preflight-frus-pseudo-markers.mjs --units extracted-units.json --output output.json
 ```
 
-13. Build the separate evidence queue and General Editor discrepancy ledger:
+14. Build the separate evidence queue and General Editor discrepancy ledger:
 
 ```sh
 node scripts/build-frus-evidence-queue.mjs --output output.json --review-mode normal > evidence-queue.json
 node scripts/build-frus-discrepancy-ledger.mjs --output output.json --existing prior-ledger.json --run-id RUN-ID > discrepancy-ledger.json
 ```
 
-14. Apply safe `comment_only` findings as real Word comments, then apply only
+15. Apply safe `comment_only` findings as real Word comments, then apply only
    accepted direct edits as real WordprocessingML tracked insertions and
    deletions. The no-dependency appliers handle narrow, verified single-run
    anchors and fail on complex anchors rather than guessing:

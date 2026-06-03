@@ -203,6 +203,8 @@ try {
       "reports/frus-document-metadata-registry.sample.json",
       "--classification-registry",
       "reports/frus-classification-registry.sample.json",
+      "--negative-search-registry",
+      "reports/frus-negative-search-registry.sample.json",
       "--preparation-router",
       "reports/frus-preparation-router-1981-1992.current.json",
       "--permutation-matrix",
@@ -247,6 +249,9 @@ try {
   assert(audit.counts.classification_registry_warnings === 0, "expected zero classification registry warnings");
   assert(audit.counts.classification_release_status_confusions === 0, "expected zero classification release-status confusions");
   assert(audit.counts.classification_direct_edit_conflicts === 0, "expected zero classification direct-edit conflicts");
+  assert(audit.counts.negative_search_registry_usages === 0, "expected zero negative-search registry usages");
+  assert(audit.counts.negative_search_registry_warnings === 0, "expected zero negative-search registry warnings");
+  assert(audit.counts.negative_search_direct_edit_conflicts === 0, "expected zero negative-search direct-edit conflicts");
   assert(audit.counts.annotation_sheet_profile_lexical_misclassifications === 0, "expected zero profile lexical misses");
   assert(audit.counts.annotation_sheet_profile_unexpected_angle_tokens === 0, "expected zero profile unexpected angle tokens");
   assert(audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts === 0, "expected zero profile marker conflicts");
@@ -269,6 +274,8 @@ try {
     "document-metadata-usage-audit.json",
     "classification-registry-validation.json",
     "classification-usage-audit.json",
+    "negative-search-registry-validation.json",
+    "negative-search-usage-audit.json",
     "preparation-router-validation.json",
     "permutation-matrix-validation.json",
     "evidence-queue.json",

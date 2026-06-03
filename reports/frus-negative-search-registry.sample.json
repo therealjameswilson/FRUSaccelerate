@@ -1,0 +1,108 @@
+{
+  "schema_version": "frus-negative-search-registry-v1",
+  "negative_search_registry_id": "frus-1981-1992-negative-search-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d69",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d128",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d294",
+    "https://history.state.gov/historicaldocuments/frus1981-88v03/AbouttheSeries"
+  ],
+  "scope": "Sample negative-search/no-record registry for validating FRUS phrases that report missing minutes, not-found records, not-attached items, and RAC attachment ambiguity in Reagan and George H.W. Bush annotation sheets.",
+  "records": [
+    {
+      "negative_search_id": "negative-v31-d23-no-minutes",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d23",
+      "document_number": "23",
+      "record_type": "minutes",
+      "approved_phrase": "No minutes were found",
+      "variant_forms": [
+        "No minutes found",
+        "No record of minutes was found"
+      ],
+      "search_scope_or_basis": "President's Daily Diary and NSC meeting context in the published source note.",
+      "relationship_to_document": "meeting_record_absent",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "verification_status": "verified_published_negative_search"
+    },
+    {
+      "negative_search_id": "negative-v31-d23-not-attached",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d23",
+      "document_number": "23",
+      "record_type": "attachment",
+      "approved_phrase": "Not attached",
+      "variant_forms": [
+        "Attachment not attached"
+      ],
+      "search_scope_or_basis": "Footnote 3 distinguishes absence of attachment from the separate printed Tab A cross-reference.",
+      "relationship_to_document": "attachment_not_attached",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "verification_status": "verified_published_negative_search"
+    },
+    {
+      "negative_search_id": "negative-v31-d69-not-found",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d69",
+      "document_number": "69",
+      "record_type": "draft",
+      "approved_phrase": "Not found",
+      "variant_forms": [
+        "Draft not found",
+        "Not located"
+      ],
+      "search_scope_or_basis": "Footnote 4 reports an early draft not found in the published document apparatus.",
+      "relationship_to_document": "record_not_found",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d69",
+      "verification_status": "verified_published_negative_search"
+    },
+    {
+      "negative_search_id": "negative-v31-d128-no-minutes",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d128",
+      "document_number": "128",
+      "record_type": "minutes",
+      "approved_phrase": "No minutes were found",
+      "variant_forms": [
+        "No minutes found"
+      ],
+      "search_scope_or_basis": "Follow-on footnote in a Baker-Shevardnadze exchange; separate from the attached-but-not-printed draft notification annex.",
+      "relationship_to_document": "meeting_record_absent",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d128",
+      "verification_status": "verified_published_negative_search"
+    },
+    {
+      "negative_search_id": "negative-v44p1-d294-no-formal-minutes",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d294",
+      "document_number": "294",
+      "record_type": "minutes",
+      "approved_phrase": "No formal minutes were found",
+      "variant_forms": [
+        "No minutes were found",
+        "No formal minutes found"
+      ],
+      "search_scope_or_basis": "Editorial note cites the Reagan Library President's Daily Diary for the briefing context.",
+      "relationship_to_document": "meeting_record_absent",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d294",
+      "verification_status": "verified_published_negative_search"
+    },
+    {
+      "negative_search_id": "negative-reagan-rac-not-found-attached",
+      "volume_id": "frus1981-88v03",
+      "document_id": "frus1981-88v03/AbouttheSeries",
+      "document_number": "front-matter",
+      "record_type": "attachment",
+      "approved_phrase": "Not found attached",
+      "variant_forms": [
+        "Attachment was not found attached"
+      ],
+      "search_scope_or_basis": "About the Series explains RAC attachment ambiguity and the editorial phrase `Not found attached.`",
+      "relationship_to_document": "rac_attachment_ambiguity",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v03/AbouttheSeries",
+      "verification_status": "verified_published_negative_search"
+    }
+  ]
+}
