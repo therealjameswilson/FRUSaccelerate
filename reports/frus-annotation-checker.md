@@ -135,6 +135,12 @@ The wrapper should provide the LLM with:
   foreign-service-contact, redaction/sanitization, original
   classification/handling, public-policy-only, source-family, and
   verification-status metadata.
+- `military_crisis_context`, if available: structured DOD, OSD, JCS, DIA,
+  Situation Room, NSC crisis, combat operation, military strike, contingency
+  plan, CONPLAN, deployment, port visit, exercise, security assistance,
+  host-nation notification, coalition, peacekeeping, casualty/damage,
+  after-action, classification/precedence, chronology, and verification-status
+  metadata.
 - `cross_reference_registry_context`, if available: structured same-volume,
   cross-volume, footnote, appendix, tab, attachment, printed-elsewhere,
   scheduled-publication, and public-source references with target status,
@@ -207,14 +213,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | legal_authority | financial_data | agency_equity | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | legal_authority | financial_data | agency_equity | military_operation_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -227,7 +233,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -359,6 +365,7 @@ run the semantic and Word-safety validators below.
               "congressional_legal_authority",
               "economic_financial_data",
               "intelligence_law_enforcement",
+              "military_crisis_operations",
               "declassification",
               "authority_control",
               "chronology",
@@ -411,6 +418,7 @@ run the semantic and Word-safety validators below.
               "legal_authority",
               "financial_data",
               "agency_equity",
+              "military_operation_basis",
               "publication_status",
               "authority_control",
               "declassification_status",
@@ -492,6 +500,7 @@ run the semantic and Word-safety validators below.
               "congressional_legal_authority",
               "economic_financial_data",
               "intelligence_law_enforcement",
+              "military_crisis_operations",
               "declassification",
               "authority_control",
               "chronology",
@@ -586,9 +595,10 @@ Semantic validator behavior:
   `classification_handling`, `translation_foreign_origin`,
   `foreign_international_organization`, `treaty_legal_instrument`,
   `public_diplomacy_public_source`, `congressional_legal_authority`,
-  `economic_financial_data`, `intelligence_law_enforcement`, `chronology`,
-  `summit_public_event`, `communications_record`, or `authority_control` when
-  the required proof is absent from the uploaded unit or wrapper context.
+  `economic_financial_data`, `intelligence_law_enforcement`,
+  `military_crisis_operations`, `chronology`, `summit_public_event`,
+  `communications_record`, or `authority_control` when the required proof is
+  absent from the uploaded unit or wrapper context.
 - Downgrade to `comment_only` when a finding passes the JSON schema but fails a
   Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
@@ -3359,6 +3369,237 @@ Sensitive-record audit requirements:
   redaction/sanitization, classification/handling, and public-versus-archival
   basis warnings.
 
+### 6.8E Military, Crisis, Defense, Coalition, And Situation-Room Records
+
+Military and crisis annotation is especially sensitive because the same words
+can describe a policy concern, intelligence warning, contingency plan,
+host-nation notification, military assistance option, combat operation, public
+statement, after-action report, or later editorial cross-reference. Recent
+Reagan North Africa practice shows DOD, OSD, JCS, DIA, NSC Crisis Management
+Center, State NODIS/EXDIS, and presidential-library crisis records appearing
+alongside terrorism, host-government, coalition, and declassification issues.
+The checker must preserve operational stage and source family before it
+suggests any tracked change.
+
+Use a military/crisis registry when the wrapper can supply one:
+
+```json
+{
+  "military_crisis_registry_id": "frus-1981-1992-military-crisis-operations-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/sources",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d341",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d329",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d382",
+    "https://history.state.gov/historicaldocuments/status-of-the-series"
+  ],
+  "records": [
+    {
+      "military_item_id": "military-source-ecology-north-africa-v24",
+      "unit_id": "sources-frus1981-88v24",
+      "record_type": "source_ecology",
+      "military_or_crisis_actor": "Department of Defense; OSD; JCS; DIA; NSC Crisis Management Center; CIA; State",
+      "source_family": "Reagan Library NSC files, NSC Crisis Management Center, RG 330 OSD records, State NODIS/EXDIS telegrams, CIA records",
+      "operation_or_crisis": "North Africa policy, defense relationships, terrorism, Libya, Chad, Tunisia, Western Sahara",
+      "stage_or_role": "volume_source_ecology",
+      "classification_or_handling": "varies by record family",
+      "chronology_or_location_basis": "volume source list",
+      "verification_status": "verified"
+    },
+    {
+      "military_item_id": "military-libya-notification-0341",
+      "unit_id": "document-0341",
+      "record_type": "host_nation_notification",
+      "military_or_crisis_actor": "Department of State; President; U.S. military aircraft; Embassy Tunisia; host-nation officials",
+      "source_family": "Department of State Executive Secretariat A Bureau Central Foreign Policy Files, Lot 12D215, Top Secret Hardcopy Telegrams",
+      "operation_or_crisis": "U.S. action against Libyan terrorism",
+      "stage_or_role": "pre-strike_notification",
+      "classification_or_handling": "Top Secret; Niact Immediate; Nodis Special Encryption",
+      "chronology_or_location_basis": "Washington, April 14, 1986, 2146Z; alert after 2359 GMT",
+      "verification_status": "verified"
+    },
+    {
+      "military_item_id": "military-tunisia-contingency-0329",
+      "unit_id": "document-0329",
+      "record_type": "defense_contingency_planning",
+      "military_or_crisis_actor": "JCS Joint Staff; OSD/ISA; DIA; USCINCEUR; USN; France; Tunisia; Algeria",
+      "source_family": "Washington National Records Center, OSD Files, FRC 330-88-0058, 1985 Official Records (Top Secret)",
+      "operation_or_crisis": "Tunisia security situation and possible Libyan attack",
+      "stage_or_role": "contingency_planning",
+      "classification_or_handling": "Secret and Top Secret paragraph markings",
+      "chronology_or_location_basis": "Washington, September 3, 1985; DJSM 1794-85",
+      "verification_status": "verified"
+    },
+    {
+      "military_item_id": "military-western-sahara-dia-0382",
+      "unit_id": "document-0382",
+      "record_type": "military_intelligence_report",
+      "military_or_crisis_actor": "Defense Intelligence Agency; OSD; POLISARIO; Morocco; Algeria; Libya; OAU",
+      "source_family": "Washington National Records Center, OSD Files, FRC 330-83-0104, 1981 Official Records (Secret & Below)",
+      "operation_or_crisis": "Western Sahara military activity and POLISARIO operation",
+      "stage_or_role": "intelligence_assessment",
+      "classification_or_handling": "Secret; handling restriction not declassified",
+      "chronology_or_location_basis": "Washington, August 13, 1981; POLISARIO operation dated August 11",
+      "verification_status": "verified"
+    },
+    {
+      "military_item_id": "military-status-bush-crisis-volumes",
+      "unit_id": "status-of-series-1989-1992-crisis",
+      "record_type": "status_page_family_context",
+      "military_or_crisis_actor": "Persian Gulf Crisis; Yugoslavia; Somalia; Panama; National Security Policy",
+      "source_family": "History Office Status of the Series page",
+      "operation_or_crisis": "Bush 1989-1992 in-preparation crisis and military-policy volume families",
+      "stage_or_role": "routing_and_review_posture_only",
+      "classification_or_handling": "not applicable",
+      "chronology_or_location_basis": "status page captured 2026-06-03",
+      "verification_status": "verified"
+    }
+  ]
+}
+```
+
+Allowed `record_type` values:
+
+- `source_ecology`
+- `crisis_notification_telegram`
+- `host_nation_notification`
+- `defense_contingency_planning`
+- `military_intelligence_report`
+- `dod_osd_jcs_record`
+- `situation_room_record`
+- `combat_operation_record`
+- `military_assistance_record`
+- `security_assistance_record`
+- `coalition_support_record`
+- `peacekeeping_record`
+- `military_exercise`
+- `port_visit`
+- `conplan`
+- `rules_of_engagement`
+- `after_action_record`
+- `casualty_or_damage_claim`
+- `no_record_found`
+- `status_page_family_context`
+- `unknown`
+
+Allowed `stage_or_role` values:
+
+- `volume_source_ecology`
+- `policy_discussion`
+- `intelligence_warning`
+- `intelligence_assessment`
+- `contingency_planning`
+- `option_paper`
+- `host_nation_notification`
+- `pre-strike_notification`
+- `executed_operation`
+- `post_operation_report`
+- `public_statement_preparation`
+- `security_assistance_option`
+- `coalition_or_allied_support`
+- `routing_and_review_posture_only`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified`
+- `needs_source_image`
+- `needs_source_family`
+- `needs_operation_stage`
+- `needs_order_or_authorization_basis`
+- `needs_chronology`
+- `needs_time_zone`
+- `needs_force_or_unit_basis`
+- `needs_casualty_or_damage_basis`
+- `needs_coalition_or_host_nation_basis`
+- `needs_classification_or_handling_basis`
+- `needs_declassification_basis`
+- `unknown`
+
+Military/crisis validator sequence:
+
+1. Identify every source note, editorial note, heading, footnote, chronology
+   note, declassification note, or annotation that names DOD, OSD, JCS, Joint
+   Staff, DIA, Defense Intelligence Agency, Situation Room, NSC Crisis
+   Management Center, State NODIS/EXDIS, combat operation, military strike,
+   deployment, contingency plan, CONPLAN, CVBG, USN, port visit, exercise,
+   military assistance, security assistance, host-nation notification, coalition
+   support, peacekeeping, casualty/damage, rules of engagement, command and
+   control, logistics support, or after-action reporting.
+2. Match the unit against `military_crisis_context` before directly changing
+   source family, operation name, operational stage, order/authorization,
+   force/unit identity, chronology, Zulu/local time, host-nation notification,
+   coalition or allied role, casualty/damage claim, classification/handling, or
+   declassification wording.
+3. Separate source ecology from operation proof. A DOD, OSD, JCS, DIA, or
+   Situation Room source family proves record custody; it does not by itself
+   prove that an operation was authorized, executed, cancelled, or completed.
+4. Separate policy discussion, intelligence warning, contingency planning,
+   option paper, host-nation notification, execution order, executed operation,
+   public statement, and after-action record. Do not move language across those
+   stages merely to make prose smoother.
+5. Preserve military chronology and time bases. Do not change Zulu/GMT/local
+   time, date, operation window, notification sequence, or "strike underway"
+   language unless the uploaded unit or registry supplies exact evidence.
+6. Preserve classification, precedence, handling, paragraph markings, NODIS,
+   EXDIS, Niact Immediate, Special Encryption, not-declassified references, and
+   command-routing data separately from release status.
+7. For coalition, allied, or host-nation references, verify whether the note
+   asserts notification, consultation, support request, concurrence, basing,
+   overflight, damage, or public reaction. Do not infer consent from
+   notification.
+8. For military-assistance and security-assistance material, coordinate with
+   congressional/legal and economic/financial rules when funding, Section 506(a),
+   transfer authority, equipment, ammunition, or stock diversion controls the
+   claim.
+9. For intelligence-derived military reporting, coordinate with sensitive-record
+   rules for DIA/CIA/source-and-methods, and with declassification rules for
+   handling restrictions, not-declassified references, and excised paragraphs.
+10. For Bush in-preparation crisis volumes, use the status page only for
+    routing and review posture. It cannot prove a source family, operation
+    name, chronology, coalition role, or document number.
+
+Direct-edit posture:
+
+- Safe direct edits may restore supplied military acronym punctuation, exact
+  source-family labels, paragraph-marking punctuation, message precedence, or
+  narrow time notation when the uploaded unit or registry supplies exact
+  evidence.
+- Use `comment_only` with `evidence_request: military_operation_basis` when
+  operation stage, order/authorization, force/unit identity, chronology,
+  time-zone basis, host-nation or coalition role, casualty/damage claim,
+  military-assistance authority, source family, or Situation Room/DOD/JCS/DIA
+  record identity is missing, conflicting, or inferred.
+- Use `evidence_request: classification_marking` when original classification,
+  paragraph marking, handling, precedence, or verified absence is the blocker.
+- Use `evidence_request: declassification_status` when the blocker is
+  not-declassified text, withholding, excision, release status, or sanitized
+  operational detail.
+- Use `evidence_request: agency_equity` when the blocker is source-and-methods,
+  intelligence/law-enforcement equity, DIA/CIA basis, or sensitive operational
+  attribution.
+- Add a `military_crisis_operations` discrepancy to the General Editor tally
+  when published or local examples vary on how much operation-stage,
+  force/unit, host-nation, coalition, time-zone, contingency-plan, or
+  casualty/damage detail to print, and the underlying facts are sound.
+
+Military/crisis audit requirements:
+
+- Count military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
+  contingency-plan, combat-operation, coalition, host-nation, and
+  casualty/damage warnings separately from sensitive-record,
+  foreign/international-organization, chronology, declassification, and
+  congressional/legal warnings.
+- Preserve registry id, capture date, source URLs, record type, military/crisis
+  actor, source family, operation or crisis, stage/role, classification or
+  handling, chronology/location basis, and verification status in the audit
+  report.
+- Record unresolved operation-stage, order/authorization, source-family,
+  force/unit, chronology, time-zone, host-nation, coalition, casualty/damage,
+  classification/handling, declassification, and military-assistance authority
+  warnings.
+
 ### 6.9 Interagency, Foreign-Government, International-Organization, And Multilateral Records
 
 Foreign-government and international-organization annotation can be source
@@ -4574,6 +4815,13 @@ Permutation matrix for annotation sheets:
   operational claim basis, source-and-methods risk, oversight or committee
   basis, foreign-service contact status, and whether the note is public/policy
   context, an editorial summary, or a classified/source record.
+- Military, defense, crisis, coalition, peacekeeping, or Situation Room
+  package: check source family, operation or crisis name, operation stage,
+  order/authorization basis, force/unit identity, chronology, time zone,
+  paragraph markings, handling/precedence, host-nation notification, allied or
+  coalition role, casualty/damage basis, CONPLAN or contingency-plan status,
+  and whether the note is policy discussion, intelligence warning, planning,
+  notification, execution, public statement, or after-action context.
 - Attachment/tab note: check `Attached but not printed`, `Printed as Document
   [n]`, `Tabs [letters] are printed as Document [n]`, `Not found attached`, and
   `Attached but not printed is the list of participants` as different claims.
@@ -4718,6 +4966,7 @@ Evidence-request categories:
 | `legal_authority` | Congressional, statutory, executive-order, Presidential Determination, certification, hearing, testimony, vote-stage, oversight, or Senate advice-and-consent authority is uncertain. | Which committee, hearing, Congress/session, public law, Stat. citation, section, vote stage, amount, condition, transmittal, determination/certification, Executive Order, or Senate basis must be checked. |
 | `financial_data` | Economic, trade, debt, assistance, budget, institutional, table, amount, percentage, fiscal-year, currency, loan, guarantee, quota, replenishment, conditionality, or policy-stage evidence is uncertain. | Which figure, unit, fiscal year, institution, program, table, source, attachment, legal basis, or policy stage must be checked. |
 | `agency_equity` | Intelligence, covert-action, law-enforcement, counternarcotics, counterterrorism, source-and-methods, operational, oversight, foreign-service, or agency-equity proof is uncertain. | Which agency identity, source family, law-enforcement context, operational basis, oversight basis, release/redaction basis, or foreign-service contact must be checked. |
+| `military_operation_basis` | Military, defense, crisis, operation-stage, DOD/OSD/JCS/DIA, Situation Room, contingency-plan, host-nation, coalition, chronology, force/unit, casualty/damage, or military-assistance proof is uncertain. | Which operation stage, order/authorization, force/unit, source family, time basis, host-nation/coalition role, casualty/damage basis, or military-assistance authority must be checked. |
 | `publication_status` | `printed in` versus `scheduled for publication` depends on current official status. | Which volume or chapter status must be confirmed. |
 | `authority_control` | Persons, titles, abbreviations, index terms, names, offices, or dates need authority-list review. | Which name, office, acronym, date span, or index term needs control. |
 | `declassification_status` | Release, withholding, excision, agency-equity, or bracket language is not final. | Which review outcome or bracket claim cannot yet be asserted. |
@@ -4786,6 +5035,7 @@ Default blocking rules:
 | `legal_authority` | yes for congressional/legal authority, committee, hearing, public-law, statute, determination, certification, Executive Order, vote-stage, amount, condition, or Senate advice-and-consent edits | yes when congressional or legal authority appears in publishable apparatus |
 | `financial_data` | yes for amount, percentage, currency, fiscal-year, institution, program, table, debt/loan/guarantee, quota, conditionality, or policy-stage edits | yes when economic, trade, debt, foreign-assistance, or financial data appears in publishable apparatus |
 | `agency_equity` | yes for agency identity, sensitive source family, operational claim, source-and-methods, oversight, law-enforcement status, foreign-service contact, or sanitization edits | yes when intelligence, covert-action, law-enforcement, counternarcotics, counterterrorism, agency-equity, or operational claims appear in publishable apparatus |
+| `military_operation_basis` | yes for operation stage, order/authorization, force/unit, chronology, time-zone, host-nation, coalition, casualty/damage, contingency-plan, or military-assistance edits | yes when military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room, combat-operation, coalition, peacekeeping, or security-assistance claims appear in publishable apparatus |
 | `publication_status` | yes for `printed in` or `scheduled for publication` edits | yes for final style if publication language is present |
 | `authority_control` | yes when a date, identity, title, acronym, or index form is uncertain | yes for final style if repeated or reader-facing |
 | `declassification_status` | yes | yes |
@@ -4802,14 +5052,14 @@ Owner hints:
   status, document numbers, source family, chronology, treaty component
   identity, event sequence, public-source basis, foreign-government or
   international-organization proof, congressional/legal proof, financial data,
-  agency-equity proof, sensitive-record source basis, translation status, and
-  foreign-copy provenance.
+  agency-equity proof, military-operation proof, sensitive-record source basis,
+  translation status, and foreign-copy provenance.
 - `editor`: wording, heading form, cross-reference form, source-list
   consistency, treaty/legal-instrument placement, public-event note form,
   public-source and public-diplomacy note form, congressional/legal citation
   form, foreign/international-organization note form, economic/financial table
-  and note form, sensitive-record note form, publication-status wording, and
-  General Editor discrepancy preparation.
+  and note form, military/crisis note form, sensitive-record note form,
+  publication-status wording, and General Editor discrepancy preparation.
 - `declassification`: classification markings, declassification outcomes,
   release-status separation, withholding, excision, source-and-methods,
   sanitization, and agency-equity language.
@@ -5130,12 +5380,17 @@ For every extracted unit, run checks in this order:
     counterterrorism, agency-equity, source-and-methods, operational, oversight,
     foreign-service-contact, sanitized-record, redaction, and public-policy
     evidence against the sensitive-record registry when supplied.
-24. Check Persons, abbreviations, and index authority issues.
-25. Assign specific evidence requests and verification targets for unresolved
+24. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
+    combat-operation, contingency-plan, CONPLAN, host-nation notification,
+    coalition, peacekeeping, force/unit, time-zone, casualty/damage, and
+    military-assistance evidence against the military/crisis registry when
+    supplied.
+25. Check Persons, abbreviations, and index authority issues.
+26. Assign specific evidence requests and verification targets for unresolved
     proof.
-26. Decide direct edit versus comment-only.
-27. Return strict JSON.
-28. After schema and semantic validation, aggregate all unresolved evidence
+27. Decide direct edit versus comment-only.
+28. Return strict JSON.
+29. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -5216,6 +5471,10 @@ Duplicate-suppression rules:
   record type, source family, operation/event, source-and-methods basis,
   law-enforcement status, redaction/sanitization basis, oversight target, or
   foreign-service contact.
+- Merge repeated military/crisis issues by operation or crisis, source family,
+  record type, operation stage, order/authorization basis, force/unit,
+  chronology or time zone, host-nation/coalition role, casualty/damage basis,
+  contingency plan, or military-assistance authority.
 - Merge repeated wrapper-safety issues by Word structure, such as tables,
   existing tracked changes, footnote references, fields, or comments.
 - Do not merge findings that require different evidence requests or different
@@ -5377,6 +5636,10 @@ Golden packet composition:
   counterterrorism, or agency-equity example with CIA/System IV, DOD, JCS,
   Intelligence Community, DEA/FBI/Justice if supplied, source-and-methods,
   redaction/sanitization, oversight committee, or public-policy-only context.
+- At least one military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
+  combat-operation, contingency-plan, coalition, host-nation notification,
+  peacekeeping, security-assistance, force/unit, or casualty/damage example
+  where operation stage and chronology must be preserved.
 - At least one research-stage sheet with working labels, candidate notes, URL
   locators, or missing scan requests that should become comments rather than
   polished source-note prose.
@@ -5452,6 +5715,12 @@ Expected behavior by test family:
   basis, law-enforcement status, public-policy-only limits, and release or
   sanitization status; comment rather than invent when agency-equity or
   operational proof is missing.
+- Military/crisis test: preserve source family, operation stage,
+  order/authorization basis, force/unit identity, chronology, time zone,
+  handling/precedence, host-nation/coalition role, casualty/damage basis,
+  contingency-plan status, and distinction between planning, notification,
+  execution, public statement, and after-action context; comment rather than
+  invent when military-operation proof is missing.
 - Research-stage test: identify working labels and missing evidence, but avoid
   converting source leads into publication-ready assertions.
 - Clearance-stage test: protect declassification, attachment, agency-equity,
@@ -5531,6 +5800,10 @@ Use the discrepancy tally for:
   counternarcotics, counterterrorism, agency-equity, source-and-methods,
   oversight, sanitized-record, redaction/release, foreign-service-contact, or
   public-policy-only detail to print when the underlying facts are sound.
+- Variations in how much military, defense, crisis, operation-stage,
+  force/unit, host-nation notification, coalition/allied role, time-zone,
+  contingency-plan, security-assistance, casualty/damage, Situation Room, DOD,
+  OSD, JCS, or DIA detail to print when the underlying facts are sound.
 - Variations in how much treaty component detail to print, where to place
   protocol, annex, memorandum-of-understanding, letter, declaration, statement,
   article-by-article analysis, transmittal, ratification, or entry-into-force
@@ -5605,6 +5878,7 @@ Suggested tally format:
 | style-discrepancy-0006 | intelligence_law_enforcement | How much agency-equity, source-and-methods, oversight, redaction/sanitization, or public-policy-only detail should appear when the facts are sound. | Full agency/source-family and oversight basis in note; shorter sensitive-record phrasing with supporting detail in audit/comment context | 2 | high | Should the checker enforce a house form for sensitive-record detail, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0007 | public_diplomacy_public_source | How much public-source and archival-draft context should appear when a speech, interview, testimony, or press item is selected evidence. | Public Papers or Bulletin citation plus full-text, diary, and briefing-file context; shorter selected-public-document note with archival context elsewhere | 2 | medium | Should the checker enforce a standard public-source selected-document form, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0008 | foreign_international_organization | How much foreign-copy, international-organization, regional-body, treaty-party, successor-state, or multilateral role detail should appear when the facts are sound. | Full body/actor identity plus source-versus-subject and copy-status detail; shorter organization reference with supporting detail in source/audit context | 2 | medium | Should the checker enforce a house form for foreign/international-organization role detail, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0009 | military_crisis_operations | How much military/crisis operation-stage, force/unit, coalition, host-nation, time-zone, or casualty/damage detail should appear when the facts are sound. | Full operation-stage and chronology detail in note; shorter military/crisis phrasing with supporting detail in audit/comment context | 2 | high | Should the checker enforce a house form for military/crisis detail, or tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -5680,6 +5954,12 @@ Required bundle files:
   source-and-methods, operational, oversight, foreign-service-contact,
   redaction/sanitization, original classification/handling, public-policy-only
   status, source-family, verification-status, and source-URL metadata.
+- `military_crisis_map`, when available: DOD, OSD, JCS, DIA, Situation Room,
+  NSC crisis, combat-operation, military strike, contingency plan, CONPLAN,
+  deployment, port visit, exercise, security assistance, host-nation
+  notification, coalition, peacekeeping, casualty/damage, after-action,
+  operation-stage, force/unit, chronology, time-zone, classification/handling,
+  verification-status, and source-URL metadata.
 - `authority_lists`, when available: Persons, abbreviations, source-list
   entries, index terms, known document numbers, chapter titles, and related
   volume cross-references.
@@ -5894,6 +6174,7 @@ Public-source registry: [public_source_registry_id and capture date]
 Congressional/legal registry: [congressional_legal_registry_id and capture date]
 Economic/financial registry: [economic_financial_registry_id and capture date]
 Sensitive/intelligence-law-enforcement registry: [sensitive_record_registry_id and capture date]
+Military/crisis registry: [military_crisis_registry_id and capture date]
 Source-family registry: [source_family_registry_id and capture date]
 Communications registry: [communications_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
@@ -5933,6 +6214,7 @@ Counts:
 - Congressional testimony, hearing, public-law, statute, determination, certification, Executive Order, oversight, or Senate advice-and-consent issues: [n]
 - Economic, debt, trade, assistance, amount, fiscal-year, institution, table, or financial-data issues: [n]
 - Intelligence, law-enforcement, agency-equity, source-and-methods, operational, oversight, or sanitized-record issues: [n]
+- Military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room, contingency, combat-operation, coalition, host-nation, chronology, or casualty/damage issues: [n]
 - Source-family unmatched or ambiguous matches: [n]
 - Communications records unmatched or incomplete: [n]
 - Attachment status unknown or conflicting: [n]
@@ -5984,6 +6266,9 @@ Economic/financial warnings:
 
 Sensitive/intelligence-law-enforcement warnings:
 - [unit_id or global]: [sensitive-record issue] - [record type, agency/equity, source family, classification/handling, operational-detail status, oversight/public basis, redaction/release status, and verification target]
+
+Military/crisis warnings:
+- [unit_id or global]: [military/crisis issue] - [record type, military/crisis actor, source family, operation/crisis, stage/role, classification/handling, chronology/location basis, and verification target]
 
 Source-family warnings:
 - [unit_id or global]: [source-family issue] - [registry target or unmatched family]
@@ -6087,6 +6372,12 @@ Minimum components:
   source-and-methods, operational claims, oversight basis, redaction or
   sanitization, public-policy-only mentions, and foreign-service contacts before
   tracked changes are applied.
+- Military/crisis validator that distinguishes DOD, OSD, JCS, DIA, Situation
+  Room, NSC crisis, combat operations, contingency plans, CONPLANs, deployments,
+  port visits, exercises, security assistance, host-nation notification,
+  coalition or allied support, peacekeeping, casualty/damage claims,
+  operation-stage evidence, force/unit identity, chronology, time-zone basis,
+  and after-action context before tracked changes are applied.
 - Public-source validator that distinguishes public diplomacy, speeches, press
   releases, press conferences, briefings, interviews, broadcasts, testimony,
   Public Papers, Department of State Bulletin, Congressional Record, official
@@ -6174,6 +6465,11 @@ Operational cautions:
   oversight-basis, redaction/sanitization, foreign-service-contact,
   public-policy-only, original-classification/handling, and
   intelligence-law-enforcement discrepancy questions.
+- Record military/crisis registry version, unresolved operation stage,
+  order/authorization, source family, force/unit identity, chronology,
+  time-zone, host-nation notification, coalition/allied role, casualty/damage,
+  contingency-plan, security-assistance authority, classification/handling,
+  declassification, and military-crisis discrepancy questions.
 - Record cross-reference-registry version, unresolved target documents,
   footnotes, appendix references, scheduled-publication targets, stale status
   dependencies, and public-source references.
@@ -6230,6 +6526,10 @@ Needs revision:
   counterterrorism, source-and-methods, operational, oversight, foreign-service,
   redaction/sanitization, or agency-equity claims are asserted without supplied
   source basis.
+- Military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
+  combat-operation, contingency-plan, force/unit, chronology, time-zone,
+  host-nation, coalition, casualty/damage, after-action, or military-assistance
+  claims are asserted or changed without supplied military-operation basis.
 - Persons, abbreviations, or index entries are inconsistent.
 
 Blocked:
@@ -6287,6 +6587,10 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/ch6`
 - `https://history.state.gov/historicaldocuments/frus1981-88v13/ch3`
 - `https://history.state.gov/historicaldocuments/frus1981-88v24/d290`
+- `https://history.state.gov/historicaldocuments/frus1981-88v24/sources`
+- `https://history.state.gov/historicaldocuments/frus1981-88v24/d341`
+- `https://history.state.gov/historicaldocuments/frus1981-88v24/d329`
+- `https://history.state.gov/historicaldocuments/frus1981-88v24/d382`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d37`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d90`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d145`
@@ -6337,6 +6641,10 @@ Recent Reagan source incorporated:
 - [FRUS, 1981-1988, Volume X, Eastern Europe](https://history.state.gov/historicaldocuments/frus1981-88v10)
 - [FRUS, 1981-1988, Volume XI, START I](https://history.state.gov/historicaldocuments/frus1981-88v11)
 - [FRUS, 1981-1988, Volume XXIV, North Africa](https://history.state.gov/historicaldocuments/frus1981-88v24)
+- [Volume XXIV source list with DOD, NSC Crisis Management Center, OSD, CIA, and State NODIS/EXDIS records](https://history.state.gov/historicaldocuments/frus1981-88v24/sources)
+- [U.S. action against Libya host-nation notification, Document 341](https://history.state.gov/historicaldocuments/frus1981-88v24/d341)
+- [JCS/OSD Tunisia contingency planning and military-support options, Document 329](https://history.state.gov/historicaldocuments/frus1981-88v24/d329)
+- [DIA Western Sahara military-intelligence report, Document 382](https://history.state.gov/historicaldocuments/frus1981-88v24/d382)
 - [FRUS, 1981-1988, Volume XXXVIII, International Economic Development; International Debt; Foreign Assistance](https://history.state.gov/historicaldocuments/frus1981-88v38)
 - [Volume XXXVIII preface on developing-world economic policy, debt, assistance, IFIs, and companion trade/monetary volumes](https://history.state.gov/historicaldocuments/frus1981-88v38/preface)
 - [IMF/World Bank annual meetings and debt-crisis context, Document 177](https://history.state.gov/historicaldocuments/frus1981-88v38/d177)
