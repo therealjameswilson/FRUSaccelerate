@@ -1,0 +1,170 @@
+{
+  "schema_version": "frus-document-handling-registry-v1",
+  "document_handling_registry_id": "frus-1981-1992-document-handling-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d2",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d2",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d10",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d19",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d27"
+  ],
+  "scope": "Published FRUS document-face handling, routing, initials, marginalia, stamped notation, and approval patterns for Reagan and George H.W. Bush annotation sheets.",
+  "records": [
+    {
+      "document_handling_id": "handling-v31-d1-watson-bush-margin",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "unit_scope": "source note",
+      "handling_type": "initials_and_marginalia",
+      "approved_phrase": "Watson initialed the memorandum on Gregg’s behalf. Bush wrote in the top right-hand margin of the memorandum: “good paper. Sam: see question on page 2 of Anne’s letter ?? also p. 3 GB 3–19.”",
+      "actor": "Watson; Bush",
+      "action": "Watson initialed the memorandum; Bush wrote a margin note.",
+      "mark_location": "top right-hand margin",
+      "mark_text_or_summary": "good paper; Sam question; GB 3-19",
+      "routing_or_decision_status": "",
+      "copy_or_transcription_status": "",
+      "source_or_context": "START I source note preserves both the staff initial and Bush's handwritten marginal comment.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_document_handling_record",
+      "variant_forms": [
+        "Bush wrote in the top right-hand margin of the memorandum",
+        "Watson initialed the memorandum on Gregg's behalf"
+      ]
+    },
+    {
+      "document_handling_id": "handling-v31-d2-bush-checkmark",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d2",
+      "document_number": "2",
+      "unit_scope": "follow-on footnote",
+      "handling_type": "underlining_and_checkmark",
+      "approved_phrase": "Bush underlined “If” and placed a checkmark in the left-hand margin beside this sentence.",
+      "actor": "Bush",
+      "action": "underlined text and placed a checkmark",
+      "mark_location": "left-hand margin",
+      "mark_text_or_summary": "underlined 'If'; checkmark beside sentence",
+      "routing_or_decision_status": "",
+      "copy_or_transcription_status": "",
+      "source_or_context": "START I annotation note gives exact word underlined and location of checkmark.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d2",
+      "verification_status": "verified_published_document_handling_record",
+      "variant_forms": [
+        "Bush placed a checkmark in the left-hand margin beside this sentence",
+        "Bush underlined If and placed a checkmark"
+      ]
+    },
+    {
+      "document_handling_id": "handling-v31-d8-stamped-signed",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d8",
+      "document_number": "8",
+      "unit_scope": "source note",
+      "handling_type": "routing_and_stamped_notation",
+      "approved_phrase": "Sent for action. Sent through Kanter. Brackets are in the original. A stamped notation at the top of the memorandum reads: “Signed.”",
+      "actor": "Kanter; stamped notation",
+      "action": "sent for action; sent through Kanter; stamped signed",
+      "mark_location": "top of the memorandum",
+      "mark_text_or_summary": "Signed",
+      "routing_or_decision_status": "sent_for_action; sent_through",
+      "copy_or_transcription_status": "brackets are in the original",
+      "source_or_context": "START I source note combines routing, original-bracket status, and signed stamp; the elements should not be separated unless the source image supports it.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+      "verification_status": "verified_published_document_handling_record",
+      "variant_forms": [
+        "Sent for action. Sent through Kanter. A stamped notation at the top of the memorandum reads: “Signed.”",
+        "A stamped notation at the top of the memorandum reads: “Signed.”"
+      ]
+    },
+    {
+      "document_handling_id": "handling-v44p1-d2-dam-saw",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d2",
+      "document_number": "2",
+      "unit_scope": "source note",
+      "handling_type": "stamped_saw_notation",
+      "approved_phrase": "A stamped notation on the memorandum indicates Dam saw it on December 1.",
+      "actor": "Dam",
+      "action": "saw the memorandum",
+      "mark_location": "memorandum",
+      "mark_text_or_summary": "Dam saw it on December 1",
+      "routing_or_decision_status": "saw_notation",
+      "copy_or_transcription_status": "",
+      "source_or_context": "Reagan National Security Policy source note preserves a stamped saw notation with date.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d2",
+      "verification_status": "verified_published_document_handling_record",
+      "variant_forms": [
+        "stamped notation on the memorandum indicates Dam saw it",
+        "Dam saw it on December 1"
+      ]
+    },
+    {
+      "document_handling_id": "handling-v44p1-d10-mckinley-initialed",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d10",
+      "document_number": "10",
+      "unit_scope": "source note",
+      "handling_type": "initials_and_written_date",
+      "approved_phrase": "McKinley initialed the memorandum and wrote: “27 Dec.”",
+      "actor": "McKinley",
+      "action": "initialed and wrote date",
+      "mark_location": "memorandum",
+      "mark_text_or_summary": "27 Dec.",
+      "routing_or_decision_status": "",
+      "copy_or_transcription_status": "",
+      "source_or_context": "Reagan National Security Policy source note preserves initials and a short handwritten date.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d10",
+      "verification_status": "verified_published_document_handling_record",
+      "variant_forms": [
+        "McKinley initialed the memorandum",
+        "wrote: “27 Dec.”"
+      ]
+    },
+    {
+      "document_handling_id": "handling-v44p1-d19-mcfarlane-approved",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d19",
+      "document_number": "19",
+      "unit_scope": "follow-on footnote",
+      "handling_type": "approval",
+      "approved_phrase": "McFarlane approved the recommendation.",
+      "actor": "McFarlane",
+      "action": "approved the recommendation",
+      "mark_location": "",
+      "mark_text_or_summary": "approved",
+      "routing_or_decision_status": "approved",
+      "copy_or_transcription_status": "",
+      "source_or_context": "Reagan National Security Policy follow-on note records approval as document handling evidence, not a policy inference.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d19",
+      "verification_status": "verified_published_document_handling_record",
+      "variant_forms": [
+        "approved the recommendation"
+      ]
+    },
+    {
+      "document_handling_id": "handling-v01-d27-uninitialed-copy-president-saw",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d27",
+      "document_number": "27",
+      "unit_scope": "source note",
+      "handling_type": "routing_copy_status_and_stamped_saw_notation",
+      "approved_phrase": "Sent for action. Printed from an uninitialed copy. A stamped notation in the top right-hand corner of the memorandum indicates the President saw it.",
+      "actor": "President",
+      "action": "saw the memorandum",
+      "mark_location": "top right-hand corner",
+      "mark_text_or_summary": "President saw it",
+      "routing_or_decision_status": "sent_for_action; saw_notation",
+      "copy_or_transcription_status": "printed from an uninitialed copy",
+      "source_or_context": "Reagan Foundations source note combines routing, copy status, and stamped presidential saw notation.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d27",
+      "verification_status": "verified_published_document_handling_record",
+      "variant_forms": [
+        "Printed from an uninitialed copy",
+        "A stamped notation in the top right-hand corner of the memorandum indicates the President saw it"
+      ]
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 - schema_version: frus-llm-review-packet-v1
 - run_id: sample-packet
-- generated_at: 2026-06-03T19:10:30.530Z
+- generated_at: 2026-06-03T20:08:36.169Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -163,6 +163,7 @@ Every reviewable extracted editorial unit should have a checker entry. Use `reco
   "translation_registry_records": 7,
   "printed_attachment_registry_records": 6,
   "visual_material_registry_records": 5,
+  "document_handling_registry_records": 7,
   "negative_search_registry_records": 6,
   "document_relationship_registry_records": 10,
   "communications_registry_records": 8,
@@ -195,9 +196,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -228,6 +229,9 @@ For printed/nested attachment validation and direct-edit safety, run
 For visual-material validation and direct-edit safety, run
 `node scripts/validate-frus-visual-material-registry.mjs --registry reports/frus-visual-material-registry.sample.json --format text` and
 `node scripts/audit-frus-visual-material-usage.mjs --units extracted-units.json --registry reports/frus-visual-material-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For document-handling/marginalia validation and direct-edit safety, run
+`node scripts/validate-frus-document-handling-registry.mjs --registry reports/frus-document-handling-registry.sample.json --format text` and
+`node scripts/audit-frus-document-handling-usage.mjs --units extracted-units.json --registry reports/frus-document-handling-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For negative-search/no-record validation and direct-edit safety, run
 `node scripts/validate-frus-negative-search-registry.mjs --registry reports/frus-negative-search-registry.sample.json --format text` and
 `node scripts/audit-frus-negative-search-usage.mjs --units extracted-units.json --registry reports/frus-negative-search-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -250,7 +254,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -310,6 +314,14 @@ not-found or not-attached visual items, source-image links, printed targets,
 and person/object/place identification; validate it with
 `scripts/validate-frus-visual-material-registry.mjs` before direct
 visual-material edits.
+For real Reagan/Bush 1981-1992 document-handling/marginalia review, replace
+the sample document-handling registry with target-volume records for initials,
+handwritten notes, marginalia, underlining, checkmarks, stamped notations,
+read-by/seen language, sent-for-action or sent-for-information routing, copy
+status, bracket/original-status phrases, approval/disapproval, unknown-hand
+marks, and signed status; validate it with
+`scripts/validate-frus-document-handling-registry.mjs` before direct
+document-handling edits.
 For real Reagan/Bush 1981-1992 negative-search/no-record review, replace the
 sample negative-search registry with target-volume records for no-minutes,
 not-found, not-attached, not-found-attached, no-memcon, no-telcon, unlocated
@@ -351,6 +363,8 @@ For sample printed/nested attachment checks, run
 `node scripts/audit-frus-printed-attachment-usage.mjs --units reports/frus-printed-attachment-units.sample.json --registry reports/frus-printed-attachment-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample visual-material checks, run
 `node scripts/audit-frus-visual-material-usage.mjs --units reports/frus-visual-material-units.sample.json --registry reports/frus-visual-material-registry.sample.json --target-volume frus1989-92v31 --format text`.
+For sample document-handling/marginalia checks, run
+`node scripts/audit-frus-document-handling-usage.mjs --units reports/frus-document-handling-units.sample.json --registry reports/frus-document-handling-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample negative-search/no-record checks, run
 `node scripts/audit-frus-negative-search-usage.mjs --units reports/frus-negative-search-units.sample.json --registry reports/frus-negative-search-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample document-relationship checks, run
@@ -4555,6 +4569,252 @@ Use this to check maps, photographs, charts, images, graphic attachments, append
 }
 ```
 
+## Document Handling And Marginalia Registry Context
+
+Use this to check initials, handwritten marginalia, underlining, checkmarks, stamped notations, saw notations, sent-for-action/sent-for-information routing, copy status, bracket/original-status phrases, and approval/disapproval language. Do not change document-face handling, mark locations, actors, routing status, or copy status unless the registry proves the direct edit.
+
+```json
+{
+  "schema_version": "frus-document-handling-registry-v1",
+  "document_handling_registry_id": "frus-1981-1992-document-handling-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d2",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d2",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d10",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d19",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d27"
+  ],
+  "scope": "Published FRUS document-face handling, routing, initials, marginalia, stamped notation, and approval patterns for Reagan and George H.W. Bush annotation sheets.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "document_handling_id": "handling-v31-d1-watson-bush-margin",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "unit_scope": "source note",
+      "handling_type": "initials_and_marginalia",
+      "approved_phrase": "Watson initialed the memorandum on Gregg’s behalf. Bush wrote in the top right-hand margin of the memorandum: “good paper. Sam: see question on page 2 of Anne’s letter ?? also p. 3 GB 3–19.”",
+      "actor": "Watson; Bush",
+      "action": "Watson initialed the memorandum; Bush wrote a margin note.",
+      "mark_location": "top right-hand margin",
+      "mark_text_or_summary": "good paper; Sam question; GB 3-19",
+      "routing_or_decision_status": "",
+      "copy_or_transcription_status": "",
+      "source_or_context": "START I source note preserves both the staff initial and Bush's handwritten marginal comment.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_document_handling_record",
+      "variant_forms": [
+        "Bush wrote in the top right-hand margin of the memorandum",
+        "Watson initialed the memorandum on Gregg's behalf"
+      ]
+    },
+    {
+      "document_handling_id": "handling-v31-d2-bush-checkmark",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d2",
+      "document_number": "2",
+      "unit_scope": "follow-on footnote",
+      "handling_type": "underlining_and_checkmark",
+      "approved_phrase": "Bush underlined “If” and placed a checkmark in the left-hand margin beside this sentence.",
+      "actor": "Bush",
+      "action": "underlined text and placed a checkmark",
+      "mark_location": "left-hand margin",
+      "mark_text_or_summary": "underlined 'If'; checkmark beside sentence",
+      "routing_or_decision_status": "",
+      "copy_or_transcription_status": "",
+      "source_or_context": "START I annotation note gives exact word underlined and location of checkmark.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d2",
+      "verification_status": "verified_published_document_handling_record",
+      "variant_forms": [
+        "Bush placed a checkmark in the left-hand margin beside this sentence",
+        "Bush underlined If and placed a checkmark"
+      ]
+    },
+    {
+      "document_handling_id": "handling-v31-d8-stamped-signed",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d8",
+      "document_number": "8",
+      "unit_scope": "source note",
+      "handling_type": "routing_and_stamped_notation",
+      "approved_phrase": "Sent for action. Sent through Kanter. Brackets are in the original. A stamped notation at the top of the memorandum reads: “Signed.”",
+      "actor": "Kanter; stamped notation",
+      "action": "sent for action; sent through Kanter; stamped signed",
+      "mark_location": "top of the memorandum",
+      "mark_text_or_summary": "Signed",
+      "routing_or_decision_status": "sent_for_action; sent_through",
+      "copy_or_transcription_status": "brackets are in the original",
+      "source_or_context": "START I source note combines routing, original-bracket status, and signed stamp; the elements should not be separated unless the source image supports it.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+      "verification_status": "verified_published_document_handling_record",
+      "variant_forms": [
+        "Sent for action. Sent through Kanter. A stamped notation at the top of the memorandum reads: “Signed.”",
+        "A stamped notation at the top of the memorandum reads: “Signed.”"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "document_handling_id": "handling-v31-d1-watson-bush-margin",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "unit_scope": "source note",
+      "handling_type": "initials_and_marginalia",
+      "approved_phrase": "Watson initialed the memorandum on Gregg’s behalf. Bush wrote in the top right-hand margin of the memorandum: “good paper. Sam: see question on page 2 of Anne’s letter ?? also p. 3 GB 3–19.”",
+      "actor": "Watson; Bush",
+      "action": "Watson initialed the memorandum; Bush wrote a margin note.",
+      "mark_location": "top right-hand margin",
+      "mark_text_or_summary": "good paper; Sam question; GB 3-19",
+      "routing_or_decision_status": "",
+      "copy_or_transcription_status": "",
+      "source_or_context": "START I source note preserves both the staff initial and Bush's handwritten marginal comment.",
+      "variant_forms": [
+        "Bush wrote in the top right-hand margin of the memorandum",
+        "Watson initialed the memorandum on Gregg's behalf"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_document_handling_record"
+    },
+    {
+      "document_handling_id": "handling-v31-d2-bush-checkmark",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d2",
+      "document_number": "2",
+      "unit_scope": "follow-on footnote",
+      "handling_type": "underlining_and_checkmark",
+      "approved_phrase": "Bush underlined “If” and placed a checkmark in the left-hand margin beside this sentence.",
+      "actor": "Bush",
+      "action": "underlined text and placed a checkmark",
+      "mark_location": "left-hand margin",
+      "mark_text_or_summary": "underlined 'If'; checkmark beside sentence",
+      "routing_or_decision_status": "",
+      "copy_or_transcription_status": "",
+      "source_or_context": "START I annotation note gives exact word underlined and location of checkmark.",
+      "variant_forms": [
+        "Bush placed a checkmark in the left-hand margin beside this sentence",
+        "Bush underlined If and placed a checkmark"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d2",
+      "verification_status": "verified_published_document_handling_record"
+    },
+    {
+      "document_handling_id": "handling-v31-d8-stamped-signed",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d8",
+      "document_number": "8",
+      "unit_scope": "source note",
+      "handling_type": "routing_and_stamped_notation",
+      "approved_phrase": "Sent for action. Sent through Kanter. Brackets are in the original. A stamped notation at the top of the memorandum reads: “Signed.”",
+      "actor": "Kanter; stamped notation",
+      "action": "sent for action; sent through Kanter; stamped signed",
+      "mark_location": "top of the memorandum",
+      "mark_text_or_summary": "Signed",
+      "routing_or_decision_status": "sent_for_action; sent_through",
+      "copy_or_transcription_status": "brackets are in the original",
+      "source_or_context": "START I source note combines routing, original-bracket status, and signed stamp; the elements should not be separated unless the source image supports it.",
+      "variant_forms": [
+        "Sent for action. Sent through Kanter. A stamped notation at the top of the memorandum reads: “Signed.”",
+        "A stamped notation at the top of the memorandum reads: “Signed.”"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+      "verification_status": "verified_published_document_handling_record"
+    },
+    {
+      "document_handling_id": "handling-v44p1-d2-dam-saw",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d2",
+      "document_number": "2",
+      "unit_scope": "source note",
+      "handling_type": "stamped_saw_notation",
+      "approved_phrase": "A stamped notation on the memorandum indicates Dam saw it on December 1.",
+      "actor": "Dam",
+      "action": "saw the memorandum",
+      "mark_location": "memorandum",
+      "mark_text_or_summary": "Dam saw it on December 1",
+      "routing_or_decision_status": "saw_notation",
+      "copy_or_transcription_status": "",
+      "source_or_context": "Reagan National Security Policy source note preserves a stamped saw notation with date.",
+      "variant_forms": [
+        "stamped notation on the memorandum indicates Dam saw it",
+        "Dam saw it on December 1"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d2",
+      "verification_status": "verified_published_document_handling_record"
+    },
+    {
+      "document_handling_id": "handling-v44p1-d10-mckinley-initialed",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d10",
+      "document_number": "10",
+      "unit_scope": "source note",
+      "handling_type": "initials_and_written_date",
+      "approved_phrase": "McKinley initialed the memorandum and wrote: “27 Dec.”",
+      "actor": "McKinley",
+      "action": "initialed and wrote date",
+      "mark_location": "memorandum",
+      "mark_text_or_summary": "27 Dec.",
+      "routing_or_decision_status": "",
+      "copy_or_transcription_status": "",
+      "source_or_context": "Reagan National Security Policy source note preserves initials and a short handwritten date.",
+      "variant_forms": [
+        "McKinley initialed the memorandum",
+        "wrote: “27 Dec.”"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d10",
+      "verification_status": "verified_published_document_handling_record"
+    },
+    {
+      "document_handling_id": "handling-v44p1-d19-mcfarlane-approved",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d19",
+      "document_number": "19",
+      "unit_scope": "follow-on footnote",
+      "handling_type": "approval",
+      "approved_phrase": "McFarlane approved the recommendation.",
+      "actor": "McFarlane",
+      "action": "approved the recommendation",
+      "mark_location": "",
+      "mark_text_or_summary": "approved",
+      "routing_or_decision_status": "approved",
+      "copy_or_transcription_status": "",
+      "source_or_context": "Reagan National Security Policy follow-on note records approval as document handling evidence, not a policy inference.",
+      "variant_forms": [
+        "approved the recommendation"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d19",
+      "verification_status": "verified_published_document_handling_record"
+    },
+    {
+      "document_handling_id": "handling-v01-d27-uninitialed-copy-president-saw",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d27",
+      "document_number": "27",
+      "unit_scope": "source note",
+      "handling_type": "routing_copy_status_and_stamped_saw_notation",
+      "approved_phrase": "Sent for action. Printed from an uninitialed copy. A stamped notation in the top right-hand corner of the memorandum indicates the President saw it.",
+      "actor": "President",
+      "action": "saw the memorandum",
+      "mark_location": "top right-hand corner",
+      "mark_text_or_summary": "President saw it",
+      "routing_or_decision_status": "sent_for_action; saw_notation",
+      "copy_or_transcription_status": "printed from an uninitialed copy",
+      "source_or_context": "Reagan Foundations source note combines routing, copy status, and stamped presidential saw notation.",
+      "variant_forms": [
+        "Printed from an uninitialed copy",
+        "A stamped notation in the top right-hand corner of the memorandum indicates the President saw it"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d27",
+      "verification_status": "verified_published_document_handling_record"
+    }
+  ]
+}
+```
+
 ## Negative Search And No-Record Registry Context
 
 Use this to check `No minutes were found`, `Not found`, `Not attached`, `Not found attached`, no-memcon/no-telcon, missing-attachment, and RAC attachment-ambiguity language. Do not collapse one no-record relationship into another unless the registry proves the direct edit.
@@ -6878,6 +7138,7 @@ Use this to check telegram/cable/message identifiers, SECTO/TOSEC/special design
       "category": "physical_routing_marginalia",
       "direct_edit_policy": "comment_unless_context",
       "required_context": [
+        "document_handling_registry_context",
         "physical_routing_context",
         "source_image_context"
       ],

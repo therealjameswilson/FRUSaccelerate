@@ -93,6 +93,13 @@ For visual-material validation, use
 `reports/frus-visual-material-units.sample.json`; the self-contained smoke test
 is `scripts/test-frus-visual-material-audit.mjs`, and the sample audit report is
 `reports/frus-visual-material-audit.sample.json`.
+For document-handling/marginalia validation, use
+`scripts/validate-frus-document-handling-registry.mjs` and
+`scripts/audit-frus-document-handling-usage.mjs` with
+`reports/frus-document-handling-registry.sample.json` and
+`reports/frus-document-handling-units.sample.json`; the self-contained smoke
+test is `scripts/test-frus-document-handling-audit.mjs`, and the sample audit
+report is `reports/frus-document-handling-audit.sample.json`.
 For negative-search/no-record validation, use
 `scripts/validate-frus-negative-search-registry.mjs` and
 `scripts/audit-frus-negative-search-usage.mjs` with
@@ -186,6 +193,13 @@ reports/frus-visual-material-registry.sample.json` or a target-volume
 replacement to packet, chunk, and offline-runner commands before allowing direct
 edits to maps, photographs, captions/titles, appendix-image links, visual
 descriptions, not-found/not-attached visual status, or source-image targets.
+For document-handling/marginalia claims, add `--document-handling-registry
+reports/frus-document-handling-registry.sample.json` or a target-volume
+replacement to packet, chunk, and offline-runner commands before allowing direct
+edits to initials, handwritten notes, marginalia, underlining, checkmarks,
+stamped notations, read-by/seen language, sent-for-action or
+sent-for-information routing, copy status, bracket/original-status phrases,
+approval/disapproval, unknown-hand marks, or signed status.
 For sample review coverage, use `scripts/audit-frus-review-coverage.mjs` with
 `reports/frus-annotation-checker-extracted-units.sample.json`,
 `reports/frus-annotation-checker-sample-output.json`, and
@@ -12143,6 +12157,17 @@ Minimum components:
   printed targets, and visual-identification basis to supplied visual-material
   records and fails direct visual-material edits that lack supplied registry
   support.
+- No-dependency document-handling/marginalia registry validator, usage audit,
+  and fixtures: `scripts/validate-frus-document-handling-registry.mjs`,
+  `scripts/audit-frus-document-handling-usage.mjs`,
+  `reports/frus-document-handling-registry.sample.json`,
+  `reports/frus-document-handling-units.sample.json`, and
+  `reports/frus-document-handling-audit.sample.json`. The audit reconciles
+  initials, handwritten notes, marginalia, underlining, checkmarks, stamped
+  notations, read-by/seen language, sent-for-action or sent-for-information
+  routing, copy status, bracket/original-status phrases, approval/disapproval,
+  unknown-hand marks, and signed status to supplied document-handling records
+  and fails direct document-handling edits that lack supplied registry support.
 - No-dependency negative-search/no-record registry validator, usage audit, and
   fixtures: `scripts/validate-frus-negative-search-registry.mjs`,
   `scripts/audit-frus-negative-search-usage.mjs`,
@@ -12495,7 +12520,8 @@ Operational cautions:
   marginalia, stamps, read-by/seen status, signed status, approval checkmarks,
   actor/hand identity, placement, routing status, correspondence-profile,
   distribution, attachment-profile, no-record/search context, source-image basis,
-  and physical-routing discrepancy questions.
+  supplied document-handling registry matches, and physical-routing discrepancy
+  questions.
 - Record communications-registry version, unmatched message identifiers,
   missing D/N/P/STARS/PROFS/W Files/System IV data, unsupported
   origin/addressee/date-time group claims, drafting or clearance questions, and

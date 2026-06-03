@@ -1,0 +1,86 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample document-handling and marginalia FRUS annotation units",
+  "units": [
+    {
+      "unit_id": "document-handling-0001",
+      "unit_type": "source_note",
+      "location": "START I Document 1 source note",
+      "exact_text": "Watson initialed the memorandum on Gregg’s behalf. Bush wrote in the top right-hand margin of the memorandum: “good paper. Sam: see question on page 2 of Anne’s letter ?? also p. 3 GB 3–19.”",
+      "display_text": "Watson initialed the memorandum on Gregg’s behalf. Bush wrote in the top right-hand margin of the memorandum: “good paper. Sam: see question on page 2 of Anne’s letter ?? also p. 3 GB 3–19.”",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "document-handling-0002",
+      "unit_type": "follow_on_footnote",
+      "location": "START I Document 2 marginalia note",
+      "exact_text": "Bush underlined “If” and placed a checkmark in the left-hand margin beside this sentence.",
+      "display_text": "Bush underlined “If” and placed a checkmark in the left-hand margin beside this sentence.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "document-handling-0003",
+      "unit_type": "source_note",
+      "location": "START I Document 8 routing variant",
+      "exact_text": "Sent for action. Sent through Kanter. A stamped notation at the top of the memorandum reads: “Signed.”",
+      "display_text": "Sent for action. Sent through Kanter. A stamped notation at the top of the memorandum reads: “Signed.”",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "document-handling-0004",
+      "unit_type": "source_note",
+      "location": "Reagan National Security Policy stamped saw notation",
+      "exact_text": "A stamped notation on the memorandum indicates Dam saw it on December 1.",
+      "display_text": "A stamped notation on the memorandum indicates Dam saw it on December 1.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "document-handling-0005",
+      "unit_type": "source_note",
+      "location": "Reagan National Security Policy initialed memorandum",
+      "exact_text": "McKinley initialed the memorandum and wrote: “27 Dec.”",
+      "display_text": "McKinley initialed the memorandum and wrote: “27 Dec.”",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "document-handling-0006",
+      "unit_type": "follow_on_footnote",
+      "location": "Reagan National Security Policy approval note",
+      "exact_text": "McFarlane approved the recommendation.",
+      "display_text": "McFarlane approved the recommendation.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "document-handling-0007",
+      "unit_type": "source_note",
+      "location": "Reagan Foundations uninitialed copy and President saw notation",
+      "exact_text": "Sent for action. Printed from an uninitialed copy. A stamped notation in the top right-hand corner of the memorandum indicates the President saw it.",
+      "display_text": "Sent for action. Printed from an uninitialed copy. A stamped notation in the top right-hand corner of the memorandum indicates the President saw it.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "document-handling-0008",
+      "unit_type": "source_note",
+      "location": "Unsupported document handling phrase",
+      "exact_text": "A handwritten notation indicates the Secretary approved the attached memorandum.",
+      "display_text": "A handwritten notation indicates the Secretary approved the attached memorandum.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    }
+  ]
+}

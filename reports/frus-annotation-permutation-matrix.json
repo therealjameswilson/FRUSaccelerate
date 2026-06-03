@@ -142,7 +142,7 @@
     {
       "category": "physical_routing_marginalia",
       "direct_edit_policy": "comment_unless_context",
-      "required_context": ["physical_routing_context", "source_image_context"],
+      "required_context": ["document_handling_registry_context", "physical_routing_context", "source_image_context"],
       "primary_evidence_requests": ["physical_evidence_basis", "source_image", "document_status_basis"],
       "safe_actions": ["comment_only", "replace_text", "no_change"],
       "hazard_tags": ["physical_routing_marginalia", "physical_evidence_basis"]
