@@ -34,6 +34,9 @@ the self-contained smoke test is `scripts/test-frus-word-comment-applier.mjs`.
 For post-write `.docx` release validation, use
 `scripts/validate-frus-docx-output.mjs`; the self-contained smoke test is
 `scripts/test-frus-docx-output-validator.mjs`.
+For the full wrapper pass after the LLM returns `checker-output-v1`, use
+`scripts/run-frus-offline-review.mjs`; the self-contained smoke test is
+`scripts/test-frus-offline-review-runner.mjs`.
 For status-sensitive phrases, use
 `scripts/preflight-frus-status-claims.mjs` with
 `reports/frus-status-registry-1981-1992.sample.json` and
@@ -11842,6 +11845,12 @@ Minimum components:
   readability, XML tag balance, generated checker insertions/deletions,
   generated Word comments, comment bodies, comment references, range markers,
   comments relationships, content-type overrides, and expected output counts.
+- No-dependency end-to-end wrapper runner:
+  `scripts/run-frus-offline-review.mjs`, with smoke test
+  `scripts/test-frus-offline-review-runner.mjs`. It extracts units, validates
+  checker output, runs preflight, builds the evidence queue and discrepancy
+  ledger, applies safe Word comments, applies safe tracked changes, validates
+  the revised `.docx`, and writes `audit.json` plus component reports.
 - No-dependency status-claim preflight validator and status fixtures:
   `scripts/preflight-frus-status-claims.mjs`,
   `reports/frus-status-registry-1981-1992.sample.json`, and

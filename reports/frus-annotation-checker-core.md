@@ -24,6 +24,8 @@ For safe `comment_only` findings, run
 `node scripts/apply-frus-word-comments.mjs --docx input.docx --units extracted-units.json --checker-output output.json --out commented.docx`.
 For post-write DOCX release validation, run
 `node scripts/validate-frus-docx-output.mjs --docx revised.docx --expect-comments N --expect-insertions N --expect-deletions N`.
+For the full wrapper pass after the LLM returns checker JSON, run
+`node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-language preflight, run
 `node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-registry-1981-1992.sample.json --claims reports/frus-status-claims.sample.json --today 2026-06-03`.
 For real Reagan/Bush 1981-1992 status and cross-reference review, validate and

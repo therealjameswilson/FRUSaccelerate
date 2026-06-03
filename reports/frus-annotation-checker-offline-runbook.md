@@ -54,6 +54,18 @@ node scripts/extract-frus-docx-units.mjs --docx input.docx --out extracted-units
 node scripts/validate-frus-checker-output.mjs output.json
 ```
 
+   Preferred one-command wrapper path after validation:
+
+```sh
+node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID
+```
+
+   The runner extracts units, reruns checker-output validation, runs exact-anchor
+   preflight, builds the evidence queue and discrepancy ledger, applies safe
+   Word comments, applies safe tracked changes, validates the final `.docx`,
+   and writes `audit.json` plus component reports. Use the remaining commands
+   in this workflow for diagnosis, reruns, or manual operation.
+
 5. Run direct-edit preflight:
 
 ```sh
@@ -135,6 +147,7 @@ node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-che
 node scripts/test-frus-track-change-applier.mjs
 node scripts/test-frus-word-comment-applier.mjs
 node scripts/test-frus-docx-output-validator.mjs
+node scripts/test-frus-offline-review-runner.mjs
 node scripts/validate-frus-status-registry.mjs --registry reports/frus-status-series-1981-1992.current.json --today 2026-06-03
 node scripts/validate-frus-preparation-router.mjs --router reports/frus-preparation-router-1981-1992.current.json --status-registry reports/frus-status-series-1981-1992.current.json
 node scripts/validate-frus-permutation-matrix.mjs --matrix reports/frus-annotation-permutation-matrix.json --schema reports/frus-annotation-checker-output.schema.json --router reports/frus-preparation-router-1981-1992.current.json

@@ -64,6 +64,14 @@
       "role": "Self-contained DOCX output integrity validator smoke test"
     },
     {
+      "path": "scripts/run-frus-offline-review.mjs",
+      "role": "No-dependency end-to-end wrapper runner after LLM checker output"
+    },
+    {
+      "path": "scripts/test-frus-offline-review-runner.mjs",
+      "role": "Self-contained end-to-end offline review runner smoke test"
+    },
+    {
       "path": "scripts/preflight-frus-status-claims.mjs",
       "role": "Publication-status claim preflight"
     },
@@ -138,6 +146,7 @@
     "node scripts/test-frus-track-change-applier.mjs",
     "node scripts/test-frus-word-comment-applier.mjs",
     "node scripts/test-frus-docx-output-validator.mjs",
+    "node scripts/test-frus-offline-review-runner.mjs",
     "node scripts/validate-frus-status-registry.mjs --registry reports/frus-status-series-1981-1992.current.json --today 2026-06-03",
     "node scripts/validate-frus-preparation-router.mjs --router reports/frus-preparation-router-1981-1992.current.json --status-registry reports/frus-status-series-1981-1992.current.json",
     "node scripts/validate-frus-permutation-matrix.mjs --matrix reports/frus-annotation-permutation-matrix.json --schema reports/frus-annotation-checker-output.schema.json --router reports/frus-preparation-router-1981-1992.current.json",
@@ -155,6 +164,7 @@
     "Remove word/document.xml from a DOCX package; extract-frus-docx-units.mjs must fail.",
     "Change a comment-only unit to comment_safety unsafe; apply-frus-word-comments.mjs must fail.",
     "Remove a generated commentRangeEnd marker; validate-frus-docx-output.mjs must fail.",
+    "Point run-frus-offline-review.mjs at checker output with unit ids not present in the extracted DOCX; the wrapper runner must fail during preflight.",
     "Remove the checks array from checker-output-v1; validate-frus-checker-output.mjs and build-frus-evidence-queue.mjs must fail.",
     "Remove any required file listed in the manifest; verify-frus-offline-bundle.mjs must fail."
   ]
