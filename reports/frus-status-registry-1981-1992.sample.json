@@ -1,0 +1,151 @@
+{
+  "schema_version": "frus-status-registry-v1",
+  "captured_at": "2026-06-03",
+  "source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
+  "scope": "Sample Reagan and George H.W. Bush status registry for FRUS Annotation Checker status-claim preflight tests.",
+  "entries": [
+    {
+      "entry_id": "frus1981-88v44p1",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XLIV, Part 1",
+      "title": "National Security Policy, 1985-1988",
+      "production_stage": "published",
+      "release_buckets": [
+        "published_2025"
+      ],
+      "published_date": "2025-08-01",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v31",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXXI",
+      "title": "START I, 1989-1991",
+      "production_stage": "published",
+      "release_buckets": [
+        "published_2025"
+      ],
+      "published_date": "2025-09-30",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v16",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XVI",
+      "title": "South America",
+      "production_stage": "being_cleared",
+      "release_buckets": [
+        "anticipated_2026"
+      ],
+      "published_date": "",
+      "subitems": [
+        {
+          "label": "South America Region",
+          "release_buckets": []
+        },
+        {
+          "label": "Argentina",
+          "release_buckets": []
+        },
+        {
+          "label": "Bolivia",
+          "release_buckets": []
+        },
+        {
+          "label": "Brazil",
+          "release_buckets": []
+        },
+        {
+          "label": "Chile",
+          "release_buckets": []
+        },
+        {
+          "label": "Colombia",
+          "release_buckets": []
+        },
+        {
+          "label": "Ecuador",
+          "release_buckets": []
+        },
+        {
+          "label": "Paraguay",
+          "release_buckets": []
+        },
+        {
+          "label": "Peru",
+          "release_buckets": []
+        },
+        {
+          "label": "Uruguay",
+          "release_buckets": []
+        },
+        {
+          "label": "Venezuela",
+          "release_buckets": [
+            "anticipated_2026"
+          ]
+        }
+      ]
+    },
+    {
+      "entry_id": "frus1981-88v28",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXVIII",
+      "title": "China, 1981-1983",
+      "production_stage": "being_cleared",
+      "release_buckets": [
+        "anticipated_2026"
+      ],
+      "published_date": "",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v26",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXVI",
+      "title": "National Security Policy",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v01",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "I",
+      "title": "Foundations of Foreign Policy; Public Diplomacy",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v28",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXVIII",
+      "title": "Counternarcotics; Counterterrorism",
+      "production_stage": "planned",
+      "release_buckets": [],
+      "published_date": "",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v29",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXIX",
+      "title": "Global Issues",
+      "production_stage": "planned",
+      "release_buckets": [],
+      "published_date": "",
+      "subitems": []
+    }
+  ]
+}

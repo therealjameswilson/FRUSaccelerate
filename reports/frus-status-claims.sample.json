@@ -1,0 +1,48 @@
+{
+  "schema_version": "frus-status-claims-v1",
+  "source": "Sample extracted status claims from uploaded annotation-sheet text.",
+  "claims": [
+    {
+      "claim_id": "status-claim-0001",
+      "unit_id": "annotation-0042",
+      "phrase": "scheduled for publication in Foreign Relations, 1989-1992, Volume XXXI",
+      "claim_type": "scheduled_for_publication",
+      "target_entry_id": "frus1989-92v31",
+      "target_title": "START I, 1989-1991",
+      "target_volume_number": "XXXI",
+      "target_subitem": "",
+      "target_chapter": "",
+      "target_document": "",
+      "claimed_year": "",
+      "direct_edit_requested": false
+    },
+    {
+      "claim_id": "status-claim-0002",
+      "unit_id": "annotation-0051",
+      "phrase": "anticipated in 2026 in the Venezuela chapter of the South America volume",
+      "claim_type": "anticipated_in_year",
+      "target_entry_id": "frus1981-88v16",
+      "target_title": "South America",
+      "target_volume_number": "XVI",
+      "target_subitem": "Venezuela",
+      "target_chapter": "",
+      "target_document": "",
+      "claimed_year": "2026",
+      "direct_edit_requested": false
+    },
+    {
+      "claim_id": "status-claim-0003",
+      "unit_id": "annotation-0077",
+      "phrase": "being cleared in the Bush National Security Policy volume",
+      "claim_type": "being_cleared",
+      "target_entry_id": "frus1989-92v26",
+      "target_title": "National Security Policy",
+      "target_volume_number": "XXVI",
+      "target_subitem": "",
+      "target_chapter": "",
+      "target_document": "",
+      "claimed_year": "",
+      "direct_edit_requested": false
+    }
+  ]
+}

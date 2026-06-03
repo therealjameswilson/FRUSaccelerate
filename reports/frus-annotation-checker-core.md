@@ -16,6 +16,8 @@ For a no-dependency smoke test, run
 `node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json`.
 For direct-edit anchor preflight, run
 `node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json`.
+For status-language preflight, run
+`node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-registry-1981-1992.sample.json --claims reports/frus-status-claims.sample.json --today 2026-06-03`.
 
 ## 1. System Role
 
@@ -54,9 +56,13 @@ the JSON.
 5. Wrapper validates JSON, exact anchors, evidence basis, and Word safety.
    Direct edits require one exact `original_text` match in an editable unit
    with no existing revisions or blocked Word boundaries.
-6. Wrapper applies only safe edits as WordprocessingML tracked insertions,
+6. Wrapper validates publication-status phrases against a dated official
+   status registry before allowing any redline that changes `printed in`,
+   `scheduled for publication`, `forthcoming`, `anticipated`, `being cleared`,
+   `being researched`, or `planned` language.
+7. Wrapper applies only safe edits as WordprocessingML tracked insertions,
    deletions, and comments.
-7. User downloads a new `.docx` with changes marked in Track Changes.
+8. User downloads a new `.docx` with changes marked in Track Changes.
 
 Important: the LLM must not write `.docx`, OOXML, base64 files, or package
 instructions. The wrapper creates the revised Word file.

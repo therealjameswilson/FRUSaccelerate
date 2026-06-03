@@ -23,6 +23,11 @@ For exact-anchor and Word-safety preflight, use
 `scripts/preflight-frus-checker-plan.mjs` with
 `reports/frus-annotation-checker-extracted-units.sample.json` and
 `reports/frus-annotation-checker-direct-edit-sample-output.json`.
+For status-sensitive phrases, use
+`scripts/preflight-frus-status-claims.mjs` with
+`reports/frus-status-registry-1981-1992.sample.json` and
+`reports/frus-status-claims.sample.json` before allowing any redline that
+changes publication-stage wording.
 
 The intended workflow is:
 
@@ -1005,18 +1010,23 @@ The closed-network application must perform these functions outside the LLM:
 5. Run exact-anchor preflight against the extracted-unit map. Reject any edit
    whose unit is not editable, whose Word boundaries are unsafe, or whose
    `original_text` is not found exactly once in the target unit.
-6. Reject any edit whose `original_text` is not found exactly in the target
+6. Run status-claim preflight for any phrase that says `printed in`,
+   `published in`, `scheduled for publication`, `forthcoming`, `anticipated in
+   [year]`, `being cleared`, `being researched`, or `planned`. Reject direct
+   status-language edits unless the current registry supports the target and
+   exact document, chapter, or subitem.
+7. Reject any edit whose `original_text` is not found exactly in the target
    unit.
-7. Apply accepted edits as Word tracked changes:
+8. Apply accepted edits as Word tracked changes:
    - deleted text becomes Word deletion markup;
    - inserted or replacement text becomes Word insertion markup;
    - comments become Word comments authored by `FRUS Annotation Checker`;
    - original document text remains untouched unless explicitly targeted.
-8. Preserve existing tracked changes unless the user chooses to accept or reject
+9. Preserve existing tracked changes unless the user chooses to accept or reject
    them before running the checker.
-9. Export a new `.docx` with a filename such as:
+10. Export a new `.docx` with a filename such as:
    `original_filename.frus-annotation-check.docx`.
-10. Generate an optional audit report listing every edit, rejected edit, and
+11. Generate an optional audit report listing every edit, rejected edit, and
    comment.
 
 The wrapper, not the LLM, is responsible for the track-change layer. In `.docx`
@@ -11557,6 +11567,8 @@ Counts:
 - Status claims extracted from uploaded Word file: [n]
 - Status claims matching current registry: [n]
 - Status claims stale, conflicting, or downgraded to comment-only: [n]
+- Status-claim preflight accepted/comment-required/direct-edit-blocked:
+  [accepted n; comment_required n; blocked n]
 - Status snapshot integrity checks passed/warned/failed: [pass n; warning n; fail n]
 - Status-page rows captured by stage for 1981-1992 scope: [published_2025 n; anticipated_2026 n; being_cleared n; being_researched n; planned n]
 - Nested chapter/subitem overlays preserved or unmapped: [preserved n; unmapped n]
@@ -11766,6 +11778,10 @@ Minimum components:
   `scripts/preflight-frus-checker-plan.mjs`,
   `reports/frus-annotation-checker-extracted-units.sample.json`, and
   `reports/frus-annotation-checker-direct-edit-sample-output.json`.
+- No-dependency status-claim preflight validator and status fixtures:
+  `scripts/preflight-frus-status-claims.mjs`,
+  `reports/frus-status-registry-1981-1992.sample.json`, and
+  `reports/frus-status-claims.sample.json`.
 - Spellcheck rule-id validator that rejects unknown `rule_id` values, counts
   findings by rule, flags excessive `FAS-GEN-000` fallback use, and preserves
   rule-id tallies in the audit report before tracked changes are applied.
