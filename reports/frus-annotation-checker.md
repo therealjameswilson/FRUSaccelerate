@@ -69,6 +69,10 @@ The wrapper should provide the LLM with:
   controls derived from published FRUS source lists and local authority files,
   including family ids, volume scope, required path components, distinguishing
   tokens, allowed variants, and no-flattening rules.
+- `attachment_registry_context`, if available: structured attachment, tab,
+  enclosure, annex, appendix-image, and facsimile relationships with physical
+  status, editorial status, printed target, source label, and verification
+  basis.
 - `series_status_context`, if available: current History Office status
   (`published`, `anticipated`, `being_cleared`, `being_researched`, or
   `planned`), target volume title, known chapter status, and any official
@@ -1105,6 +1109,114 @@ Flag these issues:
 - Appendix image or facsimile is not cross-referenced from the transcribed
   handwritten document, or the appendix entry does not point back to the
   transcribed document.
+
+Attachment-status registry:
+
+When the wrapper can extract or supply attachment data, keep a small registry
+separate from the prose note. The registry should record the physical or
+editorial relationship before the LLM decides whether to redline the wording.
+
+```json
+{
+  "attachment_registry_id": "frus-attachment-status-2026-06-03",
+  "items": [
+    {
+      "attachment_id": "attachment-doc-0025-tab-c",
+      "parent_unit_id": "source-note-0025",
+      "label_in_source": "Tab C",
+      "described_item": "List of Participants",
+      "physical_status": "not_attached",
+      "editorial_status": "not_printed",
+      "printed_target": "",
+      "classification_marking": "",
+      "evidence_basis": "source note or control-copy inspection",
+      "confidence": "verified"
+    },
+    {
+      "attachment_id": "attachment-doc-0025-tab-a",
+      "parent_unit_id": "source-note-0025",
+      "label_in_source": "Tab A",
+      "described_item": "Talking Points",
+      "physical_status": "attached",
+      "editorial_status": "printed_elsewhere",
+      "printed_target": "Document 26",
+      "classification_marking": "Secret",
+      "evidence_basis": "published pattern or supplied authority context",
+      "confidence": "verified"
+    }
+  ]
+}
+```
+
+Allowed `physical_status` values:
+
+- `attached`: the item is physically present with the control copy.
+- `not_attached`: the source or control-copy inspection shows the item is not
+  physically attached.
+- `not_found`: the item was searched for but not located; do not use this when
+  the only fact is that it was not printed.
+- `unknown`: the uploaded context does not prove attachment status.
+
+Allowed `editorial_status` values:
+
+- `printed_here`: the item is printed with the current document.
+- `printed_elsewhere`: the item is printed as another document, tab, attachment,
+  appendix, or volume target.
+- `not_printed`: the item exists or is described but is not printed.
+- `excerpted`: only part of the item is printed or summarized.
+- `not_applicable`: no editorial printing relationship is asserted.
+
+Attachment validator sequence:
+
+1. Identify every attachment, tab, enclosure, annex, appendix image, list,
+   paper, treaty text, draft telegram, and associated document named in the
+   unit.
+2. Separate physical status from editorial status. `Attached but not printed`
+   means a physical item exists but is omitted from print; `Not found attached`
+   means the expected item was not present; `Printed as Document [n]` means an
+   editorial location is supplied.
+3. Require a `printed_target` for `printed_elsewhere`, such as `Document 26`,
+   `Tab A, Document 26`, `Attachment, Document 1`, an appendix item, or a
+   scheduled-publication target supplied in context.
+4. Require `attachment_status` evidence before changing any note that asserts
+   attached, not attached, not found, tabbed, enclosed, printed, excerpted, or
+   appendix-image status.
+5. Preserve source wording for uncertain labels such as `Tab I`, `D1`, `D2`,
+   `Attachment`, `Annex`, or `Enclosure` unless the wrapper supplies a stable
+   normalized label.
+6. If the attachment has its own classification marking, handling marking, date,
+   or title, do not merge those facts into the parent document's source note
+   unless the published or supplied context supports that treatment.
+7. For participant lists, agendas, talking points, treaty texts, analyses,
+   notification annexes, and proposed Presidential messages, preserve the
+   description supplied by the source or published FRUS pattern. Do not replace
+   it with a generic `attachment`.
+8. For handwritten-note facsimiles and appendix images, validate both directions
+   of the cross-reference: document-to-appendix and appendix-to-document.
+
+Direct-edit posture:
+
+- Safe direct edits may correct only the literal attachment phrase when the
+  registry proves the status and the Word anchor is exact, such as changing
+  `Attached and not printed` to `Attached but not printed`.
+- Use `comment_only` when physical status, printed target, title, date,
+  classification, or cross-reference is missing or inferred.
+- Use `evidence_request: attachment_status` when the missing proof is the
+  physical or editorial relationship.
+- Use `evidence_request: document_number` or `cross_reference` when the problem
+  is the target document, tab, appendix, or volume reference.
+- Use `style_discrepancy_tally` when published or local examples vary on how
+  much description to include, such as bare `Attached but not printed.` versus
+  `Attached but not printed is [title].`
+
+Attachment audit requirements:
+
+- Count attachment-status findings by physical status and editorial status.
+- Record unresolved `unknown`, missing `printed_target`, and bidirectional
+  appendix/facsimile failures separately.
+- Do not release a final-style `.docx` when attachment claims remain `unknown`
+  in publishable apparatus unless the volume editor waives the issue and the
+  waiver is included in the audit report.
 
 ### 6.6 Declassification And Omissions
 
@@ -2436,7 +2548,8 @@ For every extracted unit, run checks in this order:
 4. Check source-note order and completeness.
 5. Match source notes against the source-family registry when supplied.
 6. Check classification and handling language.
-7. Check attachment, tab, and not-found claims.
+7. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
+   against the attachment registry when supplied.
 8. Check cross-references and follow-on citation form.
 9. Check annotation purpose and concision.
 10. Check declassification and omission language.
@@ -2998,6 +3111,7 @@ Output schema: checker-output-v1
 Context bundle: [bundle_id and capture date]
 Authority registry: [authority_registry_id and capture date]
 Source-family registry: [source_family_registry_id and capture date]
+Attachment registry: [attachment_registry_id and capture date]
 Status snapshot: [status_snapshot URL and captured_at date]
 Status registry stale: [yes/no/not supplied]
 Review mode: [light/normal/exhaustive]
@@ -3022,6 +3136,7 @@ Counts:
 - Status registry conflicts or stale-publication warnings: [n]
 - Authority registry conflicts or unmatched forms: [n]
 - Source-family unmatched or ambiguous matches: [n]
+- Attachment status unknown or conflicting: [n]
 
 Major issues:
 - [unit_id]: [finding]
@@ -3040,6 +3155,9 @@ Authority-control warnings:
 
 Source-family warnings:
 - [unit_id or global]: [source-family issue] - [registry target or unmatched family]
+
+Attachment warnings:
+- [unit_id or global]: [attachment issue] - [physical/editorial status and target]
 
 Style discrepancy tally:
 - [discrepancy_id]: [category] - [style_question] - count [n] - risk [level]
@@ -3071,6 +3189,9 @@ Minimum components:
   ecologies, distinguishes public/printed selected sources from archival
   control copies, and blocks flattening of specific repositories into generic
   source paths.
+- Attachment-status validator that separates physical attachment status from
+  editorial printing status and checks tab, enclosure, annex, appendix, and
+  facsimile cross-references before tracked changes are applied.
 - Status-registry validator that preserves production stage, release bucket,
   capture date, official URL, and cross-referenced volume targets before the
   LLM review begins.
@@ -3087,6 +3208,8 @@ Operational cautions:
   comments, and unresolved General Editor questions.
 - Record source-family registry version, unmatched or ambiguous family matches,
   direct source-family edits, and source-family discrepancy questions.
+- Record attachment-registry version, unknown statuses, missing printed targets,
+  bidirectional appendix/facsimile failures, and any waived attachment claims.
 - Record status-registry freshness and every publication-status conflict,
   especially `scheduled for publication` or `printed in` language.
 - Record the selected review mode and whether duplicate findings were merged.
