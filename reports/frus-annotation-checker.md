@@ -257,6 +257,12 @@ The wrapper should provide the LLM with:
   source-list draft, Persons/abbreviations draft, or mixed editorial packet;
   whether source images or scans are available to the wrapper; and whether the
   user wants a light, normal, or exhaustive redline.
+- `extraction_profile_context`, if available: wrapper diagnostics showing
+  paragraph-style counts, table counts, footnote/endnote/comment part counts,
+  generated or symbol-font character mappings, whether most paragraphs are
+  styled as `Normal`, whether source notes are inline numbered paragraphs or
+  true Word footnotes, and which lexical markers were used to recover FRUS
+  units.
 - `style_discrepancy_ledger_context`, if available: the current project-level
   General Editor discrepancy ledger, including open, provisional, resolved, and
   retired discrepancy ids; categories; representative examples; counts; prior
@@ -888,6 +894,43 @@ Unitization rules:
 - Treat document body paragraphs as `transcribed_document_text` by default
   unless styles, headings, or wrapper context identify them as editorial
   apparatus.
+
+Flat-style and generated-text fallback:
+
+- Do not depend on Word paragraph styles alone. Some polished FRUS Word exports
+  and exemplar annotation packets may use `Normal` for nearly every paragraph
+  while still containing clear FRUS structure.
+- When the style profile is flat, recover units from stable content markers:
+  `Preface`, `Sources`, `Persons`, `Abbreviations and Terms`, `Title of
+  Volume:`, `Chapter Title:`, `Left Running Head:`, `Right Running Head:`,
+  document numbers, document titles, `Editorial Note`, paragraphs beginning
+  with a footnote number plus `Source:`, numbered follow-on notes, bracketed
+  omission notes, appendix labels, and running-head metadata.
+- Record `unit_boundary_basis` for every unit recovered without styles, such as
+  `style`, `lexical_marker`, `numbered_source_note`, `running_head_label`,
+  `chapter_label`, `footnote_part`, `table_cell`, or `manual_override`.
+- Treat lexical markers as boundary evidence, not as factual proof. A marker can
+  locate a source note or editorial note; it cannot prove classification,
+  attachment status, document number, publication status, or source-family
+  authority without the relevant registry or context.
+- Recover Word symbol-font and generated-text artifacts before sending
+  `display_text` to the LLM. If extraction yields placeholders such as `<n>`,
+  `<m>`, `<i>`, private-use glyphs, or symbol-font dash characters where the
+  Word source represents an en dash, em dash, italic boundary, or other
+  typography, keep a reversible glyph map to `exact_text` and show readable
+  normalized characters in `display_text`.
+- Do not treat recovered glyph placeholders as errors in the uploaded sheet
+  unless the placeholders are literal text in the Word document. If the wrapper
+  cannot tell, use `comment_only` with `evidence_request: wrapper_safety`.
+- Do not treat words such as `candidate`, `possible`, `needs`, `draft`, `scan`,
+  or `image` as working labels merely because they appear in text. They may be
+  legitimate document text, Persons-list language, speech text, or narrative
+  description. Classify them as working labels only when location, surrounding
+  text, comment context, review mode, or wrapper metadata shows they are
+  compiler scaffolding.
+- If flat-style fallback is used, lower confidence for broad direct edits. Safe
+  direct edits still require exact `original_text`, a single mapped anchor, and
+  no cross-boundary run complications.
 
 Direct-edit validator:
 
@@ -10423,6 +10466,9 @@ Counts:
 - Style discrepancies tallied for General Editor: [n]
 - Duplicate findings merged: [n]
 - Cross-chunk conflicts reconciled: [n]
+- Flat-style extraction fallback units: [n]
+- Generated or symbol-font glyph mappings recovered before LLM review: [n]
+- Working-label candidates suppressed as legitimate document/person/text usage: [n]
 - Status registry conflicts or stale-publication warnings: [n]
 - Authority registry conflicts or unmatched forms: [n]
 - Persons, Abbreviations and Terms, source-list, chapter-label,
@@ -10475,6 +10521,9 @@ Evidence requests:
 
 Blocking evidence queue:
 - [request_id]: [evidence_request] - [verification_target] - owner [hint] - status [state]
+
+Extraction/unitization warnings:
+- [unit_id or global]: [flat-style, glyph-map, inline-source-note, or marker-boundary issue] - [unit_boundary_basis] - [recommended posture]
 
 Publication-status warnings:
 - [unit_id or global]: [status issue] - [registry target]
@@ -11124,6 +11173,9 @@ This checker is based on the local file:
 - `reports/frus1989-92v31-annotation-corpus.json`
 - Uploaded exemplar Word file: `Foundations Consolidated.docx`, treated as a
   clean finished-form model for annotation style and source-note cadence.
+  A structural extraction pass showed that polished FRUS Word material can be
+  nearly flat by Word style, with most paragraphs styled `Normal`, so the
+  checker must recover units from FRUS lexical markers as well as styles.
 
 Open XML and WordprocessingML implementation references used for the Word
 wrapper contract:
