@@ -107,6 +107,13 @@ For chronology/time validation, use
 `reports/frus-chronology-units.sample.json`; the self-contained smoke test is
 `scripts/test-frus-chronology-audit.mjs`, and the sample audit report is
 `reports/frus-chronology-audit.sample.json`.
+For public-source/public-diplomacy validation, use
+`scripts/validate-frus-public-source-registry.mjs` and
+`scripts/audit-frus-public-source-usage.mjs` with
+`reports/frus-public-source-registry.sample.json` and
+`reports/frus-public-source-units.sample.json`; the self-contained smoke test
+is `scripts/test-frus-public-source-audit.mjs`, and the sample audit report is
+`reports/frus-public-source-audit.sample.json`.
 For negative-search/no-record validation, use
 `scripts/validate-frus-negative-search-registry.mjs` and
 `scripts/audit-frus-negative-search-usage.mjs` with
@@ -12186,6 +12193,18 @@ Minimum components:
   no-precise-time caveats, and event-sequence facts to supplied chronology
   records and fails direct chronology edits that lack target-volume registry
   support.
+- No-dependency public-source/public-diplomacy registry validator, usage audit,
+  and fixtures: `scripts/validate-frus-public-source-registry.mjs`,
+  `scripts/audit-frus-public-source-usage.mjs`,
+  `reports/frus-public-source-registry.sample.json`,
+  `reports/frus-public-source-units.sample.json`, and
+  `reports/frus-public-source-audit.sample.json`. The audit reconciles Public
+  Papers, Department of State Bulletin/Dispatch, selected public remarks,
+  speeches, press conferences, briefings, interviews, broadcasts, testimony,
+  newspaper excerpts, official transcripts, full-text targets, archival speech
+  or briefing-file context, diary context, and selected-versus-supplemental
+  public-source status to supplied public-source records and fails direct
+  public-source edits that lack target-volume registry support.
 - No-dependency negative-search/no-record registry validator, usage audit, and
   fixtures: `scripts/validate-frus-negative-search-registry.mjs`,
   `scripts/audit-frus-negative-search-usage.mjs`,
@@ -12419,12 +12438,13 @@ Minimum components:
   environmental and ozone treaty/protocol material, public-report basis,
   international-organization roles, amounts/metrics, legal/program authority,
   and stage/status before tracked changes are applied.
-- Public-source validator that distinguishes public diplomacy, speeches, press
-  releases, press conferences, briefings, interviews, broadcasts, testimony,
-  Public Papers, Department of State Bulletin, Congressional Record, official
-  transcripts, newspaper excerpts, full-text targets, archival drafts, briefing
-  materials, diary context, and selected-versus-supplemental status before
-  tracked changes are applied.
+- Expand the public-source/public-diplomacy validator to cover more
+  target-volume records for speeches, press releases, press conferences,
+  briefings, interviews, broadcasts, testimony, Public Papers, Department of
+  State Bulletin/Dispatch, Congressional Record, official transcripts,
+  newspaper excerpts, full-text targets, archival drafts, briefing materials,
+  diary context, and selected-versus-supplemental status before tracked changes
+  are applied.
 - Foreign/international-organization validator that distinguishes foreign
   governments, successor states, international organizations, regional bodies,
   alliances, coalitions, peacekeeping forces, conferences, international

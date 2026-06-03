@@ -236,6 +236,18 @@
       "role": "Self-contained chronology registry and usage audit smoke test"
     },
     {
+      "path": "scripts/validate-frus-public-source-registry.mjs",
+      "role": "Public-source, Public Papers, Department of State Bulletin/Dispatch, public remarks, press, testimony, broadcast, and selected-public-document registry validator"
+    },
+    {
+      "path": "scripts/audit-frus-public-source-usage.mjs",
+      "role": "Public-source and public-diplomacy usage audit for extracted Word units and direct-edit safety"
+    },
+    {
+      "path": "scripts/test-frus-public-source-audit.mjs",
+      "role": "Self-contained public-source and public-diplomacy registry and usage audit smoke test"
+    },
+    {
       "path": "scripts/validate-frus-negative-search-registry.mjs",
       "role": "Negative-search, no-record, and attachment-ambiguity registry validator"
     },
@@ -352,6 +364,9 @@
     "reports/frus-chronology-registry.sample.json",
     "reports/frus-chronology-units.sample.json",
     "reports/frus-chronology-audit.sample.json",
+    "reports/frus-public-source-registry.sample.json",
+    "reports/frus-public-source-units.sample.json",
+    "reports/frus-public-source-audit.sample.json",
     "reports/frus-negative-search-registry.sample.json",
     "reports/frus-negative-search-units.sample.json",
     "reports/frus-negative-search-audit.sample.json",
@@ -424,6 +439,10 @@
       "role": "Published President's Daily Diary, meeting-time, no-precise-time, and actual-versus-planned chronology sample for Reagan and George H.W. Bush fixtures"
     },
     {
+      "path": "reports/frus-public-source-registry.sample.json",
+      "role": "Published Public Papers, Department of State Bulletin/Dispatch, public remarks, press, selected public-document, and archival public-source sample for Reagan and George H.W. Bush fixtures"
+    },
+    {
       "path": "reports/frus-negative-search-registry.sample.json",
       "role": "Published no-minutes, not-found, not-attached, and RAC attachment-ambiguity sample for Reagan and George H.W. Bush fixtures"
     },
@@ -494,6 +513,9 @@
     "node scripts/validate-frus-chronology-registry.mjs --registry reports/frus-chronology-registry.sample.json --format text",
     "node scripts/audit-frus-chronology-usage.mjs --units reports/frus-chronology-units.sample.json --registry reports/frus-chronology-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-chronology-audit.mjs",
+    "node scripts/validate-frus-public-source-registry.mjs --registry reports/frus-public-source-registry.sample.json --format text",
+    "node scripts/audit-frus-public-source-usage.mjs --units reports/frus-public-source-units.sample.json --registry reports/frus-public-source-registry.sample.json --target-volume frus1989-92v31 --format text",
+    "node scripts/test-frus-public-source-audit.mjs",
     "node scripts/validate-frus-negative-search-registry.mjs --registry reports/frus-negative-search-registry.sample.json --format text",
     "node scripts/audit-frus-negative-search-usage.mjs --units reports/frus-negative-search-units.sample.json --registry reports/frus-negative-search-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-negative-search-audit.mjs",
@@ -534,6 +556,8 @@
     "Give validate-frus-document-handling-registry.mjs a duplicate document_handling_id or malformed document-handling-registry schema; it must fail.",
     "Give audit-frus-chronology-usage.mjs a direct edit that changes a Daily Diary meeting time, place, attendance, or no-precise-time caveat without target-volume registry support; it must fail.",
     "Give validate-frus-chronology-registry.mjs a duplicate chronology_id or malformed chronology-registry schema; it must fail.",
+    "Give audit-frus-public-source-usage.mjs a direct edit that changes Public Papers pages, delivery basis, full-text target, or selected-public-document status without target-volume registry support; it must fail.",
+    "Give validate-frus-public-source-registry.mjs a duplicate public_source_id or malformed public-source-registry schema; it must fail.",
     "Give audit-frus-negative-search-usage.mjs a direct edit that changes `Not found attached` to `Not attached` without target-volume registry support; it must fail.",
     "Give validate-frus-negative-search-registry.mjs a duplicate negative_search_id or malformed negative-search-registry schema; it must fail.",
     "Give audit-frus-document-relationship-usage.mjs a direct edit that changes `Attached but not printed. See Document 10` to `Attached but not printed. See Document 9` without target-volume registry support; it must fail.",

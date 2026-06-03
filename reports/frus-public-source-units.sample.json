@@ -1,0 +1,86 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample public-source and public-diplomacy FRUS annotation units",
+  "units": [
+    {
+      "unit_id": "public-source-0001",
+      "unit_type": "editorial_note",
+      "location": "START I Document 245 signing ceremony editorial note",
+      "exact_text": "Bush and Gorbachev delivered prepared remarks at the signing ceremony. (Public Papers: Bush, 1991, pages 986-987)",
+      "display_text": "Bush and Gorbachev delivered prepared remarks at the signing ceremony. (Public Papers: Bush, 1991, pages 986-987)",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "public-source-0002",
+      "unit_type": "source_note",
+      "location": "START I Document 246 treaty source note",
+      "exact_text": "Source: Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pp. 1-16. Unclassified.",
+      "display_text": "Source: Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pp. 1-16. Unclassified.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "public-source-0003",
+      "unit_type": "editorial_note",
+      "location": "START I Document 245 variant public papers citation",
+      "exact_text": "The prepared remarks are cited in Public Papers: Bush, 1991, pp. 986-987.",
+      "display_text": "The prepared remarks are cited in Public Papers: Bush, 1991, pp. 986-987.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "public-source-0004",
+      "unit_type": "source_note",
+      "location": "Reagan Foundations Document 146 selected public remarks",
+      "exact_text": "Source: Public Papers: Reagan, 1983, Book I, pp. 479-484. All brackets are in the original. The President spoke at 12:55 p.m. in the International Ballroom at the Beverly Hilton Hotel at a luncheon hosted by the Los Angeles World Affairs Council.",
+      "display_text": "Source: Public Papers: Reagan, 1983, Book I, pp. 479-484. All brackets are in the original. The President spoke at 12:55 p.m. in the International Ballroom at the Beverly Hilton Hotel at a luncheon hosted by the Los Angeles World Affairs Council.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "public-source-0005",
+      "unit_type": "source_note",
+      "location": "Reagan Foundations Document 302 press remarks",
+      "exact_text": "Source: Public Papers: Reagan, 1987, Book I, pp. 581-582. The President spoke to reporters at 1:46 p.m. in the Briefing Room at the White House.",
+      "display_text": "Source: Public Papers: Reagan, 1987, Book I, pp. 581-582. The President spoke to reporters at 1:46 p.m. in the Briefing Room at the White House.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "public-source-0006",
+      "unit_type": "follow_on_footnote",
+      "location": "Reagan Foundations Document 192 Department Bulletin citation",
+      "exact_text": "Bush's address, in addition to a summary of the U.S. draft, is printed in Department of State Bulletin, June 1984, pp. 40-43.",
+      "display_text": "Bush's address, in addition to a summary of the U.S. draft, is printed in Department of State Bulletin, June 1984, pp. 40-43.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "public-source-0007",
+      "unit_type": "source_note",
+      "location": "Reagan Foundations Document 66 public remarks and archival context",
+      "exact_text": "Source: Public Papers: Reagan, 1981, pp. 937-944. The President offered these remarks at a luncheon of the World Affairs Council of Philadelphia, speaking at 1:50 p.m. in the Grand Ballroom of the Bellevue Stratford Hotel.",
+      "display_text": "Source: Public Papers: Reagan, 1981, pp. 937-944. The President offered these remarks at a luncheon of the World Affairs Council of Philadelphia, speaking at 1:50 p.m. in the Grand Ballroom of the Bellevue Stratford Hotel.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "public-source-0008",
+      "unit_type": "editorial_note",
+      "location": "Unsupported public-source-like citation",
+      "exact_text": "For the full text of the President's speech, see Public Papers: Reagan, 1986, p. 99.",
+      "display_text": "For the full text of the President's speech, see Public Papers: Reagan, 1986, p. 99.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    }
+  ]
+}

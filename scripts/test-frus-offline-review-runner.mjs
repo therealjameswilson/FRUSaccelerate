@@ -215,6 +215,8 @@ try {
       "reports/frus-document-handling-registry.sample.json",
       "--chronology-registry",
       "reports/frus-chronology-registry.sample.json",
+      "--public-source-registry",
+      "reports/frus-public-source-registry.sample.json",
       "--negative-search-registry",
       "reports/frus-negative-search-registry.sample.json",
       "--document-relationship-registry",
@@ -283,6 +285,9 @@ try {
   assert(audit.counts.chronology_registry_usages === 0, "expected zero chronology registry usages");
   assert(audit.counts.chronology_registry_warnings === 0, "expected zero chronology registry warnings");
   assert(audit.counts.chronology_direct_edit_conflicts === 0, "expected zero chronology direct-edit conflicts");
+  assert(audit.counts.public_source_registry_usages === 0, "expected zero public-source registry usages");
+  assert(audit.counts.public_source_registry_warnings === 0, "expected zero public-source registry warnings");
+  assert(audit.counts.public_source_direct_edit_conflicts === 0, "expected zero public-source direct-edit conflicts");
   assert(audit.counts.negative_search_registry_usages === 0, "expected zero negative-search registry usages");
   assert(audit.counts.negative_search_registry_warnings === 0, "expected zero negative-search registry warnings");
   assert(audit.counts.negative_search_direct_edit_conflicts === 0, "expected zero negative-search direct-edit conflicts");
@@ -326,6 +331,8 @@ try {
     "document-handling-usage-audit.json",
     "chronology-registry-validation.json",
     "chronology-usage-audit.json",
+    "public-source-registry-validation.json",
+    "public-source-usage-audit.json",
     "negative-search-registry-validation.json",
     "negative-search-usage-audit.json",
     "document-relationship-registry-validation.json",
@@ -365,6 +372,8 @@ try {
   assert(audit.reports.document_handling_usage_audit.status === "pass", "expected document handling usage audit report");
   assert(audit.reports.chronology_registry_validation.summary.records === 6, "expected chronology registry validation report");
   assert(audit.reports.chronology_usage_audit.status === "pass", "expected chronology usage audit report");
+  assert(audit.reports.public_source_registry_validation.summary.records === 6, "expected public-source registry validation report");
+  assert(audit.reports.public_source_usage_audit.status === "pass", "expected public-source usage audit report");
   assert(audit.reports.document_relationship_registry_validation.summary.records === 10, "expected document relationship registry validation report");
   assert(audit.reports.document_relationship_usage_audit.status === "pass", "expected document relationship usage audit report");
   assert(audit.reports.communications_registry_validation.summary.records === 8, "expected communications registry validation report");
@@ -382,7 +391,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/chronology/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/chronology/public-source/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

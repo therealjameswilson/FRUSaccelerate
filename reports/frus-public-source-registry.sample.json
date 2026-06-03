@@ -1,0 +1,154 @@
+{
+  "schema_version": "frus-public-source-registry-v1",
+  "public_source_registry_id": "frus-1981-1992-public-source-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d245",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d146",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d302",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d192",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d66"
+  ],
+  "scope": "Published FRUS public-source, public-diplomacy, Public Papers, Department of State Bulletin/Dispatch, press, selected public remarks, and archival/public-source context patterns for Reagan and George H.W. Bush annotation sheets.",
+  "records": [
+    {
+      "public_source_id": "pub-v31-d245-public-papers-signing-remarks",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d245",
+      "document_number": "245",
+      "unit_scope": "editorial note",
+      "public_source_type": "public_papers_citation",
+      "approved_phrase": "Public Papers: Bush, 1991, pages 986-987",
+      "public_event_or_document": "Bush and Gorbachev prepared remarks at the START signing ceremony in Moscow",
+      "publication_or_broadcast_basis": "Public Papers: Bush, 1991",
+      "delivery_or_release_date": "1991-07-31",
+      "selected_or_supplemental_status": "supplemental public-source citation in editorial note",
+      "full_text_or_source_target": "Prepared remarks quoted in the editorial note",
+      "archival_or_draft_context": "",
+      "relationship_to_document": "public remarks contextualize the treaty signing ceremony",
+      "source_or_context": "Editorial note cites the published Public Papers pages for Gorbachev and Bush remarks during the START signing ceremony.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d245",
+      "verification_status": "verified_published_public_source_record",
+      "variant_forms": [
+        "Public Papers: Bush, 1991, pp. 986-987",
+        "Public Papers: Bush, 1991, page 987"
+      ]
+    },
+    {
+      "public_source_id": "pub-v31-d246-dispatch-treaty-text",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d246",
+      "document_number": "246",
+      "unit_scope": "source note",
+      "public_source_type": "department_dispatch",
+      "approved_phrase": "Source: Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pp. 1-16.",
+      "public_event_or_document": "START treaty text",
+      "publication_or_broadcast_basis": "Department of State Dispatch Supplement",
+      "delivery_or_release_date": "1991-10-01",
+      "selected_or_supplemental_status": "selected public/printed source document",
+      "full_text_or_source_target": "Treaty text and associated annexes in Department of State Dispatch Supplement",
+      "archival_or_draft_context": "",
+      "relationship_to_document": "source note for the selected treaty text",
+      "source_or_context": "Published FRUS source note uses the Department of State Dispatch Supplement as the controlling printed source for the selected treaty text.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
+      "verification_status": "verified_published_public_source_record",
+      "variant_forms": [
+        "Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pp. 1-16",
+        "Source: Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5"
+      ]
+    },
+    {
+      "public_source_id": "pub-v01-d146-public-papers-remarks",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d146",
+      "document_number": "146",
+      "unit_scope": "source note",
+      "public_source_type": "selected_public_remarks",
+      "approved_phrase": "Source: Public Papers: Reagan, 1983, Book I, pp. 479-484. All brackets are in the original. The President spoke at 12:55 p.m. in the International Ballroom at the Beverly Hilton Hotel at a luncheon hosted by the Los Angeles World Affairs Council.",
+      "public_event_or_document": "Remarks by President Reagan at the Los Angeles World Affairs Council luncheon",
+      "publication_or_broadcast_basis": "Public Papers: Reagan, 1983, Book I",
+      "delivery_or_release_date": "1983-03-31",
+      "selected_or_supplemental_status": "selected public remarks document",
+      "full_text_or_source_target": "Remarks selected as a FRUS document",
+      "archival_or_draft_context": "",
+      "relationship_to_document": "source note for selected public remarks",
+      "source_or_context": "Source note supplies the Public Papers source, original-bracket status, delivery time, venue, and host organization.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d146",
+      "verification_status": "verified_published_public_source_record",
+      "variant_forms": [
+        "Public Papers: Reagan, 1983, Book I, pp. 479-484",
+        "The President spoke at 12:55 p.m. in the International Ballroom at the Beverly Hilton Hotel"
+      ]
+    },
+    {
+      "public_source_id": "pub-v01-d302-press-briefing-room",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d302",
+      "document_number": "302",
+      "unit_scope": "source note",
+      "public_source_type": "press_briefing",
+      "approved_phrase": "Source: Public Papers: Reagan, 1987, Book I, pp. 581-582. The President spoke to reporters at 1:46 p.m. in the Briefing Room at the White House.",
+      "public_event_or_document": "Remarks by President Reagan to reporters on the Persian Gulf",
+      "publication_or_broadcast_basis": "Public Papers: Reagan, 1987, Book I",
+      "delivery_or_release_date": "1987-05-19",
+      "selected_or_supplemental_status": "selected public remarks document",
+      "full_text_or_source_target": "Remarks selected as a FRUS document",
+      "archival_or_draft_context": "",
+      "relationship_to_document": "source note for selected press remarks",
+      "source_or_context": "Source note identifies the Public Papers source and the public delivery setting.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d302",
+      "verification_status": "verified_published_public_source_record",
+      "variant_forms": [
+        "Public Papers: Reagan, 1987, Book I, pp. 581-582",
+        "The President spoke to reporters at 1:46 p.m. in the Briefing Room at the White House."
+      ]
+    },
+    {
+      "public_source_id": "pub-v01-d192-state-bulletin-cd",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d192",
+      "document_number": "192",
+      "unit_scope": "follow-on footnote",
+      "public_source_type": "department_bulletin",
+      "approved_phrase": "Bush's address, in addition to a summary of the U.S. draft, is printed in Department of State Bulletin, June 1984, pp. 40-43.",
+      "public_event_or_document": "Vice President Bush address to the Conference on Disarmament in Geneva",
+      "publication_or_broadcast_basis": "Department of State Bulletin",
+      "delivery_or_release_date": "1984-04-18",
+      "selected_or_supplemental_status": "supplemental public-source citation in follow-on footnote",
+      "full_text_or_source_target": "Address and summary of U.S. draft chemical weapons treaty",
+      "archival_or_draft_context": "",
+      "relationship_to_document": "public-source follow-on citation",
+      "source_or_context": "Follow-on footnote cites the Department of State Bulletin and Documents on Disarmament for public arms-control material.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d192",
+      "verification_status": "verified_published_public_source_record",
+      "variant_forms": [
+        "Department of State Bulletin, June 1984, pp. 40-43",
+        "Bush's address is printed in Department of State Bulletin"
+      ]
+    },
+    {
+      "public_source_id": "pub-v01-d66-public-papers-telegram-diary",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d66",
+      "document_number": "66",
+      "unit_scope": "source note",
+      "public_source_type": "archival_speech_file_context",
+      "approved_phrase": "Source: Public Papers: Reagan, 1981, pp. 937-944. The President offered these remarks at a luncheon of the World Affairs Council of Philadelphia, speaking at 1:50 p.m. in the Grand Ballroom of the Bellevue Stratford Hotel.",
+      "public_event_or_document": "Remarks by President Reagan before the World Affairs Council of Philadelphia",
+      "publication_or_broadcast_basis": "Public Papers: Reagan, 1981",
+      "delivery_or_release_date": "1981-10-15",
+      "selected_or_supplemental_status": "selected public remarks document with archival transmission and diary context",
+      "full_text_or_source_target": "Remarks selected as a FRUS document",
+      "archival_or_draft_context": "Department transmitted the remarks to diplomatic posts; Reagan diary entry supplies reception context.",
+      "relationship_to_document": "source note for selected public remarks plus archival/digital context",
+      "source_or_context": "Source note combines Public Papers, delivery details, Department telegram transmission, and diary context without flattening them into one source family.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d66",
+      "verification_status": "verified_published_public_source_record",
+      "variant_forms": [
+        "Public Papers: Reagan, 1981, pp. 937-944",
+        "The Department transmitted the text of the President's remarks to all diplomatic posts in telegram 275404"
+      ]
+    }
+  ]
+}

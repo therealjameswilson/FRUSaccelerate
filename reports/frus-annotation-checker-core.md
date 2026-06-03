@@ -19,9 +19,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -58,6 +58,9 @@ For document-handling/marginalia validation and direct-edit safety, run
 For chronology/time validation and direct-edit safety, run
 `node scripts/validate-frus-chronology-registry.mjs --registry reports/frus-chronology-registry.sample.json --format text` and
 `node scripts/audit-frus-chronology-usage.mjs --units extracted-units.json --registry reports/frus-chronology-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For public-source/public-diplomacy validation and direct-edit safety, run
+`node scripts/validate-frus-public-source-registry.mjs --registry reports/frus-public-source-registry.sample.json --format text` and
+`node scripts/audit-frus-public-source-usage.mjs --units extracted-units.json --registry reports/frus-public-source-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For negative-search/no-record validation and direct-edit safety, run
 `node scripts/validate-frus-negative-search-registry.mjs --registry reports/frus-negative-search-registry.sample.json --format text` and
 `node scripts/audit-frus-negative-search-usage.mjs --units extracted-units.json --registry reports/frus-negative-search-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -80,7 +83,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -154,6 +157,15 @@ meeting and call times, place and attendance, actual-versus-planned meeting
 times, schedule/diary absences, no-precise-time caveats, and event-sequence
 facts; validate it with `scripts/validate-frus-chronology-registry.mjs` before
 direct chronology edits.
+For real Reagan/Bush 1981-1992 public-source/public-diplomacy review, replace
+the sample public-source registry with target-volume records for speeches,
+public remarks, press releases, press conferences, briefings, interviews,
+broadcasts, testimony, Public Papers, Department of State Bulletin/Dispatch,
+Congressional Record, official transcripts, newspaper excerpts, full-text
+targets, archival speech or briefing files, diary context, and
+selected-versus-supplemental public-source status; validate it with
+`scripts/validate-frus-public-source-registry.mjs` before direct public-source
+edits.
 For real Reagan/Bush 1981-1992 negative-search/no-record review, replace the
 sample negative-search registry with target-volume records for no-minutes,
 not-found, not-attached, not-found-attached, no-memcon, no-telcon, unlocated
@@ -199,6 +211,8 @@ For sample document-handling/marginalia checks, run
 `node scripts/audit-frus-document-handling-usage.mjs --units reports/frus-document-handling-units.sample.json --registry reports/frus-document-handling-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample chronology/time checks, run
 `node scripts/audit-frus-chronology-usage.mjs --units reports/frus-chronology-units.sample.json --registry reports/frus-chronology-registry.sample.json --target-volume frus1989-92v31 --format text`.
+For sample public-source/public-diplomacy checks, run
+`node scripts/audit-frus-public-source-usage.mjs --units reports/frus-public-source-units.sample.json --registry reports/frus-public-source-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample negative-search/no-record checks, run
 `node scripts/audit-frus-negative-search-usage.mjs --units reports/frus-negative-search-units.sample.json --registry reports/frus-negative-search-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample document-relationship checks, run
@@ -291,9 +305,15 @@ is flawless.
    handling-restriction-not-declassified phrases, whole-document withholdings,
    and About the Series review statistics against the supplied declassification
    registry before allowing any declassification redline.
-14. Wrapper applies only safe edits as WordprocessingML tracked insertions,
+14. Wrapper validates public-source and public-diplomacy claims, including
+   Public Papers, Department of State Bulletin/Dispatch, public remarks,
+   speeches, press conferences, interviews, testimony, broadcasts, full-text
+   targets, archival speech files, delivery basis, and
+   selected-versus-supplemental status against the supplied public-source
+   registry before allowing any public-source redline.
+15. Wrapper applies only safe edits as WordprocessingML tracked insertions,
    deletions, and comments.
-15. User downloads a new `.docx` with changes marked in Track Changes.
+16. User downloads a new `.docx` with changes marked in Track Changes.
 
 Important: the LLM must not write `.docx`, OOXML, base64 files, or package
 instructions. The wrapper creates the revised Word file.
@@ -345,6 +365,11 @@ The wrapper should provide:
   CFPF D/N/P, STARS, PROFS, W Files, System IV, message identifier, special
   designator, date-time group, origin/addressee, precedence/routing, drafting,
   clearance, approval, and distribution records when available.
+- `public_source_registry_context`: Public Papers, Department of State
+  Bulletin/Dispatch, public remarks, speeches, press conferences, interviews,
+  testimony, broadcasts, full-text targets, archival speech or briefing-file
+  context, diary context, and selected-versus-supplemental public-source status
+  when available.
 - `cross_reference_context`: same-volume, cross-volume, footnote, appendix,
   scheduled-publication, and document-number targets.
 - `word_redline_integrity_context`: existing revisions/comments, fields,

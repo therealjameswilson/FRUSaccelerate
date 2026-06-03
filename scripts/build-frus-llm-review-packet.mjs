@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--public-source-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -29,6 +29,7 @@ function parseArgs(argv) {
   let visualMaterialRegistryPath = null;
   let documentHandlingRegistryPath = null;
   let chronologyRegistryPath = null;
+  let publicSourceRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
   let communicationsRegistryPath = null;
@@ -89,6 +90,9 @@ function parseArgs(argv) {
     } else if (arg === "--chronology-registry") {
       chronologyRegistryPath = argv[index + 1];
       index += 1;
+    } else if (arg === "--public-source-registry") {
+      publicSourceRegistryPath = argv[index + 1];
+      index += 1;
     } else if (arg === "--negative-search-registry") {
       negativeSearchRegistryPath = argv[index + 1];
       index += 1;
@@ -142,6 +146,7 @@ function parseArgs(argv) {
     visualMaterialRegistryPath,
     documentHandlingRegistryPath,
     chronologyRegistryPath,
+    publicSourceRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
     communicationsRegistryPath,
@@ -716,6 +721,41 @@ function compactChronologyRegistry(registry, targetVolume) {
   };
 }
 
+function compactPublicSourceRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    public_source_registry_id: registry.public_source_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      public_source_id: record.public_source_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      public_source_type: record.public_source_type,
+      approved_phrase: record.approved_phrase,
+      public_event_or_document: record.public_event_or_document,
+      publication_or_broadcast_basis: record.publication_or_broadcast_basis,
+      delivery_or_release_date: record.delivery_or_release_date,
+      selected_or_supplemental_status: record.selected_or_supplemental_status,
+      full_text_or_source_target: record.full_text_or_source_target,
+      archival_or_draft_context: record.archival_or_draft_context,
+      relationship_to_document: record.relationship_to_document,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactAnnotationSheetProfile(profile) {
   if (!profile) return null;
   return {
@@ -784,6 +824,9 @@ function buildPacket(options) {
   const chronologyRegistry = options.chronologyRegistryPath
     ? readJson(options.chronologyRegistryPath, options.chronologyRegistryPath)
     : null;
+  const publicSourceRegistry = options.publicSourceRegistryPath
+    ? readJson(options.publicSourceRegistryPath, options.publicSourceRegistryPath)
+    : null;
   const preparationRouter = options.preparationRouterPath
     ? readJson(options.preparationRouterPath, options.preparationRouterPath)
     : null;
@@ -813,6 +856,7 @@ function buildPacket(options) {
       visual_material_registry: options.visualMaterialRegistryPath ? normalizePathForOutput(options.visualMaterialRegistryPath) : "",
       document_handling_registry: options.documentHandlingRegistryPath ? normalizePathForOutput(options.documentHandlingRegistryPath) : "",
       chronology_registry: options.chronologyRegistryPath ? normalizePathForOutput(options.chronologyRegistryPath) : "",
+      public_source_registry: options.publicSourceRegistryPath ? normalizePathForOutput(options.publicSourceRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
       communications_registry: options.communicationsRegistryPath ? normalizePathForOutput(options.communicationsRegistryPath) : "",
@@ -852,6 +896,7 @@ function buildPacket(options) {
       visual_material_registry_records: visualMaterialRegistry?.records?.length || 0,
       document_handling_registry_records: documentHandlingRegistry?.records?.length || 0,
       chronology_registry_records: chronologyRegistry?.records?.length || 0,
+      public_source_registry_records: publicSourceRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
       document_relationship_registry_records: documentRelationshipRegistry?.records?.length || 0,
       communications_registry_records: communicationsRegistry?.records?.length || 0,
@@ -876,6 +921,7 @@ function buildPacket(options) {
       visual_material_registry: compactVisualMaterialRegistry(visualMaterialRegistry, options.targetVolume),
       document_handling_registry: compactDocumentHandlingRegistry(documentHandlingRegistry, options.targetVolume),
       chronology_registry: compactChronologyRegistry(chronologyRegistry, options.targetVolume),
+      public_source_registry: compactPublicSourceRegistry(publicSourceRegistry, options.targetVolume),
       negative_search_registry: compactNegativeSearchRegistry(negativeSearchRegistry, options.targetVolume),
       document_relationship_registry: compactDocumentRelationshipRegistry(documentRelationshipRegistry, options.targetVolume),
       communications_registry: compactCommunicationsRegistry(communicationsRegistry, options.targetVolume),
@@ -1007,6 +1053,12 @@ function renderMarkdown(packet) {
     "Use this to check President's Daily Diary, meeting-time, call-time, no-precise-time, actual-versus-planned, diary/schedule, place, attendance, and event-sequence language. Do not change times, dates, places, attendance, sequence, or no-minutes/no-precise-time caveats unless the target-volume chronology registry proves the direct edit.",
     "",
     fencedJson(packet.contexts.chronology_registry || {}),
+    "",
+    "## Public Source And Public Diplomacy Registry Context",
+    "",
+    "Use this to check speeches, public remarks, press releases, press conferences, briefings, interviews, broadcasts, testimony, Public Papers, Department of State Bulletin/Dispatch, Congressional Record, official transcripts, newspaper excerpts, full-text targets, archival draft or briefing-file context, diary context, and selected-versus-supplemental public-source status. Do not change publication details, delivery or broadcast basis, full-text targets, archival draft context, or selected-public-document status unless the target-volume public-source registry proves the direct edit.",
+    "",
+    fencedJson(packet.contexts.public_source_registry || {}),
     "",
     "## Negative Search And No-Record Registry Context",
     "",

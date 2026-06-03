@@ -190,7 +190,7 @@
     {
       "category": "public_diplomacy_public_source",
       "direct_edit_policy": "comment_unless_context",
-      "required_context": ["public_diplomacy_context", "release_apparatus_context"],
+      "required_context": ["public_source_registry_context", "public_diplomacy_context", "release_apparatus_context", "event_chronology_context"],
       "primary_evidence_requests": ["public_source_basis", "release_apparatus_basis", "event_chronology"],
       "safe_actions": ["comment_only", "replace_text", "no_change"],
       "hazard_tags": ["public_diplomacy_public_source", "public_source_basis"]
@@ -485,7 +485,7 @@
       "owner_hint": "compiler",
       "blocks_direct_edit_by_default": true,
       "blocks_final_publication_by_default": true,
-      "comment_target_template": "Identify the public source, transcript, delivery, publication, page, excerpt, or archival-draft relationship."
+      "comment_target_template": "Identify the target-volume public source, transcript, delivery or broadcast basis, publication/page or excerpt target, selected-versus-supplemental status, and archival-draft relationship."
     },
     {
       "evidence_request": "retrospective_account_basis",

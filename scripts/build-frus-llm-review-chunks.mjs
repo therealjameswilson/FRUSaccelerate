@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--public-source-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -43,6 +43,7 @@ function parseArgs(argv) {
   let visualMaterialRegistryPath = null;
   let documentHandlingRegistryPath = null;
   let chronologyRegistryPath = null;
+  let publicSourceRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
   let communicationsRegistryPath = null;
@@ -106,6 +107,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--chronology-registry") {
       chronologyRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--public-source-registry") {
+      publicSourceRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--negative-search-registry") {
       negativeSearchRegistryPath = argv[index + 1];
@@ -172,6 +176,7 @@ function parseArgs(argv) {
     visualMaterialRegistryPath,
     documentHandlingRegistryPath,
     chronologyRegistryPath,
+    publicSourceRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
     communicationsRegistryPath,
@@ -683,6 +688,40 @@ function compactChronologyRegistry(registry, targetVolume) {
   };
 }
 
+function compactPublicSourceRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  return {
+    schema_version: registry.schema_version,
+    public_source_registry_id: registry.public_source_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [],
+    records: records.map((record) => ({
+      public_source_id: record.public_source_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      public_source_type: record.public_source_type,
+      approved_phrase: record.approved_phrase,
+      public_event_or_document: record.public_event_or_document,
+      publication_or_broadcast_basis: record.publication_or_broadcast_basis,
+      delivery_or_release_date: record.delivery_or_release_date,
+      selected_or_supplemental_status: record.selected_or_supplemental_status,
+      full_text_or_source_target: record.full_text_or_source_target,
+      archival_or_draft_context: record.archival_or_draft_context,
+      relationship_to_document: record.relationship_to_document,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactAnnotationSheetProfile(profile) {
   if (!profile) return null;
   return {
@@ -716,6 +755,7 @@ function renderPacket({
   visualMaterialRegistry,
   documentHandlingRegistry,
   chronologyRegistry,
+  publicSourceRegistry,
   negativeSearchRegistry,
   documentRelationshipRegistry,
   communicationsRegistry,
@@ -834,6 +874,12 @@ function renderPacket({
     "",
     fencedJson(chronologyRegistry || {}),
     "",
+    "## Public Source And Public Diplomacy Registry Context",
+    "",
+    "Use this to check speeches, public remarks, press releases, press conferences, briefings, interviews, broadcasts, testimony, Public Papers, Department of State Bulletin/Dispatch, Congressional Record, official transcripts, newspaper excerpts, full-text targets, archival draft or briefing-file context, diary context, and selected-versus-supplemental public-source status. Do not change publication details, delivery or broadcast basis, full-text targets, archival draft context, or selected-public-document status unless the target-volume public-source registry proves the direct edit.",
+    "",
+    fencedJson(publicSourceRegistry || {}),
+    "",
     "## Negative Search And No-Record Registry Context",
     "",
     "Use this to check `No minutes were found`, `Not found`, `Not attached`, `Not found attached`, no-memcon/no-telcon, missing-attachment, and RAC attachment-ambiguity language. Do not collapse one no-record relationship into another unless the registry proves the direct edit.",
@@ -895,6 +941,7 @@ function buildChunks(options) {
     : null;
   const communicationsRegistry = options.communicationsRegistryPath ? readJson(options.communicationsRegistryPath) : null;
   const chronologyRegistry = options.chronologyRegistryPath ? readJson(options.chronologyRegistryPath) : null;
+  const publicSourceRegistry = options.publicSourceRegistryPath ? readJson(options.publicSourceRegistryPath) : null;
   const router = options.preparationRouterPath ? readJson(options.preparationRouterPath) : null;
   const matrix = options.permutationMatrixPath ? readJson(options.permutationMatrixPath) : null;
   const authorityRegistryContext = compactAuthorityRegistry(authorityRegistry, options.targetVolume);
@@ -919,6 +966,7 @@ function buildChunks(options) {
   );
   const communicationsRegistryContext = compactCommunicationsRegistry(communicationsRegistry, options.targetVolume);
   const chronologyRegistryContext = compactChronologyRegistry(chronologyRegistry, options.targetVolume);
+  const publicSourceRegistryContext = compactPublicSourceRegistry(publicSourceRegistry, options.targetVolume);
   const annotationSheetProfileContext = compactAnnotationSheetProfile(annotationSheetProfile);
   const unitChunks = chunkUnits(unitsDocument.units, options.maxUnits, options.maxChars);
 
@@ -946,6 +994,7 @@ function buildChunks(options) {
       visual_material_registry: options.visualMaterialRegistryPath ? normalizePathForOutput(options.visualMaterialRegistryPath) : "",
       document_handling_registry: options.documentHandlingRegistryPath ? normalizePathForOutput(options.documentHandlingRegistryPath) : "",
       chronology_registry: options.chronologyRegistryPath ? normalizePathForOutput(options.chronologyRegistryPath) : "",
+      public_source_registry: options.publicSourceRegistryPath ? normalizePathForOutput(options.publicSourceRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
       communications_registry: options.communicationsRegistryPath ? normalizePathForOutput(options.communicationsRegistryPath) : "",
@@ -970,6 +1019,7 @@ function buildChunks(options) {
       visual_material_registry_records: visualMaterialRegistry?.records?.length || 0,
       document_handling_registry_records: documentHandlingRegistry?.records?.length || 0,
       chronology_registry_records: chronologyRegistry?.records?.length || 0,
+      public_source_registry_records: publicSourceRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
       document_relationship_registry_records: documentRelationshipRegistry?.records?.length || 0,
       communications_registry_records: communicationsRegistry?.records?.length || 0
@@ -1020,6 +1070,7 @@ function buildChunks(options) {
         visualMaterialRegistry: visualMaterialRegistryContext,
         documentHandlingRegistry: documentHandlingRegistryContext,
         chronologyRegistry: chronologyRegistryContext,
+        publicSourceRegistry: publicSourceRegistryContext,
         negativeSearchRegistry: negativeSearchRegistryContext,
         documentRelationshipRegistry: documentRelationshipRegistryContext,
         communicationsRegistry: communicationsRegistryContext,

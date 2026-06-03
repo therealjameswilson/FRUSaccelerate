@@ -1,6 +1,6 @@
 # FRUS Annotation Review Packet Chunk
 
-- run_id: sample-chunks
+- run_id: sample-review-chunks
 - chunk_id: chunk-0002
 - chunk_index: 2
 - chunk_count: 2
@@ -16,7 +16,7 @@ Do not include units outside this chunk. Do not claim to edit the Word file dire
 ```json
 {
   "schema_version": "frus-llm-review-chunk-v1",
-  "run_id": "sample-chunks",
+  "run_id": "sample-review-chunks",
   "chunk_id": "chunk-0002",
   "chunk_index": 2,
   "chunk_count": 2,
@@ -52,9 +52,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -91,6 +91,9 @@ For document-handling/marginalia validation and direct-edit safety, run
 For chronology/time validation and direct-edit safety, run
 `node scripts/validate-frus-chronology-registry.mjs --registry reports/frus-chronology-registry.sample.json --format text` and
 `node scripts/audit-frus-chronology-usage.mjs --units extracted-units.json --registry reports/frus-chronology-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For public-source/public-diplomacy validation and direct-edit safety, run
+`node scripts/validate-frus-public-source-registry.mjs --registry reports/frus-public-source-registry.sample.json --format text` and
+`node scripts/audit-frus-public-source-usage.mjs --units extracted-units.json --registry reports/frus-public-source-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For negative-search/no-record validation and direct-edit safety, run
 `node scripts/validate-frus-negative-search-registry.mjs --registry reports/frus-negative-search-registry.sample.json --format text` and
 `node scripts/audit-frus-negative-search-usage.mjs --units extracted-units.json --registry reports/frus-negative-search-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -113,7 +116,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -187,6 +190,15 @@ meeting and call times, place and attendance, actual-versus-planned meeting
 times, schedule/diary absences, no-precise-time caveats, and event-sequence
 facts; validate it with `scripts/validate-frus-chronology-registry.mjs` before
 direct chronology edits.
+For real Reagan/Bush 1981-1992 public-source/public-diplomacy review, replace
+the sample public-source registry with target-volume records for speeches,
+public remarks, press releases, press conferences, briefings, interviews,
+broadcasts, testimony, Public Papers, Department of State Bulletin/Dispatch,
+Congressional Record, official transcripts, newspaper excerpts, full-text
+targets, archival speech or briefing files, diary context, and
+selected-versus-supplemental public-source status; validate it with
+`scripts/validate-frus-public-source-registry.mjs` before direct public-source
+edits.
 For real Reagan/Bush 1981-1992 negative-search/no-record review, replace the
 sample negative-search registry with target-volume records for no-minutes,
 not-found, not-attached, not-found-attached, no-memcon, no-telcon, unlocated
@@ -232,6 +244,8 @@ For sample document-handling/marginalia checks, run
 `node scripts/audit-frus-document-handling-usage.mjs --units reports/frus-document-handling-units.sample.json --registry reports/frus-document-handling-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample chronology/time checks, run
 `node scripts/audit-frus-chronology-usage.mjs --units reports/frus-chronology-units.sample.json --registry reports/frus-chronology-registry.sample.json --target-volume frus1989-92v31 --format text`.
+For sample public-source/public-diplomacy checks, run
+`node scripts/audit-frus-public-source-usage.mjs --units reports/frus-public-source-units.sample.json --registry reports/frus-public-source-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample negative-search/no-record checks, run
 `node scripts/audit-frus-negative-search-usage.mjs --units reports/frus-negative-search-units.sample.json --registry reports/frus-negative-search-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample document-relationship checks, run
@@ -324,9 +338,15 @@ is flawless.
    handling-restriction-not-declassified phrases, whole-document withholdings,
    and About the Series review statistics against the supplied declassification
    registry before allowing any declassification redline.
-14. Wrapper applies only safe edits as WordprocessingML tracked insertions,
+14. Wrapper validates public-source and public-diplomacy claims, including
+   Public Papers, Department of State Bulletin/Dispatch, public remarks,
+   speeches, press conferences, interviews, testimony, broadcasts, full-text
+   targets, archival speech files, delivery basis, and
+   selected-versus-supplemental status against the supplied public-source
+   registry before allowing any public-source redline.
+15. Wrapper applies only safe edits as WordprocessingML tracked insertions,
    deletions, and comments.
-15. User downloads a new `.docx` with changes marked in Track Changes.
+16. User downloads a new `.docx` with changes marked in Track Changes.
 
 Important: the LLM must not write `.docx`, OOXML, base64 files, or package
 instructions. The wrapper creates the revised Word file.
@@ -378,6 +398,11 @@ The wrapper should provide:
   CFPF D/N/P, STARS, PROFS, W Files, System IV, message identifier, special
   designator, date-time group, origin/addressee, precedence/routing, drafting,
   clearance, approval, and distribution records when available.
+- `public_source_registry_context`: Public Papers, Department of State
+  Bulletin/Dispatch, public remarks, speeches, press conferences, interviews,
+  testimony, broadcasts, full-text targets, archival speech or briefing-file
+  context, diary context, and selected-versus-supplemental public-source status
+  when available.
 - `cross_reference_context`: same-volume, cross-volume, footnote, appendix,
   scheduled-publication, and document-number targets.
 - `word_redline_integrity_context`: existing revisions/comments, fields,
@@ -4662,6 +4687,216 @@ Use this to check President's Daily Diary, meeting-time, call-time, no-precise-t
 }
 ```
 
+## Public Source And Public Diplomacy Registry Context
+
+Use this to check speeches, public remarks, press releases, press conferences, briefings, interviews, broadcasts, testimony, Public Papers, Department of State Bulletin/Dispatch, Congressional Record, official transcripts, newspaper excerpts, full-text targets, archival draft or briefing-file context, diary context, and selected-versus-supplemental public-source status. Do not change publication details, delivery or broadcast basis, full-text targets, archival draft context, or selected-public-document status unless the target-volume public-source registry proves the direct edit.
+
+```json
+{
+  "schema_version": "frus-public-source-registry-v1",
+  "public_source_registry_id": "frus-1981-1992-public-source-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d245",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d146",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d302",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d192",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d66"
+  ],
+  "scope": "Published FRUS public-source, public-diplomacy, Public Papers, Department of State Bulletin/Dispatch, press, selected public remarks, and archival/public-source context patterns for Reagan and George H.W. Bush annotation sheets.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "public_source_id": "pub-v31-d245-public-papers-signing-remarks",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d245",
+      "document_number": "245",
+      "unit_scope": "editorial note",
+      "public_source_type": "public_papers_citation",
+      "approved_phrase": "Public Papers: Bush, 1991, pages 986-987",
+      "public_event_or_document": "Bush and Gorbachev prepared remarks at the START signing ceremony in Moscow",
+      "publication_or_broadcast_basis": "Public Papers: Bush, 1991",
+      "delivery_or_release_date": "1991-07-31",
+      "selected_or_supplemental_status": "supplemental public-source citation in editorial note",
+      "full_text_or_source_target": "Prepared remarks quoted in the editorial note",
+      "archival_or_draft_context": "",
+      "relationship_to_document": "public remarks contextualize the treaty signing ceremony",
+      "source_or_context": "Editorial note cites the published Public Papers pages for Gorbachev and Bush remarks during the START signing ceremony.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d245",
+      "verification_status": "verified_published_public_source_record",
+      "variant_forms": [
+        "Public Papers: Bush, 1991, pp. 986-987",
+        "Public Papers: Bush, 1991, page 987"
+      ]
+    },
+    {
+      "public_source_id": "pub-v31-d246-dispatch-treaty-text",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d246",
+      "document_number": "246",
+      "unit_scope": "source note",
+      "public_source_type": "department_dispatch",
+      "approved_phrase": "Source: Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pp. 1-16.",
+      "public_event_or_document": "START treaty text",
+      "publication_or_broadcast_basis": "Department of State Dispatch Supplement",
+      "delivery_or_release_date": "1991-10-01",
+      "selected_or_supplemental_status": "selected public/printed source document",
+      "full_text_or_source_target": "Treaty text and associated annexes in Department of State Dispatch Supplement",
+      "archival_or_draft_context": "",
+      "relationship_to_document": "source note for the selected treaty text",
+      "source_or_context": "Published FRUS source note uses the Department of State Dispatch Supplement as the controlling printed source for the selected treaty text.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
+      "verification_status": "verified_published_public_source_record",
+      "variant_forms": [
+        "Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pp. 1-16",
+        "Source: Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "public_source_id": "pub-v31-d245-public-papers-signing-remarks",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d245",
+      "document_number": "245",
+      "unit_scope": "editorial note",
+      "public_source_type": "public_papers_citation",
+      "approved_phrase": "Public Papers: Bush, 1991, pages 986-987",
+      "public_event_or_document": "Bush and Gorbachev prepared remarks at the START signing ceremony in Moscow",
+      "publication_or_broadcast_basis": "Public Papers: Bush, 1991",
+      "delivery_or_release_date": "1991-07-31",
+      "selected_or_supplemental_status": "supplemental public-source citation in editorial note",
+      "full_text_or_source_target": "Prepared remarks quoted in the editorial note",
+      "archival_or_draft_context": "",
+      "relationship_to_document": "public remarks contextualize the treaty signing ceremony",
+      "source_or_context": "Editorial note cites the published Public Papers pages for Gorbachev and Bush remarks during the START signing ceremony.",
+      "variant_forms": [
+        "Public Papers: Bush, 1991, pp. 986-987",
+        "Public Papers: Bush, 1991, page 987"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d245",
+      "verification_status": "verified_published_public_source_record"
+    },
+    {
+      "public_source_id": "pub-v31-d246-dispatch-treaty-text",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d246",
+      "document_number": "246",
+      "unit_scope": "source note",
+      "public_source_type": "department_dispatch",
+      "approved_phrase": "Source: Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pp. 1-16.",
+      "public_event_or_document": "START treaty text",
+      "publication_or_broadcast_basis": "Department of State Dispatch Supplement",
+      "delivery_or_release_date": "1991-10-01",
+      "selected_or_supplemental_status": "selected public/printed source document",
+      "full_text_or_source_target": "Treaty text and associated annexes in Department of State Dispatch Supplement",
+      "archival_or_draft_context": "",
+      "relationship_to_document": "source note for the selected treaty text",
+      "source_or_context": "Published FRUS source note uses the Department of State Dispatch Supplement as the controlling printed source for the selected treaty text.",
+      "variant_forms": [
+        "Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pp. 1-16",
+        "Source: Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
+      "verification_status": "verified_published_public_source_record"
+    },
+    {
+      "public_source_id": "pub-v01-d146-public-papers-remarks",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d146",
+      "document_number": "146",
+      "unit_scope": "source note",
+      "public_source_type": "selected_public_remarks",
+      "approved_phrase": "Source: Public Papers: Reagan, 1983, Book I, pp. 479-484. All brackets are in the original. The President spoke at 12:55 p.m. in the International Ballroom at the Beverly Hilton Hotel at a luncheon hosted by the Los Angeles World Affairs Council.",
+      "public_event_or_document": "Remarks by President Reagan at the Los Angeles World Affairs Council luncheon",
+      "publication_or_broadcast_basis": "Public Papers: Reagan, 1983, Book I",
+      "delivery_or_release_date": "1983-03-31",
+      "selected_or_supplemental_status": "selected public remarks document",
+      "full_text_or_source_target": "Remarks selected as a FRUS document",
+      "archival_or_draft_context": "",
+      "relationship_to_document": "source note for selected public remarks",
+      "source_or_context": "Source note supplies the Public Papers source, original-bracket status, delivery time, venue, and host organization.",
+      "variant_forms": [
+        "Public Papers: Reagan, 1983, Book I, pp. 479-484",
+        "The President spoke at 12:55 p.m. in the International Ballroom at the Beverly Hilton Hotel"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d146",
+      "verification_status": "verified_published_public_source_record"
+    },
+    {
+      "public_source_id": "pub-v01-d302-press-briefing-room",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d302",
+      "document_number": "302",
+      "unit_scope": "source note",
+      "public_source_type": "press_briefing",
+      "approved_phrase": "Source: Public Papers: Reagan, 1987, Book I, pp. 581-582. The President spoke to reporters at 1:46 p.m. in the Briefing Room at the White House.",
+      "public_event_or_document": "Remarks by President Reagan to reporters on the Persian Gulf",
+      "publication_or_broadcast_basis": "Public Papers: Reagan, 1987, Book I",
+      "delivery_or_release_date": "1987-05-19",
+      "selected_or_supplemental_status": "selected public remarks document",
+      "full_text_or_source_target": "Remarks selected as a FRUS document",
+      "archival_or_draft_context": "",
+      "relationship_to_document": "source note for selected press remarks",
+      "source_or_context": "Source note identifies the Public Papers source and the public delivery setting.",
+      "variant_forms": [
+        "Public Papers: Reagan, 1987, Book I, pp. 581-582",
+        "The President spoke to reporters at 1:46 p.m. in the Briefing Room at the White House."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d302",
+      "verification_status": "verified_published_public_source_record"
+    },
+    {
+      "public_source_id": "pub-v01-d192-state-bulletin-cd",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d192",
+      "document_number": "192",
+      "unit_scope": "follow-on footnote",
+      "public_source_type": "department_bulletin",
+      "approved_phrase": "Bush's address, in addition to a summary of the U.S. draft, is printed in Department of State Bulletin, June 1984, pp. 40-43.",
+      "public_event_or_document": "Vice President Bush address to the Conference on Disarmament in Geneva",
+      "publication_or_broadcast_basis": "Department of State Bulletin",
+      "delivery_or_release_date": "1984-04-18",
+      "selected_or_supplemental_status": "supplemental public-source citation in follow-on footnote",
+      "full_text_or_source_target": "Address and summary of U.S. draft chemical weapons treaty",
+      "archival_or_draft_context": "",
+      "relationship_to_document": "public-source follow-on citation",
+      "source_or_context": "Follow-on footnote cites the Department of State Bulletin and Documents on Disarmament for public arms-control material.",
+      "variant_forms": [
+        "Department of State Bulletin, June 1984, pp. 40-43",
+        "Bush's address is printed in Department of State Bulletin"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d192",
+      "verification_status": "verified_published_public_source_record"
+    },
+    {
+      "public_source_id": "pub-v01-d66-public-papers-telegram-diary",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d66",
+      "document_number": "66",
+      "unit_scope": "source note",
+      "public_source_type": "archival_speech_file_context",
+      "approved_phrase": "Source: Public Papers: Reagan, 1981, pp. 937-944. The President offered these remarks at a luncheon of the World Affairs Council of Philadelphia, speaking at 1:50 p.m. in the Grand Ballroom of the Bellevue Stratford Hotel.",
+      "public_event_or_document": "Remarks by President Reagan before the World Affairs Council of Philadelphia",
+      "publication_or_broadcast_basis": "Public Papers: Reagan, 1981",
+      "delivery_or_release_date": "1981-10-15",
+      "selected_or_supplemental_status": "selected public remarks document with archival transmission and diary context",
+      "full_text_or_source_target": "Remarks selected as a FRUS document",
+      "archival_or_draft_context": "Department transmitted the remarks to diplomatic posts; Reagan diary entry supplies reception context.",
+      "relationship_to_document": "source note for selected public remarks plus archival/digital context",
+      "source_or_context": "Source note combines Public Papers, delivery details, Department telegram transmission, and diary context without flattening them into one source family.",
+      "variant_forms": [
+        "Public Papers: Reagan, 1981, pp. 937-944",
+        "The Department transmitted the text of the President's remarks to all diplomatic posts in telegram 275404"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d66",
+      "verification_status": "verified_published_public_source_record"
+    }
+  ]
+}
+```
+
 ## Negative Search And No-Record Registry Context
 
 Use this to check `No minutes were found`, `Not found`, `Not attached`, `Not found attached`, no-memcon/no-telcon, missing-attachment, and RAC attachment-ambiguity language. Do not collapse one no-record relationship into another unless the registry proves the direct edit.
@@ -7120,8 +7355,10 @@ Use this to check telegram/cable/message identifiers, SECTO/TOSEC/special design
       "category": "public_diplomacy_public_source",
       "direct_edit_policy": "comment_unless_context",
       "required_context": [
+        "public_source_registry_context",
         "public_diplomacy_context",
-        "release_apparatus_context"
+        "release_apparatus_context",
+        "event_chronology_context"
       ],
       "primary_evidence_requests": [
         "public_source_basis",
@@ -7670,7 +7907,7 @@ Use this to check telegram/cable/message identifiers, SECTO/TOSEC/special design
       "owner_hint": "compiler",
       "blocks_direct_edit_by_default": true,
       "blocks_final_publication_by_default": true,
-      "comment_target_template": "Identify the public source, transcript, delivery, publication, page, excerpt, or archival-draft relationship."
+      "comment_target_template": "Identify the target-volume public source, transcript, delivery or broadcast basis, publication/page or excerpt target, selected-versus-supplemental status, and archival-draft relationship."
     },
     {
       "evidence_request": "retrospective_account_basis",
