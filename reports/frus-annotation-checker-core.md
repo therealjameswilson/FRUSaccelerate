@@ -12,6 +12,8 @@ The full reference standard remains `reports/frus-annotation-checker.md`.
 Wrappers can validate LLM output with
 `reports/frus-annotation-checker-output.schema.json` before applying tracked
 changes.
+For a no-dependency smoke test, run
+`node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json`.
 
 ## 1. System Role
 

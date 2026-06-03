@@ -1,0 +1,86 @@
+{
+  "schema_version": "checker-output-v1",
+  "document_assessment": {
+    "overall_status": "pass_with_comments",
+    "summary": "Sample checker output for validating the wrapper contract before Word tracked-change application.",
+    "blocked_reason": ""
+  },
+  "batch_readiness": {
+    "readiness_status": "comment_only_review",
+    "safe_to_apply_tracked_changes": false,
+    "readiness_summary": "The sample includes unresolved source-path evidence, so the wrapper should insert comments but apply no tracked text edits.",
+    "gates": [
+      {
+        "gate_id": "evidence_basis",
+        "gate_status": "warning",
+        "finding": "One source note needs archival path verification before a direct correction is safe.",
+        "required_action": "Provide repository, collection, series, and folder or selected published source before direct redline."
+      },
+      {
+        "gate_id": "word_anchoring",
+        "gate_status": "pass",
+        "finding": "Sample unit anchors are stable.",
+        "required_action": ""
+      }
+    ]
+  },
+  "checks": [
+    {
+      "unit_id": "source-note-0001",
+      "rule_id": "FAS-SN-002",
+      "severity": "major",
+      "category": "source_note",
+      "finding": "The source note leads with a discovery URL instead of a controlling repository or selected published source.",
+      "standard": "FRUS source notes should identify the repository, collection, series, folder, file, or selected published source before URLs, scans, catalog records, or other discovery aids.",
+      "recommended_action": "comment_only",
+      "original_text": "",
+      "replacement_text": "",
+      "comment_text": "Replace the URL-only locator with the controlling repository path or selected published source before final style.",
+      "evidence_request": "archival_path",
+      "verification_target": "Repository, collection, series, folder, file, or selected published source for source-note-0001"
+    },
+    {
+      "unit_id": "editorial-note-0002",
+      "rule_id": "FAS-SN-001",
+      "severity": "info",
+      "category": "editorial_note",
+      "finding": "No issue. This editorial note does not need a first-footnote source note because it supplies documentary citations and chronology in the note text.",
+      "standard": "Published Reagan and Bush volumes include editorial notes without first-footnote source notes when the note text itself carries the evidence.",
+      "recommended_action": "no_change",
+      "original_text": "",
+      "replacement_text": "",
+      "comment_text": "",
+      "evidence_request": "none",
+      "verification_target": ""
+    }
+  ],
+  "global_comments": [
+    {
+      "severity": "info",
+      "comment_text": "Sample output is intended for wrapper validation and should not be applied to a production Word file."
+    }
+  ],
+  "style_discrepancy_tally": [
+    {
+      "discrepancy_id": "style-discrepancy-0001",
+      "category": "source_note",
+      "style_question": "How much source-surrogate detail should appear in final source notes when the controlling source is otherwise supplied?",
+      "variant_a": "Repository path only, with surrogate detail retained in audit context.",
+      "variant_b": "Repository path plus NLR, RAC, FOIA, or catalog identifier in the printed source note.",
+      "unit_ids": [
+        "source-note-0001"
+      ],
+      "published_or_local_examples": [
+        "Sample fixture"
+      ],
+      "count": 1,
+      "risk": "medium",
+      "checker_action": "comment_only",
+      "general_editor_question": "Should the checker enforce a house form for source-surrogate detail, or preserve volume-specific variation until the General Editor decides?",
+      "status": "open",
+      "first_seen": "sample-fixture",
+      "last_seen": "sample-fixture",
+      "resolution_note": ""
+    }
+  ]
+}

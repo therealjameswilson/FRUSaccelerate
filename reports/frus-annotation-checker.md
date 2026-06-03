@@ -16,6 +16,9 @@ standalone runtime prompt and keep this file as the deeper reference.
 Implementation option: wrappers can validate LLM output against the standalone
 schema in `reports/frus-annotation-checker-output.schema.json` before applying
 any tracked changes.
+For no-dependency closed-network smoke tests, use
+`scripts/validate-frus-checker-output.mjs` against
+`reports/frus-annotation-checker-sample-output.json`.
 
 The intended workflow is:
 
@@ -11748,6 +11751,9 @@ Minimum components:
 - JSON schema validator for `checker-output-v1`.
 - Standalone output schema file:
   `reports/frus-annotation-checker-output.schema.json`.
+- No-dependency output validator and sample:
+  `scripts/validate-frus-checker-output.mjs` and
+  `reports/frus-annotation-checker-sample-output.json`.
 - Spellcheck rule-id validator that rejects unknown `rule_id` values, counts
   findings by rule, flags excessive `FAS-GEN-000` fallback use, and preserves
   rule-id tallies in the audit report before tracked changes are applied.
