@@ -61,6 +61,10 @@ The wrapper should provide the LLM with:
 - `authority_context`, if available: volume title, administration, date range,
   known document numbers, Persons authority list, abbreviations list, repository
   authority list, and neighboring-volume references.
+- `authority_registry_context`, if available: structured Persons,
+  abbreviations, source-list, repository, chapter, document-number, and index
+  registries with stable ids, approved display forms, variants, date spans, and
+  source URLs or local provenance.
 - `series_status_context`, if available: current History Office status
   (`published`, `anticipated`, `being_cleared`, `being_researched`, or
   `planned`), target volume title, known chapter status, and any official
@@ -981,6 +985,149 @@ Flag these issues:
 - Abbreviation is silently expanded in transcribed text.
 - Abbreviation list omits a recurring or obscure term.
 - Index uses page numbers when document numbers are available.
+
+Authority registry contract:
+
+The wrapper should supply authority material as registries rather than loose
+notes. Published Reagan and Bush volumes show that source lists, Persons lists,
+and Abbreviations and Terms are separate apparatus with their own forms. A good
+checker must compare annotation-sheet units against those apparatus forms
+without treating them as facts to invent.
+
+Minimum authority registry:
+
+```json
+{
+  "authority_registry_id": "frus-1981-1992-authority-2026-06-03",
+  "captured_at": "2026-06-03",
+  "persons": [
+    {
+      "person_id": "person-bush-george-hw",
+      "display_form": "Bush, George H.W.",
+      "variants": [
+        "George Herbert Walker Bush",
+        "George H.W. Bush",
+        "President Bush"
+      ],
+      "office_spans": [
+        {
+          "office": "Vice President of the United States",
+          "start": "1981-01-20",
+          "end": "1989-01-20"
+        },
+        {
+          "office": "President of the United States",
+          "start": "1989-01-20",
+          "end": "1993-01-20"
+        }
+      ],
+      "volume_scope": [
+        "Reagan",
+        "George H.W. Bush"
+      ],
+      "source": "Persons list or local authority file"
+    }
+  ],
+  "abbreviations": [
+    {
+      "term": "NSC",
+      "definition": "National Security Council",
+      "approved_forms": [
+        "NSC"
+      ],
+      "expand_in_apparatus": true,
+      "expand_in_transcribed_text": false
+    }
+  ],
+  "repositories": [
+    {
+      "repository_id": "repo-bush-library-hfiles",
+      "display_path": "George H.W. Bush Library, Bush Presidential Records, National Security Council, Institutional Files (H-Files)",
+      "variants": [
+        "Bush Library, H-Files",
+        "George Bush Library, NSC Institutional Files"
+      ],
+      "required_subseries_when_present": [
+        "NSC Meeting Files",
+        "NSC/DC Meetings Files",
+        "NSD Files",
+        "NSR Files"
+      ]
+    }
+  ],
+  "document_numbers": [
+    {
+      "document_number": "Document 42",
+      "chapter": "Chapter 3",
+      "title_or_subject": "Known title or supplied heading",
+      "status": "stable"
+    }
+  ]
+}
+```
+
+Authority validator sequence:
+
+1. Normalize only for comparison: trim duplicated spaces, compare case
+   insensitively where appropriate, and preserve punctuation in proposed Word
+   edits.
+2. Match each name, acronym, repository label, chapter label, and document
+   number to a registry entry or mark it `unmatched`.
+3. Check the document date against any `office_spans`. If the date is missing,
+   comment for verification rather than changing the title.
+4. Check whether the unit is editorial apparatus or transcribed document text.
+   Do not expand abbreviations or normalize names inside transcribed document
+   text.
+5. For source-list entries, check repository hierarchy from broad institution
+   to specific file family. Do not collapse nested families such as Reagan
+   Library W Files, PROFS, System IV, Bush H-Files, Scowcroft Collection, State
+   lot files, CFPF reels, or Library of Congress manuscript papers into one
+   generic repository label.
+6. For Persons entries, preserve nicknames, initials, suffixes, particles, and
+   transliterations when the authority list uses them. If two published forms
+   differ, record a General Editor discrepancy instead of forcing one form.
+7. For Abbreviations and Terms, flag a missing recurring term only when it is
+   policy-critical, obscure, or repeated enough to burden readers. Do not add
+   common acronyms mechanically.
+8. For index entries, prefer document-number references and stable subject/name
+   forms. Do not use page references unless the volume or wrapper context
+   requires page-based indexing.
+9. Reconcile authority findings across the whole packet before final output so
+   the same person, acronym, repository, or index term is not corrected in one
+   place and merely commented on in another without explanation.
+
+Direct-edit posture:
+
+- Direct edits are appropriate for simple apparatus-only authority fixes when
+  the registry supplies the exact replacement and the Word anchor is safe:
+  duplicated spaces, misspelled approved display form, wrong acronym expansion
+  in an Abbreviations entry, or a source-list heading that exactly matches a
+  known variant.
+- Use `comment_only` when the fix depends on a document date, office span,
+  uncertain identity, transliteration, source-list family, chapter routing,
+  target document number, or General Editor decision.
+- Use `style_discrepancy_tally` when two forms are both plausible: nickname
+  inclusion, middle initials, office title level, `US` versus `U.S.`, `H-Files`
+  punctuation, repository nesting, or source-list heading order.
+- Return `blocked` only when authority ambiguity prevents safe review of the
+  whole packet, such as an extracted sheet with no dates, no volume title, and
+  repeated ambiguous names that affect source notes or cross-references.
+
+Authority-specific red flags:
+
+- One person appears under two display forms in the same packet without a
+  deliberate variant rule.
+- A title is correct for the person but wrong for the document date.
+- A Bush transition record before January 20, 1989 is routed to Bush
+  Presidential Records instead of Vice Presidential Records without evidence.
+- A Reagan source-list entry treats W Files, PROFS, System IV, or NSC
+  Washington institutional files as ordinary White House Staff and Office Files.
+- A source list drops subseries that published-style source lists preserve, such
+  as Bush NSC Meeting Files or NSC/DC Meetings Files.
+- An acronym is expanded inside transcribed document text, or an abbreviation
+  entry silently changes the form used in the source note.
+- An index entry uses a person title or country term that conflicts with the
+  target volume authority form.
 
 ### 6.8 Diary, Schedule, And Call-Log Evidence
 
@@ -1994,6 +2141,24 @@ Case 10: Exact replacement anchor not found.
 }
 ```
 
+Case 11: Authority title depends on document date.
+
+```json
+{
+  "unit_id": "persons-entry-0011",
+  "severity": "major",
+  "category": "authority_control",
+  "finding": "The title may not match the person's office on the document date.",
+  "standard": "Persons and annotation entries must use date-bounded offices supplied by the authority registry or ask for verification.",
+  "recommended_action": "comment_only",
+  "original_text": "",
+  "replacement_text": "",
+  "comment_text": "Verify the document date against the authority registry before changing this office title.",
+  "evidence_request": "authority_control",
+  "verification_target": "Document date and date-bounded office span for the named person"
+}
+```
+
 ## 8. Standard Check Sequence
 
 For every extracted unit, run checks in this order:
@@ -2560,6 +2725,7 @@ Run date: [date]
 Checker version: [version]
 Output schema: checker-output-v1
 Context bundle: [bundle_id and capture date]
+Authority registry: [authority_registry_id and capture date]
 Status snapshot: [status_snapshot URL and captured_at date]
 Status registry stale: [yes/no/not supplied]
 Review mode: [light/normal/exhaustive]
@@ -2581,6 +2747,7 @@ Counts:
 - Duplicate findings merged: [n]
 - Cross-chunk conflicts reconciled: [n]
 - Status registry conflicts or stale-publication warnings: [n]
+- Authority registry conflicts or unmatched forms: [n]
 
 Major issues:
 - [unit_id]: [finding]
@@ -2590,6 +2757,9 @@ Evidence requests:
 
 Publication-status warnings:
 - [unit_id or global]: [status issue] - [registry target]
+
+Authority-control warnings:
+- [unit_id or global]: [authority issue] - [registry target or unmatched form]
 
 Style discrepancy tally:
 - [discrepancy_id]: [category] - [style_question] - count [n] - risk [level]
@@ -2611,6 +2781,9 @@ Minimum components:
   deletions, and comments.
 - Offline context-bundle loader with status, authority, source-family, and
   provenance metadata.
+- Authority-registry validator that reconciles Persons, abbreviations,
+  repository/source-list forms, chapter labels, document numbers, and index
+  terms before track changes are applied.
 - Status-registry validator that preserves production stage, release bucket,
   capture date, official URL, and cross-referenced volume targets before the
   LLM review begins.
@@ -2623,6 +2796,8 @@ Operational cautions:
 - Keep original uploaded files unchanged.
 - Record the exact checker version used.
 - Record the exact context-bundle id and capture date used.
+- Record authority-registry version, unmatched forms, direct authority edits,
+  comments, and unresolved General Editor questions.
 - Record status-registry freshness and every publication-status conflict,
   especially `scheduled for publication` or `printed in` language.
 - Record the selected review mode and whether duplicate findings were merged.
