@@ -839,7 +839,7 @@ const documentChronology = [
     summary:
       "First-day reset of the Clinton PRD/PDD system. This should lead the documentary chronology because it defines how later national security reviews and decisions were recorded.",
     sourceNote:
-      "Source: Clinton Presidential Library, Presidential Directives, PDD-1, Establishment of Presidential Review and Decision Series, January 20, 1993. Public directive index; released text, classification marking, and copy status to be verified.",
+      "Source: Clinton Presidential Library, Presidential Directives, PDD-1, Establishment of Presidential Review and Decision Series, January 20, 1993.",
     nextPull: "Pull Records Management or Executive Secretary copies for classification, distribution, and implementation context.",
     tags: ["PDD-1", "process", "first day"]
   },
@@ -853,7 +853,7 @@ const documentChronology = [
     summary:
       "Foundational NSC organization document. It controls the early chronology because it explains the institutional channel for presidential foreign-policy choices.",
     sourceNote:
-      "Source: Clinton Presidential Library, Presidential Directives, PDD-2, Organization of the National Security Council, January 20, 1993. Public directive index; pull NSC Executive Secretary or Records Management copy for final classification and distribution details.",
+      "Source: Clinton Presidential Library, Presidential Directives, PDD-2, Organization of the National Security Council, January 20, 1993.",
     nextPull: "Match to NSC Executive Secretary routing files and first-week Daily Diary briefings.",
     tags: ["PDD-2", "NSC", "process"]
   },
@@ -867,7 +867,7 @@ const documentChronology = [
     summary:
       "Daily Diary control for the first regular briefings with CIA briefers, McLarty, Lake, Berger, and Gore.",
     sourceNote:
-      "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, [01/20/1993-01/31/1993], NAID 147870741. Schedule-control entry; match against substantive records before promotion.",
+      "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, [01/20/1993-01/31/1993], NAID 147870741.",
     nextPull: "Use this to date the first-week PDD-1/PDD-2 source packets and any NSC briefing memoranda.",
     tags: ["Daily Diary", "briefings", "NAID 147870741"]
   },
@@ -881,7 +881,7 @@ const documentChronology = [
     summary:
       "Early presidential foreign-leader call sequence, with Lake/Berger meeting control and NSC staffing for Russia and Middle East calls.",
     sourceNote:
-      "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, [01/20/1993-01/31/1993], NAID 147870741. Schedule-control entry; call transcripts and memcons to be located separately.",
+      "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, [01/20/1993-01/31/1993], NAID 147870741.",
     nextPull: "Search Situation Room, Lake/Berger, Russia/NIS, and Near East files for call records.",
     tags: ["Russia", "Middle East", "calls"]
   },
@@ -895,7 +895,7 @@ const documentChronology = [
     summary:
       "One chronological block captures calls with Yeltsin, Major, Kohl, and Boutros-Ghali around a Soderberg/Hall NSC staff meeting.",
     sourceNote:
-      "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, hardcopy file including February 10, 1993, NAID 17367481. Schedule-control entry; substantive call records to be verified.",
+      "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, hardcopy file including February 10, 1993, NAID 17367481.",
     nextPull: "Prioritize Soderberg, European affairs, UN, Situation Room, and interpreter records.",
     tags: ["Russia", "allies", "UN"]
   },
@@ -909,7 +909,7 @@ const documentChronology = [
     summary:
       "Senior national security and economic-policy attendees make this one of the best early controls for Russia, G-7, and economic statecraft.",
     sourceNote:
-      "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, hardcopy file including April 6, 1993, NAID 17367492. Schedule-control entry; briefing papers and summit books to be located separately.",
+      "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, hardcopy file including April 6, 1993, NAID 17367492.",
     nextPull: "Pull summit briefing books, Russia/NIS files, and economic-policy meeting papers.",
     tags: ["G-7", "Russia", "summit prep"]
   },
@@ -923,7 +923,7 @@ const documentChronology = [
     summary:
       "Early review directive for democracy promotion as a governing instrument, not just a speech theme.",
     sourceNote:
-      "Source: Clinton Presidential Library, Presidential Directives, PRD-26, Democracy Programs, April 13, 1993. Public directive index; responsible office files and release status to be verified.",
+      "Source: Clinton Presidential Library, Presidential Directives, PRD-26, Democracy Programs, April 13, 1993.",
     nextPull: "Search NSC Records Management and democracy-program review files for the packet and follow-up papers.",
     tags: ["PRD-26", "democracy", "review"]
   },
@@ -937,7 +937,7 @@ const documentChronology = [
     summary:
       "Likely bridge between early policy-review machinery and the 1994 National Security Strategy.",
     sourceNote:
-      "Source: Clinton Presidential Library, Presidential Directives, PRD-35, National Security Review - Strategy, June 11, 1993. Public directive index; source packet, drafting office, and distribution status to be verified.",
+      "Source: Clinton Presidential Library, Presidential Directives, PRD-35, National Security Review - Strategy, June 11, 1993.",
     nextPull: "Locate strategy review records and compare them against the July 1994 NSS text.",
     tags: ["PRD-35", "strategy", "NSS"]
   },
@@ -951,7 +951,7 @@ const documentChronology = [
     summary:
       "Signature public doctrine event. Its place in the chronology is strongest when paired with Blinken/Boorstin drafts and the same-day Daily Diary controls.",
     sourceNote:
-      "Source: Clinton Presidential Library, Records of the National Security Council, Speechwriting Office, Antony 'Tony' Blinken Files, OA/ID 3386, Lake, From Containment to Enlargement. Public text available separately; draft date, classification marking, and clearance markings to be verified.",
+      "Source: Clinton Presidential Library, Records of the National Security Council, Speechwriting Office, Antony 'Tony' Blinken Files, OA/ID 3386, Lake, From Containment to Enlargement.",
     nextPull: "Pull the Blinken and Boorstin enlargement files, then compare drafts to delivered text.",
     tags: ["enlargement", "Lake", "speech draft"]
   },
@@ -965,7 +965,7 @@ const documentChronology = [
     summary:
       "Early NATO institutional-adaptation contact before the January 1994 Brussels and Partnership for Peace sequence.",
     sourceNote:
-      "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, hardcopy file including October 6, 1993, NAID 17368174. Schedule-control entry; meeting papers to be located separately.",
+      "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, hardcopy file including October 6, 1993, NAID 17368174.",
     nextPull: "Check NATO enlargement, European security, and Kupchan/Hunter files for briefing papers or memcons.",
     tags: ["NATO", "Europe", "meeting"]
   },
@@ -979,7 +979,7 @@ const documentChronology = [
     summary:
       "Diary controls for NATO summit preparation and the January 15 denuclearization ceremony with Yeltsin and Kravchuk.",
     sourceNote:
-      "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, [01/01/1994-01/15/1994], NAID 147870783. Schedule-control entry; briefing books and memcons to be located separately.",
+      "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, [01/01/1994-01/15/1994], NAID 147870783.",
     nextPull: "Pair with NATO Summit briefing books, JCS briefing records, and Russia/Ukraine memcons.",
     tags: ["NATO", "Russia", "Ukraine"]
   },
@@ -993,7 +993,7 @@ const documentChronology = [
     summary:
       "Doctrine-setting peace operations record. This belongs in the chronology if the volume needs use-of-force criteria, not Bosnia or Somalia implementation detail.",
     sourceNote:
-      "Source: Clinton Presidential Library, Presidential Directives, PDD-25, U.S. Policy on Reforming Multilateral Peace Operations, May 3, 1994. Public directive index; released text, classification marking, and review file to be verified.",
+      "Source: Clinton Presidential Library, Presidential Directives, PDD-25, U.S. Policy on Reforming Multilateral Peace Operations, May 3, 1994.",
     nextPull: "Pull the PDD-25 source packet and separate general doctrine from regional implementation.",
     tags: ["PDD-25", "peace operations", "force"]
   },
@@ -1007,7 +1007,7 @@ const documentChronology = [
     summary:
       "First Clinton National Security Strategy and central published doctrine baseline for the volume.",
     sourceNote:
-      "Source: The White House, A National Security Strategy of Engagement and Enlargement, July 1994. Published strategy paper; internal NSC drafting, review, and clearance file to be supplied for archival source note.",
+      "Source: The White House, A National Security Strategy of Engagement and Enlargement, July 1994.",
     nextPull: "Match against PRD-35 and NSC drafting or clearance files before final selection.",
     tags: ["NSS 1994", "engagement", "enlargement"]
   },
@@ -1021,7 +1021,7 @@ const documentChronology = [
     summary:
       "Broad transnational-threat doctrine marker for the first-term turn toward terrorism as a national security concern.",
     sourceNote:
-      "Source: Clinton Presidential Library, Presidential Directives, PDD-39, U.S. Policy on Counterterrorism, June 21, 1995. Public directive index; released text, classification marking, and implementation-file boundary to be verified.",
+      "Source: Clinton Presidential Library, Presidential Directives, PDD-39, U.S. Policy on Counterterrorism, June 21, 1995.",
     nextPull: "Use only the foundational policy frame; route operational counterterrorism records to the topical volume.",
     tags: ["PDD-39", "terrorism", "transnational"]
   },
@@ -1035,7 +1035,7 @@ const documentChronology = [
     summary:
       "Shows organized crime entering the national security and foreign-policy frame.",
     sourceNote:
-      "Source: Clinton Presidential Library, Presidential Directives, PDD-42, International Organized Crime, October 21, 1995. Public directive index; final source note requires released text, classification marking, and implementation-file boundary.",
+      "Source: Clinton Presidential Library, Presidential Directives, PDD-42, International Organized Crime, October 21, 1995.",
     nextPull: "Pair with transnational-threat and global-issues files, then keep implementation records out of Volume I.",
     tags: ["PDD-42", "organized crime", "global issues"]
   },
@@ -1049,7 +1049,7 @@ const documentChronology = [
     summary:
       "Second-term strategy marker for the shift from enlargement language toward integration, globalization, and new-century architecture.",
     sourceNote:
-      "Source: The White House, A National Security Strategy for a New Century, May 1997. Published strategy paper; NSC drafting and clearance file to be supplied for FRUS source-note treatment.",
+      "Source: The White House, A National Security Strategy for a New Century, May 1997.",
     nextPull: "Search Berger, Steinberg, and Widmer files for draft and clearance evidence.",
     tags: ["NSS 1997", "new century", "globalization"]
   },
@@ -1063,7 +1063,7 @@ const documentChronology = [
     summary:
       "Diary appendix lists a foreign-policy meeting with Albright, Cohen, Shelton, Richardson, Tenet, Berger, Steinberg, Kerrick, Riedel, Podesta, and Richard Clarke.",
     sourceNote:
-      "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, [03/01/1998-03/14/1998], NAID 147870907. Schedule-control entry; meeting papers to be located separately.",
+      "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, [03/01/1998-03/14/1998], NAID 147870907.",
     nextPull: "Search Berger, Steinberg, Clarke, and global-issues files for meeting agenda, papers, and follow-up.",
     tags: ["foreign policy meeting", "Berger", "Steinberg"]
   },
@@ -1077,7 +1077,7 @@ const documentChronology = [
     summary:
       "Late-term marker for cyber, infrastructure, and new security categories in the globalization handoff.",
     sourceNote:
-      "Source: Clinton Presidential Library, Presidential Directives, PDD-63, Critical Infrastructure Protection, May 20, 1998. Public directive index; source packet and declassification status to be verified.",
+      "Source: Clinton Presidential Library, Presidential Directives, PDD-63, Critical Infrastructure Protection, May 20, 1998.",
     nextPull: "Pull the directive source packet and public rollout records before using it as a volume-closing document.",
     tags: ["PDD-63", "cyber", "infrastructure"]
   },
@@ -1091,7 +1091,7 @@ const documentChronology = [
     summary:
       "Late-administration strategy with stable public metadata; useful for closing the volume's chronology.",
     sourceNote:
-      "Source: The White House, A National Security Strategy for a New Century, December 1999. Published strategy paper; Library of Congress copy supplies public metadata pending NSC drafting file review.",
+      "Source: The White House, A National Security Strategy for a New Century, December 1999.",
     nextPull: "Pair with Widmer, Berger, Steinberg, and NSS drafting files.",
     tags: ["NSS 1999", "new century", "handoff"]
   },
@@ -1105,7 +1105,7 @@ const documentChronology = [
     summary:
       "Late-term Diary controls for G-7/G-8 briefing, a Russia briefing, Putin meeting, UN Millennium events, and the Strategic Stability Cooperation Initiative.",
     sourceNote:
-      "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, hardcopy file including July-September 2000 entries, NAID 17368201. Schedule-control entry; summit books and memcons to be located separately.",
+      "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, hardcopy file including July-September 2000 entries, NAID 17368201.",
     nextPull: "Pull G-8 summit books, UN Millennium briefing papers, Russia memcons, and Strategic Stability Initiative files.",
     tags: ["G-8", "Russia", "UN", "handoff"]
   }
@@ -1124,7 +1124,7 @@ const records = [
     summary:
       "Foundational source for the new Clinton PRD/PDD system and for explaining why early 1993 review directives matter to Volume I.",
     sourceNote:
-      "Source: Clinton Presidential Library, Presidential Directives, PDD-1, Establishment of Presidential Review and Decision Series, January 20, 1993. Public directive index; released text, classification marking, and copy status to be verified.",
+      "Source: Clinton Presidential Library, Presidential Directives, PDD-1, Establishment of Presidential Review and Decision Series, January 20, 1993.",
     risk: "Use the public index as locator only; pull released text or source folder before quoting."
   },
   {
@@ -1139,7 +1139,7 @@ const records = [
     summary:
       "Core source for the administration's NSC structure, interagency process, and how national-security decisions moved through the White House.",
     sourceNote:
-      "Source: Clinton Presidential Library, Presidential Directives, PDD-2, Organization of the National Security Council, January 20, 1993. Public directive index; pull NSC Executive Secretary or Records Management copy for final classification and distribution details.",
+      "Source: Clinton Presidential Library, Presidential Directives, PDD-2, Organization of the National Security Council, January 20, 1993.",
     risk: "Needs comparison with NSC Executive Secretary and Records Management files for implementation evidence."
   },
   {
@@ -1154,7 +1154,7 @@ const records = [
     summary:
       "Likely bridge between early policy review machinery and the 1994 National Security Strategy of Engagement and Enlargement.",
     sourceNote:
-      "Source: Clinton Presidential Library, Presidential Directives, PRD-35, National Security Review - Strategy, June 11, 1993. Public directive index; source packet, drafting office, and distribution status to be verified.",
+      "Source: Clinton Presidential Library, Presidential Directives, PRD-35, National Security Review - Strategy, June 11, 1993.",
     risk: "The public index lists the directive, but the release/source packet needs exact pull verification."
   },
   {
@@ -1170,7 +1170,7 @@ const records = [
     summary:
       "Signature public doctrine event for the shift from containment to enlargement. The Blinken finding aid lists Lake enlargement files that can connect public text to draft evidence.",
     sourceNote:
-      "Source: Clinton Presidential Library, Records of the National Security Council, Speechwriting Office, Antony 'Tony' Blinken Files, OA/ID 3386, Lake, From Containment to Enlargement. Public text available separately; draft date, classification marking, and clearance markings to be verified.",
+      "Source: Clinton Presidential Library, Records of the National Security Council, Speechwriting Office, Antony 'Tony' Blinken Files, OA/ID 3386, Lake, From Containment to Enlargement.",
     risk: "Treat GlobalSecurity text as public copy; use Clinton Library folder provenance for source-note confidence."
   },
   {
@@ -1185,7 +1185,7 @@ const records = [
     summary:
       "Early public articulation of the administration's post-Cold War foreign-policy themes before the UN.",
     sourceNote:
-      "Source: Public Papers: Clinton, 1993, Book II, pp. 1612-1618. The President spoke at 11 a.m. in the General Assembly Hall.",
+      "Source: Public Papers: Clinton, 1993, Book II, pp. 1612\u20131618. The President spoke at 11 a.m. in the General Assembly Hall.",
     risk: "Needs matching NSC speechwriting draft, clearance notes, or briefing papers."
   },
   {
@@ -1200,7 +1200,7 @@ const records = [
     summary:
       "First Clinton-era National Security Strategy report and the central published doctrine baseline for Volume I.",
     sourceNote:
-      "Source: The White House, A National Security Strategy of Engagement and Enlargement, July 1994. Published strategy paper; internal NSC drafting, review, and clearance file to be supplied for archival source note.",
+      "Source: The White House, A National Security Strategy of Engagement and Enlargement, July 1994.",
     risk: "Needs internal drafting and policy-review trail before becoming more than a published baseline."
   },
   {
@@ -1215,7 +1215,7 @@ const records = [
     summary:
       "Follow-on published strategy that can be compared against 1994 language to identify continuity and adjustment.",
     sourceNote:
-      "Source: The White House, A National Security Strategy of Engagement and Enlargement, February 1995. Published strategy paper; draft record and interagency comment trail to be supplied.",
+      "Source: The White House, A National Security Strategy of Engagement and Enlargement, February 1995.",
     risk: "Draft record and interagency comment trail still need source discovery."
   },
   {
@@ -1230,7 +1230,7 @@ const records = [
     summary:
       "Late-first-term strategy report useful for showing how enlargement, trade, democracy promotion, and new threats were carried into the 1996 election year.",
     sourceNote:
-      "Source: The White House, A National Security Strategy of Engagement and Enlargement, February 1996. Published strategy paper; internal policy-selection records to be supplied before final document selection.",
+      "Source: The White House, A National Security Strategy of Engagement and Enlargement, February 1996.",
     risk: "Do not overuse published language without internal policy-selection records."
   },
   {
@@ -1245,7 +1245,7 @@ const records = [
     summary:
       "Second-term strategy marker for moving from enlargement language toward integration, globalization, and new-century architecture.",
     sourceNote:
-      "Source: The White House, A National Security Strategy for a New Century, May 1997. Published strategy paper; NSC drafting and clearance file to be supplied for FRUS source-note treatment.",
+      "Source: The White House, A National Security Strategy for a New Century, May 1997.",
     risk: "Needs source trail for drafting and review; public web text is not itself a decision file."
   },
   {
@@ -1260,7 +1260,7 @@ const records = [
     summary:
       "Late-administration published strategy with formal bibliographic metadata, useful for the volume's concluding frame.",
     sourceNote:
-      "Source: The White House, A National Security Strategy for a New Century, December 1999. Published strategy paper; Library of Congress copy supplies public metadata pending NSC drafting file review.",
+      "Source: The White House, A National Security Strategy for a New Century, December 1999.",
     risk: "Use as public baseline; pull NSC/White House drafting records for compiler use."
   },
   {
@@ -1275,7 +1275,7 @@ const records = [
     summary:
       "Folder lead for UN 50th anniversary drafts, briefings, background articles, and public doctrine around reforming or renewing postwar institutions.",
     sourceNote:
-      "Source: Clinton Presidential Library, Records of the National Security Council, Speechwriting Office, Robert O. Boorstin Files, 2006-0460-F, OA/ID 424, UN 50th anniversary speech drafts. Finding-aid folder lead; document-level date, classification marking, and copy status to be verified.",
+      "Source: Clinton Presidential Library, Records of the National Security Council, Speechwriting Office, Robert O. Boorstin Files, 2006-0460-F, OA/ID 424, UN 50th anniversary speech drafts.",
     risk: "Folder-level lead only; document-level page counts and exact draft dates are pending."
   },
   {
@@ -1290,7 +1290,7 @@ const records = [
     summary:
       "Foreign-policy sections and theme memos for State of the Union drafting, useful for public-case evolution and presidential edits.",
     sourceNote:
-      "Source: Clinton Presidential Library, Records of the National Security Council, Speechwriting Office, Antony 'Tony' Blinken Files, 2006-0459-F, OA/IDs 3387-3389, State of the Union foreign-policy sections. Finding-aid folder lead; item-level date, version, and clearance notes to be verified.",
+      "Source: Clinton Presidential Library, Records of the National Security Council, Speechwriting Office, Antony 'Tony' Blinken Files, 2006-0459-F, OA/IDs 3387-3389, State of the Union foreign-policy sections.",
     risk: "Needs item-level review to separate speech packaging from substantive NSC edits."
   },
   {
@@ -1305,7 +1305,7 @@ const records = [
     summary:
       "High-value use-of-force and peacekeeping policy anchor, but detailed Somalia, Haiti, Bosnia, or Rwanda records should remain in topical volumes.",
     sourceNote:
-      "Source: Clinton Presidential Library, Presidential Directives, PDD-25, U.S. Policy on Reforming Multilateral Peace Operations, May 3, 1994. Public directive index; released text, classification marking, and review file to be verified.",
+      "Source: Clinton Presidential Library, Presidential Directives, PDD-25, U.S. Policy on Reforming Multilateral Peace Operations, May 3, 1994.",
     risk: "Volume I should select only the doctrine-setting record or review trail."
   },
   {
@@ -1320,7 +1320,7 @@ const records = [
     summary:
       "Key review directive for democracy promotion as a broad foreign-policy instrument.",
     sourceNote:
-      "Source: Clinton Presidential Library, Presidential Directives, PRD-26, Democracy Programs, April 13, 1993. Public directive index; responsible office files and release status to be verified.",
+      "Source: Clinton Presidential Library, Presidential Directives, PRD-26, Democracy Programs, April 13, 1993.",
     risk: "Needs released text or responsible office files before source-note promotion."
   },
   {
@@ -1335,7 +1335,7 @@ const records = [
     summary:
       "Broad policy anchor for counterterrorism and international organized crime as post-Cold War transnational threats.",
     sourceNote:
-      "Source: Clinton Presidential Library, Presidential Directives, PDD-39 and PDD-42, June-October 1995. Public directive index; final source note requires released text, exact directive title, classification marking, and implementation-file boundary.",
+      "Source: Clinton Presidential Library, Presidential Directives, PDD-39 and PDD-42, June-October 1995.",
     risk: "Detailed implementation belongs to counterterrorism, narcotics, law-enforcement, or global-issues volumes."
   },
   {
@@ -1350,7 +1350,7 @@ const records = [
     summary:
       "Late-term marker for new security categories, cyber/infrastructure vulnerability, and the globalization handoff.",
     sourceNote:
-      "Source: Clinton Presidential Library, Presidential Directives, PDD-63, Critical Infrastructure Protection, May 20, 1998. Public directive index; source packet and declassification status to be verified.",
+      "Source: Clinton Presidential Library, Presidential Directives, PDD-63, Critical Infrastructure Protection, May 20, 1998.",
     risk: "Use sparingly unless internal records show it shaped the administration's foundational narrative."
   },
   {
@@ -1380,7 +1380,7 @@ const records = [
     summary:
       "Control source for dating doctrine speeches, NSC meetings, summit travel, and public events before aligning drafts and released remarks.",
     sourceNote:
-      "Source: National Archives Catalog, Presidential Daily Diary Collection, NAID 101784492. Chronology-control source; use to date events unless paired with a substantive memorandum, speech draft, or meeting record.",
+      "Source: National Archives Catalog, Presidential Daily Diary Collection, NAID 101784492.",
     risk: "Schedule entries are not decision records; use them to verify chronology and event context."
   }
 ];
@@ -2371,7 +2371,7 @@ function renderDailyDiaryReferences() {
 
     const sourceNote = document.createElement("p");
     sourceNote.className = "source-note";
-    sourceNote.textContent = `Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, ${item.catalogTitle}, NAID ${item.naid}. Schedule-control entry; match against substantive records before promotion.`;
+    sourceNote.textContent = `Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, ${item.catalogTitle}, NAID ${item.naid}.`;
 
     const links = document.createElement("div");
     links.className = "item-links";

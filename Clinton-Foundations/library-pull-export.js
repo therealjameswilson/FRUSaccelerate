@@ -506,7 +506,7 @@ function dailyDiaryRows() {
       volume_use: item.volumeUse,
       follow_up: item.followUp,
       promotion_rule: "Use as chronology-control evidence only until paired with a substantive call, meeting, briefing, speech, or Public Papers record.",
-      source_note_target: `Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, ${item.catalogTitle}, NAID ${item.naid}. Schedule-control entry; pair with substantive records before promotion.`,
+      source_note_target: `Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, ${item.catalogTitle}, NAID ${item.naid}.`,
       url: item.url,
       tags: dataList(item.tags).join("; ")
     }));
@@ -563,7 +563,7 @@ function dataList(value) {
 }
 
 function statementSourceNoteTarget(item) {
-  if (/UNGA 1993/i.test(item.identifier || "")) return "Source: Public Papers: Clinton, 1993, Book II, pp. 1612-1618. The President spoke at 11 a.m. in the General Assembly Hall.";
+  if (/UNGA 1993/i.test(item.identifier || "")) return "Source: Public Papers: Clinton, 1993, Book II, pp. 1612\u20131618. The President spoke at 11 a.m. in the General Assembly Hall.";
   return `Source: ${item.sourceRepository}, ${item.title}, ${item.date}, ${item.identifier}.`;
 }
 
@@ -612,7 +612,7 @@ function sourceNoteAuditRows() {
       repository_or_source: "National Archives Catalog",
       identifier: `NAID ${item.naid}`,
       frus_use: item.volumeUse,
-      source_note_target: `Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, ${item.catalogTitle}, NAID ${item.naid}. Schedule-control entry; match against substantive records before promotion.`,
+      source_note_target: `Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, ${item.catalogTitle}, NAID ${item.naid}.`,
       verification_needed:
         "Needs a paired call transcript, memorandum of conversation, meeting paper, speech draft, briefing book, or Public Papers text.",
       next_pull: item.followUp,
@@ -626,7 +626,7 @@ function sourceNoteAuditRows() {
       repository_or_source: "Clinton Presidential Library",
       identifier: item.code,
       frus_use: item.use,
-      source_note_target: `Source: Clinton Presidential Library, Presidential Directives, ${item.code}, ${item.title}, ${item.date}. Public directive index; released text, classification marking, copy status, and source packet to be verified.`,
+      source_note_target: `Source: Clinton Presidential Library, Presidential Directives, ${item.code}, ${item.title}, ${item.date}.`,
       verification_needed: "Pull directive source packet and record exact title, date, markings, distribution/copy status, and release status.",
       next_pull: `Locate ${item.code} source packet in NSC Records Management, Executive Secretary, or responsible office files.`,
       url: item.url
@@ -652,7 +652,7 @@ function sourceNoteAuditRows() {
       repository_or_source: `Clinton Library 2013-0185-M / ${item.source}`,
       identifier: `OA/ID ${item.oaids.join("; ")}`,
       frus_use: item.why,
-      source_note_target: `Source locator: Clinton Presidential Library, 2013-0185-M finding-aid folder intelligence, ${item.source}, ${item.folders}. Exact box, folder, document date, classification marking, copy/version status, and release status to be supplied from reading-room pull.`,
+      source_note_target: `Source: Clinton Presidential Library, 2013-0185-M finding-aid folder intelligence, ${item.source}, ${item.folders}.`,
       verification_needed: "Promote only after item-level folder review supplies a FRUS-ready source note.",
       next_pull: item.onsite,
       url: "https://www.clintonlibrary.gov/research"
@@ -1062,7 +1062,7 @@ function sourceNoteTemplateRows() {
       evidence_type: "Presidential Daily Diary chronology control",
       use_when: "A Daily Diary file unit dates a call, meeting, briefing, travel event, or public doctrine event.",
       source_note_pattern:
-        "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, [file-unit title/date span], NAID [number]. Schedule-control entry; paired substantive record to be cited separately.",
+        "Source: National Archives Catalog, Records of Oval Office Operations (Clinton Administration), Presidential Daily Diary, [file-unit title/date span], NAID [number].",
       required_fields: "NAID; file-unit title/date span; event date; time if available; participants; paired record status.",
       do_not_promote_until: "A memcon, telcon, call transcript, meeting paper, briefing book, speech draft, or Public Papers text is paired with the schedule entry.",
       paired_record_target: "Call transcript, memorandum of conversation, briefing papers, meeting agenda, speech draft, or Public Papers item.",
@@ -1084,7 +1084,7 @@ function sourceNoteTemplateRows() {
       evidence_type: "Published National Security Strategy or public strategy paper",
       use_when: "A public strategy paper supplies the doctrine baseline but needs internal drafting context.",
       source_note_pattern:
-        "Source: The White House, [strategy title], [date]. Published strategy paper; [repository copy or URL]. Internal drafting, clearance, circulation, or review file to be cited separately if selected as document evidence.",
+        "Source: The White House, [strategy title], [date].",
       required_fields: "Title; date; publication copy; URL or repository copy; drafting or clearance file status.",
       do_not_promote_until: "NSC drafting, clearance, circulation, or PRD/strategy review records explain authorship, review, or policy significance.",
       paired_record_target: "PRD-35, NSC drafting file, clearance memorandum, circulation copy, or editorial-note bridge.",
@@ -1099,7 +1099,7 @@ function sourceNoteTemplateRows() {
       required_fields: "Public Papers year; book; page range; title/event; place; date; Public Papers event note; paired internal record status if used beyond public baseline.",
       do_not_promote_until: "Drafts, clearance comments, talking points, briefing books, or policy memoranda show why the public text belongs in Volume I.",
       paired_record_target: "Speechwriting draft, press guidance, briefing book, clearance note, policy memorandum, or Daily Diary event control.",
-      example_source: "Source: Public Papers: Clinton, 1993, Book II, pp. 1612-1618. The President spoke at 11 a.m. in the General Assembly Hall."
+      example_source: "Source: Public Papers: Clinton, 1993, Book II, pp. 1612\u20131618. The President spoke at 11 a.m. in the General Assembly Hall."
     },
     {
       template_id: "clinton-library-item",
