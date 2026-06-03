@@ -239,6 +239,12 @@ The wrapper should provide the LLM with:
   production stage (`being_cleared`, `being_researched`, `planned`, or
   `published`) and any release bucket (`published_2025`, `anticipated_2026`,
   chapters outstanding, or similar).
+- `in_preparation_volume_registry_context`, if available: the dated official
+  status-page registry for all Reagan and George H.W. Bush 1981-1992 volumes in
+  clearance, research, planned, anticipated, or recently published status,
+  including exact official title, administration, production stage, release
+  bucket, listed chapter or subitem labels, likely volume family, source URL,
+  capture date, and wrapper match confidence for the uploaded sheet.
 - `status_claims_context`, if available: wrapper-extracted phrases from the
   uploaded Word file that assert or imply publication status, such as
   `forthcoming`, `scheduled for publication`, `planned for publication`,
@@ -521,6 +527,7 @@ run the semantic and Word-safety validators below.
               "summit_public_event",
               "communications_record",
               "publication_status",
+              "volume_preparation_scope",
               "release_errata_apparatus",
               "wording",
               "evidence",
@@ -686,6 +693,7 @@ run the semantic and Word-safety validators below.
               "summit_public_event",
               "communications_record",
               "publication_status",
+              "volume_preparation_scope",
               "release_errata_apparatus",
               "wording",
               "format",
@@ -7336,6 +7344,42 @@ Current 1981-1992 status context to keep in view:
   XVIII; XX; XXII; XXIII; XXIV; XXV; XXVII; XXX; XXXII.
 - Bush volumes planned: XXVIII; XXIX.
 
+In-preparation volume-routing safeguards:
+
+- Treat the current status page as a routing registry for work-in-progress
+  volume lanes, not as evidence for document text, source notes,
+  classification, attachments, or final publication language.
+- Match uploaded sheets to the registry by administration, date range, volume
+  number, official title words, chapter or country label, source-family clues,
+  and any wrapper-supplied project id. If the title and volume number point to
+  different entries, flag `volume_preparation_scope` and keep dependent edits
+  `comment_only`.
+- Preserve listed subitems and overlays. For example, the June 3, 2026 status
+  page lists Reagan Volume XVI, South America, under clearance with subitems
+  South America Region, Argentina, Bolivia, Brazil, Chile, Colombia, Ecuador,
+  Paraguay, Peru, Uruguay, and Venezuela, while the anticipated-2026 release
+  bucket specifically lists Venezuela. Do not convert that chapter/subitem
+  detail into a claim that every South America chapter is anticipated in 2026
+  unless the wrapper supplies a newer official capture saying so.
+- If a volume appears in both a release bucket and a production stage, record
+  both fields and use the production stage for redline maturity. Use the release
+  bucket only for wording such as `anticipated in 2026`, and only when the
+  target volume or subitem is exact.
+- For batch uploads, group sheets by target administration, volume, stage,
+  chapter/subitem, and family before sending chunks to the LLM. Report unmapped
+  sheets, mixed-family packets, stale status claims, and target-volume
+  conflicts in the audit before applying tracked changes.
+- Do not apply a published-volume source-note template merely because the
+  current sheet belongs to another in-preparation volume in the same
+  administration. Published 2025 Reagan national-security and Bush START I
+  forms are excellent controls for similar material, but they are not universal
+  patterns for public diplomacy, regional, economic, humanitarian, or
+  law-enforcement sheets.
+- If the wrapper cannot determine whether a packet is a research sheet,
+  clearance sheet, or final style pass, treat the packet as `being_researched`
+  for direct-edit safety and add a `volume_preparation_scope` comment asking the
+  compiler to confirm review stage.
+
 Stage-aware checker behavior:
 
 - `published`: Treat published volumes as pattern evidence. Direct edits may
@@ -9095,6 +9139,7 @@ Suggested tally format:
 | style-discrepancy-0026 | communications_record | How much telegram, cable, electronic-message, and communications-system metadata should appear in source notes or annotations when the message facts are sound. | Full message apparatus with CFPF D/N/P or Electronic Telegrams, STARS/PROFS/W Files/System IV label, message number, special designator, DTG, precedence, `no N number`, drafting, clearance, approval, and distribution; shorter source note with metadata retained in audit/context | 2 | medium | Should the checker enforce a house form for communications-record metadata, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0027 | publication_status | How should status-stage and cross-volume publication language be worded when a related Reagan/Bush volume is being cleared, researched, planned, anticipated, or newly published. | Conservative `scheduled for publication` or `planned for publication` language with comment-only update; direct `printed in` update only when current official status plus stable document/chapter target are supplied | 2 | high | Should the checker ever direct-edit status-stage language from the status registry alone, or should it always tally these cases for General Editor decision unless a document target is supplied? |
 | style-discrepancy-0028 | citation | How to handle canonical History Office document URLs, page-image URLs, static ebook/download URLs, and access-date language when the underlying citation target is sound. | Document-number citation with canonical `/d[n]` URL; page-image URL such as `pg_[n]`; volume/chapter/download URL retained as digital-edition apparatus; access date retained or omitted by local rule | 2 | medium | Should the checker enforce a single house form for online History Office citation targets in Reagan/Bush volumes, or keep tallying target-class variation for General Editor decision? |
+| style-discrepancy-0029 | volume_preparation_scope | How much status-page stage, release-bucket, and chapter/subitem routing detail should be visible in annotation sheets versus retained only in the checker audit. | Full preparation matrix in the audit with minimal Word comments; explicit stage/chapter wording in the annotation sheet when cross-volume publication language depends on it; General Editor-only ledger entry for recurring ambiguous routing | 2 | medium | Should the checker enforce a standard form for in-preparation volume routing notes, or keep stage and subitem detail mostly in the audit unless it affects published annotation text? |
 
 For the separate running ledger, add these columns or equivalent structured
 fields:
@@ -9536,6 +9581,29 @@ Recommended compact 1981-1992 status registry:
       "listed_detail": ""
     }
   ],
+  "chapter_or_subitem_overlays": [
+    {
+      "title": "1981-1988, Volume XVI, South America",
+      "production_stage": "being_cleared",
+      "listed_under_being_cleared": [
+        "South America Region",
+        "Argentina",
+        "Bolivia",
+        "Brazil",
+        "Chile",
+        "Colombia",
+        "Ecuador",
+        "Paraguay",
+        "Peru",
+        "Uruguay",
+        "Venezuela"
+      ],
+      "anticipated_2026_detail": [
+        "Venezuela"
+      ],
+      "checker_warning": "Preserve the Venezuela-specific anticipated-release detail separately from the broader Volume XVI clearance-stage subitem list."
+    }
+  ],
   "being_cleared": {
     "reagan": [
       "1981-1988, Volume II, Organization and Management of Foreign Policy",
@@ -9633,12 +9701,22 @@ official page changes.
 
 Status-registry preflight checks:
 
+- Before a normal or exhaustive run, build a per-packet preparation matrix:
+  target volume, administration, volume family, production stage, release
+  bucket, chapter/subitem label, uploaded sheet type, match confidence, and any
+  unresolved title-number conflict. Report the matrix in the audit summary.
 - If the uploaded sheet names a volume that is absent from the registry, add a
   global `info` comment for a light review and a `major` comment for normal or
   exhaustive review when cross-references or publication language depend on it.
 - If the uploaded sheet's volume number and title point to different registry
   entries, treat the affected cross-references as `comment_only` until the
   compiler resolves the target.
+- If a sheet maps only to an administration or broad family but not to a volume
+  or chapter/subitem, flag `volume_preparation_scope` and block direct edits
+  that depend on topic family, publication stage, or document numbering.
+- If a release-bucket subitem, such as a country chapter, is narrower than the
+  full volume, do not generalize the release wording to sibling chapters or the
+  whole volume. Count the case as a preserved chapter/subitem overlay.
 - If `printed in` or `published in` points to a registry target whose
   `production_stage` is not `published`, flag a `major` publication-status
   issue. Do not replace the phrase unless current official status and a stable
@@ -10684,6 +10762,10 @@ Counts:
 - Status claims extracted from uploaded Word file: [n]
 - Status claims matching current registry: [n]
 - Status claims stale, conflicting, or downgraded to comment-only: [n]
+- In-preparation volume targets checked: [n]
+- Volume-stage, volume-family, title-number, or chapter/subitem routing conflicts: [n]
+- Chapter/subitem release overlays preserved without whole-volume inference: [n]
+- Uploaded sheets grouped by in-preparation stage and family before LLM review: [n]
 - Chapter-level publication targets checked: [n]
 - Chapter-level status conflicts or unmapped chapter targets: [n]
 - Partial-publication references downgraded to comment-only: [n]
@@ -10714,6 +10796,9 @@ Publication-status warnings:
 
 Status-claim reconciliation warnings:
 - [unit_id or global]: [uploaded phrase] - [matched target] - [registry stage/release bucket] - [recommended posture]
+
+Volume-preparation routing warnings:
+- [unit_id or global]: [uploaded sheet target or phrase] - [matched volume/stage/family or unmapped target] - [chapter/subitem overlay if any] - [recommended posture]
 
 Chapter-level publication warnings:
 - [unit_id or global]: [uploaded phrase] - [volume target] - [chapter target] - [chapter status] - [whole-volume status] - [recommended posture]
