@@ -9,6 +9,10 @@ Guide and is designed for a rudimentary LLM plus a Word-processing wrapper.
 Its role is deliberately narrow: a bespoke FRUS annotation spellcheck for
 compilers and editors, not a general-purpose writing assistant.
 
+Small-context option: if the closed-network LLM cannot fit this full reference
+standard, use `reports/frus-annotation-checker-core.md` as the compact
+standalone runtime prompt and keep this file as the deeper reference.
+
 The intended workflow is:
 
 1. User uploads this Markdown file as the standard.
