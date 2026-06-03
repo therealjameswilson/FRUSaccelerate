@@ -1927,6 +1927,94 @@ Evidence-request categories:
 | `cross_reference` | Related document, footnote, appendix, telegram, or volume reference is unstable. | Which reference anchor must be checked. |
 | `wrapper_safety` | Word XML anchoring, existing revisions, comments, fields, tables, or note references make editing unsafe. | Why the wrapper should reject or downgrade the direct edit. |
 
+Evidence-request queue:
+
+The wrapper should aggregate all non-`none` evidence requests into a separate
+queue before applying Word changes. This queue is not another LLM output field;
+it is derived from validated `checks`. The purpose is to make every unresolved
+fact visible to compilers and editors, especially in normal and exhaustive
+passes where a vague comment can hide a publication blocker.
+
+Minimum queue item:
+
+```json
+{
+  "request_id": "evidence-request-0001",
+  "unit_ids": [
+    "source-note-0007"
+  ],
+  "evidence_request": "classification_marking",
+  "verification_target": "Original classification and handling markings on the source image",
+  "blocking_direct_edit": true,
+  "blocking_publication": true,
+  "owner_hint": "compiler",
+  "status": "open",
+  "resolution_note": "",
+  "resolved_by": "",
+  "resolved_at": ""
+}
+```
+
+Queue states:
+
+- `open`: the checker identified the missing proof and no human resolution has
+  been supplied.
+- `resolved`: a compiler, editor, or wrapper supplied the requested evidence.
+  The wrapper may rerun the affected units or unlock direct edits that now have
+  exact support.
+- `deferred`: the issue is real but not blocking for the selected review mode,
+  such as a light research pass.
+- `waived`: the General Editor or volume editor accepted the risk or chose a
+  house form. Preserve the waiver note in the audit report.
+- `blocked`: the missing proof prevents safe review or publication-ready
+  redline of the affected unit.
+
+Default blocking rules:
+
+| Evidence request | Blocks direct edit by default | Blocks final publication pass by default |
+| --- | --- | --- |
+| `source_image` | yes | yes, if source-note, attachment, marking, handwriting, or marginalia claims depend on it |
+| `archival_path` | yes | yes |
+| `classification_marking` | yes | yes |
+| `attachment_status` | yes | yes when the note asserts attached, not attached, tabbed, enclosed, printed, or not found |
+| `document_number` | yes for cross-reference edits | yes when same-volume or cross-volume references are unstable |
+| `publication_status` | yes for `printed in` or `scheduled for publication` edits | yes for final style if publication language is present |
+| `authority_control` | yes when a date, identity, title, acronym, or index form is uncertain | yes for final style if repeated or reader-facing |
+| `declassification_status` | yes | yes |
+| `translation_status` | yes when language, translation, or foreign-copy identity is asserted | yes when the printed document depends on the claim |
+| `chronology` | yes when time, attendance, or sequence is rewritten | yes when chronology is central to the note |
+| `source_family` | yes when source hierarchy or subseries would be rewritten | no for light review; yes for final style |
+| `cross_reference` | yes | yes when the reference appears in publishable apparatus |
+| `wrapper_safety` | yes | yes for generated `.docx` release until the edit is downgraded or safely anchored |
+
+Owner hints:
+
+- `compiler`: source images, archival path, attachment status, document numbers,
+  source family, chronology, and translation status.
+- `editor`: wording, cross-reference form, source-list consistency,
+  publication-status wording, and General Editor discrepancy preparation.
+- `declassification`: classification markings, declassification outcomes,
+  withholding, excision, and agency-equity language.
+- `wrapper`: exact anchors, existing tracked changes, Word XML structures,
+  tables, fields, comments, footnotes, and export integrity.
+- `general_editor`: recurring style discrepancies, house-form decisions, and
+  waivers of nonfatal variation.
+
+Queue merge rules:
+
+- Merge evidence requests only when they share the same `evidence_request`,
+  `verification_target`, owner hint, and blocking posture.
+- Do not merge requests that point to different source images, target documents,
+  date spans, source-list families, or Word XML structures.
+- When multiple units depend on the same missing proof, keep all representative
+  `unit_ids` so a compiler can revisit every affected annotation after
+  resolution.
+- If a request is resolved, rerun or revalidate only the affected units unless
+  the resolution changes a packet-wide authority form, source-family rule, or
+  publication-status assumption.
+- Count unresolved `blocked` requests separately in the audit report. They are
+  stronger than ordinary comments.
+
 Examples:
 
 Direct replacement is acceptable:
@@ -2179,8 +2267,12 @@ For every extracted unit, run checks in this order:
     in-preparation family is known or can be tentatively inferred.
 12. Check chronology, diary, schedule, and call-log usage.
 13. Check Persons, abbreviations, and index authority issues.
-14. Decide direct edit versus comment-only.
-15. Return strict JSON.
+14. Assign specific evidence requests and verification targets for unresolved
+    proof.
+15. Decide direct edit versus comment-only.
+16. Return strict JSON.
+17. After schema and semantic validation, aggregate all unresolved evidence
+    requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
 
@@ -2743,6 +2835,7 @@ Counts:
 - Comments inserted: [n]
 - LLM edits rejected by validator: [n]
 - Evidence requests by type: [source_image n; archival_path n; classification_marking n; etc.]
+- Evidence queue open/resolved/deferred/waived/blocked: [open n; resolved n; deferred n; waived n; blocked n]
 - Style discrepancies tallied for General Editor: [n]
 - Duplicate findings merged: [n]
 - Cross-chunk conflicts reconciled: [n]
@@ -2754,6 +2847,9 @@ Major issues:
 
 Evidence requests:
 - [unit_id]: [evidence_request] - [verification_target]
+
+Blocking evidence queue:
+- [request_id]: [evidence_request] - [verification_target] - owner [hint] - status [state]
 
 Publication-status warnings:
 - [unit_id or global]: [status issue] - [registry target]
@@ -2777,6 +2873,9 @@ Minimum components:
   tables, headings, and tracked changes.
 - LLM prompt runner with this Markdown standard loaded.
 - JSON schema validator for `checker-output-v1`.
+- Evidence-request queue builder that groups missing proof by type,
+  verification target, owner hint, and blocking state before tracked changes are
+  applied.
 - WordprocessingML edit applier that can create real tracked insertions,
   deletions, and comments.
 - Offline context-bundle loader with status, authority, source-family, and
@@ -2807,6 +2906,8 @@ Operational cautions:
 - Preserve evidence-request counts so reviewers can see whether a packet is
   blocked mainly by source images, archival paths, classification markings,
   declassification outcomes, authority control, or Word-wrapper safety.
+- Preserve the evidence-request queue so unresolved `blocked` requests cannot be
+  mistaken for ordinary optional comments.
 - Do not allow the LLM to access the open internet on the closed network. Any
   public-source learning must enter through a dated context bundle.
 - Do not treat the checker as a declassification authority.
