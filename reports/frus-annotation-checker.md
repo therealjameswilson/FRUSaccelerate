@@ -253,6 +253,12 @@ The wrapper should provide the LLM with:
   including exact official title, administration, production stage, release
   bucket, listed chapter or subitem labels, likely volume family, source URL,
   capture date, and wrapper match confidence for the uploaded sheet.
+- `status_snapshot_integrity_context`, if available: parser diagnostics for the
+  official status-page capture, including raw capture date, parser version,
+  source hash or archive id, stage headings found, 1981-1992 row counts by
+  stage, anticipated-release overlays, nested chapter/subitem counts, excluded
+  non-1981-1992 rows, and whether the parser detected truncation, duplicate
+  titles, title-number conflicts, or missing official URLs.
 - `status_claims_context`, if available: wrapper-extracted phrases from the
   uploaded Word file that assert or imply publication status, such as
   `forthcoming`, `scheduled for publication`, `planned for publication`,
@@ -9662,6 +9668,7 @@ Suggested tally format:
 | style-discrepancy-0031 | volume_preparation_scope | How much published-pattern transfer detail should appear when a recent Reagan volume is used to calibrate a planned Bush volume. | Published pattern cited only in audit as source-family/style control; short Word comment asking for Bush-specific source basis; fuller General Editor note comparing transferable and non-transferable pattern elements | 2 | medium | Should the checker include published-pattern transfer cautions in the annotation sheet itself, or keep them in the audit unless a direct source-note risk appears? |
 | style-discrepancy-0032 | volume_preparation_scope | How much START I published-pattern context should be carried into related Bush arms-control, Soviet/Russia, European-security, and national-security sheets. | START I pattern retained in audit only; short Word comment for target-lane confirmation; full General Editor ledger entry when START-adjacent context affects cross-volume style | 2 | high | Should the checker enforce a standard form for START-adjacent transfer cautions, or leave them as audit/General Editor questions unless the annotation text makes a wrong source or treaty claim? |
 | style-discrepancy-0033 | wrapper | Whether the redline wrapper should preserve unresolved tracked changes, convert pseudo-markers before redline, or fall back to comments-only when complex WordprocessingML boundaries are present. | Preserve existing revisions and block overlaps; accept/reject existing revisions before checker run; map pseudo-markers before review; downgrade complex field/bookmark/note/comment/table boundaries to comments-only | 2 | high | Should the closed-network checker enforce a single pre-redline cleanup policy for unresolved revisions and pseudo-markers, or preserve multiple safe wrapper modes for General Editor decision? |
+| style-discrepancy-0034 | publication_status | Whether status-page parser-integrity counts should be treated as a hard gate for all cross-volume publication language or only for direct redlines that change publication wording. | Treat any incomplete status snapshot as a global blocker; allow source-note edits while blocking only publication-status changes; allow comments with stale registry but require fresh capture for final style | 2 | high | Should the checker enforce status-snapshot completeness as a packet-level gate, or only as a gate for publication-status and cross-volume wording? |
 
 For the separate running ledger, add these columns or equivalent structured
 fields:
@@ -10089,6 +10096,24 @@ Recommended compact 1981-1992 status registry:
   "captured_at": "2026-06-03",
   "source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
   "scope": "1981-1992 Reagan and George H.W. Bush volumes on the official status page",
+  "snapshot_integrity": {
+    "stage_headings_seen": [
+      "Published in 2025",
+      "Anticipated in 2026",
+      "Being Cleared",
+      "Being Researched",
+      "Planned"
+    ],
+    "relevant_1981_1992_counts": {
+      "published_2025_pattern_evidence": 2,
+      "anticipated_2026_overlay": 2,
+      "being_cleared": 46,
+      "being_researched": 23,
+      "planned": 2
+    },
+    "nested_subitem_overlays_seen": 1,
+    "parser_status": "complete_current_capture"
+  },
   "published_2025_pattern_evidence": [
     "1981-1988, Volume XLIV, Part 1, National Security Policy, 1985-1988",
     "1989-1992, Volume XXXI, START I, 1989-1991"
@@ -10221,8 +10246,41 @@ Use this compact registry as a routing and risk-control aid. It should not be
 quoted inside source notes, and it must be replaced by a fresh capture if the
 official page changes.
 
+Status-snapshot integrity rules:
+
+- The wrapper must prove that the status registry was parsed from a complete
+  official capture, not from a clipped browser excerpt, search result, cached
+  prose summary, or LLM recollection.
+- Preserve the public headings that organize the capture: current/previous
+  published releases, anticipated releases, chapters outstanding, and Volumes
+  in Progress with `Being Cleared`, `Being Researched`, and `Planned`.
+- For the June 3, 2026 status-page capture, the relevant 1981-1992 matrix
+  contains 2 published-2025 pattern volumes, 2 anticipated-2026 Reagan overlays,
+  46 relevant `Being Cleared` entries, 23 relevant `Being Researched` entries,
+  and 2 relevant planned Bush entries. These counts are a parser-integrity
+  check, not a permanent style rule.
+- If a future official capture changes any count, the wrapper should accept the
+  new count only when it records a fresh capture date, source URL, parser
+  version, and a short change note. Otherwise mark the `status_registry` gate
+  `warning` or `fail`, depending on whether publication-status redlines depend
+  on the missing rows.
+- Count parent volume rows separately from chapter or subitem overlays. For
+  example, a country chapter or subitem can carry an anticipated-release overlay
+  without making every sibling chapter, or the whole volume, anticipated for the
+  same release bucket.
+- Retain excluded rows in parser diagnostics when they are outside the
+  1981-1992 Reagan/Bush scope. This prevents a parser from silently skipping
+  headings or table blocks before it reaches the relevant period.
+- If the parser sees a title-number conflict, duplicate title, missing official
+  URL, or nested list whose parent cannot be identified, block direct edits to
+  publication-status language and insert a status-snapshot integrity comment.
+
 Status-registry preflight checks:
 
+- Before matching uploaded sheets, compare `status_registry_context` against
+  `status_snapshot_integrity_context`. If the registry omits a stage heading,
+  stage row, or nested overlay reported by the parser, do not treat the compact
+  registry as authoritative for direct status redlines.
 - Before a normal or exhaustive run, build a per-packet preparation matrix:
   target volume, administration, volume family, production stage, release
   bucket, chapter/subitem label, uploaded sheet type, match confidence, and any
@@ -11299,6 +11357,9 @@ Counts:
 - Status claims extracted from uploaded Word file: [n]
 - Status claims matching current registry: [n]
 - Status claims stale, conflicting, or downgraded to comment-only: [n]
+- Status snapshot integrity checks passed/warned/failed: [pass n; warning n; fail n]
+- Status-page rows captured by stage for 1981-1992 scope: [published_2025 n; anticipated_2026 n; being_cleared n; being_researched n; planned n]
+- Nested chapter/subitem overlays preserved or unmapped: [preserved n; unmapped n]
 - In-preparation volume targets checked: [n]
 - Volume-stage, volume-family, title-number, or chapter/subitem routing conflicts: [n]
 - Chapter/subitem release overlays preserved without whole-volume inference: [n]
@@ -11349,6 +11410,9 @@ Publication-status warnings:
 
 Status-claim reconciliation warnings:
 - [unit_id or global]: [uploaded phrase] - [matched target] - [registry stage/release bucket] - [recommended posture]
+
+Status-snapshot integrity warnings:
+- [unit_id or global]: [stage heading, row count, nested overlay, duplicate title, missing URL, title-number conflict, parser truncation, or stale capture issue] - [expected or supplied parser evidence] - [recommended posture]
 
 Volume-preparation routing warnings:
 - [unit_id or global]: [uploaded sheet target or phrase] - [matched volume/stage/family or unmapped target] - [chapter/subitem overlay if any] - [recommended posture]
@@ -11669,6 +11733,11 @@ Minimum components:
 - Status-registry validator that preserves production stage, release bucket,
   capture date, official URL, and cross-referenced volume targets before the
   LLM review begins.
+- Status-snapshot integrity validator that checks official capture completeness,
+  parser version, source hash or archive id, stage headings, 1981-1992 row
+  counts, nested chapter/subitem overlays, duplicate titles, title-number
+  conflicts, missing URLs, and excluded non-scope rows before status-dependent
+  tracked changes are applied.
 - Chunker and reconciliation layer for long `.docx` packets.
 - Export step that writes a new `.docx`.
 
