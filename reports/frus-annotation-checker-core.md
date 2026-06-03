@@ -22,6 +22,8 @@ For source-note component diagnostics, run
 `node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json`.
 For production pseudo-marker boundary checks, run
 `node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json`.
+For unresolved proof tracking, run
+`node scripts/build-frus-evidence-queue.mjs --output reports/frus-annotation-checker-sample-output.json --review-mode normal`.
 
 ## 1. System Role
 
@@ -102,6 +104,9 @@ The wrapper should provide:
   maps them to Word formatting.
 - `style_discrepancy_ledger_context`: running General Editor ledger when
   available.
+- `evidence_queue_context`: unresolved proof requests grouped by
+  `evidence_request`, `verification_target`, owner hint, and blocking posture
+  when available.
 
 If evidence is missing, use `comment_only`. Do not invent it.
 

@@ -35,6 +35,10 @@ For production pseudo-marker boundary checks, use
 `scripts/preflight-frus-pseudo-markers.mjs` with
 `reports/frus-pseudo-marker-units.sample.json` and
 `reports/frus-pseudo-marker-safe-output.sample.json`.
+For unresolved proof tracking, use
+`scripts/build-frus-evidence-queue.mjs` with
+`reports/frus-annotation-checker-sample-output.json`; the expected sample queue
+is `reports/frus-evidence-queue.sample.json`.
 
 The intended workflow is:
 
@@ -11796,6 +11800,9 @@ Minimum components:
   `scripts/preflight-frus-pseudo-markers.mjs`,
   `reports/frus-pseudo-marker-units.sample.json`, and
   `reports/frus-pseudo-marker-safe-output.sample.json`.
+- No-dependency evidence-request queue builder and fixture:
+  `scripts/build-frus-evidence-queue.mjs` and
+  `reports/frus-evidence-queue.sample.json`.
 - Spellcheck rule-id validator that rejects unknown `rule_id` values, counts
   findings by rule, flags excessive `FAS-GEN-000` fallback use, and preserves
   rule-id tallies in the audit report before tracked changes are applied.

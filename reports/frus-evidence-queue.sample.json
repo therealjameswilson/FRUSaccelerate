@@ -1,0 +1,52 @@
+{
+  "schema_version": "frus-evidence-queue-v1",
+  "source_schema_version": "checker-output-v1",
+  "document_status": "pass_with_comments",
+  "readiness_status": "comment_only_review",
+  "safe_to_apply_tracked_changes": false,
+  "summary": {
+    "schema_version": "frus-evidence-queue-v1",
+    "review_mode": "normal",
+    "checks_scanned": 2,
+    "evidence_requests_found": 1,
+    "queue_items": 1,
+    "blocking_direct_edit": 1,
+    "blocking_publication": 1,
+    "by_evidence_request": {
+      "archival_path": 1
+    },
+    "by_owner_hint": {
+      "compiler": 1
+    }
+  },
+  "queue": [
+    {
+      "request_id": "evidence-request-0001",
+      "unit_ids": [
+        "source-note-0001"
+      ],
+      "evidence_request": "archival_path",
+      "verification_target": "Repository, collection, series, folder, file, or selected published source for source-note-0001",
+      "blocking_direct_edit": true,
+      "blocking_publication": true,
+      "owner_hint": "compiler",
+      "status": "open",
+      "resolution_note": "",
+      "resolved_by": "",
+      "resolved_at": "",
+      "rule_ids": [
+        "FAS-SN-002"
+      ],
+      "categories": [
+        "source_note"
+      ],
+      "highest_severity": "major",
+      "check_indexes": [
+        0
+      ],
+      "representative_findings": [
+        "The source note leads with a discovery URL instead of a controlling repository or selected published source."
+      ]
+    }
+  ]
+}
