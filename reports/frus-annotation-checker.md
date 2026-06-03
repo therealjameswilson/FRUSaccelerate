@@ -37,6 +37,13 @@ For per-document review coverage, use
 `scripts/audit-frus-review-coverage.mjs`; the self-contained smoke test is
 `scripts/test-frus-review-coverage-audit.mjs`, and the sample coverage report
 is `reports/frus-review-coverage.sample.json`.
+For authority-control validation, use
+`scripts/validate-frus-authority-registry.mjs` and
+`scripts/audit-frus-authority-usage.mjs` with
+`reports/frus-authority-registry.sample.json` and
+`reports/frus-authority-units.sample.json`; the self-contained smoke test is
+`scripts/test-frus-authority-audit.mjs`, and the sample audit report is
+`reports/frus-authority-audit.sample.json`.
 For no-dependency closed-network smoke tests, use
 `scripts/validate-frus-checker-output.mjs` against
 `reports/frus-annotation-checker-sample-output.json`.
@@ -101,14 +108,16 @@ The intended workflow is:
    source notes, editorial notes, or draft front/back matter.
 3. The tool extracts the Word document into structured text.
 4. The tool builds `review-packet.md` from this standard, the extracted units,
-   the output schema, status context, preparation router, and permutation
-   matrix.
+   the output schema, status context, authority registry, preparation router,
+   and permutation matrix.
 5. If the model cannot fit the whole packet, the tool builds numbered chunk
    packets and merges chunk outputs through the chunk-reconciliation gate.
 6. The LLM checks the packet against the standards below.
 7. The LLM returns structured proposed edits and comments.
-8. The Word wrapper applies the proposed edits as tracked changes and comments.
-9. User downloads a new `.docx` with changes marked in Track Changes.
+8. The Word wrapper validates exact anchors, evidence basis, status context,
+   authority-control context, and Word safety.
+9. The Word wrapper applies the proposed edits as tracked changes and comments.
+10. User downloads a new `.docx` with changes marked in Track Changes.
 
 Important limitation: the LLM should not be trusted to write `.docx` files
 directly. The LLM should return a strict edit plan. The wrapper must create the
@@ -11889,6 +11898,14 @@ Minimum components:
   `scripts/preflight-frus-status-claims.mjs`,
   `reports/frus-status-registry-1981-1992.sample.json`, and
   `reports/frus-status-claims.sample.json`.
+- No-dependency authority-registry validator, usage audit, and fixtures:
+  `scripts/validate-frus-authority-registry.mjs`,
+  `scripts/audit-frus-authority-usage.mjs`,
+  `reports/frus-authority-registry.sample.json`,
+  `reports/frus-authority-units.sample.json`, and
+  `reports/frus-authority-audit.sample.json`. The audit flags variant,
+  cross-volume, unverified, and unmatched authority forms and fails direct
+  authority-control edits that lack supplied registry support.
 - No-dependency source-note component linter and fixture:
   `scripts/lint-frus-source-notes.mjs` and
   `reports/frus-source-note-units.sample.json`.
@@ -11928,13 +11945,13 @@ Minimum components:
   readability, XML tag balance, and output counts before the revised `.docx` is
   released. Optional render/open validation should still run where the closed
   network provides Word, LibreOffice, or Open XML SDK validation.
-- Offline context-bundle loader with status, authority, source-family, and
-  provenance metadata.
-- Authority-registry validator that reconciles Persons, abbreviations,
-  repository/source-list forms, chapter labels, document numbers, and index
-  terms; preserves date-bounded titles, variant names, acronym capitalization,
-  term expansions, public-source titles, and index behavior before track
-  changes are applied.
+- Offline context-bundle loader with source-family and provenance metadata
+  beyond the currently wired status, authority, router, and permutation-matrix
+  contexts.
+- Fuller source-list/front-matter authority registry that expands the current
+  Persons, Abbreviations and Terms, and index sample into target-volume
+  repository/source-list forms, chapter labels, document numbers, public-source
+  titles, and local source-family aliases.
 - Document-metadata validator that checks document headings, datelines,
   internal document numbers, subject/title lines, public-title lines, captions,
   sender/recipient offices, and source-note linkage before tracked changes are

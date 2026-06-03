@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--status-registry registry.json] [--status-claims claims.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -32,6 +32,7 @@ function parseArgs(argv) {
   let schemaPath = "reports/frus-annotation-checker-output.schema.json";
   let statusRegistryPath = null;
   let statusClaimsPath = null;
+  let authorityRegistryPath = null;
   let preparationRouterPath = null;
   let permutationMatrixPath = null;
   let targetVolume = "";
@@ -59,6 +60,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--status-claims") {
       statusClaimsPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--authority-registry") {
+      authorityRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--preparation-router") {
       preparationRouterPath = argv[index + 1];
@@ -105,6 +109,7 @@ function parseArgs(argv) {
     schemaPath,
     statusRegistryPath,
     statusClaimsPath,
+    authorityRegistryPath,
     preparationRouterPath,
     permutationMatrixPath,
     targetVolume,
@@ -209,7 +214,33 @@ function subsetStatusClaims(statusClaims, unitIds) {
   };
 }
 
-function renderPacket({ chunk, manifest, guide, schema, statusRegistry, statusClaims, router, matrix }) {
+function compactAuthorityRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  return {
+    schema_version: registry.schema_version,
+    authority_registry_id: registry.authority_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [],
+    records: records.map((record) => ({
+      authority_item_id: record.authority_item_id,
+      authority_type: record.authority_type,
+      volume_id: record.volume_id,
+      approved_display_form: record.approved_display_form,
+      variant_forms: record.variant_forms || [],
+      role_or_expansion: record.role_or_expansion,
+      date_span: record.date_span,
+      index_or_front_matter_behavior: record.index_or_front_matter_behavior,
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
+function renderPacket({ chunk, manifest, guide, schema, statusRegistry, statusClaims, authorityRegistry, router, matrix }) {
   const chunkUnitsDocument = {
     schema_version: "frus-extracted-units-v1",
     source: `Chunk ${chunk.chunk_id} extracted units from ${manifest.source_files.units}`,
@@ -262,6 +293,10 @@ function renderPacket({ chunk, manifest, guide, schema, statusRegistry, statusCl
     "",
     fencedJson(statusRegistry || {}),
     "",
+    "## Authority Registry Context",
+    "",
+    fencedJson(authorityRegistry || {}),
+    "",
     "## Preparation Router Context",
     "",
     fencedJson(router || {}),
@@ -285,8 +320,10 @@ function buildChunks(options) {
   const schema = readJson(options.schemaPath);
   const statusRegistry = options.statusRegistryPath ? readJson(options.statusRegistryPath) : null;
   const statusClaims = options.statusClaimsPath ? readJson(options.statusClaimsPath) : null;
+  const authorityRegistry = options.authorityRegistryPath ? readJson(options.authorityRegistryPath) : null;
   const router = options.preparationRouterPath ? readJson(options.preparationRouterPath) : null;
   const matrix = options.permutationMatrixPath ? readJson(options.permutationMatrixPath) : null;
+  const authorityRegistryContext = compactAuthorityRegistry(authorityRegistry, options.targetVolume);
   const unitChunks = chunkUnits(unitsDocument.units, options.maxUnits, options.maxChars);
 
   fs.mkdirSync(options.outDir, { recursive: true });
@@ -302,6 +339,7 @@ function buildChunks(options) {
       schema: normalizePathForOutput(options.schemaPath),
       status_registry: options.statusRegistryPath ? normalizePathForOutput(options.statusRegistryPath) : "",
       status_claims: options.statusClaimsPath ? normalizePathForOutput(options.statusClaimsPath) : "",
+      authority_registry: options.authorityRegistryPath ? normalizePathForOutput(options.authorityRegistryPath) : "",
       preparation_router: options.preparationRouterPath ? normalizePathForOutput(options.preparationRouterPath) : "",
       permutation_matrix: options.permutationMatrixPath ? normalizePathForOutput(options.permutationMatrixPath) : ""
     },
@@ -311,7 +349,8 @@ function buildChunks(options) {
     },
     summary: {
       units_total: unitsDocument.units.length,
-      reviewable_units: unitsDocument.units.filter(reviewRequired).length
+      reviewable_units: unitsDocument.units.filter(reviewRequired).length,
+      authority_registry_records: authorityRegistry?.records?.length || 0
     },
     chunks: []
   };
@@ -339,7 +378,20 @@ function buildChunks(options) {
       path.join(options.outDir, `${chunkId}-units.json`),
       `${JSON.stringify({ schema_version: "frus-extracted-units-v1", source: `${chunkId} units`, units }, null, 2)}\n`
     );
-    fs.writeFileSync(path.join(options.outDir, `${chunkId}-review-packet.md`), renderPacket({ chunk, manifest, guide, schema, statusRegistry, statusClaims, router, matrix }));
+    fs.writeFileSync(
+      path.join(options.outDir, `${chunkId}-review-packet.md`),
+      renderPacket({
+        chunk,
+        manifest,
+        guide,
+        schema,
+        statusRegistry,
+        statusClaims,
+        authorityRegistry: authorityRegistryContext,
+        router,
+        matrix
+      })
+    );
   });
 
   fs.writeFileSync(path.join(options.outDir, "chunk-manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);

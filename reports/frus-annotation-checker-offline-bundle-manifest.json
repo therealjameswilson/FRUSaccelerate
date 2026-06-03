@@ -116,6 +116,18 @@
       "role": "Status registry count and integrity validator"
     },
     {
+      "path": "scripts/validate-frus-authority-registry.mjs",
+      "role": "Persons, Abbreviations and Terms, Source List/front matter, and index authority registry validator"
+    },
+    {
+      "path": "scripts/audit-frus-authority-usage.mjs",
+      "role": "Authority-control usage audit for extracted Word units and checker direct-edit safety"
+    },
+    {
+      "path": "scripts/test-frus-authority-audit.mjs",
+      "role": "Self-contained authority registry and usage audit smoke test"
+    },
+    {
       "path": "scripts/validate-frus-preparation-router.mjs",
       "role": "1981-1992 volume-family and preparation-router validator"
     },
@@ -158,6 +170,9 @@
     "reports/frus-status-registry-1981-1992.sample.json",
     "reports/frus-status-claim-units.sample.json",
     "reports/frus-status-claims.sample.json",
+    "reports/frus-authority-registry.sample.json",
+    "reports/frus-authority-units.sample.json",
+    "reports/frus-authority-audit.sample.json",
     "reports/frus-source-note-units.sample.json",
     "reports/frus-pseudo-marker-units.sample.json",
     "reports/frus-pseudo-marker-safe-output.sample.json",
@@ -175,6 +190,10 @@
     {
       "path": "reports/frus-preparation-router-1981-1992.current.json",
       "role": "Current 1981-1992 volume-family and stage-posture router"
+    },
+    {
+      "path": "reports/frus-authority-registry.sample.json",
+      "role": "Published Persons and Abbreviations/Terms authority-control sample for Reagan and George H.W. Bush fixtures"
     },
     {
       "path": "reports/frus-annotation-permutation-matrix.json",
@@ -201,6 +220,9 @@
     "node scripts/extract-frus-status-claims.mjs --units reports/frus-status-claim-units.sample.json --registry reports/frus-status-series-1981-1992.current.json --format text",
     "node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-registry-1981-1992.sample.json --claims reports/frus-status-claims.sample.json --today 2026-06-03",
     "node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-series-1981-1992.current.json --claims reports/frus-status-claims.sample.json --today 2026-06-03",
+    "node scripts/validate-frus-authority-registry.mjs --registry reports/frus-authority-registry.sample.json --format text",
+    "node scripts/audit-frus-authority-usage.mjs --units reports/frus-authority-units.sample.json --registry reports/frus-authority-registry.sample.json --target-volume frus1989-92v31 --format text",
+    "node scripts/test-frus-authority-audit.mjs",
     "node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json",
     "node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json",
     "node scripts/build-frus-evidence-queue.mjs --output reports/frus-annotation-checker-sample-output.json --review-mode normal --format text",
@@ -210,6 +232,8 @@
     "Change a direct-edit original_text so it is missing from exact_text; preflight-frus-checker-plan.mjs must fail.",
     "Change a status claim to direct-edit `printed in` for a target still being cleared; preflight-frus-status-claims.mjs must fail.",
     "Give extract-frus-status-claims.mjs status text with a direct publication-status edit but no exact target; preflight-frus-status-claims.mjs must fail.",
+    "Give audit-frus-authority-usage.mjs an authority-control direct edit for a cross-volume or variant Persons form; it must fail.",
+    "Give validate-frus-authority-registry.mjs a duplicate authority_item_id or malformed authority-registry schema; it must fail.",
     "Give build-frus-llm-review-packet.mjs a malformed extracted-units file; it must fail before producing a model packet.",
     "Make a chunk output reference a unit assigned to another chunk; merge-frus-checker-chunks.mjs must fail.",
     "Point audit-frus-review-coverage.mjs at checker output with an unknown unit id; it must fail.",

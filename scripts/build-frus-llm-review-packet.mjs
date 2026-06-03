@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--status-registry registry.json] [--status-claims claims.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -18,6 +18,7 @@ function parseArgs(argv) {
   let schemaPath = "reports/frus-annotation-checker-output.schema.json";
   let statusRegistryPath = null;
   let statusClaimsPath = null;
+  let authorityRegistryPath = null;
   let preparationRouterPath = null;
   let permutationMatrixPath = null;
   let targetVolume = "";
@@ -41,6 +42,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--status-claims") {
       statusClaimsPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--authority-registry") {
+      authorityRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--preparation-router") {
       preparationRouterPath = argv[index + 1];
@@ -75,6 +79,7 @@ function parseArgs(argv) {
     schemaPath,
     statusRegistryPath,
     statusClaimsPath,
+    authorityRegistryPath,
     preparationRouterPath,
     permutationMatrixPath,
     targetVolume,
@@ -229,6 +234,33 @@ function compactPermutationMatrix(matrix) {
   };
 }
 
+function compactAuthorityRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    authority_registry_id: registry.authority_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      authority_item_id: record.authority_item_id,
+      authority_type: record.authority_type,
+      volume_id: record.volume_id,
+      approved_display_form: record.approved_display_form,
+      variant_forms: record.variant_forms || [],
+      role_or_expansion: record.role_or_expansion,
+      date_span: record.date_span,
+      index_or_front_matter_behavior: record.index_or_front_matter_behavior,
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function buildPacket(options) {
   const guideMarkdown = readText(options.guidePath, options.guidePath);
   const schema = readJson(options.schemaPath, options.schemaPath);
@@ -240,6 +272,9 @@ function buildPacket(options) {
 
   const statusRegistry = options.statusRegistryPath ? readJson(options.statusRegistryPath, options.statusRegistryPath) : null;
   const statusClaims = options.statusClaimsPath ? readJson(options.statusClaimsPath, options.statusClaimsPath) : null;
+  const authorityRegistry = options.authorityRegistryPath
+    ? readJson(options.authorityRegistryPath, options.authorityRegistryPath)
+    : null;
   const preparationRouter = options.preparationRouterPath
     ? readJson(options.preparationRouterPath, options.preparationRouterPath)
     : null;
@@ -258,6 +293,7 @@ function buildPacket(options) {
       units: normalizePathForOutput(options.unitsPath),
       status_registry: options.statusRegistryPath ? normalizePathForOutput(options.statusRegistryPath) : "",
       status_claims: options.statusClaimsPath ? normalizePathForOutput(options.statusClaimsPath) : "",
+      authority_registry: options.authorityRegistryPath ? normalizePathForOutput(options.authorityRegistryPath) : "",
       preparation_router: options.preparationRouterPath ? normalizePathForOutput(options.preparationRouterPath) : "",
       permutation_matrix: options.permutationMatrixPath ? normalizePathForOutput(options.permutationMatrixPath) : ""
     },
@@ -282,6 +318,7 @@ function buildPacket(options) {
       output_schema: schemaSummary(schema),
       status_registry_entries: statusRegistry?.entries?.length || 0,
       status_claims: statusClaims?.claims?.length || 0,
+      authority_registry_records: authorityRegistry?.records?.length || 0,
       preparation_routes: preparationRouter?.routes?.length || 0,
       matrix_categories: permutationMatrix?.category_policies?.length || 0,
       matrix_evidence_requests: permutationMatrix?.evidence_request_policies?.length || 0
@@ -292,6 +329,7 @@ function buildPacket(options) {
     contexts: {
       status_registry: compactStatusRegistry(statusRegistry, options.targetVolume),
       status_claims: statusClaims || null,
+      authority_registry: compactAuthorityRegistry(authorityRegistry, options.targetVolume),
       preparation_router: compactRouter(preparationRouter, options.targetVolume),
       permutation_matrix: compactPermutationMatrix(permutationMatrix)
     }
@@ -354,6 +392,12 @@ function renderMarkdown(packet) {
     "These are deterministic wrapper-extracted publication-status phrases. Use them to avoid silently missing status drift; do not treat them as provenance.",
     "",
     fencedJson(packet.contexts.status_claims || {}),
+    "",
+    "## Authority Registry Context",
+    "",
+    "Use this to check volume-specific Persons, Abbreviations and Terms, Source List/front matter, document-number, public-title, and index forms. Treat cross-volume or variant forms as comment-only unless the registry proves the direct edit.",
+    "",
+    fencedJson(packet.contexts.authority_registry || {}),
     "",
     "## Preparation Router Context",
     "",

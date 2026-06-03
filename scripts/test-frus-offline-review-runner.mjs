@@ -193,10 +193,14 @@ try {
       "2026-06-03T00:00:00.000Z",
       "--status-registry",
       "reports/frus-status-series-1981-1992.current.json",
+      "--authority-registry",
+      "reports/frus-authority-registry.sample.json",
       "--preparation-router",
       "reports/frus-preparation-router-1981-1992.current.json",
       "--permutation-matrix",
       "reports/frus-annotation-permutation-matrix.json",
+      "--target-volume",
+      "frus1989-92v31",
       "--today",
       "2026-06-03",
       "--format",
@@ -222,6 +226,9 @@ try {
   assert(audit.counts.discrepancy_ledger_items === 1, "expected one discrepancy ledger item");
   assert(audit.counts.source_note_lint_diagnostics === 1, "expected one source-note lint diagnostic");
   assert(audit.counts.status_claims_extracted === 0, "expected zero extracted status claims");
+  assert(audit.counts.authority_registry_usages === 0, "expected zero authority registry usages");
+  assert(audit.counts.authority_registry_warnings === 0, "expected zero authority registry warnings");
+  assert(audit.counts.authority_direct_edit_conflicts === 0, "expected zero authority direct-edit conflicts");
   assert(audit.counts.review_coverage_unreviewed_units === 0, "expected no unreviewed reviewable units");
 
   for (const artifact of [
@@ -232,6 +239,8 @@ try {
     "status-claims.json",
     "status-claims-preflight.txt",
     "status-registry-validation.json",
+    "authority-registry-validation.json",
+    "authority-usage-audit.json",
     "preparation-router-validation.json",
     "permutation-matrix-validation.json",
     "evidence-queue.json",
@@ -247,6 +256,8 @@ try {
   const validation = JSON.parse(fs.readFileSync(path.join(artifactDir, "output-validation.json"), "utf8"));
   assert(validation.status === "pass", "expected output validation artifact to pass");
   assert(audit.reports.status_registry_validation.status === "pass", "expected status registry validation report");
+  assert(audit.reports.authority_registry_validation.summary.records === 8, "expected authority registry validation report");
+  assert(audit.reports.authority_usage_audit.status === "pass", "expected authority usage audit report");
   assert(audit.reports.status_claims_extraction.summary.claims_found === 0, "expected status claim extraction report");
   assert(audit.reports.preparation_router_validation.status === "pass", "expected preparation router validation report");
   assert(audit.reports.permutation_matrix_validation.status === "pass", "expected permutation matrix validation report");
@@ -260,7 +271,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority audit, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

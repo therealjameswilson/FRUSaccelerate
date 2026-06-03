@@ -1,0 +1,135 @@
+{
+  "schema_version": "frus-authority-registry-v1",
+  "authority_registry_id": "frus-1981-1992-authority-control-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/persons",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/terms",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/persons",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/terms"
+  ],
+  "scope": "Sample authority-control registry for validating Persons and Abbreviations/Terms usage in Reagan and George H.W. Bush FRUS annotation sheets.",
+  "records": [
+    {
+      "authority_item_id": "person-bush-ghw-v31",
+      "authority_type": "person",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "Bush, George Herbert Walker",
+      "variant_forms": [
+        "George H.W. Bush",
+        "President Bush",
+        "Bush, George H.W."
+      ],
+      "role_or_expansion": "Vice President of the United States until January 1989; President of the United States from January 20, 1989",
+      "date_span": "through January 1989; from January 20, 1989",
+      "index_or_front_matter_behavior": "Persons entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/persons",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "person-bush-ghw-v44p1",
+      "authority_type": "person",
+      "volume_id": "frus1981-88v44p1",
+      "approved_display_form": "Bush, George H.W.",
+      "variant_forms": [
+        "Bush, George Herbert Walker",
+        "Vice President Bush"
+      ],
+      "role_or_expansion": "Vice President of the United States",
+      "date_span": "1985-1988 volume context",
+      "index_or_front_matter_behavior": "Persons entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/persons",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "person-baker-v31",
+      "authority_type": "person",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "Baker, James Addison, III",
+      "variant_forms": [
+        "James Baker",
+        "Baker, James A., III"
+      ],
+      "role_or_expansion": "Secretary of State from January 25, 1989",
+      "date_span": "from January 25, 1989",
+      "index_or_front_matter_behavior": "Persons entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/persons",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "term-start-v31",
+      "authority_type": "term",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "START",
+      "variant_forms": [
+        "Strategic Arms Reduction Talks",
+        "Strategic Arms Reduction Treaty"
+      ],
+      "role_or_expansion": "Strategic Arms Reduction Talks; Strategic Arms Reduction Treaty",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "Abbreviations and Terms entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/terms",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "term-cob-v31",
+      "authority_type": "abbreviation",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "COB",
+      "variant_forms": [
+        "close of business"
+      ],
+      "role_or_expansion": "close of business",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "Abbreviations and Terms entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/terms",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "term-cob-v44p1",
+      "authority_type": "abbreviation",
+      "volume_id": "frus1981-88v44p1",
+      "approved_display_form": "COB or C.O.B.",
+      "variant_forms": [
+        "COB",
+        "C.O.B.",
+        "Close of Business"
+      ],
+      "role_or_expansion": "Close of Business",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "Abbreviations and Terms entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/terms",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "term-secdef-v31",
+      "authority_type": "abbreviation",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "SECDEF",
+      "variant_forms": [
+        "SecDef",
+        "Secretary of Defense"
+      ],
+      "role_or_expansion": "Secretary of Defense",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "Abbreviations and Terms entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/terms",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "index-rule-v31",
+      "authority_type": "index_entry",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "index numbers refer to document numbers",
+      "variant_forms": [
+        "page numbers",
+        "document numbers"
+      ],
+      "role_or_expansion": "Index references use document numbers rather than page numbers",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "About the Series index rule",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries",
+      "verification_status": "verified_published_pattern"
+    }
+  ]
+}

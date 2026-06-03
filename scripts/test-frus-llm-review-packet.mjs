@@ -33,6 +33,8 @@ try {
     "reports/frus-status-series-1981-1992.current.json",
     "--status-claims",
     "reports/frus-status-claims.sample.json",
+    "--authority-registry",
+    "reports/frus-authority-registry.sample.json",
     "--preparation-router",
     "reports/frus-preparation-router-1981-1992.current.json",
     "--permutation-matrix",
@@ -58,6 +60,8 @@ try {
   assert(markdown.includes("frus1989-92v31"), "expected target volume context");
   assert(markdown.includes("Extracted Status Claims"), "expected status claims section");
   assert(markdown.includes("status-claim-0001"), "expected status claim context");
+  assert(markdown.includes("Authority Registry Context"), "expected authority registry section");
+  assert(markdown.includes("Bush, George Herbert Walker"), "expected authority registry content");
   assert(markdown.includes("style_discrepancy_tally"), "expected General Editor discrepancy field");
   assert(markdown.includes("Permutation Matrix Context"), "expected permutation matrix section");
 
@@ -75,6 +79,8 @@ try {
   assert(packet.contexts.status_registry.entries.length === 74, "expected current status entries");
   assert(packet.contexts.status_registry.target_volume.entry_id === "frus1989-92v31", "expected target status entry");
   assert(packet.contexts.status_claims.claims.length === 4, "expected extracted status claims");
+  assert(packet.contexts.authority_registry.records.length === 8, "expected authority registry records");
+  assert(packet.contexts.authority_registry.target_records.length > 0, "expected target authority records");
   assert(packet.contexts.preparation_router.routes.length === 74, "expected preparation routes");
   assert(packet.contexts.permutation_matrix.category_policies.length > 0, "expected matrix categories");
   assert(packet.packet_summary.output_schema.categories.includes("source_note"), "expected source_note category");
@@ -85,7 +91,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, status, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, status, authority, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

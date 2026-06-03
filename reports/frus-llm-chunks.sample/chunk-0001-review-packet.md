@@ -1,6 +1,6 @@
 # FRUS Annotation Review Packet Chunk
 
-- run_id: sample-chunk-packets
+- run_id: sample-llm-chunks
 - chunk_id: chunk-0001
 - chunk_index: 1
 - chunk_count: 2
@@ -16,7 +16,7 @@ Do not include units outside this chunk. Do not claim to edit the Word file dire
 ```json
 {
   "schema_version": "frus-llm-review-chunk-v1",
-  "run_id": "sample-chunk-packets",
+  "run_id": "sample-llm-chunks",
   "chunk_id": "chunk-0001",
   "chunk_index": 1,
   "chunk_count": 2,
@@ -51,12 +51,18 @@ For no-dependency DOCX unit extraction, run
 `node scripts/extract-frus-docx-units.mjs --docx input.docx --out extracted-units.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+For small-context LLMs that cannot fit a whole sheet, build chunk packets with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
 `node scripts/extract-frus-status-claims.mjs --units extracted-units.json --registry reports/frus-status-series-1981-1992.current.json --checker-output output.json --out status-claims.json --format text`.
 For per-document review coverage, run
 `node scripts/audit-frus-review-coverage.mjs --units extracted-units.json --output output.json --matrix reports/frus-annotation-permutation-matrix.json`.
+For authority-control validation and direct-edit safety, run
+`node scripts/validate-frus-authority-registry.mjs --registry reports/frus-authority-registry.sample.json --format text` and
+`node scripts/audit-frus-authority-usage.mjs --units extracted-units.json --registry reports/frus-authority-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For a no-dependency smoke test, run
 `node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json`.
 For direct-edit anchor preflight, run
@@ -70,7 +76,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--status-registry reports/frus-status-series-1981-1992.current.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --today YYYY-MM-DD`.
+`--status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -78,6 +84,11 @@ For status-language preflight, run
 For real Reagan/Bush 1981-1992 status and cross-reference review, validate and
 use `reports/frus-status-series-1981-1992.current.json` with
 `scripts/validate-frus-status-registry.mjs` before direct status-language edits.
+For real Reagan/Bush 1981-1992 authority-control review, replace the sample
+authority registry with a volume-specific registry built from the target
+volume's Persons, Abbreviations and Terms, Source List/front matter, and Index
+forms; validate it with `scripts/validate-frus-authority-registry.mjs` before
+direct authority-control edits.
 For volume-family and stage-posture routing, validate and use
 `reports/frus-preparation-router-1981-1992.current.json` with
 `scripts/validate-frus-preparation-router.mjs` before family-dependent direct
@@ -140,19 +151,25 @@ is flawless.
 3. Wrapper extracts Word units with stable `unit_id`, `exact_text`,
    `display_text`, unit type, and Word XML anchors.
 4. Wrapper builds a per-document `review-packet.md` from the runtime guide,
-   extracted units, output schema, status registry, preparation router, and
-   permutation matrix.
-5. LLM checks `review-packet.md` and returns a JSON edit/comment plan only.
-6. Wrapper validates JSON, exact anchors, evidence basis, and Word safety.
+   extracted units, output schema, status registry, authority registry,
+   preparation router, and permutation matrix.
+5. If the model context is too small, wrapper builds numbered chunk packets and
+   later merges chunk outputs through the chunk-reconciliation gate.
+6. LLM checks the packet or chunk packet and returns a JSON edit/comment plan
+   only.
+7. Wrapper validates JSON, exact anchors, evidence basis, and Word safety.
    Direct edits require one exact `original_text` match in an editable unit
    with no existing revisions or blocked Word boundaries.
-7. Wrapper validates publication-status phrases against a dated official
+8. Wrapper validates publication-status phrases against a dated official
    status registry before allowing any redline that changes `printed in`,
    `scheduled for publication`, `forthcoming`, `anticipated`, `being cleared`,
    `being researched`, or `planned` language.
-8. Wrapper applies only safe edits as WordprocessingML tracked insertions,
+9. Wrapper validates Persons, Abbreviations and Terms, Source List/front
+   matter, document-number, public-title, and index forms against the supplied
+   authority registry before allowing any authority-control redline.
+10. Wrapper applies only safe edits as WordprocessingML tracked insertions,
    deletions, and comments.
-9. User downloads a new `.docx` with changes marked in Track Changes.
+11. User downloads a new `.docx` with changes marked in Track Changes.
 
 Important: the LLM must not write `.docx`, OOXML, base64 files, or package
 instructions. The wrapper creates the revised Word file.
@@ -2147,6 +2164,239 @@ Office pages for:
       "published_date": "",
       "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v29",
       "subitems": []
+    }
+  ]
+}
+```
+
+## Authority Registry Context
+
+```json
+{
+  "schema_version": "frus-authority-registry-v1",
+  "authority_registry_id": "frus-1981-1992-authority-control-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/persons",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/terms",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/persons",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/terms"
+  ],
+  "scope": "Sample authority-control registry for validating Persons and Abbreviations/Terms usage in Reagan and George H.W. Bush FRUS annotation sheets.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "authority_item_id": "person-bush-ghw-v31",
+      "authority_type": "person",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "Bush, George Herbert Walker",
+      "variant_forms": [
+        "George H.W. Bush",
+        "President Bush",
+        "Bush, George H.W."
+      ],
+      "role_or_expansion": "Vice President of the United States until January 1989; President of the United States from January 20, 1989",
+      "date_span": "through January 1989; from January 20, 1989",
+      "index_or_front_matter_behavior": "Persons entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/persons",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "person-baker-v31",
+      "authority_type": "person",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "Baker, James Addison, III",
+      "variant_forms": [
+        "James Baker",
+        "Baker, James A., III"
+      ],
+      "role_or_expansion": "Secretary of State from January 25, 1989",
+      "date_span": "from January 25, 1989",
+      "index_or_front_matter_behavior": "Persons entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/persons",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "term-start-v31",
+      "authority_type": "term",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "START",
+      "variant_forms": [
+        "Strategic Arms Reduction Talks",
+        "Strategic Arms Reduction Treaty"
+      ],
+      "role_or_expansion": "Strategic Arms Reduction Talks; Strategic Arms Reduction Treaty",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "Abbreviations and Terms entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/terms",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "term-cob-v31",
+      "authority_type": "abbreviation",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "COB",
+      "variant_forms": [
+        "close of business"
+      ],
+      "role_or_expansion": "close of business",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "Abbreviations and Terms entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/terms",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "term-secdef-v31",
+      "authority_type": "abbreviation",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "SECDEF",
+      "variant_forms": [
+        "SecDef",
+        "Secretary of Defense"
+      ],
+      "role_or_expansion": "Secretary of Defense",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "Abbreviations and Terms entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/terms",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "index-rule-v31",
+      "authority_type": "index_entry",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "index numbers refer to document numbers",
+      "variant_forms": [
+        "page numbers",
+        "document numbers"
+      ],
+      "role_or_expansion": "Index references use document numbers rather than page numbers",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "About the Series index rule",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries",
+      "verification_status": "verified_published_pattern"
+    }
+  ],
+  "records": [
+    {
+      "authority_item_id": "person-bush-ghw-v31",
+      "authority_type": "person",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "Bush, George Herbert Walker",
+      "variant_forms": [
+        "George H.W. Bush",
+        "President Bush",
+        "Bush, George H.W."
+      ],
+      "role_or_expansion": "Vice President of the United States until January 1989; President of the United States from January 20, 1989",
+      "date_span": "through January 1989; from January 20, 1989",
+      "index_or_front_matter_behavior": "Persons entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/persons",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "person-bush-ghw-v44p1",
+      "authority_type": "person",
+      "volume_id": "frus1981-88v44p1",
+      "approved_display_form": "Bush, George H.W.",
+      "variant_forms": [
+        "Bush, George Herbert Walker",
+        "Vice President Bush"
+      ],
+      "role_or_expansion": "Vice President of the United States",
+      "date_span": "1985-1988 volume context",
+      "index_or_front_matter_behavior": "Persons entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/persons",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "person-baker-v31",
+      "authority_type": "person",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "Baker, James Addison, III",
+      "variant_forms": [
+        "James Baker",
+        "Baker, James A., III"
+      ],
+      "role_or_expansion": "Secretary of State from January 25, 1989",
+      "date_span": "from January 25, 1989",
+      "index_or_front_matter_behavior": "Persons entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/persons",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "term-start-v31",
+      "authority_type": "term",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "START",
+      "variant_forms": [
+        "Strategic Arms Reduction Talks",
+        "Strategic Arms Reduction Treaty"
+      ],
+      "role_or_expansion": "Strategic Arms Reduction Talks; Strategic Arms Reduction Treaty",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "Abbreviations and Terms entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/terms",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "term-cob-v31",
+      "authority_type": "abbreviation",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "COB",
+      "variant_forms": [
+        "close of business"
+      ],
+      "role_or_expansion": "close of business",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "Abbreviations and Terms entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/terms",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "term-cob-v44p1",
+      "authority_type": "abbreviation",
+      "volume_id": "frus1981-88v44p1",
+      "approved_display_form": "COB or C.O.B.",
+      "variant_forms": [
+        "COB",
+        "C.O.B.",
+        "Close of Business"
+      ],
+      "role_or_expansion": "Close of Business",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "Abbreviations and Terms entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/terms",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "term-secdef-v31",
+      "authority_type": "abbreviation",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "SECDEF",
+      "variant_forms": [
+        "SecDef",
+        "Secretary of Defense"
+      ],
+      "role_or_expansion": "Secretary of Defense",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "Abbreviations and Terms entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/terms",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "index-rule-v31",
+      "authority_type": "index_entry",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "index numbers refer to document numbers",
+      "variant_forms": [
+        "page numbers",
+        "document numbers"
+      ],
+      "role_or_expansion": "Index references use document numbers rather than page numbers",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "About the Series index rule",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries",
+      "verification_status": "verified_published_pattern"
     }
   ]
 }

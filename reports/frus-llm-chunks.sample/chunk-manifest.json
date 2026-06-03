@@ -1,7 +1,7 @@
 {
   "schema_version": "frus-llm-chunk-manifest-v1",
-  "generated_at": "2026-06-03T14:28:05.991Z",
-  "run_id": "sample-chunk-packets",
+  "generated_at": "2026-06-03T14:44:25.064Z",
+  "run_id": "sample-llm-chunks",
   "target_volume": "frus1989-92v31",
   "chunk_count": 2,
   "source_files": {
@@ -10,6 +10,7 @@
     "schema": "reports/frus-annotation-checker-output.schema.json",
     "status_registry": "reports/frus-status-series-1981-1992.current.json",
     "status_claims": "reports/frus-status-claims.sample.json",
+    "authority_registry": "reports/frus-authority-registry.sample.json",
     "preparation_router": "reports/frus-preparation-router-1981-1992.current.json",
     "permutation_matrix": "reports/frus-annotation-permutation-matrix.json"
   },
@@ -19,7 +20,8 @@
   },
   "summary": {
     "units_total": 3,
-    "reviewable_units": 3
+    "reviewable_units": 3,
+    "authority_registry_records": 8
   },
   "chunks": [
     {

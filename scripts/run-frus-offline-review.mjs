@@ -9,7 +9,7 @@ const DIRECT_ACTIONS = new Set(["replace_text", "insert_after_text", "delete_tex
 
 function usage() {
   console.error(
-    "Usage: node scripts/run-frus-offline-review.mjs --docx <input.docx> --checker-output <checker-output.json> --out <revised.docx> [--artifact-dir DIR] [--audit audit.json] [--existing-ledger ledger.json] [--status-registry registry.json] [--status-claims claims.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--today YYYY-MM-DD] [--max-age-days N] [--review-mode light|normal|exhaustive] [--run-id RUN] [--author NAME] [--date ISO-DATE] [--format json|text]"
+    "Usage: node scripts/run-frus-offline-review.mjs --docx <input.docx> --checker-output <checker-output.json> --out <revised.docx> [--artifact-dir DIR] [--audit audit.json] [--existing-ledger ledger.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--today YYYY-MM-DD] [--max-age-days N] [--review-mode light|normal|exhaustive] [--run-id RUN] [--author NAME] [--date ISO-DATE] [--format json|text]"
   );
   process.exit(2);
 }
@@ -23,8 +23,10 @@ function parseArgs(argv) {
   let existingLedgerPath = null;
   let statusRegistryPath = null;
   let statusClaimsPath = null;
+  let authorityRegistryPath = null;
   let preparationRouterPath = null;
   let permutationMatrixPath = null;
+  let targetVolume = "";
   let today = new Date().toISOString().slice(0, 10);
   let maxAgeDays = 45;
   let reviewMode = "normal";
@@ -59,11 +61,17 @@ function parseArgs(argv) {
     } else if (arg === "--status-claims") {
       statusClaimsPath = argv[index + 1];
       index += 1;
+    } else if (arg === "--authority-registry") {
+      authorityRegistryPath = argv[index + 1];
+      index += 1;
     } else if (arg === "--preparation-router") {
       preparationRouterPath = argv[index + 1];
       index += 1;
     } else if (arg === "--permutation-matrix") {
       permutationMatrixPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--target-volume") {
+      targetVolume = argv[index + 1];
       index += 1;
     } else if (arg === "--today") {
       today = argv[index + 1];
@@ -120,8 +128,10 @@ function parseArgs(argv) {
     existingLedgerPath,
     statusRegistryPath,
     statusClaimsPath,
+    authorityRegistryPath,
     preparationRouterPath,
     permutationMatrixPath,
+    targetVolume,
     today,
     maxAgeDays,
     reviewMode,
@@ -219,6 +229,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
   const coverageAudit = reports.review_coverage;
   const statusClaimsPath = options.statusClaimsPath || (fs.existsSync(artifacts.status_claims) ? artifacts.status_claims : "");
   const statusClaims = statusClaimsPath ? readJson(statusClaimsPath) : null;
+  const authorityAudit = reports.authority_usage_audit || null;
   const expectedRevisions = countExpectedRevisions(trackReport);
 
   return {
@@ -246,6 +257,9 @@ function buildAudit({ options, artifacts, steps, reports }) {
       deletions_expected: expectedRevisions.deletions,
       source_note_lint_diagnostics: sourceNoteLint?.summary?.diagnostics_count || 0,
       status_claims_extracted: Array.isArray(statusClaims?.claims) ? statusClaims.claims.length : 0,
+      authority_registry_usages: authorityAudit?.summary?.authority_usages || 0,
+      authority_registry_warnings: authorityAudit?.summary?.warnings || 0,
+      authority_direct_edit_conflicts: authorityAudit?.summary?.direct_authority_edit_conflicts || 0,
       review_coverage_unreviewed_units: coverageAudit?.summary?.unreviewed_units || 0,
       review_coverage_signal_gaps: coverageAudit?.summary?.signal_category_gaps || 0,
       evidence_queue_items: evidenceQueue.queue.length,
@@ -259,8 +273,10 @@ function buildAudit({ options, artifacts, steps, reports }) {
     optional_context: {
       status_registry: options.statusRegistryPath ? normalizePathForOutput(options.statusRegistryPath) : "",
       status_claims: statusClaimsPath ? normalizePathForOutput(statusClaimsPath) : "",
+      authority_registry: options.authorityRegistryPath ? normalizePathForOutput(options.authorityRegistryPath) : "",
       preparation_router: options.preparationRouterPath ? normalizePathForOutput(options.preparationRouterPath) : "",
       permutation_matrix: options.permutationMatrixPath ? normalizePathForOutput(options.permutationMatrixPath) : "",
+      target_volume: options.targetVolume,
       today: options.today,
       max_age_days: options.maxAgeDays
     },
@@ -279,7 +295,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
 function renderText(audit) {
   return [
     `FRUS offline review passed: ${audit.counts.extracted_units} units, ${audit.counts.comments_applied} Word comments, ${audit.counts.tracked_edits_applied} tracked edits.`,
-    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
+    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; authority usages: ${audit.counts.authority_registry_usages}; authority warnings: ${audit.counts.authority_registry_warnings}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
     `Revised DOCX: ${audit.revised_docx}`,
     `Audit: ${audit.artifacts.audit}`
   ].join("\n") + "\n";
@@ -297,6 +313,8 @@ function runReview(options) {
     pseudo_marker_preflight: path.join(options.artifactDir, "pseudo-marker-preflight.txt"),
     status_claims: path.join(options.artifactDir, "status-claims.json"),
     status_registry_validation: path.join(options.artifactDir, "status-registry-validation.json"),
+    authority_registry_validation: path.join(options.artifactDir, "authority-registry-validation.json"),
+    authority_usage_audit: path.join(options.artifactDir, "authority-usage-audit.json"),
     preparation_router_validation: path.join(options.artifactDir, "preparation-router-validation.json"),
     permutation_matrix_validation: path.join(options.artifactDir, "permutation-matrix-validation.json"),
     status_claims_preflight: path.join(options.artifactDir, "status-claims-preflight.txt"),
@@ -396,6 +414,47 @@ function runReview(options) {
     });
     steps.push(statusStep);
     optionalReports.status_registry_validation = statusStep.parsed;
+  }
+  if (options.authorityRegistryPath) {
+    const authorityValidationStep = runNodeStep({
+      label: "validate_authority_registry",
+      args: [
+        "scripts/validate-frus-authority-registry.mjs",
+        "--registry",
+        options.authorityRegistryPath,
+        "--format",
+        "json"
+      ],
+      cwd,
+      stdoutFile: artifacts.authority_registry_validation,
+      parseJson: true
+    });
+    steps.push(authorityValidationStep);
+    optionalReports.authority_registry_validation = authorityValidationStep.parsed;
+
+    const authorityAuditArgs = [
+      "scripts/audit-frus-authority-usage.mjs",
+      "--units",
+      artifacts.extracted_units,
+      "--registry",
+      options.authorityRegistryPath,
+      "--checker-output",
+      options.checkerOutputPath,
+      "--format",
+      "json"
+    ];
+    if (options.targetVolume) {
+      authorityAuditArgs.push("--target-volume", options.targetVolume);
+    }
+    const authorityAuditStep = runNodeStep({
+      label: "audit_authority_usage",
+      args: authorityAuditArgs,
+      cwd,
+      stdoutFile: artifacts.authority_usage_audit,
+      parseJson: true
+    });
+    steps.push(authorityAuditStep);
+    optionalReports.authority_usage_audit = authorityAuditStep.parsed;
   }
   if (options.preparationRouterPath) {
     if (!options.statusRegistryPath) {

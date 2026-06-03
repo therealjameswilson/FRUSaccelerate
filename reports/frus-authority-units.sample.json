@@ -1,0 +1,62 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample extracted Word units for FRUS authority-control audit tests.",
+  "units": [
+    {
+      "unit_id": "persons-entry-0001",
+      "unit_type": "persons_entry",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Persons list, Bush entry",
+      "exact_text": "Bush, George Herbert Walker, President of the United States from January 20, 1989.",
+      "display_text": "Bush, George Herbert Walker, President of the United States from January 20, 1989.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "persons-entry-0002",
+      "unit_type": "persons_entry",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Persons list, alternate Bush entry",
+      "exact_text": "Bush, George H.W., Vice President of the United States until January 1989.",
+      "display_text": "Bush, George H.W., Vice President of the United States until January 1989.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "abbreviation-entry-0003",
+      "unit_type": "abbreviation_entry",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Abbreviations and Terms list",
+      "exact_text": "START: Strategic Arms Reduction Talks; C.O.B.: Close of Business; SecDef: Secretary of Defense.",
+      "display_text": "START: Strategic Arms Reduction Talks; C.O.B.: Close of Business; SecDef: Secretary of Defense.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "source-list-entry-0004",
+      "unit_type": "source_list_entry",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Source List, Reagan Library",
+      "exact_text": "Ronald Reagan Library, Executive Secretariat, NSC Country File.",
+      "display_text": "Ronald Reagan Library, Executive Secretariat, NSC Country File.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    }
+  ]
+}

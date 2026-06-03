@@ -24,6 +24,10 @@ For category and evidence-request coverage, transfer
 `reports/frus-annotation-permutation-matrix.json`; it maps every checker
 category to required context, evidence requests, safe actions, and router
 hazards.
+For authority-control checks, transfer a volume-specific authority registry
+covering Persons, Abbreviations and Terms, Source List/front matter,
+document-number, public-title, and index forms when available. The bundled
+sample is `reports/frus-authority-registry.sample.json`.
 
 Verify the package before transfer and again after installation:
 
@@ -53,7 +57,7 @@ node scripts/extract-frus-docx-units.mjs --docx input.docx --out extracted-units
 
 ```sh
 node scripts/extract-frus-status-claims.mjs --units extracted-units.json --registry reports/frus-status-series-1981-1992.current.json --out status-claims.json --format text
-node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID
+node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID
 ```
 
    Upload `review-packet.md` to the LLM. Send only editorial apparatus and
@@ -66,7 +70,7 @@ node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out
    result as the corresponding `chunk-####-checker-output.json`.
 
 ```sh
-node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12
+node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12
 ```
 
    After all chunks are reviewed, merge them into the single checker output
@@ -109,7 +113,7 @@ node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output outp
    Reagan/Bush routing, add the current context files:
 
 ```sh
-node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID --status-registry reports/frus-status-series-1981-1992.current.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --today YYYY-MM-DD
+node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry authority-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD
 ```
 
    If the wrapper has extracted status-bearing phrases into
@@ -134,7 +138,18 @@ node scripts/validate-frus-permutation-matrix.mjs --matrix permutation-matrix.js
 node scripts/preflight-frus-status-claims.mjs --registry status-registry.json --claims status-claims.json --today YYYY-MM-DD
 ```
 
-7. Run source-note and production-marker checks when those unit types are
+7. Run authority-control validation and usage audit when the packet contains
+   Persons, Abbreviations and Terms, Source List/front matter, document-number,
+   public-title, or index language. The usage audit fails if the model proposes
+   a direct authority-control edit that is only a variant, cross-volume form,
+   or unsupported by the supplied registry.
+
+```sh
+node scripts/validate-frus-authority-registry.mjs --registry authority-registry.json --format text
+node scripts/audit-frus-authority-usage.mjs --units extracted-units.json --registry authority-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
+```
+
+8. Run source-note and production-marker checks when those unit types are
    present:
 
 ```sh
@@ -142,14 +157,14 @@ node scripts/lint-frus-source-notes.mjs --units extracted-units.json
 node scripts/preflight-frus-pseudo-markers.mjs --units extracted-units.json --output output.json
 ```
 
-8. Build the separate evidence queue and General Editor discrepancy ledger:
+9. Build the separate evidence queue and General Editor discrepancy ledger:
 
 ```sh
 node scripts/build-frus-evidence-queue.mjs --output output.json --review-mode normal > evidence-queue.json
 node scripts/build-frus-discrepancy-ledger.mjs --output output.json --existing prior-ledger.json --run-id RUN-ID > discrepancy-ledger.json
 ```
 
-9. Apply safe `comment_only` findings as real Word comments, then apply only
+10. Apply safe `comment_only` findings as real Word comments, then apply only
    accepted direct edits as real WordprocessingML tracked insertions and
    deletions. The no-dependency appliers handle narrow, verified single-run
    anchors and fail on complex anchors rather than guessing:
@@ -167,7 +182,7 @@ node scripts/apply-frus-track-changes.mjs --docx commented.docx --units extracte
    safe. Global comments and complex Word anchors remain audit items until a
    fuller wrapper can place them. Preserve existing human revisions unless the
    user chose to accept or reject them before the checker run.
-10. Reopen and validate the revised `.docx`. Do not release the file if XML,
+11. Reopen and validate the revised `.docx`. Do not release the file if XML,
     comments, relationships, tracked-change ids, marker boundaries, or audit
     counts fail validation.
 
@@ -211,6 +226,9 @@ node scripts/test-frus-status-claim-extractor.mjs
 node scripts/extract-frus-status-claims.mjs --units reports/frus-status-claim-units.sample.json --registry reports/frus-status-series-1981-1992.current.json --format text
 node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-registry-1981-1992.sample.json --claims reports/frus-status-claims.sample.json --today 2026-06-03
 node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-series-1981-1992.current.json --claims reports/frus-status-claims.sample.json --today 2026-06-03
+node scripts/validate-frus-authority-registry.mjs --registry reports/frus-authority-registry.sample.json --format text
+node scripts/audit-frus-authority-usage.mjs --units reports/frus-authority-units.sample.json --registry reports/frus-authority-registry.sample.json --target-volume frus1989-92v31 --format text
+node scripts/test-frus-authority-audit.mjs
 node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json
 node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json
 node scripts/build-frus-evidence-queue.mjs --output reports/frus-annotation-checker-sample-output.json --review-mode normal --format text
