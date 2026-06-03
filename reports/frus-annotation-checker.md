@@ -76,6 +76,12 @@ The wrapper should provide the LLM with:
   sent-for-action, sent-for-information, approval/disapproval, no-indication,
   transmitted/delivered, drafting, clearance, approval, concurrence,
   distribution, enclosure, attachment, and lifecycle-status evidence.
+- `decision_process_context`, if available: structured NSC, NSPG, NSC/DC,
+  Deputies Committee, Principals Committee, NSDD, NSD, NSR, action memorandum,
+  decision memorandum, option paper, Summary of Conclusions, directive tab,
+  interagency paper, treaty transmittal, Senate advice-and-consent package,
+  recommendation, option, decision point, agency position, and decision-stage
+  evidence.
 - `classification_registry_context`, if available: structured original
   classification marking, handling markings, precedence, paragraph markings,
   verified absence of classification marking, release-status separation, and
@@ -285,14 +291,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | editorial_method_transcription | document_status_lifecycle | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | release_errata_apparatus | wording | evidence | format",
+      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | editorial_method_transcription | document_status_lifecycle | decision_process_directive | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | release_errata_apparatus | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | source_surrogate_basis | source_list_basis | selection_balance_basis | physical_evidence_basis | negative_search_basis | printed_attachment_basis | transcription_facsimile_basis | visual_material_basis | time_zone_basis | editorial_method_basis | document_status_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | release_apparatus_basis | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | source_surrogate_basis | source_list_basis | selection_balance_basis | physical_evidence_basis | negative_search_basis | printed_attachment_basis | transcription_facsimile_basis | visual_material_basis | time_zone_basis | editorial_method_basis | document_status_basis | decision_process_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | release_apparatus_basis | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -305,7 +311,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | editorial_method_transcription | document_status_lifecycle | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | release_errata_apparatus | wording | format | wrapper",
+      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | editorial_method_transcription | document_status_lifecycle | decision_process_directive | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | release_errata_apparatus | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -432,6 +438,7 @@ run the semantic and Word-safety validators below.
               "source_surrogate_release",
               "editorial_method_transcription",
               "document_status_lifecycle",
+              "decision_process_directive",
               "annotation",
               "editorial_note",
               "document_metadata",
@@ -506,6 +513,7 @@ run the semantic and Word-safety validators below.
               "time_zone_basis",
               "editorial_method_basis",
               "document_status_basis",
+              "decision_process_basis",
               "attachment_status",
               "document_number",
               "document_metadata",
@@ -596,6 +604,7 @@ run the semantic and Word-safety validators below.
               "source_surrogate_release",
               "editorial_method_transcription",
               "document_status_lifecycle",
+              "decision_process_directive",
               "editorial_note",
               "document_metadata",
               "classification_handling",
@@ -709,6 +718,7 @@ Semantic validator behavior:
   `handwritten_facsimile_transcription`,
   `editorial_method_transcription`,
   `document_status_lifecycle`,
+  `decision_process_directive`,
   `visual_material_graphic`,
   `source_surrogate_release`,
   `time_zone_chronology`,
@@ -7421,6 +7431,7 @@ Evidence-request categories:
 | `time_zone_basis` | Washington-time, local-time, GMT/Z, EDT/EST, date-time-group, treaty-notification, event-time, as-of, deadline, conversion, ambiguity, chronological-placement, or international-date-line evidence is uncertain. | Which time label, source time basis, conversion, date-time group, treaty rule, event/call/telegram relationship, ambiguity caveat, or chronological placement must be checked. |
 | `editorial_method_basis` | Bracketed correction/addition, italic/roman distinction, underlining-to-italic treatment, abbreviation or contraction preservation, telegram number, Secto/special designator, original bracket, original ellipsis, silent typo correction, or document-text preservation evidence is uncertain. | Which editorial-method convention, source image, document text, bracket status, styling, telegram number, abbreviation, or original-text feature must be checked before editing. |
 | `document_status_basis` | Draft/final, original/copy, printed-from-copy, signed/unsigned, initialed/uninitialed, stamped, sent-for-action, sent-for-information, approval/disapproval, no-indication-sent, transmitted/delivered, drafted/cleared/approved, concurrence, distribution, enclosure, or lifecycle-status evidence is uncertain. | Which source image, document-status phrase, routing line, approval mark, drafting/clearance/approval line, transmission proof, copy status, or enclosure/distribution basis must be checked. |
+| `decision_process_basis` | NSC, NSPG, NSC/DC, Deputies/Principals Committee, NSDD, NSD, NSR, action memorandum, decision memorandum, option paper, Summary of Conclusions, directive tab, interagency paper, treaty transmittal, Senate advice-and-consent package, recommendation, option, agency position, or decision-stage evidence is uncertain. | Which decision-process body, directive, option, stage, agency position, meeting record, summary, tab, transmittal, or legal/policy target must be checked. |
 | `attachment_status` | Attached, not attached, printed elsewhere, tabbed, enclosed, or not found claims are uncertain. | Which tab, enclosure, paper, or list must be checked. |
 | `document_number` | Same-volume or cross-volume reference lacks a stable document number. | Which target document, chapter, or volume must be matched. |
 | `document_metadata` | Heading, dateline, subject/title line, public title, sender, recipient, internal number, or document form is missing or suspect. | Which heading field and evidence source must be checked before rewriting. |
@@ -7504,6 +7515,7 @@ Default blocking rules:
 | `time_zone_basis` | yes for Washington-time, local-time, GMT/Z, EDT/EST, date-time-group, treaty-notification, event-time, as-of, deadline, conversion, ambiguity, chronological-placement, or international-date-line edits | yes when time/date sequence, time-zone labels, or chronological placement appear in publishable apparatus |
 | `editorial_method_basis` | yes for bracketed-correction, bracketed-addition, italic/roman, underlining-to-italic, abbreviation/contraction, telegram-number, Secto/special-designator, original-bracket, original-ellipsis, or silent-typo edits | yes when editorial-method, transcription, bracket, styling, telegram-number, or document-text preservation claims appear in publishable apparatus |
 | `document_status_basis` | yes for draft/final, original/copy, printed-from-copy, signed/unsigned, initialed/uninitialed, stamped, sent-for-action, sent-for-information, approved/disapproved, no-indication-sent, transmitted/delivered, drafting, clearance, approval, concurrence, distribution, enclosure, or lifecycle-status edits | yes when source notes or annotations assert document status, approval, transmission, copy status, or lifecycle evidence |
+| `decision_process_basis` | yes for NSC/NSPG/NSC/DC/Deputies/Principals, NSDD/NSD/NSR, action/decision memorandum, option paper, Summary of Conclusions, directive tab, interagency paper, treaty transmittal, Senate package, recommendation, option, agency position, or decision-stage edits | yes when source notes or annotations assert decision-process body, directive status, option status, policy stage, agency position, or formal decision outcome |
 | `attachment_status` | yes | yes when the note asserts attached, not attached, tabbed, enclosed, printed, or not found |
 | `document_number` | yes for cross-reference edits | yes when same-volume or cross-volume references are unstable |
 | `document_metadata` | yes for heading, dateline, title, subject, or caption edits | yes when publishable apparatus identifies the document |
@@ -7539,7 +7551,7 @@ Owner hints:
   selection-balance basis, printed/nested-attachment basis,
   transcription/facsimile basis, visual-material basis, time-zone/chronology
   basis, editorial-method basis, document-status/lifecycle basis,
-  release/errata apparatus basis,
+  decision-process/directive basis, release/errata apparatus basis,
   retrospective-account basis, sensitive-record source basis,
   negative-search/no-record basis, translation status, and foreign-copy
   provenance.
@@ -7553,7 +7565,8 @@ Owner hints:
   printed/nested-attachment note form, physical/routing note form,
   transcription/facsimile note form, visual-material note form,
   time-zone/chronology note form, editorial-method/transcription note form,
-  document-status/lifecycle note form, release/errata note form,
+  document-status/lifecycle note form, decision-process/directive note form,
+  release/errata note form,
   retrospective-account note form, sensitive-record note form,
   negative-search/no-record wording, publication-status wording, and General
   Editor discrepancy preparation.
@@ -7842,110 +7855,115 @@ For every extracted unit, run checks in this order:
    transmitted/delivered, drafting, clearance, approval, concurrence,
    distribution, enclosure, and lifecycle-status claims against the
    document-status registry when supplied.
-12. Check physical evidence, routing, marginalia, initials, stamps, read-by/seen
+12. Check NSC, NSPG, NSC/DC, Deputies Committee, Principals Committee, NSDD,
+   NSD, NSR, action memorandum, decision memorandum, option paper, Summary of
+   Conclusions, directive tab, interagency paper, treaty transmittal, Senate
+   advice-and-consent package, recommendation, option, agency position, and
+   decision-stage claims against the decision-process registry when supplied.
+13. Check physical evidence, routing, marginalia, initials, stamps, read-by/seen
    notations, approval checkmarks, correspondence profiles, distribution, and
    placement against the physical/routing registry when supplied.
-13. Check classification, handling, precedence, paragraph-marking, and
+14. Check classification, handling, precedence, paragraph-marking, and
    no-classification-marking language against the classification registry when
    supplied.
-14. Check translation, foreign-origin copy, typed-signature, bracket-treatment,
+15. Check translation, foreign-origin copy, typed-signature, bracket-treatment,
    and agency/foreign-equity language against the translation registry when
    supplied.
-15. Check foreign-government, international-organization, multilateral,
+16. Check foreign-government, international-organization, multilateral,
     regional-body, alliance, coalition, treaty-party, conference,
     peacekeeping, foreign-copy, and selected-versus-supplemental role evidence
     against the foreign/international-organization registry when supplied.
-16. Check treaty/legal-instrument component identity, integral-versus-associated
+17. Check treaty/legal-instrument component identity, integral-versus-associated
     status, public/archival source basis, transmittal language, ratification,
     and entry-into-force language against the treaty registry when supplied.
-17. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
+18. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
    against the attachment registry when supplied.
-18. Check printed attachments, nested documents, child headings, child source
+19. Check printed attachments, nested documents, child headings, child source
    notes, child classifications, printed-targets, and parent-child maps against
    the printed/nested-attachment registry when supplied.
-19. Check handwritten notes, handwritten letters, editor-transcribed portions,
+20. Check handwritten notes, handwritten letters, editor-transcribed portions,
    uncertain readings, original brackets, original ellipses, cut-off lines,
    appendix images, facsimiles, and reverse appendix links against the
    handwritten-transcription registry when supplied.
-20. Check maps, photographs, charts, images, graphic attachments, visual
+21. Check maps, photographs, charts, images, graphic attachments, visual
    captions/titles, not-found visual items, appendix images, printed targets,
    and person/object/place identification against the visual-material registry
    when supplied.
-21. Check negative-search, no-record, not-found, not-found-attached,
+22. Check negative-search, no-record, not-found, not-found-attached,
    no-minutes, no-memcon, no-telcon, unlocated-draft, missing-attachment, and
    found-elsewhere claims against the negative-search registry when supplied.
-22. Check cross-references and follow-on citation form against the
+23. Check cross-references and follow-on citation form against the
    cross-reference registry when supplied.
-23. Check annotation purpose and concision.
-24. Check declassification, omission, original-bracket, release-status, and
+24. Check annotation purpose and concision.
+25. Check declassification, omission, original-bracket, release-status, and
     whole-document withholding language against the declassification registry
     when supplied.
-25. Check editorial-method, transcription, bracketed-correction/addition,
+26. Check editorial-method, transcription, bracketed-correction/addition,
    italic/roman, underlining-to-italic, abbreviation/contraction, telegram-
    number, Secto/special-designator, original-bracket, original-ellipsis,
    silent-typo-correction, and document-text preservation claims against the
    editorial-method registry when supplied.
-26. Check target-volume status and whether the note is research-stage,
+27. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-27. Check press release, media note, release date, GPO/ISBN/S/N, PDF/EPUB/Mobi,
+28. Check press release, media note, release date, GPO/ISBN/S/N, PDF/EPUB/Mobi,
    public URL, errata, online/full-text correction, printed-volume-revision,
    and capture-date claims against the release-apparatus registry when
    supplied.
-28. Route the unit through the relevant volume family when a 1981-1992
+29. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-29. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
+30. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-30. Check Washington-time, local-time, GMT/Z, EDT/EST, date-time groups, treaty
+31. Check Washington-time, local-time, GMT/Z, EDT/EST, date-time groups, treaty
     notification time rules, as-of times, deadlines, conversions, ambiguity, and
     international-date-line placement against the time-zone registry when
     supplied.
-31. Check summit, travel, ceremony, public address, interview, press
+32. Check summit, travel, ceremony, public address, interview, press
     conference, toast, testimony, public remarks, and public-event sequence
     evidence against the event-chronology registry when supplied.
-32. Check public diplomacy, speeches, press releases, press conferences,
+33. Check public diplomacy, speeches, press releases, press conferences,
     briefings, interviews, broadcasts, testimony, Public Papers, Department of
     State Bulletin, newspaper excerpts, official transcripts, speech files,
     briefing materials, selected-public-document status, and
     supplemental-public-context evidence against the public-source registry when
     supplied.
-33. Check memoirs, published diaries, personal diaries, oral histories, later
+34. Check memoirs, published diaries, personal diaries, oral histories, later
     interviews, recollections, press retrospectives, newspaper accounts,
     selected/supplemental status, official-record relationship, corroborating
     records, and conflict status against the retrospective-account registry when
     supplied.
-34. Check congressional testimony, hearings, public laws, statutes, continuing
+35. Check congressional testimony, hearings, public laws, statutes, continuing
     resolutions, joint resolutions, congressional notifications, Presidential
     Determinations, certifications, Executive Orders, oversight, independent
     counsel, Senate advice-and-consent, and ratification context against the
     congressional/legal registry when supplied.
-35. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
+36. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
     World Bank, MDB, GATT, UNCTAD, OECD, table, amount, percentage, currency,
     fiscal-year, loan, guarantee, quota, replenishment, conditionality, and
     policy-stage evidence against the economic/financial registry when supplied.
-36. Check intelligence, covert-action, law-enforcement, counternarcotics,
+37. Check intelligence, covert-action, law-enforcement, counternarcotics,
     counterterrorism, agency-equity, source-and-methods, operational, oversight,
     foreign-service-contact, sanitized-record, redaction, and public-policy
     evidence against the sensitive-record registry when supplied.
-37. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
+38. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
     combat-operation, contingency-plan, CONPLAN, host-nation notification,
     coalition, peacekeeping, force/unit, time-zone, casualty/damage, and
     military-assistance evidence against the military/crisis registry when
     supplied.
-38. Check human-rights reports, refugee, immigration, asylum, migration, famine,
+39. Check human-rights reports, refugee, immigration, asylum, migration, famine,
     emergency relief, food aid, public-health, AIDS/HIV, population policy,
     environmental, ozone, sanctions, waivers, certifications, public reports,
     international organizations, PVOs, AID/PRM, PL 480, Section 416, and Section
     206 evidence against the human-rights/refugee/global-issues registry when
     supplied.
-39. Check Persons, Abbreviations and Terms, repository/source-list forms,
+40. Check Persons, Abbreviations and Terms, repository/source-list forms,
     chapter labels, document-number references, public-source titles,
     date-bounded offices, and index behavior against the authority-control
     registry when supplied.
-40. Assign specific evidence requests and verification targets for unresolved
+41. Assign specific evidence requests and verification targets for unresolved
     proof.
-41. Decide direct edit versus comment-only.
-42. Return strict JSON.
-43. After schema and semantic validation, aggregate all unresolved evidence
+42. Decide direct edit versus comment-only.
+43. Return strict JSON.
+44. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -8036,6 +8054,11 @@ Duplicate-suppression rules:
   no-indication-sent phrase, transmission/delivery basis, drafting/clearance/
   approval line, concurrence, distribution, enclosure, attachment, or source
   image.
+- Merge repeated decision-process/directive issues by NSC/NSPG/NSC/DC body,
+  Deputies/Principals stage, NSDD/NSD/NSR number, action or decision memorandum,
+  option paper, Summary of Conclusions, directive tab, interagency paper,
+  treaty transmittal, Senate advice-and-consent package, recommendation, option,
+  agency position, decision stage, target document, or meeting record.
 - Merge repeated time-zone/chronology issues by source time label, time zone,
   date-time group, event, call, telegram, conversion status, treaty rule,
   ambiguity note, international-date-line problem, or chronological placement.
@@ -8245,6 +8268,11 @@ Golden packet composition:
   sent-for-action or sent-for-information routing, approval/disapproval evidence,
   no-indication-sent wording, drafting/clearance/approval line, distribution,
   concurrence, or enclosure/transmission status.
+- At least one decision-process/directive example with an NSDD, NSD, NSR,
+  action memorandum, decision memorandum, NSC/DC or Deputies/Principals meeting,
+  option paper, Summary of Conclusions, directive tab, interagency paper, treaty
+  transmittal, Senate package, recommendation, option, agency position, or
+  formal decision stage.
 - At least one visual-material example with a map, photograph, chart, image,
   caption, visual title, graphic attachment, attached-but-not-printed item,
   not-found visual item, or appendix image where the checker must preserve the
@@ -8392,6 +8420,13 @@ Expected behavior by test family:
   distribution, enclosure, and attachment-status distinctions; comment rather
   than infer approval, transmission, finality, signature, or copy status when
   `document_status_basis` is missing.
+- Decision-process/directive test: preserve NSC/NSPG/NSC/DC body, Deputies or
+  Principals stage, NSDD/NSD/NSR number, action or decision memorandum status,
+  option-paper status, Summary of Conclusions relationship, directive tab,
+  interagency paper, treaty transmittal, Senate package, recommendation,
+  option, agency position, and decision-stage distinctions; comment rather than
+  infer a formal decision, directive, clearance, principals-level action, or
+  Senate/transmittal status when `decision_process_basis` is missing.
 - Visual-material test: preserve supplied map, photograph, chart, image,
   caption, visual title, attached-but-not-printed, printed-target,
   printed-elsewhere, not-found, not-attached, public-source-image, and
@@ -8593,6 +8628,12 @@ Use the discrepancy tally for:
   approved/disapproved, no-indication-sent, transmitted/delivered,
   drafted/cleared/approved, concurrence, distribution, enclosure, and
   attachment/transmission evidence when the underlying facts are sound.
+- Variations in how much decision-process/directive apparatus to print,
+  including NSC, NSPG, NSC/DC, Deputies/Principals, NSDD, NSD, NSR, action
+  memorandum, decision memorandum, option paper, Summary of Conclusions,
+  directive tab, interagency paper, treaty transmittal, Senate package,
+  recommendation, option, agency position, or formal decision stage when the
+  underlying facts are sound.
 - Variations in `Attached but not printed`, `Not found attached`, `Printed as
   Document [n]`, appendix, tab, enclosure, or facsimile wording.
 - Variations in how much negative-search or no-record basis to print for `Not
@@ -8717,6 +8758,7 @@ Suggested tally format:
 | style-discrepancy-0022 | authority_control | How much Persons, Abbreviations and Terms, source-list, chapter-label, document-number, public-title, and index authority reconciliation should occur inside annotation sheets before final front-matter or index assembly. | Full registry reconciliation with approved display forms, variants, date spans, term expansions, and index rules in the checker audit; lighter annotation-sheet comments that defer final authority decisions to front-matter/index assembly | 2 | medium | Should the checker enforce authority-control forms during annotation review, or tally volume-specific authority variations for General Editor decision? |
 | style-discrepancy-0023 | editorial_method_transcription | How much editorial-method and transcription-convention enforcement should occur inside annotation sheets before final copyediting or publication production. | Full registry enforcement of bracketed correction/addition, italic/roman, underlining-to-italic, abbreviation, telegram-number, original-bracket, original-ellipsis, and typo-correction conventions; lighter comments that defer final styling and document-text treatment to production review | 2 | high | Should the checker enforce editorial-method conventions during annotation review, or tally volume-specific transcription/styling variations for General Editor decision? |
 | style-discrepancy-0024 | document_status_lifecycle | How much document-status and lifecycle evidence should appear in source notes or annotations when draft/final, copy, signature, routing, transmission, approval, or clearance facts are sound. | Full lifecycle note with draft/final, original/copy, signed/unsigned, sent/approved/drafted/cleared/distributed details; shorter status note with lifecycle details retained in audit/context | 2 | medium | Should the checker enforce a house form for document-status/lifecycle notes, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0025 | decision_process_directive | How much NSC/interagency decision-process and directive apparatus should appear in source notes or annotations when decision-stage facts are sound. | Full decision-process note with body, directive number, option, Summary of Conclusions, tab, recommendation, agency position, and decision stage; shorter note with process detail retained in audit/context | 2 | high | Should the checker enforce a house form for NSC/interagency decision-process notes, or tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -8781,6 +8823,12 @@ Required bundle files:
   sent, transmitted/delivered, drafting, clearance, approval, concurrence,
   distribution, enclosure, attachment, lifecycle-status, verification status,
   source images, and source URLs.
+- `decision_process_map`, when available: NSC, NSPG, NSC/DC, Deputies
+  Committee, Principals Committee, NSDD, NSD, NSR, action memorandum, decision
+  memorandum, option paper, Summary of Conclusions, directive tab, interagency
+  paper, treaty transmittal, Senate advice-and-consent package, recommendation,
+  option, agency position, decision stage, target document, meeting record,
+  verification status, and source URLs.
 - `negative_search_map`, when available: item sought, claim type, record or
   attachment type, repository/file scope, source image or diary/schedule basis,
   search result, found-elsewhere target, follow-up status, public phrase,
@@ -9698,6 +9746,151 @@ Audit requirements:
 - Add General Editor tally rows for variations in how much lifecycle and
   document-status detail to print when the facts are sound.
 
+### 13.6 NSC, Interagency Decision Process, Directives, And Policy-Instrument Validation
+
+Decision-process labels carry formal meaning. Published Reagan and Bush volumes
+distinguish NSDDs, NSDs, NSRs, NSPG meetings, NSC/DC meetings, Deputies or
+Principals readiness, action memoranda, option papers, Summary of Conclusions,
+directive tabs, treaty transmittals, Senate advice-and-consent packages, and
+agency positions. A closed-network model must not convert an option paper into a
+decision, a Deputies Committee item into a Principals decision, an NSDD update
+into a generic policy paper, or a treaty transmittal package into an ordinary
+attachment note without supplied evidence.
+
+Use a decision-process registry when the wrapper can supply one:
+
+```json
+{
+  "decision_process_registry_id": "frus-1981-1992-decision-process-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d50",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d24",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d247"
+  ],
+  "records": [
+    {
+      "decision_process_item_id": "decision-reagan-nsdd-update-d50",
+      "unit_id": "frus1981-88v44p1-d50",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d50",
+      "process_type": "nsdd_action_memorandum",
+      "formal_body_or_instrument": "NSDD update action memorandum with attached new Strategic Modernization NSDD and annex",
+      "decision_stage": "presidential signature recommendation and approval basis supplied",
+      "options_or_positions": "recommendation to sign attached NSDD and Annex One",
+      "related_targets": [
+        "NSDD-91",
+        "new Strategic Modernization NSDD",
+        "Document 51",
+        "Foreign Relations, 1981-1988, vol. XLIII scheduled target"
+      ],
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "decision_process_item_id": "decision-bush-nscdc-nsr14-d24",
+      "unit_id": "frus1989-92v31-d24",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d24",
+      "process_type": "nscdc_options_summary",
+      "formal_body_or_instrument": "NSC/DC meeting on NSR-14, Defense and Space, and START Fundamental Limits",
+      "decision_stage": "Deputies Committee papers ready for NSC principals consideration according to Summary of Conclusions",
+      "options_or_positions": "options identify agency positions including DCI, ACDA, State, DOE, and JCS",
+      "related_targets": [
+        "NSR-14",
+        "Summary of Conclusions",
+        "NSC principals",
+        "Defense and Space papers",
+        "START papers"
+      ],
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "decision_process_item_id": "decision-bush-start-transmittal-d247",
+      "unit_id": "frus1989-92v31-d247",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "process_type": "treaty_transmittal_senate_package",
+      "formal_body_or_instrument": "Presidential START I treaty transmittal and article-by-article analysis package",
+      "decision_stage": "submitted for Senate advice and consent with related analyses and associated documents",
+      "options_or_positions": "Secretary recommends submission to Senate at earliest possible date",
+      "related_targets": [
+        "Treaty",
+        "Protocols",
+        "Annexes",
+        "Memorandum of Understanding",
+        "associated agreements, letters, and statements",
+        "Senate advice and consent"
+      ],
+      "verification_status": "verified_published_pattern"
+    }
+  ]
+}
+```
+
+Allowed `process_type` values: `nsdd_action_memorandum`, `nsd_directive`,
+`nsr_review`, `nspg_meeting`, `nscdc_options_summary`,
+`deputies_committee`, `principals_committee`, `summary_of_conclusions`,
+`option_paper`, `decision_memorandum`, `directive_tab`,
+`interagency_paper`, `treaty_transmittal_senate_package`, and `unknown`.
+
+Allowed `verification_status` values: `verified_published_pattern`,
+`verified_source_image`, `needs_decision_body`, `needs_directive_number`,
+`needs_summary_of_conclusions`, `needs_option_basis`, `needs_agency_position`,
+`needs_decision_stage`, `needs_treaty_package_basis`, and `unknown`.
+
+Validator sequence:
+
+1. Identify every NSC, NSPG, NSC/DC, Deputies Committee, Principals Committee,
+   NSDD, NSD, NSR, action memorandum, decision memorandum, option paper,
+   Summary of Conclusions, directive tab, interagency paper, treaty transmittal,
+   Senate advice-and-consent package, recommendation, option, agency position,
+   or decision-stage claim.
+2. Match the unit against `decision_process_context` before changing a decision
+   body, directive number, formal instrument, option status, recommendation,
+   agency position, summary relationship, tab relationship, treaty-package
+   component, or decision stage.
+3. Do not infer that an option paper became policy, that a Deputies Committee
+   readiness statement is a Principals decision, that an NSR is an NSDD, that a
+   directive tab was signed, or that a treaty package component is integral
+   rather than associated unless supplied evidence says so.
+4. Keep decision-process status distinct from document-status lifecycle. A paper
+   can be sent for action without representing a final decision.
+5. Coordinate with treaty/legal validation for treaty packages, with
+   congressional/legal validation for Senate advice and consent, with
+   document-status validation for signature and approval, with attachment
+   validation for tabs and printed targets, and with cross-reference validation
+   for scheduled or printed directive targets.
+6. Add `decision_process_directive` discrepancies only when facts are sound but
+   practice varies on how much decision-process apparatus belongs in source
+   notes versus audit context.
+
+Direct-edit posture:
+
+- Safe direct edits may restore exact supplied decision-process labels such as
+  `NSDD`, `NSR`, `NSC/DC`, `Summary of Conclusions`, `action memorandum`,
+  `option`, `agency position`, `Senate advice and consent`, or `article-by-
+  article analysis` when registry evidence and exact Word anchors support the
+  edit.
+- Use `comment_only` with `evidence_request: decision_process_basis` when the
+  decision body, directive number, option, recommendation, agency position,
+  Summary of Conclusions, tab, interagency status, treaty package, Senate target,
+  or decision stage is uncertain.
+- Use `document_status_basis` when the blocker is signature, approval, sent-for-
+  action, or transmission; use `treaty_component` or `legal_authority` when the
+  blocker is treaty or Senate legal status; use `cross_reference` for directive
+  or printed-target references.
+- Do not normalize formal decision-process labels into generic wording.
+
+Audit requirements:
+
+- Count NSC/NSPG/NSC/DC, Deputies/Principals, NSDD/NSD/NSR, action memorandum,
+  decision memorandum, option paper, Summary of Conclusions, directive tab,
+  interagency paper, treaty transmittal, Senate package, recommendation, option,
+  agency position, decision-stage, and printed/scheduled directive-target
+  warnings separately.
+- Preserve registry id, capture date, source URLs, process type, formal body or
+  instrument, decision stage, options or positions, related targets, and
+  verification status.
+- Add General Editor tally rows for variations in how much formal
+  decision-process apparatus to print when the facts are sound.
+
 ## 14. Audit Report Summary Template
 
 The wrapper may generate a human-readable report after applying changes:
@@ -9714,6 +9907,7 @@ Context bundle: [bundle_id and capture date]
 Authority registry: [authority_registry_id and capture date]
 Document metadata registry: [document_metadata_registry_id and capture date]
 Document-status/lifecycle registry: [document_status_registry_id and capture date]
+Decision-process/directive registry: [decision_process_registry_id and capture date]
 Physical/routing registry: [physical_routing_registry_id and capture date]
 Negative-search/no-record registry: [negative_search_registry_id and capture date]
 Printed/nested-attachment registry: [printed_attachment_registry_id and capture date]
@@ -9770,6 +9964,7 @@ Counts:
   document-number, public-title, or index authority-control issues: [n]
 - Document heading, dateline, title, or caption issues: [n]
 - Document-status, draft/final, original/copy, signed/unsigned, sent/approved, drafting/clearance/approval, distribution, enclosure, or lifecycle issues: [n]
+- Decision-process, NSC/NSPG/NSC/DC, Deputies/Principals, NSDD/NSD/NSR, option, Summary of Conclusions, directive tab, treaty transmittal, Senate package, or decision-stage issues: [n]
 - Source-surrogate, RAC, NLR, FOIA, catalog, URL, PDF, scan, release-package, or `no N number` issues: [n]
 - Physical evidence, routing, marginalia, read-by/seen, approval, or placement issues: [n]
 - Negative-search/no-record/not-found/not-attached/no-minutes issues: [n]
@@ -9820,6 +10015,9 @@ Document-metadata warnings:
 
 Document-status/lifecycle warnings:
 - [unit_id or global]: [document-status issue] - [record type, draft/final status, copy/signature status, routing or transmission status, approval/clearance status, distribution/enclosure status, lifecycle risk, and verification target]
+
+Decision-process/directive warnings:
+- [unit_id or global]: [decision-process issue] - [process type, formal body or instrument, directive number, decision stage, recommendation or option, agency position, related target, and verification target]
 
 Source-surrogate/release warnings:
 - [unit_id or global]: [source-surrogate issue] - [surrogate type, identifier text, repository relationship, source image or URL/PDF/catalog target, release-package status, attachment caveat, publication suitability, and verification target]
@@ -9946,6 +10144,12 @@ Minimum components:
   no-indication-sent, transmitted/delivered, drafted/cleared/approved,
   concurrence, distribution, enclosure, and attachment-status claims before
   tracked changes are applied.
+- Decision-process/directive validator that separates NSC, NSPG, NSC/DC,
+  Deputies Committee, Principals Committee, NSDD, NSD, NSR, action memoranda,
+  decision memoranda, option papers, Summary of Conclusions, directive tabs,
+  interagency papers, treaty transmittals, Senate advice-and-consent packages,
+  recommendations, options, agency positions, and decision stages before tracked
+  changes are applied.
 - Classification/handling validator that separates original classification,
   handling controls, precedence, paragraph markings, verified absence of
   markings, and later release/declassification status before tracked changes
@@ -10125,6 +10329,12 @@ Operational cautions:
   drafted/cleared/approved lines, concurrence, distribution, enclosure and
   attachment-status relationships, rejected lifecycle inferences, and
   document-status discrepancy questions.
+- Record decision-process/directive registry version, NSC/NSPG/NSC/DC body,
+  Deputies/Principals stage, NSDD/NSD/NSR number, action or decision memorandum
+  status, option-paper and Summary of Conclusions relationships, directive tabs,
+  interagency papers, treaty transmittals, Senate advice-and-consent packages,
+  recommendations, options, agency positions, decision-stage claims, rejected
+  decision-process inferences, and decision-process discrepancy questions.
 - Record source-surrogate/release registry version, RAC caveats, NLR/FOIA/
   mandatory-review identifiers, NARA catalog ids, URL/PDF/scan-only locators,
   source-image availability, `no N number` claims, release-package labels,
@@ -10284,6 +10494,10 @@ Pass:
 - Draft/final, original/copy, signature, routing, transmission, approval,
   drafting/clearance/approval, distribution, enclosure, and lifecycle claims are
   verified or left as comment-only.
+- NSC/NSPG/NSC/DC, Deputies/Principals, NSDD/NSD/NSR, action memorandum,
+  option, Summary of Conclusions, directive-tab, treaty-transmittal, Senate
+  package, agency-position, and decision-stage claims are verified or left as
+  comment-only.
 
 Needs revision:
 
@@ -10336,6 +10550,11 @@ Needs revision:
   drafted/cleared/approved, concurrence, distribution, enclosure, or attachment
   lifecycle status is asserted or changed without supplied
   `document_status_basis`.
+- NSC/NSPG/NSC/DC, Deputies/Principals, NSDD/NSD/NSR, action memorandum,
+  decision memorandum, option paper, Summary of Conclusions, directive tab,
+  interagency paper, treaty transmittal, Senate package, recommendation, option,
+  agency position, or decision stage is asserted or changed without supplied
+  `decision_process_basis`.
 - Maps, photographs, charts, images, graphic attachments, captions, visual
   titles, not-found visual items, printed targets, appendix-image references, or
   person/object/place identifications are described, corrected, or changed
@@ -10620,7 +10839,7 @@ Recent Reagan source incorporated:
 - [Volume XLIV, Part 1 Persons authority list](https://history.state.gov/historicaldocuments/frus1981-88v44p1/persons)
 - [Volume XLIV, Part 1 Abbreviations and Terms authority list](https://history.state.gov/historicaldocuments/frus1981-88v44p1/terms)
 - [NSPG meeting source note with Daily Diary basis and `No minutes were found`, Document 1](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1)
-- [Action memorandum with Reagan initials, signed stamp, approval checkmark, and tabs printed as next document, Document 50](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d50)
+- [NSDD update action memorandum with Reagan initials, signed stamp, approval checkmark, attached directive tab, annex, recommendation, scheduled target, and next-document printing logic, Document 50](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d50)
 - [Keel handwritten meeting notes with editor-transcribed portion, appendix image link, illegible readings, and not-declassified spans, Document 155](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d155)
 - [Transition meeting note with `No formal minutes were found`, Document 294](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d294)
 - [Covert-action memorandum of notification, Document 46](https://history.state.gov/historicaldocuments/frus1981-88v10/d46)
@@ -10640,12 +10859,12 @@ Recent Bush source incorporated:
 - [START I preface on selection principles, negotiation movement, interagency records, domestic context, and treaty outcome](https://history.state.gov/historicaldocuments/frus1989-92v31/preface)
 - [Bush Vice Presidential Records source note with Watson initialing and Bush marginalia, Document 1](https://history.state.gov/historicaldocuments/frus1989-92v31/d1)
 - [START I map handed over during Malta session and marked not found, Document 61](https://history.state.gov/historicaldocuments/frus1989-92v31/d61)
-- [NSC/DC H-Files source note with sent-for-action and read-by/routing evidence, Document 24](https://history.state.gov/historicaldocuments/frus1989-92v31/d24)
+- [NSC/DC meeting on NSR-14 with H-Files source note, sent-for-action and read-by/routing evidence, options, agency positions, Summary of Conclusions, and papers ready for NSC principals, Document 24](https://history.state.gov/historicaldocuments/frus1989-92v31/d24)
 - [Bush START I telegram with drafted, cleared, and approved metadata, Document 34](https://history.state.gov/historicaldocuments/frus1989-92v31/d34)
 - [START endgame telegram with London Economic Summit news-conference note, Document 237](https://history.state.gov/historicaldocuments/frus1989-92v31/d237)
 - [Moscow Summit and START signing editorial note, Document 245](https://history.state.gov/historicaldocuments/frus1989-92v31/d245)
 - [START I treaty text source note, Document 246](https://history.state.gov/historicaldocuments/frus1989-92v31/d246)
-- [START I Presidential transmittal and article-by-article analysis note, Document 247](https://history.state.gov/historicaldocuments/frus1989-92v31/d247)
+- [START I Presidential transmittal, article-by-article analysis, associated documents, and Senate advice-and-consent package, Document 247](https://history.state.gov/historicaldocuments/frus1989-92v31/d247)
 - [START I source list with Bush Library H-Files, Scowcroft/Gates collections, Vice Presidential Records, State lot files, CFPF reels, and Published Sources](https://history.state.gov/historicaldocuments/frus1989-92v31/sources)
 - [START I Persons authority list](https://history.state.gov/historicaldocuments/frus1989-92v31/persons)
 - [START I Abbreviations and Terms authority list](https://history.state.gov/historicaldocuments/frus1989-92v31/terms)
