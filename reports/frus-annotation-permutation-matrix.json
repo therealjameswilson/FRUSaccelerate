@@ -1,0 +1,610 @@
+{
+  "schema_version": "frus-annotation-permutation-matrix-v1",
+  "matrix_id": "frus-annotation-permutation-matrix-2026-06-03",
+  "source_schema": "reports/frus-annotation-checker-output.schema.json",
+  "source_router": "reports/frus-preparation-router-1981-1992.current.json",
+  "purpose": "Coverage matrix for FRUS Annotation Checker finding categories, evidence requests, safe actions, and family-sensitive hazards.",
+  "use_limits": [
+    "Use this matrix to classify missing proof and direct-edit risk.",
+    "Do not use this matrix as source-note provenance.",
+    "If a category policy and supplied evidence conflict, use the stricter comment-only policy.",
+    "If a volume-family router hazard is present, require the relevant evidence context before direct edits."
+  ],
+  "category_policies": [
+    {
+      "category": "source_note",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["source_note_component_context", "source_family_context", "source_image_context"],
+      "primary_evidence_requests": ["archival_path", "source_image", "source_family", "source_surrogate_basis"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["source_note", "archival_path", "source_family", "source_surrogate_basis"]
+    },
+    {
+      "category": "citation",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["cross_reference_context", "status_registry_context", "authority_registry_context"],
+      "primary_evidence_requests": ["cross_reference", "publication_status", "document_number"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["citation", "cross_reference", "publication_status"]
+    },
+    {
+      "category": "attachment",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["attachment_registry_context", "source_image_context"],
+      "primary_evidence_requests": ["attachment_status", "source_image", "document_number"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["attachment", "attachment_status"]
+    },
+    {
+      "category": "printed_nested_attachment",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["printed_attachment_context", "attachment_registry_context"],
+      "primary_evidence_requests": ["printed_attachment_basis", "attachment_status", "document_number"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["printed_nested_attachment", "printed_attachment_basis"]
+    },
+    {
+      "category": "handwritten_facsimile_transcription",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["handwritten_transcription_context", "source_image_context"],
+      "primary_evidence_requests": ["transcription_facsimile_basis", "source_image", "editorial_method_basis"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["handwritten_facsimile_transcription", "transcription_facsimile_basis"]
+    },
+    {
+      "category": "visual_material_graphic",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["visual_material_context", "source_image_context"],
+      "primary_evidence_requests": ["visual_material_basis", "source_image", "attachment_status"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["visual_material_graphic", "visual_material_basis"]
+    },
+    {
+      "category": "source_surrogate_release",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["source_surrogate_context", "release_apparatus_context"],
+      "primary_evidence_requests": ["source_surrogate_basis", "release_apparatus_basis", "archival_path"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["source_surrogate_release", "source_surrogate_basis", "release_apparatus_basis"]
+    },
+    {
+      "category": "editorial_method_transcription",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["editorial_method_context", "source_image_context"],
+      "primary_evidence_requests": ["editorial_method_basis", "source_image", "transcription_facsimile_basis"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["editorial_method_transcription", "editorial_method_basis"]
+    },
+    {
+      "category": "document_status_lifecycle",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["document_status_context", "source_image_context"],
+      "primary_evidence_requests": ["document_status_basis", "source_image", "document_metadata"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["document_status_lifecycle", "document_status_basis"]
+    },
+    {
+      "category": "decision_process_directive",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["decision_process_context", "document_metadata_registry_context"],
+      "primary_evidence_requests": ["decision_process_basis", "document_number", "treaty_component"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["decision_process_directive", "decision_process_basis"]
+    },
+    {
+      "category": "annotation",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["annotation_sheet_context", "extracted_units", "authority_context"],
+      "primary_evidence_requests": ["source_image", "archival_path", "wrapper_safety"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["annotation", "wrapper_safety"]
+    },
+    {
+      "category": "editorial_note",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["cross_reference_context", "chronology_registry_context", "selection_balance_context"],
+      "primary_evidence_requests": ["cross_reference", "chronology", "selection_balance_basis", "public_source_basis"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["editorial_note", "cross_reference", "chronology"]
+    },
+    {
+      "category": "document_metadata",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["document_metadata_registry_context", "source_image_context"],
+      "primary_evidence_requests": ["document_metadata", "document_number", "source_image"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["document_metadata"]
+    },
+    {
+      "category": "classification_handling",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["classification_registry_context", "source_image_context"],
+      "primary_evidence_requests": ["classification_marking", "source_image", "declassification_status"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["classification_handling", "classification_marking"]
+    },
+    {
+      "category": "source_list_front_matter",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["source_list_front_matter_context", "authority_registry_context"],
+      "primary_evidence_requests": ["source_list_basis", "authority_control", "source_family"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["source_list_front_matter", "source_list_basis"]
+    },
+    {
+      "category": "selection_balance_completeness",
+      "direct_edit_policy": "comment_only_by_default",
+      "required_context": ["selection_balance_context", "coverage_matrix_context"],
+      "primary_evidence_requests": ["selection_balance_basis", "cross_reference", "source_family"],
+      "safe_actions": ["comment_only", "no_change"],
+      "hazard_tags": ["selection_balance_completeness", "selection_balance_basis"]
+    },
+    {
+      "category": "physical_routing_marginalia",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["physical_routing_context", "source_image_context"],
+      "primary_evidence_requests": ["physical_evidence_basis", "source_image", "document_status_basis"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["physical_routing_marginalia", "physical_evidence_basis"]
+    },
+    {
+      "category": "negative_search_no_record",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["negative_search_context", "cross_reference_context"],
+      "primary_evidence_requests": ["negative_search_basis", "attachment_status", "document_number"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["negative_search_no_record", "negative_search_basis"]
+    },
+    {
+      "category": "memoir_oral_history_recollection",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["retrospective_account_context", "public_source_context"],
+      "primary_evidence_requests": ["retrospective_account_basis", "public_source_basis", "chronology"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["memoir_oral_history_recollection", "retrospective_account_basis"]
+    },
+    {
+      "category": "translation_foreign_origin",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["translation_registry_context", "foreign_international_org_context"],
+      "primary_evidence_requests": ["translation_status", "foreign_org_basis", "source_image"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["translation_foreign_origin", "translation_status"]
+    },
+    {
+      "category": "foreign_international_organization",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["foreign_international_org_context", "translation_registry_context"],
+      "primary_evidence_requests": ["foreign_org_basis", "translation_status", "treaty_component"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["foreign_international_organization", "foreign_org_basis"]
+    },
+    {
+      "category": "treaty_legal_instrument",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["treaty_registry_context", "congressional_legal_context"],
+      "primary_evidence_requests": ["treaty_component", "legal_authority", "document_number"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["treaty_legal_instrument", "treaty_component"]
+    },
+    {
+      "category": "public_diplomacy_public_source",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["public_diplomacy_context", "release_apparatus_context"],
+      "primary_evidence_requests": ["public_source_basis", "release_apparatus_basis", "event_chronology"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["public_diplomacy_public_source", "public_source_basis"]
+    },
+    {
+      "category": "congressional_legal_authority",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["congressional_legal_context", "public_source_context"],
+      "primary_evidence_requests": ["legal_authority", "public_source_basis", "financial_data"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["congressional_legal_authority", "legal_authority"]
+    },
+    {
+      "category": "economic_financial_data",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["economic_financial_context", "congressional_legal_context"],
+      "primary_evidence_requests": ["financial_data", "legal_authority", "public_source_basis"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["economic_financial_data", "financial_data"]
+    },
+    {
+      "category": "intelligence_law_enforcement",
+      "direct_edit_policy": "comment_only_by_default",
+      "required_context": ["sensitive_record_context", "classification_registry_context"],
+      "primary_evidence_requests": ["agency_equity", "classification_marking", "declassification_status"],
+      "safe_actions": ["comment_only", "no_change"],
+      "hazard_tags": ["intelligence_law_enforcement", "agency_equity"]
+    },
+    {
+      "category": "military_crisis_operations",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["military_crisis_context", "chronology_registry_context"],
+      "primary_evidence_requests": ["military_operation_basis", "chronology", "agency_equity"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["military_crisis_operations", "military_operation_basis"]
+    },
+    {
+      "category": "human_rights_refugee_global_issues",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["humanitarian_rights_context", "economic_financial_context", "foreign_international_org_context"],
+      "primary_evidence_requests": ["humanitarian_rights_basis", "legal_authority", "financial_data", "foreign_org_basis"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["human_rights_refugee_global_issues", "humanitarian_rights_basis"]
+    },
+    {
+      "category": "declassification",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["declassification_registry_context", "classification_registry_context"],
+      "primary_evidence_requests": ["declassification_status", "classification_marking", "agency_equity"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["declassification", "declassification_status"]
+    },
+    {
+      "category": "authority_control",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["authority_registry_context", "source_list_front_matter_context"],
+      "primary_evidence_requests": ["authority_control", "source_list_basis", "document_metadata"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["authority_control"]
+    },
+    {
+      "category": "chronology",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["chronology_registry_context", "source_image_context"],
+      "primary_evidence_requests": ["chronology", "event_chronology", "source_image"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["chronology"]
+    },
+    {
+      "category": "time_zone_chronology",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["time_zone_context", "communications_registry_context"],
+      "primary_evidence_requests": ["time_zone_basis", "chronology", "communications_metadata"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["time_zone_chronology", "time_zone_basis"]
+    },
+    {
+      "category": "summit_public_event",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["event_chronology_context", "public_diplomacy_context"],
+      "primary_evidence_requests": ["event_chronology", "public_source_basis", "chronology"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["summit_public_event", "event_chronology"]
+    },
+    {
+      "category": "communications_record",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["communications_registry_context", "source_family_context"],
+      "primary_evidence_requests": ["communications_metadata", "time_zone_basis", "classification_marking"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["communications_record", "communications_metadata"]
+    },
+    {
+      "category": "publication_status",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["status_registry_context", "preparation_router_context", "cross_reference_context"],
+      "primary_evidence_requests": ["publication_status", "cross_reference", "document_number"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["publication_status"]
+    },
+    {
+      "category": "volume_preparation_scope",
+      "direct_edit_policy": "comment_only_by_default",
+      "required_context": ["status_registry_context", "preparation_router_context", "volume_family_context"],
+      "primary_evidence_requests": ["source_family", "publication_status", "authority_control"],
+      "safe_actions": ["comment_only", "no_change"],
+      "hazard_tags": ["volume_preparation_scope", "source_family"]
+    },
+    {
+      "category": "release_errata_apparatus",
+      "direct_edit_policy": "comment_unless_context",
+      "required_context": ["release_apparatus_context", "status_registry_context"],
+      "primary_evidence_requests": ["release_apparatus_basis", "publication_status", "public_source_basis"],
+      "safe_actions": ["comment_only", "replace_text", "no_change"],
+      "hazard_tags": ["release_errata_apparatus", "release_apparatus_basis"]
+    },
+    {
+      "category": "wording",
+      "direct_edit_policy": "exact_supported_edit_allowed",
+      "required_context": ["extracted_units", "style_standard_context"],
+      "primary_evidence_requests": ["none", "authority_control", "editorial_method_basis"],
+      "safe_actions": ["comment_only", "replace_text", "insert_after_text", "delete_text", "no_change"],
+      "hazard_tags": ["wording"]
+    },
+    {
+      "category": "evidence",
+      "direct_edit_policy": "comment_only_by_default",
+      "required_context": ["evidence_queue_context", "source_image_context", "context_bundle"],
+      "primary_evidence_requests": ["source_image", "archival_path", "wrapper_safety"],
+      "safe_actions": ["comment_only", "no_change"],
+      "hazard_tags": ["evidence", "wrapper_safety"]
+    },
+    {
+      "category": "format",
+      "direct_edit_policy": "exact_supported_edit_allowed",
+      "required_context": ["extracted_units", "word_redline_integrity_context"],
+      "primary_evidence_requests": ["none", "editorial_method_basis", "wrapper_safety"],
+      "safe_actions": ["comment_only", "replace_text", "insert_after_text", "delete_text", "no_change"],
+      "hazard_tags": ["format", "wrapper_safety"]
+    }
+  ],
+  "evidence_request_policies": [
+    {
+      "evidence_request": "none",
+      "owner_hint": "none",
+      "blocks_direct_edit_by_default": false,
+      "blocks_final_publication_by_default": false,
+      "comment_target_template": "No missing proof; use only when the finding is supported or no_change."
+    },
+    {
+      "evidence_request": "source_image",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the source image or visible feature to inspect."
+    },
+    {
+      "evidence_request": "archival_path",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the repository, collection, series, box, folder, lot, OA/ID, or file unit to verify."
+    },
+    {
+      "evidence_request": "classification_marking",
+      "owner_hint": "declassification",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the original classification, handling, precedence, or verified absence of marking."
+    },
+    {
+      "evidence_request": "source_surrogate_basis",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the RAC, NLR, FOIA, catalog, scan, URL, release package, or surrogate relationship to verify."
+    },
+    {
+      "evidence_request": "source_list_basis",
+      "owner_hint": "editor",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the source-list, front-matter, abbreviation, Persons, appendix, or review-statement basis."
+    },
+    {
+      "evidence_request": "selection_balance_basis",
+      "owner_hint": "general_editor",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the coverage matrix, related volume, source lead, withheld-document ledger, or scope decision."
+    },
+    {
+      "evidence_request": "physical_evidence_basis",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the handwritten, stamped, marginal, routing, approval, signed, or physical-placement feature."
+    },
+    {
+      "evidence_request": "negative_search_basis",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the item sought, record type, repository/file scope, search result, and follow-up status."
+    },
+    {
+      "evidence_request": "printed_attachment_basis",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the parent document, child unit, tab/enclosure label, printed target, and source-note relationship."
+    },
+    {
+      "evidence_request": "transcription_facsimile_basis",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the handwritten source, facsimile, uncertain reading, original bracket, or appendix-image basis."
+    },
+    {
+      "evidence_request": "visual_material_basis",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the visual item, caption, source image, attachment status, printed target, or identification basis."
+    },
+    {
+      "evidence_request": "time_zone_basis",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the time label, conversion, date-time group, treaty rule, or chronological placement basis."
+    },
+    {
+      "evidence_request": "editorial_method_basis",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the bracket, styling, abbreviation, telegram-number, original-text, or silent-correction basis."
+    },
+    {
+      "evidence_request": "document_status_basis",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the draft/final, original/copy, signed, approval, routing, distribution, or lifecycle evidence."
+    },
+    {
+      "evidence_request": "decision_process_basis",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the NSC/NSPG/NSD/NSR/directive, option, decision stage, meeting record, or agency-position basis."
+    },
+    {
+      "evidence_request": "attachment_status",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the tab, enclosure, attachment, printed target, not-attached, or not-found proof."
+    },
+    {
+      "evidence_request": "document_number",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the same-volume or cross-volume document, chapter, or section target."
+    },
+    {
+      "evidence_request": "document_metadata",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the heading, date/place line, sender, recipient, subject, public title, or document form evidence."
+    },
+    {
+      "evidence_request": "foreign_org_basis",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the foreign-government, international-organization, conference, treaty-party, copy, or concurrence basis."
+    },
+    {
+      "evidence_request": "treaty_component",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the treaty, protocol, annex, MOU, agreement, transmittal, ratification, or associated-document status."
+    },
+    {
+      "evidence_request": "public_source_basis",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the public source, transcript, delivery, publication, page, excerpt, or archival-draft relationship."
+    },
+    {
+      "evidence_request": "retrospective_account_basis",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the memoir, diary, oral history, interview, page, event match, and official-record corroboration."
+    },
+    {
+      "evidence_request": "legal_authority",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the statute, hearing, public law, section, determination, certification, Executive Order, or Senate basis."
+    },
+    {
+      "evidence_request": "financial_data",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the figure, unit, fiscal year, institution, table, program, source, legal basis, or policy stage."
+    },
+    {
+      "evidence_request": "agency_equity",
+      "owner_hint": "declassification",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the intelligence, law-enforcement, operational, source-and-methods, oversight, or agency-equity proof."
+    },
+    {
+      "evidence_request": "military_operation_basis",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the operation stage, order, force/unit, time basis, host-nation/coalition role, or military authority."
+    },
+    {
+      "evidence_request": "humanitarian_rights_basis",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the report basis, population scope, public/archival source, legal/program authority, metric, or organization role."
+    },
+    {
+      "evidence_request": "publication_status",
+      "owner_hint": "editor",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the current official volume, chapter, release-bucket, or publication-status target."
+    },
+    {
+      "evidence_request": "release_apparatus_basis",
+      "owner_hint": "editor",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the release, correction, digital-edition, GPO/ISBN/S/N, errata, date-type, or capture-date target."
+    },
+    {
+      "evidence_request": "authority_control",
+      "owner_hint": "editor",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the Persons, title, abbreviation, index term, office, date span, or authority-list form."
+    },
+    {
+      "evidence_request": "declassification_status",
+      "owner_hint": "declassification",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the release, withholding, excision, bracket, agency-equity, or review outcome."
+    },
+    {
+      "evidence_request": "translation_status",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the language, official/unofficial status, foreign-origin copy, typed signature, bracket, or equity basis."
+    },
+    {
+      "evidence_request": "chronology",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the time, place, attendance, sequence, diary, schedule, call-log, or meeting basis."
+    },
+    {
+      "evidence_request": "event_chronology",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the summit, trip, ceremony, interview, press event, public remarks, participant, or full-record target."
+    },
+    {
+      "evidence_request": "communications_metadata",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the telegram/cable/system, message identifier, date-time group, origin, addressee, routing, or distribution metadata."
+    },
+    {
+      "evidence_request": "source_family",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the volume family, source ecology, subseries, or family-specific source-note form to preserve."
+    },
+    {
+      "evidence_request": "cross_reference",
+      "owner_hint": "compiler",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the related document, footnote, appendix, telegram, volume, chapter, or target anchor."
+    },
+    {
+      "evidence_request": "wrapper_safety",
+      "owner_hint": "wrapper",
+      "blocks_direct_edit_by_default": true,
+      "blocks_final_publication_by_default": true,
+      "comment_target_template": "Identify the Word anchor, existing revision, comment, field, table, note reference, pseudo-marker, or package validation issue."
+    }
+  ]
+}

@@ -33,7 +33,10 @@ and validate it with `scripts/validate-frus-status-registry.mjs` before running
 status-claim preflight. For volume-family and stage-posture routing, use
 `reports/frus-preparation-router-1981-1992.current.json` and validate it with
 `scripts/validate-frus-preparation-router.mjs` against the current status
-registry before allowing family-dependent direct edits.
+registry before allowing family-dependent direct edits. For category,
+evidence-request, and router-hazard coverage, use
+`reports/frus-annotation-permutation-matrix.json` and validate it with
+`scripts/validate-frus-permutation-matrix.mjs`.
 For source-note component diagnostics, use
 `scripts/lint-frus-source-notes.mjs` with
 `reports/frus-source-note-units.sample.json`.
@@ -359,6 +362,10 @@ The wrapper should provide the LLM with:
   volume-family and stage-posture routes keyed to current official status
   entries. Use it to choose review posture and family-specific hazards, not as
   source-note provenance.
+- `permutation_matrix_context`, if available: structured category and
+  evidence-request coverage matrix keyed to the output schema and preparation
+  router. Use it to choose the most specific missing proof and safest action
+  before proposing comments or direct edits.
 - `annotation_sheet_context`, if available: whether the uploaded file is a
   research sheet, chapter annotation sheet, clearance pass, final style pass,
   source-list draft, Persons/abbreviations draft, or mixed editorial packet;
