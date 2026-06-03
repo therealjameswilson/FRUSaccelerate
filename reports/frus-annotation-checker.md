@@ -55,6 +55,9 @@ The wrapper should provide the LLM with:
 - `document_manifest`: filename, upload date, page/section metadata, and whether
   the uploaded Word file already contains tracked changes.
 - `extracted_units`: an ordered list of extracted Word units.
+- `chunk_manifest`, if the document is split for a small-context model:
+  `packet_id`, `chunk_id`, `chunk_count`, unit id range, overlap policy, and a
+  short packet-level summary supplied by the wrapper.
 - `authority_context`, if available: volume title, administration, date range,
   known document numbers, Persons authority list, abbreviations list, repository
   authority list, and neighboring-volume references.
@@ -1791,7 +1794,96 @@ Mode-specific output expectations:
   transcribed text from editorial apparatus, or when the wrapper cannot safely
   apply requested tracked changes.
 
-## 10. Acceptance And Evaluation Protocol
+## 10. Chunking And Cross-Chunk Reconciliation
+
+Long annotation sheets may exceed the context window of a rudimentary
+closed-network LLM. Chunking is allowed only after the wrapper has extracted and
+unitized the Word file. Never chunk raw Word XML or plain text before preserving
+unit ids and exact Word anchors.
+
+Chunking rules:
+
+- Split by stable units, not by arbitrary character count. Keep a source note,
+  follow-on footnote, editorial note, table cell, Persons entry, abbreviation
+  entry, source-list entry, or heading unit intact.
+- Include the same packet-level context in every chunk: volume title, status,
+  review mode, volume family, context bundle id, authority-list digest, known
+  document-number range, and any existing tracked-change warning.
+- Include a small overlap only for surrounding headings, document numbers, and
+  neighboring cross-reference context. The LLM must not propose direct edits to
+  overlap-only units unless those units are included as editable units in the
+  current chunk.
+- Mark every unit in the chunk as `editable`, `context_only`, or
+  `overlap_context`. Direct edits are allowed only for `editable` units.
+- Preserve document order across chunks. The wrapper should be able to sort all
+  findings back into original Word order.
+- If a cross-reference target falls outside the current chunk, the LLM should
+  use `comment_only` with `evidence_request` set to `cross_reference` unless the
+  wrapper supplies the target in authority context.
+
+Required chunk manifest fields:
+
+```json
+{
+  "packet_id": "uploaded-file-2026-06-03",
+  "chunk_id": "chunk-003",
+  "chunk_count": 12,
+  "unit_id_start": "footnote-0041",
+  "unit_id_end": "editorial-note-0057",
+  "editable_unit_count": 17,
+  "context_only_unit_count": 4,
+  "review_mode": "normal",
+  "series_status": "being_cleared",
+  "volume_family": "arms control and national security",
+  "context_bundle_id": "frus-1981-1992-context-2026-06-03"
+}
+```
+
+Cross-chunk memory:
+
+- The wrapper may send a compact summary of prior findings to later chunks, but
+  that summary is not editable evidence. Direct edits still require an exact
+  `original_text` match in the current chunk's mapped `exact_text`.
+- Carry forward only stable packet-level facts: repeated missing source family,
+  repeated authority-control issue, unresolved General Editor discrepancy,
+  duplicate scheduled-publication target, or repeated wrapper-safety problem.
+- Do not carry forward speculative corrections, guessed document numbers, or
+  inferred classifications from an earlier chunk.
+- If later chunks contradict earlier findings, prefer a reconciliation comment
+  or General Editor discrepancy tally item over silently overwriting the earlier
+  result.
+
+Reconciliation pass:
+
+1. Validate every chunk response against the schema.
+2. Reject direct edits that target non-editable, context-only, or overlap-only
+   units.
+3. Merge duplicate findings according to the duplicate-suppression rules in the
+   review-mode section.
+4. Merge `style_discrepancy_tally` items by category, style question, and
+   variants observed; preserve representative unit ids from multiple chunks.
+5. Recheck cross-references whose targets appeared in later chunks. Upgrade a
+   finding only if the wrapper now has exact evidence; otherwise keep
+   `comment_only`.
+6. Check for contradictions: one chunk says `no_change` while another flags the
+   same phrase, source family, authority entry, or cross-reference as a defect.
+   Resolve by severity and evidence, then record the reconciliation in the
+   audit report.
+7. Produce one final merged JSON object for Word application. The Word wrapper
+   should apply tracked changes only from the merged object, never from raw
+   per-chunk output.
+
+Chunking failure modes:
+
+- If chunking loses exact anchors, return `blocked`.
+- If unit ids are duplicated across chunks without an overlap flag, return
+  `blocked`.
+- If a chunk contains only summarized text and no mapped editable units, it may
+  produce global comments or discrepancy-tally items, but no direct edits.
+- If the wrapper cannot reconcile duplicate or contradictory findings, preserve
+  the safer `comment_only` finding and report the unresolved conflict.
+
+## 11. Acceptance And Evaluation Protocol
 
 Before using the checker on production annotation sheets, the closed-network
 team should run a small golden packet and confirm that the LLM, validator, and
@@ -1874,7 +1966,7 @@ Human review requirements:
 - Keep the golden packet on the closed network, with document excerpts cleared
   for that environment.
 
-## 11. General Editor Style Discrepancy Tally
+## 12. General Editor Style Discrepancy Tally
 
 The checker should keep a separate running tally of style discrepancies for the
 General Editor. This tally is for questions where published FRUS practice,
@@ -1942,7 +2034,7 @@ Risk levels:
 - `high`: Variation could mislead readers if unresolved, but the checker lacks
   authority to decide the house rule.
 
-## 12. Offline Context Bundle Requirements
+## 13. Offline Context Bundle Requirements
 
 The checker is designed for a closed network. That means the wrapper should not
 ask the LLM to browse live History Office pages during a review run. Instead,
@@ -2021,7 +2113,7 @@ Context freshness guidance:
   stale, unless the run would change `scheduled for publication`, `printed in`,
   document numbers, chapter status, or publication-status language.
 
-## 13. Audit Report Summary Template
+## 14. Audit Report Summary Template
 
 The wrapper may generate a human-readable report after applying changes:
 
@@ -2034,6 +2126,8 @@ Run date: [date]
 Checker version: [version]
 Context bundle: [bundle_id and capture date]
 Review mode: [light/normal/exhaustive]
+Chunks processed: [n]
+Units reviewed: [n]
 
 Overall status: [pass/pass_with_comments/needs_revision/blocked]
 
@@ -2048,6 +2142,7 @@ Counts:
 - Evidence requests by type: [source_image n; archival_path n; classification_marking n; etc.]
 - Style discrepancies tallied for General Editor: [n]
 - Duplicate findings merged: [n]
+- Cross-chunk conflicts reconciled: [n]
 
 Major issues:
 - [unit_id]: [finding]
@@ -2060,9 +2155,10 @@ Style discrepancy tally:
 
 Rejected edits:
 - [unit_id]: original_text was not found exactly in target unit.
+- [unit_id]: edit rejected because unit was context-only or overlap-only.
 ```
 
-## 14. Closed-Network Deployment Notes
+## 15. Closed-Network Deployment Notes
 
 Minimum components:
 
@@ -2074,6 +2170,7 @@ Minimum components:
   deletions, and comments.
 - Offline context-bundle loader with status, authority, source-family, and
   provenance metadata.
+- Chunker and reconciliation layer for long `.docx` packets.
 - Export step that writes a new `.docx`.
 
 Operational cautions:
@@ -2083,6 +2180,7 @@ Operational cautions:
 - Record the exact checker version used.
 - Record the exact context-bundle id and capture date used.
 - Record the selected review mode and whether duplicate findings were merged.
+- Record chunk count, unit count, and any cross-chunk conflicts.
 - Preserve an audit log of all LLM outputs, validator rejections, and applied
   changes.
 - Preserve evidence-request counts so reviewers can see whether a packet is
@@ -2094,7 +2192,7 @@ Operational cautions:
 - Do not accept checker edits automatically for publication; human FRUS editors
   must review every tracked change.
 
-## 15. Quick Pass/Fail Rubric
+## 16. Quick Pass/Fail Rubric
 
 Pass:
 
@@ -2122,7 +2220,7 @@ Blocked:
   matching.
 - The Word wrapper cannot safely apply track changes.
 
-## 16. Source Basis
+## 17. Source Basis
 
 This checker is based on the local file:
 
