@@ -1243,6 +1243,172 @@ Better as comment-only:
 }
 ```
 
+### 7.1 Calibration Cases For LLM Output
+
+Use these cases to calibrate the LLM before a closed-network run. They are not
+new facts; they are examples of decision discipline. Replace placeholders only
+with evidence supplied in the uploaded document or wrapper context.
+
+Case 1: Safe style replacement.
+
+```json
+{
+  "unit_id": "source-note-0001",
+  "severity": "minor",
+  "category": "source_note",
+  "finding": "The note uses non-standard classification wording.",
+  "standard": "Use `No classification marking.` when the document has no original classification marking.",
+  "recommended_action": "replace_text",
+  "original_text": "No classification.",
+  "replacement_text": "No classification marking.",
+  "comment_text": "Use the standard FRUS phrase when the absence of an original classification marking is verified."
+}
+```
+
+Case 2: URL-only source note.
+
+```json
+{
+  "unit_id": "source-note-0002",
+  "severity": "major",
+  "category": "source_note",
+  "finding": "The source note leads with a discovery URL instead of the archival or published control source.",
+  "standard": "FRUS source notes should identify the repository or selected published source before discovery platforms, scans, or URLs.",
+  "recommended_action": "comment_only",
+  "original_text": "",
+  "replacement_text": "",
+  "comment_text": "Replace the URL-only locator with the repository-to-folder source path or selected published source before finalizing."
+}
+```
+
+Case 3: Missing Bush H-Files subseries.
+
+```json
+{
+  "unit_id": "source-note-0003",
+  "severity": "major",
+  "category": "source_note",
+  "finding": "The Bush H-Files citation omits the specific subseries.",
+  "standard": "Bush H-Files source notes should preserve subseries such as NSR Files, NSD Files, NSC Meetings Files, or NSC/DC Meetings Files when supplied.",
+  "recommended_action": "comment_only",
+  "original_text": "",
+  "replacement_text": "",
+  "comment_text": "Verify the H-Files subseries, OA/ID, and folder title against the control copy; do not flatten the citation to generic H-Files."
+}
+```
+
+Case 4: Editorial note without a source footnote.
+
+```json
+{
+  "unit_id": "editorial-note-0004",
+  "severity": "info",
+  "category": "editorial_note",
+  "finding": "No issue. A source footnote is not required if the editorial note itself supplies documentary citations and chronology.",
+  "standard": "Published Reagan and Bush volumes include editorial notes without first-footnote source notes when the note text carries the evidence.",
+  "recommended_action": "no_change",
+  "original_text": "",
+  "replacement_text": "",
+  "comment_text": ""
+}
+```
+
+Case 5: Transcribed document text mistakenly targeted.
+
+```json
+{
+  "unit_id": "document-body-0005",
+  "severity": "info",
+  "category": "evidence",
+  "finding": "The unit appears to be transcribed document text rather than editorial apparatus.",
+  "standard": "Do not edit transcribed document text unless the user requested transcription review or the unit is explicitly editorial.",
+  "recommended_action": "comment_only",
+  "original_text": "",
+  "replacement_text": "",
+  "comment_text": "This appears to be document text; restrict the checker to source notes, annotations, headings, and editorial apparatus."
+}
+```
+
+Case 6: Scheduled-publication language.
+
+```json
+{
+  "unit_id": "follow-on-0006",
+  "severity": "major",
+  "category": "citation",
+  "finding": "The proposed wording would change a scheduled-publication claim into a published-document claim without supplied proof.",
+  "standard": "Do not change `scheduled for publication` to `printed in` unless the target volume or chapter is published and the document number is supplied.",
+  "recommended_action": "comment_only",
+  "original_text": "",
+  "replacement_text": "",
+  "comment_text": "Verify current publication status and target document number before changing scheduled-publication language."
+}
+```
+
+Case 7: Working label left in publishable apparatus.
+
+```json
+{
+  "unit_id": "source-note-0007",
+  "severity": "major",
+  "category": "format",
+  "finding": "A compiler working label remains inside publishable annotation text.",
+  "standard": "Working labels such as `candidate`, `needs scan`, `TK`, `TBD`, or `verify` must not remain in final FRUS apparatus.",
+  "recommended_action": "comment_only",
+  "original_text": "",
+  "replacement_text": "",
+  "comment_text": "Resolve the working label against the source image or authority context before final style pass."
+}
+```
+
+Case 8: Classification confused with release status.
+
+```json
+{
+  "unit_id": "source-note-0008",
+  "severity": "major",
+  "category": "declassification",
+  "finding": "The note appears to use release/declassification status as if it were the original classification marking.",
+  "standard": "Source notes must distinguish original classification and handling markings from release, declassification, or review status.",
+  "recommended_action": "comment_only",
+  "original_text": "",
+  "replacement_text": "",
+  "comment_text": "Verify the original classification marking on the document; do not substitute `declassified`, `released`, or `sanitized` for the original marking."
+}
+```
+
+Case 9: Excellent non-template source note.
+
+```json
+{
+  "unit_id": "source-note-0009",
+  "severity": "info",
+  "category": "source_note",
+  "finding": "No issue. The note preserves a specific source family rather than forcing a generic template.",
+  "standard": "Preserve source-family identity for PROFS, W Files, System IV, STARS, private papers, public sources, Bush Vice Presidential Records, and other real source ecologies.",
+  "recommended_action": "no_change",
+  "original_text": "",
+  "replacement_text": "",
+  "comment_text": ""
+}
+```
+
+Case 10: Exact replacement anchor not found.
+
+```json
+{
+  "unit_id": "source-note-0010",
+  "severity": "blocker",
+  "category": "format",
+  "finding": "The proposed edit cannot be applied because the exact target text is not present in the extracted unit.",
+  "standard": "Every direct edit must use an `original_text` that is an exact substring of the extracted unit.",
+  "recommended_action": "comment_only",
+  "original_text": "",
+  "replacement_text": "",
+  "comment_text": "Wrapper should reject direct edits whose original_text does not exactly match the target unit."
+}
+```
+
 ## 8. Standard Check Sequence
 
 For every extracted unit, run checks in this order:
