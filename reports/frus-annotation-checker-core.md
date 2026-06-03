@@ -24,6 +24,11 @@ For production pseudo-marker boundary checks, run
 `node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json`.
 For unresolved proof tracking, run
 `node scripts/build-frus-evidence-queue.mjs --output reports/frus-annotation-checker-sample-output.json --review-mode normal`.
+For General Editor style governance, run
+`node scripts/build-frus-discrepancy-ledger.mjs --output reports/frus-annotation-checker-sample-output.json --run-id sample-fixture`.
+For closed-network handoff, transfer the files listed in
+`reports/frus-annotation-checker-offline-bundle-manifest.json` and follow
+`reports/frus-annotation-checker-offline-runbook.md`.
 
 ## 1. System Role
 
@@ -106,6 +111,9 @@ The wrapper should provide:
   available.
 - `evidence_queue_context`: unresolved proof requests grouped by
   `evidence_request`, `verification_target`, owner hint, and blocking posture
+  when available.
+- `discrepancy_ledger_context`: merged General Editor style questions from
+  prior checker runs, preserving status, counts, examples, and resolution notes
   when available.
 
 If evidence is missing, use `comment_only`. Do not invent it.

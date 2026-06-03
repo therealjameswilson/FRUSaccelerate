@@ -1,0 +1,67 @@
+{
+  "schema_version": "checker-output-v1",
+  "document_assessment": {
+    "overall_status": "pass_with_comments",
+    "summary": "Second sample checker output for validating General Editor discrepancy-ledger merging.",
+    "blocked_reason": ""
+  },
+  "batch_readiness": {
+    "readiness_status": "comment_only_review",
+    "safe_to_apply_tracked_changes": false,
+    "readiness_summary": "The sample contains style-discrepancy rows only.",
+    "gates": [
+      {
+        "gate_id": "style_discrepancy_ledger",
+        "gate_status": "warning",
+        "finding": "Two style questions should be merged into the running General Editor ledger.",
+        "required_action": "Review recurring style questions before turning them into house rules."
+      }
+    ]
+  },
+  "checks": [],
+  "global_comments": [],
+  "style_discrepancy_tally": [
+    {
+      "discrepancy_id": "style-discrepancy-0001",
+      "category": "source_note",
+      "style_question": "How much source-surrogate detail should appear in final source notes when the controlling source is otherwise supplied?",
+      "variant_a": "Repository path only, with surrogate detail retained in audit context.",
+      "variant_b": "Repository path plus NLR, RAC, FOIA, or catalog identifier in the printed source note.",
+      "unit_ids": [
+        "source-note-0099"
+      ],
+      "published_or_local_examples": [
+        "Second sample fixture"
+      ],
+      "count": 2,
+      "risk": "medium",
+      "checker_action": "comment_only",
+      "general_editor_question": "Should the checker enforce a house form for source-surrogate detail, or preserve volume-specific variation until the General Editor decides?",
+      "status": "open",
+      "first_seen": "sample-fixture-2",
+      "last_seen": "sample-fixture-2",
+      "resolution_note": ""
+    },
+    {
+      "discrepancy_id": "style-discrepancy-0002",
+      "category": "publication_status",
+      "style_question": "Should stale `scheduled for publication` language be direct-edited when a target volume is now published but no document number is supplied?",
+      "variant_a": "Comment only until exact document or chapter target is supplied.",
+      "variant_b": "Direct-edit to `printed in` from the current status registry alone.",
+      "unit_ids": [
+        "annotation-0042"
+      ],
+      "published_or_local_examples": [
+        "Second sample fixture"
+      ],
+      "count": 1,
+      "risk": "high",
+      "checker_action": "comment_only",
+      "general_editor_question": "Should the checker ever direct-edit status-stage language from the status registry alone, or always require a stable document or chapter target?",
+      "status": "open",
+      "first_seen": "sample-fixture-2",
+      "last_seen": "sample-fixture-2",
+      "resolution_note": ""
+    }
+  ]
+}

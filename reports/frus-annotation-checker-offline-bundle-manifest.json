@@ -1,0 +1,77 @@
+{
+  "schema_version": "frus-annotation-checker-offline-bundle-v1",
+  "generated_for": "FRUS Annotation Checker closed-network handoff",
+  "repo": "https://github.com/therealjameswilson/FRUSaccelerate",
+  "required_files": [
+    {
+      "path": "reports/frus-annotation-checker.md",
+      "role": "Full standalone checker standard and implementation specification"
+    },
+    {
+      "path": "reports/frus-annotation-checker-core.md",
+      "role": "Compact runtime prompt for small-context LLMs"
+    },
+    {
+      "path": "reports/frus-annotation-checker-output.schema.json",
+      "role": "Strict checker-output-v1 schema"
+    },
+    {
+      "path": "scripts/validate-frus-checker-output.mjs",
+      "role": "No-dependency checker output validator"
+    },
+    {
+      "path": "scripts/preflight-frus-checker-plan.mjs",
+      "role": "Exact-anchor and Word direct-edit preflight"
+    },
+    {
+      "path": "scripts/preflight-frus-status-claims.mjs",
+      "role": "Publication-status claim preflight"
+    },
+    {
+      "path": "scripts/lint-frus-source-notes.mjs",
+      "role": "Source-note component linter"
+    },
+    {
+      "path": "scripts/preflight-frus-pseudo-markers.mjs",
+      "role": "Production pseudo-marker boundary preflight"
+    },
+    {
+      "path": "scripts/build-frus-evidence-queue.mjs",
+      "role": "Evidence-request queue builder"
+    },
+    {
+      "path": "scripts/build-frus-discrepancy-ledger.mjs",
+      "role": "General Editor discrepancy-ledger builder"
+    }
+  ],
+  "sample_files": [
+    "reports/frus-annotation-checker-sample-output.json",
+    "reports/frus-annotation-checker-direct-edit-sample-output.json",
+    "reports/frus-annotation-checker-extracted-units.sample.json",
+    "reports/frus-status-registry-1981-1992.sample.json",
+    "reports/frus-status-claims.sample.json",
+    "reports/frus-source-note-units.sample.json",
+    "reports/frus-pseudo-marker-units.sample.json",
+    "reports/frus-pseudo-marker-safe-output.sample.json",
+    "reports/frus-evidence-queue.sample.json",
+    "reports/frus-discrepancy-ledger.sample.json",
+    "reports/frus-discrepancy-ledger-second-output.sample.json",
+    "reports/frus-discrepancy-ledger-merged.sample.json"
+  ],
+  "smoke_tests": [
+    "node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json",
+    "node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-direct-edit-sample-output.json",
+    "node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json",
+    "node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-registry-1981-1992.sample.json --claims reports/frus-status-claims.sample.json --today 2026-06-03",
+    "node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json",
+    "node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json",
+    "node scripts/build-frus-evidence-queue.mjs --output reports/frus-annotation-checker-sample-output.json --review-mode normal --format text",
+    "node scripts/build-frus-discrepancy-ledger.mjs --output reports/frus-annotation-checker-sample-output.json --run-id sample-fixture --format text"
+  ],
+  "negative_tests": [
+    "Change a direct-edit original_text so it is missing from exact_text; preflight-frus-checker-plan.mjs must fail.",
+    "Change a status claim to direct-edit `printed in` for a target still being cleared; preflight-frus-status-claims.mjs must fail.",
+    "Add an unmapped angle token such as <foo> to extracted text; preflight-frus-pseudo-markers.mjs must fail.",
+    "Remove the checks array from checker-output-v1; validate-frus-checker-output.mjs and build-frus-evidence-queue.mjs must fail."
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": "frus-discrepancy-ledger-v1",
+  "summary": {
+    "schema_version": "frus-discrepancy-ledger-v1",
+    "outputs_scanned": 1,
+    "discrepancy_items_found": 1,
+    "ledger_items": 1,
+    "by_status": {
+      "open": 1
+    },
+    "by_risk": {
+      "medium": 1
+    },
+    "by_category": {
+      "source_note": 1
+    }
+  },
+  "ledger": [
+    {
+      "discrepancy_id": "style-discrepancy-0001",
+      "category": "source_note",
+      "style_question": "How much source-surrogate detail should appear in final source notes when the controlling source is otherwise supplied?",
+      "variants_observed": [
+        "Repository path only, with surrogate detail retained in audit context.",
+        "Repository path plus NLR, RAC, FOIA, or catalog identifier in the printed source note."
+      ],
+      "unit_ids": [
+        "source-note-0001"
+      ],
+      "published_or_local_examples": [
+        "Sample fixture"
+      ],
+      "count": 1,
+      "risk": "medium",
+      "checker_actions": [
+        "comment_only"
+      ],
+      "general_editor_question": "Should the checker enforce a house form for source-surrogate detail, or preserve volume-specific variation until the General Editor decides?",
+      "status": "open",
+      "first_seen": "sample-fixture",
+      "last_seen": "sample-fixture",
+      "resolution_note": "",
+      "source_discrepancy_ids": [
+        "style-discrepancy-0001"
+      ],
+      "source_runs": [
+        "sample-fixture"
+      ]
+    }
+  ]
+}

@@ -39,6 +39,13 @@ For unresolved proof tracking, use
 `scripts/build-frus-evidence-queue.mjs` with
 `reports/frus-annotation-checker-sample-output.json`; the expected sample queue
 is `reports/frus-evidence-queue.sample.json`.
+For General Editor style governance, use
+`scripts/build-frus-discrepancy-ledger.mjs` with
+`reports/frus-annotation-checker-sample-output.json`; the expected sample ledger
+is `reports/frus-discrepancy-ledger.sample.json`.
+For closed-network handoff, use
+`reports/frus-annotation-checker-offline-bundle-manifest.json` and
+`reports/frus-annotation-checker-offline-runbook.md`.
 
 The intended workflow is:
 
@@ -11803,6 +11810,12 @@ Minimum components:
 - No-dependency evidence-request queue builder and fixture:
   `scripts/build-frus-evidence-queue.mjs` and
   `reports/frus-evidence-queue.sample.json`.
+- No-dependency General Editor discrepancy-ledger builder and fixture:
+  `scripts/build-frus-discrepancy-ledger.mjs` and
+  `reports/frus-discrepancy-ledger.sample.json`.
+- Offline bundle manifest and runbook:
+  `reports/frus-annotation-checker-offline-bundle-manifest.json` and
+  `reports/frus-annotation-checker-offline-runbook.md`.
 - Spellcheck rule-id validator that rejects unknown `rule_id` values, counts
   findings by rule, flags excessive `FAS-GEN-000` fallback use, and preserves
   rule-id tallies in the audit report before tracked changes are applied.
