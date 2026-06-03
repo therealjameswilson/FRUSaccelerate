@@ -228,6 +228,14 @@ The wrapper should provide the LLM with:
   production stage (`being_cleared`, `being_researched`, `planned`, or
   `published`) and any release bucket (`published_2025`, `anticipated_2026`,
   chapters outstanding, or similar).
+- `status_claims_context`, if available: wrapper-extracted phrases from the
+  uploaded Word file that assert or imply publication status, such as
+  `forthcoming`, `scheduled for publication`, `planned for publication`,
+  `anticipated in 2026`, `being cleared`, `being researched`, `printed in`,
+  `published in`, `available online`, chapter-outstanding claims, release-year
+  statements, or History Office URL/publication claims. Preserve the phrase,
+  unit id, target volume, target chapter or document if supplied, and exact
+  surrounding sentence.
 - `release_apparatus_context`, if available: dated press release, media note,
   release date, public URL, GPO, ISBN, S/N, PDF, EPUB, Mobi, generated-date,
   download-link, bookstore/purchase, errata, online/full-text correction,
@@ -9456,6 +9464,47 @@ Status-registry preflight checks:
   to `style_discrepancy_tally` with `category` set to `publication_status`
   rather than forcing one house form.
 
+Status-claim reconciliation checks:
+
+1. Extract every status-bearing phrase in the uploaded Word file before asking
+   the LLM for edits. Include cross-volume footnotes, editorial notes, source
+   notes, front matter, compiler comments, and draft volume lists.
+2. Compare each phrase with `status_registry_context` by target volume title,
+   volume number, administration, chapter label, and target document when
+   supplied. Treat title-number mismatches as `major` unless the target is only
+   a compiler working note.
+3. Preserve the distinction between `production_stage` and `release_bucket`.
+   For example, a Reagan volume can be both `being_cleared` and
+   `anticipated_2026`; this overlay is not a contradiction and should not be
+   rewritten into a single status label.
+4. If the uploaded text says `printed in`, `published in`, `available online`,
+   or equivalent publication language for a target that is not `published`,
+   use `comment_only` and flag a `major` publication-status issue. Do not
+   direct-edit the phrase unless the registry or uploaded context supplies a
+   stable published target and exact document or chapter.
+5. If the uploaded text says `scheduled for publication`, `planned for
+   publication`, `forthcoming`, or equivalent for a target now marked
+   `published`, leave a comment that the phrase may need updating. A direct edit
+   to `printed in` still requires the exact published target.
+6. If the uploaded text says `anticipated in 2026` for a target that is only
+   `being_cleared` and not in the current release bucket, treat the phrase as a
+   major stale-status issue. If the target is both `anticipated_2026` and
+   `being_cleared`, preserve both and use the more precise wording:
+   `anticipated in 2026 and currently in clearance`, only when exact
+   replacement text is supplied and the Word anchor is safe.
+7. If the uploaded text says `being researched` or `planned` for a target now in
+   clearance, use `comment_only` unless the wrapper supplies a current registry
+   capture and a safe anchor. For final-style review, stale lower-stage claims
+   are major issues because they can mislead cross-volume references.
+8. If the uploaded text includes a History Office URL without archival or
+   publication context, do not treat the URL as proof of publication. The URL
+   can identify the target, but the status registry must supply the status.
+9. If the status registry is stale or missing, block direct edits that change
+   status language and instead add a comment asking for a fresh status capture.
+10. Route repeated but defensible wording variation, such as `forthcoming`
+    versus `scheduled for publication`, to the General Editor discrepancy
+    ledger instead of making the checker invent a house rule.
+
 Status-registry freshness gates:
 
 - For any run that may alter `scheduled for publication`, `printed in`,
@@ -10342,6 +10391,9 @@ Counts:
 - Source-list, Published Sources, Abbreviations, Persons, appendix, declassification-review, special-note, or errata issues: [n]
 - Selection, completeness, balance, related-volume, withheld-document, or known-gap issues: [n]
 - Release, errata, press release, media note, GPO/ISBN/S/N, PDF/EPUB/Mobi, online correction, print-not-revised, or digital-publication issues: [n]
+- Status claims extracted from uploaded Word file: [n]
+- Status claims matching current registry: [n]
+- Status claims stale, conflicting, or downgraded to comment-only: [n]
 
 Major issues:
 - [unit_id]: [finding]
@@ -10354,6 +10406,9 @@ Blocking evidence queue:
 
 Publication-status warnings:
 - [unit_id or global]: [status issue] - [registry target]
+
+Status-claim reconciliation warnings:
+- [unit_id or global]: [uploaded phrase] - [matched target] - [registry stage/release bucket] - [recommended posture]
 
 Authority-control warnings:
 - [unit_id or global]: [authority issue] - [authority type, approved display form, variant or unmatched form, date span, term expansion, source-list or index behavior, registry target, and verification target]
