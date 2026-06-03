@@ -29,6 +29,8 @@ For exact-anchor and Word-safety preflight, use
 For narrow direct-edit application after validation and preflight, use
 `scripts/apply-frus-track-changes.mjs`; the self-contained smoke test is
 `scripts/test-frus-track-change-applier.mjs`.
+For safe `comment_only` findings, use `scripts/apply-frus-word-comments.mjs`;
+the self-contained smoke test is `scripts/test-frus-word-comment-applier.mjs`.
 For status-sensitive phrases, use
 `scripts/preflight-frus-status-claims.mjs` with
 `reports/frus-status-registry-1981-1992.sample.json` and
@@ -11825,6 +11827,12 @@ Minimum components:
   `scripts/preflight-frus-checker-plan.mjs`,
   `reports/frus-annotation-checker-extracted-units.sample.json`, and
   `reports/frus-annotation-checker-direct-edit-sample-output.json`.
+- No-dependency Word comment applier:
+  `scripts/apply-frus-word-comments.mjs`, with smoke test
+  `scripts/test-frus-word-comment-applier.mjs`. It creates/updates
+  `word/comments.xml`, the comments relationship, the content-type override,
+  comment bodies, and safe single-run range anchors for `comment_only`
+  findings.
 - No-dependency status-claim preflight validator and status fixtures:
   `scripts/preflight-frus-status-claims.mjs`,
   `reports/frus-status-registry-1981-1992.sample.json`, and
@@ -11857,9 +11865,11 @@ Minimum components:
   applied.
 - Minimal WordprocessingML edit applier now available:
   `scripts/apply-frus-track-changes.mjs` can create real tracked insertions and
-  deletions for narrow, verified single-run anchors. Comment anchoring and
-  complex multi-run/table/field/note-reference anchors still require the fuller
-  wrapper or must remain comment-only.
+  deletions for narrow, verified single-run anchors. Minimal Word comment
+  anchoring is also available through `scripts/apply-frus-word-comments.mjs`
+  for safe single-run `comment_only` anchors. Complex multi-run, table, field,
+  note-reference, existing-comment, and global-comment placement still requires
+  the fuller wrapper or must remain audit-only.
 - Word redline integrity validator that checks revision/comment ids, anchor
   uniqueness, existing tracked-change overlap, field/bookmark/hyperlink/
   note-reference boundaries, pseudo-marker boundaries, relationship and

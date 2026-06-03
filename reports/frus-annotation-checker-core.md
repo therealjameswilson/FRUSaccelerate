@@ -20,6 +20,8 @@ For direct-edit anchor preflight, run
 `node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json`.
 For narrow tracked-change application after validation and preflight, run
 `node scripts/apply-frus-track-changes.mjs --docx input.docx --units extracted-units.json --checker-output output.json --out revised.docx`.
+For safe `comment_only` findings, run
+`node scripts/apply-frus-word-comments.mjs --docx input.docx --units extracted-units.json --checker-output output.json --out commented.docx`.
 For status-language preflight, run
 `node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-registry-1981-1992.sample.json --claims reports/frus-status-claims.sample.json --today 2026-06-03`.
 For real Reagan/Bush 1981-1992 status and cross-reference review, validate and
