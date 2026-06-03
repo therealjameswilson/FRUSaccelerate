@@ -106,6 +106,14 @@ node scripts/apply-frus-track-changes.mjs --docx commented.docx --units extracte
     comments, relationships, tracked-change ids, marker boundaries, or audit
     counts fail validation.
 
+```sh
+node scripts/validate-frus-docx-output.mjs --docx revised.docx --expect-comments N --expect-insertions N --expect-deletions N
+```
+
+   Use the counts from the comment and tracked-change application reports. If a
+   visual renderer or Word/Open XML validator is available on the closed
+   network, run it after this structural validator.
+
 ## Smoke Tests
 
 Run the whole-bundle verifier first:
@@ -126,6 +134,7 @@ node scripts/test-frus-docx-unit-extractor.mjs
 node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json
 node scripts/test-frus-track-change-applier.mjs
 node scripts/test-frus-word-comment-applier.mjs
+node scripts/test-frus-docx-output-validator.mjs
 node scripts/validate-frus-status-registry.mjs --registry reports/frus-status-series-1981-1992.current.json --today 2026-06-03
 node scripts/validate-frus-preparation-router.mjs --router reports/frus-preparation-router-1981-1992.current.json --status-registry reports/frus-status-series-1981-1992.current.json
 node scripts/validate-frus-permutation-matrix.mjs --matrix reports/frus-annotation-permutation-matrix.json --schema reports/frus-annotation-checker-output.schema.json --router reports/frus-preparation-router-1981-1992.current.json

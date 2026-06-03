@@ -31,6 +31,9 @@ For narrow direct-edit application after validation and preflight, use
 `scripts/test-frus-track-change-applier.mjs`.
 For safe `comment_only` findings, use `scripts/apply-frus-word-comments.mjs`;
 the self-contained smoke test is `scripts/test-frus-word-comment-applier.mjs`.
+For post-write `.docx` release validation, use
+`scripts/validate-frus-docx-output.mjs`; the self-contained smoke test is
+`scripts/test-frus-docx-output-validator.mjs`.
 For status-sensitive phrases, use
 `scripts/preflight-frus-status-claims.mjs` with
 `reports/frus-status-registry-1981-1992.sample.json` and
@@ -11833,6 +11836,12 @@ Minimum components:
   `word/comments.xml`, the comments relationship, the content-type override,
   comment bodies, and safe single-run range anchors for `comment_only`
   findings.
+- No-dependency post-write DOCX output validator:
+  `scripts/validate-frus-docx-output.mjs`, with smoke test
+  `scripts/test-frus-docx-output-validator.mjs`. It checks package
+  readability, XML tag balance, generated checker insertions/deletions,
+  generated Word comments, comment bodies, comment references, range markers,
+  comments relationships, content-type overrides, and expected output counts.
 - No-dependency status-claim preflight validator and status fixtures:
   `scripts/preflight-frus-status-claims.mjs`,
   `reports/frus-status-registry-1981-1992.sample.json`, and
@@ -11870,11 +11879,12 @@ Minimum components:
   for safe single-run `comment_only` anchors. Complex multi-run, table, field,
   note-reference, existing-comment, and global-comment placement still requires
   the fuller wrapper or must remain audit-only.
-- Word redline integrity validator that checks revision/comment ids, anchor
-  uniqueness, existing tracked-change overlap, field/bookmark/hyperlink/
-  note-reference boundaries, pseudo-marker boundaries, relationship and
-  content-type updates, package readability, and optional render/open validation
-  before the revised `.docx` is released.
+- Word redline integrity validator now available:
+  `scripts/validate-frus-docx-output.mjs` checks generated revision/comment
+  ids, comment anchors, relationships, content-type updates, package
+  readability, XML tag balance, and output counts before the revised `.docx` is
+  released. Optional render/open validation should still run where the closed
+  network provides Word, LibreOffice, or Open XML SDK validation.
 - Offline context-bundle loader with status, authority, source-family, and
   provenance metadata.
 - Authority-registry validator that reconciles Persons, abbreviations,
