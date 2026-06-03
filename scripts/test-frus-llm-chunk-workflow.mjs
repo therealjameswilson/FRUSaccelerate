@@ -78,6 +78,8 @@ try {
     "reports/frus-status-claims.sample.json",
     "--authority-registry",
     "reports/frus-authority-registry.sample.json",
+    "--source-list-registry",
+    "reports/frus-source-list-registry.sample.json",
     "--preparation-router",
     "reports/frus-preparation-router-1981-1992.current.json",
     "--permutation-matrix",
@@ -101,12 +103,16 @@ try {
   assert(manifest.schema_version === "frus-llm-chunk-manifest-v1", "expected chunk manifest schema");
   assert(manifest.chunk_count === 2, `expected two chunks, got ${manifest.chunk_count}`);
   assert(manifest.summary.authority_registry_records === 8, "expected authority registry record count");
+  assert(manifest.summary.source_list_registry_records === 10, "expected source-list registry record count");
   assert(manifest.source_files.authority_registry === "reports/frus-authority-registry.sample.json", "expected authority registry source path");
+  assert(manifest.source_files.source_list_registry === "reports/frus-source-list-registry.sample.json", "expected source-list registry source path");
   assert(fs.existsSync(path.join(outDir, "chunk-0001-review-packet.md")), "expected first chunk packet");
   assert(fs.existsSync(path.join(outDir, "chunk-0002-review-packet.md")), "expected second chunk packet");
   const firstPacket = fs.readFileSync(path.join(outDir, "chunk-0001-review-packet.md"), "utf8");
   assert(firstPacket.includes("Authority Registry Context"), "expected authority registry context in chunk packet");
   assert(firstPacket.includes("Bush, George Herbert Walker"), "expected authority registry content in chunk packet");
+  assert(firstPacket.includes("Source List And Front Matter Registry Context"), "expected source-list registry context in chunk packet");
+  assert(firstPacket.includes("George H.W. Bush Presidential Library"), "expected source-list registry content in chunk packet");
 
   const chunk1Output = path.join(tmpDir, "chunk-0001-output.json");
   const chunk2Output = path.join(tmpDir, "chunk-0002-output.json");

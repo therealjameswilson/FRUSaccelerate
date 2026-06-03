@@ -51,9 +51,9 @@ For no-dependency DOCX unit extraction, run
 `node scripts/extract-frus-docx-units.mjs --docx input.docx --out extracted-units.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -63,6 +63,9 @@ For per-document review coverage, run
 For authority-control validation and direct-edit safety, run
 `node scripts/validate-frus-authority-registry.mjs --registry reports/frus-authority-registry.sample.json --format text` and
 `node scripts/audit-frus-authority-usage.mjs --units extracted-units.json --registry reports/frus-authority-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For source-list/front-matter validation and direct-edit safety, run
+`node scripts/validate-frus-source-list-registry.mjs --registry reports/frus-source-list-registry.sample.json --format text` and
+`node scripts/audit-frus-source-list-usage.mjs --units extracted-units.json --registry reports/frus-source-list-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For a no-dependency smoke test, run
 `node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json`.
 For direct-edit anchor preflight, run
@@ -76,7 +79,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -89,6 +92,12 @@ authority registry with a volume-specific registry built from the target
 volume's Persons, Abbreviations and Terms, Source List/front matter, and Index
 forms; validate it with `scripts/validate-frus-authority-registry.mjs` before
 direct authority-control edits.
+For real Reagan/Bush 1981-1992 source-list/front-matter review, replace the
+sample source-list registry with a volume-specific registry built from the
+target volume's Sources page, repository families, lot files, Presidential
+Library files, electronic file systems, and published sources; validate it with
+`scripts/validate-frus-source-list-registry.mjs` before direct source-list
+edits.
 For volume-family and stage-posture routing, validate and use
 `reports/frus-preparation-router-1981-1992.current.json` with
 `scripts/validate-frus-preparation-router.mjs` before family-dependent direct
@@ -152,7 +161,7 @@ is flawless.
    `display_text`, unit type, and Word XML anchors.
 4. Wrapper builds a per-document `review-packet.md` from the runtime guide,
    extracted units, output schema, status registry, authority registry,
-   preparation router, and permutation matrix.
+   source-list registry, preparation router, and permutation matrix.
 5. If the model context is too small, wrapper builds numbered chunk packets and
    later merges chunk outputs through the chunk-reconciliation gate.
 6. LLM checks the packet or chunk packet and returns a JSON edit/comment plan
@@ -167,9 +176,13 @@ is flawless.
 9. Wrapper validates Persons, Abbreviations and Terms, Source List/front
    matter, document-number, public-title, and index forms against the supplied
    authority registry before allowing any authority-control redline.
-10. Wrapper applies only safe edits as WordprocessingML tracked insertions,
+10. Wrapper validates source notes, source-list entries, repository/source
+   family forms, lot files, Presidential Library files, electronic file
+   systems, and published-source references against the supplied source-list
+   registry before allowing any source-list/front-matter redline.
+11. Wrapper applies only safe edits as WordprocessingML tracked insertions,
    deletions, and comments.
-11. User downloads a new `.docx` with changes marked in Track Changes.
+12. User downloads a new `.docx` with changes marked in Track Changes.
 
 Important: the LLM must not write `.docx`, OOXML, base64 files, or package
 instructions. The wrapper creates the revised Word file.
@@ -2397,6 +2410,267 @@ Office pages for:
       "index_or_front_matter_behavior": "About the Series index rule",
       "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries",
       "verification_status": "verified_published_pattern"
+    }
+  ]
+}
+```
+
+## Source List And Front Matter Registry Context
+
+```json
+{
+  "schema_version": "frus-source-list-registry-v1",
+  "source_list_registry_id": "frus-1981-1992-source-list-front-matter-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources"
+  ],
+  "scope": "Sample source-list/front-matter registry for reconciling source notes, source-list entries, and published-source references in Reagan and George H.W. Bush FRUS annotation sheets.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "source_item_id": "source-bush-library-v31",
+      "source_type": "repository",
+      "volume_id": "frus1989-92v31",
+      "approved_source_form": "George H.W. Bush Presidential Library",
+      "variant_forms": [
+        "Bush Library",
+        "George Bush Presidential Library"
+      ],
+      "repository_or_parent": "College Station, Texas",
+      "front_matter_section": "Unpublished Sources",
+      "source_note_usage": "Use for Bush Presidential and Vice Presidential records cited in START I source notes.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_sources"
+    },
+    {
+      "source_item_id": "source-bush-nsc-hfiles-v31",
+      "source_type": "presidential_library_series",
+      "volume_id": "frus1989-92v31",
+      "approved_source_form": "National Security Council Institutional Files (H-Files)",
+      "variant_forms": [
+        "Institutional Files (H-Files)",
+        "NSC H-Files",
+        "H-Files"
+      ],
+      "repository_or_parent": "George H.W. Bush Presidential Library",
+      "front_matter_section": "Unpublished Sources",
+      "source_note_usage": "Use for NSC and NSC Deputies Committee meeting files and related Bush Library institutional files.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_sources"
+    },
+    {
+      "source_item_id": "source-state-cfpf-v31",
+      "source_type": "source_family",
+      "volume_id": "frus1989-92v31",
+      "approved_source_form": "Central Foreign Policy File",
+      "variant_forms": [
+        "CFPF",
+        "D Reels",
+        "P Reels",
+        "N Reels"
+      ],
+      "repository_or_parent": "Department of State, Washington, D.C.",
+      "front_matter_section": "Unpublished Sources",
+      "source_note_usage": "Use for cable traffic and P, D, and N reel records cited from the Department of State file family.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_sources"
+    },
+    {
+      "source_item_id": "source-state-lot-01d127-v31",
+      "source_type": "lot_file",
+      "volume_id": "frus1989-92v31",
+      "approved_source_form": "Lot 01D127",
+      "variant_forms": [
+        "01D127",
+        "Subject Records of James P. Timbie"
+      ],
+      "repository_or_parent": "Department of State, Washington, D.C.",
+      "front_matter_section": "Unpublished Sources",
+      "source_note_usage": "Use for Office of the Under Secretary for Arms Control, International Security Affairs, 1969-1990 Subject Record of James P. Timbie.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_sources"
+    },
+    {
+      "source_item_id": "source-state-bulletin-v31",
+      "source_type": "published_source",
+      "volume_id": "frus1989-92v31",
+      "approved_source_form": "Department of State Bulletin",
+      "variant_forms": [
+        "State Department Bulletin"
+      ],
+      "repository_or_parent": "Published Sources",
+      "front_matter_section": "Published Sources",
+      "source_note_usage": "Use for published Department of State Bulletin citations in START I annotations.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_sources"
+    },
+    {
+      "source_item_id": "source-nyt-v31",
+      "source_type": "published_source",
+      "volume_id": "frus1989-92v31",
+      "approved_source_form": "New York Times",
+      "variant_forms": [
+        "The New York Times"
+      ],
+      "repository_or_parent": "Published Sources",
+      "front_matter_section": "Published Sources",
+      "source_note_usage": "Use for New York Times citations in START I annotations.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_sources"
+    }
+  ],
+  "records": [
+    {
+      "source_item_id": "source-bush-library-v31",
+      "source_type": "repository",
+      "volume_id": "frus1989-92v31",
+      "approved_source_form": "George H.W. Bush Presidential Library",
+      "variant_forms": [
+        "Bush Library",
+        "George Bush Presidential Library"
+      ],
+      "repository_or_parent": "College Station, Texas",
+      "front_matter_section": "Unpublished Sources",
+      "source_note_usage": "Use for Bush Presidential and Vice Presidential records cited in START I source notes.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_sources"
+    },
+    {
+      "source_item_id": "source-bush-nsc-hfiles-v31",
+      "source_type": "presidential_library_series",
+      "volume_id": "frus1989-92v31",
+      "approved_source_form": "National Security Council Institutional Files (H-Files)",
+      "variant_forms": [
+        "Institutional Files (H-Files)",
+        "NSC H-Files",
+        "H-Files"
+      ],
+      "repository_or_parent": "George H.W. Bush Presidential Library",
+      "front_matter_section": "Unpublished Sources",
+      "source_note_usage": "Use for NSC and NSC Deputies Committee meeting files and related Bush Library institutional files.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_sources"
+    },
+    {
+      "source_item_id": "source-state-cfpf-v31",
+      "source_type": "source_family",
+      "volume_id": "frus1989-92v31",
+      "approved_source_form": "Central Foreign Policy File",
+      "variant_forms": [
+        "CFPF",
+        "D Reels",
+        "P Reels",
+        "N Reels"
+      ],
+      "repository_or_parent": "Department of State, Washington, D.C.",
+      "front_matter_section": "Unpublished Sources",
+      "source_note_usage": "Use for cable traffic and P, D, and N reel records cited from the Department of State file family.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_sources"
+    },
+    {
+      "source_item_id": "source-state-lot-01d127-v31",
+      "source_type": "lot_file",
+      "volume_id": "frus1989-92v31",
+      "approved_source_form": "Lot 01D127",
+      "variant_forms": [
+        "01D127",
+        "Subject Records of James P. Timbie"
+      ],
+      "repository_or_parent": "Department of State, Washington, D.C.",
+      "front_matter_section": "Unpublished Sources",
+      "source_note_usage": "Use for Office of the Under Secretary for Arms Control, International Security Affairs, 1969-1990 Subject Record of James P. Timbie.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_sources"
+    },
+    {
+      "source_item_id": "source-state-bulletin-v31",
+      "source_type": "published_source",
+      "volume_id": "frus1989-92v31",
+      "approved_source_form": "Department of State Bulletin",
+      "variant_forms": [
+        "State Department Bulletin"
+      ],
+      "repository_or_parent": "Published Sources",
+      "front_matter_section": "Published Sources",
+      "source_note_usage": "Use for published Department of State Bulletin citations in START I annotations.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_sources"
+    },
+    {
+      "source_item_id": "source-nyt-v31",
+      "source_type": "published_source",
+      "volume_id": "frus1989-92v31",
+      "approved_source_form": "New York Times",
+      "variant_forms": [
+        "The New York Times"
+      ],
+      "repository_or_parent": "Published Sources",
+      "front_matter_section": "Published Sources",
+      "source_note_usage": "Use for New York Times citations in START I annotations.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_sources"
+    },
+    {
+      "source_item_id": "source-reagan-library-v44p1",
+      "source_type": "repository",
+      "volume_id": "frus1981-88v44p1",
+      "approved_source_form": "Ronald Reagan Presidential Library",
+      "variant_forms": [
+        "Reagan Library",
+        "Ronald Reagan Library"
+      ],
+      "repository_or_parent": "Simi Valley, California",
+      "front_matter_section": "Unpublished Sources",
+      "source_note_usage": "Use for White House Staff and Office Files, NSC Executive Secretariat files, and related Reagan Library collections.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_sources"
+    },
+    {
+      "source_item_id": "source-reagan-w-files-v44p1",
+      "source_type": "presidential_library_series",
+      "volume_id": "frus1981-88v44p1",
+      "approved_source_form": "W Files",
+      "variant_forms": [
+        "NSC's W files",
+        "W-files"
+      ],
+      "repository_or_parent": "Ronald Reagan Presidential Library",
+      "front_matter_section": "Unpublished Sources",
+      "source_note_usage": "Use for Reagan Library files located in Washington cited in national security policy source notes.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_sources"
+    },
+    {
+      "source_item_id": "source-profs-v44p1",
+      "source_type": "electronic_file",
+      "volume_id": "frus1981-88v44p1",
+      "approved_source_form": "PROFS System",
+      "variant_forms": [
+        "PROFS"
+      ],
+      "repository_or_parent": "Ronald Reagan Presidential Library",
+      "front_matter_section": "Unpublished Sources",
+      "source_note_usage": "Use for White House electronic messages cited from Reagan national security policy files.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_sources"
+    },
+    {
+      "source_item_id": "source-reagan-state-lot-90d397-v44p1",
+      "source_type": "lot_file",
+      "volume_id": "frus1981-88v44p1",
+      "approved_source_form": "Lot 90D397",
+      "variant_forms": [
+        "90D397",
+        "Ambassador Nitze's Personal Files"
+      ],
+      "repository_or_parent": "Department of State, Washington, D.C.",
+      "front_matter_section": "Unpublished Sources",
+      "source_note_usage": "Use for Ambassador Nitze's Personal Files cited in Reagan national security policy source notes.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_sources"
     }
   ]
 }

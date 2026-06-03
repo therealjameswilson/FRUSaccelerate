@@ -44,6 +44,13 @@ For authority-control validation, use
 `reports/frus-authority-units.sample.json`; the self-contained smoke test is
 `scripts/test-frus-authority-audit.mjs`, and the sample audit report is
 `reports/frus-authority-audit.sample.json`.
+For source-list/front-matter validation, use
+`scripts/validate-frus-source-list-registry.mjs` and
+`scripts/audit-frus-source-list-usage.mjs` with
+`reports/frus-source-list-registry.sample.json` and
+`reports/frus-source-list-units.sample.json`; the self-contained smoke test is
+`scripts/test-frus-source-list-audit.mjs`, and the sample audit report is
+`reports/frus-source-list-audit.sample.json`.
 For no-dependency closed-network smoke tests, use
 `scripts/validate-frus-checker-output.mjs` against
 `reports/frus-annotation-checker-sample-output.json`.
@@ -108,14 +115,14 @@ The intended workflow is:
    source notes, editorial notes, or draft front/back matter.
 3. The tool extracts the Word document into structured text.
 4. The tool builds `review-packet.md` from this standard, the extracted units,
-   the output schema, status context, authority registry, preparation router,
-   and permutation matrix.
+   the output schema, status context, authority registry, source-list registry,
+   preparation router, and permutation matrix.
 5. If the model cannot fit the whole packet, the tool builds numbered chunk
    packets and merges chunk outputs through the chunk-reconciliation gate.
 6. The LLM checks the packet against the standards below.
 7. The LLM returns structured proposed edits and comments.
 8. The Word wrapper validates exact anchors, evidence basis, status context,
-   authority-control context, and Word safety.
+   authority-control context, source-list/front-matter context, and Word safety.
 9. The Word wrapper applies the proposed edits as tracked changes and comments.
 10. User downloads a new `.docx` with changes marked in Track Changes.
 
@@ -11906,6 +11913,15 @@ Minimum components:
   `reports/frus-authority-audit.sample.json`. The audit flags variant,
   cross-volume, unverified, and unmatched authority forms and fails direct
   authority-control edits that lack supplied registry support.
+- No-dependency source-list/front-matter registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-source-list-registry.mjs`,
+  `scripts/audit-frus-source-list-usage.mjs`,
+  `reports/frus-source-list-registry.sample.json`,
+  `reports/frus-source-list-units.sample.json`, and
+  `reports/frus-source-list-audit.sample.json`. The audit reconciles source
+  notes and source-list entries to published Sources-page forms, flags variant
+  and cross-volume source families, and fails direct source-list edits that
+  lack supplied registry support.
 - No-dependency source-note component linter and fixture:
   `scripts/lint-frus-source-notes.mjs` and
   `reports/frus-source-note-units.sample.json`.
@@ -11945,13 +11961,12 @@ Minimum components:
   readability, XML tag balance, and output counts before the revised `.docx` is
   released. Optional render/open validation should still run where the closed
   network provides Word, LibreOffice, or Open XML SDK validation.
-- Offline context-bundle loader with source-family and provenance metadata
-  beyond the currently wired status, authority, router, and permutation-matrix
-  contexts.
-- Fuller source-list/front-matter authority registry that expands the current
-  Persons, Abbreviations and Terms, and index sample into target-volume
-  repository/source-list forms, chapter labels, document numbers, public-source
-  titles, and local source-family aliases.
+- Offline context-bundle loader with provenance metadata beyond the currently
+  wired status, authority, source-list, router, and permutation-matrix contexts.
+- Fuller authority and source-list registry expansion that adds target-volume
+  chapter labels, document numbers, public-source titles, appendix targets,
+  declassification-review statements, special-note decisions, errata context,
+  and local source-family aliases.
 - Document-metadata validator that checks document headings, datelines,
   internal document numbers, subject/title lines, public-title lines, captions,
   sender/recipient offices, and source-note linkage before tracked changes are
@@ -12001,10 +12016,10 @@ Minimum components:
   strings, PDF/EPUB/Mobi downloads, generated dates, errata entries,
   online/full-text corrections, printed-volume revision status, and status-page
   captures before tracked changes are applied.
-- Source-list/front-matter validator that reconciles source-note families,
-  Published Sources, Abbreviations, Persons, Contents, Preface, About the
-  Series, appendix, declassification-review, special-note, and errata context
-  before tracked changes are applied.
+- Fuller source-list/front-matter validator expansion that reconciles Contents,
+  Preface, About the Series, appendix, declassification-review, special-note,
+  and errata context beyond the currently wired Sources-page/source-family
+  registry before tracked changes are applied.
 - Selection-balance validator that checks decision points, options, dissent,
   agency positions, intelligence basis, negotiation movement, implementation,
   foreign response, public explanation, outcome, related-volume boundaries,

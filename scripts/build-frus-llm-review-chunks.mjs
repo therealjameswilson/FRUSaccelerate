@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -33,6 +33,7 @@ function parseArgs(argv) {
   let statusRegistryPath = null;
   let statusClaimsPath = null;
   let authorityRegistryPath = null;
+  let sourceListRegistryPath = null;
   let preparationRouterPath = null;
   let permutationMatrixPath = null;
   let targetVolume = "";
@@ -63,6 +64,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--authority-registry") {
       authorityRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--source-list-registry") {
+      sourceListRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--preparation-router") {
       preparationRouterPath = argv[index + 1];
@@ -110,6 +114,7 @@ function parseArgs(argv) {
     statusRegistryPath,
     statusClaimsPath,
     authorityRegistryPath,
+    sourceListRegistryPath,
     preparationRouterPath,
     permutationMatrixPath,
     targetVolume,
@@ -240,7 +245,33 @@ function compactAuthorityRegistry(registry, targetVolume) {
   };
 }
 
-function renderPacket({ chunk, manifest, guide, schema, statusRegistry, statusClaims, authorityRegistry, router, matrix }) {
+function compactSourceListRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  return {
+    schema_version: registry.schema_version,
+    source_list_registry_id: registry.source_list_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [],
+    records: records.map((record) => ({
+      source_item_id: record.source_item_id,
+      source_type: record.source_type,
+      volume_id: record.volume_id,
+      approved_source_form: record.approved_source_form,
+      variant_forms: record.variant_forms || [],
+      repository_or_parent: record.repository_or_parent,
+      front_matter_section: record.front_matter_section,
+      source_note_usage: record.source_note_usage,
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
+function renderPacket({ chunk, manifest, guide, schema, statusRegistry, statusClaims, authorityRegistry, sourceListRegistry, router, matrix }) {
   const chunkUnitsDocument = {
     schema_version: "frus-extracted-units-v1",
     source: `Chunk ${chunk.chunk_id} extracted units from ${manifest.source_files.units}`,
@@ -297,6 +328,10 @@ function renderPacket({ chunk, manifest, guide, schema, statusRegistry, statusCl
     "",
     fencedJson(authorityRegistry || {}),
     "",
+    "## Source List And Front Matter Registry Context",
+    "",
+    fencedJson(sourceListRegistry || {}),
+    "",
     "## Preparation Router Context",
     "",
     fencedJson(router || {}),
@@ -321,9 +356,11 @@ function buildChunks(options) {
   const statusRegistry = options.statusRegistryPath ? readJson(options.statusRegistryPath) : null;
   const statusClaims = options.statusClaimsPath ? readJson(options.statusClaimsPath) : null;
   const authorityRegistry = options.authorityRegistryPath ? readJson(options.authorityRegistryPath) : null;
+  const sourceListRegistry = options.sourceListRegistryPath ? readJson(options.sourceListRegistryPath) : null;
   const router = options.preparationRouterPath ? readJson(options.preparationRouterPath) : null;
   const matrix = options.permutationMatrixPath ? readJson(options.permutationMatrixPath) : null;
   const authorityRegistryContext = compactAuthorityRegistry(authorityRegistry, options.targetVolume);
+  const sourceListRegistryContext = compactSourceListRegistry(sourceListRegistry, options.targetVolume);
   const unitChunks = chunkUnits(unitsDocument.units, options.maxUnits, options.maxChars);
 
   fs.mkdirSync(options.outDir, { recursive: true });
@@ -340,6 +377,7 @@ function buildChunks(options) {
       status_registry: options.statusRegistryPath ? normalizePathForOutput(options.statusRegistryPath) : "",
       status_claims: options.statusClaimsPath ? normalizePathForOutput(options.statusClaimsPath) : "",
       authority_registry: options.authorityRegistryPath ? normalizePathForOutput(options.authorityRegistryPath) : "",
+      source_list_registry: options.sourceListRegistryPath ? normalizePathForOutput(options.sourceListRegistryPath) : "",
       preparation_router: options.preparationRouterPath ? normalizePathForOutput(options.preparationRouterPath) : "",
       permutation_matrix: options.permutationMatrixPath ? normalizePathForOutput(options.permutationMatrixPath) : ""
     },
@@ -350,7 +388,8 @@ function buildChunks(options) {
     summary: {
       units_total: unitsDocument.units.length,
       reviewable_units: unitsDocument.units.filter(reviewRequired).length,
-      authority_registry_records: authorityRegistry?.records?.length || 0
+      authority_registry_records: authorityRegistry?.records?.length || 0,
+      source_list_registry_records: sourceListRegistry?.records?.length || 0
     },
     chunks: []
   };
@@ -388,6 +427,7 @@ function buildChunks(options) {
         statusRegistry,
         statusClaims,
         authorityRegistry: authorityRegistryContext,
+        sourceListRegistry: sourceListRegistryContext,
         router,
         matrix
       })

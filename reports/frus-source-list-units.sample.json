@@ -1,0 +1,78 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample extracted Word units for FRUS source-list/front-matter audit tests.",
+  "units": [
+    {
+      "unit_id": "source-list-note-0001",
+      "unit_type": "source_note",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "Document 12, source note",
+      "exact_text": "Source: George H.W. Bush Presidential Library, National Security Council Institutional Files (H-Files), NSC Meeting Files.",
+      "display_text": "Source: George H.W. Bush Presidential Library, National Security Council Institutional Files (H-Files), NSC Meeting Files.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "source-list-note-0002",
+      "unit_type": "source_note",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "Document 18, source note",
+      "exact_text": "Source: Bush Library, NSC H-Files, Scowcroft Close Hold Files.",
+      "display_text": "Source: Bush Library, NSC H-Files, Scowcroft Close Hold Files.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "source-list-note-0003",
+      "unit_type": "source_note",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "Document 44, source note",
+      "exact_text": "Source: Reagan Library, W Files, PROFS System, NSC Executive Secretariat.",
+      "display_text": "Source: Reagan Library, W Files, PROFS System, NSC Executive Secretariat.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "source-list-note-0004",
+      "unit_type": "source_note",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "Document 51, source note",
+      "exact_text": "Source: https://example.invalid/catalog-record.",
+      "display_text": "Source: https://example.invalid/catalog-record.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": [
+        "provisional_url_only_source_path"
+      ]
+    },
+    {
+      "unit_id": "source-list-entry-0005",
+      "unit_type": "source_list_entry",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Draft Sources, Published Sources",
+      "exact_text": "Published Sources: Department of State Bulletin; New York Times.",
+      "display_text": "Published Sources: Department of State Bulletin; New York Times.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    }
+  ]
+}

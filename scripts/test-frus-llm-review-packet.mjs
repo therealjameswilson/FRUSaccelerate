@@ -35,6 +35,8 @@ try {
     "reports/frus-status-claims.sample.json",
     "--authority-registry",
     "reports/frus-authority-registry.sample.json",
+    "--source-list-registry",
+    "reports/frus-source-list-registry.sample.json",
     "--preparation-router",
     "reports/frus-preparation-router-1981-1992.current.json",
     "--permutation-matrix",
@@ -62,6 +64,8 @@ try {
   assert(markdown.includes("status-claim-0001"), "expected status claim context");
   assert(markdown.includes("Authority Registry Context"), "expected authority registry section");
   assert(markdown.includes("Bush, George Herbert Walker"), "expected authority registry content");
+  assert(markdown.includes("Source List And Front Matter Registry Context"), "expected source-list registry section");
+  assert(markdown.includes("George H.W. Bush Presidential Library"), "expected source-list registry content");
   assert(markdown.includes("style_discrepancy_tally"), "expected General Editor discrepancy field");
   assert(markdown.includes("Permutation Matrix Context"), "expected permutation matrix section");
 
@@ -81,6 +85,8 @@ try {
   assert(packet.contexts.status_claims.claims.length === 4, "expected extracted status claims");
   assert(packet.contexts.authority_registry.records.length === 8, "expected authority registry records");
   assert(packet.contexts.authority_registry.target_records.length > 0, "expected target authority records");
+  assert(packet.contexts.source_list_registry.records.length === 10, "expected source-list registry records");
+  assert(packet.contexts.source_list_registry.target_records.length > 0, "expected target source-list records");
   assert(packet.contexts.preparation_router.routes.length === 74, "expected preparation routes");
   assert(packet.contexts.permutation_matrix.category_policies.length > 0, "expected matrix categories");
   assert(packet.packet_summary.output_schema.categories.includes("source_note"), "expected source_note category");
@@ -91,7 +97,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, status, authority, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, status, authority, source-list, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }
