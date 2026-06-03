@@ -1629,7 +1629,90 @@ For every extracted unit, run checks in this order:
 14. Decide direct edit versus comment-only.
 15. Return strict JSON.
 
-## 9. Audit Report Summary Template
+## 9. Acceptance And Evaluation Protocol
+
+Before using the checker on production annotation sheets, the closed-network
+team should run a small golden packet and confirm that the LLM, validator, and
+Word wrapper behave as a conservative FRUS editor would. Passing the JSON schema
+is necessary but not sufficient.
+
+Golden packet composition:
+
+- At least one source note from a published Reagan or Bush national-security or
+  arms-control volume, used as a no-change control.
+- At least one foundations/public diplomacy or organization/management note in
+  which public text is the selected evidence, not a defect.
+- At least one research-stage sheet with working labels, candidate notes, URL
+  locators, or missing scan requests that should become comments rather than
+  polished source-note prose.
+- At least one clearance-stage sheet with unresolved declassification,
+  attachment, agency-equity, or scheduled-publication language.
+- At least one Persons, abbreviations, source-list, or index unit with
+  authority-control issues.
+- At least one Word file containing footnotes, comments, tables, and existing
+  tracked changes so the wrapper safety rules are exercised.
+- At least one intentionally unsafe unit of transcribed document text that the
+  checker must not edit.
+
+Minimum acceptance gates:
+
+| Gate | Must prove | Failure mode |
+| --- | --- | --- |
+| JSON validity | Every LLM response validates against the required output schema. | Reject the run and keep the Word file unchanged. |
+| Exact-anchor discipline | Every direct edit uses an `original_text` that appears exactly once in the mapped `exact_text`. | Reject the edit and record the rejection in the audit report. |
+| Word safety | Direct edits do not overlap existing revisions, fields, comments, note references, bookmarks, table boundaries, or unmapped XML. | Downgrade to `comment_only` or reject. |
+| Source fidelity | The checker does not invent repository paths, classifications, document numbers, publication status, attachment status, declassification outcomes, or authority-list facts. | Treat as blocker and revise the prompt or wrapper context. |
+| No-change judgment | Excellent non-template notes are left alone, especially where published FRUS practice supports the variation. | Tune calibration before production use. |
+| Stage awareness | Research, clearance, anticipated, planned, and published contexts produce different behavior. | Refresh status context and retest. |
+| Word output integrity | The exported `.docx` opens cleanly and the counts of tracked edits, comments, and rejected edits match the audit report. | Do not release the output file. |
+
+Expected behavior by test family:
+
+- Published-pattern test: return `no_change` or minor style comments for a
+  strong published-style note, and do not force it into a generic template.
+- Public-source test: preserve selected public, printed, speech, hearing,
+  testimony, interview, or treaty text when the volume family makes that source
+  appropriate.
+- Research-stage test: identify working labels and missing evidence, but avoid
+  converting source leads into publication-ready assertions.
+- Clearance-stage test: protect declassification, attachment, agency-equity,
+  and scheduled-publication claims from overconfident direct edits.
+- Word-safety test: reject or comment on edits that overlap existing tracked
+  changes, comments, fields, footnote references, tables, or ambiguous XML
+  anchors.
+- Transcribed-text test: do not edit the document body unless the user requested
+  transcription review.
+- Authority-control test: flag date-bounded titles, variant names, office
+  changes, acronym form, repository hierarchy, or document-number indexing
+  problems without inventing the replacement fact.
+
+Suggested scoring rubric:
+
+- `pass`: all blockers and major issues found; no invented facts; no unsafe
+  direct edits; no false changes to excellent controls; Word output validates.
+- `pass_with_comments`: no unsafe edits or invented facts, but some minor issues
+  are missed or some comments are too general.
+- `needs_revision`: any major missed issue, repeated over-editing of good
+  notes, weak stage awareness, or inconsistent direct-edit/comment-only choice.
+- `blocked`: any invented archival fact, unsafe edit applied to Word XML,
+  corruption of the output `.docx`, or direct edit to transcribed document text
+  without user authorization.
+
+Human review requirements:
+
+- A FRUS compiler or editor should inspect every golden-packet result before
+  production use.
+- For each accepted direct edit, confirm that the track change appears at the
+  intended phrase and preserves surrounding footnotes, comments, formatting, and
+  paragraph structure.
+- For each comment-only finding, confirm that the comment is useful enough for a
+  compiler to act on without searching the audit log.
+- Re-run the golden packet whenever the standard Markdown, wrapper extractor,
+  WordprocessingML edit applier, model, or status-page context changes.
+- Keep the golden packet on the closed network, with document excerpts cleared
+  for that environment.
+
+## 10. Audit Report Summary Template
 
 The wrapper may generate a human-readable report after applying changes:
 
@@ -1658,7 +1741,7 @@ Rejected edits:
 - [unit_id]: original_text was not found exactly in target unit.
 ```
 
-## 10. Closed-Network Deployment Notes
+## 11. Closed-Network Deployment Notes
 
 Minimum components:
 
@@ -1682,7 +1765,7 @@ Operational cautions:
 - Do not accept checker edits automatically for publication; human FRUS editors
   must review every tracked change.
 
-## 11. Quick Pass/Fail Rubric
+## 12. Quick Pass/Fail Rubric
 
 Pass:
 
@@ -1710,7 +1793,7 @@ Blocked:
   matching.
 - The Word wrapper cannot safely apply track changes.
 
-## 12. Source Basis
+## 13. Source Basis
 
 This checker is based on the local file:
 
