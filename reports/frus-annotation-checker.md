@@ -1769,46 +1769,87 @@ Minimum communications-record registry:
   "source_urls": [
     "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
     "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
-    "https://history.state.gov/historicaldocuments/frus1981-88v01/sources"
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/sources",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d34",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d233",
+    "https://history.state.gov/historicaldocuments/frus1981-88v04/d149"
   ],
   "records": [
     {
-      "record_id": "comm-state-cfpf-0001",
-      "unit_id": "source-note-0012",
-      "record_type": "cfpf_telegram",
+      "record_id": "comm-bush-start-d34",
+      "unit_id": "frus1989-92v31-d34",
+      "record_type": "cfpf_electronic_telegram",
       "source_family": "Department of State, Central Foreign Policy File",
-      "repository_path_component": "[Electronic Telegrams, D Reels, N Reels, or P Reels]",
-      "message_identifier": "[supplied CFPF identifier]",
-      "origin": "[originating post or office]",
-      "addressee": "[addressee post, office, or distribution if supplied]",
-      "date_time_group": "[date-time group if supplied]",
-      "classification": "[classification marking or no classification marking if verified]",
-      "handling": "[handling markings if supplied]",
-      "precedence": "[precedence if supplied]",
-      "drafting": "[drafting note if supplied]",
-      "clearance": "[clearance note if supplied]",
-      "approval": "[approval note if supplied]",
-      "distribution": "[distribution note if supplied]",
-      "verification_status": "needs_source_image"
+      "repository_path_component": "Electronic Telegrams, [no N number]",
+      "message_identifier": "196267",
+      "origin": "Department of State",
+      "addressee": "Embassy in the Soviet Union",
+      "date_time_group": "Washington, June 21, 1989, 0418Z",
+      "classification": "Secret",
+      "handling": "Nodis",
+      "precedence": "Flash; Immediate distribution",
+      "drafting": "Drafted by Vershbow upon text from the White House",
+      "clearance": "Cleared by Timbie, Kamman, Sittman, S/S, and S/S-O",
+      "approval": "Approved by Thomas",
+      "distribution": "Sent Immediate for information to NST Geneva",
+      "verification_status": "verified_published_pattern"
     },
     {
-      "record_id": "comm-state-stars-0001",
-      "unit_id": "source-note-0031",
-      "record_type": "stars_record",
-      "source_family": "Department of State, STARS",
-      "repository_path_component": "STARS",
-      "message_identifier": "[supplied STARS identifier]",
+      "record_id": "comm-reagan-all-posts-d233",
+      "unit_id": "frus1981-88v01-d233",
+      "record_type": "all_posts_telegram",
+      "source_family": "Department of State, Central Foreign Policy File",
+      "repository_path_component": "Electronic Telegrams",
+      "message_identifier": "57043",
       "origin": "Department of State",
-      "addressee": "[addressee if supplied]",
-      "date_time_group": "[date-time group if supplied]",
-      "classification": "[classification marking or no classification marking if verified]",
-      "handling": "[handling markings if supplied]",
+      "addressee": "All diplomatic and consular posts",
+      "date_time_group": "Washington, February 26, 1985, 0520Z",
+      "classification": "Confidential",
+      "handling": "",
+      "precedence": "Priority",
+      "drafting": "Drafted by David Jones (EUR/CE)",
+      "clearance": "Cleared by multiple State, DOD, JCS, USIA, and regional officers",
+      "approval": "Approved by Burt",
+      "distribution": "Sent for information Priority to named defense and military addressees and for information to named European commands",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "record_id": "comm-reagan-tosec-d149",
+      "unit_id": "frus1981-88v04-d149",
+      "record_type": "tosec_telegram",
+      "source_family": "Reagan Library, Jack Matlock Files, with telegram form preserved",
+      "repository_path_component": "US-USSR Summits, President/Andropov Correspondence",
+      "message_identifier": "Tosec 160014/363464",
+      "origin": "Department of State",
+      "addressee": "Embassy in the Soviet Union",
+      "date_time_group": "Washington, December 23, 1983, 2239Z",
+      "classification": "Secret",
+      "handling": "Nodis; Alpha",
+      "precedence": "Niact Immediate",
+      "drafting": "Drafted by Hill",
+      "clearance": "Cleared in S/S-O and by McFarlane",
+      "approval": "Approved by Dam",
+      "distribution": "Sent for information Immediate to Shultz",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "record_id": "comm-reagan-profs-wfiles-source-list",
+      "unit_id": "frus1981-88v44p1-sources",
+      "record_type": "profs_or_w_file_source_family",
+      "source_family": "PROFS System and W Files",
+      "repository_path_component": "Reagan Library and NARA communications source families",
+      "message_identifier": "",
+      "origin": "",
+      "addressee": "",
+      "date_time_group": "",
+      "classification": "",
+      "handling": "",
       "precedence": "",
-      "drafting": "[drafted by note if supplied]",
-      "clearance": "[cleared by note if supplied]",
+      "drafting": "",
+      "clearance": "",
       "approval": "",
       "distribution": "",
-      "verification_status": "verified"
+      "verification_status": "verified_source_list_pattern"
     }
   ]
 }
@@ -1817,9 +1858,13 @@ Minimum communications-record registry:
 Allowed `record_type` values:
 
 - `cfpf_telegram`
+- `cfpf_electronic_telegram`
+- `all_posts_telegram`
+- `tosec_telegram`
 - `stars_record`
 - `profs_message`
 - `w_file_message`
+- `profs_or_w_file_source_family`
 - `system_iv_record`
 - `telegram_reference`
 - `agency_cable`
@@ -1830,9 +1875,14 @@ Allowed `record_type` values:
 Allowed `verification_status` values:
 
 - `verified`
+- `verified_published_pattern`
+- `verified_source_list_pattern`
 - `needs_source_image`
 - `needs_archival_path`
 - `needs_identifier`
+- `needs_date_time_group`
+- `needs_drafting_clearance_basis`
+- `needs_distribution_basis`
 - `unknown`
 
 Communications validator sequence:
@@ -1851,25 +1901,32 @@ Communications validator sequence:
 4. Preserve exact system labels supplied by the registry or unit, including
    `Electronic Telegrams`, `D Reels`, `N Reels`, `P Reels`, `STARS`, `PROFS`,
    `W Files`, and `System IV`.
-5. Do not invent or normalize message identifiers, date-time groups, origin
+5. Preserve telegram numbers and special designators at the start of telegram
+   text when supplied, including `Secto`, `Tosec`, all-post telegram numbers,
+   and message-number/date-time combinations.
+6. Preserve `no N number`, D/N/P reel, and electronic-telegram identifiers as
+   source-surrogate and source-family facts, not as optional web-discovery
+   labels.
+7. Do not invent or normalize message identifiers, date-time groups, origin
    posts, addressees, precedence, drafting, clearance, approval, or distribution
    evidence. If these are missing, use `comment_only` with `evidence_request`
    set to `communications_metadata`, `source_image`, or `archival_path`.
-6. Distinguish original classification and handling markings from release
+8. Distinguish original classification and handling markings from release
    status. A telegram can be declassified for release while still requiring its
    original classification and handling markings in the source note.
-7. Coordinate attachment and cross-reference checks when a communication is
+9. Coordinate attachment and cross-reference checks when a communication is
    described as attached, enclosed, retransmitted, summarized, printed elsewhere,
    or not found.
-8. For foreign, agency, or international-organization communications, comment
+10. For foreign, agency, or international-organization communications, comment
    for translation status, agency equity, foreign-copy provenance, or source
    image review when those facts matter and are not supplied.
 
 Direct-edit posture:
 
 - Safe direct edits may restore a proven system label, supplied reel component,
-  supplied message identifier, or verified `No classification marking` phrase
-  when the exact evidence is present.
+  supplied message identifier, supplied `no N number` phrase, telegram number,
+  special designator, or verified `No classification marking` phrase when the
+  exact evidence is present.
 - Do not directly add or remove origin, addressee, date-time group, precedence,
   drafting, clearance, approval, or distribution claims unless the exact
   information appears in the unit or registry.
@@ -1881,9 +1938,10 @@ Direct-edit posture:
 Communications audit requirements:
 
 - Count unmatched communications records, missing identifiers, missing
-  date-time groups, unmatched source families, unsupported drafting or clearance
-  claims, and direct communications-record edits separately from ordinary
-  source-note style changes.
+  date-time groups, missing telegram numbers or special designators, unmatched
+  source families, unsupported drafting or clearance claims, unsupported
+  approval or distribution claims, and direct communications-record edits
+  separately from ordinary source-note style changes.
 - Preserve the communications registry id, capture date, source-list URLs, and
   any unmatched message identifiers in the audit report.
 - Add `communications_record` discrepancies to the General Editor tally when
@@ -7451,6 +7509,7 @@ Evidence-request categories:
 | `translation_status` | Language, translation office, official/unofficial status, foreign-origin copy, typed signature, bracket treatment, or translated excerpt is uncertain. | Which language/copy/translation/equity fact needs verification. |
 | `chronology` | Diary, schedule, call-log, meeting, or sequence evidence is incomplete. | Which time, place, attendance, or sequence point needs corroboration. |
 | `event_chronology` | Summit, travel, ceremony, interview, press conference, speech, toast, public remarks, or public-event sequence evidence is incomplete. | Which event, time zone, place, sequence, public-source basis, press basis, diary/schedule basis, participant basis, or full-record target must be checked. |
+| `communications_metadata` | Telegram, cable, electronic-telegram, CFPF D/N/P reel, STARS, PROFS, W Files, System IV, agency-message, message number, special designator, date-time group, origin, addressee, precedence, drafting, clearance, approval, or distribution metadata is uncertain. | Which communication system, source-family component, message identifier, telegram number, date-time group, routing, classification/handling, drafting/clearance/approval, distribution, or source-surrogate fact must be checked. |
 | `source_family` | The note appears to flatten a specific source ecology into a generic form. | Which source family or subseries should be preserved. |
 | `cross_reference` | Related document, footnote, appendix, telegram, or volume reference is unstable. | Which reference anchor must be checked. |
 | `wrapper_safety` | Word XML anchoring, existing revisions, comments, fields, tables, or note references make editing unsafe. | Why the wrapper should reject or downgrade the direct edit. |
@@ -7535,6 +7594,7 @@ Default blocking rules:
 | `translation_status` | yes when language, translation, typed-signature, bracket-treatment, or foreign-copy identity is asserted | yes when the printed document depends on the claim |
 | `chronology` | yes when time, attendance, or sequence is rewritten | yes when chronology is central to the note |
 | `event_chronology` | yes when public-event date, time, place, sequence, source basis, participant basis, or full-record target is rewritten | yes when a summit, travel, ceremony, speech, interview, press, testimony, or public-event sequence appears in publishable apparatus |
+| `communications_metadata` | yes for telegram/cable/electronic-message system label, CFPF D/N/P reel, STARS, PROFS, W Files, System IV, agency-message, message number, special designator, date-time group, origin, addressee, precedence, drafting, clearance, approval, distribution, or `no N number` edits | yes when communication metadata appears in source notes, follow-on notes, editorial notes, or source-list/front-matter apparatus |
 | `source_family` | yes when source hierarchy or subseries would be rewritten | no for light review; yes for final style |
 | `cross_reference` | yes | yes when the reference appears in publishable apparatus |
 | `wrapper_safety` | yes | yes for generated `.docx` release until the edit is downgraded or safely anchored |
@@ -8059,6 +8119,11 @@ Duplicate-suppression rules:
   option paper, Summary of Conclusions, directive tab, interagency paper,
   treaty transmittal, Senate advice-and-consent package, recommendation, option,
   agency position, decision stage, target document, or meeting record.
+- Merge repeated communications-record issues by system label, source family,
+  CFPF D/N/P reel or electronic-telegram component, STARS/PROFS/W Files/System
+  IV family, message identifier, telegram number, special designator, date-time
+  group, origin, addressee, precedence, drafting, clearance, approval,
+  distribution, or `no N number` phrase.
 - Merge repeated time-zone/chronology issues by source time label, time zone,
   date-time group, event, call, telegram, conversion status, treaty rule,
   ambiguity note, international-date-line problem, or chronological placement.
@@ -8354,6 +8419,10 @@ Golden packet composition:
   tracked changes so the wrapper safety rules are exercised.
 - At least one intentionally unsafe unit of transcribed document text that the
   checker must not edit.
+- At least one communications-record example with a telegram, cable, CFPF
+  electronic telegram, D/N/P reel item, STARS, PROFS, W Files, System IV, agency
+  message, telegram number, special designator, date-time group, precedence,
+  drafting, clearance, approval, distribution, or `no N number` locator.
 
 Minimum acceptance gates:
 
@@ -8381,6 +8450,12 @@ Expected behavior by test family:
   their proper source families; comment rather than invent when the repository
   path, identifier, source image, scan limitation, or attachment caveat is
   missing.
+- Communications-record test: preserve supplied telegram number, special
+  designator, CFPF D/N/P reel or electronic-telegram label, STARS/PROFS/W
+  Files/System IV family, `no N number`, origin, addressee, date-time group,
+  classification/handling, precedence, drafting, clearance, approval, and
+  distribution facts; comment rather than infer when `communications_metadata`
+  is missing.
 - Classification-handling test: preserve verified classification, handling,
   precedence, and no-marking phrases; comment rather than invent when original
   marking evidence is missing or release status is confused with original
@@ -8759,6 +8834,7 @@ Suggested tally format:
 | style-discrepancy-0023 | editorial_method_transcription | How much editorial-method and transcription-convention enforcement should occur inside annotation sheets before final copyediting or publication production. | Full registry enforcement of bracketed correction/addition, italic/roman, underlining-to-italic, abbreviation, telegram-number, original-bracket, original-ellipsis, and typo-correction conventions; lighter comments that defer final styling and document-text treatment to production review | 2 | high | Should the checker enforce editorial-method conventions during annotation review, or tally volume-specific transcription/styling variations for General Editor decision? |
 | style-discrepancy-0024 | document_status_lifecycle | How much document-status and lifecycle evidence should appear in source notes or annotations when draft/final, copy, signature, routing, transmission, approval, or clearance facts are sound. | Full lifecycle note with draft/final, original/copy, signed/unsigned, sent/approved/drafted/cleared/distributed details; shorter status note with lifecycle details retained in audit/context | 2 | medium | Should the checker enforce a house form for document-status/lifecycle notes, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0025 | decision_process_directive | How much NSC/interagency decision-process and directive apparatus should appear in source notes or annotations when decision-stage facts are sound. | Full decision-process note with body, directive number, option, Summary of Conclusions, tab, recommendation, agency position, and decision stage; shorter note with process detail retained in audit/context | 2 | high | Should the checker enforce a house form for NSC/interagency decision-process notes, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0026 | communications_record | How much telegram, cable, electronic-message, and communications-system metadata should appear in source notes or annotations when the message facts are sound. | Full message apparatus with CFPF D/N/P or Electronic Telegrams, STARS/PROFS/W Files/System IV label, message number, special designator, DTG, precedence, `no N number`, drafting, clearance, approval, and distribution; shorter source note with metadata retained in audit/context | 2 | medium | Should the checker enforce a house form for communications-record metadata, or tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -8829,6 +8905,12 @@ Required bundle files:
   paper, treaty transmittal, Senate advice-and-consent package, recommendation,
   option, agency position, decision stage, target document, meeting record,
   verification status, and source URLs.
+- `communications_map`, when available: telegram, cable, electronic telegram,
+  CFPF D/N/P reel item, STARS, PROFS, W Files, System IV, agency message,
+  source family, repository component, message identifier, telegram number,
+  special designator, origin, addressee, date-time group, classification,
+  handling, precedence, drafting, clearance, approval, distribution,
+  `no N number`, verification status, and source URLs.
 - `negative_search_map`, when available: item sought, claim type, record or
   attachment type, repository/file scope, source image or diary/schedule basis,
   search result, found-elsewhere target, follow-up status, public phrase,
@@ -10086,7 +10168,7 @@ Selection-balance warnings:
 - [unit_id or global]: [selection-balance issue] - [scope type, coverage dimension, decision point or chapter, related-volume target, known gap, blocking posture, and verification target]
 
 Communications-record warnings:
-- [unit_id or global]: [record issue] - [record type, identifier, and evidence basis]
+- [unit_id or global]: [record issue] - [record type, source family, system label, identifier, telegram number or special designator, date-time group, origin/addressee, classification/handling, precedence, drafting/clearance/approval, distribution, source-surrogate fact, and verification target]
 
 Attachment warnings:
 - [unit_id or global]: [attachment issue] - [physical/editorial status and target]
@@ -10669,8 +10751,10 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d236`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d260`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d100`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d233`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d282`
 - `https://history.state.gov/historicaldocuments/frus1981-88v05/d16`
+- `https://history.state.gov/historicaldocuments/frus1981-88v04/d149`
 - `https://history.state.gov/historicaldocuments/frus1981-88v06/d151`
 - `https://history.state.gov/historicaldocuments/frus1981-88v13/ch3`
 - `https://history.state.gov/historicaldocuments/frus1981-88v13/d43`
@@ -10775,6 +10859,7 @@ Recent Reagan source incorporated:
 - [Volume I Abbreviations and Terms authority list](https://history.state.gov/historicaldocuments/frus1981-88v01/terms)
 - [Haig confirmation chronology with memoir supplementation, Document 18](https://history.state.gov/historicaldocuments/frus1981-88v01/d18)
 - [Haig Middle East trip editorial note with memoir context, Document 34](https://history.state.gov/historicaldocuments/frus1981-88v01/d34)
+- [Reagan all-post electronic telegram with telegram number, DTG, priority distribution, drafting, clearance, approval, and follow-on telegram references, Document 233](https://history.state.gov/historicaldocuments/frus1981-88v01/d233)
 - [Reagan Cronkite interview editorial note, Document 33](https://history.state.gov/historicaldocuments/frus1981-88v01/d33)
 - [Haig Senate Foreign Relations Committee testimony, Document 39](https://history.state.gov/historicaldocuments/frus1981-88v01/d39)
 - [Haig private-paper source note with read-by stamp, marginalia, highlighting, underlining, and checkmark, Document 75](https://history.state.gov/historicaldocuments/frus1981-88v01/d75)
@@ -10797,6 +10882,7 @@ Recent Reagan source incorporated:
 - [FRUS, 1981-1988, Volume VI preface on Soviet-policy scope, related-volume boundaries, summits, agency roles, and skeptical views](https://history.state.gov/historicaldocuments/frus1981-88v06/preface)
 - [FRUS, 1981-1988, Volume X, Eastern Europe](https://history.state.gov/historicaldocuments/frus1981-88v10)
 - [FRUS, 1981-1988, Volume XI, START I](https://history.state.gov/historicaldocuments/frus1981-88v11)
+- [Reagan Soviet Union Tosec telegram with special designator, Niact Immediate, Nodis/Alpha, drafting, clearance, approval, and delivery-instruction follow-on notes, Document 149](https://history.state.gov/historicaldocuments/frus1981-88v04/d149)
 - [Soviet volume source note with NLR identifier and distinct State CFPF `no N number` follow-on citation, Document 275](https://history.state.gov/historicaldocuments/frus1981-88v05/d275)
 - [START I handwritten NSC notes with original brackets and ellipses, editor-transcribed portion, appendix image link, and cut-off-line note, Document 13](https://history.state.gov/historicaldocuments/frus1981-88v11/d13)
 - [START I handwritten NSC notes with omission bracket distinguished from original brackets and appendix image link, Document 32](https://history.state.gov/historicaldocuments/frus1981-88v11/d32)
