@@ -22,6 +22,14 @@ document edition. It gathers:
 - chronology milestones
 - compiler gap register and next-pull checklist
 
+## Human Review Posture
+
+This page treats machine assistance as a scout, not a selector. Every lead is
+kept provisional until a compiler verifies the repository path, item-level
+source-note evidence, release or restriction status, and fit with Volume I.
+The exports are meant to preserve assumptions and next pulls in plain sight so
+skeptical review has something concrete to inspect.
+
 ## Files
 
 - `index.html`: page structure and workbench sections

@@ -21,6 +21,13 @@ Foundations of Foreign Policy*.
 | Second-term under-collection | Open | Pull Widmer, Berger, Steinberg, NSS 1999, PDD-63, and PDD-68 source trails. |
 | Chronology records mistaken for decision evidence | Open | Use Daily Diary entries only to date and verify events unless paired with substantive source records. |
 
+## Human Review Posture
+
+Use the page as an audit trail rather than an automated selector. Search-derived
+or machine-assisted leads remain provisional until the compiler verifies the
+repository path, source-note evidence, access or release status, and Volume I
+fit. The worksheets are designed to expose assumptions, not hide them.
+
 ## Priority Pull List
 
 1. Declassified document chronology: work the first page section in date order before splitting by office or topic.
