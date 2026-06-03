@@ -9,7 +9,7 @@ const DIRECT_ACTIONS = new Set(["replace_text", "insert_after_text", "delete_tex
 
 function usage() {
   console.error(
-    "Usage: node scripts/run-frus-offline-review.mjs --docx <input.docx> --checker-output <checker-output.json> --out <revised.docx> [--artifact-dir DIR] [--audit audit.json] [--existing-ledger ledger.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--today YYYY-MM-DD] [--max-age-days N] [--review-mode light|normal|exhaustive] [--run-id RUN] [--author NAME] [--date ISO-DATE] [--format json|text]"
+    "Usage: node scripts/run-frus-offline-review.mjs --docx <input.docx> --checker-output <checker-output.json> --out <revised.docx> [--artifact-dir DIR] [--audit audit.json] [--existing-ledger ledger.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--today YYYY-MM-DD] [--max-age-days N] [--review-mode light|normal|exhaustive] [--run-id RUN] [--author NAME] [--date ISO-DATE] [--format json|text]"
   );
   process.exit(2);
 }
@@ -30,6 +30,7 @@ function parseArgs(argv) {
   let classificationRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
+  let communicationsRegistryPath = null;
   let preparationRouterPath = null;
   let permutationMatrixPath = null;
   let targetVolume = "";
@@ -87,6 +88,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--document-relationship-registry") {
       documentRelationshipRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--communications-registry") {
+      communicationsRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--preparation-router") {
       preparationRouterPath = argv[index + 1];
@@ -159,6 +163,7 @@ function parseArgs(argv) {
     classificationRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
+    communicationsRegistryPath,
     preparationRouterPath,
     permutationMatrixPath,
     targetVolume,
@@ -265,6 +270,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
   const classificationAudit = reports.classification_usage_audit || null;
   const negativeSearchAudit = reports.negative_search_usage_audit || null;
   const documentRelationshipAudit = reports.document_relationship_usage_audit || null;
+  const communicationsAudit = reports.communications_usage_audit || null;
   const annotationSheetProfileAudit = reports.annotation_sheet_profile_audit || null;
   const expectedRevisions = countExpectedRevisions(trackReport);
 
@@ -313,6 +319,9 @@ function buildAudit({ options, artifacts, steps, reports }) {
       document_relationship_registry_warnings: documentRelationshipAudit?.summary?.warnings || 0,
       document_relationship_direct_edit_conflicts:
         documentRelationshipAudit?.summary?.direct_document_relationship_edit_conflicts || 0,
+      communications_registry_usages: communicationsAudit?.summary?.communications_usages || 0,
+      communications_registry_warnings: communicationsAudit?.summary?.warnings || 0,
+      communications_direct_edit_conflicts: communicationsAudit?.summary?.direct_communications_edit_conflicts || 0,
       annotation_sheet_profile_lexical_misclassifications:
         annotationSheetProfileAudit?.summary?.lexical_misclassifications || 0,
       annotation_sheet_profile_unexpected_angle_tokens:
@@ -339,6 +348,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
       classification_registry: options.classificationRegistryPath ? normalizePathForOutput(options.classificationRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
+      communications_registry: options.communicationsRegistryPath ? normalizePathForOutput(options.communicationsRegistryPath) : "",
       preparation_router: options.preparationRouterPath ? normalizePathForOutput(options.preparationRouterPath) : "",
       permutation_matrix: options.permutationMatrixPath ? normalizePathForOutput(options.permutationMatrixPath) : "",
       target_volume: options.targetVolume,
@@ -360,7 +370,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
 function renderText(audit) {
   return [
     `FRUS offline review passed: ${audit.counts.extracted_units} units, ${audit.counts.comments_applied} Word comments, ${audit.counts.tracked_edits_applied} tracked edits.`,
-    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; authority usages: ${audit.counts.authority_registry_usages}; authority warnings: ${audit.counts.authority_registry_warnings}; source-list usages: ${audit.counts.source_list_registry_usages}; source-list warnings: ${audit.counts.source_list_registry_warnings}; document-metadata usages: ${audit.counts.document_metadata_registry_usages}; document-metadata warnings: ${audit.counts.document_metadata_registry_warnings}; classification usages: ${audit.counts.classification_registry_usages}; classification warnings: ${audit.counts.classification_registry_warnings}; negative-search usages: ${audit.counts.negative_search_registry_usages}; negative-search warnings: ${audit.counts.negative_search_registry_warnings}; document-relationship usages: ${audit.counts.document_relationship_registry_usages}; document-relationship warnings: ${audit.counts.document_relationship_registry_warnings}; annotation-sheet profile lexical misses: ${audit.counts.annotation_sheet_profile_lexical_misclassifications}; marker conflicts: ${audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
+    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; authority usages: ${audit.counts.authority_registry_usages}; authority warnings: ${audit.counts.authority_registry_warnings}; source-list usages: ${audit.counts.source_list_registry_usages}; source-list warnings: ${audit.counts.source_list_registry_warnings}; document-metadata usages: ${audit.counts.document_metadata_registry_usages}; document-metadata warnings: ${audit.counts.document_metadata_registry_warnings}; classification usages: ${audit.counts.classification_registry_usages}; classification warnings: ${audit.counts.classification_registry_warnings}; negative-search usages: ${audit.counts.negative_search_registry_usages}; negative-search warnings: ${audit.counts.negative_search_registry_warnings}; document-relationship usages: ${audit.counts.document_relationship_registry_usages}; document-relationship warnings: ${audit.counts.document_relationship_registry_warnings}; communications usages: ${audit.counts.communications_registry_usages}; communications warnings: ${audit.counts.communications_registry_warnings}; annotation-sheet profile lexical misses: ${audit.counts.annotation_sheet_profile_lexical_misclassifications}; marker conflicts: ${audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
     `Revised DOCX: ${audit.revised_docx}`,
     `Audit: ${audit.artifacts.audit}`
   ].join("\n") + "\n";
@@ -391,6 +401,8 @@ function runReview(options) {
     negative_search_usage_audit: path.join(options.artifactDir, "negative-search-usage-audit.json"),
     document_relationship_registry_validation: path.join(options.artifactDir, "document-relationship-registry-validation.json"),
     document_relationship_usage_audit: path.join(options.artifactDir, "document-relationship-usage-audit.json"),
+    communications_registry_validation: path.join(options.artifactDir, "communications-registry-validation.json"),
+    communications_usage_audit: path.join(options.artifactDir, "communications-usage-audit.json"),
     preparation_router_validation: path.join(options.artifactDir, "preparation-router-validation.json"),
     permutation_matrix_validation: path.join(options.artifactDir, "permutation-matrix-validation.json"),
     status_claims_preflight: path.join(options.artifactDir, "status-claims-preflight.txt"),
@@ -757,6 +769,47 @@ function runReview(options) {
     });
     steps.push(relationshipAuditStep);
     optionalReports.document_relationship_usage_audit = relationshipAuditStep.parsed;
+  }
+  if (options.communicationsRegistryPath) {
+    const communicationsValidationStep = runNodeStep({
+      label: "validate_communications_registry",
+      args: [
+        "scripts/validate-frus-communications-registry.mjs",
+        "--registry",
+        options.communicationsRegistryPath,
+        "--format",
+        "json"
+      ],
+      cwd,
+      stdoutFile: artifacts.communications_registry_validation,
+      parseJson: true
+    });
+    steps.push(communicationsValidationStep);
+    optionalReports.communications_registry_validation = communicationsValidationStep.parsed;
+
+    const communicationsAuditArgs = [
+      "scripts/audit-frus-communications-usage.mjs",
+      "--units",
+      artifacts.extracted_units,
+      "--registry",
+      options.communicationsRegistryPath,
+      "--checker-output",
+      options.checkerOutputPath,
+      "--format",
+      "json"
+    ];
+    if (options.targetVolume) {
+      communicationsAuditArgs.push("--target-volume", options.targetVolume);
+    }
+    const communicationsAuditStep = runNodeStep({
+      label: "audit_communications_usage",
+      args: communicationsAuditArgs,
+      cwd,
+      stdoutFile: artifacts.communications_usage_audit,
+      parseJson: true
+    });
+    steps.push(communicationsAuditStep);
+    optionalReports.communications_usage_audit = communicationsAuditStep.parsed;
   }
   if (options.preparationRouterPath) {
     if (!options.statusRegistryPath) {

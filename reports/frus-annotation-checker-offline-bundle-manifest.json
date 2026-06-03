@@ -188,6 +188,18 @@
       "role": "Self-contained document-relationship registry and usage audit smoke test"
     },
     {
+      "path": "scripts/validate-frus-communications-registry.mjs",
+      "role": "Telegram, cable, message identifier, special-designator, source-family, routing, and date-time group registry validator"
+    },
+    {
+      "path": "scripts/audit-frus-communications-usage.mjs",
+      "role": "Communications metadata usage audit for extracted Word units and direct-edit safety"
+    },
+    {
+      "path": "scripts/test-frus-communications-audit.mjs",
+      "role": "Self-contained communications metadata registry and usage audit smoke test"
+    },
+    {
       "path": "scripts/audit-frus-annotation-sheet-profile.mjs",
       "role": "Finished-form annotation-sheet profile audit for flat Word structure, lexical unitization, and pseudo-marker safety"
     },
@@ -256,6 +268,9 @@
     "reports/frus-document-relationship-registry.sample.json",
     "reports/frus-document-relationship-units.sample.json",
     "reports/frus-document-relationship-audit.sample.json",
+    "reports/frus-communications-registry.sample.json",
+    "reports/frus-communications-units.sample.json",
+    "reports/frus-communications-audit.sample.json",
     "reports/frus-annotation-sheet-profile.sample.json",
     "reports/frus-annotation-sheet-profile-units.sample.json",
     "reports/frus-annotation-sheet-profile-safe-output.sample.json",
@@ -301,6 +316,10 @@
     {
       "path": "reports/frus-document-relationship-registry.sample.json",
       "role": "Published attached-but-not-printed, printed-as-document, tab/enclosure, and document cross-reference sample for Reagan and George H.W. Bush fixtures"
+    },
+    {
+      "path": "reports/frus-communications-registry.sample.json",
+      "role": "Published telegram, cable, message identifier, special-designator, source-family, routing, and date-time group sample for Reagan and George H.W. Bush fixtures"
     },
     {
       "path": "reports/frus-annotation-sheet-profile.sample.json",
@@ -349,6 +368,9 @@
     "node scripts/validate-frus-document-relationship-registry.mjs --registry reports/frus-document-relationship-registry.sample.json --format text",
     "node scripts/audit-frus-document-relationship-usage.mjs --units reports/frus-document-relationship-units.sample.json --registry reports/frus-document-relationship-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-document-relationship-audit.mjs",
+    "node scripts/validate-frus-communications-registry.mjs --registry reports/frus-communications-registry.sample.json --format text",
+    "node scripts/audit-frus-communications-usage.mjs --units reports/frus-communications-units.sample.json --registry reports/frus-communications-registry.sample.json --target-volume frus1989-92v31 --format text",
+    "node scripts/test-frus-communications-audit.mjs",
     "node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units reports/frus-annotation-sheet-profile-units.sample.json --checker-output reports/frus-annotation-sheet-profile-safe-output.sample.json --format text",
     "node scripts/test-frus-annotation-sheet-profile.mjs",
     "node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json",
@@ -372,6 +394,8 @@
     "Give validate-frus-negative-search-registry.mjs a duplicate negative_search_id or malformed negative-search-registry schema; it must fail.",
     "Give audit-frus-document-relationship-usage.mjs a direct edit that changes `Attached but not printed. See Document 10` to `Attached but not printed. See Document 9` without target-volume registry support; it must fail.",
     "Give validate-frus-document-relationship-registry.mjs a duplicate relationship_id or malformed document-relationship-registry schema; it must fail.",
+    "Give audit-frus-communications-usage.mjs a direct edit that changes `TOSEC 10393` to another TOSEC identifier without target-volume registry support; it must fail.",
+    "Give validate-frus-communications-registry.mjs a duplicate communications_id or malformed communications-registry schema; it must fail.",
     "Give audit-frus-annotation-sheet-profile.mjs a Normal-style paragraph beginning with `1  Source:` but unitized as transcribed_document_text; it must fail.",
     "Give audit-frus-annotation-sheet-profile.mjs a direct edit that touches `<i>`, `<r>`, `<n>`, `<m>`, or a numeric marker; it must fail.",
     "Give build-frus-llm-review-packet.mjs a malformed extracted-units file; it must fail before producing a model packet.",

@@ -2,7 +2,7 @@
 
 - schema_version: frus-llm-review-packet-v1
 - run_id: sample-packet
-- generated_at: 2026-06-03T16:23:52.437Z
+- generated_at: 2026-06-03T17:10:05.145Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -161,6 +161,7 @@ Every reviewable extracted editorial unit should have a checker entry. Use `reco
   "classification_registry_records": 5,
   "negative_search_registry_records": 6,
   "document_relationship_registry_records": 10,
+  "communications_registry_records": 8,
   "preparation_routes": 74,
   "matrix_categories": 40,
   "matrix_evidence_requests": 39
@@ -190,9 +191,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -217,6 +218,9 @@ For negative-search/no-record validation and direct-edit safety, run
 For document-relationship validation and direct-edit safety, run
 `node scripts/validate-frus-document-relationship-registry.mjs --registry reports/frus-document-relationship-registry.sample.json --format text` and
 `node scripts/audit-frus-document-relationship-usage.mjs --units extracted-units.json --registry reports/frus-document-relationship-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For communications metadata validation and direct-edit safety, run
+`node scripts/validate-frus-communications-registry.mjs --registry reports/frus-communications-registry.sample.json --format text` and
+`node scripts/audit-frus-communications-usage.mjs --units extracted-units.json --registry reports/frus-communications-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For a no-dependency smoke test, run
 `node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json`.
 For direct-edit anchor preflight, run
@@ -230,7 +234,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -273,6 +277,12 @@ printed`, `Printed as Document [n]`, `See Document [n]`, tab/enclosure labels,
 not-attached items, and mixed attachment notes; validate it with
 `scripts/validate-frus-document-relationship-registry.mjs` before direct
 attachment or cross-reference edits.
+For real Reagan/Bush 1981-1992 communications review, replace the sample
+communications registry with target-volume telegram, cable, special-designator,
+source-family, date-time group, origin/addressee, precedence/routing, drafting,
+clearance, and approval records; validate it with
+`scripts/validate-frus-communications-registry.mjs` before direct
+communications-record edits.
 For volume-family and stage-posture routing, validate and use
 `reports/frus-preparation-router-1981-1992.current.json` with
 `scripts/validate-frus-preparation-router.mjs` before family-dependent direct
@@ -292,6 +302,8 @@ For sample negative-search/no-record checks, run
 `node scripts/audit-frus-negative-search-usage.mjs --units reports/frus-negative-search-units.sample.json --registry reports/frus-negative-search-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample document-relationship checks, run
 `node scripts/audit-frus-document-relationship-usage.mjs --units reports/frus-document-relationship-units.sample.json --registry reports/frus-document-relationship-registry.sample.json --target-volume frus1989-92v31 --format text`.
+For sample communications metadata checks, run
+`node scripts/audit-frus-communications-usage.mjs --units reports/frus-communications-units.sample.json --registry reports/frus-communications-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample review coverage, run
 `node scripts/audit-frus-review-coverage.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-sample-output.json --matrix reports/frus-annotation-permutation-matrix.json`.
 For unresolved proof tracking, run
@@ -344,8 +356,8 @@ is flawless.
    `display_text`, unit type, and Word XML anchors.
 4. Wrapper builds a per-document `review-packet.md` from the runtime guide,
    extracted units, output schema, status registry, authority registry,
-   source-list registry, document-metadata registry, preparation router, and
-   permutation matrix.
+   source-list registry, document-metadata registry, communications registry,
+   preparation router, and permutation matrix.
 5. If the model context is too small, wrapper builds numbered chunk packets and
    later merges chunk outputs through the chunk-reconciliation gate.
 6. LLM checks the packet or chunk packet and returns a JSON edit/comment plan
@@ -368,9 +380,14 @@ is flawless.
    subject/title lines, attachment headings, editorial-note form, and
    sender/recipient metadata against the supplied document-metadata registry
    before allowing any metadata redline.
-12. Wrapper applies only safe edits as WordprocessingML tracked insertions,
+12. Wrapper validates telegram/cable/message identifiers, SECTO/TOSEC
+   designators, origin/addressee lines, date-time groups, source-family IDs,
+   precedence/routing, drafting, clearance, and approval strings against the
+   supplied communications registry before allowing any communications-record
+   redline.
+13. Wrapper applies only safe edits as WordprocessingML tracked insertions,
    deletions, and comments.
-13. User downloads a new `.docx` with changes marked in Track Changes.
+14. User downloads a new `.docx` with changes marked in Track Changes.
 
 Important: the LLM must not write `.docx`, OOXML, base64 files, or package
 instructions. The wrapper creates the revised Word file.
@@ -407,6 +424,10 @@ The wrapper should provide:
   search-log basis records when available.
 - `document_status_context`: draft/final, original/copy, signed/unsigned,
   routing, approval, distribution, enclosure, attachment, and lifecycle evidence.
+- `communications_registry_context`: telegram, cable, electronic-message,
+  CFPF D/N/P, STARS, PROFS, W Files, System IV, message identifier, special
+  designator, date-time group, origin/addressee, precedence/routing, drafting,
+  clearance, approval, and distribution records when available.
 - `cross_reference_context`: same-volume, cross-volume, footnote, appendix,
   scheduled-publication, and document-number targets.
 - `word_redline_integrity_context`: existing revisions/comments, fields,
@@ -4191,6 +4212,385 @@ Use this to check `Attached but not printed`, `Printed as Document [n]`, `See Do
       "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d128",
       "target_url": "",
       "verification_status": "verified_published_relationship"
+    }
+  ]
+}
+```
+
+## Communications Metadata Registry Context
+
+Use this to check telegram/cable/message identifiers, SECTO/TOSEC/special designators, origin/addressee lines, date-time groups, source-family electronic telegram identifiers, precedence/routing, and drafting/clearance/approval strings. Do not change identifiers, date-time groups, origin/addressee, or precedence unless the registry proves the direct edit.
+
+```json
+{
+  "schema_version": "frus-communications-registry-v1",
+  "communications_registry_id": "frus-1981-1992-communications-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d19",
+    "https://history.state.gov/historicaldocuments/frus1981-88v13/d85",
+    "https://history.state.gov/historicaldocuments/frus1981-88v13/d401",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d89",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d166",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d178",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d190"
+  ],
+  "scope": "Sample communications metadata registry for checking FRUS telegram, special-designator, time-group, routing, source-family, classification/handling, drafting, clearance, and follow-on telegram-reference form in Reagan and George H.W. Bush annotation sheets.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "communications_id": "communications-v31-d89-secto-2017",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d89",
+      "document_number": "89",
+      "communications_type": "telegram_with_special_designator",
+      "approved_heading_form": "Telegram From Secretary of State Baker's Delegation to the Department of State and the White House",
+      "message_identifier": "SECTO 2017",
+      "special_designator": "SECTO",
+      "origin": "Secretary of State Baker's Delegation",
+      "addressees": "Department of State and White House",
+      "date_time_line": "Namibia, March 20, 1990, 0905Z",
+      "date_time_group": "0905Z",
+      "subject_or_title": "My Meeting with Soviet Foreign Minister Shevardnadze",
+      "source_family": "Department of State, Central Foreign Policy File",
+      "source_note_form": "Department of State, Central Foreign Policy File, N900002-0204",
+      "classification_or_handling_summary": "Secret",
+      "drafting_clearance_approval": "",
+      "reference_context": "",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d89",
+      "verification_status": "verified_published_communications_record",
+      "variant_forms": [
+        "Secto 2017",
+        "N900002-0204",
+        "Telegram from Baker's delegation to State and the White House"
+      ]
+    },
+    {
+      "communications_id": "communications-v31-d166-telegram-376592",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d166",
+      "document_number": "166",
+      "communications_type": "telegram",
+      "approved_heading_form": "Telegram From the Department of State to the Embassy in the Soviet Union",
+      "message_identifier": "376592",
+      "special_designator": "",
+      "origin": "Department of State",
+      "addressees": "Embassy in the Soviet Union",
+      "date_time_line": "Washington, November 6, 1990",
+      "date_time_group": "",
+      "subject_or_title": "PPCM Letter",
+      "source_family": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, N900008-0205",
+      "classification_or_handling_summary": "Secret; Nodis; Immediate; sent to NST Geneva",
+      "drafting_clearance_approval": "Drafted by Timbie; cleared by Hadley, Lehman, MacEachin, and in JCS, NSC, S/S, and S/S-O; approved by Bartholomew",
+      "reference_context": "",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d166",
+      "verification_status": "verified_published_communications_record",
+      "variant_forms": [
+        "Telegram 376592 to Moscow",
+        "N900008-0205",
+        "Secret; NODIS; Immediate"
+      ]
+    },
+    {
+      "communications_id": "communications-v31-d166-fn3-secto-24037",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d166",
+      "document_number": "166",
+      "communications_type": "referenced_telegram",
+      "approved_heading_form": "Telegram SECTO 24037",
+      "message_identifier": "SECTO 24037",
+      "special_designator": "SECTO",
+      "origin": "Secretary's Delegation in the Soviet Union",
+      "addressees": "Department of State",
+      "date_time_line": "November 9, 1990",
+      "date_time_group": "",
+      "subject_or_title": "Baker memorandum to Bush on discussions with Shevardnadze and Gorbachev",
+      "source_family": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, N900008-0257",
+      "classification_or_handling_summary": "Not stated in the follow-on footnote reference; use the source-note citation before inferring handling controls",
+      "drafting_clearance_approval": "",
+      "reference_context": "In telegram SECTO 24037, November 9, the Secretary's Delegation in the Soviet Union transmitted Baker's November 8 memorandum to Bush",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d166",
+      "verification_status": "verified_published_communications_record",
+      "variant_forms": [
+        "telegram SECTO 24037",
+        "telegram 24037 from Moscow",
+        "N900008-0257"
+      ]
+    },
+    {
+      "communications_id": "communications-v31-d178-tosec-290026",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d178",
+      "document_number": "178",
+      "communications_type": "telegram_with_special_designator",
+      "approved_heading_form": "Telegram From the Department of State to Secretary of State Baker",
+      "message_identifier": "424164/TOSEC 290026",
+      "special_designator": "TOSEC",
+      "origin": "Department of State",
+      "addressees": "Secretary of State Baker",
+      "date_time_line": "Washington, December 17, 1990, 1430Z",
+      "date_time_group": "1430Z",
+      "subject_or_title": "START Package",
+      "source_family": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, N900009-0229",
+      "classification_or_handling_summary": "Secret; Immediate; Nodis; sent for information",
+      "drafting_clearance_approval": "Drafted by Roy; approved by Roy and in S/S",
+      "reference_context": "",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d178",
+      "verification_status": "verified_published_communications_record",
+      "variant_forms": [
+        "TOSEC 290026",
+        "424164 Tosec 290026",
+        "N900009-0229"
+      ]
+    },
+    {
+      "communications_id": "communications-v31-d190-tosec-10393",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d190",
+      "document_number": "190",
+      "communications_type": "telegram_with_special_designator",
+      "approved_heading_form": "Telegram From the Department of State to Secretary of State Baker's Delegation in Damascus",
+      "message_identifier": "12562/TOSEC 10393",
+      "special_designator": "TOSEC",
+      "origin": "Department of State",
+      "addressees": "Secretary of State Baker's Delegation in Damascus",
+      "date_time_line": "Washington, January 12, 1991, 2328Z",
+      "date_time_group": "2328Z",
+      "subject_or_title": "Shev Letter on START",
+      "source_family": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, N910001-0231",
+      "classification_or_handling_summary": "Secret; Immediate; Nodis",
+      "drafting_clearance_approval": "Drafted by Timbie; cleared in S/S and S/S-O; approved by Bartholomew",
+      "reference_context": "From January 6 to 14, Baker was traveling in Europe, the Middle East, and Canada to discuss the Persian Gulf crisis",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d190",
+      "verification_status": "verified_published_communications_record",
+      "variant_forms": [
+        "TOSEC 10393",
+        "12562 Tosec 10393",
+        "N910001-0231"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "communications_id": "communications-v01-d19-telegram-13038",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d19",
+      "document_number": "19",
+      "communications_type": "telegram",
+      "approved_heading_form": "Telegram From the Department of State to the Embassy in Yugoslavia",
+      "message_identifier": "13038",
+      "special_designator": "",
+      "origin": "Department of State",
+      "addressees": "Embassy in Yugoslavia",
+      "date_time_line": "Washington, January 17, 1981, 2135Z",
+      "date_time_group": "2135Z",
+      "subject_or_title": "Official-Informal",
+      "source_family": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, D810025-1157",
+      "classification_or_handling_summary": "Limited Official Use; Priority",
+      "drafting_clearance_approval": "Drafted by Longo (EUR/EE/HU) and approved by Bridges (EUR/EE)",
+      "reference_context": "",
+      "variant_forms": [
+        "Telegram 13038 to Belgrade",
+        "D810025-1157",
+        "Official-Informal"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d19",
+      "verification_status": "verified_published_communications_record"
+    },
+    {
+      "communications_id": "communications-v13-d85-presidential-message-10",
+      "volume_id": "frus1981-88v13",
+      "document_id": "frus1981-88v13/d85",
+      "document_number": "85",
+      "communications_type": "presidential_message",
+      "approved_heading_form": "Telegram From President Reagan to Secretary of State Haig",
+      "message_identifier": "10",
+      "special_designator": "",
+      "origin": "President Reagan",
+      "addressees": "Secretary of State Haig",
+      "date_time_line": "Bridgetown, April 9, 1982, 1640Z",
+      "date_time_group": "1640Z",
+      "subject_or_title": "Your Discussions in London",
+      "source_family": "Reagan Library, Executive Secretariat, NSC Country File",
+      "source_note_form": "Reagan Library, Executive Secretariat, NSC Country File, Latin America/Central, Falklands War [Cables 090131, 091000, 091154, 091640, 181715, 191650, 191754, 192115]",
+      "classification_or_handling_summary": "Top Secret; sent for information to the White House; printed from a White House Situation Room copy",
+      "drafting_clearance_approval": "",
+      "reference_context": "Ref Secto 5010",
+      "variant_forms": [
+        "Ref Secto 5010",
+        "Cables 090131, 091000, 091154, 091640, 181715, 191650, 191754, 192115",
+        "White House Situation Room copy"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v13/d85",
+      "verification_status": "verified_published_communications_record"
+    },
+    {
+      "communications_id": "communications-v13-d401-joint-telegram-285386",
+      "volume_id": "frus1981-88v13",
+      "document_id": "frus1981-88v13/d401",
+      "document_number": "401",
+      "communications_type": "joint_state_defense_message",
+      "approved_heading_form": "Telegram From the Department of State to the Embassies in Argentina and the United Kingdom",
+      "message_identifier": "285386",
+      "special_designator": "",
+      "origin": "Department of State",
+      "addressees": "Embassies in Argentina and the United Kingdom",
+      "date_time_line": "Washington, October 9, 1982, 0403Z",
+      "date_time_group": "0403Z",
+      "subject_or_title": "Resumption of Military Intelligence Exchange With Argentina",
+      "source_family": "Department of State, Bureau of European Affairs, United Kingdom Political Files",
+      "source_note_form": "Department of State, Bureau of European Affairs, United Kingdom Political Files, Lot 89D489, Falklands--Telegrams 1982",
+      "classification_or_handling_summary": "Secret; Priority; sent for information to the Department of Defense, USSOUTHCOM, and the Defense Intelligence Agency",
+      "drafting_clearance_approval": "Drafted by C.S. Shapiro (ARA/RPP); cleared by Bosworth, Raphel, D.W. Cox (ARA/RPP), K. Smith (EUR/NE), S. Smith (ARA/SC), R. Wharton (INR/IC/CD), C. Brown (DOD/ISA/IA), and McManaway; approved by Eagleburger",
+      "reference_context": "State 247107 DTG 020416Z Sep 82; Buenos Aires 5222 DTG 091546Z Sep 82; London 19432 DTG 031700Z Sep 82",
+      "variant_forms": [
+        "Joint State/Defense message",
+        "State 247107 DTG 020416Z Sep 82",
+        "Buenos Aires 5222 DTG 091546Z Sep 82",
+        "London 19432 DTG 031700Z Sep 82"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v13/d401",
+      "verification_status": "verified_published_communications_record"
+    },
+    {
+      "communications_id": "communications-v31-d89-secto-2017",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d89",
+      "document_number": "89",
+      "communications_type": "telegram_with_special_designator",
+      "approved_heading_form": "Telegram From Secretary of State Baker's Delegation to the Department of State and the White House",
+      "message_identifier": "SECTO 2017",
+      "special_designator": "SECTO",
+      "origin": "Secretary of State Baker's Delegation",
+      "addressees": "Department of State and White House",
+      "date_time_line": "Namibia, March 20, 1990, 0905Z",
+      "date_time_group": "0905Z",
+      "subject_or_title": "My Meeting with Soviet Foreign Minister Shevardnadze",
+      "source_family": "Department of State, Central Foreign Policy File",
+      "source_note_form": "Department of State, Central Foreign Policy File, N900002-0204",
+      "classification_or_handling_summary": "Secret",
+      "drafting_clearance_approval": "",
+      "reference_context": "",
+      "variant_forms": [
+        "Secto 2017",
+        "N900002-0204",
+        "Telegram from Baker's delegation to State and the White House"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d89",
+      "verification_status": "verified_published_communications_record"
+    },
+    {
+      "communications_id": "communications-v31-d166-telegram-376592",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d166",
+      "document_number": "166",
+      "communications_type": "telegram",
+      "approved_heading_form": "Telegram From the Department of State to the Embassy in the Soviet Union",
+      "message_identifier": "376592",
+      "special_designator": "",
+      "origin": "Department of State",
+      "addressees": "Embassy in the Soviet Union",
+      "date_time_line": "Washington, November 6, 1990",
+      "date_time_group": "",
+      "subject_or_title": "PPCM Letter",
+      "source_family": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, N900008-0205",
+      "classification_or_handling_summary": "Secret; Nodis; Immediate; sent to NST Geneva",
+      "drafting_clearance_approval": "Drafted by Timbie; cleared by Hadley, Lehman, MacEachin, and in JCS, NSC, S/S, and S/S-O; approved by Bartholomew",
+      "reference_context": "",
+      "variant_forms": [
+        "Telegram 376592 to Moscow",
+        "N900008-0205",
+        "Secret; NODIS; Immediate"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d166",
+      "verification_status": "verified_published_communications_record"
+    },
+    {
+      "communications_id": "communications-v31-d166-fn3-secto-24037",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d166",
+      "document_number": "166",
+      "communications_type": "referenced_telegram",
+      "approved_heading_form": "Telegram SECTO 24037",
+      "message_identifier": "SECTO 24037",
+      "special_designator": "SECTO",
+      "origin": "Secretary's Delegation in the Soviet Union",
+      "addressees": "Department of State",
+      "date_time_line": "November 9, 1990",
+      "date_time_group": "",
+      "subject_or_title": "Baker memorandum to Bush on discussions with Shevardnadze and Gorbachev",
+      "source_family": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, N900008-0257",
+      "classification_or_handling_summary": "Not stated in the follow-on footnote reference; use the source-note citation before inferring handling controls",
+      "drafting_clearance_approval": "",
+      "reference_context": "In telegram SECTO 24037, November 9, the Secretary's Delegation in the Soviet Union transmitted Baker's November 8 memorandum to Bush",
+      "variant_forms": [
+        "telegram SECTO 24037",
+        "telegram 24037 from Moscow",
+        "N900008-0257"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d166",
+      "verification_status": "verified_published_communications_record"
+    },
+    {
+      "communications_id": "communications-v31-d178-tosec-290026",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d178",
+      "document_number": "178",
+      "communications_type": "telegram_with_special_designator",
+      "approved_heading_form": "Telegram From the Department of State to Secretary of State Baker",
+      "message_identifier": "424164/TOSEC 290026",
+      "special_designator": "TOSEC",
+      "origin": "Department of State",
+      "addressees": "Secretary of State Baker",
+      "date_time_line": "Washington, December 17, 1990, 1430Z",
+      "date_time_group": "1430Z",
+      "subject_or_title": "START Package",
+      "source_family": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, N900009-0229",
+      "classification_or_handling_summary": "Secret; Immediate; Nodis; sent for information",
+      "drafting_clearance_approval": "Drafted by Roy; approved by Roy and in S/S",
+      "reference_context": "",
+      "variant_forms": [
+        "TOSEC 290026",
+        "424164 Tosec 290026",
+        "N900009-0229"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d178",
+      "verification_status": "verified_published_communications_record"
+    },
+    {
+      "communications_id": "communications-v31-d190-tosec-10393",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d190",
+      "document_number": "190",
+      "communications_type": "telegram_with_special_designator",
+      "approved_heading_form": "Telegram From the Department of State to Secretary of State Baker's Delegation in Damascus",
+      "message_identifier": "12562/TOSEC 10393",
+      "special_designator": "TOSEC",
+      "origin": "Department of State",
+      "addressees": "Secretary of State Baker's Delegation in Damascus",
+      "date_time_line": "Washington, January 12, 1991, 2328Z",
+      "date_time_group": "2328Z",
+      "subject_or_title": "Shev Letter on START",
+      "source_family": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, N910001-0231",
+      "classification_or_handling_summary": "Secret; Immediate; Nodis",
+      "drafting_clearance_approval": "Drafted by Timbie; cleared in S/S and S/S-O; approved by Bartholomew",
+      "reference_context": "From January 6 to 14, Baker was traveling in Europe, the Middle East, and Canada to discuss the Persian Gulf crisis",
+      "variant_forms": [
+        "TOSEC 10393",
+        "12562 Tosec 10393",
+        "N910001-0231"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d190",
+      "verification_status": "verified_published_communications_record"
     }
   ]
 }

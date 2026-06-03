@@ -1,0 +1,94 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample extracted Word units for FRUS communications metadata audit tests.",
+  "units": [
+    {
+      "unit_id": "communications-note-0001",
+      "unit_type": "source_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "START I Document 89 source note",
+      "exact_text": "Telegram From Secretary of State Baker's Delegation to the Department of State and the White House, SECTO 2017, Namibia, March 20, 1990, 0905Z. Source: Department of State, Central Foreign Policy File, N900002-0204. Secret.",
+      "display_text": "Telegram From Secretary of State Baker's Delegation to the Department of State and the White House, SECTO 2017, Namibia, March 20, 1990, 0905Z. Source: Department of State, Central Foreign Policy File, N900002-0204. Secret.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "communications-note-0002",
+      "unit_type": "source_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "START I Document 178 source note",
+      "exact_text": "424164/TOSEC 290026. Washington, December 17, 1990, 1430Z. Source: Department of State, Central Foreign Policy File, Electronic Telegrams, N900009-0229. Secret; Immediate; Nodis. Drafted by Roy; approved by Roy and in S/S.",
+      "display_text": "424164/TOSEC 290026. Washington, December 17, 1990, 1430Z. Source: Department of State, Central Foreign Policy File, Electronic Telegrams, N900009-0229. Secret; Immediate; Nodis. Drafted by Roy; approved by Roy and in S/S.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "communications-note-0003",
+      "unit_type": "source_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "START I Document 190 source note variant",
+      "exact_text": "TOSEC 10393. January 12, 1991. Source: N910001-0231.",
+      "display_text": "TOSEC 10393. January 12, 1991. Source: N910001-0231.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "communications-note-0004",
+      "unit_type": "follow_on_footnote",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "START I Document 166 footnote 3",
+      "exact_text": "In telegram SECTO 24037, November 9, the Secretary's Delegation in the Soviet Union transmitted Baker's November 8 memorandum to Bush. (Department of State, Central Foreign Policy File, Electronic Telegrams, N900008-0257)",
+      "display_text": "In telegram SECTO 24037, November 9, the Secretary's Delegation in the Soviet Union transmitted Baker's November 8 memorandum to Bush. (Department of State, Central Foreign Policy File, Electronic Telegrams, N900008-0257)",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "communications-note-0005",
+      "unit_type": "source_note",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "Falklands Document 401 cross-volume reference",
+      "exact_text": "285386. Joint State/Defense message. Ref: (A) State 247107 DTG 020416Z Sep 82; (B) Buenos Aires 5222 DTG 091546Z Sep 82; (C) London 19432 DTG 031700Z Sep 82.",
+      "display_text": "285386. Joint State/Defense message. Ref: (A) State 247107 DTG 020416Z Sep 82; (B) Buenos Aires 5222 DTG 091546Z Sep 82; (C) London 19432 DTG 031700Z Sep 82.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": [
+        "cross_volume_communications_context"
+      ]
+    },
+    {
+      "unit_id": "communications-note-0006",
+      "unit_type": "source_note",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "Unsupported communications note",
+      "exact_text": "Telegram 999999 to Moscow, June 1, 1990, 0900Z. Source: Department of State cable file. Secret; Immediate.",
+      "display_text": "Telegram 999999 to Moscow, June 1, 1990, 0900Z. Source: Department of State cable file. Secret; Immediate.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": [
+        "missing_communications_registry_basis"
+      ]
+    }
+  ]
+}

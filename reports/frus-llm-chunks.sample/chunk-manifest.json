@@ -1,6 +1,6 @@
 {
   "schema_version": "frus-llm-chunk-manifest-v1",
-  "generated_at": "2026-06-03T16:23:52.492Z",
+  "generated_at": "2026-06-03T17:10:05.198Z",
   "run_id": "sample-chunks",
   "target_volume": "frus1989-92v31",
   "chunk_count": 2,
@@ -17,6 +17,7 @@
     "classification_registry": "reports/frus-classification-registry.sample.json",
     "negative_search_registry": "reports/frus-negative-search-registry.sample.json",
     "document_relationship_registry": "reports/frus-document-relationship-registry.sample.json",
+    "communications_registry": "reports/frus-communications-registry.sample.json",
     "preparation_router": "reports/frus-preparation-router-1981-1992.current.json",
     "permutation_matrix": "reports/frus-annotation-permutation-matrix.json"
   },
@@ -33,7 +34,8 @@
     "document_metadata_registry_records": 5,
     "classification_registry_records": 5,
     "negative_search_registry_records": 6,
-    "document_relationship_registry_records": 10
+    "document_relationship_registry_records": 10,
+    "communications_registry_records": 8
   },
   "chunks": [
     {

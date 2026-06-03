@@ -79,6 +79,13 @@ For document-relationship validation, use
 `reports/frus-document-relationship-units.sample.json`; the self-contained
 smoke test is `scripts/test-frus-document-relationship-audit.mjs`, and the
 sample audit report is `reports/frus-document-relationship-audit.sample.json`.
+For communications metadata validation, use
+`scripts/validate-frus-communications-registry.mjs` and
+`scripts/audit-frus-communications-usage.mjs` with
+`reports/frus-communications-registry.sample.json` and
+`reports/frus-communications-units.sample.json`; the self-contained smoke test
+is `scripts/test-frus-communications-audit.mjs`, and the sample audit report is
+`reports/frus-communications-audit.sample.json`.
 For finished-form annotation-sheet profile validation, use
 `scripts/audit-frus-annotation-sheet-profile.mjs` with
 `reports/frus-annotation-sheet-profile.sample.json`,
@@ -12064,6 +12071,17 @@ Minimum components:
   tab/enclosure, not-attached, and mixed attachment language to supplied
   relationship records and fails direct relationship edits that change target
   documents, tab labels, or attachment status without registry support.
+- No-dependency communications metadata registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-communications-registry.mjs`,
+  `scripts/audit-frus-communications-usage.mjs`,
+  `reports/frus-communications-registry.sample.json`,
+  `reports/frus-communications-units.sample.json`, and
+  `reports/frus-communications-audit.sample.json`. The audit reconciles
+  telegram/cable/message identifiers, SECTO/TOSEC designators, date-time
+  groups, origin/addressee lines, source-family identifiers, precedence/routing,
+  drafting, clearance, and approval strings to supplied communications records
+  and fails direct communications edits that change those facts without
+  registry support.
 - No-dependency finished-form annotation-sheet profile audit and fixtures:
   `scripts/audit-frus-annotation-sheet-profile.mjs`,
   `scripts/test-frus-annotation-sheet-profile.mjs`,

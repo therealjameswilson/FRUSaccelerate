@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -25,6 +25,7 @@ function parseArgs(argv) {
   let classificationRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
+  let communicationsRegistryPath = null;
   let preparationRouterPath = null;
   let permutationMatrixPath = null;
   let targetVolume = "";
@@ -70,6 +71,9 @@ function parseArgs(argv) {
     } else if (arg === "--document-relationship-registry") {
       documentRelationshipRegistryPath = argv[index + 1];
       index += 1;
+    } else if (arg === "--communications-registry") {
+      communicationsRegistryPath = argv[index + 1];
+      index += 1;
     } else if (arg === "--preparation-router") {
       preparationRouterPath = argv[index + 1];
       index += 1;
@@ -110,6 +114,7 @@ function parseArgs(argv) {
     classificationRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
+    communicationsRegistryPath,
     preparationRouterPath,
     permutationMatrixPath,
     targetVolume,
@@ -440,6 +445,44 @@ function compactDocumentRelationshipRegistry(registry, targetVolume) {
   };
 }
 
+function compactCommunicationsRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    communications_registry_id: registry.communications_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      communications_id: record.communications_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      communications_type: record.communications_type,
+      approved_heading_form: record.approved_heading_form,
+      message_identifier: record.message_identifier,
+      special_designator: record.special_designator,
+      origin: record.origin,
+      addressees: record.addressees,
+      date_time_line: record.date_time_line,
+      date_time_group: record.date_time_group,
+      subject_or_title: record.subject_or_title,
+      source_family: record.source_family,
+      source_note_form: record.source_note_form,
+      classification_or_handling_summary: record.classification_or_handling_summary,
+      drafting_clearance_approval: record.drafting_clearance_approval,
+      reference_context: record.reference_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactAnnotationSheetProfile(profile) {
   if (!profile) return null;
   return {
@@ -487,6 +530,9 @@ function buildPacket(options) {
   const documentRelationshipRegistry = options.documentRelationshipRegistryPath
     ? readJson(options.documentRelationshipRegistryPath, options.documentRelationshipRegistryPath)
     : null;
+  const communicationsRegistry = options.communicationsRegistryPath
+    ? readJson(options.communicationsRegistryPath, options.communicationsRegistryPath)
+    : null;
   const preparationRouter = options.preparationRouterPath
     ? readJson(options.preparationRouterPath, options.preparationRouterPath)
     : null;
@@ -512,6 +558,7 @@ function buildPacket(options) {
       classification_registry: options.classificationRegistryPath ? normalizePathForOutput(options.classificationRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
+      communications_registry: options.communicationsRegistryPath ? normalizePathForOutput(options.communicationsRegistryPath) : "",
       preparation_router: options.preparationRouterPath ? normalizePathForOutput(options.preparationRouterPath) : "",
       permutation_matrix: options.permutationMatrixPath ? normalizePathForOutput(options.permutationMatrixPath) : ""
     },
@@ -544,6 +591,7 @@ function buildPacket(options) {
       classification_registry_records: classificationRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
       document_relationship_registry_records: documentRelationshipRegistry?.records?.length || 0,
+      communications_registry_records: communicationsRegistry?.records?.length || 0,
       preparation_routes: preparationRouter?.routes?.length || 0,
       matrix_categories: permutationMatrix?.category_policies?.length || 0,
       matrix_evidence_requests: permutationMatrix?.evidence_request_policies?.length || 0
@@ -561,6 +609,7 @@ function buildPacket(options) {
       classification_registry: compactClassificationRegistry(classificationRegistry, options.targetVolume),
       negative_search_registry: compactNegativeSearchRegistry(negativeSearchRegistry, options.targetVolume),
       document_relationship_registry: compactDocumentRelationshipRegistry(documentRelationshipRegistry, options.targetVolume),
+      communications_registry: compactCommunicationsRegistry(communicationsRegistry, options.targetVolume),
       preparation_router: compactRouter(preparationRouter, options.targetVolume),
       permutation_matrix: compactPermutationMatrix(permutationMatrix)
     }
@@ -665,6 +714,12 @@ function renderMarkdown(packet) {
     "Use this to check `Attached but not printed`, `Printed as Document [n]`, `See Document [n]`, tab/enclosure references, not-attached items, and mixed attachment notes. Do not change target document numbers, tab labels, or attachment status unless the registry proves the same source-document relationship.",
     "",
     fencedJson(packet.contexts.document_relationship_registry || {}),
+    "",
+    "## Communications Metadata Registry Context",
+    "",
+    "Use this to check telegram/cable/message identifiers, SECTO/TOSEC/special designators, origin/addressee lines, date-time groups, source-family electronic telegram identifiers, precedence/routing, and drafting/clearance/approval strings. Do not change identifiers, date-time groups, origin/addressee, or precedence unless the registry proves the direct edit.",
+    "",
+    fencedJson(packet.contexts.communications_registry || {}),
     "",
     "## Preparation Router Context",
     "",
