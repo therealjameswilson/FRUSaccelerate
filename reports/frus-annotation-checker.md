@@ -28,6 +28,9 @@ For status-sensitive phrases, use
 `reports/frus-status-registry-1981-1992.sample.json` and
 `reports/frus-status-claims.sample.json` before allowing any redline that
 changes publication-stage wording.
+For source-note component diagnostics, use
+`scripts/lint-frus-source-notes.mjs` with
+`reports/frus-source-note-units.sample.json`.
 
 The intended workflow is:
 
@@ -11782,6 +11785,9 @@ Minimum components:
   `scripts/preflight-frus-status-claims.mjs`,
   `reports/frus-status-registry-1981-1992.sample.json`, and
   `reports/frus-status-claims.sample.json`.
+- No-dependency source-note component linter and fixture:
+  `scripts/lint-frus-source-notes.mjs` and
+  `reports/frus-source-note-units.sample.json`.
 - Spellcheck rule-id validator that rejects unknown `rule_id` values, counts
   findings by rule, flags excessive `FAS-GEN-000` fallback use, and preserves
   rule-id tallies in the audit report before tracked changes are applied.

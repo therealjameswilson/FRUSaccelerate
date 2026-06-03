@@ -18,6 +18,8 @@ For direct-edit anchor preflight, run
 `node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json`.
 For status-language preflight, run
 `node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-registry-1981-1992.sample.json --claims reports/frus-status-claims.sample.json --today 2026-06-03`.
+For source-note component diagnostics, run
+`node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json`.
 
 ## 1. System Role
 
@@ -83,6 +85,7 @@ The wrapper should provide:
   and cross-referenced volumes when publication language may be edited.
 - `source_family_context`: Reagan/Bush source-family registry when available.
 - `source_note_component_context`: parsed source-note components when available.
+  A wrapper can generate this with `scripts/lint-frus-source-notes.mjs`.
 - `classification_context`: original classification, handling, paragraph
   markings, verified absence of marking, and release-status separation.
 - `document_status_context`: draft/final, original/copy, signed/unsigned,

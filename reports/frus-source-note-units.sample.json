@@ -1,0 +1,51 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample source-note units for FRUS Annotation Checker source-note component linting.",
+  "units": [
+    {
+      "unit_id": "source-note-good-reagan-0001",
+      "unit_type": "source_note",
+      "location": "Sample Reagan source note",
+      "exact_text": "1  Source: Reagan Library, John Poindexter Files, Subject File, Miscellaneous Meeting Items 1984. Secret. Sent for information.",
+      "display_text": "1  Source: Reagan Library, John Poindexter Files, Subject File, Miscellaneous Meeting Items 1984. Secret. Sent for information."
+    },
+    {
+      "unit_id": "source-note-good-bush-0002",
+      "unit_type": "source_note",
+      "location": "Sample Bush H-Files source note",
+      "exact_text": "Source: George H.W. Bush Library, Bush Presidential Records, National Security Council, H-Files, NSC/DC Meetings Files, OA/ID 90010-007. Secret. Sent for action. A stamped notation indicates Gates saw the memorandum.",
+      "display_text": "Source: George H.W. Bush Library, Bush Presidential Records, National Security Council, H-Files, NSC/DC Meetings Files, OA/ID 90010-007. Secret. Sent for action. A stamped notation indicates Gates saw the memorandum."
+    },
+    {
+      "unit_id": "source-note-url-only-0003",
+      "unit_type": "source_note",
+      "location": "Draft source note with discovery locator only",
+      "exact_text": "Source: https://example.invalid/catalog-record. PDF scan, page 4.",
+      "display_text": "Source: https://example.invalid/catalog-record. PDF scan, page 4."
+    },
+    {
+      "unit_id": "source-note-duplicate-label-0004",
+      "unit_type": "source_note",
+      "location": "Draft source note with duplicate label",
+      "exact_text": "Source: Source: Reagan Library, Executive Secretariat, NSC Country File. Secret.",
+      "display_text": "Source: Source: Reagan Library, Executive Secretariat, NSC Country File. Secret."
+    },
+    {
+      "unit_id": "source-note-missing-supplied-classification-0005",
+      "unit_type": "source_note",
+      "location": "Draft source note missing supplied classification",
+      "exact_text": "Source: George H.W. Bush Library, Bush Presidential Records, National Security Council, H-Files, NSR Files, OA/ID 91111-001.",
+      "display_text": "Source: George H.W. Bush Library, Bush Presidential Records, National Security Council, H-Files, NSR Files, OA/ID 91111-001.",
+      "expected_components": {
+        "classification": true
+      }
+    },
+    {
+      "unit_id": "editorial-note-not-source-0006",
+      "unit_type": "editorial_note",
+      "location": "Editorial note without first-footnote source note",
+      "exact_text": "Editorial Note. The President discussed the issue in a public address and in a subsequent meeting; see Documents 12 and 13.",
+      "display_text": "Editorial Note. The President discussed the issue in a public address and in a subsequent meeting; see Documents 12 and 13."
+    }
+  ]
+}
