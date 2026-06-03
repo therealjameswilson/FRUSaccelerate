@@ -143,6 +143,11 @@ The wrapper should provide the LLM with:
   bracket, excision, withholding, original-bracket, release-status, and
   declassification-review assertions with quantity, type, evidence basis, and
   reviewer status.
+- `time_zone_context`, if available: structured Washington-time, local-time,
+  GMT, Zulu/Z, EDT/EST, date-time-group, treaty-notification, telegram
+  transmission/receipt, meeting-time, event-time, international-date-line,
+  conversion, ambiguity, and chronological-placement evidence with source basis
+  and verification status.
 - `chronology_registry_context`, if available: structured meeting, call,
   briefing, travel, diary, schedule, memcon, telcon, minutes, and no-record
   assertions with time, place, participants, record-found status, and evidence
@@ -259,14 +264,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | source_surrogate_release | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | source_surrogate_release | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | source_surrogate_basis | source_list_basis | selection_balance_basis | physical_evidence_basis | negative_search_basis | printed_attachment_basis | transcription_facsimile_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | source_surrogate_basis | source_list_basis | selection_balance_basis | physical_evidence_basis | negative_search_basis | printed_attachment_basis | transcription_facsimile_basis | time_zone_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -279,7 +284,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | source_surrogate_release | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | source_surrogate_release | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -424,6 +429,7 @@ run the semantic and Word-safety validators below.
               "declassification",
               "authority_control",
               "chronology",
+              "time_zone_chronology",
               "summit_public_event",
               "communications_record",
               "publication_status",
@@ -471,6 +477,7 @@ run the semantic and Word-safety validators below.
               "negative_search_basis",
               "printed_attachment_basis",
               "transcription_facsimile_basis",
+              "time_zone_basis",
               "attachment_status",
               "document_number",
               "document_metadata",
@@ -577,6 +584,7 @@ run the semantic and Word-safety validators below.
               "declassification",
               "authority_control",
               "chronology",
+              "time_zone_chronology",
               "summit_public_event",
               "communications_record",
               "publication_status",
@@ -667,6 +675,7 @@ Semantic validator behavior:
   `declassification`, `attachment`, `printed_nested_attachment`,
   `handwritten_facsimile_transcription`,
   `source_surrogate_release`,
+  `time_zone_chronology`,
   `document_metadata`,
   `classification_handling`, `source_list_front_matter`,
   `selection_balance_completeness`,
@@ -3624,6 +3633,182 @@ Chronology audit requirements:
   asserts substantive meeting content based only on diary, schedule, or call-log
   evidence unless the volume editor waives the issue and the waiver appears in
   the audit report.
+
+### 6.8.0A Time Zones, Date-Time Groups, Local Time, And Chronological Placement
+
+Time-zone evidence is a chronology problem and a source-form problem at the same
+time. Published Reagan and Bush volumes preserve Washington-time rules, local
+time, GMT/Zulu telegram date-time groups, and treaty notification rules when
+those labels matter to the sequence. The checker must not silently convert or
+normalize those labels, especially in crisis, arms-control, summit, or
+international-event material.
+
+Use a time-zone chronology registry when the wrapper can supply one:
+
+```json
+{
+  "time_zone_registry_id": "frus-1981-1992-time-zone-chronology-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d188",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
+    "https://history.state.gov/historicaldocuments/frus1981-88v13/d43",
+    "https://history.state.gov/historicaldocuments/frus1981-88v13/d160"
+  ],
+  "records": [
+    {
+      "time_zone_item_id": "time-v44p1-about-series-washington-standard",
+      "unit_id": "about-series-editorial-method",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries",
+      "time_claim_type": "volume_chronology_standard",
+      "published_form": "chronological placement follows Washington time; memoranda of conversation are placed by conversation time",
+      "source_time_basis": "published About the Series methodology statement",
+      "display_time": "Washington time unless otherwise noted by the supplied source",
+      "conversion_status": "no_conversion_needed",
+      "chronological_placement": "volume-wide editorial rule",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "time_zone_item_id": "time-bush-start-geneva-0188",
+      "unit_id": "document-0188-source-note-and-footnote",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d188",
+      "time_claim_type": "telegram_date_time_group_and_washington_target",
+      "published_form": "Geneva telegram at 1757Z with an open-of-business Washington target",
+      "source_time_basis": "telegram date-time group plus follow-on footnote",
+      "display_time": "1757Z; Monday morning Washington time",
+      "conversion_status": "conversion_not_supplied",
+      "chronological_placement": "telegraphic transmission and working-deadline context",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "time_zone_item_id": "time-bush-start-treaty-0246",
+      "unit_id": "document-0246-treaty-text",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
+      "time_claim_type": "treaty_notification_time_rule",
+      "published_form": "START Treaty notification rules distinguish Greenwich Mean Time and local-time date treatment",
+      "source_time_basis": "printed START Treaty text",
+      "display_time": "Greenwich Mean Time for specified notification times; local-time date rule where the treaty supplies it",
+      "conversion_status": "treaty_rule_do_not_convert",
+      "chronological_placement": "treaty/legal-instrument provision",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "time_zone_item_id": "time-falklands-report-0043",
+      "unit_id": "document-0043-source-note-and-footnote",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v13/d43",
+      "time_claim_type": "situation_report_as_of_and_local_times",
+      "published_form": "situation report as of 0600 EST with Buenos Aires and London local-time annotation",
+      "source_time_basis": "situation report title and follow-on footnotes",
+      "display_time": "0600 EST; local Buenos Aires and London times for related events",
+      "conversion_status": "local_times_preserved",
+      "chronological_placement": "situation-report cut-off and related calls",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "time_zone_item_id": "time-falklands-telegram-0160",
+      "unit_id": "document-0160-source-note-and-footnote",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v13/d160",
+      "time_claim_type": "telegram_z_time_and_ambiguous_local_time",
+      "published_form": "telegram date-time group 1519Z with local-time and unresolved place-basis caution",
+      "source_time_basis": "telegram heading, source note, and document text",
+      "display_time": "1519Z; 1440 local London time; local-time basis not clarified",
+      "conversion_status": "ambiguous_do_not_resolve",
+      "chronological_placement": "telegram/event relationship",
+      "verification_status": "verified_published_pattern"
+    }
+  ]
+}
+```
+
+Allowed `time_claim_type` values:
+
+- `volume_chronology_standard`
+- `telegram_date_time_group`
+- `telegram_date_time_group_and_washington_target`
+- `local_meeting_time`
+- `event_time`
+- `situation_report_as_of`
+- `situation_report_as_of_and_local_times`
+- `treaty_notification_time_rule`
+- `deadline_or_target_time`
+- `ambiguous_time`
+- `unknown`
+
+Allowed `conversion_status` values:
+
+- `no_conversion_needed`
+- `conversion_supplied_by_source`
+- `conversion_not_supplied`
+- `local_times_preserved`
+- `treaty_rule_do_not_convert`
+- `ambiguous_do_not_resolve`
+- `needs_time_zone_basis`
+- `unknown`
+
+Time-zone chronology validator sequence:
+
+1. Identify every time/date claim, date-time group, Z, GMT, EDT, EST, local,
+   Washington-time label, treaty notification rule, as-of time, deadline or
+   target time, call time, meeting time, and ambiguity note.
+2. Apply a volume-level Washington-time rule only when the source volume,
+   About-the-Series text, or wrapper registry supplies it.
+3. Preserve Z, GMT, local, EDT, EST, and Washington labels exactly. Do not
+   convert them unless the uploaded unit or registry supplies the conversion.
+4. Distinguish a telegraphic date-time group from meeting time, call time,
+   drafting time, receipt time, publication time, and working-deadline context.
+5. For treaty and legal instruments, preserve treaty-specified time rules as
+   legal text or treaty apparatus. Do not normalize them into editorial prose.
+6. For crises, summits, travel, and international events, preserve local time
+   when published annotations use it to clarify sequence.
+7. If the source or published text says the timing is ambiguous, confusing, or
+   not clarified, keep the caveat. Do not solve the problem by inference.
+8. Coordinate with chronology, event chronology, communications-record,
+   treaty/legal-instrument, military/crisis, public-source, and
+   declassification validators before applying a direct edit.
+9. Do not infer cross-date sequence across time zones or the international date
+   line without supplied basis.
+10. Add `time_zone_chronology` discrepancies to the General Editor tally only
+    when the facts are sound but practice varies about how much time-zone or
+    conversion detail to print.
+
+Direct-edit posture:
+
+- Safe direct edits may restore exact supplied time labels, date-time groups,
+  capitalization, punctuation, or words such as `Washington time`, `local time`,
+  `GMT`, `Z`, `EST`, or `EDT` when the uploaded unit or registry supplies the
+  evidence and the Word anchor is exact.
+- Use `comment_only` with `evidence_request: time_zone_basis` when the time
+  zone, conversion, date-time group, local-time basis, as-of time, deadline,
+  treaty notification rule, ambiguity caveat, international-date-line problem,
+  or chronological placement is missing, conflicting, or inferred.
+- Use `evidence_request: communications_metadata` when the blocker is a
+  telegram, cable, or message date-time group.
+- Use `evidence_request: event_chronology` when the blocker is a summit, travel,
+  ceremony, interview, speech, press event, or other public-event sequence.
+- Use `evidence_request: treaty_component` when the blocker is a
+  treaty-notification, entry-into-force, or treaty-time provision.
+- Use `evidence_request: chronology` when the blocker is a meeting, call,
+  diary, schedule, travel, or no-record chronology fact.
+- Do not convert a time, add or remove a Z/GMT/local/Washington label, move a
+  document to a different chronological position, or resolve ambiguous timing
+  without supplied basis.
+
+Time-zone chronology audit requirements:
+
+- Count Washington-time, local-time, GMT/Z, EDT/EST, treaty-time, as-of,
+  deadline, ambiguous-time, and international-date-line warnings separately
+  from ordinary chronology, event, communications, treaty, and military/crisis
+  warnings.
+- Preserve registry id, capture date, source URLs, time claim type, source time
+  basis, display time, conversion status, chronological placement, and
+  verification status in the audit report.
+- Record rejected unsupported conversions, unresolved ambiguous-time claims,
+  missing local-time basis, and any change that would affect chronological
+  placement.
+- Keep a General Editor discrepancy tally item for recurring variation in how
+  much Washington-time, local-time, GMT/Z, conversion, treaty-time, or ambiguity
+  detail should appear in final annotation when the underlying facts are sound.
 
 ### 6.8.1 Negative Search, No-Record, Not-Found, And Unlocated-Item Evidence
 
@@ -7007,6 +7192,7 @@ Evidence-request categories:
 | `negative_search_basis` | Negative search, no-record, not-found, not-found-attached, no-minutes, no-memcon, no-telcon, unlocated draft, missing attachment, unresolved source path, found-elsewhere, or pending follow-up evidence is uncertain. | Which item was sought, record type, repository/file scope, search basis, result status, follow-up, and public phrase must be checked. |
 | `printed_attachment_basis` | Printed attachment, nested document, child heading, child source note, child classification, parent-child map, printed target, translation/original-text status, or printed-versus-attached-not-printed evidence is uncertain. | Which parent document, child unit, tab/enclosure label, heading, date/title, source note, classification, translation status, printed target, and cross-reference must be checked. |
 | `transcription_facsimile_basis` | Handwritten-note, handwritten-letter, editor-transcribed, transcribed-portion, uncertain-reading, original-bracket, original-ellipsis, cut-off-line, appendix-image, facsimile, or reverse-cross-reference evidence is uncertain. | Which source image, handwritten source, transcription claim, uncertain reading, symbol/structure, appendix image, reverse cross-reference, original-bracket/original-ellipsis statement, or cut-off-line basis must be checked. |
+| `time_zone_basis` | Washington-time, local-time, GMT/Z, EDT/EST, date-time-group, treaty-notification, event-time, as-of, deadline, conversion, ambiguity, chronological-placement, or international-date-line evidence is uncertain. | Which time label, source time basis, conversion, date-time group, treaty rule, event/call/telegram relationship, ambiguity caveat, or chronological placement must be checked. |
 | `attachment_status` | Attached, not attached, printed elsewhere, tabbed, enclosed, or not found claims are uncertain. | Which tab, enclosure, paper, or list must be checked. |
 | `document_number` | Same-volume or cross-volume reference lacks a stable document number. | Which target document, chapter, or volume must be matched. |
 | `document_metadata` | Heading, dateline, subject/title line, public title, sender, recipient, internal number, or document form is missing or suspect. | Which heading field and evidence source must be checked before rewriting. |
@@ -7085,6 +7271,7 @@ Default blocking rules:
 | `negative_search_basis` | yes for `Not found`, `Not found attached`, `No minutes were found`, no-record, unlocated-draft, missing-attachment, unresolved-source-path, or found-elsewhere edits | yes when negative-search or no-record language appears in publishable apparatus |
 | `printed_attachment_basis` | yes for printed-attachment, nested-document, child-heading, child-source-note, child-classification, parent-child-map, printed-target, or translation/original-text edits | yes when printed or nested attachment apparatus appears in publishable notes |
 | `transcription_facsimile_basis` | yes for handwritten-note, editor-transcribed, uncertain-reading, original-bracket, original-ellipsis, cut-off-line, appendix-image, facsimile, or reverse-cross-reference edits | yes when handwritten, transcribed, or facsimile apparatus appears in publishable notes |
+| `time_zone_basis` | yes for Washington-time, local-time, GMT/Z, EDT/EST, date-time-group, treaty-notification, event-time, as-of, deadline, conversion, ambiguity, chronological-placement, or international-date-line edits | yes when time/date sequence, time-zone labels, or chronological placement appear in publishable apparatus |
 | `attachment_status` | yes | yes when the note asserts attached, not attached, tabbed, enclosed, printed, or not found |
 | `document_number` | yes for cross-reference edits | yes when same-volume or cross-volume references are unstable |
 | `document_metadata` | yes for heading, dateline, title, subject, or caption edits | yes when publishable apparatus identifies the document |
@@ -7117,7 +7304,7 @@ Owner hints:
   issues proof, source-list and front-matter basis, physical/routing evidence,
   source-surrogate/release-identifier basis,
   selection-balance basis, printed/nested-attachment basis,
-  transcription/facsimile basis,
+  transcription/facsimile basis, time-zone/chronology basis,
   retrospective-account basis, sensitive-record source basis,
   negative-search/no-record basis, translation status, and foreign-copy
   provenance.
@@ -7129,7 +7316,7 @@ Owner hints:
   note form, source-list/front-matter form, selection-balance scope questions,
   source-surrogate/release-identifier note form,
   printed/nested-attachment note form, physical/routing note form,
-  transcription/facsimile note form,
+  transcription/facsimile note form, time-zone/chronology note form,
   retrospective-account note form, sensitive-record note form,
   negative-search/no-record wording, publication-status wording, and General
   Editor discrepancy preparation.
@@ -7453,50 +7640,54 @@ For every extracted unit, run checks in this order:
     in-preparation family is known or can be tentatively inferred.
 25. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-26. Check summit, travel, ceremony, public address, interview, press
+26. Check Washington-time, local-time, GMT/Z, EDT/EST, date-time groups, treaty
+    notification time rules, as-of times, deadlines, conversions, ambiguity, and
+    international-date-line placement against the time-zone registry when
+    supplied.
+27. Check summit, travel, ceremony, public address, interview, press
     conference, toast, testimony, public remarks, and public-event sequence
     evidence against the event-chronology registry when supplied.
-27. Check public diplomacy, speeches, press releases, press conferences,
+28. Check public diplomacy, speeches, press releases, press conferences,
     briefings, interviews, broadcasts, testimony, Public Papers, Department of
     State Bulletin, newspaper excerpts, official transcripts, speech files,
     briefing materials, selected-public-document status, and
     supplemental-public-context evidence against the public-source registry when
     supplied.
-28. Check memoirs, published diaries, personal diaries, oral histories, later
+29. Check memoirs, published diaries, personal diaries, oral histories, later
     interviews, recollections, press retrospectives, newspaper accounts,
     selected/supplemental status, official-record relationship, corroborating
     records, and conflict status against the retrospective-account registry when
     supplied.
-29. Check congressional testimony, hearings, public laws, statutes, continuing
+30. Check congressional testimony, hearings, public laws, statutes, continuing
     resolutions, joint resolutions, congressional notifications, Presidential
     Determinations, certifications, Executive Orders, oversight, independent
     counsel, Senate advice-and-consent, and ratification context against the
     congressional/legal registry when supplied.
-30. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
+31. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
     World Bank, MDB, GATT, UNCTAD, OECD, table, amount, percentage, currency,
     fiscal-year, loan, guarantee, quota, replenishment, conditionality, and
     policy-stage evidence against the economic/financial registry when supplied.
-31. Check intelligence, covert-action, law-enforcement, counternarcotics,
+32. Check intelligence, covert-action, law-enforcement, counternarcotics,
     counterterrorism, agency-equity, source-and-methods, operational, oversight,
     foreign-service-contact, sanitized-record, redaction, and public-policy
     evidence against the sensitive-record registry when supplied.
-32. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
+33. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
     combat-operation, contingency-plan, CONPLAN, host-nation notification,
     coalition, peacekeeping, force/unit, time-zone, casualty/damage, and
     military-assistance evidence against the military/crisis registry when
     supplied.
-33. Check human-rights reports, refugee, immigration, asylum, migration, famine,
+34. Check human-rights reports, refugee, immigration, asylum, migration, famine,
     emergency relief, food aid, public-health, AIDS/HIV, population policy,
     environmental, ozone, sanctions, waivers, certifications, public reports,
     international organizations, PVOs, AID/PRM, PL 480, Section 416, and Section
     206 evidence against the human-rights/refugee/global-issues registry when
     supplied.
-34. Check Persons, abbreviations, and index authority issues.
-35. Assign specific evidence requests and verification targets for unresolved
+35. Check Persons, abbreviations, and index authority issues.
+36. Assign specific evidence requests and verification targets for unresolved
     proof.
-36. Decide direct edit versus comment-only.
-37. Return strict JSON.
-38. After schema and semantic validation, aggregate all unresolved evidence
+37. Decide direct edit versus comment-only.
+38. Return strict JSON.
+39. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -7575,6 +7766,9 @@ Duplicate-suppression rules:
   status, read-by/seen status, routing status, correspondence profile,
   distribution list, attached profile, or no-record/search context.
 - Merge repeated scheduled-publication questions by target volume or chapter.
+- Merge repeated time-zone/chronology issues by source time label, time zone,
+  date-time group, event, call, telegram, conversion status, treaty rule,
+  ambiguity note, international-date-line problem, or chronological placement.
 - Merge repeated summit/public-event chronology issues by event, date span,
   public-source basis, diary/schedule basis, press basis, or full-record target.
 - Merge repeated public-source issues by speaker, event/publication, public
@@ -7817,6 +8011,10 @@ Golden packet composition:
   contribution, ozone or environmental treaty/protocol item, sanctions/waiver
   issue, international organization, PVO, PL 480, Section 416, Section 206,
   amount/metric, or status-page family context.
+- At least one time-zone/date-time-group example with Washington time, local
+  time, GMT/Zulu or Z notation, a treaty notification rule or as-of/deadline
+  time, and one ambiguous-time control that must remain comment-only until the
+  basis is supplied.
 - At least one research-stage sheet with working labels, candidate notes, URL
   locators, or missing scan requests that should become comments rather than
   polished source-note prose.
@@ -7945,6 +8143,10 @@ Expected behavior by test family:
   international-organization role, PVO role, public-health source,
   population-policy context, and environmental treaty/protocol status; comment
   rather than invent when humanitarian-rights proof is missing.
+- Time-zone/chronology test: preserve Washington-time, local-time, GMT/Z, EDT,
+  EST, date-time-group, treaty-notification, as-of, deadline, and ambiguity
+  labels; comment rather than convert, relabel, resolve ambiguity, or move
+  chronological placement when `time_zone_basis` is missing.
 - Research-stage test: identify working labels and missing evidence, but avoid
   converting source leads into publication-ready assertions.
 - Clearance-stage test: protect declassification, attachment, agency-equity,
@@ -8099,6 +8301,10 @@ Use the discrepancy tally for:
 - Variations in telegram, cable, STARS, CFPF, PROFS, W Files, System IV, or
   agency-message detail when the message identity is sound but published or
   local examples differ on how much metadata to print.
+- Variations in how much Washington-time, local-time, GMT/Z, EDT/EST,
+  date-time-group, treaty-notification, as-of, deadline, conversion,
+  ambiguity, or international-date-line detail to print when the underlying
+  time and sequence facts are sound.
 - Repeated wrapper-safety or extraction ambiguities that suggest the tool needs
   a house rule before it can safely redline similar Word structures.
 
@@ -8156,6 +8362,7 @@ Suggested tally format:
 | style-discrepancy-0016 | printed_nested_attachment | How much child apparatus should appear for printed attachments, nested documents, tabs, foreign papers, and printed-elsewhere targets. | Full parent-child map with child heading, child source note, classification, translation/original-text status, and printed target; shorter attachment note with details preserved in audit/context | 2 | medium | Should the checker enforce full child-apparatus treatment for printed/nested attachments, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0017 | handwritten_facsimile_transcription | How much transcription-status and facsimile apparatus should appear for handwritten notes, handwritten letters, appendix images, and uncertain readings. | Full source note with editor-transcription statement, appendix image, reverse appendix cross-reference, original-bracket/original-ellipsis statement, and uncertain-reading preservation; shorter source note with details preserved in audit/context | 2 | medium | Should the checker enforce full handwritten/facsimile apparatus in source notes, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0018 | source_surrogate_release | How much RAC/NLR/source-surrogate and release-identifier detail should appear in final source notes versus closed-network audit context. | Repository path plus NLR/release identifier in the source note; repository path in the source note with RAC/URL/PDF/catalog/discovery details retained only in the audit/context bundle | 2 | medium | Should the checker enforce a standard form for RAC/NLR/source-surrogate detail, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0019 | time_zone_chronology | How much time-zone, conversion, date-time-group, treaty-time, and ambiguity detail should appear when the time and sequence facts are sound. | Volume-wide Washington-time rule; telegram Z/GMT label retained without conversion; local-time explanatory note; treaty notification rule; ambiguity preserved in comment or note | 2 | medium | Should the checker enforce a house form for time-zone and chronological-placement detail, or tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -8247,6 +8454,11 @@ Required bundle files:
   interview, press conference, toast, testimony, public remarks, itinerary,
   diary/schedule basis, public-source basis, press basis, participant basis,
   full-record target, verification status, and source URLs.
+- `time_zone_map`, when available: Washington-time rule, local-time basis,
+  GMT/Z or Zulu label, EDT/EST label, date-time group, treaty notification time
+  rule, event/call/telegram relationship, as-of or deadline time, supplied
+  conversion, ambiguity caveat, international-date-line warning,
+  chronological-placement basis, verification status, and source URLs.
 - `public_source_map`, when available: speech, interview, press release, press
   conference, briefing, broadcast, testimony, public remarks, Public Papers,
   Department of State Bulletin, Congressional Record, official transcript,
@@ -8518,6 +8730,7 @@ Communications registry: [communications_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
 Declassification registry: [declassification_registry_id and capture date]
 Chronology registry: [chronology_registry_id and capture date]
+Time-zone chronology registry: [time_zone_registry_id and capture date]
 Cross-reference registry: [cross_reference_registry_id and capture date]
 Status snapshot: [status_snapshot URL and captured_at date]
 Status registry stale: [yes/no/not supplied]
@@ -8565,6 +8778,7 @@ Counts:
 - Attachment status unknown or conflicting: [n]
 - Declassification/omission unresolved or conflicting: [n]
 - Chronology/meeting/call record issues: [n]
+- Time-zone, local-time, GMT/Z, date-time-group, treaty-notification, conversion, ambiguity, or chronological-placement issues: [n]
 - Cross-reference target, document-number, or scheduled-publication issues: [n]
 - Source-list, Published Sources, Abbreviations, Persons, appendix, declassification-review, special-note, or errata issues: [n]
 - Selection, completeness, balance, related-volume, withheld-document, or known-gap issues: [n]
@@ -8658,6 +8872,9 @@ Declassification warnings:
 
 Chronology warnings:
 - [unit_id or global]: [chronology issue] - [event type, record status, and evidence basis]
+
+Time-zone chronology warnings:
+- [unit_id or global]: [time-zone issue] - [source time label, time zone, date-time group, treaty rule, event/call/telegram relationship, conversion status, ambiguity caveat, chronological placement, and verification target]
 
 Cross-reference warnings:
 - [unit_id or global]: [cross-reference issue] - [target type, target status, and evidence basis]
@@ -8758,6 +8975,10 @@ Minimum components:
 - Chronology and meeting-record validator that distinguishes diary/schedule
   corroboration, call-log evidence, memcons, telcons, minutes, no-record claims,
   and substantive meeting content before tracked changes are applied.
+- Time-zone chronology validator that preserves Washington-time, local-time,
+  GMT/Z, EDT/EST, date-time-group, treaty-notification, as-of, deadline,
+  conversion, ambiguity, international-date-line, and chronological-placement
+  evidence before tracked changes are applied.
 - Summit/public-event chronology validator that distinguishes travel
   itinerary, summit schedule, ceremony, speech, interview, press conference,
   toast, testimony, Public Papers citation, diary/schedule basis, press basis,
@@ -8895,6 +9116,10 @@ Operational cautions:
 - Record chronology-registry version, unknown record statuses, unsupported
   attendance, missing time/place, scheduled-but-unconnected calls, and
   no-record claims lacking search basis.
+- Record time-zone chronology registry version, unresolved Washington-time,
+  local-time, GMT/Z, EDT/EST, date-time-group, treaty-notification, as-of,
+  deadline, conversion, ambiguity, international-date-line, chronological-
+  placement, and time-zone discrepancy questions.
 - Record event-chronology registry version, unresolved summit/travel/event
   sequence issues, missing public-source basis, diary/schedule basis, press
   basis, participant basis, time-zone questions, full-record targets, and
@@ -8983,6 +9208,9 @@ Needs revision:
   relevant decision points, options, dissent, agency positions, intelligence
   basis, foreign response, implementation, outcome, related-volume boundaries,
   or known gaps.
+- Time labels, time-zone conversions, date-time groups, treaty-time rules,
+  ambiguity caveats, or chronological placement are changed without supplied
+  `time_zone_basis`.
 - Follow-on notes are wordy, argumentative, or inconsistent.
 - Attachments are inferred rather than verified.
 - `Not found.`, `Not found attached.`, `Not attached.`, `No minutes were found.`,
@@ -9094,7 +9322,9 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d244`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d246`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d247`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/d188`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/preface`
+- `https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/ch6`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d18`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d34`
@@ -9103,6 +9333,8 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d100`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d282`
 - `https://history.state.gov/historicaldocuments/frus1981-88v13/ch3`
+- `https://history.state.gov/historicaldocuments/frus1981-88v13/d43`
+- `https://history.state.gov/historicaldocuments/frus1981-88v13/d160`
 - `https://history.state.gov/historicaldocuments/frus1981-88v24/d290`
 - `https://history.state.gov/historicaldocuments/frus1981-88v24/sources`
 - `https://history.state.gov/historicaldocuments/frus1981-88v24/d341`
