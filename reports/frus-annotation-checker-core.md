@@ -18,6 +18,9 @@ For direct-edit anchor preflight, run
 `node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json`.
 For status-language preflight, run
 `node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-registry-1981-1992.sample.json --claims reports/frus-status-claims.sample.json --today 2026-06-03`.
+For real Reagan/Bush 1981-1992 status and cross-reference review, validate and
+use `reports/frus-status-series-1981-1992.current.json` with
+`scripts/validate-frus-status-registry.mjs` before direct status-language edits.
 For source-note component diagnostics, run
 `node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json`.
 For production pseudo-marker boundary checks, run

@@ -27,7 +27,10 @@ For status-sensitive phrases, use
 `scripts/preflight-frus-status-claims.mjs` with
 `reports/frus-status-registry-1981-1992.sample.json` and
 `reports/frus-status-claims.sample.json` before allowing any redline that
-changes publication-stage wording.
+changes publication-stage wording. For real Reagan/Bush 1981-1992 review, use
+`reports/frus-status-series-1981-1992.current.json` as the current context file
+and validate it with `scripts/validate-frus-status-registry.mjs` before running
+status-claim preflight.
 For source-note component diagnostics, use
 `scripts/lint-frus-source-notes.mjs` with
 `reports/frus-source-note-units.sample.json`.
@@ -10333,7 +10336,7 @@ Recommended compact 1981-1992 status registry:
       "published_2025_pattern_evidence": 2,
       "anticipated_2026_overlay": 2,
       "being_cleared": 46,
-      "being_researched": 23,
+      "being_researched": 24,
       "planned": 2
     },
     "nested_subitem_overlays_seen": 1,
@@ -10481,7 +10484,7 @@ Status-snapshot integrity rules:
   in Progress with `Being Cleared`, `Being Researched`, and `Planned`.
 - For the June 3, 2026 status-page capture, the relevant 1981-1992 matrix
   contains 2 published-2025 pattern volumes, 2 anticipated-2026 Reagan overlays,
-  46 relevant `Being Cleared` entries, 23 relevant `Being Researched` entries,
+  46 relevant `Being Cleared` entries, 24 relevant `Being Researched` entries,
   and 2 relevant planned Bush entries. These counts are a parser-integrity
   check, not a permanent style rule.
 - If a future official capture changes any count, the wrapper should accept the

@@ -36,6 +36,10 @@
       "role": "Publication-status claim preflight"
     },
     {
+      "path": "scripts/validate-frus-status-registry.mjs",
+      "role": "Status registry count and integrity validator"
+    },
+    {
       "path": "scripts/lint-frus-source-notes.mjs",
       "role": "Source-note component linter"
     },
@@ -71,12 +75,20 @@
     "reports/frus-discrepancy-ledger-merged.sample.json",
     "reports/frus-offline-bundle-verification.sample.json"
   ],
+  "context_files": [
+    {
+      "path": "reports/frus-status-series-1981-1992.current.json",
+      "role": "Current official 1981-1992 status-page context for status and cross-reference checks"
+    }
+  ],
   "smoke_tests": [
     "node scripts/verify-frus-offline-bundle.mjs --skip-smoke --format text",
     "node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json",
     "node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-direct-edit-sample-output.json",
     "node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json",
+    "node scripts/validate-frus-status-registry.mjs --registry reports/frus-status-series-1981-1992.current.json --today 2026-06-03",
     "node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-registry-1981-1992.sample.json --claims reports/frus-status-claims.sample.json --today 2026-06-03",
+    "node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-series-1981-1992.current.json --claims reports/frus-status-claims.sample.json --today 2026-06-03",
     "node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json",
     "node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json",
     "node scripts/build-frus-evidence-queue.mjs --output reports/frus-annotation-checker-sample-output.json --review-mode normal --format text",

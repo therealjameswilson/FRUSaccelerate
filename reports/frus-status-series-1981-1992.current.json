@@ -1,0 +1,999 @@
+{
+  "schema_version": "frus-status-registry-v1",
+  "captured_at": "2026-06-03",
+  "source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
+  "scope": "Current 1981-1992 Reagan and George H.W. Bush FRUS status-page context for annotation-sheet status and cross-reference checks.",
+  "source_evidence": {
+    "stage_definitions": [
+      "Planning",
+      "Research",
+      "Clearance",
+      "Publication"
+    ],
+    "status_page_headings_seen": [
+      "Published in 2025",
+      "Anticipated in 2026",
+      "Volumes with Chapters Outstanding",
+      "Volumes in Progress",
+      "Being Cleared",
+      "Being Researched",
+      "Planned"
+    ],
+    "capture_note": "Captured from the official History Office status page on 2026-06-03. Refresh before production status-language redlines."
+  },
+  "snapshot_integrity": {
+    "entries_total": 74,
+    "relevant_1981_1992_counts": {
+      "published_2025_pattern_evidence": 2,
+      "anticipated_2026_overlay": 2,
+      "being_cleared": 46,
+      "being_researched": 24,
+      "planned": 2
+    },
+    "by_stage_and_administration": {
+      "published": {
+        "reagan": 1,
+        "bush-ghw": 1
+      },
+      "being_cleared": {
+        "reagan": 35,
+        "bush-ghw": 11
+      },
+      "being_researched": {
+        "reagan": 5,
+        "bush-ghw": 19
+      },
+      "planned": {
+        "reagan": 0,
+        "bush-ghw": 2
+      }
+    },
+    "nested_subitem_overlays_seen": 1,
+    "parser_status": "complete_current_capture"
+  },
+  "entries": [
+    {
+      "entry_id": "frus1981-88v44p1",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XLIV, Part 1",
+      "title": "National Security Policy, 1985-1988",
+      "production_stage": "published",
+      "release_buckets": [
+        "published_2025"
+      ],
+      "published_date": "2025-08-01",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v31",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXXI",
+      "title": "START I, 1989-1991",
+      "production_stage": "published",
+      "release_buckets": [
+        "published_2025"
+      ],
+      "published_date": "2025-09-30",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v31",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v02",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "II",
+      "title": "Organization and Management of Foreign Policy",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v02",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v07",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "VII",
+      "title": "Western Europe, 1981-1984",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v07",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v09",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "IX",
+      "title": "Poland, 1982-1988",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v09",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v12",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XII",
+      "title": "INF, 1984-1988",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v12",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v14",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XIV",
+      "title": "Central America, 1981-1984",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v14",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v15",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XV",
+      "title": "Central America, 1985-1988",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v15",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v16",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XVI",
+      "title": "South America",
+      "production_stage": "being_cleared",
+      "release_buckets": [
+        "anticipated_2026"
+      ],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v16",
+      "subitems": [
+        {
+          "label": "South America Region",
+          "release_buckets": []
+        },
+        {
+          "label": "Argentina",
+          "release_buckets": []
+        },
+        {
+          "label": "Bolivia",
+          "release_buckets": []
+        },
+        {
+          "label": "Brazil",
+          "release_buckets": []
+        },
+        {
+          "label": "Chile",
+          "release_buckets": []
+        },
+        {
+          "label": "Colombia",
+          "release_buckets": []
+        },
+        {
+          "label": "Ecuador",
+          "release_buckets": []
+        },
+        {
+          "label": "Paraguay",
+          "release_buckets": []
+        },
+        {
+          "label": "Peru",
+          "release_buckets": []
+        },
+        {
+          "label": "Uruguay",
+          "release_buckets": []
+        },
+        {
+          "label": "Venezuela",
+          "release_buckets": [
+            "anticipated_2026"
+          ]
+        }
+      ]
+    },
+    {
+      "entry_id": "frus1981-88v17p1",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XVII, Part 1",
+      "title": "Mexico; Western Caribbean",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v17p1",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v17p2",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XVII, Part 2",
+      "title": "Eastern Caribbean",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v17p2",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v18p1",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XVIII, Part 1",
+      "title": "Lebanon, April 1981-August 1982",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v18p1",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v18p2",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XVIII, Part 2",
+      "title": "Lebanon, September 1982-March 1984",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v18p2",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v19",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XIX",
+      "title": "Arab-Israeli Dispute",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v19",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v20",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XX",
+      "title": "Iran; Iraq, April 1980-January 1985",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v20",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v21",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXI",
+      "title": "Iran; Iraq, 1985-1988",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v21",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v22",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXII",
+      "title": "Middle East Region; Arabian Peninsula",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v22",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v25",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXV",
+      "title": "Southern Africa, 1981-1984",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v25",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v26",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXVI",
+      "title": "Southern Africa, 1985-1988",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v26",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v27",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXVII",
+      "title": "Sub-Saharan Africa",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v27",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v28",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXVIII",
+      "title": "China, 1981-1983",
+      "production_stage": "being_cleared",
+      "release_buckets": [
+        "anticipated_2026"
+      ],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v28",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v29",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXIX",
+      "title": "China, 1984-1988",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v29",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v30",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXX",
+      "title": "Japan; Korea, 1981-1984",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v30",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v31",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXXI",
+      "title": "Japan; Korea, 1985-1988",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v31",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v32",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXXII",
+      "title": "Southeast Asia; Pacific",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v32",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v33",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXXIII",
+      "title": "South Asia",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v33",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v34",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXXIV",
+      "title": "Afghanistan, February 1981-October 1985",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v34",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v35",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXXV",
+      "title": "Afghanistan, November 1985-February 1989",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v35",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v36",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXXVI",
+      "title": "Trade; Monetary Policy; Industrialized Country Cooperation, 1981-1984",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v36",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v39",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXXIX",
+      "title": "Public Diplomacy",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v39",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v40",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XL",
+      "title": "Global Issues I",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v40",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v43",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XLIII",
+      "title": "National Security Policy, 1981-1984",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v43",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v44p2",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XLIV, Part 2",
+      "title": "National Security Policy, 1985-1988",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p2",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v46",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XLVI",
+      "title": "War on Drugs",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v46",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v47p1",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XLVII, Part 1",
+      "title": "Terrorism, January 1977-May 1985",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v47p1",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v47p2",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XLVII, Part 2",
+      "title": "Terrorism, June 1985-January 1989",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v47p2",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v48",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XLVIII",
+      "title": "Libya; Chad",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v48",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v03",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "III",
+      "title": "Soviet Union, Russia, and Post-Soviet States: High-Level Contacts",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v03",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v07",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "VII",
+      "title": "Yugoslavia",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v07",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v10",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "X",
+      "title": "European Security, 1984-1992",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v10",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v11",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XI",
+      "title": "Persian Gulf Crisis, 1989-1990",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v11",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v12",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XII",
+      "title": "Persian Gulf Crisis, 1990-1991",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v12",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v13",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XIII",
+      "title": "Persian Gulf Crisis, 1991-1992",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v13",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v17",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XVII",
+      "title": "China",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v17",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v19",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XIX",
+      "title": "Southern Africa",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v19",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v21",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXI",
+      "title": "Somalia, 1989-1994",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v21",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v26",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXVI",
+      "title": "National Security Policy",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v26",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v33",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXXIII",
+      "title": "Canada and Mexico",
+      "production_stage": "being_cleared",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v33",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v08",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "VIII",
+      "title": "Western Europe, 1985-1988",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v08",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v23",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXIII",
+      "title": "Iran-Contra Affair, 1985-1988",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v23",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v37",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XXXVII",
+      "title": "Trade; Monetary Policy; Industrialized Country Cooperation, 1985-1988",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v37",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v42",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XLII",
+      "title": "Refugees and Immigration, 1975-1984",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v42",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1981-88v45",
+      "administration": "reagan",
+      "date_range": "1981-1988",
+      "volume_number": "XLV",
+      "title": "Eastern Mediterranean",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1981-88v45",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v01",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "I",
+      "title": "Foundations of Foreign Policy; Public Diplomacy",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v01",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v02",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "II",
+      "title": "Organization and Management of Foreign Policy",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v02",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v04",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "IV",
+      "title": "Soviet Union, Russia, and Post-Soviet States: Policy",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v04",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v05",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "V",
+      "title": "Eastern Europe",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v05",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v06",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "VI",
+      "title": "Eastern Mediterranean",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v06",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v08",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "VIII",
+      "title": "Western Europe",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v08",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v09",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "IX",
+      "title": "Germany",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v09",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v14",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XIV",
+      "title": "Arab-Israeli Dispute",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v14",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v15",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XV",
+      "title": "South Asia",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v15",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v16",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XVI",
+      "title": "Southeast Asia and the Pacific",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v16",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v18",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XVIII",
+      "title": "Japan; Korea",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v18",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v20",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XX",
+      "title": "North Africa; Sub-Saharan Africa",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v20",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v22",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXII",
+      "title": "Cuba; Haiti; Caribbean",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v22",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v23",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXIII",
+      "title": "Central America",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v23",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v24",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXIV",
+      "title": "Panama, 1981-1992",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v24",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v25",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXV",
+      "title": "South America",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v25",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v27",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXVII",
+      "title": "Arms Control and Nonproliferation",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v27",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v30",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXX",
+      "title": "Foreign Economic Policy",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v30",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v32",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXXII",
+      "title": "Iran",
+      "production_stage": "being_researched",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v32",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v28",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXVIII",
+      "title": "Counternarcotics; Counterterrorism",
+      "production_stage": "planned",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v28",
+      "subitems": []
+    },
+    {
+      "entry_id": "frus1989-92v29",
+      "administration": "bush-ghw",
+      "date_range": "1989-1992",
+      "volume_number": "XXIX",
+      "title": "Global Issues",
+      "production_stage": "planned",
+      "release_buckets": [],
+      "published_date": "",
+      "history_state_url": "https://history.state.gov/historicaldocuments/frus1989-92v29",
+      "subitems": []
+    }
+  ]
+}

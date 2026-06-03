@@ -120,6 +120,24 @@ function validateManifest(manifest) {
       }
     });
   }
+  if (manifest.context_files !== undefined) {
+    if (!Array.isArray(manifest.context_files)) {
+      problems.push("manifest.context_files: expected array");
+    } else {
+      manifest.context_files.forEach((entry, index) => {
+        if (!isPlainObject(entry)) {
+          problems.push(`manifest.context_files[${index}]: expected object`);
+          return;
+        }
+        if (typeof entry.path !== "string" || entry.path.length === 0) {
+          problems.push(`manifest.context_files[${index}].path: expected non-empty string`);
+        }
+        if (typeof entry.role !== "string" || entry.role.length === 0) {
+          problems.push(`manifest.context_files[${index}].role: expected non-empty string`);
+        }
+      });
+    }
+  }
   if (!Array.isArray(manifest.smoke_tests)) {
     problems.push("manifest.smoke_tests: expected array");
   } else {
@@ -144,6 +162,13 @@ function listedSampleFiles(manifest) {
   return manifest.sample_files.filter((entry) => typeof entry === "string");
 }
 
+function listedContextFiles(manifest) {
+  if (!Array.isArray(manifest.context_files)) return [];
+  return manifest.context_files
+    .filter((entry) => isPlainObject(entry) && typeof entry.path === "string")
+    .map((entry) => entry.path);
+}
+
 function listedSmokeTests(manifest) {
   if (!Array.isArray(manifest.smoke_tests)) return [];
   return manifest.smoke_tests.filter((entry) => typeof entry === "string");
@@ -165,7 +190,7 @@ function checkFiles(root, filePaths, label, problems) {
   };
 }
 
-function uniqueJsonPaths(root, manifestPath, requiredFiles, sampleFiles, problems) {
+function uniqueJsonPaths(root, manifestPath, requiredFiles, sampleFiles, contextFiles, problems) {
   const jsonPaths = new Map();
 
   function add(filePath, label) {
@@ -178,6 +203,7 @@ function uniqueJsonPaths(root, manifestPath, requiredFiles, sampleFiles, problem
   add(displayPath(root, manifestPath), "manifest");
   requiredFiles.forEach((filePath) => add(filePath, `required_files.${filePath}`));
   sampleFiles.forEach((filePath) => add(filePath, `sample_files.${filePath}`));
+  contextFiles.forEach((filePath) => add(filePath, `context_files.${filePath}`));
   return [...jsonPaths.entries()].map(([relativePath, absolutePath]) => ({ relativePath, absolutePath }));
 }
 
@@ -245,13 +271,14 @@ function runSmokeTests(root, commands, skipSmoke, problems) {
 function renderText(result) {
   const requiredCount = result.required_files.count;
   const sampleCount = result.sample_files.count;
+  const contextCount = result.context_files.count;
   const jsonCount = result.json_files.checked;
   const smokePhrase = result.smoke_tests.skipped
     ? "smoke tests skipped"
     : `${result.smoke_tests.passed} of ${result.smoke_tests.count} smoke tests`;
 
   if (result.status === "pass") {
-    return `FRUS offline bundle verification passed: ${requiredCount} required files, ${sampleCount} sample files, ${jsonCount} JSON files, ${smokePhrase}.\n`;
+    return `FRUS offline bundle verification passed: ${requiredCount} required files, ${sampleCount} sample files, ${contextCount} context files, ${jsonCount} JSON files, ${smokePhrase}.\n`;
   }
 
   const lines = [
@@ -271,11 +298,13 @@ try {
   const problems = validateManifest(manifest);
   const requiredFiles = listedRequiredFiles(manifest);
   const sampleFiles = listedSampleFiles(manifest);
+  const contextFiles = listedContextFiles(manifest);
   const smokeTests = listedSmokeTests(manifest);
 
   const requiredFileSummary = checkFiles(root, requiredFiles, "required_files", problems);
   const sampleFileSummary = checkFiles(root, sampleFiles, "sample_files", problems);
-  const jsonFiles = uniqueJsonPaths(root, absoluteManifestPath, requiredFiles, sampleFiles, problems);
+  const contextFileSummary = checkFiles(root, contextFiles, "context_files", problems);
+  const jsonFiles = uniqueJsonPaths(root, absoluteManifestPath, requiredFiles, sampleFiles, contextFiles, problems);
   const jsonFileSummary = checkJsonFiles(jsonFiles, problems);
   const smokeTestSummary = runSmokeTests(root, smokeTests, skipSmoke, problems);
 
@@ -285,6 +314,7 @@ try {
     bundle_schema_version: manifest.schema_version || "",
     required_files: requiredFileSummary,
     sample_files: sampleFileSummary,
+    context_files: contextFileSummary,
     json_files: jsonFileSummary,
     smoke_tests: smokeTestSummary,
     status: problems.length === 0 ? "pass" : "fail",
