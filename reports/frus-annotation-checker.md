@@ -113,6 +113,11 @@ The wrapper should provide the LLM with:
   Determination, certification, Executive Order, independent counsel,
   congressional oversight, Senate advice-and-consent, ratification, and
   report-to-Congress metadata.
+- `economic_financial_context`, if available: structured economic, debt, trade,
+  foreign-assistance, international-financial-institution, budget, commodity,
+  development-bank, IMF, World Bank, GATT, UNCTAD, OECD, summit, table,
+  percentage, dollar amount, fiscal-year, appropriation, loan, guarantee,
+  quota, conditionality, and financial-instrument metadata.
 - `cross_reference_registry_context`, if available: structured same-volume,
   cross-volume, footnote, appendix, tab, attachment, printed-elsewhere,
   scheduled-publication, and public-source references with target status,
@@ -185,14 +190,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | congressional_legal_authority | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | congressional_legal_authority | economic_financial_data | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | treaty_component | legal_authority | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | treaty_component | legal_authority | financial_data | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -205,7 +210,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | congressional_legal_authority | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | congressional_legal_authority | economic_financial_data | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -333,6 +338,7 @@ run the semantic and Word-safety validators below.
               "translation_foreign_origin",
               "treaty_legal_instrument",
               "congressional_legal_authority",
+              "economic_financial_data",
               "declassification",
               "authority_control",
               "chronology",
@@ -381,6 +387,7 @@ run the semantic and Word-safety validators below.
               "document_metadata",
               "treaty_component",
               "legal_authority",
+              "financial_data",
               "publication_status",
               "authority_control",
               "declassification_status",
@@ -458,6 +465,7 @@ run the semantic and Word-safety validators below.
               "translation_foreign_origin",
               "treaty_legal_instrument",
               "congressional_legal_authority",
+              "economic_financial_data",
               "declassification",
               "authority_control",
               "chronology",
@@ -550,9 +558,10 @@ Semantic validator behavior:
 - Reject any direct edit whose category is `publication_status`,
   `declassification`, `attachment`, `document_metadata`,
   `classification_handling`, `translation_foreign_origin`,
-  `treaty_legal_instrument`, `congressional_legal_authority`, `chronology`,
-  `summit_public_event`, `communications_record`, or `authority_control` when
-  the required proof is absent from the uploaded unit or wrapper context.
+  `treaty_legal_instrument`, `congressional_legal_authority`,
+  `economic_financial_data`, `chronology`, `summit_public_event`,
+  `communications_record`, or `authority_control` when the required proof is
+  absent from the uploaded unit or wrapper context.
 - Downgrade to `comment_only` when a finding passes the JSON schema but fails a
   Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
@@ -2696,6 +2705,197 @@ Congressional/legal audit requirements:
   transmittal, determination/certification, Executive Order, independent
   counsel, attachment-status, and Senate advice-and-consent warnings.
 
+### 6.8C Economic, Debt, Trade, Assistance, And Financial Data
+
+Economic and foreign-assistance annotation is unusually error-prone because the
+same note can combine policy language, institutional acronyms, dollar amounts,
+percentages, fiscal years, congressional conditions, public addresses,
+multilateral meetings, tables, and attached-but-not-printed financial materials.
+For Reagan trade/monetary, debt, and assistance volumes and Bush foreign
+economic policy sheets, the checker must protect exact figures and institutional
+relationships while still allowing public reports, speeches, hearings, and
+multilateral-finance records to be selected evidence.
+
+Use an economic/financial registry when the wrapper can supply one:
+
+```json
+{
+  "economic_financial_registry_id": "frus-1981-1992-economic-financial-data-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/preface",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d177",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d223",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d267",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d324",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d371",
+    "https://history.state.gov/historicaldocuments/status-of-the-series"
+  ],
+  "records": [
+    {
+      "financial_item_id": "econ-mdb-0267",
+      "unit_id": "document-0267",
+      "record_type": "multilateral_development_bank_policy",
+      "institution_or_actor": "Cabinet Council on Economic Affairs; State; Treasury; AID; IMF; IBRD",
+      "amount_or_percentage": "six percent reduction",
+      "fiscal_year_or_date": "1981-09-24",
+      "policy_or_program": "Assessment of multilateral development banks",
+      "source_basis": "Cabinet Council minutes with Public Papers reference to IMF/World Bank remarks",
+      "table_or_attachment_status": "none supplied",
+      "verification_status": "verified"
+    },
+    {
+      "financial_item_id": "econ-imf-world-bank-0177",
+      "unit_id": "document-0177",
+      "record_type": "imf_world_bank_meeting",
+      "institution_or_actor": "IMF; World Bank; President; Treasury; State",
+      "amount_or_percentage": "IMF quota increase; no exact amount supplied in unit",
+      "fiscal_year_or_date": "1984-09-24/1984-09-27",
+      "policy_or_program": "Annual IMF/World Bank meetings and debt-crisis strategy",
+      "source_basis": "NSC memorandum with Public Papers reference",
+      "table_or_attachment_status": "Tab A attached but not printed",
+      "verification_status": "verified"
+    },
+    {
+      "financial_item_id": "econ-debt-0223",
+      "unit_id": "document-0223",
+      "record_type": "debt_strategy",
+      "institution_or_actor": "Treasury; IMF; World Bank; commercial banks; debtor countries",
+      "amount_or_percentage": "new money commitments; old loans; no exact amount supplied in excerpt",
+      "fiscal_year_or_date": "1987-06-19",
+      "policy_or_program": "Strengthened debt strategy",
+      "source_basis": "Treasury memorandum",
+      "table_or_attachment_status": "none supplied",
+      "verification_status": "verified"
+    },
+    {
+      "financial_item_id": "econ-private-enterprise-0324",
+      "unit_id": "document-0324",
+      "record_type": "private_investment_and_trade_policy",
+      "institution_or_actor": "NSC; President's Task Force on International Private Enterprise; World Bank; OPIC; Eximbank; AID",
+      "amount_or_percentage": "$500 million Private Sector Loan Fund; $1 billion mixed credit fund",
+      "fiscal_year_or_date": "1984-11-27",
+      "policy_or_program": "Private enterprise, foreign assistance, trade, and food assistance recommendations",
+      "source_basis": "NSC memorandum summarizing draft task-force recommendations",
+      "table_or_attachment_status": "Tabs I-II referenced; not printed",
+      "verification_status": "verified"
+    },
+    {
+      "financial_item_id": "econ-certification-0371",
+      "unit_id": "document-0371",
+      "record_type": "appropriations_condition_and_certification",
+      "institution_or_actor": "State; President; Congress; MDBs; international organizations",
+      "amount_or_percentage": "$23 billion lending programs; $1.4 billion annualized budgetary cost; $2 billion IO and P programs; $250 million annual cost",
+      "fiscal_year_or_date": "FY 1987",
+      "policy_or_program": "Section 560 certification for multilateral development bank and international organization payments",
+      "source_basis": "State memorandum and Presidential Determination/Public Law footnote",
+      "table_or_attachment_status": "draft certification and justification attached but not printed",
+      "verification_status": "verified"
+    }
+  ]
+}
+```
+
+Allowed `record_type` values:
+
+- `foreign_assistance_budget`
+- `appropriations_condition_and_certification`
+- `multilateral_development_bank_policy`
+- `imf_world_bank_meeting`
+- `debt_strategy`
+- `trade_policy`
+- `monetary_policy`
+- `commodity_policy`
+- `private_investment_and_trade_policy`
+- `economic_summit`
+- `development_policy`
+- `loan_or_guarantee`
+- `quota_or_replenishment`
+- `table_or_statistical_data`
+- `public_report_or_address`
+- `international_organization_finance`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified`
+- `needs_amount`
+- `needs_currency`
+- `needs_fiscal_year`
+- `needs_institution_identity`
+- `needs_table_source`
+- `needs_attachment_status`
+- `needs_public_source`
+- `needs_legal_authority`
+- `needs_policy_stage`
+- `unknown`
+
+Economic/financial validator sequence:
+
+1. Identify every source note, editorial note, attachment note, table cell,
+   heading, footnote, annotation, source-list entry, or public-source reference
+   that names foreign assistance, trade, monetary policy, industrialized-country
+   cooperation, international debt, IMF, World Bank, IBRD, MDBs, UNCTAD, GATT,
+   OECD, G-7, G-77, AID, OPIC, Eximbank, commodity policy, budget authority,
+   fiscal year, dollar amount, percentage, loan, guarantee, quota, conditionality,
+   replenishment, rescheduling, or private-sector finance.
+2. Match the unit against `economic_financial_context` before directly changing
+   amounts, percentages, currencies, fiscal years, institution names, acronyms,
+   policy program names, meeting names, table captions, row/column labels,
+   source-note basis, or attachment status.
+3. Preserve institution identity. Do not collapse IMF, World Bank, IBRD, MDB,
+   AID, OPIC, Eximbank, Treasury, State economic bureau, GATT, UNCTAD, OECD,
+   G-7, G-77, commercial banks, Paris Club, or private-sector entities into a
+   generic "financial institution" label when the source supplies the precise
+   actor.
+4. Preserve numeric precision and units. Do not change millions to billions,
+   nominal amounts to budget authority, percentages to dollar amounts, fiscal
+   years to calendar years, or proposed funding to enacted funding unless the
+   registry or uploaded unit proves the change.
+5. Treat tables and financial lists as structured evidence. Do not move figures
+   across rows, columns, countries, institutions, fiscal years, or program
+   headings merely to improve prose.
+6. Separate policy stage: proposal, recommendation, study, speech, meeting
+   decision, congressional request, authorized appropriation, certification,
+   loan guarantee, quota increase, rescheduling agreement, or actual payment.
+7. Coordinate with the congressional/legal registry when appropriations,
+   authorizations, statutory sections, certifications, determinations, or
+   congressional conditions control the financial claim.
+8. Coordinate with event chronology for IMF/World Bank annual meetings,
+   Cancun/economic summits, speeches, and press events; with attachment rules
+   for tabs, reports, justifications, and tables attached but not printed.
+
+Direct-edit posture:
+
+- Safe direct edits may restore a supplied acronym, fiscal-year label, currency
+  symbol, or narrow source-title punctuation when the uploaded unit or registry
+  supplies the exact evidence.
+- Use `comment_only` with `evidence_request: financial_data` when amount,
+  currency, percentage, fiscal year, institution identity, table basis, program
+  name, policy stage, attachment status, public-source basis, or debt/loan
+  instrument identity is missing, conflicting, or inferred.
+- Use `evidence_request: legal_authority` when the financial issue depends on a
+  statute, appropriation, authorization, certification, determination, or
+  congressional condition.
+- Use `evidence_request: event_chronology` when the financial issue depends on
+  the timing, venue, or sequence of a summit, annual meeting, speech, or press
+  event.
+- Add an `economic_financial_data` discrepancy to the General Editor tally when
+  published or local examples vary on how much numeric detail, institution
+  acronym expansion, table caption detail, or policy-stage explanation to print,
+  and the underlying facts are sound.
+
+Economic/financial audit requirements:
+
+- Count financial-data warnings separately from congressional/legal,
+  public-source, event, and source-note warnings.
+- Preserve registry id, capture date, source URLs, record type, institution or
+  actor, amount/percentage, fiscal year/date, program name, table/attachment
+  status, source basis, and verification status in the audit report.
+- Record unresolved amount, currency, percentage, fiscal-year, table-source,
+  institution-identity, policy-stage, public-source, legal-authority, and
+  attachment-status warnings.
+
 ### 6.9 Interagency And Foreign-Government Records
 
 Rules:
@@ -3657,6 +3857,12 @@ Permutation matrix for annotation sheets:
   Determination, certification, Executive Order, independent counsel, oversight,
   Senate advice-and-consent, ratification, and attached-but-not-printed legal
   materials.
+- Economic, debt, trade, assistance, or financial-data package: check
+  institution identity, acronyms, dollar amounts, percentages, currencies,
+  fiscal years, budget authority, loans, guarantees, quotas, replenishments,
+  conditionality, debt rescheduling, table row/column labels, source basis,
+  attachment status, and whether a proposal, meeting decision, legal authority,
+  or actual payment is being described.
 - Attachment/tab note: check `Attached but not printed`, `Printed as Document
   [n]`, `Tabs [letters] are printed as Document [n]`, `Not found attached`, and
   `Attached but not printed is the list of participants` as different claims.
@@ -3797,6 +4003,7 @@ Evidence-request categories:
 | `document_metadata` | Heading, dateline, subject/title line, public title, sender, recipient, internal number, or document form is missing or suspect. | Which heading field and evidence source must be checked before rewriting. |
 | `treaty_component` | Treaty, protocol, annex, memorandum of understanding, executive agreement, letter, declaration, statement, transmittal, ratification, entry-into-force, or associated-document status is uncertain. | Which treaty component, legal status, public source, archival source, or integral-versus-associated relationship must be checked. |
 | `legal_authority` | Congressional, statutory, executive-order, Presidential Determination, certification, hearing, testimony, vote-stage, oversight, or Senate advice-and-consent authority is uncertain. | Which committee, hearing, Congress/session, public law, Stat. citation, section, vote stage, amount, condition, transmittal, determination/certification, Executive Order, or Senate basis must be checked. |
+| `financial_data` | Economic, trade, debt, assistance, budget, institutional, table, amount, percentage, fiscal-year, currency, loan, guarantee, quota, replenishment, conditionality, or policy-stage evidence is uncertain. | Which figure, unit, fiscal year, institution, program, table, source, attachment, legal basis, or policy stage must be checked. |
 | `publication_status` | `printed in` versus `scheduled for publication` depends on current official status. | Which volume or chapter status must be confirmed. |
 | `authority_control` | Persons, titles, abbreviations, index terms, names, offices, or dates need authority-list review. | Which name, office, acronym, date span, or index term needs control. |
 | `declassification_status` | Release, withholding, excision, agency-equity, or bracket language is not final. | Which review outcome or bracket claim cannot yet be asserted. |
@@ -3861,6 +4068,7 @@ Default blocking rules:
 | `document_metadata` | yes for heading, dateline, title, subject, or caption edits | yes when publishable apparatus identifies the document |
 | `treaty_component` | yes for component identity, integral-versus-associated status, public/archival basis, legal-status, ratification, or entry-into-force edits | yes when the note identifies a treaty component, associated document, transmittal, ratification, or entry into force |
 | `legal_authority` | yes for congressional/legal authority, committee, hearing, public-law, statute, determination, certification, Executive Order, vote-stage, amount, condition, or Senate advice-and-consent edits | yes when congressional or legal authority appears in publishable apparatus |
+| `financial_data` | yes for amount, percentage, currency, fiscal-year, institution, program, table, debt/loan/guarantee, quota, conditionality, or policy-stage edits | yes when economic, trade, debt, foreign-assistance, or financial data appears in publishable apparatus |
 | `publication_status` | yes for `printed in` or `scheduled for publication` edits | yes for final style if publication language is present |
 | `authority_control` | yes when a date, identity, title, acronym, or index form is uncertain | yes for final style if repeated or reader-facing |
 | `declassification_status` | yes | yes |
@@ -3875,12 +4083,12 @@ Owner hints:
 
 - `compiler`: source images, archival path, document metadata, attachment
   status, document numbers, source family, chronology, treaty component
-  identity, event sequence, congressional/legal proof, translation status, and
-  foreign-copy provenance.
+  identity, event sequence, congressional/legal proof, financial data,
+  translation status, and foreign-copy provenance.
 - `editor`: wording, heading form, cross-reference form, source-list
   consistency, treaty/legal-instrument placement, public-event note form,
-  congressional/legal citation form, publication-status wording, and General
-  Editor discrepancy preparation.
+  congressional/legal citation form, economic/financial table and note form,
+  publication-status wording, and General Editor discrepancy preparation.
 - `declassification`: classification markings, declassification outcomes,
   release-status separation, withholding, excision, and agency-equity language.
 - `wrapper`: exact anchors, existing tracked changes, Word XML structures,
@@ -4182,12 +4390,16 @@ For every extracted unit, run checks in this order:
     Determinations, certifications, Executive Orders, oversight, independent
     counsel, Senate advice-and-consent, and ratification context against the
     congressional/legal registry when supplied.
-20. Check Persons, abbreviations, and index authority issues.
-21. Assign specific evidence requests and verification targets for unresolved
+20. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
+    World Bank, MDB, GATT, UNCTAD, OECD, table, amount, percentage, currency,
+    fiscal-year, loan, guarantee, quota, replenishment, conditionality, and
+    policy-stage evidence against the economic/financial registry when supplied.
+21. Check Persons, abbreviations, and index authority issues.
+22. Assign specific evidence requests and verification targets for unresolved
     proof.
-22. Decide direct edit versus comment-only.
-23. Return strict JSON.
-24. After schema and semantic validation, aggregate all unresolved evidence
+23. Decide direct edit versus comment-only.
+24. Return strict JSON.
+25. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -4255,6 +4467,9 @@ Duplicate-suppression rules:
 - Merge repeated congressional/legal authority issues by committee, hearing,
   public law, statute, section, vote/action stage, determination, certification,
   Executive Order, oversight body, or Senate advice-and-consent target.
+- Merge repeated economic/financial issues by institution, program, table,
+  amount, percentage, fiscal year, currency, source basis, attachment status, or
+  policy stage.
 - Merge repeated wrapper-safety issues by Word structure, such as tables,
   existing tracked changes, footnote references, fields, or comments.
 - Do not merge findings that require different evidence requests or different
@@ -4397,6 +4612,11 @@ Golden packet composition:
   public law, Stat. citation, continuing or joint resolution, Presidential
   Determination, certification, Executive Order, oversight, independent counsel,
   Senate advice-and-consent, or attached-but-not-printed legal material.
+- At least one economic/financial example with IMF, World Bank, MDB, Treasury,
+  AID, OPIC, Eximbank, GATT, UNCTAD, OECD, debt strategy, foreign-assistance
+  budget, table, dollar amount, percentage, fiscal year, loan, guarantee,
+  quota, replenishment, conditionality, or attached-but-not-printed financial
+  material.
 - At least one research-stage sheet with working labels, candidate notes, URL
   locators, or missing scan requests that should become comments rather than
   polished source-note prose.
@@ -4452,6 +4672,10 @@ Expected behavior by test family:
   determination/certification number, Executive Order number, oversight posture,
   and Senate advice-and-consent language; comment rather than invent when the
   legal authority basis is missing.
+- Economic/financial-data test: preserve institution identity, acronyms, dollar
+  amounts, percentages, currencies, fiscal years, table cells, program names,
+  policy stage, and attachment status; comment rather than invent when the
+  financial-data basis is missing.
 - Research-stage test: identify working labels and missing evidence, but avoid
   converting source leads into publication-ready assertions.
 - Clearance-stage test: protect declassification, attachment, agency-equity,
@@ -4516,6 +4740,11 @@ Use the discrepancy tally for:
   determination/certification numbers, Executive Order numbers, oversight
   bodies, independent counsel language, and Senate advice-and-consent context
   when the underlying facts are sound.
+- Variations in how much economic/financial detail to print, including
+  institution acronyms, dollar amounts, percentages, fiscal years, table
+  captions, program names, debt/loan/guarantee terminology, quota or
+  replenishment language, and policy-stage explanation when the underlying facts
+  are sound.
 - Variations in how much treaty component detail to print, where to place
   protocol, annex, memorandum-of-understanding, letter, declaration, statement,
   article-by-article analysis, transmittal, ratification, or entry-into-force
@@ -4578,6 +4807,7 @@ Suggested tally format:
 | style-discrepancy-0002 | treaty_legal_instrument | How much START treaty-package component detail should appear in source notes versus editorial notes. | Treaty text only; treaty plus protocols, annexes, and memorandum of understanding; associated letters and statements in editorial note | 2 | medium | Should the checker enforce a house form for integral treaty components and associated-but-not-integral materials, or only tally the variation? |
 | style-discrepancy-0003 | summit_public_event | How much summit/travel/public-event chronology should be printed inside editorial notes versus follow-on footnotes. | Chronological narrative with Public Papers citations in note text; separate follow-on footnotes for public remarks and full-record targets | 2 | medium | Should the checker enforce a standard form for summit/event editorial notes, or preserve both forms and tally the variation? |
 | style-discrepancy-0004 | congressional_legal_authority | How much legal-authority detail should appear in notes when the law, hearing, or transmittal fact is sound. | Public Law and Stat. citation plus action stage; shorter public-law or committee reference with source citation elsewhere | 2 | medium | Should the checker enforce full legal-authority citation form, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0005 | economic_financial_data | How much economic/financial data detail should appear in notes when figures and source basis are sound. | Full institution acronym plus amount, fiscal year, and table/source basis; shorter policy-description form with figure citation elsewhere | 2 | medium | Should the checker enforce full financial-data citation form, or tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -4630,6 +4860,12 @@ Required bundle files:
   congressional notification, Presidential Determination, certification,
   Executive Order, independent counsel, oversight body, Senate advice-and-consent
   context, attachment status, verification status, and source URLs.
+- `economic_financial_map`, when available: economic, debt, trade,
+  foreign-assistance, budget, IMF, World Bank, IBRD, MDB, GATT, UNCTAD, OECD,
+  AID, OPIC, Eximbank, commercial-bank, Paris Club, commodity, table, amount,
+  percentage, currency, fiscal-year, loan, guarantee, quota, replenishment,
+  conditionality, policy-stage, attachment-status, source-basis, and source-URL
+  metadata.
 - `authority_lists`, when available: Persons, abbreviations, source-list
   entries, index terms, known document numbers, chapter titles, and related
   volume cross-references.
@@ -4840,6 +5076,7 @@ Translation registry: [translation_registry_id and capture date]
 Treaty/legal-instrument registry: [treaty_registry_id and capture date]
 Event chronology registry: [event_chronology_registry_id and capture date]
 Congressional/legal registry: [congressional_legal_registry_id and capture date]
+Economic/financial registry: [economic_financial_registry_id and capture date]
 Source-family registry: [source_family_registry_id and capture date]
 Communications registry: [communications_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
@@ -4875,6 +5112,7 @@ Counts:
 - Treaty component, integral/associated status, transmittal, ratification, or entry-into-force issues: [n]
 - Summit, travel, ceremony, interview, press, testimony, or public-event chronology issues: [n]
 - Congressional testimony, hearing, public-law, statute, determination, certification, Executive Order, oversight, or Senate advice-and-consent issues: [n]
+- Economic, debt, trade, assistance, amount, fiscal-year, institution, table, or financial-data issues: [n]
 - Source-family unmatched or ambiguous matches: [n]
 - Communications records unmatched or incomplete: [n]
 - Attachment status unknown or conflicting: [n]
@@ -4914,6 +5152,9 @@ Summit/public-event warnings:
 
 Congressional/legal warnings:
 - [unit_id or global]: [legal-authority issue] - [record type, authority citation, action stage, public/archival basis, and verification target]
+
+Economic/financial warnings:
+- [unit_id or global]: [financial-data issue] - [record type, institution, amount/percentage, fiscal year, table/attachment status, and source basis]
 
 Source-family warnings:
 - [unit_id or global]: [source-family issue] - [registry target or unmatched family]
@@ -5006,6 +5247,12 @@ Minimum components:
   Executive Orders, oversight, independent counsel, Senate advice and consent,
   ratification, and attached-but-not-printed legal materials before tracked
   changes are applied.
+- Economic/financial-data validator that distinguishes economic policy, debt
+  strategy, trade, foreign assistance, IMF, World Bank, IBRD, MDBs, GATT,
+  UNCTAD, OECD, AID, OPIC, Eximbank, commercial-bank and Paris Club references,
+  tables, amounts, percentages, currencies, fiscal years, loans, guarantees,
+  quotas, replenishments, conditionality, policy stages, and attached financial
+  materials before tracked changes are applied.
 - Cross-reference registry validator that checks same-volume documents,
   footnotes, appendix items, tabs, attachments, public-source references,
   scheduled-publication targets, and cross-volume publication status before
@@ -5062,6 +5309,10 @@ Operational cautions:
   amount, condition, notification, determination, certification, Executive
   Order, oversight, independent counsel, Senate advice-and-consent, ratification,
   attachment-status, and congressional-legal discrepancy questions.
+- Record economic/financial registry version, unresolved amount, currency,
+  percentage, fiscal-year, institution, acronym, table, program, policy-stage,
+  source-basis, legal-authority, attachment-status, debt/loan/guarantee, quota,
+  replenishment, conditionality, and economic-financial discrepancy questions.
 - Record cross-reference-registry version, unresolved target documents,
   footnotes, appendix references, scheduled-publication targets, stale status
   dependencies, and public-source references.
@@ -5103,6 +5354,9 @@ Needs revision:
 - Congressional/legal authority is asserted without committee, hearing,
   public-law, statute, vote/action-stage, determination, certification,
   Executive Order, oversight, or Senate advice-and-consent support.
+- Economic/financial data changes amount, unit, currency, fiscal year,
+  institution, acronym, table cell, source basis, policy stage, or
+  attachment-status without supplied proof.
 - Persons, abbreviations, or index entries are inconsistent.
 
 Blocked:
@@ -5168,6 +5422,11 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d274`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d286`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d206`
+- `https://history.state.gov/historicaldocuments/frus1981-88v38/preface`
+- `https://history.state.gov/historicaldocuments/frus1981-88v38/d177`
+- `https://history.state.gov/historicaldocuments/frus1981-88v38/d223`
+- `https://history.state.gov/historicaldocuments/frus1981-88v38/d267`
+- `https://history.state.gov/historicaldocuments/frus1981-88v38/d324`
 - `https://history.state.gov/historicaldocuments/frus1981-88v38/d371`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/sources`
@@ -5195,6 +5454,11 @@ Recent Reagan source incorporated:
 - [FRUS, 1981-1988, Volume XI, START I](https://history.state.gov/historicaldocuments/frus1981-88v11)
 - [FRUS, 1981-1988, Volume XXIV, North Africa](https://history.state.gov/historicaldocuments/frus1981-88v24)
 - [FRUS, 1981-1988, Volume XXXVIII, International Economic Development; International Debt; Foreign Assistance](https://history.state.gov/historicaldocuments/frus1981-88v38)
+- [Volume XXXVIII preface on developing-world economic policy, debt, assistance, IFIs, and companion trade/monetary volumes](https://history.state.gov/historicaldocuments/frus1981-88v38/preface)
+- [IMF/World Bank annual meetings and debt-crisis context, Document 177](https://history.state.gov/historicaldocuments/frus1981-88v38/d177)
+- [Strengthened debt strategy memorandum, Document 223](https://history.state.gov/historicaldocuments/frus1981-88v38/d223)
+- [MDB budget reduction and IMF/World Bank meeting note, Document 267](https://history.state.gov/historicaldocuments/frus1981-88v38/d267)
+- [Private enterprise, trade, and assistance recommendations with dollar figures, Document 324](https://history.state.gov/historicaldocuments/frus1981-88v38/d324)
 - [Presidential Determination and Public Law note in Volume XXXVIII, Document 371](https://history.state.gov/historicaldocuments/frus1981-88v38/d371)
 - [FRUS, 1981-1988, Volume XLIV, Part 1, National Security Policy, 1985-1988](https://history.state.gov/historicaldocuments/frus1981-88v44p1)
 - [FRUS, 1981-1988, Volume I EPUB](https://static.history.state.gov/frus/frus1981-88v01/ebook/frus1981-88v01.epub)
