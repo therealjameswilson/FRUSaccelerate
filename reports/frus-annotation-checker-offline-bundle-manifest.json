@@ -44,6 +44,18 @@
       "role": "Self-contained LLM review packet smoke test"
     },
     {
+      "path": "scripts/build-frus-llm-review-chunks.mjs",
+      "role": "No-dependency chunked Markdown packet builder for small-context closed-network LLM review"
+    },
+    {
+      "path": "scripts/merge-frus-checker-chunks.mjs",
+      "role": "Chunk-output merger and reconciliation gate before Word redline application"
+    },
+    {
+      "path": "scripts/test-frus-llm-chunk-workflow.mjs",
+      "role": "Self-contained chunk packet, merge, validation, and boundary-failure smoke test"
+    },
+    {
       "path": "scripts/audit-frus-review-coverage.mjs",
       "role": "Per-document coverage audit for reviewed units, categories, evidence requests, and signal gaps"
     },
@@ -137,6 +149,11 @@
     "reports/frus-annotation-checker-direct-edit-sample-output.json",
     "reports/frus-annotation-checker-extracted-units.sample.json",
     "reports/frus-llm-review-packet.sample.md",
+    "reports/frus-llm-chunks.sample/chunk-manifest.json",
+    "reports/frus-llm-chunks.sample/chunk-0001-units.json",
+    "reports/frus-llm-chunks.sample/chunk-0001-review-packet.md",
+    "reports/frus-llm-chunks.sample/chunk-0002-units.json",
+    "reports/frus-llm-chunks.sample/chunk-0002-review-packet.md",
     "reports/frus-review-coverage.sample.json",
     "reports/frus-status-registry-1981-1992.sample.json",
     "reports/frus-status-claim-units.sample.json",
@@ -170,6 +187,7 @@
     "node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-direct-edit-sample-output.json",
     "node scripts/test-frus-docx-unit-extractor.mjs",
     "node scripts/test-frus-llm-review-packet.mjs",
+    "node scripts/test-frus-llm-chunk-workflow.mjs",
     "node scripts/test-frus-review-coverage-audit.mjs",
     "node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json",
     "node scripts/test-frus-track-change-applier.mjs",
@@ -193,6 +211,7 @@
     "Change a status claim to direct-edit `printed in` for a target still being cleared; preflight-frus-status-claims.mjs must fail.",
     "Give extract-frus-status-claims.mjs status text with a direct publication-status edit but no exact target; preflight-frus-status-claims.mjs must fail.",
     "Give build-frus-llm-review-packet.mjs a malformed extracted-units file; it must fail before producing a model packet.",
+    "Make a chunk output reference a unit assigned to another chunk; merge-frus-checker-chunks.mjs must fail.",
     "Point audit-frus-review-coverage.mjs at checker output with an unknown unit id; it must fail.",
     "Add an unmapped angle token such as <foo> to extracted text; preflight-frus-pseudo-markers.mjs must fail.",
     "Remove word/document.xml from a DOCX package; extract-frus-docx-units.mjs must fail.",

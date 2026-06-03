@@ -17,6 +17,9 @@ For no-dependency DOCX unit extraction, run
 For the per-document Markdown packet that a closed-network LLM should review,
 run
 `node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+For small-context LLMs that cannot fit a whole sheet, build chunk packets with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
 `node scripts/extract-frus-status-claims.mjs --units extracted-units.json --registry reports/frus-status-series-1981-1992.current.json --checker-output output.json --out status-claims.json --format text`.
@@ -107,17 +110,20 @@ is flawless.
 4. Wrapper builds a per-document `review-packet.md` from the runtime guide,
    extracted units, output schema, status registry, preparation router, and
    permutation matrix.
-5. LLM checks `review-packet.md` and returns a JSON edit/comment plan only.
-6. Wrapper validates JSON, exact anchors, evidence basis, and Word safety.
+5. If the model context is too small, wrapper builds numbered chunk packets and
+   later merges chunk outputs through the chunk-reconciliation gate.
+6. LLM checks the packet or chunk packet and returns a JSON edit/comment plan
+   only.
+7. Wrapper validates JSON, exact anchors, evidence basis, and Word safety.
    Direct edits require one exact `original_text` match in an editable unit
    with no existing revisions or blocked Word boundaries.
-7. Wrapper validates publication-status phrases against a dated official
+8. Wrapper validates publication-status phrases against a dated official
    status registry before allowing any redline that changes `printed in`,
    `scheduled for publication`, `forthcoming`, `anticipated`, `being cleared`,
    `being researched`, or `planned` language.
-8. Wrapper applies only safe edits as WordprocessingML tracked insertions,
+9. Wrapper applies only safe edits as WordprocessingML tracked insertions,
    deletions, and comments.
-9. User downloads a new `.docx` with changes marked in Track Changes.
+10. User downloads a new `.docx` with changes marked in Track Changes.
 
 Important: the LLM must not write `.docx`, OOXML, base64 files, or package
 instructions. The wrapper creates the revised Word file.

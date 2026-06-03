@@ -1,0 +1,62 @@
+{
+  "schema_version": "frus-llm-chunk-manifest-v1",
+  "generated_at": "2026-06-03T14:28:05.991Z",
+  "run_id": "sample-chunk-packets",
+  "target_volume": "frus1989-92v31",
+  "chunk_count": 2,
+  "source_files": {
+    "units": "reports/frus-annotation-checker-extracted-units.sample.json",
+    "guide": "reports/frus-annotation-checker-core.md",
+    "schema": "reports/frus-annotation-checker-output.schema.json",
+    "status_registry": "reports/frus-status-series-1981-1992.current.json",
+    "status_claims": "reports/frus-status-claims.sample.json",
+    "preparation_router": "reports/frus-preparation-router-1981-1992.current.json",
+    "permutation_matrix": "reports/frus-annotation-permutation-matrix.json"
+  },
+  "limits": {
+    "max_units": 2,
+    "max_chars": 18000
+  },
+  "summary": {
+    "units_total": 3,
+    "reviewable_units": 3
+  },
+  "chunks": [
+    {
+      "chunk_id": "chunk-0001",
+      "chunk_index": 1,
+      "unit_count": 2,
+      "reviewable_unit_count": 2,
+      "first_unit_id": "source-note-0001",
+      "last_unit_id": "editorial-note-0002",
+      "unit_ids": [
+        "source-note-0001",
+        "editorial-note-0002"
+      ],
+      "reviewable_unit_ids": [
+        "source-note-0001",
+        "editorial-note-0002"
+      ],
+      "units_file": "reports/frus-llm-chunks.sample/chunk-0001-units.json",
+      "packet_file": "reports/frus-llm-chunks.sample/chunk-0001-review-packet.md",
+      "expected_output_file": "reports/frus-llm-chunks.sample/chunk-0001-checker-output.json"
+    },
+    {
+      "chunk_id": "chunk-0002",
+      "chunk_index": 2,
+      "unit_count": 1,
+      "reviewable_unit_count": 1,
+      "first_unit_id": "source-note-0003",
+      "last_unit_id": "source-note-0003",
+      "unit_ids": [
+        "source-note-0003"
+      ],
+      "reviewable_unit_ids": [
+        "source-note-0003"
+      ],
+      "units_file": "reports/frus-llm-chunks.sample/chunk-0002-units.json",
+      "packet_file": "reports/frus-llm-chunks.sample/chunk-0002-review-packet.md",
+      "expected_output_file": "reports/frus-llm-chunks.sample/chunk-0002-checker-output.json"
+    }
+  ]
+}

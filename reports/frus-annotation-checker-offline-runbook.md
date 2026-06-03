@@ -60,6 +60,23 @@ node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out
    needed context to the model. Do not ask the LLM to write `.docx`, OOXML,
    base64, or raw Track Changes markup. Save the model's single JSON object as
    `output.json`.
+
+   If the closed-network LLM cannot fit the full packet, build chunk packets
+   instead. Upload each `chunk-####-review-packet.md` separately and save each
+   result as the corresponding `chunk-####-checker-output.json`.
+
+```sh
+node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12
+```
+
+   After all chunks are reviewed, merge them into the single checker output
+   consumed by the rest of this runbook. The merger enforces the chunk manifest:
+   it fails if a chunk output cites a unit assigned to another chunk, if a chunk
+   is missing, or if reviewable units have no checker entry.
+
+```sh
+node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json --format text
+```
 4. Validate the LLM JSON:
 
 ```sh
@@ -180,6 +197,7 @@ node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sa
 node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-direct-edit-sample-output.json
 node scripts/test-frus-docx-unit-extractor.mjs
 node scripts/test-frus-llm-review-packet.mjs
+node scripts/test-frus-llm-chunk-workflow.mjs
 node scripts/test-frus-review-coverage-audit.mjs
 node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json
 node scripts/test-frus-track-change-applier.mjs

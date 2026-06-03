@@ -23,6 +23,11 @@ For the per-document Markdown packet that a closed-network LLM should review,
 use `scripts/build-frus-llm-review-packet.mjs`; the self-contained smoke test
 is `scripts/test-frus-llm-review-packet.mjs`, and the sample packet is
 `reports/frus-llm-review-packet.sample.md`.
+For long annotation sheets or very small-context closed-network models, use
+`scripts/build-frus-llm-review-chunks.mjs` and
+`scripts/merge-frus-checker-chunks.mjs`; the self-contained smoke test is
+`scripts/test-frus-llm-chunk-workflow.mjs`, and the sample chunk packet set is
+`reports/frus-llm-chunks.sample/`.
 For automatic publication-status claim extraction, use
 `scripts/extract-frus-status-claims.mjs` with
 `reports/frus-status-claim-units.sample.json`; the self-contained smoke test is
@@ -98,10 +103,12 @@ The intended workflow is:
 4. The tool builds `review-packet.md` from this standard, the extracted units,
    the output schema, status context, preparation router, and permutation
    matrix.
-5. The LLM checks the packet against the standards below.
-6. The LLM returns structured proposed edits and comments.
-7. The Word wrapper applies the proposed edits as tracked changes and comments.
-8. User downloads a new `.docx` with changes marked in Track Changes.
+5. If the model cannot fit the whole packet, the tool builds numbered chunk
+   packets and merges chunk outputs through the chunk-reconciliation gate.
+6. The LLM checks the packet against the standards below.
+7. The LLM returns structured proposed edits and comments.
+8. The Word wrapper applies the proposed edits as tracked changes and comments.
+9. User downloads a new `.docx` with changes marked in Track Changes.
 
 Important limitation: the LLM should not be trusted to write `.docx` files
 directly. The LLM should return a strict edit plan. The wrapper must create the
@@ -12100,7 +12107,6 @@ Minimum components:
   counts, nested chapter/subitem overlays, duplicate titles, title-number
   conflicts, missing URLs, and excluded non-scope rows before status-dependent
   tracked changes are applied.
-- Chunker and reconciliation layer for long `.docx` packets.
 - Export step that writes a new `.docx`.
 
 Operational cautions:
@@ -12109,6 +12115,9 @@ Operational cautions:
 - Keep original uploaded files unchanged.
 - Record the exact checker version used.
 - Record the exact context-bundle id and capture date used.
+- For long `.docx` packets, record chunk-manifest id, chunk count, output file
+  for each chunk, merge report, and any chunk-reconciliation warnings before
+  applying tracked changes.
 - Record authority-registry version, source URLs, unmatched forms, approved
   display forms, variants, date-bounded titles, acronym and term expansions,
   repository/source-list homes, public-source titles, chapter labels,
