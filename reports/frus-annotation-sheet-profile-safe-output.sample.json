@@ -1,0 +1,95 @@
+{
+  "schema_version": "checker-output-v1",
+  "document_assessment": {
+    "overall_status": "pass_with_comments",
+    "summary": "Sample output for a flat, finished-form annotation sheet profile.",
+    "blocked_reason": ""
+  },
+  "batch_readiness": {
+    "readiness_status": "comment_only_review",
+    "safe_to_apply_tracked_changes": false,
+    "readiness_summary": "The profile fixture preserves production pseudo-markers and therefore uses comments instead of direct marker-touching edits.",
+    "gates": [
+      {
+        "gate_id": "word_anchoring",
+        "gate_status": "warning",
+        "finding": "The fixture uses literal production pseudo-markers inside flat Word paragraphs.",
+        "required_action": "Do not apply direct edits that touch marker tokens."
+      },
+      {
+        "gate_id": "wrapper_output",
+        "gate_status": "pass",
+        "finding": "Profile audit should preserve pseudo-markers and lexical unitization.",
+        "required_action": ""
+      }
+    ]
+  },
+  "checks": [
+    {
+      "unit_id": "profile-front-matter-0001",
+      "rule_id": "FAS-GEN-000",
+      "severity": "info",
+      "category": "source_list_front_matter",
+      "finding": "The front-matter unit is correctly preserved as context.",
+      "standard": "Finished-form FRUS annotation sheets may use flat Word styles; front matter should be identified by lexical structure.",
+      "recommended_action": "no_change",
+      "original_text": "",
+      "replacement_text": "",
+      "comment_text": "",
+      "evidence_request": "none",
+      "verification_target": ""
+    },
+    {
+      "unit_id": "profile-source-note-0002",
+      "rule_id": "FAS-WRAP-001",
+      "severity": "minor",
+      "category": "format",
+      "finding": "The source note contains literal production pseudo-markers.",
+      "standard": "Production pseudo-markers should be preserved literally or mapped reversibly by the wrapper; uncertain marker handling should be comment-only.",
+      "recommended_action": "comment_only",
+      "original_text": "",
+      "replacement_text": "",
+      "comment_text": "Preserve the literal production pseudo-markers unless the closed-network wrapper maps them reversibly before redline application.",
+      "evidence_request": "wrapper_safety",
+      "verification_target": "Pseudo-marker mapping policy for profile-source-note-0002"
+    },
+    {
+      "unit_id": "profile-source-list-entry-0003",
+      "rule_id": "FAS-GEN-000",
+      "severity": "info",
+      "category": "source_list_front_matter",
+      "finding": "The lot-file source-list entry is correctly preserved as source-list context.",
+      "standard": "Lot-file rows can be plain paragraphs and should not be treated as transcribed document text.",
+      "recommended_action": "no_change",
+      "original_text": "",
+      "replacement_text": "",
+      "comment_text": "",
+      "evidence_request": "none",
+      "verification_target": ""
+    }
+  ],
+  "global_comments": [],
+  "style_discrepancy_tally": [
+    {
+      "discrepancy_id": "style-discrepancy-0034",
+      "category": "wrapper",
+      "style_question": "Whether production pseudo-markers should remain literal during closed-network review or be mapped to Word formatting before tracked changes.",
+      "variant_a": "Preserve literal markers and use comments when edits would touch them.",
+      "variant_b": "Map markers to Word formatting before review and back to publication tokens after review.",
+      "unit_ids": [
+        "profile-source-note-0002"
+      ],
+      "published_or_local_examples": [
+        "Foundations Consolidated.docx profile fixture"
+      ],
+      "count": 1,
+      "risk": "medium",
+      "checker_action": "comment_only",
+      "general_editor_question": "Should the closed-network checker standardize one reversible marker policy for finished annotation sheets?",
+      "status": "open",
+      "first_seen": "profile-fixture",
+      "last_seen": "profile-fixture",
+      "resolution_note": ""
+    }
+  ]
+}

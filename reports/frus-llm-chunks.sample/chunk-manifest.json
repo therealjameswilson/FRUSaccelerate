@@ -1,13 +1,14 @@
 {
   "schema_version": "frus-llm-chunk-manifest-v1",
-  "generated_at": "2026-06-03T15:09:43.700Z",
-  "run_id": "sample-llm-chunks",
+  "generated_at": "2026-06-03T15:41:10.837Z",
+  "run_id": "sample-chunk-workflow",
   "target_volume": "frus1989-92v31",
   "chunk_count": 2,
   "source_files": {
     "units": "reports/frus-annotation-checker-extracted-units.sample.json",
     "guide": "reports/frus-annotation-checker-core.md",
     "schema": "reports/frus-annotation-checker-output.schema.json",
+    "annotation_sheet_profile": "reports/frus-annotation-sheet-profile.sample.json",
     "status_registry": "reports/frus-status-series-1981-1992.current.json",
     "status_claims": "reports/frus-status-claims.sample.json",
     "authority_registry": "reports/frus-authority-registry.sample.json",
@@ -23,6 +24,7 @@
   "summary": {
     "units_total": 3,
     "reviewable_units": 3,
+    "annotation_sheet_profile_checks": 4,
     "authority_registry_records": 8,
     "source_list_registry_records": 10,
     "document_metadata_registry_records": 5

@@ -37,6 +37,10 @@ registry built from published document pages, including document number,
 heading, date line, subject/title, sender/recipient, attachment behavior, and
 editorial-note form. The bundled sample is
 `reports/frus-document-metadata-registry.sample.json`.
+For finished-form annotation-sheet checks, transfer
+`reports/frus-annotation-sheet-profile.sample.json`. It records the uploaded
+good-form exemplar's flat Word structure, lexical FRUS apparatus patterns, and
+literal production pseudo-marker policy.
 
 Verify the package before transfer and again after installation:
 
@@ -66,7 +70,7 @@ node scripts/extract-frus-docx-units.mjs --docx input.docx --out extracted-units
 
 ```sh
 node scripts/extract-frus-status-claims.mjs --units extracted-units.json --registry reports/frus-status-series-1981-1992.current.json --out status-claims.json --format text
-node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID
+node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID
 ```
 
    Upload `review-packet.md` to the LLM. Send only editorial apparatus and
@@ -79,7 +83,7 @@ node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out
    result as the corresponding `chunk-####-checker-output.json`.
 
 ```sh
-node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12
+node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12
 ```
 
    After all chunks are reviewed, merge them into the single checker output
@@ -122,7 +126,7 @@ node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output outp
    Reagan/Bush routing, add the current context files:
 
 ```sh
-node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD
+node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD
 ```
 
    If the wrapper has extracted status-bearing phrases into
@@ -137,7 +141,18 @@ node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output outp
 node scripts/preflight-frus-checker-plan.mjs --units extracted-units.json --output output.json
 ```
 
-6. Run status preflight when the packet contains publication-status language:
+6. Run annotation-sheet profile audit when the sheet resembles the finished
+   exemplar or contains production pseudo-markers:
+
+```sh
+node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text
+```
+
+   Treat failures as release blockers. They usually mean the wrapper
+   mis-unitized a flat `Source:` paragraph, encountered an unmapped angle token,
+   or allowed a direct edit to touch a protected production marker.
+
+7. Run status preflight when the packet contains publication-status language:
 
 ```sh
 node scripts/extract-frus-status-claims.mjs --units extracted-units.json --registry status-registry.json --checker-output output.json --out status-claims.json --format text
@@ -147,7 +162,7 @@ node scripts/validate-frus-permutation-matrix.mjs --matrix permutation-matrix.js
 node scripts/preflight-frus-status-claims.mjs --registry status-registry.json --claims status-claims.json --today YYYY-MM-DD
 ```
 
-7. Run authority-control validation and usage audit when the packet contains
+8. Run authority-control validation and usage audit when the packet contains
    Persons, Abbreviations and Terms, Source List/front matter, document-number,
    public-title, or index language. The usage audit fails if the model proposes
    a direct authority-control edit that is only a variant, cross-volume form,
@@ -158,7 +173,7 @@ node scripts/validate-frus-authority-registry.mjs --registry authority-registry.
 node scripts/audit-frus-authority-usage.mjs --units extracted-units.json --registry authority-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-8. Run source-list/front-matter validation and usage audit when source notes,
+9. Run source-list/front-matter validation and usage audit when source notes,
    Sources pages, source-list entries, repository families, lot files,
    Presidential Library files, electronic files, or published-source references
    appear. The usage audit fails if the model proposes a direct source-list edit
@@ -170,7 +185,7 @@ node scripts/validate-frus-source-list-registry.mjs --registry source-list-regis
 node scripts/audit-frus-source-list-usage.mjs --units extracted-units.json --registry source-list-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-9. Run document-metadata validation and usage audit when document headings,
+10. Run document-metadata validation and usage audit when document headings,
    date/place lines, subject/title lines, attachment headings, editorial notes,
    sender/recipient lines, or document numbers appear. The usage audit fails if
    the model proposes a direct metadata edit that is only a shorthand variant,
@@ -181,7 +196,7 @@ node scripts/validate-frus-document-metadata-registry.mjs --registry document-me
 node scripts/audit-frus-document-metadata-usage.mjs --units extracted-units.json --registry document-metadata-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-10. Run source-note and production-marker checks when those unit types are
+11. Run source-note and production-marker checks when those unit types are
    present:
 
 ```sh
@@ -189,14 +204,14 @@ node scripts/lint-frus-source-notes.mjs --units extracted-units.json
 node scripts/preflight-frus-pseudo-markers.mjs --units extracted-units.json --output output.json
 ```
 
-11. Build the separate evidence queue and General Editor discrepancy ledger:
+12. Build the separate evidence queue and General Editor discrepancy ledger:
 
 ```sh
 node scripts/build-frus-evidence-queue.mjs --output output.json --review-mode normal > evidence-queue.json
 node scripts/build-frus-discrepancy-ledger.mjs --output output.json --existing prior-ledger.json --run-id RUN-ID > discrepancy-ledger.json
 ```
 
-12. Apply safe `comment_only` findings as real Word comments, then apply only
+13. Apply safe `comment_only` findings as real Word comments, then apply only
    accepted direct edits as real WordprocessingML tracked insertions and
    deletions. The no-dependency appliers handle narrow, verified single-run
    anchors and fail on complex anchors rather than guessing:

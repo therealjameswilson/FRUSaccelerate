@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -30,6 +30,7 @@ function parseArgs(argv) {
   let outDir = null;
   let guidePath = "reports/frus-annotation-checker-core.md";
   let schemaPath = "reports/frus-annotation-checker-output.schema.json";
+  let annotationSheetProfilePath = null;
   let statusRegistryPath = null;
   let statusClaimsPath = null;
   let authorityRegistryPath = null;
@@ -56,6 +57,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--schema") {
       schemaPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--annotation-sheet-profile") {
+      annotationSheetProfilePath = argv[index + 1];
       index += 1;
     } else if (arg === "--status-registry") {
       statusRegistryPath = argv[index + 1];
@@ -115,6 +119,7 @@ function parseArgs(argv) {
     outDir,
     guidePath,
     schemaPath,
+    annotationSheetProfilePath,
     statusRegistryPath,
     statusClaimsPath,
     authorityRegistryPath,
@@ -307,7 +312,35 @@ function compactDocumentMetadataRegistry(registry, targetVolume) {
   };
 }
 
-function renderPacket({ chunk, manifest, guide, schema, statusRegistry, statusClaims, authorityRegistry, sourceListRegistry, documentMetadataRegistry, router, matrix }) {
+function compactAnnotationSheetProfile(profile) {
+  if (!profile) return null;
+  return {
+    schema_version: profile.schema_version,
+    profile_id: profile.profile_id,
+    captured_at: profile.captured_at,
+    source_label: profile.source_label,
+    source_basis: profile.source_basis || {},
+    style_policy: profile.style_policy || {},
+    pseudo_marker_policy: profile.pseudo_marker_policy || {},
+    lexical_unit_patterns: profile.lexical_unit_patterns || [],
+    profile_checks: profile.profile_checks || []
+  };
+}
+
+function renderPacket({
+  chunk,
+  manifest,
+  guide,
+  schema,
+  annotationSheetProfile,
+  statusRegistry,
+  statusClaims,
+  authorityRegistry,
+  sourceListRegistry,
+  documentMetadataRegistry,
+  router,
+  matrix
+}) {
   const chunkUnitsDocument = {
     schema_version: "frus-extracted-units-v1",
     source: `Chunk ${chunk.chunk_id} extracted units from ${manifest.source_files.units}`,
@@ -352,6 +385,12 @@ function renderPacket({ chunk, manifest, guide, schema, statusRegistry, statusCl
     "",
     fencedJson(chunkUnitsDocument),
     "",
+    "## Annotation Sheet Profile Context",
+    "",
+    "Use this to recognize finished-form FRUS annotation-sheet structure when Word styles are flat. Lexical FRUS apparatus patterns outrank Word paragraph styles. Preserve or reversibly map production pseudo-markers; use comment-only when a direct edit would touch or split them.",
+    "",
+    fencedJson(annotationSheetProfile || {}),
+    "",
     "## Extracted Status Claims For This Chunk",
     "",
     fencedJson(chunkClaims || {}),
@@ -393,6 +432,7 @@ function buildChunks(options) {
 
   const guide = readText(options.guidePath);
   const schema = readJson(options.schemaPath);
+  const annotationSheetProfile = options.annotationSheetProfilePath ? readJson(options.annotationSheetProfilePath) : null;
   const statusRegistry = options.statusRegistryPath ? readJson(options.statusRegistryPath) : null;
   const statusClaims = options.statusClaimsPath ? readJson(options.statusClaimsPath) : null;
   const authorityRegistry = options.authorityRegistryPath ? readJson(options.authorityRegistryPath) : null;
@@ -403,6 +443,7 @@ function buildChunks(options) {
   const authorityRegistryContext = compactAuthorityRegistry(authorityRegistry, options.targetVolume);
   const sourceListRegistryContext = compactSourceListRegistry(sourceListRegistry, options.targetVolume);
   const documentMetadataRegistryContext = compactDocumentMetadataRegistry(documentMetadataRegistry, options.targetVolume);
+  const annotationSheetProfileContext = compactAnnotationSheetProfile(annotationSheetProfile);
   const unitChunks = chunkUnits(unitsDocument.units, options.maxUnits, options.maxChars);
 
   fs.mkdirSync(options.outDir, { recursive: true });
@@ -416,6 +457,7 @@ function buildChunks(options) {
       units: normalizePathForOutput(options.unitsPath),
       guide: normalizePathForOutput(options.guidePath),
       schema: normalizePathForOutput(options.schemaPath),
+      annotation_sheet_profile: options.annotationSheetProfilePath ? normalizePathForOutput(options.annotationSheetProfilePath) : "",
       status_registry: options.statusRegistryPath ? normalizePathForOutput(options.statusRegistryPath) : "",
       status_claims: options.statusClaimsPath ? normalizePathForOutput(options.statusClaimsPath) : "",
       authority_registry: options.authorityRegistryPath ? normalizePathForOutput(options.authorityRegistryPath) : "",
@@ -431,6 +473,7 @@ function buildChunks(options) {
     summary: {
       units_total: unitsDocument.units.length,
       reviewable_units: unitsDocument.units.filter(reviewRequired).length,
+      annotation_sheet_profile_checks: annotationSheetProfile?.profile_checks?.length || 0,
       authority_registry_records: authorityRegistry?.records?.length || 0,
       source_list_registry_records: sourceListRegistry?.records?.length || 0,
       document_metadata_registry_records: documentMetadataRegistry?.records?.length || 0
@@ -468,6 +511,7 @@ function buildChunks(options) {
         manifest,
         guide,
         schema,
+        annotationSheetProfile: annotationSheetProfileContext,
         statusRegistry,
         statusClaims,
         authorityRegistry: authorityRegistryContext,

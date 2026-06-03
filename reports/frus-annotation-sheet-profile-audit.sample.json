@@ -1,0 +1,28 @@
+{
+  "schema_version": "frus-annotation-sheet-profile-audit-v1",
+  "profile": "reports/frus-annotation-sheet-profile.sample.json",
+  "units": "reports/frus-annotation-sheet-profile-units.sample.json",
+  "checker_output": "reports/frus-annotation-sheet-profile-safe-output.sample.json",
+  "status": "pass",
+  "summary": {
+    "profile_id": "foundations-consolidated-good-form-2026-06-03",
+    "units_reviewed": 3,
+    "units_by_type": {
+      "front_matter": 1,
+      "source_note": 1,
+      "source_list_entry": 1
+    },
+    "flat_style_units": 3,
+    "lexical_matches": 3,
+    "lexical_misclassifications": 0,
+    "marker_tokens": 5,
+    "pseudo_marker_units": 3,
+    "unexpected_angle_tokens": 0,
+    "direct_edits_reviewed": 0,
+    "direct_edit_marker_conflicts": 0,
+    "direct_edit_safety_conflicts": 0
+  },
+  "diagnostics": [],
+  "warnings": [],
+  "errors": []
+}

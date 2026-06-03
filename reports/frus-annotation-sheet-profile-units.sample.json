@@ -1,0 +1,84 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample extracted units shaped like the uploaded Foundations Consolidated.docx annotation-sheet profile.",
+  "units": [
+    {
+      "unit_id": "profile-front-matter-0001",
+      "unit_type": "front_matter",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Document body, paragraph 1",
+      "xml_anchor": {
+        "paragraph_index": 1,
+        "run_start": 0,
+        "run_end": 0,
+        "char_start": 0,
+        "char_end": 73
+      },
+      "paragraph_style": "Normal",
+      "marker_policy": "preserve_literal",
+      "exact_text": "Focus of Research and Principles of Selection for Foreign Relations, 1981<n>1988, Volume I",
+      "display_text": "Focus of Research and Principles of Selection for Foreign Relations, 1981-1988, Volume I",
+      "surrounding_text": "",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": [
+        "production_pseudo_marker"
+      ]
+    },
+    {
+      "unit_id": "profile-source-note-0002",
+      "unit_type": "source_note",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Document body, paragraph 2",
+      "xml_anchor": {
+        "paragraph_index": 2,
+        "run_start": 0,
+        "run_end": 0,
+        "char_start": 0,
+        "char_end": 154
+      },
+      "paragraph_style": "Normal",
+      "marker_policy": "preserve_literal",
+      "exact_text": "1  Source: Reagan Library, White House Office of Speechwriting, Research Office Files. No classification marking. For Shultz's account, see <i>Turmoil and Triumph<r>, pp. 123-124.<1>",
+      "display_text": "1  Source: Reagan Library, White House Office of Speechwriting, Research Office Files. No classification marking. For Shultz's account, see Turmoil and Triumph, pp. 123-124.",
+      "surrounding_text": "Finished-form source note fixture",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": [
+        "production_pseudo_marker"
+      ]
+    },
+    {
+      "unit_id": "profile-source-list-entry-0003",
+      "unit_type": "source_list_entry",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Document body, paragraph 3",
+      "xml_anchor": {
+        "paragraph_index": 3,
+        "run_start": 0,
+        "run_end": 0,
+        "char_start": 0,
+        "char_end": 94
+      },
+      "paragraph_style": "Normal",
+      "marker_policy": "preserve_literal",
+      "exact_text": "Lot 89D149: Policy Planning Staff Files, Director's Files, Chronological Files, 1981<n>1982",
+      "display_text": "Lot 89D149: Policy Planning Staff Files, Director's Files, Chronological Files, 1981-1982",
+      "surrounding_text": "Sources for Foreign Relations, 1981-1988, Volume I",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": [
+        "production_pseudo_marker"
+      ]
+    }
+  ]
+}

@@ -191,6 +191,8 @@ try {
       author,
       "--date",
       "2026-06-03T00:00:00.000Z",
+      "--annotation-sheet-profile",
+      "reports/frus-annotation-sheet-profile.sample.json",
       "--status-registry",
       "reports/frus-status-series-1981-1992.current.json",
       "--authority-registry",
@@ -239,6 +241,9 @@ try {
   assert(audit.counts.document_metadata_registry_usages === 0, "expected zero document metadata registry usages");
   assert(audit.counts.document_metadata_registry_warnings === 0, "expected zero document metadata registry warnings");
   assert(audit.counts.document_metadata_direct_edit_conflicts === 0, "expected zero document metadata direct-edit conflicts");
+  assert(audit.counts.annotation_sheet_profile_lexical_misclassifications === 0, "expected zero profile lexical misses");
+  assert(audit.counts.annotation_sheet_profile_unexpected_angle_tokens === 0, "expected zero profile unexpected angle tokens");
+  assert(audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts === 0, "expected zero profile marker conflicts");
   assert(audit.counts.review_coverage_unreviewed_units === 0, "expected no unreviewed reviewable units");
 
   for (const artifact of [
@@ -246,6 +251,7 @@ try {
     "review-coverage.json",
     "source-note-lint.json",
     "pseudo-marker-preflight.txt",
+    "annotation-sheet-profile-audit.json",
     "status-claims.json",
     "status-claims-preflight.txt",
     "status-registry-validation.json",

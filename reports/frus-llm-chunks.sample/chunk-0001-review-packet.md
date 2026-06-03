@@ -1,6 +1,6 @@
 # FRUS Annotation Review Packet Chunk
 
-- run_id: sample-llm-chunks
+- run_id: sample-chunk-workflow
 - chunk_id: chunk-0001
 - chunk_index: 1
 - chunk_count: 2
@@ -16,7 +16,7 @@ Do not include units outside this chunk. Do not claim to edit the Word file dire
 ```json
 {
   "schema_version": "frus-llm-review-chunk-v1",
-  "run_id": "sample-llm-chunks",
+  "run_id": "sample-chunk-workflow",
   "chunk_id": "chunk-0001",
   "chunk_index": 1,
   "chunk_count": 2,
@@ -49,11 +49,14 @@ Wrappers can validate LLM output with
 changes.
 For no-dependency DOCX unit extraction, run
 `node scripts/extract-frus-docx-units.mjs --docx input.docx --out extracted-units.json --format text`.
+For uploaded annotation sheets that resemble the finished-form exemplar, audit
+flat Word structure, lexical unitization, and production pseudo-markers with
+`node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -82,7 +85,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -118,6 +121,8 @@ For source-note component diagnostics, run
 `node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json`.
 For production pseudo-marker boundary checks, run
 `node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json`.
+For finished-form annotation-sheet profile checks, run
+`node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units reports/frus-annotation-sheet-profile-units.sample.json --checker-output reports/frus-annotation-sheet-profile-safe-output.sample.json --format text`.
 For sample review coverage, run
 `node scripts/audit-frus-review-coverage.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-sample-output.json --matrix reports/frus-annotation-permutation-matrix.json`.
 For unresolved proof tracking, run
@@ -210,6 +215,9 @@ The wrapper should provide:
 - `extracted_units`: ordered units with `unit_id`, `unit_type`, `location`,
   `exact_text`, `display_text`, `surrounding_text`, editability, and Word
   anchor metadata.
+- `annotation_sheet_profile_context`: finished-form exemplar profile for flat
+  Word structure, lexical FRUS unitization, inline `Source:` recognition, and
+  protected production pseudo-markers.
 - `authority_context`: volume title, administration, Persons, Abbreviations
   and Terms, source-list, repository, chapter, document-number, and public-title
   context when available.
@@ -1158,6 +1166,152 @@ Office pages for:
       "existing_revisions": false,
       "existing_comments": [],
       "blocked_boundaries": []
+    }
+  ]
+}
+```
+
+## Annotation Sheet Profile Context
+
+Use this to recognize finished-form FRUS annotation-sheet structure when Word styles are flat. Lexical FRUS apparatus patterns outrank Word paragraph styles. Preserve or reversibly map production pseudo-markers; use comment-only when a direct edit would touch or split them.
+
+```json
+{
+  "schema_version": "frus-annotation-sheet-profile-v1",
+  "profile_id": "foundations-consolidated-good-form-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_label": "Foundations Consolidated.docx",
+  "source_basis": {
+    "sample_kind": "uploaded_finished_annotation_sheet",
+    "summary": "Read-only structural extraction of the uploaded finished-form FRUS annotation sheet exemplar.",
+    "paragraphs": 5495,
+    "nonempty_paragraphs": 5137,
+    "word_comments": 0,
+    "tracked_revision_runs": 0,
+    "footnote_parts": 0,
+    "endnote_parts": 0,
+    "tables": 0,
+    "hyperlink_paragraphs": 0,
+    "primary_word_styles": [
+      {
+        "style": "Normal",
+        "count": 5344
+      },
+      {
+        "style": "ListParagraph",
+        "count": 151
+      }
+    ],
+    "marker_inventory": [
+      {
+        "token": "<n>",
+        "count": 2208
+      },
+      {
+        "token": "<r>",
+        "count": 1354
+      },
+      {
+        "token": "<i>",
+        "count": 1331
+      },
+      {
+        "token": "<m>",
+        "count": 812
+      },
+      {
+        "token": "<1>",
+        "count": 268
+      },
+      {
+        "token": "<b>",
+        "count": 25
+      }
+    ],
+    "known_exemplar_anomalies": [
+      "Rare malformed or adjacent angle-token strings in raw paragraph text require wrapper mapping or comment-only treatment before tracked changes."
+    ]
+  },
+  "style_policy": {
+    "unitization_basis": "lexical_frus_structure",
+    "do_not_depend_on_word_styles": true,
+    "flat_style_warning_threshold": 0.95,
+    "allowed_flat_styles": [
+      "Normal",
+      "ListParagraph"
+    ],
+    "good_form_principles": [
+      "A polished FRUS annotation sheet may be structurally flat in Word.",
+      "Recover source notes, editorial notes, front matter, source-list entries, and document headings from lexical sequence and FRUS apparatus markers.",
+      "Treat body-note prefixes such as '1  Source:' as source-note starts even when they occur in the main document story.",
+      "Do not downgrade a unit to transcribed document text only because Word paragraph styles are Normal."
+    ]
+  },
+  "pseudo_marker_policy": {
+    "direct_edit_policy": "preserve_or_comment_only",
+    "allowed_tokens": [
+      "<i>",
+      "<r>",
+      "<b>",
+      "<n>",
+      "<m>"
+    ],
+    "numeric_marker_min": 1,
+    "numeric_marker_max": 20,
+    "preserve_literal_markers": true,
+    "wrapper_notes": [
+      "<i>, <r>, and <b> encode production styling boundaries.",
+      "<n> and <m> encode production punctuation or line-break behavior.",
+      "Numeric markers such as <1> encode note or production references.",
+      "A direct edit may correct text near markers only when the original_text anchor does not include or split marker tokens."
+    ]
+  },
+  "lexical_unit_patterns": [
+    {
+      "pattern_id": "lex-source-note-inline",
+      "unit_type": "source_note",
+      "regex": "^(?:[0-9]+\\s+)?Source\\s*:",
+      "severity": "fail",
+      "note": "Inline body-note source notes must be unitized as source_note even in a flat Word paragraph."
+    },
+    {
+      "pattern_id": "lex-editorial-note",
+      "unit_type": "editorial_note",
+      "regex": "^Editorial Note\\b\\.?",
+      "severity": "warning",
+      "note": "Editorial Note headings should not be treated as ordinary transcription."
+    },
+    {
+      "pattern_id": "lex-front-matter-sources",
+      "unit_type": "front_matter",
+      "regex": "^(?:Sources for|Focus of Research and Principles of Selection for|Preface\\b|About the Series\\b)",
+      "severity": "warning",
+      "note": "Front matter often appears as Normal paragraphs and must be carried as context for source-list and selection-balance review."
+    },
+    {
+      "pattern_id": "lex-source-list-lot-file",
+      "unit_type": "source_list_entry",
+      "regex": "^Lot\\s+[0-9]{2}[A-Z][0-9]+\\s*:",
+      "severity": "warning",
+      "note": "Lot-file source-list rows can be plain paragraphs and should be preserved as source-list entries."
+    }
+  ],
+  "profile_checks": [
+    {
+      "check_id": "FAS-PROFILE-001",
+      "description": "Do not rely on Word paragraph styles alone for FRUS annotation-sheet unitization."
+    },
+    {
+      "check_id": "FAS-PROFILE-002",
+      "description": "Treat production pseudo-markers as protected tokens unless the wrapper has a reversible mapping."
+    },
+    {
+      "check_id": "FAS-PROFILE-003",
+      "description": "Downgrade direct edits to comments when an anchor includes or splits a pseudo-marker."
+    },
+    {
+      "check_id": "FAS-PROFILE-004",
+      "description": "Record exemplar/style discrepancies separately for the General Editor rather than normalizing uncertain production conventions."
     }
   ]
 }

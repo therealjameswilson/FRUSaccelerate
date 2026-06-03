@@ -1,0 +1,139 @@
+{
+  "schema_version": "frus-annotation-sheet-profile-v1",
+  "profile_id": "foundations-consolidated-good-form-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_label": "Foundations Consolidated.docx",
+  "source_basis": {
+    "sample_kind": "uploaded_finished_annotation_sheet",
+    "summary": "Read-only structural extraction of the uploaded finished-form FRUS annotation sheet exemplar.",
+    "paragraphs": 5495,
+    "nonempty_paragraphs": 5137,
+    "word_comments": 0,
+    "tracked_revision_runs": 0,
+    "footnote_parts": 0,
+    "endnote_parts": 0,
+    "tables": 0,
+    "hyperlink_paragraphs": 0,
+    "primary_word_styles": [
+      {
+        "style": "Normal",
+        "count": 5344
+      },
+      {
+        "style": "ListParagraph",
+        "count": 151
+      }
+    ],
+    "marker_inventory": [
+      {
+        "token": "<n>",
+        "count": 2208
+      },
+      {
+        "token": "<r>",
+        "count": 1354
+      },
+      {
+        "token": "<i>",
+        "count": 1331
+      },
+      {
+        "token": "<m>",
+        "count": 812
+      },
+      {
+        "token": "<1>",
+        "count": 268
+      },
+      {
+        "token": "<b>",
+        "count": 25
+      }
+    ],
+    "known_exemplar_anomalies": [
+      "Rare malformed or adjacent angle-token strings in raw paragraph text require wrapper mapping or comment-only treatment before tracked changes."
+    ]
+  },
+  "style_policy": {
+    "unitization_basis": "lexical_frus_structure",
+    "do_not_depend_on_word_styles": true,
+    "flat_style_warning_threshold": 0.95,
+    "allowed_flat_styles": [
+      "Normal",
+      "ListParagraph"
+    ],
+    "good_form_principles": [
+      "A polished FRUS annotation sheet may be structurally flat in Word.",
+      "Recover source notes, editorial notes, front matter, source-list entries, and document headings from lexical sequence and FRUS apparatus markers.",
+      "Treat body-note prefixes such as '1  Source:' as source-note starts even when they occur in the main document story.",
+      "Do not downgrade a unit to transcribed document text only because Word paragraph styles are Normal."
+    ]
+  },
+  "pseudo_marker_policy": {
+    "direct_edit_policy": "preserve_or_comment_only",
+    "allowed_tokens": [
+      "<i>",
+      "<r>",
+      "<b>",
+      "<n>",
+      "<m>"
+    ],
+    "numeric_marker_min": 1,
+    "numeric_marker_max": 20,
+    "preserve_literal_markers": true,
+    "wrapper_notes": [
+      "<i>, <r>, and <b> encode production styling boundaries.",
+      "<n> and <m> encode production punctuation or line-break behavior.",
+      "Numeric markers such as <1> encode note or production references.",
+      "A direct edit may correct text near markers only when the original_text anchor does not include or split marker tokens."
+    ]
+  },
+  "lexical_unit_patterns": [
+    {
+      "pattern_id": "lex-source-note-inline",
+      "unit_type": "source_note",
+      "regex": "^(?:[0-9]+\\s+)?Source\\s*:",
+      "severity": "fail",
+      "note": "Inline body-note source notes must be unitized as source_note even in a flat Word paragraph."
+    },
+    {
+      "pattern_id": "lex-editorial-note",
+      "unit_type": "editorial_note",
+      "regex": "^Editorial Note\\b\\.?",
+      "severity": "warning",
+      "note": "Editorial Note headings should not be treated as ordinary transcription."
+    },
+    {
+      "pattern_id": "lex-front-matter-sources",
+      "unit_type": "front_matter",
+      "regex": "^(?:Sources for|Focus of Research and Principles of Selection for|Preface\\b|About the Series\\b)",
+      "severity": "warning",
+      "note": "Front matter often appears as Normal paragraphs and must be carried as context for source-list and selection-balance review."
+    },
+    {
+      "pattern_id": "lex-source-list-lot-file",
+      "unit_type": "source_list_entry",
+      "regex": "^Lot\\s+[0-9]{2}[A-Z][0-9]+\\s*:",
+      "severity": "warning",
+      "note": "Lot-file source-list rows can be plain paragraphs and should be preserved as source-list entries."
+    }
+  ],
+  "profile_checks": [
+    {
+      "check_id": "FAS-PROFILE-001",
+      "description": "Do not rely on Word paragraph styles alone for FRUS annotation-sheet unitization."
+    },
+    {
+      "check_id": "FAS-PROFILE-002",
+      "description": "Treat production pseudo-markers as protected tokens unless the wrapper has a reversible mapping."
+    },
+    {
+      "check_id": "FAS-PROFILE-003",
+      "description": "Downgrade direct edits to comments when an anchor includes or splits a pseudo-marker."
+    },
+    {
+      "check_id": "FAS-PROFILE-004",
+      "description": "Record exemplar/style discrepancies separately for the General Editor rather than normalizing uncertain production conventions."
+    }
+  ]
+}

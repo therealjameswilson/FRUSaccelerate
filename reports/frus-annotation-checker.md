@@ -58,6 +58,14 @@ For document-metadata validation, use
 `reports/frus-document-metadata-units.sample.json`; the self-contained smoke
 test is `scripts/test-frus-document-metadata-audit.mjs`, and the sample audit
 report is `reports/frus-document-metadata-audit.sample.json`.
+For finished-form annotation-sheet profile validation, use
+`scripts/audit-frus-annotation-sheet-profile.mjs` with
+`reports/frus-annotation-sheet-profile.sample.json`,
+`reports/frus-annotation-sheet-profile-units.sample.json`, and
+`reports/frus-annotation-sheet-profile-safe-output.sample.json`; the
+self-contained smoke test is `scripts/test-frus-annotation-sheet-profile.mjs`,
+and the sample audit report is
+`reports/frus-annotation-sheet-profile-audit.sample.json`.
 For no-dependency closed-network smoke tests, use
 `scripts/validate-frus-checker-output.mjs` against
 `reports/frus-annotation-checker-sample-output.json`.
@@ -97,6 +105,11 @@ For production pseudo-marker boundary checks, use
 `scripts/preflight-frus-pseudo-markers.mjs` with
 `reports/frus-pseudo-marker-units.sample.json` and
 `reports/frus-pseudo-marker-safe-output.sample.json`.
+For uploaded sheets shaped like the `Foundations Consolidated.docx` exemplar,
+add `--annotation-sheet-profile
+reports/frus-annotation-sheet-profile.sample.json` to packet, chunk, and
+offline-runner commands so the LLM sees flat Word structure, lexical
+unitization, inline `Source:` recognition, and protected pseudo-marker policy.
 For sample review coverage, use `scripts/audit-frus-review-coverage.mjs` with
 `reports/frus-annotation-checker-extracted-units.sample.json`,
 `reports/frus-annotation-checker-sample-output.json`, and
@@ -11940,6 +11953,16 @@ Minimum components:
   editorial-note forms, sender/recipient forms, and source-note linkage to
   supplied document-page metadata, and fails direct metadata edits that lack
   supplied registry support.
+- No-dependency finished-form annotation-sheet profile audit and fixtures:
+  `scripts/audit-frus-annotation-sheet-profile.mjs`,
+  `scripts/test-frus-annotation-sheet-profile.mjs`,
+  `reports/frus-annotation-sheet-profile.sample.json`,
+  `reports/frus-annotation-sheet-profile-units.sample.json`,
+  `reports/frus-annotation-sheet-profile-safe-output.sample.json`, and
+  `reports/frus-annotation-sheet-profile-audit.sample.json`. The audit encodes
+  the uploaded exemplar's flat Word structure, lexical FRUS apparatus patterns,
+  inline `Source:` recognition, and production pseudo-marker protection; it
+  fails direct edits that touch protected markers or mis-unitize source notes.
 - No-dependency source-note component linter and fixture:
   `scripts/lint-frus-source-notes.mjs` and
   `reports/frus-source-note-units.sample.json`.
@@ -12505,6 +12528,10 @@ This checker is based on the local file:
   sequence, inline body-note numbers such as `1  Source:`, and production
   pseudo-markers such as `<i>`, `<r>`, `<n>`, `<m>`, and `<1>`, not from Word
   styles alone.
+  This evidence is now encoded as
+  `reports/frus-annotation-sheet-profile.sample.json`, and the closed-network
+  wrapper can audit extracted units and proposed edits with
+  `scripts/audit-frus-annotation-sheet-profile.mjs`.
 
 Open XML and WordprocessingML implementation references used for the Word
 wrapper contract:

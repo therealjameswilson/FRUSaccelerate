@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -16,6 +16,7 @@ function parseArgs(argv) {
   let unitsPath = null;
   let guidePath = "reports/frus-annotation-checker-core.md";
   let schemaPath = "reports/frus-annotation-checker-output.schema.json";
+  let annotationSheetProfilePath = null;
   let statusRegistryPath = null;
   let statusClaimsPath = null;
   let authorityRegistryPath = null;
@@ -38,6 +39,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--schema") {
       schemaPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--annotation-sheet-profile") {
+      annotationSheetProfilePath = argv[index + 1];
       index += 1;
     } else if (arg === "--status-registry") {
       statusRegistryPath = argv[index + 1];
@@ -85,6 +89,7 @@ function parseArgs(argv) {
     unitsPath,
     guidePath,
     schemaPath,
+    annotationSheetProfilePath,
     statusRegistryPath,
     statusClaimsPath,
     authorityRegistryPath,
@@ -330,6 +335,21 @@ function compactDocumentMetadataRegistry(registry, targetVolume) {
   };
 }
 
+function compactAnnotationSheetProfile(profile) {
+  if (!profile) return null;
+  return {
+    schema_version: profile.schema_version,
+    profile_id: profile.profile_id,
+    captured_at: profile.captured_at,
+    source_label: profile.source_label,
+    source_basis: profile.source_basis || {},
+    style_policy: profile.style_policy || {},
+    pseudo_marker_policy: profile.pseudo_marker_policy || {},
+    lexical_unit_patterns: profile.lexical_unit_patterns || [],
+    profile_checks: profile.profile_checks || []
+  };
+}
+
 function buildPacket(options) {
   const guideMarkdown = readText(options.guidePath, options.guidePath);
   const schema = readJson(options.schemaPath, options.schemaPath);
@@ -341,6 +361,9 @@ function buildPacket(options) {
 
   const statusRegistry = options.statusRegistryPath ? readJson(options.statusRegistryPath, options.statusRegistryPath) : null;
   const statusClaims = options.statusClaimsPath ? readJson(options.statusClaimsPath, options.statusClaimsPath) : null;
+  const annotationSheetProfile = options.annotationSheetProfilePath
+    ? readJson(options.annotationSheetProfilePath, options.annotationSheetProfilePath)
+    : null;
   const authorityRegistry = options.authorityRegistryPath
     ? readJson(options.authorityRegistryPath, options.authorityRegistryPath)
     : null;
@@ -366,6 +389,7 @@ function buildPacket(options) {
       guide: normalizePathForOutput(options.guidePath),
       schema: normalizePathForOutput(options.schemaPath),
       units: normalizePathForOutput(options.unitsPath),
+      annotation_sheet_profile: options.annotationSheetProfilePath ? normalizePathForOutput(options.annotationSheetProfilePath) : "",
       status_registry: options.statusRegistryPath ? normalizePathForOutput(options.statusRegistryPath) : "",
       status_claims: options.statusClaimsPath ? normalizePathForOutput(options.statusClaimsPath) : "",
       authority_registry: options.authorityRegistryPath ? normalizePathForOutput(options.authorityRegistryPath) : "",
@@ -393,6 +417,8 @@ function buildPacket(options) {
     packet_summary: {
       units: unitSummary(unitsDocument),
       output_schema: schemaSummary(schema),
+      annotation_sheet_profile_checks: annotationSheetProfile?.profile_checks?.length || 0,
+      annotation_sheet_profile_markers: annotationSheetProfile?.source_basis?.marker_inventory?.length || 0,
       status_registry_entries: statusRegistry?.entries?.length || 0,
       status_claims: statusClaims?.claims?.length || 0,
       authority_registry_records: authorityRegistry?.records?.length || 0,
@@ -406,6 +432,7 @@ function buildPacket(options) {
     output_schema: schema,
     extracted_units: unitsDocument,
     contexts: {
+      annotation_sheet_profile: compactAnnotationSheetProfile(annotationSheetProfile),
       status_registry: compactStatusRegistry(statusRegistry, options.targetVolume),
       status_claims: statusClaims || null,
       authority_registry: compactAuthorityRegistry(authorityRegistry, options.targetVolume),
@@ -461,6 +488,12 @@ function renderMarkdown(packet) {
     "Use `unit_id` values exactly as supplied. Direct edits must use exact text from `exact_text` and must respect editability, edit_safety, comment_safety, existing revisions, comments, and blocked boundaries.",
     "",
     fencedJson(packet.extracted_units),
+    "",
+    "## Annotation Sheet Profile Context",
+    "",
+    "Use this to recognize finished-form FRUS annotation-sheet structure when the uploaded Word file is nearly flat. Lexical FRUS apparatus patterns outrank Word paragraph styles. Preserve or reversibly map production pseudo-markers; use comment-only when a direct edit would touch or split them.",
+    "",
+    fencedJson(packet.contexts.annotation_sheet_profile || {}),
     "",
     "## Status Registry Context",
     "",

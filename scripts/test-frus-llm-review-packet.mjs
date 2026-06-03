@@ -29,6 +29,8 @@ try {
     "reports/frus-annotation-checker-core.md",
     "--schema",
     "reports/frus-annotation-checker-output.schema.json",
+    "--annotation-sheet-profile",
+    "reports/frus-annotation-sheet-profile.sample.json",
     "--status-registry",
     "reports/frus-status-series-1981-1992.current.json",
     "--status-claims",
@@ -62,6 +64,9 @@ try {
   assert(markdown.includes("checker-output-v1"), "expected checker-output schema contract");
   assert(markdown.includes("source-note-0001"), "expected extracted unit anchor");
   assert(markdown.includes("frus1989-92v31"), "expected target volume context");
+  assert(markdown.includes("Annotation Sheet Profile Context"), "expected annotation-sheet profile section");
+  assert(markdown.includes("Foundations Consolidated.docx"), "expected annotation-sheet profile content");
+  assert(markdown.includes("lexical_frus_structure"), "expected profile unitization policy");
   assert(markdown.includes("Extracted Status Claims"), "expected status claims section");
   assert(markdown.includes("status-claim-0001"), "expected status claim context");
   assert(markdown.includes("Authority Registry Context"), "expected authority registry section");
@@ -84,6 +89,8 @@ try {
   assert(packet.schema_version === "frus-llm-review-packet-v1", "expected packet schema version");
   assert(packet.run_id === "packet-smoke-test", "expected run id");
   assert(packet.extracted_units.units.length === 3, "expected three sample units");
+  assert(packet.contexts.annotation_sheet_profile.profile_id === "foundations-consolidated-good-form-2026-06-03", "expected annotation-sheet profile context");
+  assert(packet.packet_summary.annotation_sheet_profile_checks === 4, "expected annotation-sheet profile check count");
   assert(packet.contexts.status_registry.entries.length === 74, "expected current status entries");
   assert(packet.contexts.status_registry.target_volume.entry_id === "frus1989-92v31", "expected target status entry");
   assert(packet.contexts.status_claims.claims.length === 4, "expected extracted status claims");
@@ -103,7 +110,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, status, authority, source-list, document metadata, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

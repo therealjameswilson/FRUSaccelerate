@@ -74,6 +74,8 @@ try {
     outDir,
     "--status-registry",
     "reports/frus-status-series-1981-1992.current.json",
+    "--annotation-sheet-profile",
+    "reports/frus-annotation-sheet-profile.sample.json",
     "--status-claims",
     "reports/frus-status-claims.sample.json",
     "--authority-registry",
@@ -104,7 +106,9 @@ try {
   const manifest = JSON.parse(fs.readFileSync(path.join(outDir, "chunk-manifest.json"), "utf8"));
   assert(manifest.schema_version === "frus-llm-chunk-manifest-v1", "expected chunk manifest schema");
   assert(manifest.chunk_count === 2, `expected two chunks, got ${manifest.chunk_count}`);
+  assert(manifest.summary.annotation_sheet_profile_checks === 4, "expected annotation-sheet profile check count");
   assert(manifest.summary.authority_registry_records === 8, "expected authority registry record count");
+  assert(manifest.source_files.annotation_sheet_profile === "reports/frus-annotation-sheet-profile.sample.json", "expected annotation-sheet profile source path");
   assert(manifest.summary.source_list_registry_records === 10, "expected source-list registry record count");
   assert(manifest.summary.document_metadata_registry_records === 5, "expected document metadata registry record count");
   assert(manifest.source_files.authority_registry === "reports/frus-authority-registry.sample.json", "expected authority registry source path");
@@ -113,6 +117,8 @@ try {
   assert(fs.existsSync(path.join(outDir, "chunk-0001-review-packet.md")), "expected first chunk packet");
   assert(fs.existsSync(path.join(outDir, "chunk-0002-review-packet.md")), "expected second chunk packet");
   const firstPacket = fs.readFileSync(path.join(outDir, "chunk-0001-review-packet.md"), "utf8");
+  assert(firstPacket.includes("Annotation Sheet Profile Context"), "expected annotation-sheet profile context in chunk packet");
+  assert(firstPacket.includes("Foundations Consolidated.docx"), "expected annotation-sheet profile content in chunk packet");
   assert(firstPacket.includes("Authority Registry Context"), "expected authority registry context in chunk packet");
   assert(firstPacket.includes("Bush, George Herbert Walker"), "expected authority registry content in chunk packet");
   assert(firstPacket.includes("Source List And Front Matter Registry Context"), "expected source-list registry context in chunk packet");
@@ -183,7 +189,7 @@ try {
   assert(badMerge.status !== 0, "expected out-of-chunk unit reference to fail");
   assert(badMerge.stdout.includes("outside chunk-0002"), "expected chunk-boundary failure detail");
 
-  console.log("FRUS LLM chunk workflow test passed: chunk packets, merge, validation, and boundary failures work.");
+  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile context, merge, validation, and boundary failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }
