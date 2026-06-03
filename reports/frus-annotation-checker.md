@@ -73,6 +73,10 @@ The wrapper should provide the LLM with:
   enclosure, annex, appendix-image, and facsimile relationships with physical
   status, editorial status, printed target, source label, and verification
   basis.
+- `declassification_registry_context`, if available: structured omission,
+  bracket, excision, withholding, original-bracket, release-status, and
+  declassification-review assertions with quantity, type, evidence basis, and
+  reviewer status.
 - `series_status_context`, if available: current History Office status
   (`published`, `anticipated`, `being_cleared`, `being_researched`, or
   `planned`), target volume title, known chapter status, and any official
@@ -1250,6 +1254,125 @@ Flag these issues:
 - Whole-document withholding is counted the same way as paragraph-or-more
   excisions or minor excisions. Keep those categories distinct in front matter
   and audit comments.
+
+Declassification registry:
+
+When the wrapper can supply declassification or omission information, keep it in
+a structured registry. Published FRUS practice distinguishes omitted unrelated
+text, material not declassified, original brackets, editor-supplied bracketed
+insertions, and whole-document withholdings. The checker must not infer any of
+these categories from bracket shape alone.
+
+```json
+{
+  "declassification_registry_id": "frus-declassification-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d21",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d172"
+  ],
+  "items": [
+    {
+      "declassification_item_id": "declass-doc-0021-omit-001",
+      "unit_id": "document-body-0021",
+      "claim_type": "not_declassified",
+      "quantity": "1 paragraph (10 lines)",
+      "location_hint": "after safeguards paragraph",
+      "text_form": "[1 paragraph (10 lines) not declassified]",
+      "review_status": "final",
+      "evidence_basis": "published FRUS text or supplied declassification review",
+      "requires_italic": true
+    },
+    {
+      "declassification_item_id": "declass-doc-0172-whole-001",
+      "unit_id": "withheld-document-0172-tab-2",
+      "claim_type": "whole_document_not_declassified",
+      "quantity": "6 pages",
+      "location_hint": "Tab 2 source note",
+      "text_form": "[Source: ... 6 pages not declassified.]",
+      "review_status": "final",
+      "evidence_basis": "published FRUS text or supplied declassification review",
+      "requires_italic": true
+    }
+  ]
+}
+```
+
+Allowed `claim_type` values:
+
+- `not_declassified`: a line, paragraph, page, or other span remains classified
+  after review.
+- `unrelated_omission`: text is omitted because it is outside the volume's
+  subject, not because it remains classified.
+- `whole_document_not_declassified`: the entire document is withheld after
+  declassification review and must be accounted for chronologically.
+- `original_bracket`: brackets are in the source document and should be
+  identified in a footnote or note.
+- `editorial_insertion`: bracketed words are supplied by the editor for clarity.
+- `release_status_note`: the note describes release, declassification,
+  sanitization, or review status rather than original classification marking.
+
+Allowed `review_status` values:
+
+- `final`: the declassification or omission status is supplied by published
+  FRUS text, final review, or authoritative wrapper context.
+- `provisional`: a clearance-stage or working-sheet assertion that still needs
+  review confirmation.
+- `unknown`: the uploaded context does not prove the claim.
+
+Declassification validator sequence:
+
+1. Identify every bracketed omission, whole-document withholding, original
+   bracket note, editorial insertion, release-status phrase, and front-matter
+   declassification statistic.
+2. Classify each item by `claim_type`. Do not treat all brackets as
+   declassification excisions.
+3. Require a quantity when FRUS form calls for one: lines, paragraphs, pages, or
+   page count for whole-document withholdings.
+4. Keep unrelated-topic omissions distinct from still-classified omissions.
+   They should not use the same comment, evidence request, or audit count.
+5. Check whether a whole-document withholding has a heading, source note,
+   chronological placement, and page count.
+6. Check whether original brackets are identified. Do not rewrite original
+   brackets as editor-supplied brackets or declassification brackets.
+7. Check whether front-matter counts agree with document-level omission counts
+   when both are supplied.
+8. If the output medium can preserve italic/roman distinction, verify the
+   required styling for still-classified versus unrelated omissions. If it
+   cannot, require a wrapper-safety or formatting comment rather than silently
+   flattening the distinction.
+9. Treat `declassified`, `released`, `sanitized`, and `mandatory review` as
+   release/review status, not original classification marking.
+
+Direct-edit posture:
+
+- Safe direct edits may fix literal bracket phrasing when the registry supplies
+  final status and the Word anchor is exact, such as normalizing
+  `[1 para not declassified]` to `[1 paragraph not declassified]` only when the
+  quantity and status are verified.
+- Use `comment_only` when the quantity, review outcome, unrelated-topic basis,
+  original-bracket status, styling, or whole-document page count is missing.
+- Use `evidence_request: declassification_status` for review outcome,
+  withholding, excision, agency-equity, or bracket claims.
+- Use `evidence_request: classification_marking` when the issue is the original
+  classification or handling marking on the source document.
+- Use `evidence_request: wrapper_safety` when the wrapper cannot preserve
+  italic/roman distinction, bracket boundaries, or tracked changes around
+  omitted text.
+
+Declassification audit requirements:
+
+- Count minor excisions, paragraph-or-more excisions, whole-document
+  withholdings, unrelated omissions, original-bracket notes, and release-status
+  warnings separately when the context supplies enough detail.
+- Record unresolved `unknown` or `provisional` review statuses as blockers for
+  exhaustive/final style when they affect publishable apparatus.
+- Preserve source URLs or local declassification-review provenance in the audit
+  report.
+- Add a General Editor discrepancy item when published or local examples vary on
+  bracket wording, quantity form, or how to identify original brackets, but do
+  not tally unresolved review outcomes as style questions.
 
 ### 6.7 Persons, Titles, Abbreviations, And Index Terms
 
@@ -2552,7 +2675,9 @@ For every extracted unit, run checks in this order:
    against the attachment registry when supplied.
 8. Check cross-references and follow-on citation form.
 9. Check annotation purpose and concision.
-10. Check declassification and omission language.
+10. Check declassification, omission, original-bracket, release-status, and
+    whole-document withholding language against the declassification registry
+    when supplied.
 11. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
 12. Route the unit through the relevant volume family when a 1981-1992
@@ -3112,6 +3237,7 @@ Context bundle: [bundle_id and capture date]
 Authority registry: [authority_registry_id and capture date]
 Source-family registry: [source_family_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
+Declassification registry: [declassification_registry_id and capture date]
 Status snapshot: [status_snapshot URL and captured_at date]
 Status registry stale: [yes/no/not supplied]
 Review mode: [light/normal/exhaustive]
@@ -3137,6 +3263,7 @@ Counts:
 - Authority registry conflicts or unmatched forms: [n]
 - Source-family unmatched or ambiguous matches: [n]
 - Attachment status unknown or conflicting: [n]
+- Declassification/omission unresolved or conflicting: [n]
 
 Major issues:
 - [unit_id]: [finding]
@@ -3158,6 +3285,9 @@ Source-family warnings:
 
 Attachment warnings:
 - [unit_id or global]: [attachment issue] - [physical/editorial status and target]
+
+Declassification warnings:
+- [unit_id or global]: [declassification issue] - [claim type, quantity, and review status]
 
 Style discrepancy tally:
 - [discrepancy_id]: [category] - [style_question] - count [n] - risk [level]
@@ -3192,6 +3322,10 @@ Minimum components:
 - Attachment-status validator that separates physical attachment status from
   editorial printing status and checks tab, enclosure, annex, appendix, and
   facsimile cross-references before tracked changes are applied.
+- Declassification and omission validator that distinguishes still-classified
+  excisions, unrelated omissions, original brackets, editor insertions,
+  release-status notes, and whole-document withholdings before tracked changes
+  are applied.
 - Status-registry validator that preserves production stage, release bucket,
   capture date, official URL, and cross-referenced volume targets before the
   LLM review begins.
@@ -3210,6 +3344,9 @@ Operational cautions:
   direct source-family edits, and source-family discrepancy questions.
 - Record attachment-registry version, unknown statuses, missing printed targets,
   bidirectional appendix/facsimile failures, and any waived attachment claims.
+- Record declassification-registry version, provisional or unknown review
+  statuses, omitted-text quantities, whole-document withholdings, original
+  bracket notes, and unresolved release-status warnings.
 - Record status-registry freshness and every publication-status conflict,
   especially `scheduled for publication` or `printed in` language.
 - Record the selected review mode and whether duplicate findings were merged.
