@@ -62,6 +62,11 @@ The wrapper should provide the LLM with:
   (`published`, `anticipated`, `being_cleared`, `being_researched`, or
   `planned`), target volume title, known chapter status, and any official
   status-page link.
+- `annotation_sheet_context`, if available: whether the uploaded file is a
+  research sheet, chapter annotation sheet, clearance pass, final style pass,
+  source-list draft, Persons/abbreviations draft, or mixed editorial packet;
+  whether source images or scans are available to the wrapper; and whether the
+  user wants a light, normal, or exhaustive redline.
 
 Each extracted unit should have a stable `unit_id`.
 
@@ -1070,6 +1075,130 @@ Topic permutations implied by the current 1981-1992 pipeline:
   State economic bureau, NSC, World Bank/IMF, public report, summit, and
   industrialized-country cooperation records; keep public/printed sources and
   archival control copies distinct.
+
+### 6.14 Annotation-Sheet Redline Playbook
+
+The checker's hardest job is not knowing one ideal note form. It is deciding
+whether a messy annotation-sheet unit is a publishable note, a compiler working
+note, a source lead, an authority-list entry, or transcribed document text. Run
+this playbook before proposing track changes.
+
+Unit triage:
+
+- `publication_apparatus`: source notes, follow-on footnotes, editorial notes,
+  document headings, supplied titles, bracketed omission notes, attachment
+  notes, source-list entries, Persons entries, abbreviations, and index entries.
+  These may be directly edited when the replacement is exact and evidence-based.
+- `compiler_working_note`: scan requests, candidate labels, search terms,
+  source leads, archive-call notes, unresolved questions, internal reviewer
+  comments, and placeholders. These should usually receive comments or
+  conversion into a verification task, not silent deletion.
+- `transcribed_document_text`: document body, telegram text, memorandum text,
+  original footnotes, original brackets, handwritten-note transcription, and
+  attachment text. Do not edit directly unless the user requested transcription
+  review or the unit is explicitly editorial.
+- `authority_material`: source list, abbreviations, Persons, tags, and index
+  material. Check for consistency and date-bounded accuracy rather than trying
+  to make every entry stylistically identical.
+- `mixed_unit`: paragraphs that combine source note, annotation, and compiler
+  questions. Split the recommendation logically: use direct edits only for
+  publishable phrases, and use comments for unresolved evidence.
+
+Redline priority order:
+
+1. Prevent false facts: guessed classifications, invented document numbers,
+   inferred attachments, unsupported "read by" claims, unstable
+   declassification outcomes, and public/private source confusion.
+2. Restore FRUS function: source note, follow-on footnote, editorial note,
+   source-list entry, authority-list entry, or working note.
+3. Preserve source ecology: do not flatten Presidential Library, State lot
+   file, CFPF, STARS, PROFS, W Files, System IV, private-paper, public-source,
+   foreign-government, or agency-record forms into one house template.
+4. Tighten form: order source notes from repository to control-copy evidence;
+   use concise document-number cross-references; keep not-found and attachment
+   language literal.
+5. Improve style only after evidence and function are right.
+
+Track-change behavior:
+
+- Prefer the smallest exact replacement that fixes the defect.
+- Use `comment_only` when the right answer requires looking at a scan, source
+  image, box/folder, original classification marking, declassification history,
+  neighboring chapter, or unpublished volume manuscript.
+- Do not rewrite a long source note merely because one clause is awkward. Edit
+  the clause and comment on any larger uncertainty.
+- If the uploaded Word file already has tracked changes, comment on conflicting
+  edits rather than layering contradictory replacements.
+- If a note is excellent but non-template, return `no_change` or an info comment
+  explaining that the variation is supported by published FRUS practice.
+
+No-change signals:
+
+- Editorial note without a `Source:` footnote, when it supplies citations and
+  chronology.
+- Public or printed source used as the selected document in a foundations,
+  public diplomacy, congressional, treaty, or speech-centered context.
+- Short follow-on note such as `See Document [n].`, `Not found.`, or `Attached
+  but not printed is [description].`
+- Source note that preserves unusual but real source families such as PROFS, W
+  Files, System IV Intelligence Files, STARS, NSC Washington institutional
+  files, Bush Vice Presidential Records, Shultz/Hoover copies, private papers,
+  or foreign/international organization records.
+- Physical evidence stated modestly: stamped notation, initials, unknown hand,
+  marginal line, underlining, checkmark, read-by notation, or top-right-corner
+  annotation.
+
+Major-issue signals:
+
+- URL-only, scan-only, or discovery-platform-only source note when a control
+  copy path is available.
+- Classification/status confusion: `declassified`, `released`, `sanitized`, or
+  `mandatory review` used as if it were the original classification marking.
+- Working labels left in publication apparatus: `candidate`, `possible`,
+  `needs image`, `verify`, `TK`, `TBD`, `ask editor`, or `not checked`.
+- Attachment claims that infer from context rather than the source note:
+  attached, not attached, printed elsewhere, not found attached, tabbed, or
+  included in an appendix.
+- Cross-reference drift: page references where document numbers exist, obsolete
+  document numbers, missing volume title in scheduled-publication notes, or
+  conversion of `scheduled for publication` to `printed` without proof.
+- Authority drift: person office/title wrong for the document date; mixed name
+  forms; abbreviation expanded inside transcribed text; index/page references
+  used where document references are expected.
+
+Permutation matrix for annotation sheets:
+
+- Source note with full archival path: check repository, collection, series,
+  file unit, box/folder/OA/ID/lot/identifier, classification/handling, document
+  form, drafting/clearance/routing, attachments, read-by/marginalia, and
+  cross-reference.
+- Source note from public/printed source: check edition, publication date,
+  page/range, issuing office, delivery or release facts, and whether archival
+  draft/control-copy context is available.
+- Telegram source note: check CFPF or other source family, telegram number,
+  origin/addressee, date/time group, classification/precedence, drafter and
+  approval when present, and related telegram citations.
+- Memcon/telcon/minutes note: check meeting/call location, date/time, source
+  type, participants only when supported, Diary/schedule corroboration, and
+  whether a full record is scheduled elsewhere.
+- Directive or decision package: check parent memo, directive, annex, tabs,
+  distribution list, paragraph markings, cover memorandum, approval/signed
+  status, and whether each printed component needs separate annotation.
+- Attachment/tab note: check `Attached but not printed`, `Printed as Document
+  [n]`, `Tabs [letters] are printed as Document [n]`, `Not found attached`, and
+  `Attached but not printed is the list of participants` as different claims.
+- Editorial note: check documentary chronology, source citations inside the
+  note, relation to omitted/unprinted documents, same-volume and cross-volume
+  references, and absence of unsupported interpretation.
+- Declassification/omission note: check bracket form, quantity, original versus
+  editorial brackets, whole-document withholding, paragraph-or-more excision,
+  minor excision, and unrelated-topic omission.
+- Handwritten or appendix material: check transcription status, uncertain
+  readings, preservation of fragments, appendix image reference, and reverse
+  appendix-to-document reference.
+- Persons/abbreviations/source-list/index material: check authority form,
+  date-bounded office, acronym definition, repository hierarchy, document-number
+  references, and consistency across the uploaded packet.
 
 ## 7. Direct-Edit Rules
 
