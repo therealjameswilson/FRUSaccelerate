@@ -13,6 +13,12 @@ Transfer the files listed in
 Minimum runtime requirement: Node.js that can run ECMAScript modules. The
 scripts have no external package dependencies.
 
+Verify the package before transfer and again after installation:
+
+```sh
+node scripts/verify-frus-offline-bundle.mjs --format text
+```
+
 ## Workflow
 
 1. Load `reports/frus-annotation-checker.md` as the full standard, or
@@ -64,9 +70,18 @@ node scripts/build-frus-discrepancy-ledger.mjs --output output.json --existing p
 
 ## Smoke Tests
 
-Run these after installing the bundle:
+Run the whole-bundle verifier first:
 
 ```sh
+node scripts/verify-frus-offline-bundle.mjs --format text
+```
+
+The verifier checks the manifest, required files, sample files, JSON fixtures,
+and every manifest smoke test. When diagnosing a failure, run the component
+tests directly:
+
+```sh
+node scripts/verify-frus-offline-bundle.mjs --skip-smoke --format text
 node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json
 node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-direct-edit-sample-output.json
 node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json

@@ -28,7 +28,9 @@ For General Editor style governance, run
 `node scripts/build-frus-discrepancy-ledger.mjs --output reports/frus-annotation-checker-sample-output.json --run-id sample-fixture`.
 For closed-network handoff, transfer the files listed in
 `reports/frus-annotation-checker-offline-bundle-manifest.json` and follow
-`reports/frus-annotation-checker-offline-runbook.md`.
+`reports/frus-annotation-checker-offline-runbook.md`. Verify the transferred
+package with `scripts/verify-frus-offline-bundle.mjs`; the expected sample
+verification report is `reports/frus-offline-bundle-verification.sample.json`.
 
 ## 1. System Role
 

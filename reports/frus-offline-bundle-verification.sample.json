@@ -1,0 +1,25 @@
+{
+  "schema_version": "frus-offline-bundle-verification-v1",
+  "manifest": "reports/frus-annotation-checker-offline-bundle-manifest.json",
+  "bundle_schema_version": "frus-annotation-checker-offline-bundle-v1",
+  "required_files": {
+    "count": 13,
+    "missing": []
+  },
+  "sample_files": {
+    "count": 13,
+    "missing": []
+  },
+  "json_files": {
+    "checked": 15,
+    "invalid": []
+  },
+  "smoke_tests": {
+    "count": 9,
+    "skipped": false,
+    "passed": 9,
+    "failed": []
+  },
+  "status": "pass",
+  "problems": []
+}

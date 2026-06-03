@@ -45,7 +45,9 @@ For General Editor style governance, use
 is `reports/frus-discrepancy-ledger.sample.json`.
 For closed-network handoff, use
 `reports/frus-annotation-checker-offline-bundle-manifest.json` and
-`reports/frus-annotation-checker-offline-runbook.md`.
+`reports/frus-annotation-checker-offline-runbook.md`. Before transfer and after
+installation, run `scripts/verify-frus-offline-bundle.mjs`; the expected sample
+verification report is `reports/frus-offline-bundle-verification.sample.json`.
 
 The intended workflow is:
 

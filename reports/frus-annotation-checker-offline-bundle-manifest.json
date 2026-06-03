@@ -16,6 +16,14 @@
       "role": "Strict checker-output-v1 schema"
     },
     {
+      "path": "reports/frus-annotation-checker-offline-bundle-manifest.json",
+      "role": "Self-auditing closed-network bundle manifest"
+    },
+    {
+      "path": "reports/frus-annotation-checker-offline-runbook.md",
+      "role": "Closed-network installation and operating runbook"
+    },
+    {
       "path": "scripts/validate-frus-checker-output.mjs",
       "role": "No-dependency checker output validator"
     },
@@ -42,6 +50,10 @@
     {
       "path": "scripts/build-frus-discrepancy-ledger.mjs",
       "role": "General Editor discrepancy-ledger builder"
+    },
+    {
+      "path": "scripts/verify-frus-offline-bundle.mjs",
+      "role": "Whole-bundle verifier for closed-network handoff"
     }
   ],
   "sample_files": [
@@ -56,9 +68,11 @@
     "reports/frus-evidence-queue.sample.json",
     "reports/frus-discrepancy-ledger.sample.json",
     "reports/frus-discrepancy-ledger-second-output.sample.json",
-    "reports/frus-discrepancy-ledger-merged.sample.json"
+    "reports/frus-discrepancy-ledger-merged.sample.json",
+    "reports/frus-offline-bundle-verification.sample.json"
   ],
   "smoke_tests": [
+    "node scripts/verify-frus-offline-bundle.mjs --skip-smoke --format text",
     "node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json",
     "node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-direct-edit-sample-output.json",
     "node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json",
@@ -72,6 +86,7 @@
     "Change a direct-edit original_text so it is missing from exact_text; preflight-frus-checker-plan.mjs must fail.",
     "Change a status claim to direct-edit `printed in` for a target still being cleared; preflight-frus-status-claims.mjs must fail.",
     "Add an unmapped angle token such as <foo> to extracted text; preflight-frus-pseudo-markers.mjs must fail.",
-    "Remove the checks array from checker-output-v1; validate-frus-checker-output.mjs and build-frus-evidence-queue.mjs must fail."
+    "Remove the checks array from checker-output-v1; validate-frus-checker-output.mjs and build-frus-evidence-queue.mjs must fail.",
+    "Remove any required file listed in the manifest; verify-frus-offline-bundle.mjs must fail."
   ]
 }
