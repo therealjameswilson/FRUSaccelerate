@@ -118,6 +118,12 @@ The wrapper should provide the LLM with:
   development-bank, IMF, World Bank, GATT, UNCTAD, OECD, summit, table,
   percentage, dollar amount, fiscal-year, appropriation, loan, guarantee,
   quota, conditionality, and financial-instrument metadata.
+- `sensitive_record_context`, if available: structured intelligence,
+  covert-action, law-enforcement, counternarcotics, counterterrorism,
+  agency-equity, source-and-methods, operational, oversight,
+  foreign-service-contact, redaction/sanitization, original
+  classification/handling, public-policy-only, source-family, and
+  verification-status metadata.
 - `cross_reference_registry_context`, if available: structured same-volume,
   cross-volume, footnote, appendix, tab, attachment, printed-elsewhere,
   scheduled-publication, and public-source references with target status,
@@ -190,14 +196,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | congressional_legal_authority | economic_financial_data | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | treaty_component | legal_authority | financial_data | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | treaty_component | legal_authority | financial_data | agency_equity | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -210,7 +216,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | congressional_legal_authority | economic_financial_data | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -339,6 +345,7 @@ run the semantic and Word-safety validators below.
               "treaty_legal_instrument",
               "congressional_legal_authority",
               "economic_financial_data",
+              "intelligence_law_enforcement",
               "declassification",
               "authority_control",
               "chronology",
@@ -388,6 +395,7 @@ run the semantic and Word-safety validators below.
               "treaty_component",
               "legal_authority",
               "financial_data",
+              "agency_equity",
               "publication_status",
               "authority_control",
               "declassification_status",
@@ -466,6 +474,7 @@ run the semantic and Word-safety validators below.
               "treaty_legal_instrument",
               "congressional_legal_authority",
               "economic_financial_data",
+              "intelligence_law_enforcement",
               "declassification",
               "authority_control",
               "chronology",
@@ -559,9 +568,9 @@ Semantic validator behavior:
   `declassification`, `attachment`, `document_metadata`,
   `classification_handling`, `translation_foreign_origin`,
   `treaty_legal_instrument`, `congressional_legal_authority`,
-  `economic_financial_data`, `chronology`, `summit_public_event`,
-  `communications_record`, or `authority_control` when the required proof is
-  absent from the uploaded unit or wrapper context.
+  `economic_financial_data`, `intelligence_law_enforcement`, `chronology`,
+  `summit_public_event`, `communications_record`, or `authority_control` when
+  the required proof is absent from the uploaded unit or wrapper context.
 - Downgrade to `comment_only` when a finding passes the JSON schema but fails a
   Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
@@ -2896,6 +2905,219 @@ Economic/financial audit requirements:
   institution-identity, policy-stage, public-source, legal-authority, and
   attachment-status warnings.
 
+### 6.8D Intelligence, Covert-Action, Law-Enforcement, Counternarcotics, Counterterrorism, And Agency-Equity Records
+
+Sensitive-record annotation is a high-risk zone for a closed-network LLM.
+Reagan and Bush volumes show that intelligence, covert-action, law-enforcement,
+counternarcotics, counterterrorism, and agency-equity references can appear as
+source families, participant lists, declassification review facts, public policy
+mentions, oversight context, technical verification issues, or operational
+claims. The checker must separate those roles before it proposes any tracked
+change.
+
+Use a sensitive-record registry when the wrapper can supply one:
+
+```json
+{
+  "sensitive_record_registry_id": "frus-1981-1992-intelligence-law-enforcement-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d172",
+    "https://history.state.gov/historicaldocuments/frus1981-88v10/d46",
+    "https://history.state.gov/historicaldocuments/frus1981-88v10/d56",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d294",
+    "https://history.state.gov/historicaldocuments/status-of-the-series"
+  ],
+  "records": [
+    {
+      "sensitive_item_id": "sensitive-source-ecology-reagan-nsp",
+      "unit_id": "about-the-series-reagan-xliv-p1",
+      "record_type": "agency_equity_note",
+      "agency_or_equity": "NSC; CIA; DOD; JCS; Reagan Library restricted records",
+      "source_family": "FRUS about-the-series source ecology and declassification statement",
+      "classification_or_handling": "published front-matter statement; not an original document marking",
+      "sensitive_claim": "National-security volumes may draw on agency records and declassified extracts from still-classified documents",
+      "operational_detail_status": "source_ecology_only",
+      "oversight_or_public_basis": "official FRUS front matter",
+      "redaction_or_release_status": "declassified published material; some underlying files may remain unavailable in full",
+      "verification_status": "verified"
+    },
+    {
+      "sensitive_item_id": "sensitive-start-data-denial-0172",
+      "unit_id": "document-0172",
+      "record_type": "military_intelligence_record",
+      "agency_or_equity": "DOD; IC; CIA; JCS; SSCI",
+      "source_family": "George H.W. Bush Library, Bush Presidential Records, NSC, John A. Gordon Files",
+      "classification_or_handling": "Secret; attached CIA paper with handling restriction not declassified; JCS paper Secret; Noforn",
+      "sensitive_claim": "START data-denial, telemetry, Intelligence Community, DOD, CIA, JCS, and congressional intelligence committee equities",
+      "operational_detail_status": "operational_detail_redacted",
+      "oversight_or_public_basis": "SSCI and Senate Foreign Relations Committee ratification standard referenced in published text",
+      "redaction_or_release_status": "published with multiple not-declassified passages and one 6-page CIA paper not declassified",
+      "verification_status": "verified"
+    },
+    {
+      "sensitive_item_id": "sensitive-polish-covert-action-0046",
+      "unit_id": "document-0046",
+      "record_type": "covert_action_source_note",
+      "agency_or_equity": "CIA; NSPG; Reagan; Webster",
+      "source_family": "Reagan Library, System IV Intelligence Files",
+      "classification_or_handling": "Top Secret; handling restriction not declassified",
+      "sensitive_claim": "covert-action funding authority and program expansion",
+      "operational_detail_status": "operational_detail_supported",
+      "oversight_or_public_basis": "Presidential findings and NSPG review basis in published document",
+      "redaction_or_release_status": "published with not-declassified footnote and not-declassified passages",
+      "verification_status": "verified"
+    },
+    {
+      "sensitive_item_id": "sensitive-covert-action-program-0056",
+      "unit_id": "document-0056",
+      "record_type": "covert_action_source_note",
+      "agency_or_equity": "CIA; Congress; NSDD 286 oversight context",
+      "source_family": "Reagan Library, System IV Intelligence Files",
+      "classification_or_handling": "Top Secret; handling restriction not declassified",
+      "sensitive_claim": "covert support, media distribution, congressional briefing requirements, and not-declassified program details",
+      "operational_detail_status": "operational_detail_redacted",
+      "oversight_or_public_basis": "published text references congressional briefing requirements under NSDD 286",
+      "redaction_or_release_status": "published with not-declassified lines, paragraphs, and footnote",
+      "verification_status": "verified"
+    },
+    {
+      "sensitive_item_id": "sensitive-andean-narcotics-terrorism-0294",
+      "unit_id": "document-0294",
+      "record_type": "counternarcotics_counterterrorism_policy_mention",
+      "agency_or_equity": "NSC; regional ambassadors; no DEA, FBI, or operational agency proof in the cited passage",
+      "source_family": "Reagan Library, African Affairs Directorate, NSC Records, Subject File",
+      "classification_or_handling": "Secret",
+      "sensitive_claim": "Andean Summit planning on narcotics and terrorism as a policy initiative",
+      "operational_detail_status": "policy_context_only",
+      "oversight_or_public_basis": "published FRUS document text",
+      "redaction_or_release_status": "published",
+      "verification_status": "verified"
+    }
+  ]
+}
+```
+
+Allowed `record_type` values:
+
+- `intelligence_requirements`
+- `intelligence_assessment`
+- `sanitized_intelligence_assessment`
+- `covert_action_editorial_note`
+- `covert_action_source_note`
+- `law_enforcement_record`
+- `counternarcotics_counterterrorism_policy_mention`
+- `counternarcotics_interagency_meeting`
+- `counterterrorism_law_enforcement_contact`
+- `agency_equity_note`
+- `oversight_briefing`
+- `operational_claim`
+- `source_and_methods`
+- `military_intelligence_record`
+- `foreign_intelligence_or_security_service_contact`
+- `unknown`
+
+Allowed `operational_detail_status` values:
+
+- `source_ecology_only`
+- `policy_context_only`
+- `policy_requirements_not_operations`
+- `public_editorial_summary_only`
+- `do_not_infer_operations`
+- `operational_detail_supported`
+- `operational_detail_redacted`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified`
+- `needs_source_image`
+- `needs_agency_identity`
+- `needs_classification_marking`
+- `needs_redaction_basis`
+- `needs_oversight_basis`
+- `needs_operational_basis`
+- `needs_law_enforcement_basis`
+- `needs_foreign_service_basis`
+- `unknown`
+
+Sensitive-record validator sequence:
+
+1. Identify every source note, editorial note, heading, participant list,
+   follow-on footnote, source-list entry, or annotation that names intelligence,
+   CIA, DCI, DOD, DIA, JCS, FBI, DEA, Justice, law enforcement,
+   counternarcotics, counterterrorism, covert action, source-and-methods,
+   special activities, oversight committees, foreign intelligence or security
+   services, sanitized/reviewed records, not-declassified text, or operational
+   details.
+2. Match the unit against `sensitive_record_context` before directly changing
+   agency names, source-family language, operational wording, law-enforcement
+   status, classification/handling, release/sanitization language, or oversight
+   claims.
+3. Separate source family from agency equity. A CIA, DOD, JCS, DEA, FBI, or
+   Justice file path can prove source ecology without proving the content of a
+   specific operation.
+4. Separate original classification or handling from later release,
+   sanitization, excision, whole-document withholding, and still-classified
+   source availability.
+5. Separate policy analysis from operations. A topical reference to narcotics,
+   terrorism, intelligence, covert action, or law enforcement is not proof of a
+   DEA, FBI, CIA, or foreign-service operation.
+6. For covert action, verify whether the note concerns a Presidential finding,
+   memorandum of notification, NSPG review, CIA paper, budget/funding issue,
+   congressional notification/briefing, operational detail, or later editorial
+   summary.
+7. For law-enforcement, counternarcotics, and counterterrorism material, verify
+   the agency identity, record type, source family, public/archival basis, and
+   whether the passage is policy, diplomacy, investigation, intelligence,
+   prosecution, or operational activity.
+8. Do not add source-and-methods, operational, law-enforcement, or foreign
+   intelligence service details from volume family, subject tags, public
+   allegations, press accounts, memoirs, or neighboring documents alone.
+9. Coordinate with classification/declassification rules for original markings,
+   handling restrictions, paragraph markings, not-declassified quantities,
+   sanitized records, and release-status language.
+10. Coordinate with congressional/legal rules when intelligence committees,
+    oversight bodies, statutory authorities, Presidential findings,
+    notifications, NSDDs, or Senate ratification standards supply the basis.
+
+Direct-edit posture:
+
+- Safe direct edits may restore supplied agency acronym punctuation, exact
+  source-family labels, or narrow capitalization when the uploaded unit or
+  registry supplies exact evidence.
+- Use `comment_only` with `evidence_request: agency_equity` when agency
+  identity, operational basis, source-and-methods status, law-enforcement
+  context, oversight basis, redaction/sanitization basis, foreign-service
+  contact, or source-family/agency-equity distinction is missing, conflicting,
+  or inferred.
+- Use `evidence_request: classification_marking` when the blocker is the
+  original classification, handling restriction, precedence, or paragraph
+  marking.
+- Use `evidence_request: declassification_status` when the blocker is release,
+  withholding, excision, bracket, sanitization, or still-classified availability.
+- Add an `intelligence_law_enforcement` discrepancy to the General Editor tally
+  when published or local examples vary on how much agency, source-and-methods,
+  oversight, operational, sanitized-record, or public-policy detail to print,
+  and the underlying facts are sound.
+
+Sensitive-record audit requirements:
+
+- Count intelligence, covert-action, law-enforcement, counternarcotics,
+  counterterrorism, source-and-methods, agency-equity, operational, oversight,
+  and sanitized-record warnings separately from classification and
+  declassification warnings.
+- Preserve registry id, capture date, source URLs, record type, agency or
+  equity, source family, classification/handling, sensitive claim, operational
+  detail status, oversight/public basis, redaction/release status, and
+  verification status in the audit report.
+- Record unresolved agency identity, operational-basis, source-and-methods,
+  law-enforcement-status, foreign-service-contact, oversight-basis,
+  redaction/sanitization, classification/handling, and public-versus-archival
+  basis warnings.
+
 ### 6.9 Interagency And Foreign-Government Records
 
 Rules:
@@ -3863,6 +4085,12 @@ Permutation matrix for annotation sheets:
   conditionality, debt rescheduling, table row/column labels, source basis,
   attachment status, and whether a proposal, meeting decision, legal authority,
   or actual payment is being described.
+- Intelligence, covert-action, law-enforcement, counternarcotics,
+  counterterrorism, or agency-equity package: check agency identity, source
+  family, original classification/handling, release or sanitization status,
+  operational claim basis, source-and-methods risk, oversight or committee
+  basis, foreign-service contact status, and whether the note is public/policy
+  context, an editorial summary, or a classified/source record.
 - Attachment/tab note: check `Attached but not printed`, `Printed as Document
   [n]`, `Tabs [letters] are printed as Document [n]`, `Not found attached`, and
   `Attached but not printed is the list of participants` as different claims.
@@ -4004,6 +4232,7 @@ Evidence-request categories:
 | `treaty_component` | Treaty, protocol, annex, memorandum of understanding, executive agreement, letter, declaration, statement, transmittal, ratification, entry-into-force, or associated-document status is uncertain. | Which treaty component, legal status, public source, archival source, or integral-versus-associated relationship must be checked. |
 | `legal_authority` | Congressional, statutory, executive-order, Presidential Determination, certification, hearing, testimony, vote-stage, oversight, or Senate advice-and-consent authority is uncertain. | Which committee, hearing, Congress/session, public law, Stat. citation, section, vote stage, amount, condition, transmittal, determination/certification, Executive Order, or Senate basis must be checked. |
 | `financial_data` | Economic, trade, debt, assistance, budget, institutional, table, amount, percentage, fiscal-year, currency, loan, guarantee, quota, replenishment, conditionality, or policy-stage evidence is uncertain. | Which figure, unit, fiscal year, institution, program, table, source, attachment, legal basis, or policy stage must be checked. |
+| `agency_equity` | Intelligence, covert-action, law-enforcement, counternarcotics, counterterrorism, source-and-methods, operational, oversight, foreign-service, or agency-equity proof is uncertain. | Which agency identity, source family, law-enforcement context, operational basis, oversight basis, release/redaction basis, or foreign-service contact must be checked. |
 | `publication_status` | `printed in` versus `scheduled for publication` depends on current official status. | Which volume or chapter status must be confirmed. |
 | `authority_control` | Persons, titles, abbreviations, index terms, names, offices, or dates need authority-list review. | Which name, office, acronym, date span, or index term needs control. |
 | `declassification_status` | Release, withholding, excision, agency-equity, or bracket language is not final. | Which review outcome or bracket claim cannot yet be asserted. |
@@ -4069,6 +4298,7 @@ Default blocking rules:
 | `treaty_component` | yes for component identity, integral-versus-associated status, public/archival basis, legal-status, ratification, or entry-into-force edits | yes when the note identifies a treaty component, associated document, transmittal, ratification, or entry into force |
 | `legal_authority` | yes for congressional/legal authority, committee, hearing, public-law, statute, determination, certification, Executive Order, vote-stage, amount, condition, or Senate advice-and-consent edits | yes when congressional or legal authority appears in publishable apparatus |
 | `financial_data` | yes for amount, percentage, currency, fiscal-year, institution, program, table, debt/loan/guarantee, quota, conditionality, or policy-stage edits | yes when economic, trade, debt, foreign-assistance, or financial data appears in publishable apparatus |
+| `agency_equity` | yes for agency identity, sensitive source family, operational claim, source-and-methods, oversight, law-enforcement status, foreign-service contact, or sanitization edits | yes when intelligence, covert-action, law-enforcement, counternarcotics, counterterrorism, agency-equity, or operational claims appear in publishable apparatus |
 | `publication_status` | yes for `printed in` or `scheduled for publication` edits | yes for final style if publication language is present |
 | `authority_control` | yes when a date, identity, title, acronym, or index form is uncertain | yes for final style if repeated or reader-facing |
 | `declassification_status` | yes | yes |
@@ -4084,13 +4314,16 @@ Owner hints:
 - `compiler`: source images, archival path, document metadata, attachment
   status, document numbers, source family, chronology, treaty component
   identity, event sequence, congressional/legal proof, financial data,
-  translation status, and foreign-copy provenance.
+  agency-equity proof, sensitive-record source basis, translation status, and
+  foreign-copy provenance.
 - `editor`: wording, heading form, cross-reference form, source-list
   consistency, treaty/legal-instrument placement, public-event note form,
   congressional/legal citation form, economic/financial table and note form,
-  publication-status wording, and General Editor discrepancy preparation.
+  sensitive-record note form, publication-status wording, and General Editor
+  discrepancy preparation.
 - `declassification`: classification markings, declassification outcomes,
-  release-status separation, withholding, excision, and agency-equity language.
+  release-status separation, withholding, excision, source-and-methods,
+  sanitization, and agency-equity language.
 - `wrapper`: exact anchors, existing tracked changes, Word XML structures,
   tables, fields, comments, footnotes, and export integrity.
 - `general_editor`: recurring style discrepancies, house-form decisions, and
@@ -4394,12 +4627,16 @@ For every extracted unit, run checks in this order:
     World Bank, MDB, GATT, UNCTAD, OECD, table, amount, percentage, currency,
     fiscal-year, loan, guarantee, quota, replenishment, conditionality, and
     policy-stage evidence against the economic/financial registry when supplied.
-21. Check Persons, abbreviations, and index authority issues.
-22. Assign specific evidence requests and verification targets for unresolved
+21. Check intelligence, covert-action, law-enforcement, counternarcotics,
+    counterterrorism, agency-equity, source-and-methods, operational, oversight,
+    foreign-service-contact, sanitized-record, redaction, and public-policy
+    evidence against the sensitive-record registry when supplied.
+22. Check Persons, abbreviations, and index authority issues.
+23. Assign specific evidence requests and verification targets for unresolved
     proof.
-23. Decide direct edit versus comment-only.
-24. Return strict JSON.
-25. After schema and semantic validation, aggregate all unresolved evidence
+24. Decide direct edit versus comment-only.
+25. Return strict JSON.
+26. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -4426,7 +4663,7 @@ Stage and mode interaction:
   descriptions, and obvious source-note order, but keep provisional evidence
   visible.
 - `being_cleared` plus `normal` or `exhaustive`: focus on declassification,
-  attachment status, agency equities, cross-volume scheduling, and stable
+  attachment status, agency-equity proof, cross-volume scheduling, and stable
   document-number references.
 - `anticipated` plus `exhaustive`: treat the sheet as publication-near, but do
   not change `scheduled for publication` to `printed in` without current proof.
@@ -4468,8 +4705,11 @@ Duplicate-suppression rules:
   public law, statute, section, vote/action stage, determination, certification,
   Executive Order, oversight body, or Senate advice-and-consent target.
 - Merge repeated economic/financial issues by institution, program, table,
-  amount, percentage, fiscal year, currency, source basis, attachment status, or
-  policy stage.
+  amount, fiscal year, policy stage, legal basis, or attachment target.
+- Merge repeated intelligence/law-enforcement issues by agency or equity,
+  record type, source family, operation/event, source-and-methods basis,
+  law-enforcement status, redaction/sanitization basis, oversight target, or
+  foreign-service contact.
 - Merge repeated wrapper-safety issues by Word structure, such as tables,
   existing tracked changes, footnote references, fields, or comments.
 - Do not merge findings that require different evidence requests or different
@@ -4617,6 +4857,10 @@ Golden packet composition:
   budget, table, dollar amount, percentage, fiscal year, loan, guarantee,
   quota, replenishment, conditionality, or attached-but-not-printed financial
   material.
+- At least one intelligence, covert-action, law-enforcement, counternarcotics,
+  counterterrorism, or agency-equity example with CIA/System IV, DOD, JCS,
+  Intelligence Community, DEA/FBI/Justice if supplied, source-and-methods,
+  redaction/sanitization, oversight committee, or public-policy-only context.
 - At least one research-stage sheet with working labels, candidate notes, URL
   locators, or missing scan requests that should become comments rather than
   polished source-note prose.
@@ -4676,6 +4920,11 @@ Expected behavior by test family:
   amounts, percentages, currencies, fiscal years, table cells, program names,
   policy stage, and attachment status; comment rather than invent when the
   financial-data basis is missing.
+- Intelligence/law-enforcement test: preserve agency identity, source family,
+  original classification/handling, source-and-methods caution, oversight
+  basis, law-enforcement status, public-policy-only limits, and release or
+  sanitization status; comment rather than invent when agency-equity or
+  operational proof is missing.
 - Research-stage test: identify working labels and missing evidence, but avoid
   converting source leads into publication-ready assertions.
 - Clearance-stage test: protect declassification, attachment, agency-equity,
@@ -4745,6 +4994,10 @@ Use the discrepancy tally for:
   captions, program names, debt/loan/guarantee terminology, quota or
   replenishment language, and policy-stage explanation when the underlying facts
   are sound.
+- Variations in how much intelligence, covert-action, law-enforcement,
+  counternarcotics, counterterrorism, agency-equity, source-and-methods,
+  oversight, sanitized-record, redaction/release, foreign-service-contact, or
+  public-policy-only detail to print when the underlying facts are sound.
 - Variations in how much treaty component detail to print, where to place
   protocol, annex, memorandum-of-understanding, letter, declaration, statement,
   article-by-article analysis, transmittal, ratification, or entry-into-force
@@ -4789,6 +5042,10 @@ Tally behavior:
   not a hidden validator note and not a forced redline.
 - The wrapper should merge duplicate discrepancy items across the uploaded
   packet and, if configured, across prior runs of the same project.
+- The wrapper should append new discrepancy items to the running project tally
+  instead of overwriting prior General Editor questions. A later run may update
+  counts, examples, and risk, but it should preserve the question history until
+  the General Editor resolves or retires it.
 - The tally should preserve representative unit ids, short examples, source
   labels or URLs supplied in context, counts, and the exact question for the
   General Editor.
@@ -4808,6 +5065,7 @@ Suggested tally format:
 | style-discrepancy-0003 | summit_public_event | How much summit/travel/public-event chronology should be printed inside editorial notes versus follow-on footnotes. | Chronological narrative with Public Papers citations in note text; separate follow-on footnotes for public remarks and full-record targets | 2 | medium | Should the checker enforce a standard form for summit/event editorial notes, or preserve both forms and tally the variation? |
 | style-discrepancy-0004 | congressional_legal_authority | How much legal-authority detail should appear in notes when the law, hearing, or transmittal fact is sound. | Public Law and Stat. citation plus action stage; shorter public-law or committee reference with source citation elsewhere | 2 | medium | Should the checker enforce full legal-authority citation form, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0005 | economic_financial_data | How much economic/financial data detail should appear in notes when figures and source basis are sound. | Full institution acronym plus amount, fiscal year, and table/source basis; shorter policy-description form with figure citation elsewhere | 2 | medium | Should the checker enforce full financial-data citation form, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0006 | intelligence_law_enforcement | How much agency-equity, source-and-methods, oversight, redaction/sanitization, or public-policy-only detail should appear when the facts are sound. | Full agency/source-family and oversight basis in note; shorter sensitive-record phrasing with supporting detail in audit/comment context | 2 | high | Should the checker enforce a house form for sensitive-record detail, or tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -4866,6 +5124,11 @@ Required bundle files:
   percentage, currency, fiscal-year, loan, guarantee, quota, replenishment,
   conditionality, policy-stage, attachment-status, source-basis, and source-URL
   metadata.
+- `sensitive_record_map`, when available: intelligence, covert-action,
+  law-enforcement, counternarcotics, counterterrorism, agency-equity,
+  source-and-methods, operational, oversight, foreign-service-contact,
+  redaction/sanitization, original classification/handling, public-policy-only
+  status, source-family, verification-status, and source-URL metadata.
 - `authority_lists`, when available: Persons, abbreviations, source-list
   entries, index terms, known document numbers, chapter titles, and related
   volume cross-references.
@@ -5077,6 +5340,7 @@ Treaty/legal-instrument registry: [treaty_registry_id and capture date]
 Event chronology registry: [event_chronology_registry_id and capture date]
 Congressional/legal registry: [congressional_legal_registry_id and capture date]
 Economic/financial registry: [economic_financial_registry_id and capture date]
+Sensitive/intelligence-law-enforcement registry: [sensitive_record_registry_id and capture date]
 Source-family registry: [source_family_registry_id and capture date]
 Communications registry: [communications_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
@@ -5113,6 +5377,7 @@ Counts:
 - Summit, travel, ceremony, interview, press, testimony, or public-event chronology issues: [n]
 - Congressional testimony, hearing, public-law, statute, determination, certification, Executive Order, oversight, or Senate advice-and-consent issues: [n]
 - Economic, debt, trade, assistance, amount, fiscal-year, institution, table, or financial-data issues: [n]
+- Intelligence, law-enforcement, agency-equity, source-and-methods, operational, oversight, or sanitized-record issues: [n]
 - Source-family unmatched or ambiguous matches: [n]
 - Communications records unmatched or incomplete: [n]
 - Attachment status unknown or conflicting: [n]
@@ -5155,6 +5420,9 @@ Congressional/legal warnings:
 
 Economic/financial warnings:
 - [unit_id or global]: [financial-data issue] - [record type, institution, amount/percentage, fiscal year, table/attachment status, and source basis]
+
+Sensitive/intelligence-law-enforcement warnings:
+- [unit_id or global]: [sensitive-record issue] - [record type, agency/equity, source family, classification/handling, operational-detail status, oversight/public basis, redaction/release status, and verification target]
 
 Source-family warnings:
 - [unit_id or global]: [source-family issue] - [registry target or unmatched family]
@@ -5253,6 +5521,11 @@ Minimum components:
   tables, amounts, percentages, currencies, fiscal years, loans, guarantees,
   quotas, replenishments, conditionality, policy stages, and attached financial
   materials before tracked changes are applied.
+- Sensitive-record validator that distinguishes intelligence, covert action,
+  law enforcement, counternarcotics, counterterrorism, agency equity,
+  source-and-methods, operational claims, oversight basis, redaction or
+  sanitization, public-policy-only mentions, and foreign-service contacts before
+  tracked changes are applied.
 - Cross-reference registry validator that checks same-volume documents,
   footnotes, appendix items, tabs, attachments, public-source references,
   scheduled-publication targets, and cross-volume publication status before
@@ -5313,6 +5586,11 @@ Operational cautions:
   percentage, fiscal-year, institution, acronym, table, program, policy-stage,
   source-basis, legal-authority, attachment-status, debt/loan/guarantee, quota,
   replenishment, conditionality, and economic-financial discrepancy questions.
+- Record sensitive-record registry version, unresolved agency-equity,
+  source-and-methods, operational-basis, law-enforcement-status,
+  oversight-basis, redaction/sanitization, foreign-service-contact,
+  public-policy-only, original-classification/handling, and
+  intelligence-law-enforcement discrepancy questions.
 - Record cross-reference-registry version, unresolved target documents,
   footnotes, appendix references, scheduled-publication targets, stale status
   dependencies, and public-source references.
@@ -5324,7 +5602,8 @@ Operational cautions:
   changes.
 - Preserve evidence-request counts so reviewers can see whether a packet is
   blocked mainly by source images, archival paths, classification markings,
-  declassification outcomes, authority control, or Word-wrapper safety.
+  declassification outcomes, agency-equity proof, authority control, or
+  Word-wrapper safety.
 - Preserve the evidence-request queue so unresolved `blocked` requests cannot be
   mistaken for ordinary optional comments.
 - Do not allow the LLM to access the open internet on the closed network. Any
@@ -5357,6 +5636,10 @@ Needs revision:
 - Economic/financial data changes amount, unit, currency, fiscal year,
   institution, acronym, table cell, source basis, policy stage, or
   attachment-status without supplied proof.
+- Sensitive intelligence, covert-action, law-enforcement, counternarcotics,
+  counterterrorism, source-and-methods, operational, oversight, foreign-service,
+  redaction/sanitization, or agency-equity claims are asserted without supplied
+  source basis.
 - Persons, abbreviations, or index entries are inconsistent.
 
 Blocked:
@@ -5431,8 +5714,14 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v01`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/sources`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1`
+- `https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources`
+- `https://history.state.gov/historicaldocuments/frus1981-88v10/d46`
+- `https://history.state.gov/historicaldocuments/frus1981-88v10/d56`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d294`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/d172`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/sources`
 
 That guide distills patterns from published Reagan and Bush FRUS volumes on
@@ -5461,6 +5750,10 @@ Recent Reagan source incorporated:
 - [Private enterprise, trade, and assistance recommendations with dollar figures, Document 324](https://history.state.gov/historicaldocuments/frus1981-88v38/d324)
 - [Presidential Determination and Public Law note in Volume XXXVIII, Document 371](https://history.state.gov/historicaldocuments/frus1981-88v38/d371)
 - [FRUS, 1981-1988, Volume XLIV, Part 1, National Security Policy, 1985-1988](https://history.state.gov/historicaldocuments/frus1981-88v44p1)
+- [Volume XLIV, Part 1 about-the-series source and declassification statement](https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries)
+- [Covert-action memorandum of notification, Document 46](https://history.state.gov/historicaldocuments/frus1981-88v10/d46)
+- [CIA paper on Soviet/East European program, Document 56](https://history.state.gov/historicaldocuments/frus1981-88v10/d56)
+- [Andean narcotics and terrorism policy initiative, Document 294](https://history.state.gov/historicaldocuments/frus1981-88v01/d294)
 - [FRUS, 1981-1988, Volume I EPUB](https://static.history.state.gov/frus/frus1981-88v01/ebook/frus1981-88v01.epub)
 - [FRUS, 1981-1988, Volume IV EPUB](https://static.history.state.gov/frus/frus1981-88v04/ebook/frus1981-88v04.epub)
 - [FRUS, 1981-1988, Volume X EPUB](https://static.history.state.gov/frus/frus1981-88v10/ebook/frus1981-88v10.epub)
@@ -5477,6 +5770,8 @@ Recent Bush source incorporated:
 - [START I treaty text source note, Document 246](https://history.state.gov/historicaldocuments/frus1989-92v31/d246)
 - [START I Presidential transmittal and article-by-article analysis note, Document 247](https://history.state.gov/historicaldocuments/frus1989-92v31/d247)
 - [START I preface discussion of Senate ratification and Lisbon Protocol context](https://history.state.gov/historicaldocuments/frus1989-92v31/preface)
+- [START I about-the-series source and declassification statement](https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries)
+- [START data-denial, intelligence, DOD, CIA, JCS, and redaction example, Document 172](https://history.state.gov/historicaldocuments/frus1989-92v31/d172)
 - [FRUS, 1989-1992, Volume XXXI, START I, 1989-1991 EPUB](https://static.history.state.gov/frus/frus1989-92v31/ebook/frus1989-92v31.epub)
 
 Current status source incorporated:
