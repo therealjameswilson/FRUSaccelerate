@@ -1185,7 +1185,7 @@ const records = [
     summary:
       "Early public articulation of the administration's post-Cold War foreign-policy themes before the UN.",
     sourceNote:
-      "Source: Public Papers: Clinton, 1993, page citation to be supplied; also available at the archived White House website. Public speech; match against NSC Speechwriting drafts and clearance notes before promotion.",
+      "Source: Public Papers: Clinton, 1993, Book II, pp. 1612-1618. The President spoke at 11 a.m. in the General Assembly Hall.",
     risk: "Needs matching NSC speechwriting draft, clearance notes, or briefing papers."
   },
   {

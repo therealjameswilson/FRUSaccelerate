@@ -562,6 +562,11 @@ function dataList(value) {
   return Array.isArray(value) ? value : [];
 }
 
+function statementSourceNoteTarget(item) {
+  if (/UNGA 1993/i.test(item.identifier || "")) return "Source: Public Papers: Clinton, 1993, Book II, pp. 1612-1618. The President spoke at 11 a.m. in the General Assembly Hall.";
+  return `Source: ${item.sourceRepository}, ${item.title}, ${item.date}, ${item.identifier}.`;
+}
+
 function sourceNoteAuditRows() {
   const chronologyItems = dataList(typeof documentChronology === "undefined" ? [] : documentChronology);
   const recordItems = dataList(typeof records === "undefined" ? [] : records);
@@ -634,7 +639,7 @@ function sourceNoteAuditRows() {
       repository_or_source: item.sourceRepository,
       identifier: item.identifier,
       frus_use: item.note,
-      source_note_target: `Source: ${item.sourceRepository}, ${item.title}, ${item.date}, ${item.identifier}. Published public text; pair with drafting, clearance, policy, or diary records before final FRUS selection.`,
+      source_note_target: statementSourceNoteTarget(item),
       verification_needed: "Match public text to speechwriting drafts, clearance comments, policy memoranda, or diary/event controls.",
       next_pull: "Search NSC Speechwriting, Press/Communications, Public Papers, and relevant staff files.",
       url: item.url
@@ -1090,11 +1095,11 @@ function sourceNoteTemplateRows() {
       evidence_type: "Public speech, statement, or background briefing",
       use_when: "A public text explains doctrine but should not stand alone as internal decision evidence.",
       source_note_pattern:
-        "Source: [Public Papers, archived White House, Department release, or transcript repository], [speaker], [title/event], [place], [date]. Public text; paired draft, clearance, briefing, or policy file to be cited separately.",
-      required_fields: "Repository; speaker; title/event; place; date; publication citation or URL; paired internal record status.",
+        "Source: Public Papers: Clinton, [year], Book [I/II], pp. [page range]. [Event note from Public Papers, if supplied.]",
+      required_fields: "Public Papers year; book; page range; title/event; place; date; Public Papers event note; paired internal record status if used beyond public baseline.",
       do_not_promote_until: "Drafts, clearance comments, talking points, briefing books, or policy memoranda show why the public text belongs in Volume I.",
       paired_record_target: "Speechwriting draft, press guidance, briefing book, clearance note, policy memorandum, or Daily Diary event control.",
-      example_source: "Lake enlargement speech, UNGA addresses, State of the Union foreign-policy sections, background briefings, and rollout guidance."
+      example_source: "Source: Public Papers: Clinton, 1993, Book II, pp. 1612-1618. The President spoke at 11 a.m. in the General Assembly Hall."
     },
     {
       template_id: "clinton-library-item",
