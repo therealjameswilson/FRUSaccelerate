@@ -1,0 +1,50 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample extracted units for FRUS Annotation Checker wrapper preflight tests.",
+  "units": [
+    {
+      "unit_id": "source-note-0001",
+      "unit_type": "source_note",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "Document 1, footnote 1",
+      "exact_text": "Source: https://example.invalid/catalog-record. The document was attached to a memorandum for the record.",
+      "display_text": "Source: https://example.invalid/catalog-record. The document was attached to a memorandum for the record.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": [
+        "provisional_url_only_source_path"
+      ]
+    },
+    {
+      "unit_id": "editorial-note-0002",
+      "unit_type": "editorial_note",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Editorial Note after Document 2",
+      "exact_text": "Editorial Note. On January 20, the President met with the Secretary of State. A memorandum of conversation is printed as Document 3.",
+      "display_text": "Editorial Note. On January 20, the President met with the Secretary of State. A memorandum of conversation is printed as Document 3.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "source-note-0003",
+      "unit_type": "source_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "Document 3, footnote 1",
+      "exact_text": "Source: Reagan Library, Executive Secretariat, NSC Country File, Europe and Soviet Union, USSR, 1981. No classification.",
+      "display_text": "Source: Reagan Library, Executive Secretariat, NSC Country File, Europe and Soviet Union, USSR, 1981. No classification.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    }
+  ]
+}

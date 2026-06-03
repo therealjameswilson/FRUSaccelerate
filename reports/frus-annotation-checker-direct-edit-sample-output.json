@@ -1,0 +1,57 @@
+{
+  "schema_version": "checker-output-v1",
+  "document_assessment": {
+    "overall_status": "needs_revision",
+    "summary": "Sample direct-edit checker output for validating exact-anchor preflight before Word tracked-change application.",
+    "blocked_reason": ""
+  },
+  "batch_readiness": {
+    "readiness_status": "ready_for_tracked_changes",
+    "safe_to_apply_tracked_changes": true,
+    "readiness_summary": "The sample direct edit has one exact anchor in an editable source-note unit and no unresolved evidence request.",
+    "gates": [
+      {
+        "gate_id": "extraction_unitization",
+        "gate_status": "pass",
+        "finding": "The target source note is a discrete extracted unit.",
+        "required_action": ""
+      },
+      {
+        "gate_id": "word_anchoring",
+        "gate_status": "pass",
+        "finding": "The original text appears exactly once in the target unit.",
+        "required_action": ""
+      },
+      {
+        "gate_id": "evidence_basis",
+        "gate_status": "pass",
+        "finding": "The correction concerns a formulaic classification-status phrase and requires no new archival fact.",
+        "required_action": ""
+      },
+      {
+        "gate_id": "wrapper_output",
+        "gate_status": "pass",
+        "finding": "The unit has no existing revisions or blocked Word boundaries in the fixture.",
+        "required_action": ""
+      }
+    ]
+  },
+  "checks": [
+    {
+      "unit_id": "source-note-0003",
+      "rule_id": "FAS-CLS-002",
+      "severity": "minor",
+      "category": "classification_handling",
+      "finding": "The source note uses the less precise phrase `No classification.` where FRUS form should identify the absence of a classification marking.",
+      "standard": "When the original document bears no classification marking, the source note should distinguish that absence from declassification status or handling restrictions.",
+      "recommended_action": "replace_text",
+      "original_text": "No classification.",
+      "replacement_text": "No classification marking.",
+      "comment_text": "",
+      "evidence_request": "none",
+      "verification_target": ""
+    }
+  ],
+  "global_comments": [],
+  "style_discrepancy_tally": []
+}

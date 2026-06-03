@@ -19,6 +19,10 @@ any tracked changes.
 For no-dependency closed-network smoke tests, use
 `scripts/validate-frus-checker-output.mjs` against
 `reports/frus-annotation-checker-sample-output.json`.
+For exact-anchor and Word-safety preflight, use
+`scripts/preflight-frus-checker-plan.mjs` with
+`reports/frus-annotation-checker-extracted-units.sample.json` and
+`reports/frus-annotation-checker-direct-edit-sample-output.json`.
 
 The intended workflow is:
 
@@ -998,18 +1002,21 @@ The closed-network application must perform these functions outside the LLM:
    locations.
 3. Send only editorial apparatus and necessary surrounding context to the LLM.
 4. Validate the LLM JSON against the required schema.
-5. Reject any edit whose `original_text` is not found exactly in the target
+5. Run exact-anchor preflight against the extracted-unit map. Reject any edit
+   whose unit is not editable, whose Word boundaries are unsafe, or whose
+   `original_text` is not found exactly once in the target unit.
+6. Reject any edit whose `original_text` is not found exactly in the target
    unit.
-6. Apply accepted edits as Word tracked changes:
+7. Apply accepted edits as Word tracked changes:
    - deleted text becomes Word deletion markup;
    - inserted or replacement text becomes Word insertion markup;
    - comments become Word comments authored by `FRUS Annotation Checker`;
    - original document text remains untouched unless explicitly targeted.
-7. Preserve existing tracked changes unless the user chooses to accept or reject
+8. Preserve existing tracked changes unless the user chooses to accept or reject
    them before running the checker.
-8. Export a new `.docx` with a filename such as:
+9. Export a new `.docx` with a filename such as:
    `original_filename.frus-annotation-check.docx`.
-9. Generate an optional audit report listing every edit, rejected edit, and
+10. Generate an optional audit report listing every edit, rejected edit, and
    comment.
 
 The wrapper, not the LLM, is responsible for the track-change layer. In `.docx`
@@ -11472,6 +11479,7 @@ Counts:
 - Info comments: [n]
 - Direct tracked edits applied: [n]
 - Comments inserted: [n]
+- Anchor preflight accepted/rejected direct edits: [accepted n; rejected n]
 - LLM edits rejected by validator: [n]
 - Spellcheck rule ids triggered: [FAS-SN-001 n; FAS-CLS-001 n; FAS-WRAP-001 n; etc.]
 - Findings using fallback `FAS-GEN-000`: [n]
@@ -11754,6 +11762,10 @@ Minimum components:
 - No-dependency output validator and sample:
   `scripts/validate-frus-checker-output.mjs` and
   `reports/frus-annotation-checker-sample-output.json`.
+- No-dependency exact-anchor preflight validator and direct-edit fixture:
+  `scripts/preflight-frus-checker-plan.mjs`,
+  `reports/frus-annotation-checker-extracted-units.sample.json`, and
+  `reports/frus-annotation-checker-direct-edit-sample-output.json`.
 - Spellcheck rule-id validator that rejects unknown `rule_id` values, counts
   findings by rule, flags excessive `FAS-GEN-000` fallback use, and preserves
   rule-id tallies in the audit report before tracked changes are applied.
