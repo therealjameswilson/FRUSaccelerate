@@ -116,6 +116,11 @@ The wrapper should provide the LLM with:
   attached-but-not-printed, not-attached, attachment-heading, attachment-source
   note, classification, footnote, cross-reference, and parent-child document
   relationship evidence.
+- `handwritten_transcription_context`, if available: structured handwritten
+  notes, handwritten letters, editor-transcribed portions, unclear or illegible
+  readings, original brackets, original ellipses, cut-off lines, preserved
+  symbols, appendix images, facsimiles, two-way appendix cross-references,
+  source-image basis, and transcription-review status.
 - `retrospective_account_context`, if available: structured memoir, published
   diary, personal diary, oral history, recollection, later interview, press
   retrospective, author/editor, publication, page, date, event described,
@@ -249,14 +254,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | printed_nested_attachment | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | source_list_basis | selection_balance_basis | physical_evidence_basis | negative_search_basis | printed_attachment_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | source_list_basis | selection_balance_basis | physical_evidence_basis | negative_search_basis | printed_attachment_basis | transcription_facsimile_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -269,7 +274,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | printed_nested_attachment | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -391,6 +396,7 @@ run the semantic and Word-safety validators below.
               "citation",
               "attachment",
               "printed_nested_attachment",
+              "handwritten_facsimile_transcription",
               "annotation",
               "editorial_note",
               "document_metadata",
@@ -457,6 +463,7 @@ run the semantic and Word-safety validators below.
               "physical_evidence_basis",
               "negative_search_basis",
               "printed_attachment_basis",
+              "transcription_facsimile_basis",
               "attachment_status",
               "document_number",
               "document_metadata",
@@ -541,6 +548,7 @@ run the semantic and Word-safety validators below.
               "citation",
               "attachment",
               "printed_nested_attachment",
+              "handwritten_facsimile_transcription",
               "editorial_note",
               "document_metadata",
               "classification_handling",
@@ -649,6 +657,7 @@ Semantic validator behavior:
   `verification_target`.
 - Reject any direct edit whose category is `publication_status`,
   `declassification`, `attachment`, `printed_nested_attachment`,
+  `handwritten_facsimile_transcription`,
   `document_metadata`,
   `classification_handling`, `source_list_front_matter`,
   `selection_balance_completeness`,
@@ -2811,6 +2820,171 @@ Printed/nested-attachment audit requirements:
   parent-child map failures, and missing printed targets.
 - Keep a General Editor tally item for recurring variation in how much child
   apparatus should be printed in annotation sheets and final FRUS volumes.
+
+### 6.5B Handwritten Notes, Facsimiles, Appendix Images, And Transcription Uncertainty
+
+Handwritten notes and facsimile appendixes are high-risk for small LLMs. The
+published form often preserves fragments, bullets, dashes, equals signs,
+abbreviations, original brackets, original ellipses, cut-off lines, and
+bracketed uncertain readings. The checker must not polish the transcription into
+normal prose or fill in `[unclear]` and `[illegible]` text from context.
+
+Use a handwritten-transcription registry when the wrapper can supply one:
+
+```json
+{
+  "handwritten_transcription_registry_id": "frus-1981-1992-handwritten-facsimile-transcription-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d272",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/appendix-A",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d13",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d32",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d155"
+  ],
+  "records": [
+    {
+      "handwritten_item_id": "handwritten-v01-shultz-notes-0272",
+      "unit_id": "document-0272-footnote-0001",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d272",
+      "claim_type": "editor_transcribed",
+      "handwriting_source": "Shultz handwritten notes",
+      "published_form": "editor-transcribed text specifically for the volume; image of the notes in Appendix A",
+      "appendix_or_facsimile_target": "Appendix A",
+      "uncertain_reading_status": "unclear and illegible readings preserved in brackets",
+      "original_brackets_or_ellipses": "handwritten structure, symbols, and bracketed uncertain readings preserved",
+      "reverse_cross_reference": "Appendix A points back to Document 272",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "handwritten_item_id": "handwritten-v01-appendix-a-reverse-link",
+      "unit_id": "appendix-a-footnote-0001",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/appendix-A",
+      "claim_type": "reverse_appendix_cross_reference",
+      "handwriting_source": "Shultz handwritten notes facsimile",
+      "published_form": "appendix image source note points to the transcribed copy",
+      "appendix_or_facsimile_target": "Document 272",
+      "uncertain_reading_status": "not applicable to appendix image entry",
+      "original_brackets_or_ellipses": "facsimile image is the evidence source",
+      "reverse_cross_reference": "For the transcribed copy of these notes, see Document 272.",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "handwritten_item_id": "handwritten-start-0013-nsc-notes",
+      "unit_id": "document-0013-footnote-0001",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d13",
+      "claim_type": "transcribed_portion",
+      "handwriting_source": "handwritten NSC meeting notes",
+      "published_form": "original text is handwritten; brackets and ellipses are original; editor transcribed a portion; image is Appendix A",
+      "appendix_or_facsimile_target": "Appendix A",
+      "uncertain_reading_status": "not-attached notes and cut-off-line note remain separate from transcription status",
+      "original_brackets_or_ellipses": "brackets and ellipses in original",
+      "reverse_cross_reference": "appendix image relationship required",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "handwritten_item_id": "handwritten-start-0032-nsc-notes",
+      "unit_id": "document-0032-footnote-0001",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d32",
+      "claim_type": "transcribed_portion_with_omission",
+      "handwriting_source": "handwritten NSC meeting notes",
+      "published_form": "original text is handwritten; editor transcribed a portion; image is Appendix C; all brackets are original except omission brackets",
+      "appendix_or_facsimile_target": "Appendix C",
+      "uncertain_reading_status": "original brackets distinguished from omission brackets",
+      "original_brackets_or_ellipses": "all brackets original except those indicating omitted material",
+      "reverse_cross_reference": "appendix image relationship required",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "handwritten_item_id": "handwritten-v44p1-keel-notes-0155",
+      "unit_id": "document-0155-footnote-0001",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d155",
+      "claim_type": "editor_transcribed_with_declassification",
+      "handwriting_source": "Keel handwritten meeting notes",
+      "published_form": "Keel hand wrote the notes; editor transcribed a portion; image is Appendix A",
+      "appendix_or_facsimile_target": "Appendix A",
+      "uncertain_reading_status": "illegible readings and not-declassified spans preserved",
+      "original_brackets_or_ellipses": "not-declassified brackets and illegible brackets remain distinct",
+      "reverse_cross_reference": "appendix image relationship required",
+      "verification_status": "verified_published_pattern"
+    }
+  ]
+}
+```
+
+Allowed `claim_type` values:
+
+- `editor_transcribed`
+- `transcribed_portion`
+- `transcribed_portion_with_omission`
+- `editor_transcribed_with_declassification`
+- `appendix_facsimile`
+- `reverse_appendix_cross_reference`
+- `original_brackets_or_ellipses`
+- `uncertain_reading`
+- `cut_off_line`
+- `unknown`
+
+Handwritten/facsimile validator sequence:
+
+1. Identify every handwritten note, handwritten letter, handwritten talking
+   point, facsimile appendix, appendix image, editor-transcribed passage,
+   bracketed uncertain reading, cut-off line, and claim about original brackets
+   or ellipses.
+2. Separate editorial apparatus from transcribed document text. The checker may
+   comment on transcription evidence but must not directly rewrite transcribed
+   original text unless the user explicitly requested transcription review.
+3. Preserve fragments, line breaks, bullets, dashes, equals signs, arrows,
+   abbreviations, and terse handwritten phrasing when the published or uploaded
+   text shows those features.
+4. Preserve `[unclear]`, `[illegible]`, `[unclear--term?]`, and similar
+   bracketed readings. Do not supply a word from context, policy knowledge, or
+   handwriting guesswork.
+5. Preserve statements that brackets or ellipses are original to the source.
+   Coordinate with the declassification validator when omission brackets appear
+   in the same document.
+6. Require a two-way facsimile relationship when a transcribed document points
+   to an appendix image and the appendix source note points back to the
+   transcribed document.
+7. Keep source-image facts distinct from physical-routing facts. A handwritten
+   source note can record who wrote the notes, but authorship, intent, and
+   motive require supplied evidence.
+8. Keep not-declassified spans, cut-off lines, not-attached tabs, and no-record
+   claims distinct from transcription uncertainty.
+9. For recent Reagan and Bush in-preparation volumes, use this validator when
+   handwritten notes, briefing-board notes, marginalia-heavy files, appendix
+   images, or facsimile records are part of the source ecology.
+10. Add `handwritten_facsimile_transcription` discrepancies to the General
+    Editor tally only when facts are sound but practice varies on how much
+    transcription-status or appendix-image detail should appear in final notes.
+
+Direct-edit posture:
+
+- Safe direct edits may correct narrow apparatus wording only when the registry
+  supplies final source-image, transcription, appendix, and bracket facts and
+  the exact Word anchor is safe.
+- Use `comment_only` with `evidence_request: transcription_facsimile_basis`
+  when the handwriting source, editor-transcription claim, uncertain reading,
+  appendix image, reverse cross-reference, original-bracket status, original
+  ellipsis status, or cut-off-line basis is missing.
+- Use `source_image` when the needed proof is the scan or facsimile itself; use
+  `declassification_status` when the issue is an omission or withholding; use
+  `physical_evidence_basis` when the issue is marginalia, initials, stamps, or
+  handwriting placement.
+- Do not replace an uncertain reading, normalize handwritten syntax, remove an
+  appendix cross-reference, or change original-bracket/original-ellipsis wording
+  unless the uploaded packet supplies exact proof.
+
+Handwritten/facsimile audit requirements:
+
+- Count handwritten-note, facsimile, editor-transcribed, uncertain-reading,
+  original-bracket, original-ellipsis, cut-off-line, and appendix reverse-link
+  warnings separately.
+- Record any direct edits rejected because the target was transcribed document
+  text or because the source-image basis was absent.
+- Keep a General Editor tally item for recurring variation in how much
+  transcription-status, uncertain-reading, or appendix-image detail should
+  appear in annotation sheets and final FRUS volumes.
 
 ### 6.6 Declassification And Omissions
 
@@ -6565,7 +6739,7 @@ Reagan in-preparation routing:
 | --- | --- | --- | --- |
 | Organization and management | II, Organization and Management of Foreign Policy | Reagan transition material; White House staff and office files; Executive Secretariat records; State management and policy-planning files; public organizational records | Date-bound offices, title changes, action/information routing, management memoranda, and separation of public organizational facts from internal policy evidence. |
 | Europe, Poland, and NATO | VII, Western Europe, 1981-1984; VIII, Western Europe, 1985-1988; IX, Poland, 1982-1988 | State EUR and CFPF files; embassy telegrams; NSC European/Soviet directorate records; NATO and foreign-government copies; public statements | Do not flatten country files into generic regional files; preserve foreign-origin or embassy-held copy status; check document-number cross-references across related Europe and Soviet volumes. |
-| Arms control and national security | XII, INF, 1984-1988; XLIII, National Security Policy, 1981-1984; XLIV, Part 2, National Security Policy, 1985-1988 | NSDD/NSSD packages; NSPG/NSC meeting files; System IV, W Files, PROFS, State lot files, ACDA, DOD/JCS/CIA records, treaty and verification papers | Guard paragraph markings, directive/annex/tab relationships, scheduled-publication wording, treaty terminology, and original classification versus later release status. |
+| Arms control and national security | XII, INF, 1984-1988; XLIII, National Security Policy, 1981-1984; XLIV, Part 2, National Security Policy, 1985-1988 | NSDD/NSSD packages; NSPG/NSC meeting files; System IV, W Files, PROFS, State lot files, ACDA, DOD/JCS/CIA records, treaty and verification papers | Guard paragraph markings, directive/annex/tab relationships, handwritten/facsimile transcription, appendix links, scheduled-publication wording, treaty terminology, and original classification versus later release status. |
 | Latin America and Caribbean | XIV, Central America, 1981-1984; XV, Central America, 1985-1988; XVI, South America; XVII, Part 1, Mexico; Western Caribbean; XVII, Part 2, Eastern Caribbean | Embassy telegrams; NSC Latin America directorate files; State country/desk files; CIA/DOD equities; public diplomacy and congressional records; foreign-government or organization records | Check country/chapter routing, source-copy identity, covert-action or intelligence caution, missing attachments, translations, and whether public statements are selected evidence or supplemental context. |
 | Middle East and regional crises | XVIII, Parts 1-2, Lebanon; XIX, Arab-Israeli Dispute; XX, Iran; Iraq, April 1980-January 1985; XXI, Iran; Iraq, 1985-1988; XXII, Middle East Region; Arabian Peninsula; XLV, Eastern Mediterranean | Situation-room records; memcons/telcons; embassy telegrams; State NEA files; NSC regional files; DOD/CIA equities; foreign-government copies; public peace-process documents | Be strict on chronology, participants, "no minutes found," attachment status, translation status, foreign-origin copy handling, and distinctions between crisis record and later memoir/public context. |
 | Africa | XXV, Southern Africa, 1981-1984; XXVI, Southern Africa, 1985-1988; XXVII, Sub-Saharan Africa; XLVIII, Libya; Chad | Embassy telegrams; State Africa bureau and country desk records; NSC regional directorate files; CIA/DOD equities; international-organization records; public statements | Preserve regional/country split, sanctions and congressional context, intelligence or military equities, and cautious wording for foreign-government or international-organization records. |
@@ -6577,13 +6751,13 @@ Bush in-preparation routing:
 
 | Volume family | Current in-preparation volumes | Source families to preserve | Redline priorities |
 | --- | --- | --- | --- |
-| Foundations, public diplomacy, and organization | I, Foundations of Foreign Policy; Public Diplomacy; II, Organization and Management of Foreign Policy | Bush Library public statements and speech records; transition records; White House/NSC staff files; State Executive Secretariat and policy-planning records; public printed sources | Treat speeches, testimony, interviews, and public statements as possible selected documents. Check date-bounded offices, title transitions, public-versus-internal source identity, and source-list authority form. |
+| Foundations, public diplomacy, and organization | I, Foundations of Foreign Policy; Public Diplomacy; II, Organization and Management of Foreign Policy | Bush Library public statements and speech records; transition records; White House/NSC staff files; State Executive Secretariat and policy-planning records; public printed sources | Treat speeches, testimony, interviews, and public statements as possible selected documents. Check date-bounded offices, title transitions, public-versus-internal source identity, handwritten/facsimile transcription, and source-list authority form. |
 | Soviet Union, Russia, Europe, Germany, and NATO | III, Soviet Union, Russia, and Post-Soviet States: High-Level Contacts; IV, Soviet Union, Russia, and Post-Soviet States: Policy; V, Eastern Europe; VIII, Western Europe; IX, Germany; X, European Security, 1984-1992 | Bush Library Scowcroft, Gates, NSC staff, and H-Files; State EUR/S/P/CFPF records; embassy telegrams; NATO and foreign-government records | Separate high-level contact records from policy/background files; preserve memcon/telcon and briefing-book forms; check cross-references across START I, Europe, Germany, and Soviet/Russia volumes. |
 | Balkans, crises, and peacekeeping | VII, Yugoslavia; XXI, Somalia, 1989-1994 | Situation-room and NSC records; State regional bureau files; embassy telegrams; military/intelligence records; United Nations and international-organization records | Require precise chronology, agency equities, foreign/international-organization copy status, and cautious wording for operational or military claims. |
 | Persian Gulf and Middle East | XI, Persian Gulf Crisis, 1989-1990; XII, Persian Gulf Crisis, 1990-1991; XIII, Persian Gulf Crisis, 1991-1992; XIV, Arab-Israeli Dispute; XXXII, Iran; VI, Eastern Mediterranean | NSC/Situation Room records; State NEA and CFPF records; memcons/telcons; DOD/JCS/CIA equities; coalition and foreign-government copies; public statements | Preserve crisis chronology, meeting/call status, coalition/foreign-origin records, not-found notes, translation status, and declassification bracket discipline. |
 | Asia and Pacific | XV, South Asia; XVI, Southeast Asia and the Pacific; XVII, China; XVIII, Japan; Korea | Bush Library NSC regional staff files; State regional bureau and CFPF records; embassy telegrams; foreign-government copies; translations; public statements | Check transliteration/name authority, country routing, translation claims, intelligence/military equities, and whether related Reagan-era documents require scheduled-publication language. |
 | Africa and Americas | XIX, Southern Africa; XX, North Africa; Sub-Saharan Africa; XXII, Cuba; Haiti; Caribbean; XXIII, Central America; XXIV, Panama, 1981-1992; XXV, South America; XXXIII, Canada and Mexico | State country/desk files; embassy telegrams; Bush Library NSC regional files; congressional/public diplomacy records; intelligence, defense, law-enforcement, and foreign-government records | Preserve country and regional chapter identity, source-copy status, sensitive intelligence or law-enforcement equities, and careful chronology for crises or interventions. |
-| National security, arms control, and nonproliferation | XXVI, National Security Policy; XXVII, Arms Control and Nonproliferation; XXXI, START I, 1989-1991 as published pattern evidence | H-Files, NSR/NSD files, Scowcroft/Gates files, State lot files, ACDA/DOD/JCS/CIA records, CFPF D/P/N reels, treaty and verification records | Preserve H-Files subseries, NSR/NSD forms, paragraph markings, annex/tabs, verification terms, and original classification. Do not use the published START I template to overwrite a different national-security source family. |
+| National security, arms control, and nonproliferation | XXVI, National Security Policy; XXVII, Arms Control and Nonproliferation; XXXI, START I, 1989-1991 as published pattern evidence | H-Files, NSR/NSD files, Scowcroft/Gates files, State lot files, ACDA/DOD/JCS/CIA records, CFPF D/P/N reels, treaty and verification records | Preserve H-Files subseries, NSR/NSD forms, paragraph markings, annex/tabs, handwritten/facsimile transcription, verification terms, and original classification. Do not use the published START I template to overwrite a different national-security source family. |
 | Economic policy, global issues, counternarcotics, and counterterrorism | XXVIII, Counternarcotics; Counterterrorism; XXIX, Global Issues; XXX, Foreign Economic Policy | Treasury and State economic bureau records; NSC files; public reports; law-enforcement, intelligence, and interagency task-force records; international-organization records | Keep public/printed sources distinct from control copies; watch agency equities, terminology, congressional/public-report citations, and planned-volume research labels. |
 
 Family-sensitive output rules:
@@ -6664,6 +6838,7 @@ Evidence-request categories:
 | `physical_evidence_basis` | Handwriting, initials, marginalia, highlighting, underlining, checkmark, stamp, read-by/seen notation, signed status, approval box, sent-for-action or information routing, correspondence profile, distribution, physical placement, or unknown-hand evidence is uncertain. | Which visible physical feature, actor/hand, placement, routing status, approval status, profile, attachment, source image, or search/diary context must be checked. |
 | `negative_search_basis` | Negative search, no-record, not-found, not-found-attached, no-minutes, no-memcon, no-telcon, unlocated draft, missing attachment, unresolved source path, found-elsewhere, or pending follow-up evidence is uncertain. | Which item was sought, record type, repository/file scope, search basis, result status, follow-up, and public phrase must be checked. |
 | `printed_attachment_basis` | Printed attachment, nested document, child heading, child source note, child classification, parent-child map, printed target, translation/original-text status, or printed-versus-attached-not-printed evidence is uncertain. | Which parent document, child unit, tab/enclosure label, heading, date/title, source note, classification, translation status, printed target, and cross-reference must be checked. |
+| `transcription_facsimile_basis` | Handwritten-note, handwritten-letter, editor-transcribed, transcribed-portion, uncertain-reading, original-bracket, original-ellipsis, cut-off-line, appendix-image, facsimile, or reverse-cross-reference evidence is uncertain. | Which source image, handwritten source, transcription claim, uncertain reading, symbol/structure, appendix image, reverse cross-reference, original-bracket/original-ellipsis statement, or cut-off-line basis must be checked. |
 | `attachment_status` | Attached, not attached, printed elsewhere, tabbed, enclosed, or not found claims are uncertain. | Which tab, enclosure, paper, or list must be checked. |
 | `document_number` | Same-volume or cross-volume reference lacks a stable document number. | Which target document, chapter, or volume must be matched. |
 | `document_metadata` | Heading, dateline, subject/title line, public title, sender, recipient, internal number, or document form is missing or suspect. | Which heading field and evidence source must be checked before rewriting. |
@@ -6740,6 +6915,7 @@ Default blocking rules:
 | `physical_evidence_basis` | yes for handwriting, initials, marginalia, stamp, read-by/seen, signed, approval, routing, correspondence-profile, distribution, placement, or unknown-hand edits | yes when physical/source-image evidence appears in publishable apparatus |
 | `negative_search_basis` | yes for `Not found`, `Not found attached`, `No minutes were found`, no-record, unlocated-draft, missing-attachment, unresolved-source-path, or found-elsewhere edits | yes when negative-search or no-record language appears in publishable apparatus |
 | `printed_attachment_basis` | yes for printed-attachment, nested-document, child-heading, child-source-note, child-classification, parent-child-map, printed-target, or translation/original-text edits | yes when printed or nested attachment apparatus appears in publishable notes |
+| `transcription_facsimile_basis` | yes for handwritten-note, editor-transcribed, uncertain-reading, original-bracket, original-ellipsis, cut-off-line, appendix-image, facsimile, or reverse-cross-reference edits | yes when handwritten, transcribed, or facsimile apparatus appears in publishable notes |
 | `attachment_status` | yes | yes when the note asserts attached, not attached, tabbed, enclosed, printed, or not found |
 | `document_number` | yes for cross-reference edits | yes when same-volume or cross-volume references are unstable |
 | `document_metadata` | yes for heading, dateline, title, subject, or caption edits | yes when publishable apparatus identifies the document |
@@ -6771,6 +6947,7 @@ Owner hints:
   agency-equity proof, military-operation proof, human-rights/refugee/global-
   issues proof, source-list and front-matter basis, physical/routing evidence,
   selection-balance basis, printed/nested-attachment basis,
+  transcription/facsimile basis,
   retrospective-account basis, sensitive-record source basis,
   negative-search/no-record basis, translation status, and foreign-copy
   provenance.
@@ -6781,6 +6958,7 @@ Owner hints:
   and note form, military/crisis note form, human-rights/refugee/global-issues
   note form, source-list/front-matter form, selection-balance scope questions,
   printed/nested-attachment note form, physical/routing note form,
+  transcription/facsimile note form,
   retrospective-account note form, sensitive-record note form,
   negative-search/no-record wording, publication-status wording, and General
   Editor discrepancy preparation.
@@ -7082,65 +7260,69 @@ For every extracted unit, run checks in this order:
 16. Check printed attachments, nested documents, child headings, child source
    notes, child classifications, printed-targets, and parent-child maps against
    the printed/nested-attachment registry when supplied.
-17. Check negative-search, no-record, not-found, not-found-attached,
+17. Check handwritten notes, handwritten letters, editor-transcribed portions,
+   uncertain readings, original brackets, original ellipses, cut-off lines,
+   appendix images, facsimiles, and reverse appendix links against the
+   handwritten-transcription registry when supplied.
+18. Check negative-search, no-record, not-found, not-found-attached,
    no-minutes, no-memcon, no-telcon, unlocated-draft, missing-attachment, and
    found-elsewhere claims against the negative-search registry when supplied.
-18. Check cross-references and follow-on citation form against the
+19. Check cross-references and follow-on citation form against the
    cross-reference registry when supplied.
-19. Check annotation purpose and concision.
-20. Check declassification, omission, original-bracket, release-status, and
+20. Check annotation purpose and concision.
+21. Check declassification, omission, original-bracket, release-status, and
     whole-document withholding language against the declassification registry
     when supplied.
-21. Check target-volume status and whether the note is research-stage,
+22. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-22. Route the unit through the relevant volume family when a 1981-1992
+23. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-23. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
+24. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-24. Check summit, travel, ceremony, public address, interview, press
+25. Check summit, travel, ceremony, public address, interview, press
     conference, toast, testimony, public remarks, and public-event sequence
     evidence against the event-chronology registry when supplied.
-25. Check public diplomacy, speeches, press releases, press conferences,
+26. Check public diplomacy, speeches, press releases, press conferences,
     briefings, interviews, broadcasts, testimony, Public Papers, Department of
     State Bulletin, newspaper excerpts, official transcripts, speech files,
     briefing materials, selected-public-document status, and
     supplemental-public-context evidence against the public-source registry when
     supplied.
-26. Check memoirs, published diaries, personal diaries, oral histories, later
+27. Check memoirs, published diaries, personal diaries, oral histories, later
     interviews, recollections, press retrospectives, newspaper accounts,
     selected/supplemental status, official-record relationship, corroborating
     records, and conflict status against the retrospective-account registry when
     supplied.
-27. Check congressional testimony, hearings, public laws, statutes, continuing
+28. Check congressional testimony, hearings, public laws, statutes, continuing
     resolutions, joint resolutions, congressional notifications, Presidential
     Determinations, certifications, Executive Orders, oversight, independent
     counsel, Senate advice-and-consent, and ratification context against the
     congressional/legal registry when supplied.
-28. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
+29. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
     World Bank, MDB, GATT, UNCTAD, OECD, table, amount, percentage, currency,
     fiscal-year, loan, guarantee, quota, replenishment, conditionality, and
     policy-stage evidence against the economic/financial registry when supplied.
-29. Check intelligence, covert-action, law-enforcement, counternarcotics,
+30. Check intelligence, covert-action, law-enforcement, counternarcotics,
     counterterrorism, agency-equity, source-and-methods, operational, oversight,
     foreign-service-contact, sanitized-record, redaction, and public-policy
     evidence against the sensitive-record registry when supplied.
-30. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
+31. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
     combat-operation, contingency-plan, CONPLAN, host-nation notification,
     coalition, peacekeeping, force/unit, time-zone, casualty/damage, and
     military-assistance evidence against the military/crisis registry when
     supplied.
-31. Check human-rights reports, refugee, immigration, asylum, migration, famine,
+32. Check human-rights reports, refugee, immigration, asylum, migration, famine,
     emergency relief, food aid, public-health, AIDS/HIV, population policy,
     environmental, ozone, sanctions, waivers, certifications, public reports,
     international organizations, PVOs, AID/PRM, PL 480, Section 416, and Section
     206 evidence against the human-rights/refugee/global-issues registry when
     supplied.
-32. Check Persons, abbreviations, and index authority issues.
-33. Assign specific evidence requests and verification targets for unresolved
+33. Check Persons, abbreviations, and index authority issues.
+34. Assign specific evidence requests and verification targets for unresolved
     proof.
-34. Decide direct edit versus comment-only.
-35. Return strict JSON.
-36. After schema and semantic validation, aggregate all unresolved evidence
+35. Decide direct edit versus comment-only.
+36. Return strict JSON.
+37. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -7253,6 +7435,11 @@ Duplicate-suppression rules:
   unit, tab/enclosure label, relationship type, child heading, child source
   note, child classification, printed target, translation/original-text status,
   or parent-child map.
+- Merge repeated handwritten/facsimile/transcription issues by handwritten
+  source, source image, transcribed document, appendix image, reverse
+  cross-reference target, uncertain reading, original-bracket statement,
+  original-ellipsis statement, cut-off-line claim, or transcription-status
+  phrase.
 - Merge repeated wrapper-safety issues by Word structure, such as tables,
   existing tracked changes, footnote references, fields, or comments.
 - Do not merge findings that require different evidence requests or different
@@ -7388,6 +7575,10 @@ Golden packet composition:
 - At least one printed/nested-attachment example with a parent document, child
   heading, child source note or classification, `Attached but not printed`,
   `Printed as Document [n]`, or foreign-paper attachment relationship.
+- At least one handwritten-note or facsimile-appendix example with
+  editor-transcribed text, an appendix image, a reverse appendix
+  cross-reference, original brackets or ellipses, and bracketed `[unclear]` or
+  `[illegible]` readings.
 - At least one translated or foreign-origin document with official,
   unofficial, informal, Language Services, typed-signature, or foreign-copy
   provenance language, used as a no-change or comment-only control.
@@ -7496,6 +7687,12 @@ Expected behavior by test family:
   attached-but-not-printed distinctions; comment rather than invent when the
   child apparatus, printed target, translation/original-text status, or
   attachment relationship is missing.
+- Handwritten/facsimile test: preserve editor-transcription statements,
+  handwritten structure, symbols, original brackets, original ellipses,
+  appendix-image links, reverse appendix references, cut-off-line notes,
+  `[unclear]`, and `[illegible]`; comment rather than normalize prose, remove a
+  facsimile link, or invent an uncertain reading when source-image or
+  transcription basis is missing.
 - Translation/foreign-origin test: preserve official/unofficial/informal
   translation language, foreign-copy provenance, typed-signature notes, and
   bracket-treatment facts; comment rather than invent when the translation basis
@@ -7678,6 +7875,11 @@ Use the discrepancy tally for:
   tab labels, parent-child maps, foreign-paper attachment treatment,
   attached-but-not-printed descriptions, and printed-target references when the
   underlying facts are sound.
+- Variations in how much handwritten/facsimile/transcription apparatus to
+  print, including editor-transcription statements, source-image links,
+  appendix reverse links, original brackets, original ellipses, uncertain
+  readings, cut-off lines, and preserved handwritten structure when the
+  underlying facts are sound.
 - Variations in `scheduled for publication`, `printed in`, same-volume
   cross-references, footnote cross-references, or document-number style.
 - Variations in document-heading form, place/date line placement,
@@ -7760,6 +7962,7 @@ Suggested tally format:
 | style-discrepancy-0014 | source_list_front_matter | How much source-list/front-matter reconciliation should be required in annotation sheets before final Sources, Abbreviations, Persons, appendix, Preface, and About the Series assembly. | Full source-list/front-matter reconciliation in the checker audit; lighter compiler-sheet comments that preserve unresolved apparatus questions for later volume-level cleanup | 2 | medium | Should the checker enforce source-list/front-matter reconciliation during annotation review, or tally unresolved apparatus questions for General Editor decision at final assembly? |
 | style-discrepancy-0015 | selection_balance_completeness | How much selection-balance and completeness audit detail should appear in annotation sheets before General Editor review. | Full coverage matrix with decision points, options, dissent, agencies, foreign response, implementation, outcome, and gaps; shorter annotation-sheet comments with the full audit maintained in a separate compiler selection file | 2 | high | Should the checker require selection-balance audit fields in annotation sheets, or tally unresolved coverage questions for General Editor decision outside the redlined Word file? |
 | style-discrepancy-0016 | printed_nested_attachment | How much child apparatus should appear for printed attachments, nested documents, tabs, foreign papers, and printed-elsewhere targets. | Full parent-child map with child heading, child source note, classification, translation/original-text status, and printed target; shorter attachment note with details preserved in audit/context | 2 | medium | Should the checker enforce full child-apparatus treatment for printed/nested attachments, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0017 | handwritten_facsimile_transcription | How much transcription-status and facsimile apparatus should appear for handwritten notes, handwritten letters, appendix images, and uncertain readings. | Full source note with editor-transcription statement, appendix image, reverse appendix cross-reference, original-bracket/original-ellipsis statement, and uncertain-reading preservation; shorter source note with details preserved in audit/context | 2 | medium | Should the checker enforce full handwritten/facsimile apparatus in source notes, or tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -7819,6 +8022,12 @@ Required bundle files:
   date/title, child source note, child classification, editorial status,
   printed target, cross-reference target, translation/original-text status,
   verification status, and source URLs for printed/nested attachments.
+- `handwritten_transcription_map`, when available: handwritten source, source
+  image, editor-transcribed status, transcribed-portion status, uncertain
+  readings, original brackets, original ellipses, cut-off lines, preserved
+  symbols or structure, appendix image, facsimile target, reverse appendix
+  cross-reference, source-note phrase, verification status, and source URLs for
+  handwritten/facsimile records.
 - `classification_marking_map`, when available: original classification,
   handling, precedence, paragraph-marking, verified absence, and source-phrase
   evidence for source notes, attachments, captions, and selected document
@@ -8090,6 +8299,7 @@ Document metadata registry: [document_metadata_registry_id and capture date]
 Physical/routing registry: [physical_routing_registry_id and capture date]
 Negative-search/no-record registry: [negative_search_registry_id and capture date]
 Printed/nested-attachment registry: [printed_attachment_registry_id and capture date]
+Handwritten/facsimile transcription registry: [handwritten_transcription_registry_id and capture date]
 Classification registry: [classification_registry_id and capture date]
 Translation registry: [translation_registry_id and capture date]
 Foreign/international-organization registry: [foreign_international_org_registry_id and capture date]
@@ -8137,6 +8347,7 @@ Counts:
 - Physical evidence, routing, marginalia, read-by/seen, approval, or placement issues: [n]
 - Negative-search/no-record/not-found/not-attached/no-minutes issues: [n]
 - Printed attachment, nested document, child apparatus, or printed-target issues: [n]
+- Handwritten-note, facsimile, appendix-image, uncertain-reading, original-bracket, original-ellipsis, or transcription-status issues: [n]
 - Classification, handling, precedence, or paragraph-marking issues: [n]
 - Translation, foreign-origin copy, or language-services issues: [n]
 - Foreign-government, international-organization, multilateral, alliance, coalition, conference, treaty-party, or foreign-copy issues: [n]
@@ -8184,6 +8395,9 @@ Negative-search/no-record warnings:
 
 Printed/nested-attachment warnings:
 - [unit_id or global]: [printed/nested attachment issue] - [parent document, child unit, relationship type, tab or attachment label, child heading, child source/classification basis, printed target, translation/original-text status, and verification target]
+
+Handwritten/facsimile transcription warnings:
+- [unit_id or global]: [handwritten/facsimile issue] - [handwritten source, source image, transcribed document, appendix/facsimile target, reverse cross-reference, uncertain reading, original-bracket/original-ellipsis statement, cut-off-line basis, and verification target]
 
 Classification/handling warnings:
 - [unit_id or global]: [marking issue] - [original marking, handling/precedence, and evidence basis]
@@ -8316,6 +8530,11 @@ Minimum components:
   child headings, child source notes, child classifications, parent-child maps,
   foreign-paper attachments, treaty-component attachments, and
   translation/original-text pairs before tracked changes are applied.
+- Handwritten/facsimile transcription validator that distinguishes handwritten
+  notes, handwritten letters, editor-transcribed portions, uncertain readings,
+  original brackets, original ellipses, cut-off lines, appendix images,
+  facsimiles, preserved handwritten structure, and reverse appendix
+  cross-references before tracked changes are applied.
 - Communications-record validator that checks telegram, cable, STARS, CFPF,
   PROFS, W Files, System IV, agency-message, and other electronic-message
   identifiers, origin/addressee, date-time group, precedence,
@@ -8422,6 +8641,11 @@ Operational cautions:
   classifications, missing printed targets, unresolved translation/original-text
   status, foreign-paper attachment questions, and printed/nested-attachment
   discrepancy questions.
+- Record handwritten/facsimile transcription registry version, source-image
+  gaps, missing editor-transcription status, uncertain-reading issues,
+  original-bracket or original-ellipsis ambiguity, cut-off-line claims,
+  appendix-image and reverse-link failures, rejected attempts to normalize
+  transcribed text, and handwritten/facsimile discrepancy questions.
 - Record classification-registry version, missing original markings,
   unsupported `No classification marking` claims, handling/precedence
   mismatches, paragraph-marking questions, release-status confusions, and
@@ -8551,6 +8775,11 @@ Needs revision:
   map, child heading, child source note, child classification, printed target,
   or translation/original-text basis when those facts are needed for final
   apparatus.
+- Handwritten notes, handwritten letters, editor-transcribed portions,
+  facsimile appendixes, appendix images, original brackets, original ellipses,
+  cut-off lines, or `[unclear]`/`[illegible]` readings are normalized, filled
+  in, or changed without supplied transcription/facsimile basis and source-image
+  support.
 - Diary/schedule evidence is used as substantive conversation evidence.
 - Summit, travel, ceremony, press, or public-event sequence is asserted without
   public-source, diary/schedule, press, or full-record target support.
@@ -8696,6 +8925,8 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v06/preface`
 - `https://history.state.gov/historicaldocuments/frus1981-88v11/d182`
 - `https://history.state.gov/historicaldocuments/frus1981-88v11/d181`
+- `https://history.state.gov/historicaldocuments/frus1981-88v11/d13`
+- `https://history.state.gov/historicaldocuments/frus1981-88v11/d32`
 - `https://history.state.gov/historicaldocuments/frus1981-88v11/d26`
 - `https://history.state.gov/historicaldocuments/frus1981-88v11/d276`
 - `https://history.state.gov/historicaldocuments/frus1981-88v11/d213`
@@ -8706,10 +8937,13 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/preface`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1`
+- `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d155`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d294`
 - `https://history.state.gov/historicaldocuments/frus1981-88v10/d46`
 - `https://history.state.gov/historicaldocuments/frus1981-88v10/d56`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d294`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d272`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/appendix-A`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/pressrelease`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries`
@@ -8741,6 +8975,8 @@ Recent Reagan source incorporated:
 - [Reagan United Nations address editorial note, Document 206](https://history.state.gov/historicaldocuments/frus1981-88v01/d206)
 - [Reagan diary and Shultz memoir supplementing Chernenko succession context, Document 236](https://history.state.gov/historicaldocuments/frus1981-88v01/d236)
 - [Shultz memoir supplementing Daily Diary and meeting-paper evidence, Document 260](https://history.state.gov/historicaldocuments/frus1981-88v01/d260)
+- [Shultz handwritten notes with editor-transcription statement, appendix image link, preserved symbols, and uncertain readings, Document 272](https://history.state.gov/historicaldocuments/frus1981-88v01/d272)
+- [Appendix A facsimile source note pointing back to the transcribed copy, Document 336](https://history.state.gov/historicaldocuments/frus1981-88v01/appendix-A)
 - [Contra aid congressional/public-law annotation, Document 274](https://history.state.gov/historicaldocuments/frus1981-88v01/d274)
 - [Iran arms/Contra aid Executive Order and oversight annotation, Document 286](https://history.state.gov/historicaldocuments/frus1981-88v01/d286)
 - [Shultz memoir supplementing Iran arms press-conference context, Document 282](https://history.state.gov/historicaldocuments/frus1981-88v01/d282)
@@ -8750,6 +8986,8 @@ Recent Reagan source incorporated:
 - [FRUS, 1981-1988, Volume VI preface on Soviet-policy scope, related-volume boundaries, summits, agency roles, and skeptical views](https://history.state.gov/historicaldocuments/frus1981-88v06/preface)
 - [FRUS, 1981-1988, Volume X, Eastern Europe](https://history.state.gov/historicaldocuments/frus1981-88v10)
 - [FRUS, 1981-1988, Volume XI, START I](https://history.state.gov/historicaldocuments/frus1981-88v11)
+- [START I handwritten NSC notes with original brackets and ellipses, editor-transcribed portion, appendix image link, and cut-off-line note, Document 13](https://history.state.gov/historicaldocuments/frus1981-88v11/d13)
+- [START I handwritten NSC notes with omission bracket distinguished from original brackets and appendix image link, Document 32](https://history.state.gov/historicaldocuments/frus1981-88v11/d32)
 - [START I attached-but-not-printed papers and printed-as-document follow-up, Document 26](https://history.state.gov/historicaldocuments/frus1981-88v11/d26)
 - [START I nested printed attachments with child `Paper Prepared...` headings and child footnotes, Document 181](https://history.state.gov/historicaldocuments/frus1981-88v11/d181)
 - [START I attachment and `not found` distinction, Document 182](https://history.state.gov/historicaldocuments/frus1981-88v11/d182)
@@ -8786,6 +9024,7 @@ Recent Reagan source incorporated:
 - [Volume XLIV, Part 1 source list with Reagan Library NSC files, PROFS, W Files, State lot files, agency records, and Published Sources](https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources)
 - [NSPG meeting source note with Daily Diary basis and `No minutes were found`, Document 1](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1)
 - [Action memorandum with Reagan initials, signed stamp, approval checkmark, and tabs printed as next document, Document 50](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d50)
+- [Keel handwritten meeting notes with editor-transcribed portion, appendix image link, illegible readings, and not-declassified spans, Document 155](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d155)
 - [Transition meeting note with `No formal minutes were found`, Document 294](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d294)
 - [Covert-action memorandum of notification, Document 46](https://history.state.gov/historicaldocuments/frus1981-88v10/d46)
 - [CIA paper on Soviet/East European program, Document 56](https://history.state.gov/historicaldocuments/frus1981-88v10/d56)
