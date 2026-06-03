@@ -77,6 +77,10 @@ The wrapper should provide the LLM with:
   translation source, official/unofficial/informal translation status,
   foreign-origin provenance, copy basis, typed-signature or facsimile status,
   bracket/translator-note treatment, and agency or foreign-government equity.
+- `treaty_registry_context`, if available: structured treaty, protocol, annex,
+  memorandum of understanding, executive agreement, letter, declaration,
+  statement, presidential transmittal, article-by-article analysis,
+  ratification, entry-into-force, and associated-document metadata.
 - `source_family_registry_context`, if available: structured source-family
   controls derived from published FRUS source lists and local authority files,
   including family ids, volume scope, required path components, distinguishing
@@ -170,14 +174,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | declassification | authority_control | chronology | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | declassification | authority_control | chronology | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | publication_status | authority_control | declassification_status | translation_status | chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | treaty_component | publication_status | authority_control | declassification_status | translation_status | chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -190,7 +194,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | declassification | authority_control | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | treaty_legal_instrument | declassification | authority_control | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -316,6 +320,7 @@ run the semantic and Word-safety validators below.
               "document_metadata",
               "classification_handling",
               "translation_foreign_origin",
+              "treaty_legal_instrument",
               "declassification",
               "authority_control",
               "chronology",
@@ -361,6 +366,7 @@ run the semantic and Word-safety validators below.
               "attachment_status",
               "document_number",
               "document_metadata",
+              "treaty_component",
               "publication_status",
               "authority_control",
               "declassification_status",
@@ -435,6 +441,7 @@ run the semantic and Word-safety validators below.
               "document_metadata",
               "classification_handling",
               "translation_foreign_origin",
+              "treaty_legal_instrument",
               "declassification",
               "authority_control",
               "communications_record",
@@ -524,9 +531,10 @@ Semantic validator behavior:
   `verification_target`.
 - Reject any direct edit whose category is `publication_status`,
   `declassification`, `attachment`, `document_metadata`,
-  `classification_handling`, `translation_foreign_origin`, `chronology`,
-  `communications_record`, or `authority_control` when the required proof is
-  absent from the uploaded unit or wrapper context.
+  `classification_handling`, `translation_foreign_origin`,
+  `treaty_legal_instrument`, `chronology`, `communications_record`, or
+  `authority_control` when the required proof is absent from the uploaded unit
+  or wrapper context.
 - Downgrade to `comment_only` when a finding passes the JSON schema but fails a
   Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
@@ -2509,6 +2517,148 @@ Flag these issues:
   message are not identified when the source note shows they were present but
   not printed.
 
+Use a treaty/legal-instrument registry when the wrapper can supply one:
+
+```json
+{
+  "treaty_registry_id": "frus-1981-1992-treaty-legal-instruments-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d244",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d242"
+  ],
+  "records": [
+    {
+      "treaty_item_id": "treaty-start-0001",
+      "unit_id": "source-note-0246",
+      "instrument_family": "START I",
+      "component_type": "treaty_text",
+      "component_title": "Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms",
+      "integral_to_treaty": true,
+      "associated_but_not_integral": false,
+      "source_phrase": "Department of State Dispatch Supplement, October 1991, Vol. 2, Supplement No. 5, pp. 1-16.",
+      "related_components": [
+        "Annex on Agreed Statements",
+        "Protocol on Notifications",
+        "Memorandum of Understanding on the Establishment of the Data Base"
+      ],
+      "public_or_archival_basis": "published treaty text",
+      "senate_or_ratification_status": "ratified and entered into force if supplied by annotation",
+      "verification_status": "verified"
+    },
+    {
+      "treaty_item_id": "treaty-start-0002",
+      "unit_id": "editorial-note-0247",
+      "instrument_family": "START I",
+      "component_type": "presidential_transmittal",
+      "component_title": "Report to the Senate on START I",
+      "integral_to_treaty": false,
+      "associated_but_not_integral": true,
+      "source_phrase": "Article-by-Article Analysis of the Treaty, including its Protocols, Annexes, and Memorandum of Understanding",
+      "related_components": [
+        "other agreements",
+        "letters",
+        "statements associated with the Treaty"
+      ],
+      "public_or_archival_basis": "Public Papers or Senate transmittal context",
+      "senate_or_ratification_status": "transmitted to Senate, ratified, entered into force",
+      "verification_status": "needs_public_source"
+    }
+  ]
+}
+```
+
+Allowed `component_type` values:
+
+- `treaty_text`
+- `protocol`
+- `annex`
+- `memorandum_of_understanding`
+- `executive_agreement`
+- `letter`
+- `declaration`
+- `joint_statement`
+- `unilateral_statement`
+- `presidential_message`
+- `presidential_transmittal`
+- `article_by_article_analysis`
+- `senate_ratification_note`
+- `entry_into_force_note`
+- `associated_correspondence`
+- `negotiating_record`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified`
+- `needs_source_image`
+- `needs_component_identity`
+- `needs_public_source`
+- `needs_ratification_status`
+- `needs_integral_status`
+- `unknown`
+
+Treaty/legal-instrument validator sequence:
+
+1. Identify every source note, editorial note, attachment note, document heading,
+   caption, source-list entry, or follow-on footnote that names a treaty,
+   protocol, annex, memorandum of understanding, executive agreement, letter,
+   declaration, joint or unilateral statement, article-by-article analysis,
+   presidential transmittal, Senate ratification, entry into force, or related
+   negotiating record.
+2. Match the unit against `treaty_registry_context` before proposing a direct
+   edit to component identity, integral status, public-source basis, or
+   ratification language.
+3. Preserve the distinction between treaty text and materials integral to the
+   treaty, such as protocols, annexes, and memoranda of understanding, and
+   associated-but-not-integral materials, such as related agreements, letters,
+   declarations, public statements, correspondence, and transmittal material.
+4. Do not convert a public treaty text, Department of State Dispatch supplement,
+   Public Papers citation, Senate transmittal, or official treaty source into an
+   archival source note unless the archival control copy is the selected
+   document.
+5. Do not assert ratification, entry-into-force, transmission to the Senate, or
+   public-law/legal status without a supplied public-source or registry basis.
+6. Coordinate with attachment and cross-reference registries when treaty texts,
+   annexes, protocols, article-by-article analyses, presidential messages, or
+   proposed letters are attached but not printed, printed elsewhere, or
+   scheduled for publication.
+7. Coordinate with translation and classification registries for bilingual
+   treaty texts, official translations, public unclassified treaty text, and
+   classified internal negotiating records.
+8. Treat variations in how much treaty-component detail to print in a source
+   note as possible General Editor discrepancies when the component identity is
+   verified but house form is unsettled.
+
+Direct-edit posture:
+
+- Safe direct edits may restore a supplied component type or narrow treaty-title
+  punctuation only when the exact component identity and source phrase are in
+  the registry or uploaded unit.
+- Use `comment_only` with `evidence_request: treaty_component` when the
+  component type, integral status, related component list, public-source basis,
+  or ratification/entry-into-force status is missing, conflicting, or inferred.
+- Use `evidence_request: cross_reference` or `document_number` when the issue is
+  where an associated treaty document is printed.
+- Use `evidence_request: publication_status` when the issue is whether a treaty
+  component or related volume/chapter is published or still scheduled.
+- Do not directly add legal status, integral status, ratification, or entry into
+  force unless the uploaded unit or registry supplies the proof.
+
+Treaty/legal-instrument audit requirements:
+
+- Count treaty-component identity issues, integral-versus-associated status
+  issues, public-source/archival-basis conflicts, ratification/entry-into-force
+  warnings, and attached-but-not-printed treaty-package warnings separately.
+- Preserve the treaty registry id, capture date, source URLs, source-phrase
+  basis, and unresolved component fields in the audit report.
+- Add `treaty_legal_instrument` discrepancies to the General Editor tally when
+  published or local examples vary on how much component detail to include, how
+  to identify associated letters/declarations/statements, or where to place
+  ratification and entry-into-force language.
+
 ### 6.10A Bush START I Volume XXXI Corpus Rules
 
 The local file `reports/frus1989-92v31-annotation-corpus.md` records a derived
@@ -3103,6 +3253,10 @@ Permutation matrix for annotation sheets:
 - Directive or decision package: check parent memo, directive, annex, tabs,
   distribution list, paragraph markings, cover memorandum, approval/signed
   status, and whether each printed component needs separate annotation.
+- Treaty or legal-instrument package: check treaty text, protocols, annexes,
+  memoranda of understanding, executive agreements, letters, declarations,
+  statements, article-by-article analyses, transmittal messages, ratification,
+  entry into force, and whether each component is integral or associated.
 - Attachment/tab note: check `Attached but not printed`, `Printed as Document
   [n]`, `Tabs [letters] are printed as Document [n]`, `Not found attached`, and
   `Attached but not printed is the list of participants` as different claims.
@@ -3240,6 +3394,7 @@ Evidence-request categories:
 | `attachment_status` | Attached, not attached, printed elsewhere, tabbed, enclosed, or not found claims are uncertain. | Which tab, enclosure, paper, or list must be checked. |
 | `document_number` | Same-volume or cross-volume reference lacks a stable document number. | Which target document, chapter, or volume must be matched. |
 | `document_metadata` | Heading, dateline, subject/title line, public title, sender, recipient, internal number, or document form is missing or suspect. | Which heading field and evidence source must be checked before rewriting. |
+| `treaty_component` | Treaty, protocol, annex, memorandum of understanding, executive agreement, letter, declaration, statement, transmittal, ratification, entry-into-force, or associated-document status is uncertain. | Which treaty component, legal status, public source, archival source, or integral-versus-associated relationship must be checked. |
 | `publication_status` | `printed in` versus `scheduled for publication` depends on current official status. | Which volume or chapter status must be confirmed. |
 | `authority_control` | Persons, titles, abbreviations, index terms, names, offices, or dates need authority-list review. | Which name, office, acronym, date span, or index term needs control. |
 | `declassification_status` | Release, withholding, excision, agency-equity, or bracket language is not final. | Which review outcome or bracket claim cannot yet be asserted. |
@@ -3301,6 +3456,7 @@ Default blocking rules:
 | `attachment_status` | yes | yes when the note asserts attached, not attached, tabbed, enclosed, printed, or not found |
 | `document_number` | yes for cross-reference edits | yes when same-volume or cross-volume references are unstable |
 | `document_metadata` | yes for heading, dateline, title, subject, or caption edits | yes when publishable apparatus identifies the document |
+| `treaty_component` | yes for component identity, integral-versus-associated status, public/archival basis, legal-status, ratification, or entry-into-force edits | yes when the note identifies a treaty component, associated document, transmittal, ratification, or entry into force |
 | `publication_status` | yes for `printed in` or `scheduled for publication` edits | yes for final style if publication language is present |
 | `authority_control` | yes when a date, identity, title, acronym, or index form is uncertain | yes for final style if repeated or reader-facing |
 | `declassification_status` | yes | yes |
@@ -3313,11 +3469,11 @@ Default blocking rules:
 Owner hints:
 
 - `compiler`: source images, archival path, document metadata, attachment
-  status, document numbers, source family, chronology, translation status, and
-  foreign-copy provenance.
+  status, document numbers, source family, chronology, treaty component
+  identity, translation status, and foreign-copy provenance.
 - `editor`: wording, heading form, cross-reference form, source-list
-  consistency, publication-status wording, and General Editor discrepancy
-  preparation.
+  consistency, treaty/legal-instrument placement, publication-status wording,
+  and General Editor discrepancy preparation.
 - `declassification`: classification markings, declassification outcomes,
   release-status separation, withholding, excision, and agency-equity language.
 - `wrapper`: exact anchors, existing tracked changes, Word XML structures,
@@ -3594,26 +3750,29 @@ For every extracted unit, run checks in this order:
 9. Check translation, foreign-origin copy, typed-signature, bracket-treatment,
    and agency/foreign-equity language against the translation registry when
    supplied.
-10. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
+10. Check treaty/legal-instrument component identity, integral-versus-associated
+    status, public/archival source basis, transmittal language, ratification,
+    and entry-into-force language against the treaty registry when supplied.
+11. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
    against the attachment registry when supplied.
-11. Check cross-references and follow-on citation form against the
+12. Check cross-references and follow-on citation form against the
    cross-reference registry when supplied.
-12. Check annotation purpose and concision.
-13. Check declassification, omission, original-bracket, release-status, and
+13. Check annotation purpose and concision.
+14. Check declassification, omission, original-bracket, release-status, and
     whole-document withholding language against the declassification registry
     when supplied.
-14. Check target-volume status and whether the note is research-stage,
+15. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-15. Route the unit through the relevant volume family when a 1981-1992
+16. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-16. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
+17. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-17. Check Persons, abbreviations, and index authority issues.
-18. Assign specific evidence requests and verification targets for unresolved
+18. Check Persons, abbreviations, and index authority issues.
+19. Assign specific evidence requests and verification targets for unresolved
     proof.
-19. Decide direct edit versus comment-only.
-20. Return strict JSON.
-21. After schema and semantic validation, aggregate all unresolved evidence
+20. Decide direct edit versus comment-only.
+21. Return strict JSON.
+22. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -3801,6 +3960,10 @@ Golden packet composition:
 - At least one translated or foreign-origin document with official,
   unofficial, informal, Language Services, typed-signature, or foreign-copy
   provenance language, used as a no-change or comment-only control.
+- At least one treaty/legal-instrument package with treaty text, protocol,
+  annex, memorandum of understanding, associated letter, declaration, statement,
+  article-by-article analysis, public transmittal, ratification, or
+  entry-into-force language.
 - At least one document heading, dateline, subject/title line, or public-title
   line from a published Reagan or Bush volume, used as a no-change or
   comment-only metadata control.
@@ -3842,6 +4005,10 @@ Expected behavior by test family:
   translation language, foreign-copy provenance, typed-signature notes, and
   bracket-treatment facts; comment rather than invent when the translation basis
   is missing.
+- Treaty/legal-instrument test: preserve component identity,
+  integral-versus-associated distinctions, public/archival basis, transmittal
+  context, ratification, and entry-into-force language; comment rather than
+  invent when the treaty component or legal-status basis is missing.
 - Document-metadata test: preserve correct document headings and datelines, and
   comment rather than invent when sender, recipient, place/date, subject, public
   title, or internal number evidence is missing.
@@ -3902,6 +4069,11 @@ Use the discrepancy tally for:
   ordering, repository naming, collection naming, or source-family detail.
 - Different treatment of public, printed, speech, hearing, testimony, treaty, or
   memoir sources as selected documents versus supporting context.
+- Variations in how much treaty component detail to print, where to place
+  protocol, annex, memorandum-of-understanding, letter, declaration, statement,
+  article-by-article analysis, transmittal, ratification, or entry-into-force
+  language, and how to distinguish integral treaty components from associated
+  but non-integral materials when the underlying facts are sound.
 - Variations in `No classification marking`, classification/handling order,
   handling punctuation, paragraph-marking treatment, declassification phrasing,
   or omission/bracket language where the underlying evidence is sound.
@@ -3937,6 +4109,8 @@ Tally behavior:
 
 - The LLM should add a `style_discrepancy_tally` item when it sees a real style
   variation that could affect future FRUS house practice.
+- The tally should remain a separate General Editor section of the audit report,
+  not a hidden validator note and not a forced redline.
 - The wrapper should merge duplicate discrepancy items across the uploaded
   packet and, if configured, across prior runs of the same project.
 - The tally should preserve representative unit ids, short examples, source
@@ -3954,6 +4128,7 @@ Suggested tally format:
 | Discrepancy id | Category | Style question | Variants observed | Count | Risk | General Editor question |
 | --- | --- | --- | --- | ---: | --- | --- |
 | style-discrepancy-0001 | source_note | Whether Bush H-Files citations should always name the subseries when supplied. | Generic H-Files; H-Files, NSR Files | 3 | medium | Should the checker enforce subseries naming as direct style when the subseries is present? |
+| style-discrepancy-0002 | treaty_legal_instrument | How much START treaty-package component detail should appear in source notes versus editorial notes. | Treaty text only; treaty plus protocols, annexes, and memorandum of understanding; associated letters and statements in editorial note | 2 | medium | Should the checker enforce a house form for integral treaty components and associated-but-not-integral materials, or only tally the variation? |
 
 Risk levels:
 
@@ -3993,6 +4168,9 @@ Required bundle files:
   translation office, source phrase, foreign-origin provenance, copy basis,
   typed-signature or facsimile status, bracket treatment, and agency or
   foreign-government equity.
+- `treaty_component_map`, when available: treaty family, component type, title,
+  integral-versus-associated status, related components, public/archival basis,
+  ratification or entry-into-force status, source phrase, and source URLs.
 - `authority_lists`, when available: Persons, abbreviations, source-list
   entries, index terms, known document numbers, chapter titles, and related
   volume cross-references.
@@ -4200,6 +4378,7 @@ Authority registry: [authority_registry_id and capture date]
 Document metadata registry: [document_metadata_registry_id and capture date]
 Classification registry: [classification_registry_id and capture date]
 Translation registry: [translation_registry_id and capture date]
+Treaty/legal-instrument registry: [treaty_registry_id and capture date]
 Source-family registry: [source_family_registry_id and capture date]
 Communications registry: [communications_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
@@ -4232,6 +4411,7 @@ Counts:
 - Document heading, dateline, title, or caption issues: [n]
 - Classification, handling, precedence, or paragraph-marking issues: [n]
 - Translation, foreign-origin copy, or language-services issues: [n]
+- Treaty component, integral/associated status, transmittal, ratification, or entry-into-force issues: [n]
 - Source-family unmatched or ambiguous matches: [n]
 - Communications records unmatched or incomplete: [n]
 - Attachment status unknown or conflicting: [n]
@@ -4262,6 +4442,9 @@ Classification/handling warnings:
 
 Translation/foreign-origin warnings:
 - [unit_id or global]: [translation/provenance issue] - [translation status, copy basis, and evidence basis]
+
+Treaty/legal-instrument warnings:
+- [unit_id or global]: [treaty issue] - [component type, integral/associated status, source basis, and legal-status evidence]
 
 Source-family warnings:
 - [unit_id or global]: [source-family issue] - [registry target or unmatched family]
@@ -4319,6 +4502,11 @@ Minimum components:
   informal, Language Services, and editor-transcribed translations; preserves
   foreign-copy provenance, typed-signature/facsimile status, bracket treatment,
   and agency/foreign-government equity before tracked changes are applied.
+- Treaty/legal-instrument validator that separates treaty text, protocols,
+  annexes, memoranda of understanding, executive agreements, letters,
+  declarations, statements, presidential messages, article-by-article analyses,
+  ratification, entry into force, and associated-but-not-integral materials
+  before tracked changes are applied.
 - Source-family registry validator that preserves published and local source
   ecologies, distinguishes public/printed selected sources from archival
   control copies, and blocks flattening of specific repositories into generic
@@ -4367,6 +4555,10 @@ Operational cautions:
   original language, unsupported official/unofficial claims, foreign-copy
   provenance issues, typed-signature/facsimile questions, and
   translation-foreign-origin discrepancy questions.
+- Record treaty-registry version, unresolved component identities,
+  integral-versus-associated status, public/archival basis conflicts,
+  transmittal questions, ratification or entry-into-force questions, and
+  treaty-legal-instrument discrepancy questions.
 - Record source-family registry version, unmatched or ambiguous family matches,
   direct source-family edits, and source-family discrepancy questions.
 - Record communications-registry version, unmatched message identifiers,
@@ -4464,6 +4656,10 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/ch3`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d49`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d91`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/d242`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/d244`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/d246`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/d247`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/ch6`
 - `https://history.state.gov/historicaldocuments/frus1981-88v13/ch3`
 - `https://history.state.gov/historicaldocuments/frus1981-88v24/d290`
@@ -4503,6 +4699,8 @@ Recent Reagan source incorporated:
 Recent Bush source incorporated:
 
 - [FRUS, 1989-1992, Volume XXXI, START I, 1989-1991](https://history.state.gov/historicaldocuments/frus1989-92v31)
+- [START I treaty text source note, Document 246](https://history.state.gov/historicaldocuments/frus1989-92v31/d246)
+- [START I Presidential transmittal and article-by-article analysis note, Document 247](https://history.state.gov/historicaldocuments/frus1989-92v31/d247)
 - [FRUS, 1989-1992, Volume XXXI, START I, 1989-1991 EPUB](https://static.history.state.gov/frus/frus1989-92v31/ebook/frus1989-92v31.epub)
 
 Current status source incorporated:
