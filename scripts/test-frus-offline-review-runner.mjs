@@ -62,7 +62,7 @@ function minimalDocxEntries() {
           `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>` +
             `<w:footnotes xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">` +
             `<w:footnote w:id="1"><w:p><w:r><w:t>Source: https://example.invalid/catalog-record. The document was attached to a memorandum for the record.</w:t></w:r></w:p></w:footnote>` +
-            `<w:footnote w:id="2"><w:p><w:r><w:t>Source: Reagan Library, Executive Secretariat, NSC Country File, Europe and Soviet Union, USSR, 1981. No classification.</w:t></w:r></w:p></w:footnote>` +
+            `<w:footnote w:id="2"><w:p><w:r><w:t>Source: Reagan Library, Executive Secretariat, NSC Country File, Europe, 1981. No classification.</w:t></w:r></w:p></w:footnote>` +
             `</w:footnotes>`,
           "utf8"
         )
@@ -219,6 +219,8 @@ try {
       "reports/frus-public-source-registry.sample.json",
       "--treaty-registry",
       "reports/frus-treaty-registry.sample.json",
+      "--foreign-org-registry",
+      "reports/frus-foreign-org-registry.sample.json",
       "--recurring-risk-registry",
       "reports/frus-recurring-risk-registry.sample.json",
       "--negative-search-registry",
@@ -297,6 +299,8 @@ try {
   assert(audit.counts.treaty_direct_edit_conflicts === 0, "expected zero treaty direct-edit conflicts");
   assert(audit.counts.recurring_risk_matches === 0, "expected zero recurring-risk matches");
   assert(audit.counts.recurring_risk_direct_edit_conflicts === 0, "expected zero recurring-risk direct-edit conflicts");
+  assert(audit.counts.foreign_org_registry_usages === 0, "expected zero foreign-org usages");
+  assert(audit.counts.foreign_org_direct_edit_conflicts === 0, "expected zero foreign-org direct-edit conflicts");
   assert(audit.counts.negative_search_registry_usages === 0, "expected zero negative-search registry usages");
   assert(audit.counts.negative_search_registry_warnings === 0, "expected zero negative-search registry warnings");
   assert(audit.counts.negative_search_direct_edit_conflicts === 0, "expected zero negative-search direct-edit conflicts");
@@ -344,6 +348,8 @@ try {
     "public-source-usage-audit.json",
     "treaty-registry-validation.json",
     "treaty-usage-audit.json",
+    "foreign-org-registry-validation.json",
+    "foreign-org-usage-audit.json",
     "recurring-risk-registry-validation.json",
     "recurring-risk-usage-audit.json",
     "negative-search-registry-validation.json",
@@ -389,6 +395,8 @@ try {
   assert(audit.reports.public_source_usage_audit.status === "pass", "expected public-source usage audit report");
   assert(audit.reports.treaty_registry_validation.summary.records === 7, "expected treaty registry validation report");
   assert(audit.reports.treaty_usage_audit.status === "pass", "expected treaty usage audit report");
+  assert(audit.reports.foreign_org_registry_validation.summary.records === 10, "expected foreign-org registry validation report");
+  assert(audit.reports.foreign_org_usage_audit.status === "pass", "expected foreign-org usage audit report");
   assert(audit.reports.recurring_risk_registry_validation.summary.records === 13, "expected recurring-risk registry validation report");
   assert(audit.reports.recurring_risk_usage_audit.status === "pass", "expected recurring-risk usage audit report");
   assert(audit.reports.document_relationship_registry_validation.summary.records === 10, "expected document relationship registry validation report");
@@ -408,7 +416,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/chronology/public-source/treaty/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/chronology/public-source/treaty/foreign-org/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

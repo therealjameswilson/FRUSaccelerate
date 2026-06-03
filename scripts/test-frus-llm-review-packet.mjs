@@ -59,6 +59,8 @@ try {
     "reports/frus-public-source-registry.sample.json",
     "--treaty-registry",
     "reports/frus-treaty-registry.sample.json",
+    "--foreign-org-registry",
+    "reports/frus-foreign-org-registry.sample.json",
     "--recurring-risk-registry",
     "reports/frus-recurring-risk-registry.sample.json",
     "--negative-search-registry",
@@ -129,6 +131,9 @@ try {
   assert(markdown.includes("Treaty And Legal Instrument Registry Context"), "expected treaty registry section");
   assert(markdown.includes("Conversion or Elimination Protocol"), "expected treaty registry content");
   assert(markdown.includes("associated with, but not integral parts of, the Treaty"), "expected treaty associated-document content");
+  assert(markdown.includes("Foreign And International Organization Registry Context"), "expected foreign-org registry section");
+  assert(markdown.includes("ASEAN [Association of Southeast Asian Nations]"), "expected regional-organization registry content");
+  assert(markdown.includes("President of the Union of Soviet Socialist Republics"), "expected foreign-state registry content");
   assert(markdown.includes("Recurring Compiler Risk Registry Context"), "expected recurring-risk registry section");
   assert(markdown.includes("Telegram number has a leading zero"), "expected recurring-risk registry content");
   assert(markdown.includes("Cross-reference slug or clue is incomplete"), "expected cross-reference recurring-risk content");
@@ -194,6 +199,9 @@ try {
   assert(packet.contexts.treaty_registry.records.length === 7, "expected treaty registry records");
   assert(packet.contexts.treaty_registry.target_records.length > 0, "expected target treaty records");
   assert(packet.packet_summary.treaty_registry_records === 7, "expected treaty registry count");
+  assert(packet.contexts.foreign_org_registry.records.length === 10, "expected foreign-org registry records");
+  assert(packet.contexts.foreign_org_registry.target_records.length > 0, "expected target foreign-org records");
+  assert(packet.packet_summary.foreign_org_registry_records === 10, "expected foreign-org registry count");
   assert(packet.contexts.recurring_risk_registry.records.length === 13, "expected recurring-risk registry records");
   assert(packet.packet_summary.recurring_risk_registry_records === 13, "expected recurring-risk registry count");
   assert(packet.contexts.negative_search_registry.records.length === 6, "expected negative-search registry records");
@@ -212,7 +220,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, public-source, treaty, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, public-source, treaty, foreign-org, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

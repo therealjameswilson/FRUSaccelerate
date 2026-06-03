@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--public-source-registry registry.json] [--treaty-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--public-source-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -45,6 +45,7 @@ function parseArgs(argv) {
   let chronologyRegistryPath = null;
   let publicSourceRegistryPath = null;
   let treatyRegistryPath = null;
+  let foreignOrgRegistryPath = null;
   let recurringRiskRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
@@ -116,6 +117,9 @@ function parseArgs(argv) {
     } else if (arg === "--treaty-registry") {
       treatyRegistryPath = argv[index + 1];
       index += 1;
+    } else if (arg === "--foreign-org-registry") {
+      foreignOrgRegistryPath = argv[index + 1];
+      index += 1;
     } else if (arg === "--recurring-risk-registry") {
       recurringRiskRegistryPath = argv[index + 1];
       index += 1;
@@ -186,6 +190,7 @@ function parseArgs(argv) {
     chronologyRegistryPath,
     publicSourceRegistryPath,
     treatyRegistryPath,
+    foreignOrgRegistryPath,
     recurringRiskRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
@@ -767,6 +772,39 @@ function compactTreatyRegistry(registry, targetVolume) {
   };
 }
 
+function compactForeignOrgRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  return {
+    schema_version: registry.schema_version,
+    foreign_org_registry_id: registry.foreign_org_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [],
+    records: records.map((record) => ({
+      foreign_org_id: record.foreign_org_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      entity_type: record.entity_type,
+      approved_phrase: record.approved_phrase,
+      entity_or_body: record.entity_or_body,
+      country_or_region: record.country_or_region,
+      role_or_context: record.role_or_context,
+      identity_basis: record.identity_basis,
+      selected_or_supplemental_status: record.selected_or_supplemental_status,
+      relationship_to_document: record.relationship_to_document,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactRecurringRiskRegistry(registry) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -829,6 +867,7 @@ function renderPacket({
   chronologyRegistry,
   publicSourceRegistry,
   treatyRegistry,
+  foreignOrgRegistry,
   recurringRiskRegistry,
   negativeSearchRegistry,
   documentRelationshipRegistry,
@@ -960,6 +999,12 @@ function renderPacket({
     "",
     fencedJson(treatyRegistry || {}),
     "",
+    "## Foreign And International Organization Registry Context",
+    "",
+    "Use this to check country names, successor-state references, alliances, international organizations, regional bodies, summit/conference names, international financial institutions, trade regimes, UN resolution forms, and treaty-party language. Do not change entity identity, acronym expansion, body role, successor-state status, treaty-party status, or translation/authority basis unless the target-volume foreign-org registry proves the direct edit.",
+    "",
+    fencedJson(foreignOrgRegistry || {}),
+    "",
     "## Recurring Compiler Risk Registry Context",
     "",
     "Use this as a practical spellcheck list for recurring compiler mistakes: leading-zero telegram numbers, non-State telegram copies without eRecords/drafting checks, incomplete cross-reference slugs, missing page breaks, old heading-footnote practice, Word autoformatting, incomplete documents or source notes, unhighlighted quoted backup text, missing telegram headers/film numbers, and Style Guide inconsistency. Treat these as generalized risk checks, not as personal criticism.",
@@ -1029,6 +1074,7 @@ function buildChunks(options) {
   const chronologyRegistry = options.chronologyRegistryPath ? readJson(options.chronologyRegistryPath) : null;
   const publicSourceRegistry = options.publicSourceRegistryPath ? readJson(options.publicSourceRegistryPath) : null;
   const treatyRegistry = options.treatyRegistryPath ? readJson(options.treatyRegistryPath) : null;
+  const foreignOrgRegistry = options.foreignOrgRegistryPath ? readJson(options.foreignOrgRegistryPath) : null;
   const recurringRiskRegistry = options.recurringRiskRegistryPath ? readJson(options.recurringRiskRegistryPath) : null;
   const router = options.preparationRouterPath ? readJson(options.preparationRouterPath) : null;
   const matrix = options.permutationMatrixPath ? readJson(options.permutationMatrixPath) : null;
@@ -1056,6 +1102,7 @@ function buildChunks(options) {
   const chronologyRegistryContext = compactChronologyRegistry(chronologyRegistry, options.targetVolume);
   const publicSourceRegistryContext = compactPublicSourceRegistry(publicSourceRegistry, options.targetVolume);
   const treatyRegistryContext = compactTreatyRegistry(treatyRegistry, options.targetVolume);
+  const foreignOrgRegistryContext = compactForeignOrgRegistry(foreignOrgRegistry, options.targetVolume);
   const recurringRiskRegistryContext = compactRecurringRiskRegistry(recurringRiskRegistry);
   const annotationSheetProfileContext = compactAnnotationSheetProfile(annotationSheetProfile);
   const unitChunks = chunkUnits(unitsDocument.units, options.maxUnits, options.maxChars);
@@ -1086,6 +1133,7 @@ function buildChunks(options) {
       chronology_registry: options.chronologyRegistryPath ? normalizePathForOutput(options.chronologyRegistryPath) : "",
       public_source_registry: options.publicSourceRegistryPath ? normalizePathForOutput(options.publicSourceRegistryPath) : "",
       treaty_registry: options.treatyRegistryPath ? normalizePathForOutput(options.treatyRegistryPath) : "",
+      foreign_org_registry: options.foreignOrgRegistryPath ? normalizePathForOutput(options.foreignOrgRegistryPath) : "",
       recurring_risk_registry: options.recurringRiskRegistryPath ? normalizePathForOutput(options.recurringRiskRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
@@ -1113,6 +1161,7 @@ function buildChunks(options) {
       chronology_registry_records: chronologyRegistry?.records?.length || 0,
       public_source_registry_records: publicSourceRegistry?.records?.length || 0,
       treaty_registry_records: treatyRegistry?.records?.length || 0,
+      foreign_org_registry_records: foreignOrgRegistry?.records?.length || 0,
       recurring_risk_registry_records: recurringRiskRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
       document_relationship_registry_records: documentRelationshipRegistry?.records?.length || 0,
@@ -1166,6 +1215,7 @@ function buildChunks(options) {
         chronologyRegistry: chronologyRegistryContext,
         publicSourceRegistry: publicSourceRegistryContext,
         treatyRegistry: treatyRegistryContext,
+        foreignOrgRegistry: foreignOrgRegistryContext,
         recurringRiskRegistry: recurringRiskRegistryContext,
         negativeSearchRegistry: negativeSearchRegistryContext,
         documentRelationshipRegistry: documentRelationshipRegistryContext,

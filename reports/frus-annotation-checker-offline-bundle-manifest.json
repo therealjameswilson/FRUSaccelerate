@@ -260,6 +260,18 @@
       "role": "Self-contained treaty/legal-instrument registry and usage audit smoke test"
     },
     {
+      "path": "scripts/validate-frus-foreign-org-registry.mjs",
+      "role": "Foreign state, successor-state, alliance, international organization, summit/conference, international financial institution, trade-regime, UN resolution, and treaty-party registry validator"
+    },
+    {
+      "path": "scripts/audit-frus-foreign-org-usage.mjs",
+      "role": "Foreign/international-organization usage audit for extracted Word units and direct-edit safety"
+    },
+    {
+      "path": "scripts/test-frus-foreign-org-audit.mjs",
+      "role": "Self-contained foreign/international-organization registry and usage audit smoke test"
+    },
+    {
       "path": "scripts/validate-frus-recurring-risk-registry.mjs",
       "role": "Recurring compiler-risk registry validator for common FRUS annotation-sheet failure modes"
     },
@@ -394,6 +406,9 @@
     "reports/frus-treaty-registry.sample.json",
     "reports/frus-treaty-units.sample.json",
     "reports/frus-treaty-audit.sample.json",
+    "reports/frus-foreign-org-registry.sample.json",
+    "reports/frus-foreign-org-units.sample.json",
+    "reports/frus-foreign-org-audit.sample.json",
     "reports/frus-recurring-risk-registry.sample.json",
     "reports/frus-recurring-risk-units.sample.json",
     "reports/frus-recurring-risk-audit.sample.json",
@@ -477,6 +492,10 @@
       "role": "Published treaty text, protocols, annexes, MOU, associated-document, Senate transmittal, draft treaty, and legal-instrument sample for Reagan and George H.W. Bush fixtures"
     },
     {
+      "path": "reports/frus-foreign-org-registry.sample.json",
+      "role": "Published country, successor-state, alliance, international organization, regional body, summit/conference, financial institution, trade-regime, UN resolution, and treaty-party sample for Reagan and George H.W. Bush fixtures"
+    },
+    {
       "path": "reports/frus-recurring-risk-registry.sample.json",
       "role": "Recurring compiler-risk sample for telegram numbering, eRecords copy basis, cross-reference slugs, page breaks, heading footnotes, Word autoformatting, completeness, backup, and Style Guide checks"
     },
@@ -557,6 +576,9 @@
     "node scripts/validate-frus-treaty-registry.mjs --registry reports/frus-treaty-registry.sample.json --format text",
     "node scripts/audit-frus-treaty-usage.mjs --units reports/frus-treaty-units.sample.json --registry reports/frus-treaty-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-treaty-audit.mjs",
+    "node scripts/validate-frus-foreign-org-registry.mjs --registry reports/frus-foreign-org-registry.sample.json --format text",
+    "node scripts/audit-frus-foreign-org-usage.mjs --units reports/frus-foreign-org-units.sample.json --registry reports/frus-foreign-org-registry.sample.json --target-volume frus1989-92v31 --format text",
+    "node scripts/test-frus-foreign-org-audit.mjs",
     "node scripts/validate-frus-recurring-risk-registry.mjs --registry reports/frus-recurring-risk-registry.sample.json --format text",
     "node scripts/audit-frus-recurring-risk-usage.mjs --units reports/frus-recurring-risk-units.sample.json --registry reports/frus-recurring-risk-registry.sample.json --format text",
     "node scripts/test-frus-recurring-risk-audit.mjs",
@@ -604,6 +626,8 @@
     "Give validate-frus-public-source-registry.mjs a duplicate public_source_id or malformed public-source-registry schema; it must fail.",
     "Give audit-frus-treaty-usage.mjs a direct edit that changes treaty component identity, integral/associated status, legal process, ratification, or entry-into-force language without target-volume registry support; it must fail.",
     "Give validate-frus-treaty-registry.mjs a duplicate treaty_id or malformed treaty-registry schema; it must fail.",
+    "Give audit-frus-foreign-org-usage.mjs a direct edit that changes country, alliance, international-organization, successor-state, treaty-party, or conference identity without target-volume registry support; it must fail.",
+    "Give validate-frus-foreign-org-registry.mjs a duplicate foreign_org_id or malformed foreign-org-registry schema; it must fail.",
     "Give audit-frus-recurring-risk-usage.mjs a direct edit that changes WHSR/NSC telegram copy basis, backup completeness, or cross-reference clues without supplied evidence; it must fail.",
     "Give validate-frus-recurring-risk-registry.mjs a duplicate risk_id, invalid detector regex, or malformed recurring-risk-registry schema; it must fail.",
     "Give audit-frus-negative-search-usage.mjs a direct edit that changes `Not found attached` to `Not attached` without target-volume registry support; it must fail.",

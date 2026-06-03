@@ -2,7 +2,7 @@
 
 - schema_version: frus-llm-review-packet-v1
 - run_id: sample-fixture
-- generated_at: 2026-06-03T22:12:50.480Z
+- generated_at: 2026-06-03T22:56:55.504Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -167,6 +167,7 @@ Every reviewable extracted editorial unit should have a checker entry. Use `reco
   "chronology_registry_records": 6,
   "public_source_registry_records": 6,
   "treaty_registry_records": 7,
+  "foreign_org_registry_records": 10,
   "recurring_risk_registry_records": 13,
   "negative_search_registry_records": 6,
   "document_relationship_registry_records": 10,
@@ -200,9 +201,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -245,6 +246,9 @@ For public-source/public-diplomacy validation and direct-edit safety, run
 For treaty/legal-instrument validation and direct-edit safety, run
 `node scripts/validate-frus-treaty-registry.mjs --registry reports/frus-treaty-registry.sample.json --format text` and
 `node scripts/audit-frus-treaty-usage.mjs --units extracted-units.json --registry reports/frus-treaty-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For foreign/international-organization validation and direct-edit safety, run
+`node scripts/validate-frus-foreign-org-registry.mjs --registry reports/frus-foreign-org-registry.sample.json --format text` and
+`node scripts/audit-frus-foreign-org-usage.mjs --units extracted-units.json --registry reports/frus-foreign-org-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For recurring compiler-risk spellcheck validation, run
 `node scripts/validate-frus-recurring-risk-registry.mjs --registry reports/frus-recurring-risk-registry.sample.json --format text` and
 `node scripts/audit-frus-recurring-risk-usage.mjs --units extracted-units.json --registry reports/frus-recurring-risk-registry.sample.json --checker-output output.json --format text`.
@@ -270,7 +274,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -360,6 +364,13 @@ Senate transmittal packages, Treaty Doc. references, ratification,
 entry-into-force, legal authority, and draft treaty-package language; validate
 it with `scripts/validate-frus-treaty-registry.mjs` before direct treaty or
 legal-instrument edits.
+For real Reagan/Bush 1981-1992 foreign/international-organization review,
+replace the sample foreign-org registry with target-volume records for country
+names, successor-state references, alliances, international organizations,
+regional bodies, summit/conference names, international financial institutions,
+trade regimes, UN resolution forms, political parties, and treaty-party status;
+validate it with `scripts/validate-frus-foreign-org-registry.mjs` before direct
+foreign-entity or international-organization edits.
 For every Reagan/Bush 1981-1992 sheet, keep the recurring-risk registry in the
 packet unless a project-specific version supersedes it. It should check for
 leading-zero telegram numbers, non-State telegram copies without eRecords or
@@ -480,7 +491,7 @@ is flawless.
    extracted units, output schema, status registry, authority registry,
    source-list registry, document-metadata registry, classification registry,
    declassification registry, public-source registry, treaty registry,
-   recurring-risk registry, communications registry, preparation router, and
+   foreign-org registry, recurring-risk registry, communications registry, preparation router, and
    permutation matrix.
 5. If the model context is too small, wrapper builds numbered chunk packets and
    later merges chunk outputs through the chunk-reconciliation gate.
@@ -593,6 +604,10 @@ The wrapper should provide:
   understanding, associated but non-integral documents, Senate transmittal
   packages, Treaty Doc. references, ratification, entry-into-force, legal
   authority, and draft treaty-package records when available.
+- `foreign_org_registry_context`: country, successor-state, alliance,
+  international-organization, regional-body, summit/conference, international
+  financial institution, trade-regime, UN resolution, and treaty-party records
+  when available.
 - `recurring_risk_registry_context`: spellcheck-style recurring-risk records
   for leading-zero telegram numbers, eRecords copy basis, cross-reference
   slugs, page breaks, heading footnotes, Word autoformatting, completeness,
@@ -5606,6 +5621,339 @@ Use this to check treaty text, protocols, annexes, memoranda of understanding, a
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d251",
       "verification_status": "verified_published_treaty_record"
+    }
+  ]
+}
+```
+
+## Foreign And International Organization Registry Context
+
+Use this to check country names, successor-state references, alliances, international organizations, regional bodies, summit/conference names, international financial institutions, trade regimes, UN resolution forms, and treaty-party language. Do not change entity identity, acronym expansion, body role, successor-state status, treaty-party status, or translation/authority basis unless the target-volume foreign-org registry proves the direct edit.
+
+```json
+{
+  "schema_version": "frus-foreign-org-registry-v1",
+  "foreign_org_registry_id": "frus-foreign-org-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d63",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d229",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d129",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d156",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d161"
+  ],
+  "scope": "Sample foreign/international-organization registry for Reagan and George H.W. Bush FRUS annotation sheets. Use it to keep country, successor-state, alliance, UN, treaty-party, conference, regional organization, international financial institution, and trade-regime language tied to published target-volume examples before allowing direct edits.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "foreign_org_id": "foreign-org-csce-summit-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d129",
+      "document_number": "129",
+      "unit_scope": "source_note",
+      "entity_type": "summit_conference",
+      "approved_phrase": "CSCE Summit",
+      "entity_or_body": "Conference on Security and Cooperation in Europe",
+      "country_or_region": "Europe",
+      "role_or_context": "Source note identifies the Paris CSCE Summit context.",
+      "identity_basis": "Published George H.W. Bush volume source note.",
+      "selected_or_supplemental_status": "published_volume_example",
+      "relationship_to_document": "Meeting context and source-note locator.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 129.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d129",
+      "verification_status": "verified_published_foreign_org_record",
+      "variant_forms": [
+        "Conference on Security and Cooperation in Europe Summit",
+        "Paris CSCE Summit"
+      ]
+    },
+    {
+      "foreign_org_id": "foreign-org-ussr-state-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d156",
+      "document_number": "156",
+      "unit_scope": "document_heading",
+      "entity_type": "foreign_state",
+      "approved_phrase": "President of the Union of Soviet Socialist Republics",
+      "entity_or_body": "Union of Soviet Socialist Republics",
+      "country_or_region": "Soviet Union",
+      "role_or_context": "Formal state title appears in a document heading.",
+      "identity_basis": "Published George H.W. Bush volume document heading.",
+      "selected_or_supplemental_status": "published_volume_example",
+      "relationship_to_document": "Sender/recipient identity.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 156.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d156",
+      "verification_status": "verified_published_foreign_org_record",
+      "variant_forms": [
+        "President of the USSR",
+        "Soviet President"
+      ]
+    },
+    {
+      "foreign_org_id": "foreign-org-us-uk-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d161",
+      "document_number": "161",
+      "unit_scope": "annotation",
+      "entity_type": "foreign_state",
+      "approved_phrase": "US/UK cooperation",
+      "entity_or_body": "United Kingdom",
+      "country_or_region": "United Kingdom",
+      "role_or_context": "Published annotation uses slash construction in a cooperation phrase.",
+      "identity_basis": "Published George H.W. Bush volume annotation.",
+      "selected_or_supplemental_status": "published_volume_example",
+      "relationship_to_document": "Explanatory annotation for treaty-related discussion.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 161.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d161",
+      "verification_status": "verified_published_foreign_org_record",
+      "variant_forms": [
+        "U.S./U.K. cooperation",
+        "United States-United Kingdom cooperation"
+      ]
+    },
+    {
+      "foreign_org_id": "foreign-org-treaty-party-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d161",
+      "document_number": "161",
+      "unit_scope": "annotation",
+      "entity_type": "treaty_party",
+      "approved_phrase": "States not party to this Treaty",
+      "entity_or_body": "Treaty parties and non-parties",
+      "country_or_region": "global",
+      "role_or_context": "Published annotation preserves treaty-party status language.",
+      "identity_basis": "Published George H.W. Bush volume annotation.",
+      "selected_or_supplemental_status": "published_volume_example",
+      "relationship_to_document": "Treaty-related annotation.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 161.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d161",
+      "verification_status": "verified_published_foreign_org_record",
+      "variant_forms": [
+        "non-party states",
+        "states not parties to this Treaty"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "foreign_org_id": "foreign-org-un-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d63",
+      "document_number": "63",
+      "unit_scope": "annotation",
+      "entity_type": "international_organization",
+      "approved_phrase": "United Nations",
+      "entity_or_body": "United Nations",
+      "country_or_region": "global",
+      "role_or_context": "Reagan campaign statement references global cooperation and the U.N. system.",
+      "identity_basis": "Published Reagan Foundations annotation text.",
+      "selected_or_supplemental_status": "published_volume_example",
+      "relationship_to_document": "Cited in follow-on annotation context.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 63.",
+      "variant_forms": [
+        "UN",
+        "U.N."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d63",
+      "verification_status": "verified_published_foreign_org_record"
+    },
+    {
+      "foreign_org_id": "foreign-org-unsc-242-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d63",
+      "document_number": "63",
+      "unit_scope": "annotation",
+      "entity_type": "un_resolution",
+      "approved_phrase": "UN Security Council Resolution 242 (S/RES/242)",
+      "entity_or_body": "United Nations Security Council",
+      "country_or_region": "Middle East",
+      "role_or_context": "Resolution citation appears with document-symbol parenthetical.",
+      "identity_basis": "Published Reagan Foundations annotation text.",
+      "selected_or_supplemental_status": "published_volume_example",
+      "relationship_to_document": "Public statement/legal-diplomatic reference.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 63.",
+      "variant_forms": [
+        "Security Council Resolution 242",
+        "UNSC Resolution 242",
+        "S/RES/242"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d63",
+      "verification_status": "verified_published_foreign_org_record"
+    },
+    {
+      "foreign_org_id": "foreign-org-gatt-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d63",
+      "document_number": "63",
+      "unit_scope": "annotation",
+      "entity_type": "trade_regime",
+      "approved_phrase": "General Agreement on Tariffs and Trade (GATT)",
+      "entity_or_body": "General Agreement on Tariffs and Trade",
+      "country_or_region": "global",
+      "role_or_context": "Trade regime identified by full name and acronym.",
+      "identity_basis": "Published Reagan Foundations annotation text.",
+      "selected_or_supplemental_status": "published_volume_example",
+      "relationship_to_document": "Campaign statement footnote/context.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 63.",
+      "variant_forms": [
+        "GATT"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d63",
+      "verification_status": "verified_published_foreign_org_record"
+    },
+    {
+      "foreign_org_id": "foreign-org-asean-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d229",
+      "document_number": "229",
+      "unit_scope": "annotation",
+      "entity_type": "regional_organization",
+      "approved_phrase": "ASEAN [Association of Southeast Asian Nations]",
+      "entity_or_body": "Association of Southeast Asian Nations",
+      "country_or_region": "Southeast Asia",
+      "role_or_context": "Acronym is expanded in brackets in the published annotation.",
+      "identity_basis": "Published Reagan Foundations annotation text.",
+      "selected_or_supplemental_status": "published_volume_example",
+      "relationship_to_document": "Annotation explains regional framework.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 229.",
+      "variant_forms": [
+        "ASEAN",
+        "Association of Southeast Asian Nations"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d229",
+      "verification_status": "verified_published_foreign_org_record"
+    },
+    {
+      "foreign_org_id": "foreign-org-anzus-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d229",
+      "document_number": "229",
+      "unit_scope": "annotation",
+      "entity_type": "security_alliance",
+      "approved_phrase": "ANZUS [Australia, New Zealand, United States Security Treaty]",
+      "entity_or_body": "Australia, New Zealand, United States Security Treaty",
+      "country_or_region": "Pacific",
+      "role_or_context": "Security treaty acronym is expanded in brackets in the published annotation.",
+      "identity_basis": "Published Reagan Foundations annotation text.",
+      "selected_or_supplemental_status": "published_volume_example",
+      "relationship_to_document": "Annotation explains Pacific security framework.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 229.",
+      "variant_forms": [
+        "ANZUS",
+        "Australia, New Zealand, United States Security Treaty"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d229",
+      "verification_status": "verified_published_foreign_org_record"
+    },
+    {
+      "foreign_org_id": "foreign-org-imf-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d229",
+      "document_number": "229",
+      "unit_scope": "annotation",
+      "entity_type": "international_financial_institution",
+      "approved_phrase": "IMF [International Monetary Fund]",
+      "entity_or_body": "International Monetary Fund",
+      "country_or_region": "global",
+      "role_or_context": "International financial institution acronym is expanded in brackets in the published annotation.",
+      "identity_basis": "Published Reagan Foundations annotation text.",
+      "selected_or_supplemental_status": "published_volume_example",
+      "relationship_to_document": "Annotation explains financial institution reference.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 229.",
+      "variant_forms": [
+        "IMF",
+        "International Monetary Fund"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d229",
+      "verification_status": "verified_published_foreign_org_record"
+    },
+    {
+      "foreign_org_id": "foreign-org-csce-summit-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d129",
+      "document_number": "129",
+      "unit_scope": "source_note",
+      "entity_type": "summit_conference",
+      "approved_phrase": "CSCE Summit",
+      "entity_or_body": "Conference on Security and Cooperation in Europe",
+      "country_or_region": "Europe",
+      "role_or_context": "Source note identifies the Paris CSCE Summit context.",
+      "identity_basis": "Published George H.W. Bush volume source note.",
+      "selected_or_supplemental_status": "published_volume_example",
+      "relationship_to_document": "Meeting context and source-note locator.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 129.",
+      "variant_forms": [
+        "Conference on Security and Cooperation in Europe Summit",
+        "Paris CSCE Summit"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d129",
+      "verification_status": "verified_published_foreign_org_record"
+    },
+    {
+      "foreign_org_id": "foreign-org-ussr-state-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d156",
+      "document_number": "156",
+      "unit_scope": "document_heading",
+      "entity_type": "foreign_state",
+      "approved_phrase": "President of the Union of Soviet Socialist Republics",
+      "entity_or_body": "Union of Soviet Socialist Republics",
+      "country_or_region": "Soviet Union",
+      "role_or_context": "Formal state title appears in a document heading.",
+      "identity_basis": "Published George H.W. Bush volume document heading.",
+      "selected_or_supplemental_status": "published_volume_example",
+      "relationship_to_document": "Sender/recipient identity.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 156.",
+      "variant_forms": [
+        "President of the USSR",
+        "Soviet President"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d156",
+      "verification_status": "verified_published_foreign_org_record"
+    },
+    {
+      "foreign_org_id": "foreign-org-us-uk-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d161",
+      "document_number": "161",
+      "unit_scope": "annotation",
+      "entity_type": "foreign_state",
+      "approved_phrase": "US/UK cooperation",
+      "entity_or_body": "United Kingdom",
+      "country_or_region": "United Kingdom",
+      "role_or_context": "Published annotation uses slash construction in a cooperation phrase.",
+      "identity_basis": "Published George H.W. Bush volume annotation.",
+      "selected_or_supplemental_status": "published_volume_example",
+      "relationship_to_document": "Explanatory annotation for treaty-related discussion.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 161.",
+      "variant_forms": [
+        "U.S./U.K. cooperation",
+        "United States-United Kingdom cooperation"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d161",
+      "verification_status": "verified_published_foreign_org_record"
+    },
+    {
+      "foreign_org_id": "foreign-org-treaty-party-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d161",
+      "document_number": "161",
+      "unit_scope": "annotation",
+      "entity_type": "treaty_party",
+      "approved_phrase": "States not party to this Treaty",
+      "entity_or_body": "Treaty parties and non-parties",
+      "country_or_region": "global",
+      "role_or_context": "Published annotation preserves treaty-party status language.",
+      "identity_basis": "Published George H.W. Bush volume annotation.",
+      "selected_or_supplemental_status": "published_volume_example",
+      "relationship_to_document": "Treaty-related annotation.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 161.",
+      "variant_forms": [
+        "non-party states",
+        "states not parties to this Treaty"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d161",
+      "verification_status": "verified_published_foreign_org_record"
     }
   ]
 }

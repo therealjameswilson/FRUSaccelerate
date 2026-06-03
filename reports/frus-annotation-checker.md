@@ -121,6 +121,13 @@ For treaty/legal-instrument validation, use
 `reports/frus-treaty-units.sample.json`; the self-contained smoke test is
 `scripts/test-frus-treaty-audit.mjs`, and the sample audit report is
 `reports/frus-treaty-audit.sample.json`.
+For foreign/international-organization validation, use
+`scripts/validate-frus-foreign-org-registry.mjs` and
+`scripts/audit-frus-foreign-org-usage.mjs` with
+`reports/frus-foreign-org-registry.sample.json` and
+`reports/frus-foreign-org-units.sample.json`; the self-contained smoke test is
+`scripts/test-frus-foreign-org-audit.mjs`, and the sample audit report is
+`reports/frus-foreign-org-audit.sample.json`.
 For recurring compiler-risk spellchecks, use
 `scripts/validate-frus-recurring-risk-registry.mjs` and
 `scripts/audit-frus-recurring-risk-usage.mjs` with
@@ -12230,6 +12237,17 @@ Minimum components:
   entry-into-force, legal-authority, and draft treaty-package language to
   supplied treaty records and fails direct treaty edits that lack target-volume
   registry support.
+- No-dependency foreign/international-organization registry validator, usage
+  audit, and fixtures: `scripts/validate-frus-foreign-org-registry.mjs`,
+  `scripts/audit-frus-foreign-org-usage.mjs`,
+  `reports/frus-foreign-org-registry.sample.json`,
+  `reports/frus-foreign-org-units.sample.json`, and
+  `reports/frus-foreign-org-audit.sample.json`. The audit reconciles country
+  names, successor-state references, alliances, international organizations,
+  regional bodies, summit/conference names, international financial
+  institutions, trade regimes, UN resolution forms, political parties, and
+  treaty-party language to supplied target-volume records and fails direct
+  entity-identity edits that lack registry support.
 - No-dependency recurring compiler-risk validator, usage audit, and fixtures:
   `scripts/validate-frus-recurring-risk-registry.mjs`,
   `scripts/audit-frus-recurring-risk-usage.mjs`,
@@ -12585,7 +12603,8 @@ Operational cautions:
   foreign-copy basis, organization identity, body role, concurrence basis,
   treaty-party or successor-state status, meeting/conference identity,
   international-organization publication details, selected-versus-supplemental
-  status, and foreign-international-organization discrepancy questions.
+  status, supplied foreign-org registry matches, direct foreign-org edit
+  conflicts, and foreign-international-organization discrepancy questions.
 - Record treaty-registry version, unresolved component identities,
   integral-versus-associated status, public/archival basis conflicts,
   transmittal questions, ratification or entry-into-force questions, and

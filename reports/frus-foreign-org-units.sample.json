@@ -1,0 +1,127 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample foreign/international-organization extracted units",
+  "units": [
+    {
+      "unit_id": "foreign-org-0001",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-1",
+      "exact_text": "Reagan referred to the role of the United Nations in development questions.",
+      "display_text": "Reagan referred to the role of the United Nations in development questions.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "foreign-org-0002",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-2",
+      "exact_text": "The annotation cites UN Security Council Resolution 242 (S/RES/242).",
+      "display_text": "The annotation cites UN Security Council Resolution 242 (S/RES/242).",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "foreign-org-0003",
+      "unit_type": "follow_on_footnote",
+      "location": "word/footnotes.xml#footnote-3",
+      "exact_text": "A GATT ministerial issue appears in the public remarks.",
+      "display_text": "A GATT ministerial issue appears in the public remarks.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "foreign-org-0004",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-4",
+      "exact_text": "The regional passage identifies ASEAN [Association of Southeast Asian Nations].",
+      "display_text": "The regional passage identifies ASEAN [Association of Southeast Asian Nations].",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "foreign-org-0005",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-5",
+      "exact_text": "The alliance passage identifies ANZUS [Australia, New Zealand, United States Security Treaty].",
+      "display_text": "The alliance passage identifies ANZUS [Australia, New Zealand, United States Security Treaty].",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "foreign-org-0006",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-6",
+      "exact_text": "The financial note expands IMF [International Monetary Fund].",
+      "display_text": "The financial note expands IMF [International Monetary Fund].",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "foreign-org-0007",
+      "unit_type": "source_note",
+      "location": "word/footnotes.xml#footnote-7",
+      "exact_text": "Source: Bush Library, Paris CSCE Summit files.",
+      "display_text": "Source: Bush Library, Paris CSCE Summit files.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "foreign-org-0008",
+      "unit_type": "document_heading",
+      "location": "word/document.xml#p-8",
+      "exact_text": "Message From the President of the Union of Soviet Socialist Republics.",
+      "display_text": "Message From the President of the Union of Soviet Socialist Republics.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "foreign-org-0009",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-9",
+      "exact_text": "The annotation describes US/UK cooperation on implementation.",
+      "display_text": "The annotation describes US/UK cooperation on implementation.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "foreign-org-0010",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-10",
+      "exact_text": "The quoted phrase refers to States not party to this Treaty.",
+      "display_text": "The quoted phrase refers to States not party to this Treaty.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "foreign-org-0011",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-11",
+      "exact_text": "The International Atomic Energy Agency was mentioned, but no registry record was supplied.",
+      "display_text": "The International Atomic Energy Agency was mentioned, but no registry record was supplied.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}

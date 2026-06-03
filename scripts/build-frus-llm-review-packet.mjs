@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--public-source-registry registry.json] [--treaty-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--public-source-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -31,6 +31,7 @@ function parseArgs(argv) {
   let chronologyRegistryPath = null;
   let publicSourceRegistryPath = null;
   let treatyRegistryPath = null;
+  let foreignOrgRegistryPath = null;
   let recurringRiskRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
@@ -98,6 +99,9 @@ function parseArgs(argv) {
     } else if (arg === "--treaty-registry") {
       treatyRegistryPath = argv[index + 1];
       index += 1;
+    } else if (arg === "--foreign-org-registry") {
+      foreignOrgRegistryPath = argv[index + 1];
+      index += 1;
     } else if (arg === "--recurring-risk-registry") {
       recurringRiskRegistryPath = argv[index + 1];
       index += 1;
@@ -156,6 +160,7 @@ function parseArgs(argv) {
     chronologyRegistryPath,
     publicSourceRegistryPath,
     treatyRegistryPath,
+    foreignOrgRegistryPath,
     recurringRiskRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
@@ -802,6 +807,40 @@ function compactTreatyRegistry(registry, targetVolume) {
   };
 }
 
+function compactForeignOrgRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    foreign_org_registry_id: registry.foreign_org_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      foreign_org_id: record.foreign_org_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      entity_type: record.entity_type,
+      approved_phrase: record.approved_phrase,
+      entity_or_body: record.entity_or_body,
+      country_or_region: record.country_or_region,
+      role_or_context: record.role_or_context,
+      identity_basis: record.identity_basis,
+      selected_or_supplemental_status: record.selected_or_supplemental_status,
+      relationship_to_document: record.relationship_to_document,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactRecurringRiskRegistry(registry) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -901,6 +940,9 @@ function buildPacket(options) {
     ? readJson(options.publicSourceRegistryPath, options.publicSourceRegistryPath)
     : null;
   const treatyRegistry = options.treatyRegistryPath ? readJson(options.treatyRegistryPath, options.treatyRegistryPath) : null;
+  const foreignOrgRegistry = options.foreignOrgRegistryPath
+    ? readJson(options.foreignOrgRegistryPath, options.foreignOrgRegistryPath)
+    : null;
   const recurringRiskRegistry = options.recurringRiskRegistryPath
     ? readJson(options.recurringRiskRegistryPath, options.recurringRiskRegistryPath)
     : null;
@@ -935,6 +977,7 @@ function buildPacket(options) {
       chronology_registry: options.chronologyRegistryPath ? normalizePathForOutput(options.chronologyRegistryPath) : "",
       public_source_registry: options.publicSourceRegistryPath ? normalizePathForOutput(options.publicSourceRegistryPath) : "",
       treaty_registry: options.treatyRegistryPath ? normalizePathForOutput(options.treatyRegistryPath) : "",
+      foreign_org_registry: options.foreignOrgRegistryPath ? normalizePathForOutput(options.foreignOrgRegistryPath) : "",
       recurring_risk_registry: options.recurringRiskRegistryPath ? normalizePathForOutput(options.recurringRiskRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
@@ -977,6 +1020,7 @@ function buildPacket(options) {
       chronology_registry_records: chronologyRegistry?.records?.length || 0,
       public_source_registry_records: publicSourceRegistry?.records?.length || 0,
       treaty_registry_records: treatyRegistry?.records?.length || 0,
+      foreign_org_registry_records: foreignOrgRegistry?.records?.length || 0,
       recurring_risk_registry_records: recurringRiskRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
       document_relationship_registry_records: documentRelationshipRegistry?.records?.length || 0,
@@ -1004,6 +1048,7 @@ function buildPacket(options) {
       chronology_registry: compactChronologyRegistry(chronologyRegistry, options.targetVolume),
       public_source_registry: compactPublicSourceRegistry(publicSourceRegistry, options.targetVolume),
       treaty_registry: compactTreatyRegistry(treatyRegistry, options.targetVolume),
+      foreign_org_registry: compactForeignOrgRegistry(foreignOrgRegistry, options.targetVolume),
       recurring_risk_registry: compactRecurringRiskRegistry(recurringRiskRegistry),
       negative_search_registry: compactNegativeSearchRegistry(negativeSearchRegistry, options.targetVolume),
       document_relationship_registry: compactDocumentRelationshipRegistry(documentRelationshipRegistry, options.targetVolume),
@@ -1148,6 +1193,12 @@ function renderMarkdown(packet) {
     "Use this to check treaty text, protocols, annexes, memoranda of understanding, associated-but-not-integral documents, Senate transmittal packages, ratification, entry-into-force, legal-authority, and draft treaty-package language. Do not change component identity, integral/associated status, source basis, legal process, ratification, or entry-into-force language unless the target-volume treaty registry proves the direct edit.",
     "",
     fencedJson(packet.contexts.treaty_registry || {}),
+    "",
+    "## Foreign And International Organization Registry Context",
+    "",
+    "Use this to check country names, successor-state references, alliances, international organizations, regional bodies, summit/conference names, international financial institutions, trade regimes, UN resolution forms, and treaty-party language. Do not change entity identity, acronym expansion, body role, successor-state status, treaty-party status, or translation/authority basis unless the target-volume foreign-org registry proves the direct edit.",
+    "",
+    fencedJson(packet.contexts.foreign_org_registry || {}),
     "",
     "## Recurring Compiler Risk Registry Context",
     "",
