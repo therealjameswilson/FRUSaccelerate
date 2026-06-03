@@ -126,7 +126,9 @@ The LLM must return valid JSON with this shape:
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
-      "comment_text": "Comment to place in Word, explaining rationale or needed verification."
+      "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
+      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | publication_status | authority_control | declassification_status | translation_status | chronology | source_family | cross_reference | wrapper_safety",
+      "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
   "global_comments": [
@@ -149,6 +151,9 @@ Rules for JSON edits:
 - Use `no_change` only when the unit was checked and no issue was found.
 - Never include invented facts inside `replacement_text`.
 - Keep `comment_text` concise enough to fit as a Word comment.
+- Use `evidence_request` and `verification_target` when the finding requires
+  human or wrapper verification. Use `none` and an empty target for safe direct
+  edits and `no_change` findings.
 
 ## 4. Word Wrapper Requirements
 
@@ -1416,6 +1421,43 @@ The LLM must use `comment_only` when:
 - The wrapper marks `edit_safety` as blocked, ambiguous, overlapping existing
   revisions, or otherwise unsafe for direct run-level editing.
 
+Comment quality rules:
+
+- A useful `comment_only` finding should name the evidence needed, the place to
+  check it, and the unsafe assertion to avoid.
+- Do not write bare comments such as `Verify`, `Check source`, `Needs review`,
+  or `Confirm.` They leave the compiler with no next action.
+- Use `evidence_request` to classify the missing proof. Use
+  `verification_target` to name the source image, folder path, authority list,
+  status-page item, neighboring document, chapter, or Word-safety issue.
+- Keep `comment_text` short enough for Word, but specific enough that the audit
+  report is useful when read offline.
+- If several different facts are missing in one unit, choose the evidence
+  request that blocks publication first: source identity, original
+  classification, attachment status, document number, declassification outcome,
+  authority control, or wrapper safety.
+- If the checker sees a working label such as `TK`, `candidate`, `needs scan`,
+  or `verify`, the comment should preserve the research value of the label
+  while directing the compiler to the evidence needed for final style.
+
+Evidence-request categories:
+
+| Category | Use when the blocker is... | Comment should tell the compiler... |
+| --- | --- | --- |
+| `source_image` | A scan, facsimile, or control copy must be inspected. | Which visible feature to check, such as marking, marginalia, stamp, attachment, or handwriting. |
+| `archival_path` | Repository, collection, series, box, folder, lot, OA/ID, or file unit is missing or suspect. | Which part of the source path needs confirmation. |
+| `classification_marking` | Original classification or handling is missing, guessed, or confused with release status. | To verify the original marking on the document, not the declassification result. |
+| `attachment_status` | Attached, not attached, printed elsewhere, tabbed, enclosed, or not found claims are uncertain. | Which tab, enclosure, paper, or list must be checked. |
+| `document_number` | Same-volume or cross-volume reference lacks a stable document number. | Which target document, chapter, or volume must be matched. |
+| `publication_status` | `printed in` versus `scheduled for publication` depends on current official status. | Which volume or chapter status must be confirmed. |
+| `authority_control` | Persons, titles, abbreviations, index terms, names, offices, or dates need authority-list review. | Which name, office, acronym, date span, or index term needs control. |
+| `declassification_status` | Release, withholding, excision, agency-equity, or bracket language is not final. | Which review outcome or bracket claim cannot yet be asserted. |
+| `translation_status` | Language, translation, foreign-origin copy, or translated excerpt is uncertain. | Which language/copy/translation fact needs verification. |
+| `chronology` | Diary, schedule, call-log, meeting, or sequence evidence is incomplete. | Which time, place, attendance, or sequence point needs corroboration. |
+| `source_family` | The note appears to flatten a specific source ecology into a generic form. | Which source family or subseries should be preserved. |
+| `cross_reference` | Related document, footnote, appendix, telegram, or volume reference is unstable. | Which reference anchor must be checked. |
+| `wrapper_safety` | Word XML anchoring, existing revisions, comments, fields, tables, or note references make editing unsafe. | Why the wrapper should reject or downgrade the direct edit. |
+
 Examples:
 
 Direct replacement is acceptable:
@@ -1425,7 +1467,9 @@ Direct replacement is acceptable:
   "recommended_action": "replace_text",
   "original_text": "No classification.",
   "replacement_text": "No classification marking.",
-  "comment_text": "Use the standard FRUS phrase when the document itself has no original classification marking."
+  "comment_text": "Use the standard FRUS phrase when the document itself has no original classification marking.",
+  "evidence_request": "none",
+  "verification_target": ""
 }
 ```
 
@@ -1436,7 +1480,9 @@ Better as comment-only:
   "recommended_action": "comment_only",
   "original_text": "",
   "replacement_text": "",
-  "comment_text": "Verify OA/ID, folder title, and original classification against the control copy before finalizing this source note."
+  "comment_text": "Verify OA/ID, folder title, and original classification against the control copy before finalizing this source note.",
+  "evidence_request": "archival_path",
+  "verification_target": "Control copy source path and original classification marking"
 }
 ```
 
@@ -1458,7 +1504,9 @@ Case 1: Safe style replacement.
   "recommended_action": "replace_text",
   "original_text": "No classification.",
   "replacement_text": "No classification marking.",
-  "comment_text": "Use the standard FRUS phrase when the absence of an original classification marking is verified."
+  "comment_text": "Use the standard FRUS phrase when the absence of an original classification marking is verified.",
+  "evidence_request": "none",
+  "verification_target": ""
 }
 ```
 
@@ -1474,7 +1522,9 @@ Case 2: URL-only source note.
   "recommended_action": "comment_only",
   "original_text": "",
   "replacement_text": "",
-  "comment_text": "Replace the URL-only locator with the repository-to-folder source path or selected published source before finalizing."
+  "comment_text": "Replace the URL-only locator with the repository-to-folder source path or selected published source before finalizing.",
+  "evidence_request": "archival_path",
+  "verification_target": "Repository, collection, series, box/folder, lot, OA/ID, or selected published source"
 }
 ```
 
@@ -1490,7 +1540,9 @@ Case 3: Missing Bush H-Files subseries.
   "recommended_action": "comment_only",
   "original_text": "",
   "replacement_text": "",
-  "comment_text": "Verify the H-Files subseries, OA/ID, and folder title against the control copy; do not flatten the citation to generic H-Files."
+  "comment_text": "Verify the H-Files subseries, OA/ID, and folder title against the control copy; do not flatten the citation to generic H-Files.",
+  "evidence_request": "source_family",
+  "verification_target": "Bush H-Files subseries, OA/ID, and folder title"
 }
 ```
 
@@ -1506,7 +1558,9 @@ Case 4: Editorial note without a source footnote.
   "recommended_action": "no_change",
   "original_text": "",
   "replacement_text": "",
-  "comment_text": ""
+  "comment_text": "",
+  "evidence_request": "none",
+  "verification_target": ""
 }
 ```
 
@@ -1522,7 +1576,9 @@ Case 5: Transcribed document text mistakenly targeted.
   "recommended_action": "comment_only",
   "original_text": "",
   "replacement_text": "",
-  "comment_text": "This appears to be document text; restrict the checker to source notes, annotations, headings, and editorial apparatus."
+  "comment_text": "This appears to be document text; restrict the checker to source notes, annotations, headings, and editorial apparatus.",
+  "evidence_request": "wrapper_safety",
+  "verification_target": "Unit type and edit authorization"
 }
 ```
 
@@ -1538,7 +1594,9 @@ Case 6: Scheduled-publication language.
   "recommended_action": "comment_only",
   "original_text": "",
   "replacement_text": "",
-  "comment_text": "Verify current publication status and target document number before changing scheduled-publication language."
+  "comment_text": "Verify current publication status and target document number before changing scheduled-publication language.",
+  "evidence_request": "publication_status",
+  "verification_target": "Target volume/chapter status and document number"
 }
 ```
 
@@ -1554,7 +1612,9 @@ Case 7: Working label left in publishable apparatus.
   "recommended_action": "comment_only",
   "original_text": "",
   "replacement_text": "",
-  "comment_text": "Resolve the working label against the source image or authority context before final style pass."
+  "comment_text": "Resolve the working label against the source image or authority context before final style pass.",
+  "evidence_request": "source_image",
+  "verification_target": "Source image or authority context behind the working label"
 }
 ```
 
@@ -1570,7 +1630,9 @@ Case 8: Classification confused with release status.
   "recommended_action": "comment_only",
   "original_text": "",
   "replacement_text": "",
-  "comment_text": "Verify the original classification marking on the document; do not substitute `declassified`, `released`, or `sanitized` for the original marking."
+  "comment_text": "Verify the original classification marking on the document; do not substitute `declassified`, `released`, or `sanitized` for the original marking.",
+  "evidence_request": "classification_marking",
+  "verification_target": "Original classification and handling markings on the source image"
 }
 ```
 
@@ -1586,7 +1648,9 @@ Case 9: Excellent non-template source note.
   "recommended_action": "no_change",
   "original_text": "",
   "replacement_text": "",
-  "comment_text": ""
+  "comment_text": "",
+  "evidence_request": "none",
+  "verification_target": ""
 }
 ```
 
@@ -1602,7 +1666,9 @@ Case 10: Exact replacement anchor not found.
   "recommended_action": "comment_only",
   "original_text": "",
   "replacement_text": "",
-  "comment_text": "Wrapper should reject direct edits whose original_text does not exactly match the target unit."
+  "comment_text": "Wrapper should reject direct edits whose original_text does not exactly match the target unit.",
+  "evidence_request": "wrapper_safety",
+  "verification_target": "Exact anchor mapping for original_text"
 }
 ```
 
@@ -1733,9 +1799,13 @@ Counts:
 - Direct tracked edits applied: [n]
 - Comments inserted: [n]
 - LLM edits rejected by validator: [n]
+- Evidence requests by type: [source_image n; archival_path n; classification_marking n; etc.]
 
 Major issues:
 - [unit_id]: [finding]
+
+Evidence requests:
+- [unit_id]: [evidence_request] - [verification_target]
 
 Rejected edits:
 - [unit_id]: original_text was not found exactly in target unit.
@@ -1760,6 +1830,9 @@ Operational cautions:
 - Record the exact checker version used.
 - Preserve an audit log of all LLM outputs, validator rejections, and applied
   changes.
+- Preserve evidence-request counts so reviewers can see whether a packet is
+  blocked mainly by source images, archival paths, classification markings,
+  declassification outcomes, authority control, or Word-wrapper safety.
 - Do not allow the LLM to access the open internet on the closed network.
 - Do not treat the checker as a declassification authority.
 - Do not accept checker edits automatically for publication; human FRUS editors
