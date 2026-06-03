@@ -1,0 +1,957 @@
+{
+  "schema_version": "frus-preparation-router-v1",
+  "router_id": "frus-preparation-router-1981-1992-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_status_registry_path": "reports/frus-status-series-1981-1992.current.json",
+  "source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
+  "purpose": "Machine-checkable volume-family and stage router for Reagan and George H.W. Bush FRUS annotation-sheet review.",
+  "use_limits": [
+    "Use this router for review posture, risk triage, and source-family caution.",
+    "Do not cite this router as source-note provenance.",
+    "Do not transfer published pattern facts into a different volume family without supplied source evidence.",
+    "When the route is tentative or mixed, use comments rather than direct edits for family-dependent changes."
+  ],
+  "stage_postures": {
+    "published": {
+      "posture_id": "published_pattern_evidence",
+      "direct_edit_rule": "Use as pattern evidence only; direct status wording still requires exact document or chapter target evidence."
+    },
+    "being_cleared": {
+      "posture_id": "clearance_stage_review",
+      "direct_edit_rule": "Prioritize declassification, agency equity, attachment, cross-volume status, and document-number safety."
+    },
+    "being_researched": {
+      "posture_id": "research_stage_guardrail",
+      "direct_edit_rule": "Protect working leads; convert unsupported final prose into comments or evidence requests."
+    },
+    "planned": {
+      "posture_id": "planned_stage_guardrail",
+      "direct_edit_rule": "Treat volume labels as scoping context; do not polish conjectural source facts into FRUS source notes."
+    }
+  },
+  "family_definitions": [
+    {
+      "family_id": "reagan-organization-management",
+      "label": "Reagan organization and management",
+      "administration": "reagan",
+      "direct_edit_posture": "Use comments for title, office, routing, and management-source claims unless the uploaded context supplies date-bounded authority.",
+      "source_families_to_preserve": [
+        "Reagan transition material",
+        "White House staff and office files",
+        "State Executive Secretariat and policy-planning files"
+      ],
+      "redline_priorities": [
+        "date-bounded offices",
+        "title changes",
+        "action or information routing",
+        "public organizational facts versus internal evidence"
+      ],
+      "hazard_tags": [
+        "authority_control",
+        "document_status_lifecycle",
+        "source_note"
+      ]
+    },
+    {
+      "family_id": "reagan-europe-poland-nato",
+      "label": "Reagan Europe, Poland, and NATO",
+      "administration": "reagan",
+      "direct_edit_posture": "Preserve country and regional source identity; block family-dependent replacements when Europe, NATO, and Soviet routing are ambiguous.",
+      "source_families_to_preserve": [
+        "State EUR and CFPF files",
+        "embassy telegrams",
+        "NSC European and Soviet directorate records",
+        "NATO and foreign-government copies"
+      ],
+      "redline_priorities": [
+        "country file identity",
+        "foreign-origin copy status",
+        "embassy-held copy status",
+        "cross-volume Europe and Soviet references"
+      ],
+      "hazard_tags": [
+        "source_family",
+        "foreign_international_organization",
+        "cross_reference"
+      ]
+    },
+    {
+      "family_id": "reagan-arms-control-national-security",
+      "label": "Reagan arms control and national security",
+      "administration": "reagan",
+      "direct_edit_posture": "Allow style edits only when directive, annex, tab, treaty, and classification evidence is supplied.",
+      "source_families_to_preserve": [
+        "NSDD and NSSD packages",
+        "NSPG and NSC meeting files",
+        "System IV, W Files, and PROFS records",
+        "ACDA, DOD, JCS, and CIA records"
+      ],
+      "redline_priorities": [
+        "paragraph markings",
+        "directive and annex relationships",
+        "treaty terminology",
+        "original classification versus release status"
+      ],
+      "hazard_tags": [
+        "classification_handling",
+        "decision_process_directive",
+        "treaty_legal_instrument",
+        "handwritten_facsimile_transcription"
+      ]
+    },
+    {
+      "family_id": "reagan-latin-america-caribbean",
+      "label": "Reagan Latin America and Caribbean",
+      "administration": "reagan",
+      "direct_edit_posture": "Treat country and chapter routing as a hard preflight check before source-family edits.",
+      "source_families_to_preserve": [
+        "embassy telegrams",
+        "NSC Latin America directorate files",
+        "State country and desk files",
+        "CIA, DOD, congressional, and public diplomacy records"
+      ],
+      "redline_priorities": [
+        "country and chapter routing",
+        "source-copy identity",
+        "covert-action or intelligence caution",
+        "translations and public statements"
+      ],
+      "hazard_tags": [
+        "source_family",
+        "intelligence_law_enforcement",
+        "translation_foreign_origin",
+        "publication_status"
+      ]
+    },
+    {
+      "family_id": "reagan-middle-east-crises",
+      "label": "Reagan Middle East and regional crises",
+      "administration": "reagan",
+      "direct_edit_posture": "Prefer comments when chronology, foreign-origin copy status, no-record language, or attachment status is not supplied.",
+      "source_families_to_preserve": [
+        "Situation Room records",
+        "memcons and telcons",
+        "State NEA files",
+        "DOD, CIA, and foreign-government copies"
+      ],
+      "redline_priorities": [
+        "crisis chronology",
+        "participants",
+        "no minutes or not found language",
+        "translation and foreign-origin handling"
+      ],
+      "hazard_tags": [
+        "chronology",
+        "negative_search_no_record",
+        "military_crisis_operations",
+        "translation_foreign_origin"
+      ]
+    },
+    {
+      "family_id": "reagan-africa",
+      "label": "Reagan Africa",
+      "administration": "reagan",
+      "direct_edit_posture": "Preserve regional and country distinctions; avoid inferring intelligence, military, or international-organization equities.",
+      "source_families_to_preserve": [
+        "embassy telegrams",
+        "State Africa bureau and country desk records",
+        "NSC regional directorate files",
+        "CIA, DOD, and international-organization records"
+      ],
+      "redline_priorities": [
+        "regional versus country split",
+        "sanctions and congressional context",
+        "military and intelligence equities",
+        "foreign-government or international-organization records"
+      ],
+      "hazard_tags": [
+        "foreign_international_organization",
+        "military_crisis_operations",
+        "intelligence_law_enforcement",
+        "congressional_legal_authority"
+      ]
+    },
+    {
+      "family_id": "reagan-asia-pacific-south-asia-afghanistan",
+      "label": "Reagan East Asia, Pacific, South Asia, and Afghanistan",
+      "administration": "reagan",
+      "direct_edit_posture": "Use comments for transliteration, translation, country-routing, intelligence, and military claims unless authority context is supplied.",
+      "source_families_to_preserve": [
+        "embassy telegrams",
+        "State EAP and SCA files",
+        "NSC Asia directorate records",
+        "intelligence, defense, and foreign-government copies"
+      ],
+      "redline_priorities": [
+        "names and transliterations",
+        "translations",
+        "country or chapter routing",
+        "public statements and treaty texts"
+      ],
+      "hazard_tags": [
+        "authority_control",
+        "translation_foreign_origin",
+        "military_crisis_operations",
+        "public_diplomacy_public_source"
+      ]
+    },
+    {
+      "family_id": "reagan-economic-trade-assistance",
+      "label": "Reagan economic, trade, debt, and assistance",
+      "administration": "reagan",
+      "direct_edit_posture": "Do not change economic tables, amounts, acronyms, public-source identity, or meeting context without supplied proof.",
+      "source_families_to_preserve": [
+        "Treasury records",
+        "State economic bureau records",
+        "summit records",
+        "IMF, World Bank, and congressional records"
+      ],
+      "redline_priorities": [
+        "public or printed-source identity",
+        "meeting and summit context",
+        "agency authorship",
+        "economic acronyms and tables"
+      ],
+      "hazard_tags": [
+        "economic_financial_data",
+        "public_diplomacy_public_source",
+        "congressional_legal_authority"
+      ]
+    },
+    {
+      "family_id": "reagan-public-diplomacy-global-sensitive",
+      "label": "Reagan public diplomacy, global issues, refugees, terrorism, counternarcotics, and Iran-Contra",
+      "administration": "reagan",
+      "direct_edit_posture": "Keep public selected documents, sensitive records, and working labels distinct; prefer evidence requests for operational claims.",
+      "source_families_to_preserve": [
+        "USIA and public diplomacy records",
+        "press guidance and public statements",
+        "interagency task-force files",
+        "law-enforcement, intelligence, and congressional records"
+      ],
+      "redline_priorities": [
+        "public material as selected evidence",
+        "agency equities",
+        "sensitive operational claims",
+        "authority-list consistency"
+      ],
+      "hazard_tags": [
+        "public_diplomacy_public_source",
+        "human_rights_refugee_global_issues",
+        "intelligence_law_enforcement",
+        "volume_preparation_scope"
+      ]
+    },
+    {
+      "family_id": "bush-foundations-public-diplomacy-organization",
+      "label": "Bush foundations, public diplomacy, and organization",
+      "administration": "bush-ghw",
+      "direct_edit_posture": "Treat speeches, testimony, interviews, public statements, and organization records as possible selected evidence, not automatic background.",
+      "source_families_to_preserve": [
+        "Bush Library public statements and speech records",
+        "transition records",
+        "White House and NSC staff files",
+        "State Executive Secretariat and policy-planning records"
+      ],
+      "redline_priorities": [
+        "date-bounded offices",
+        "title transitions",
+        "public-versus-internal source identity",
+        "source-list authority form"
+      ],
+      "hazard_tags": [
+        "public_diplomacy_public_source",
+        "authority_control",
+        "source_list_front_matter"
+      ]
+    },
+    {
+      "family_id": "bush-soviet-russia-europe-germany-nato",
+      "label": "Bush Soviet Union, Russia, Europe, Germany, and NATO",
+      "administration": "bush-ghw",
+      "direct_edit_posture": "Separate high-level contact records from policy files; protect cross-references across START I, Europe, Germany, and Soviet/Russia volumes.",
+      "source_families_to_preserve": [
+        "Bush Library Scowcroft and Gates files",
+        "NSC staff and H-Files",
+        "State EUR, S/P, and CFPF records",
+        "NATO and foreign-government records"
+      ],
+      "redline_priorities": [
+        "memcon and telcon forms",
+        "briefing-book forms",
+        "high-level contact versus policy file",
+        "cross-volume references"
+      ],
+      "hazard_tags": [
+        "cross_reference",
+        "source_family",
+        "foreign_international_organization",
+        "document_status_lifecycle"
+      ]
+    },
+    {
+      "family_id": "bush-balkans-crises-peacekeeping",
+      "label": "Bush Balkans, crises, and peacekeeping",
+      "administration": "bush-ghw",
+      "direct_edit_posture": "Require precise chronology and agency or international-organization proof before direct edits.",
+      "source_families_to_preserve": [
+        "Situation Room and NSC records",
+        "State regional bureau files",
+        "embassy telegrams",
+        "military, intelligence, United Nations, and international-organization records"
+      ],
+      "redline_priorities": [
+        "precise chronology",
+        "agency equities",
+        "foreign or international-organization copy status",
+        "military and operational claims"
+      ],
+      "hazard_tags": [
+        "chronology",
+        "military_crisis_operations",
+        "foreign_international_organization",
+        "intelligence_law_enforcement"
+      ]
+    },
+    {
+      "family_id": "bush-persian-gulf-middle-east",
+      "label": "Bush Persian Gulf and Middle East",
+      "administration": "bush-ghw",
+      "direct_edit_posture": "Be conservative on crisis chronology, meeting/call status, coalition records, not-found notes, and declassification brackets.",
+      "source_families_to_preserve": [
+        "NSC and Situation Room records",
+        "State NEA and CFPF records",
+        "memcons and telcons",
+        "DOD, JCS, CIA, coalition, and foreign-government copies"
+      ],
+      "redline_priorities": [
+        "crisis chronology",
+        "meeting and call status",
+        "coalition and foreign-origin records",
+        "declassification bracket discipline"
+      ],
+      "hazard_tags": [
+        "military_crisis_operations",
+        "chronology",
+        "declassification",
+        "negative_search_no_record"
+      ]
+    },
+    {
+      "family_id": "bush-asia-pacific",
+      "label": "Bush Asia and Pacific",
+      "administration": "bush-ghw",
+      "direct_edit_posture": "Check transliteration, country routing, translations, and related Reagan scheduled-publication language before direct edits.",
+      "source_families_to_preserve": [
+        "Bush Library NSC regional staff files",
+        "State regional bureau and CFPF records",
+        "embassy telegrams",
+        "foreign-government copies and translations"
+      ],
+      "redline_priorities": [
+        "name authority",
+        "country routing",
+        "translation claims",
+        "related Reagan-era scheduled-publication language"
+      ],
+      "hazard_tags": [
+        "authority_control",
+        "translation_foreign_origin",
+        "publication_status",
+        "cross_reference"
+      ]
+    },
+    {
+      "family_id": "bush-africa-americas",
+      "label": "Bush Africa and Americas",
+      "administration": "bush-ghw",
+      "direct_edit_posture": "Preserve country and regional chapter identity and avoid inferring sensitive law-enforcement or intervention claims.",
+      "source_families_to_preserve": [
+        "State country and desk files",
+        "embassy telegrams",
+        "Bush Library NSC regional files",
+        "congressional, public diplomacy, intelligence, defense, and law-enforcement records"
+      ],
+      "redline_priorities": [
+        "country and regional chapter identity",
+        "source-copy status",
+        "sensitive intelligence or law-enforcement equities",
+        "crisis or intervention chronology"
+      ],
+      "hazard_tags": [
+        "source_family",
+        "intelligence_law_enforcement",
+        "military_crisis_operations",
+        "congressional_legal_authority"
+      ]
+    },
+    {
+      "family_id": "bush-national-security-arms-control",
+      "label": "Bush national security, arms control, and nonproliferation",
+      "administration": "bush-ghw",
+      "direct_edit_posture": "Use published START I as pattern evidence only; do not overwrite a different H-Files, NSR, NSD, or treaty source family.",
+      "source_families_to_preserve": [
+        "H-Files",
+        "NSR, NSD, NSC Meetings, and NSC/DC Meetings files",
+        "Scowcroft and Gates files",
+        "ACDA, DOD, JCS, CIA, State lot, and CFPF records"
+      ],
+      "redline_priorities": [
+        "H-Files subseries",
+        "NSR and NSD forms",
+        "annexes and tabs",
+        "verification terminology and original classification"
+      ],
+      "hazard_tags": [
+        "classification_handling",
+        "decision_process_directive",
+        "treaty_legal_instrument",
+        "source_family"
+      ]
+    },
+    {
+      "family_id": "bush-economic-global-sensitive",
+      "label": "Bush economic policy, global issues, counternarcotics, and counterterrorism",
+      "administration": "bush-ghw",
+      "direct_edit_posture": "For planned sensitive volumes, treat labels as scoping context and request proof before final source-note prose.",
+      "source_families_to_preserve": [
+        "Treasury and State economic bureau records",
+        "NSC files",
+        "public reports",
+        "law-enforcement, intelligence, interagency task-force, and international-organization records"
+      ],
+      "redline_priorities": [
+        "public or printed sources versus control copies",
+        "agency equities",
+        "congressional and public-report citations",
+        "planned-volume research labels"
+      ],
+      "hazard_tags": [
+        "economic_financial_data",
+        "human_rights_refugee_global_issues",
+        "intelligence_law_enforcement",
+        "volume_preparation_scope"
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "entry_id": "frus1981-88v44p1",
+      "family_id": "reagan-arms-control-national-security",
+      "stage_posture": "published_pattern_evidence",
+      "match_confidence": "official_status_title",
+      "notes": "Published 2025 pattern evidence; not a universal template."
+    },
+    {
+      "entry_id": "frus1989-92v31",
+      "family_id": "bush-national-security-arms-control",
+      "stage_posture": "published_pattern_evidence",
+      "match_confidence": "official_status_title",
+      "notes": "Published START I pattern evidence; not a universal template."
+    },
+    {
+      "entry_id": "frus1981-88v02",
+      "family_id": "reagan-organization-management",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v07",
+      "family_id": "reagan-europe-poland-nato",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v09",
+      "family_id": "reagan-europe-poland-nato",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v12",
+      "family_id": "reagan-arms-control-national-security",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v14",
+      "family_id": "reagan-latin-america-caribbean",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v15",
+      "family_id": "reagan-latin-america-caribbean",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v16",
+      "family_id": "reagan-latin-america-caribbean",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": "Carries anticipated_2026 overlay and Venezuela subitem overlay."
+    },
+    {
+      "entry_id": "frus1981-88v17p1",
+      "family_id": "reagan-latin-america-caribbean",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v17p2",
+      "family_id": "reagan-latin-america-caribbean",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v18p1",
+      "family_id": "reagan-middle-east-crises",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v18p2",
+      "family_id": "reagan-middle-east-crises",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v19",
+      "family_id": "reagan-middle-east-crises",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v20",
+      "family_id": "reagan-middle-east-crises",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v21",
+      "family_id": "reagan-middle-east-crises",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v22",
+      "family_id": "reagan-middle-east-crises",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v25",
+      "family_id": "reagan-africa",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v26",
+      "family_id": "reagan-africa",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v27",
+      "family_id": "reagan-africa",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v28",
+      "family_id": "reagan-asia-pacific-south-asia-afghanistan",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": "Carries anticipated_2026 overlay."
+    },
+    {
+      "entry_id": "frus1981-88v29",
+      "family_id": "reagan-asia-pacific-south-asia-afghanistan",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v30",
+      "family_id": "reagan-asia-pacific-south-asia-afghanistan",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v31",
+      "family_id": "reagan-asia-pacific-south-asia-afghanistan",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v32",
+      "family_id": "reagan-asia-pacific-south-asia-afghanistan",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v33",
+      "family_id": "reagan-asia-pacific-south-asia-afghanistan",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v34",
+      "family_id": "reagan-asia-pacific-south-asia-afghanistan",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v35",
+      "family_id": "reagan-asia-pacific-south-asia-afghanistan",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v36",
+      "family_id": "reagan-economic-trade-assistance",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v39",
+      "family_id": "reagan-public-diplomacy-global-sensitive",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v40",
+      "family_id": "reagan-public-diplomacy-global-sensitive",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v43",
+      "family_id": "reagan-arms-control-national-security",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v44p2",
+      "family_id": "reagan-arms-control-national-security",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v46",
+      "family_id": "reagan-public-diplomacy-global-sensitive",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v47p1",
+      "family_id": "reagan-public-diplomacy-global-sensitive",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v47p2",
+      "family_id": "reagan-public-diplomacy-global-sensitive",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v48",
+      "family_id": "reagan-africa",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v03",
+      "family_id": "bush-soviet-russia-europe-germany-nato",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v07",
+      "family_id": "bush-balkans-crises-peacekeeping",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v10",
+      "family_id": "bush-soviet-russia-europe-germany-nato",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v11",
+      "family_id": "bush-persian-gulf-middle-east",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v12",
+      "family_id": "bush-persian-gulf-middle-east",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v13",
+      "family_id": "bush-persian-gulf-middle-east",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v17",
+      "family_id": "bush-asia-pacific",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v19",
+      "family_id": "bush-africa-americas",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v21",
+      "family_id": "bush-balkans-crises-peacekeeping",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v26",
+      "family_id": "bush-national-security-arms-control",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v33",
+      "family_id": "bush-africa-americas",
+      "stage_posture": "clearance_stage_review",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v08",
+      "family_id": "reagan-europe-poland-nato",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v23",
+      "family_id": "reagan-public-diplomacy-global-sensitive",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": "Sensitive Iran-Contra research-stage material; do not infer final source prose."
+    },
+    {
+      "entry_id": "frus1981-88v37",
+      "family_id": "reagan-economic-trade-assistance",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v42",
+      "family_id": "reagan-public-diplomacy-global-sensitive",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1981-88v45",
+      "family_id": "reagan-middle-east-crises",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v01",
+      "family_id": "bush-foundations-public-diplomacy-organization",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v02",
+      "family_id": "bush-foundations-public-diplomacy-organization",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v04",
+      "family_id": "bush-soviet-russia-europe-germany-nato",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v05",
+      "family_id": "bush-soviet-russia-europe-germany-nato",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v06",
+      "family_id": "bush-persian-gulf-middle-east",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v08",
+      "family_id": "bush-soviet-russia-europe-germany-nato",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v09",
+      "family_id": "bush-soviet-russia-europe-germany-nato",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v14",
+      "family_id": "bush-persian-gulf-middle-east",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v15",
+      "family_id": "bush-asia-pacific",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v16",
+      "family_id": "bush-asia-pacific",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v18",
+      "family_id": "bush-asia-pacific",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v20",
+      "family_id": "bush-africa-americas",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v22",
+      "family_id": "bush-africa-americas",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v23",
+      "family_id": "bush-africa-americas",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v24",
+      "family_id": "bush-africa-americas",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v25",
+      "family_id": "bush-africa-americas",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v27",
+      "family_id": "bush-national-security-arms-control",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v30",
+      "family_id": "bush-economic-global-sensitive",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v32",
+      "family_id": "bush-persian-gulf-middle-east",
+      "stage_posture": "research_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": ""
+    },
+    {
+      "entry_id": "frus1989-92v28",
+      "family_id": "bush-economic-global-sensitive",
+      "stage_posture": "planned_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": "Planned sensitive counternarcotics and counterterrorism volume; do not finalize source facts from title alone."
+    },
+    {
+      "entry_id": "frus1989-92v29",
+      "family_id": "bush-economic-global-sensitive",
+      "stage_posture": "planned_stage_guardrail",
+      "match_confidence": "official_status_title",
+      "notes": "Planned global issues volume; do not finalize scope from title alone."
+    }
+  ]
+}

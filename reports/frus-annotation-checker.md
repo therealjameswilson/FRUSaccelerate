@@ -30,7 +30,10 @@ For status-sensitive phrases, use
 changes publication-stage wording. For real Reagan/Bush 1981-1992 review, use
 `reports/frus-status-series-1981-1992.current.json` as the current context file
 and validate it with `scripts/validate-frus-status-registry.mjs` before running
-status-claim preflight.
+status-claim preflight. For volume-family and stage-posture routing, use
+`reports/frus-preparation-router-1981-1992.current.json` and validate it with
+`scripts/validate-frus-preparation-router.mjs` against the current status
+registry before allowing family-dependent direct edits.
 For source-note component diagnostics, use
 `scripts/lint-frus-source-notes.mjs` with
 `reports/frus-source-note-units.sample.json`.
@@ -352,6 +355,10 @@ The wrapper should provide the LLM with:
   security, economic policy, global issues, terrorism/counternarcotics, or
   mixed. This should come from the wrapper's volume-title/status match or from
   explicit user context, not from LLM guesswork alone.
+- `preparation_router_context`, if available: structured 1981-1992
+  volume-family and stage-posture routes keyed to current official status
+  entries. Use it to choose review posture and family-specific hazards, not as
+  source-note provenance.
 - `annotation_sheet_context`, if available: whether the uploaded file is a
   research sheet, chapter annotation sheet, clearance pass, final style pass,
   source-list draft, Persons/abbreviations draft, or mixed editorial packet;

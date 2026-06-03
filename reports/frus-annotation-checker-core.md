@@ -21,6 +21,10 @@ For status-language preflight, run
 For real Reagan/Bush 1981-1992 status and cross-reference review, validate and
 use `reports/frus-status-series-1981-1992.current.json` with
 `scripts/validate-frus-status-registry.mjs` before direct status-language edits.
+For volume-family and stage-posture routing, validate and use
+`reports/frus-preparation-router-1981-1992.current.json` with
+`scripts/validate-frus-preparation-router.mjs` before family-dependent direct
+edits.
 For source-note component diagnostics, run
 `node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json`.
 For production pseudo-marker boundary checks, run
@@ -97,6 +101,8 @@ The wrapper should provide:
   context when available.
 - `status_context`: dated official History Office status registry for target
   and cross-referenced volumes when publication language may be edited.
+- `preparation_router_context`: structured 1981-1992 volume-family and
+  stage-posture routes keyed to current official status entries.
 - `source_family_context`: Reagan/Bush source-family registry when available.
 - `source_note_component_context`: parsed source-note components when available.
   A wrapper can generate this with `scripts/lint-frus-source-notes.mjs`.

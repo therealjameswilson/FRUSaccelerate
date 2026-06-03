@@ -17,6 +17,9 @@ For Reagan/Bush 1981-1992 status and cross-volume checks, transfer the current
 context file `reports/frus-status-series-1981-1992.current.json`. Refresh this
 file from the official History Office status page before any production batch
 that may change publication-status wording.
+For volume-family routing, transfer
+`reports/frus-preparation-router-1981-1992.current.json` and validate it against
+the status registry before family-dependent direct edits.
 
 Verify the package before transfer and again after installation:
 
@@ -49,6 +52,7 @@ node scripts/preflight-frus-checker-plan.mjs --units extracted-units.json --outp
 
 ```sh
 node scripts/validate-frus-status-registry.mjs --registry status-registry.json --today YYYY-MM-DD
+node scripts/validate-frus-preparation-router.mjs --router preparation-router.json --status-registry status-registry.json
 node scripts/preflight-frus-status-claims.mjs --registry status-registry.json --claims status-claims.json --today YYYY-MM-DD
 ```
 
@@ -92,6 +96,7 @@ node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sa
 node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-direct-edit-sample-output.json
 node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json
 node scripts/validate-frus-status-registry.mjs --registry reports/frus-status-series-1981-1992.current.json --today 2026-06-03
+node scripts/validate-frus-preparation-router.mjs --router reports/frus-preparation-router-1981-1992.current.json --status-registry reports/frus-status-series-1981-1992.current.json
 node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-registry-1981-1992.sample.json --claims reports/frus-status-claims.sample.json --today 2026-06-03
 node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-series-1981-1992.current.json --claims reports/frus-status-claims.sample.json --today 2026-06-03
 node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json
