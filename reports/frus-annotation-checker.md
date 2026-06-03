@@ -65,6 +65,10 @@ The wrapper should provide the LLM with:
   abbreviations, source-list, repository, chapter, document-number, and index
   registries with stable ids, approved display forms, variants, date spans, and
   source URLs or local provenance.
+- `source_family_registry_context`, if available: structured source-family
+  controls derived from published FRUS source lists and local authority files,
+  including family ids, volume scope, required path components, distinguishing
+  tokens, allowed variants, and no-flattening rules.
 - `series_status_context`, if available: current History Office status
   (`published`, `anticipated`, `being_cleared`, `being_researched`, or
   `planned`), target volume title, known chapter status, and any official
@@ -746,6 +750,180 @@ Volume XXXI corpus note: the all-document pass found source notes for 239 of
 247 documents. The 8 documents without source notes are editorial notes. Do not
 invent a source note for an `Editorial Note`; check instead whether the note
 itself gives enough documentary citations, chronology, and cross-references.
+
+#### 6.1.1 Source-Family Registry Validation
+
+Use a source-family registry when the wrapper can supply one. Published source
+lists from Reagan national-security, Bush START, and Reagan foundations volumes
+show that source families are not interchangeable. The checker should preserve
+the real family form rather than replacing it with a generic repository path.
+
+Minimum source-family registry:
+
+```json
+{
+  "source_family_registry_id": "frus-1981-1992-source-families-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/sources"
+  ],
+  "families": [
+    {
+      "family_id": "reagan-nsc-exec-secretariat",
+      "display_family": "Reagan Library, White House Staff and Office Files, NSC Executive Secretariat",
+      "volume_scope": [
+        "frus1981-88v44p1",
+        "Reagan national security"
+      ],
+      "distinguishing_tokens": [
+        "NSC Executive Secretariat",
+        "NSDD",
+        "NSPG",
+        "System IV Intelligence Files",
+        "Head of State File"
+      ],
+      "required_components_when_present": [
+        "staff or office files",
+        "series or subseries",
+        "folder or file title",
+        "classification and handling"
+      ],
+      "do_not_flatten_to": [
+        "Reagan Library, White House Staff and Office Files"
+      ],
+      "evidence_request_if_uncertain": "source_family"
+    },
+    {
+      "family_id": "reagan-profs-wfiles-systemiv",
+      "display_family": "Reagan Library or NARA, PROFS, W Files, or System IV records",
+      "volume_scope": [
+        "frus1981-88v44p1",
+        "Reagan national security"
+      ],
+      "distinguishing_tokens": [
+        "PROFS",
+        "W Files",
+        "System IV",
+        "NSC Washington files"
+      ],
+      "required_components_when_present": [
+        "specific system or file family",
+        "message or file identifier",
+        "folder or subject",
+        "classification and handling"
+      ],
+      "do_not_flatten_to": [
+        "Reagan Library files",
+        "White House Staff and Office Files"
+      ],
+      "evidence_request_if_uncertain": "source_family"
+    },
+    {
+      "family_id": "bush-hfiles-national-security",
+      "display_family": "George H.W. Bush Library, Bush Presidential Records, NSC Institutional Files (H-Files)",
+      "volume_scope": [
+        "frus1989-92v31",
+        "Bush national security"
+      ],
+      "distinguishing_tokens": [
+        "H-Files",
+        "NSR Files",
+        "NSD Files",
+        "NSC Meeting Files",
+        "NSC/DC Meetings Files"
+      ],
+      "required_components_when_present": [
+        "H-Files",
+        "subseries",
+        "OA/ID",
+        "folder title",
+        "classification and handling"
+      ],
+      "do_not_flatten_to": [
+        "Bush Library, NSC files",
+        "Bush Presidential Records"
+      ],
+      "evidence_request_if_uncertain": "source_family"
+    },
+    {
+      "family_id": "reagan-foundations-public-sources",
+      "display_family": "Published public sources and Reagan speech/public-statement records",
+      "volume_scope": [
+        "frus1981-88v01",
+        "foundations and public diplomacy"
+      ],
+      "distinguishing_tokens": [
+        "Public Papers",
+        "Department of State Bulletin",
+        "Congressional Record",
+        "Weekly Compilation",
+        "White House Office of Speechwriting",
+        "WHORM SP"
+      ],
+      "required_components_when_present": [
+        "selected public or printed source",
+        "date",
+        "speech, statement, testimony, report, or campaign context",
+        "archival control copy only when supplied"
+      ],
+      "do_not_flatten_to": [
+        "Reagan Library archival source"
+      ],
+      "evidence_request_if_uncertain": "source_family"
+    }
+  ]
+}
+```
+
+Source-family validator sequence:
+
+1. Match source-note text against the registry before proposing a source-note
+   rewrite. Look for repository labels, collection labels, system names, lot
+   numbers, OA/ID values, reels, file titles, public-source titles, and
+   distinctive family tokens.
+2. If exactly one family matches and the uploaded unit supplies the required
+   components, preserve that family in any direct edit.
+3. If exactly one family matches but required components are missing, use
+   `comment_only` with `evidence_request` set to `source_family` or
+   `archival_path`, whichever is more specific.
+4. If multiple families match, do not blend them. Comment for source-family
+   confirmation and add a General Editor discrepancy only if both forms appear
+   defensible in published or local exemplars.
+5. If no family matches, avoid inventing a family from the volume title alone.
+   Use a source-family comment for normal or exhaustive review when the note is
+   publishable apparatus.
+6. When a public or printed source is the selected documentary source, preserve
+   the public-source family. Do not add an archival control-copy path unless
+   the uploaded evidence supplies one.
+7. When a Presidential Library, State, NARA, private-paper, agency, foreign, or
+   international-organization copy is the selected source, preserve the selected
+   copy's provenance even if another family has related background material.
+
+Direct-edit posture:
+
+- Safe direct edits may restore family labels already proven by the unit, such
+  as adding a supplied H-Files subseries, correcting `No classification` to `No
+  classification marking`, or preserving `P Reels`, `D Reels`, or `N Reels`
+  when the identifier is present.
+- Do not directly add a lot number, OA/ID, folder title, system name, file
+  family, public-source title, or private-paper collection unless the exact
+  evidence is present in the uploaded unit or wrapper context.
+- Treat `source_family` findings as `major` in final style when the source note
+  would otherwise publish a generic or misleading source path.
+- Treat source-family uncertainty as `info` or `minor` in light research mode
+  when the sheet is clearly a source lead rather than publication apparatus.
+
+Source-family audit requirements:
+
+- Count unmatched source families, ambiguous source-family matches, and direct
+  source-family edits separately from ordinary source-note style changes.
+- Preserve the registry id and source-list URLs used for the match.
+- Add source-family discrepancies to the General Editor tally when the checker
+  sees a recurring unresolved question, such as whether to enforce Bush H-Files
+  subseries names, how much PROFS/W Files/System IV detail to preserve, or when
+  a public source should be treated as selected evidence rather than context.
 
 ### 6.2 Follow-On Footnotes
 
@@ -2256,22 +2434,23 @@ For every extracted unit, run checks in this order:
    any direct edit.
 3. Check for invented or unverifiable facts.
 4. Check source-note order and completeness.
-5. Check classification and handling language.
-6. Check attachment, tab, and not-found claims.
-7. Check cross-references and follow-on citation form.
-8. Check annotation purpose and concision.
-9. Check declassification and omission language.
-10. Check target-volume status and whether the note is research-stage,
+5. Match source notes against the source-family registry when supplied.
+6. Check classification and handling language.
+7. Check attachment, tab, and not-found claims.
+8. Check cross-references and follow-on citation form.
+9. Check annotation purpose and concision.
+10. Check declassification and omission language.
+11. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-11. Route the unit through the relevant volume family when a 1981-1992
+12. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-12. Check chronology, diary, schedule, and call-log usage.
-13. Check Persons, abbreviations, and index authority issues.
-14. Assign specific evidence requests and verification targets for unresolved
+13. Check chronology, diary, schedule, and call-log usage.
+14. Check Persons, abbreviations, and index authority issues.
+15. Assign specific evidence requests and verification targets for unresolved
     proof.
-15. Decide direct edit versus comment-only.
-16. Return strict JSON.
-17. After schema and semantic validation, aggregate all unresolved evidence
+16. Decide direct edit versus comment-only.
+17. Return strict JSON.
+18. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -2818,6 +2997,7 @@ Checker version: [version]
 Output schema: checker-output-v1
 Context bundle: [bundle_id and capture date]
 Authority registry: [authority_registry_id and capture date]
+Source-family registry: [source_family_registry_id and capture date]
 Status snapshot: [status_snapshot URL and captured_at date]
 Status registry stale: [yes/no/not supplied]
 Review mode: [light/normal/exhaustive]
@@ -2841,6 +3021,7 @@ Counts:
 - Cross-chunk conflicts reconciled: [n]
 - Status registry conflicts or stale-publication warnings: [n]
 - Authority registry conflicts or unmatched forms: [n]
+- Source-family unmatched or ambiguous matches: [n]
 
 Major issues:
 - [unit_id]: [finding]
@@ -2856,6 +3037,9 @@ Publication-status warnings:
 
 Authority-control warnings:
 - [unit_id or global]: [authority issue] - [registry target or unmatched form]
+
+Source-family warnings:
+- [unit_id or global]: [source-family issue] - [registry target or unmatched family]
 
 Style discrepancy tally:
 - [discrepancy_id]: [category] - [style_question] - count [n] - risk [level]
@@ -2883,6 +3067,10 @@ Minimum components:
 - Authority-registry validator that reconciles Persons, abbreviations,
   repository/source-list forms, chapter labels, document numbers, and index
   terms before track changes are applied.
+- Source-family registry validator that preserves published and local source
+  ecologies, distinguishes public/printed selected sources from archival
+  control copies, and blocks flattening of specific repositories into generic
+  source paths.
 - Status-registry validator that preserves production stage, release bucket,
   capture date, official URL, and cross-referenced volume targets before the
   LLM review begins.
@@ -2897,6 +3085,8 @@ Operational cautions:
 - Record the exact context-bundle id and capture date used.
 - Record authority-registry version, unmatched forms, direct authority edits,
   comments, and unresolved General Editor questions.
+- Record source-family registry version, unmatched or ambiguous family matches,
+  direct source-family edits, and source-family discrepancy questions.
 - Record status-registry freshness and every publication-status conflict,
   especially `scheduled for publication` or `printed in` language.
 - Record the selected review mode and whether duplicate findings were merged.
