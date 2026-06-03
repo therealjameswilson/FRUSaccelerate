@@ -629,19 +629,19 @@
           </div>
           <div class="cover-medallion" aria-hidden="true">CA</div>
           <p class="hero-summary" id="heroSummary">
-            A compiler-facing hub for active FRUS assist pages, source desks, Scout searches, Strobe Talbott FOIA material, and the FRUS acceleration portal.
+            A compiler-facing hub for active FRUS desks, source queues, Scout searches, Strobe Talbott FOIA material, and reviewable planning tools with human checks.
           </p>
           <div class="tag-list">
-            <span class="tag">Live assist pages</span>
+            <span class="tag">Live compiler desks</span>
             <span class="tag">Official volume-title links</span>
-            <span class="tag">Scout and Strobe shortcuts</span>
+            <span class="tag">Auditable source trails</span>
           </div>
           <div class="hero-actions">
             <a class="button primary" href="#compiler-sites">Open compiler sites</a>
             <a class="button secondary" href="https://therealjameswilson.github.io/nara-scout/">Open NARA Scout</a>
             <a class="button secondary" href="https://therealjameswilson.github.io/strobe-talbott-foia/">Open Strobe FOIA</a>
             <a class="button secondary" href="https://therealjameswilson.github.io/PRC-PostColdWar/">Open PRC source shop</a>
-            <a class="button secondary" href="./dashboard/">Open acceleration portal</a>
+            <a class="button secondary" href="./dashboard/">Open workflow portal</a>
           </div>
         </div>
 
@@ -652,7 +652,7 @@
               <strong>198</strong>
             </article>
             <article class="stat-card">
-              <span>Top-tier FY 2026 pilots</span>
+              <span>Review-ready FY 2026 pilots</span>
               <strong>10</strong>
             </article>
             <article class="stat-card">
@@ -667,14 +667,14 @@
 
           <article class="brief-card">
             <span class="label" id="deadlineLabel">Start here</span>
-            <h2>Start with the live workbench, then branch to the source system.</h2>
+            <h2>Start with the source-backed workbench, then inspect the source trail.</h2>
             <p id="entrySummary">
-              The nested pages are dense by design, so this page gives compilers the quickest route to the relevant volume, source queue, official status page, or cross-volume tool.
+              The nested pages are dense by design, so this page gives compilers the quickest route to the relevant volume, source queue, official status page, or reviewable work product.
             </p>
             <div class="quick-links">
               <a class="primary" href="#compiler-sites">Volume desks</a>
               <a class="secondary" href="#source-systems">Source systems</a>
-              <a class="secondary" href="./reports/frus-ai-opportunities.md">AI report</a>
+              <a class="secondary" href="./reports/frus-ai-opportunities.md">Evidence report</a>
             </div>
           </article>
         </aside>
@@ -694,7 +694,7 @@
           <a class="button primary" href="https://therealjameswilson.github.io/nara-scout/">NARA Scout</a>
           <a class="button secondary" href="https://therealjameswilson.github.io/strobe-talbott-foia/">Strobe Talbott FOIA</a>
           <a class="button secondary" href="https://history.state.gov/historicaldocuments/status-of-the-series">Official FRUS status</a>
-          <a class="button secondary" href="./dashboard/">FRUS acceleration portal</a>
+          <a class="button secondary" href="./dashboard/">FRUS planning portal</a>
         </div>
         <div class="compiler-grid">
           <article class="compiler-card">
@@ -905,9 +905,9 @@
             <a href="https://therealjameswilson.github.io/Sept10-FRUS/">Open Sept10</a>
           </article>
           <article class="resource-card">
-            <h3>FRUS acceleration portal</h3>
-            <p>The original AI precedent and pilot-planning workspace remains available for program-level planning.</p>
-            <a href="./dashboard/">Open acceleration portal</a>
+            <h3>FRUS planning portal</h3>
+            <p>The evidence base and pilot-planning workspace remains available for cautious, evidence-first program planning.</p>
+            <a href="./dashboard/">Open planning portal</a>
           </article>
         </div>
       </section>
@@ -942,8 +942,8 @@
               <span class="badge">Route 2</span>
               <span class="tag">Historians</span>
             </div>
-            <h3>See how the pilots fit FRUS work</h3>
-            <p>Use the workflow map, sample outputs, and pilot cards to inspect what the pilots would actually do in research, clearance, and publication.</p>
+            <h3>Review how the pilots fit FRUS work</h3>
+            <p>Use the workflow map, sample outputs, and pilot cards to inspect exactly what the pilots would do, where people review them, and what evidence they leave behind.</p>
             <div class="route-links">
               <a href="./dashboard/#workflowMap">Workflow map</a>
               <a href="./dashboard/#sampleOutputs">Sample outputs</a>
@@ -957,7 +957,7 @@
               <span class="tag">Builders</span>
             </div>
             <h3>Trace the federal precedents and evidence</h3>
-            <p>Use the comparator, idea atlas, and browser to see which use cases the federal government is already running and how FRUS can borrow them.</p>
+            <p>Use the comparator, idea atlas, and browser to see which federal use cases are already running and which patterns FRUS could adapt cautiously.</p>
             <div class="route-links">
               <a href="./dashboard/#precedentComparator">Compare precedents</a>
               <a href="./dashboard/#ideaAtlas">Idea atlas</a>
@@ -974,7 +974,7 @@
             <h2>Start with the first three pilots</h2>
           </div>
           <p class="section-summary">
-            These are the strongest near-term bets because they directly attack FRUS bottlenecks and already resemble federal use cases in motion elsewhere.
+            These are the strongest reviewable starts because they address FRUS bottlenecks while keeping reviewers in control and leaving an evidence trail.
           </p>
         </div>
         <div class="preview-grid" id="projectPreviewGrid">
@@ -1102,15 +1102,15 @@
         const sourceSystemCount = document.querySelectorAll(".resource-card").length;
 
         heroSummary.textContent =
-          "A compiler-facing hub for active FRUS assist pages, source desks, Scout searches, Strobe Talbott FOIA material, and the FRUS acceleration portal.";
+          "A compiler-facing hub for active FRUS desks, source queues, Scout searches, Strobe Talbott FOIA material, and reviewable planning tools with human checks.";
         deadlineLabel.textContent = "Start here";
         entrySummary.textContent =
-          `${compilerDeskCount} compiler desks and ${sourceSystemCount} shared source systems are linked here, with official History Office volume pages beside the local workbenches.`;
+          `${compilerDeskCount} compiler desks and ${sourceSystemCount} shared source systems are linked here, with official History Office volume pages beside the local workbenches so every assistive step can be checked.`;
 
         statGrid.innerHTML = [
           ["Compiler desks", compilerDeskCount],
           ["Source systems", sourceSystemCount],
-          ["AI pilot cards", context.topProjectsFY26.length],
+          ["Workflow pilots", context.topProjectsFY26.length],
           ["Federal precedents", report.relevantUseCaseCount]
         ]
           .map(
