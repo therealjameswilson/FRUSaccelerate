@@ -69,6 +69,11 @@ The wrapper should provide the LLM with:
   controls derived from published FRUS source lists and local authority files,
   including family ids, volume scope, required path components, distinguishing
   tokens, allowed variants, and no-flattening rules.
+- `communications_registry_context`, if available: structured telegram, cable,
+  STARS, CFPF, PROFS, W Files, System IV, agency-message, and other
+  electronic-communications metadata with source family, message identifier,
+  origin, addressee, date-time group, precedence, classification/handling,
+  drafting, clearance, approval, distribution, and verification status.
 - `attachment_registry_context`, if available: structured attachment, tab,
   enclosure, annex, appendix-image, and facsimile relationships with physical
   status, editorial status, printed target, source label, and verification
@@ -153,14 +158,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | declassification | authority_control | chronology | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | declassification | authority_control | chronology | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | publication_status | authority_control | declassification_status | translation_status | chronology | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | publication_status | authority_control | declassification_status | translation_status | chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -173,7 +178,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | declassification | authority_control | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | declassification | authority_control | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -299,6 +304,7 @@ run the semantic and Word-safety validators below.
               "declassification",
               "authority_control",
               "chronology",
+              "communications_record",
               "publication_status",
               "wording",
               "evidence",
@@ -344,6 +350,7 @@ run the semantic and Word-safety validators below.
               "declassification_status",
               "translation_status",
               "chronology",
+              "communications_metadata",
               "source_family",
               "cross_reference",
               "wrapper_safety"
@@ -411,6 +418,7 @@ run the semantic and Word-safety validators below.
               "editorial_note",
               "declassification",
               "authority_control",
+              "communications_record",
               "publication_status",
               "wording",
               "format",
@@ -496,8 +504,9 @@ Semantic validator behavior:
 - If `evidence_request` is not `none`, require a non-empty
   `verification_target`.
 - Reject any direct edit whose category is `publication_status`,
-  `declassification`, `attachment`, `chronology`, or `authority_control` when
-  the required proof is absent from the uploaded unit or wrapper context.
+  `declassification`, `attachment`, `chronology`, `communications_record`, or
+  `authority_control` when the required proof is absent from the uploaded unit
+  or wrapper context.
 - Downgrade to `comment_only` when a finding passes the JSON schema but fails a
   Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
@@ -940,6 +949,147 @@ Source-family audit requirements:
   sees a recurring unresolved question, such as whether to enforce Bush H-Files
   subseries names, how much PROFS/W Files/System IV detail to preserve, or when
   a public source should be treated as selected evidence rather than context.
+
+#### 6.1.2 Communications-Record Registry Validation
+
+Use a communications-record registry when the wrapper can supply one. Reagan
+and Bush-era volumes often rely on telegrams, cables, State electronic systems,
+PROFS messages, W Files, System IV records, agency communications, and related
+message forms. The checker should verify the communication metadata before it
+rewrites a source note or follow-on annotation.
+
+Minimum communications-record registry:
+
+```json
+{
+  "communications_registry_id": "frus-1981-1992-communications-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/sources"
+  ],
+  "records": [
+    {
+      "record_id": "comm-state-cfpf-0001",
+      "unit_id": "source-note-0012",
+      "record_type": "cfpf_telegram",
+      "source_family": "Department of State, Central Foreign Policy File",
+      "repository_path_component": "[Electronic Telegrams, D Reels, N Reels, or P Reels]",
+      "message_identifier": "[supplied CFPF identifier]",
+      "origin": "[originating post or office]",
+      "addressee": "[addressee post, office, or distribution if supplied]",
+      "date_time_group": "[date-time group if supplied]",
+      "classification": "[classification marking or no classification marking if verified]",
+      "handling": "[handling markings if supplied]",
+      "precedence": "[precedence if supplied]",
+      "drafting": "[drafting note if supplied]",
+      "clearance": "[clearance note if supplied]",
+      "approval": "[approval note if supplied]",
+      "distribution": "[distribution note if supplied]",
+      "verification_status": "needs_source_image"
+    },
+    {
+      "record_id": "comm-state-stars-0001",
+      "unit_id": "source-note-0031",
+      "record_type": "stars_record",
+      "source_family": "Department of State, STARS",
+      "repository_path_component": "STARS",
+      "message_identifier": "[supplied STARS identifier]",
+      "origin": "Department of State",
+      "addressee": "[addressee if supplied]",
+      "date_time_group": "[date-time group if supplied]",
+      "classification": "[classification marking or no classification marking if verified]",
+      "handling": "[handling markings if supplied]",
+      "precedence": "",
+      "drafting": "[drafted by note if supplied]",
+      "clearance": "[cleared by note if supplied]",
+      "approval": "",
+      "distribution": "",
+      "verification_status": "verified"
+    }
+  ]
+}
+```
+
+Allowed `record_type` values:
+
+- `cfpf_telegram`
+- `stars_record`
+- `profs_message`
+- `w_file_message`
+- `system_iv_record`
+- `telegram_reference`
+- `agency_cable`
+- `field_report`
+- `other_electronic_message`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified`
+- `needs_source_image`
+- `needs_archival_path`
+- `needs_identifier`
+- `unknown`
+
+Communications validator sequence:
+
+1. Identify every source note, follow-on footnote, editorial note, or source-list
+   entry that refers to a telegram, cable, electronic telegram, STARS item,
+   CFPF D/N/P reel item, PROFS message, W File, System IV record, agency cable,
+   message number, date-time group, precedence, drafting line, clearance line,
+   approval line, or distribution line.
+2. Match the unit against `communications_registry_context` before proposing a
+   direct edit to message metadata.
+3. Separate the source family from the communication form. For example, a State
+   CFPF source note may need both the CFPF family and the specific reel or
+   electronic-telegram identifier; a PROFS record may need both the Reagan
+   Library or NARA family and the message-system identifier.
+4. Preserve exact system labels supplied by the registry or unit, including
+   `Electronic Telegrams`, `D Reels`, `N Reels`, `P Reels`, `STARS`, `PROFS`,
+   `W Files`, and `System IV`.
+5. Do not invent or normalize message identifiers, date-time groups, origin
+   posts, addressees, precedence, drafting, clearance, approval, or distribution
+   evidence. If these are missing, use `comment_only` with `evidence_request`
+   set to `communications_metadata`, `source_image`, or `archival_path`.
+6. Distinguish original classification and handling markings from release
+   status. A telegram can be declassified for release while still requiring its
+   original classification and handling markings in the source note.
+7. Coordinate attachment and cross-reference checks when a communication is
+   described as attached, enclosed, retransmitted, summarized, printed elsewhere,
+   or not found.
+8. For foreign, agency, or international-organization communications, comment
+   for translation status, agency equity, foreign-copy provenance, or source
+   image review when those facts matter and are not supplied.
+
+Direct-edit posture:
+
+- Safe direct edits may restore a proven system label, supplied reel component,
+  supplied message identifier, or verified `No classification marking` phrase
+  when the exact evidence is present.
+- Do not directly add or remove origin, addressee, date-time group, precedence,
+  drafting, clearance, approval, or distribution claims unless the exact
+  information appears in the unit or registry.
+- Treat an absent message identifier as `major` when the identifier is normally
+  part of the selected source and the source note would otherwise be ambiguous.
+- Treat uncertain style choices as General Editor discrepancy items rather than
+  defects when both forms are factually supported.
+
+Communications audit requirements:
+
+- Count unmatched communications records, missing identifiers, missing
+  date-time groups, unmatched source families, unsupported drafting or clearance
+  claims, and direct communications-record edits separately from ordinary
+  source-note style changes.
+- Preserve the communications registry id, capture date, source-list URLs, and
+  any unmatched message identifiers in the audit report.
+- Add `communications_record` discrepancies to the General Editor tally when
+  the checker sees a recurring unresolved style question, such as how much
+  STARS detail to print, whether to preserve D/N/P reel labels in short source
+  notes, how to handle PROFS/W Files/System IV identifiers, or whether drafting
+  and clearance lines should appear when the message metadata is otherwise
+  complete.
 
 ### 6.2 Follow-On Footnotes
 
@@ -2926,27 +3076,30 @@ For every extracted unit, run checks in this order:
 3. Check for invented or unverifiable facts.
 4. Check source-note order and completeness.
 5. Match source notes against the source-family registry when supplied.
-6. Check classification and handling language.
-7. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
+6. Check telegram, cable, STARS, CFPF, PROFS, W Files, System IV, agency-cable,
+   and other communications-record metadata against the communications registry
+   when supplied.
+7. Check classification and handling language.
+8. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
    against the attachment registry when supplied.
-8. Check cross-references and follow-on citation form against the
+9. Check cross-references and follow-on citation form against the
    cross-reference registry when supplied.
-9. Check annotation purpose and concision.
-10. Check declassification, omission, original-bracket, release-status, and
+10. Check annotation purpose and concision.
+11. Check declassification, omission, original-bracket, release-status, and
     whole-document withholding language against the declassification registry
     when supplied.
-11. Check target-volume status and whether the note is research-stage,
+12. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-12. Route the unit through the relevant volume family when a 1981-1992
+13. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-13. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
+14. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-14. Check Persons, abbreviations, and index authority issues.
-15. Assign specific evidence requests and verification targets for unresolved
+15. Check Persons, abbreviations, and index authority issues.
+16. Assign specific evidence requests and verification targets for unresolved
     proof.
-16. Decide direct edit versus comment-only.
-17. Return strict JSON.
-18. After schema and semantic validation, aggregate all unresolved evidence
+17. Decide direct edit versus comment-only.
+18. Return strict JSON.
+19. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -3224,6 +3377,9 @@ Use the discrepancy tally for:
   cross-references, footnote cross-references, or document-number style.
 - Different Persons, abbreviations, source-list, or index authority forms that
   may reflect volume-specific practice rather than error.
+- Variations in telegram, cable, STARS, CFPF, PROFS, W Files, System IV, or
+  agency-message detail when the message identity is sound but published or
+  local examples differ on how much metadata to print.
 - Repeated wrapper-safety or extraction ambiguities that suggest the tool needs
   a house rule before it can safely redline similar Word structures.
 
@@ -3494,6 +3650,7 @@ Output schema: checker-output-v1
 Context bundle: [bundle_id and capture date]
 Authority registry: [authority_registry_id and capture date]
 Source-family registry: [source_family_registry_id and capture date]
+Communications registry: [communications_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
 Declassification registry: [declassification_registry_id and capture date]
 Chronology registry: [chronology_registry_id and capture date]
@@ -3522,6 +3679,7 @@ Counts:
 - Status registry conflicts or stale-publication warnings: [n]
 - Authority registry conflicts or unmatched forms: [n]
 - Source-family unmatched or ambiguous matches: [n]
+- Communications records unmatched or incomplete: [n]
 - Attachment status unknown or conflicting: [n]
 - Declassification/omission unresolved or conflicting: [n]
 - Chronology/meeting/call record issues: [n]
@@ -3544,6 +3702,9 @@ Authority-control warnings:
 
 Source-family warnings:
 - [unit_id or global]: [source-family issue] - [registry target or unmatched family]
+
+Communications-record warnings:
+- [unit_id or global]: [record issue] - [record type, identifier, and evidence basis]
 
 Attachment warnings:
 - [unit_id or global]: [attachment issue] - [physical/editorial status and target]
@@ -3587,6 +3748,11 @@ Minimum components:
   ecologies, distinguishes public/printed selected sources from archival
   control copies, and blocks flattening of specific repositories into generic
   source paths.
+- Communications-record validator that checks telegram, cable, STARS, CFPF,
+  PROFS, W Files, System IV, agency-message, and other electronic-message
+  identifiers, origin/addressee, date-time group, precedence,
+  classification/handling, drafting, clearance, approval, and distribution
+  metadata before tracked changes are applied.
 - Attachment-status validator that separates physical attachment status from
   editorial printing status and checks tab, enclosure, annex, appendix, and
   facsimile cross-references before tracked changes are applied.
@@ -3617,6 +3783,10 @@ Operational cautions:
   comments, and unresolved General Editor questions.
 - Record source-family registry version, unmatched or ambiguous family matches,
   direct source-family edits, and source-family discrepancy questions.
+- Record communications-registry version, unmatched message identifiers,
+  missing D/N/P/STARS/PROFS/W Files/System IV data, unsupported
+  origin/addressee/date-time group claims, drafting or clearance questions, and
+  communications-record discrepancy questions.
 - Record attachment-registry version, unknown statuses, missing printed targets,
   bidirectional appendix/facsimile failures, and any waived attachment claims.
 - Record declassification-registry version, provisional or unknown review
