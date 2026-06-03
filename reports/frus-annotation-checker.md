@@ -1778,7 +1778,86 @@ Human review requirements:
 - Keep the golden packet on the closed network, with document excerpts cleared
   for that environment.
 
-## 10. Audit Report Summary Template
+## 10. Offline Context Bundle Requirements
+
+The checker is designed for a closed network. That means the wrapper should not
+ask the LLM to browse live History Office pages during a review run. Instead,
+prepare a small, dated context bundle outside the run, load it with the uploaded
+Word file, and cite the bundle version in the audit report.
+
+Required bundle files:
+
+- `status_snapshot`: a dated capture of the official Status of the Series page,
+  including the production stages and the current entries relevant to Reagan
+  and George H.W. Bush volumes.
+- `volume_registry`: official volume ids, full titles, administration,
+  date span, current status, chapter status if applicable, and official
+  history.state.gov URL.
+- `volume_family_map`: the family routing used by this checker, with each
+  volume mapped to one or more families and a confidence level.
+- `source_family_map`: known source ecologies for the relevant volume or
+  family, such as Reagan Library NSC files, PROFS, W Files, System IV, Bush
+  H-Files, Scowcroft/Gates files, State CFPF, lot files, STARS, public sources,
+  private papers, agency records, or foreign/international-organization records.
+- `authority_lists`, when available: Persons, abbreviations, source-list
+  entries, index terms, known document numbers, chapter titles, and related
+  volume cross-references.
+- `published_pattern_extracts`: short, cleared examples from published FRUS
+  pages used as no-change or style controls, with source URLs and capture date.
+- `local_exemplar_notes`: approved internal examples, such as a clean
+  annotation-sheet model, with provenance and any access restrictions.
+
+Recommended bundle metadata:
+
+```json
+{
+  "bundle_id": "frus-1981-1992-context-2026-06-03",
+  "created_at": "2026-06-03",
+  "created_by": "FRUS Annotation Checker wrapper",
+  "status_snapshot_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
+  "status_snapshot_captured_at": "2026-06-03",
+  "included_volume_ids": [
+    "frus1981-88v44p1",
+    "frus1989-92v31"
+  ],
+  "offline_use": true,
+  "internet_access_during_review": false
+}
+```
+
+Bundle-use rules:
+
+- The LLM may use the context bundle to choose review posture, identify likely
+  volume family, avoid stale cross-reference wording, and decide whether a
+  finding needs `comment_only`.
+- The LLM must not use the bundle to invent a source note, classification
+  marking, attachment status, declassification outcome, or document number that
+  is not present in the uploaded Word file or explicit wrapper context.
+- If the bundle status is older than the wrapper's configured freshness window,
+  add a global info comment warning that publication/status checks may be stale.
+- If the uploaded Word file and bundle disagree about a volume title, chapter,
+  document number, or status, treat the issue as `comment_only` with
+  `evidence_request` set to the most specific missing proof.
+- If a volume appears in both a published-pattern extract and an in-preparation
+  status list, prefer the explicit `series_status_context` supplied for the
+  uploaded file and ask for confirmation rather than guessing.
+- Preserve source URLs and capture dates in the audit report. On a closed
+  network, provenance is part of the evidence.
+
+Context freshness guidance:
+
+- Refresh `status_snapshot` before any production batch, release deadline, or
+  final style pass.
+- Refresh `authority_lists` when document numbers, Persons entries,
+  abbreviations, source-list entries, chapter titles, or cross-volume references
+  change.
+- Refresh `published_pattern_extracts` when a newly published Reagan or Bush
+  volume becomes a better pattern for the uploaded family.
+- Do not block a source-note style pass merely because the status snapshot is
+  stale, unless the run would change `scheduled for publication`, `printed in`,
+  document numbers, chapter status, or publication-status language.
+
+## 11. Audit Report Summary Template
 
 The wrapper may generate a human-readable report after applying changes:
 
@@ -1788,6 +1867,8 @@ FRUS Annotation Checker Report
 Input file: [filename]
 Output file: [filename.frus-annotation-check.docx]
 Run date: [date]
+Checker version: [version]
+Context bundle: [bundle_id and capture date]
 
 Overall status: [pass/pass_with_comments/needs_revision/blocked]
 
@@ -1811,7 +1892,7 @@ Rejected edits:
 - [unit_id]: original_text was not found exactly in target unit.
 ```
 
-## 11. Closed-Network Deployment Notes
+## 12. Closed-Network Deployment Notes
 
 Minimum components:
 
@@ -1821,6 +1902,8 @@ Minimum components:
 - JSON schema validator.
 - WordprocessingML edit applier that can create real tracked insertions,
   deletions, and comments.
+- Offline context-bundle loader with status, authority, source-family, and
+  provenance metadata.
 - Export step that writes a new `.docx`.
 
 Operational cautions:
@@ -1828,17 +1911,19 @@ Operational cautions:
 - Run the checker on a copy of the document.
 - Keep original uploaded files unchanged.
 - Record the exact checker version used.
+- Record the exact context-bundle id and capture date used.
 - Preserve an audit log of all LLM outputs, validator rejections, and applied
   changes.
 - Preserve evidence-request counts so reviewers can see whether a packet is
   blocked mainly by source images, archival paths, classification markings,
   declassification outcomes, authority control, or Word-wrapper safety.
-- Do not allow the LLM to access the open internet on the closed network.
+- Do not allow the LLM to access the open internet on the closed network. Any
+  public-source learning must enter through a dated context bundle.
 - Do not treat the checker as a declassification authority.
 - Do not accept checker edits automatically for publication; human FRUS editors
   must review every tracked change.
 
-## 12. Quick Pass/Fail Rubric
+## 13. Quick Pass/Fail Rubric
 
 Pass:
 
@@ -1866,7 +1951,7 @@ Blocked:
   matching.
 - The Word wrapper cannot safely apply track changes.
 
-## 13. Source Basis
+## 14. Source Basis
 
 This checker is based on the local file:
 
