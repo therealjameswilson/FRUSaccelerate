@@ -150,6 +150,11 @@ The wrapper should provide the LLM with:
   bracket, excision, withholding, original-bracket, release-status, and
   declassification-review assertions with quantity, type, evidence basis, and
   reviewer status.
+- `editorial_method_context`, if available: structured editorial-method,
+  transcription, bracketed-correction, bracketed-addition, italic/roman,
+  underlining, abbreviation/contraction, telegram-number, Secto/special
+  designator, original-bracket, original-ellipsis, silent-typo-correction, and
+  document-text preservation evidence.
 - `time_zone_context`, if available: structured Washington-time, local-time,
   GMT, Zulu/Z, EDT/EST, date-time-group, treaty-notification, telegram
   transmission/receipt, meeting-time, event-time, international-date-line,
@@ -275,14 +280,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | release_errata_apparatus | wording | evidence | format",
+      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | editorial_method_transcription | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | release_errata_apparatus | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | source_surrogate_basis | source_list_basis | selection_balance_basis | physical_evidence_basis | negative_search_basis | printed_attachment_basis | transcription_facsimile_basis | visual_material_basis | time_zone_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | release_apparatus_basis | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | source_surrogate_basis | source_list_basis | selection_balance_basis | physical_evidence_basis | negative_search_basis | printed_attachment_basis | transcription_facsimile_basis | visual_material_basis | time_zone_basis | editorial_method_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | release_apparatus_basis | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -295,7 +300,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | release_errata_apparatus | wording | format | wrapper",
+      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | editorial_method_transcription | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | release_errata_apparatus | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -420,6 +425,7 @@ run the semantic and Word-safety validators below.
               "handwritten_facsimile_transcription",
               "visual_material_graphic",
               "source_surrogate_release",
+              "editorial_method_transcription",
               "annotation",
               "editorial_note",
               "document_metadata",
@@ -492,6 +498,7 @@ run the semantic and Word-safety validators below.
               "transcription_facsimile_basis",
               "visual_material_basis",
               "time_zone_basis",
+              "editorial_method_basis",
               "attachment_status",
               "document_number",
               "document_metadata",
@@ -580,6 +587,7 @@ run the semantic and Word-safety validators below.
               "handwritten_facsimile_transcription",
               "visual_material_graphic",
               "source_surrogate_release",
+              "editorial_method_transcription",
               "editorial_note",
               "document_metadata",
               "classification_handling",
@@ -691,6 +699,7 @@ Semantic validator behavior:
 - Reject any direct edit whose category is `publication_status`,
   `declassification`, `attachment`, `printed_nested_attachment`,
   `handwritten_facsimile_transcription`,
+  `editorial_method_transcription`,
   `visual_material_graphic`,
   `source_surrogate_release`,
   `time_zone_chronology`,
@@ -7401,6 +7410,7 @@ Evidence-request categories:
 | `transcription_facsimile_basis` | Handwritten-note, handwritten-letter, editor-transcribed, transcribed-portion, uncertain-reading, original-bracket, original-ellipsis, cut-off-line, appendix-image, facsimile, or reverse-cross-reference evidence is uncertain. | Which source image, handwritten source, transcription claim, uncertain reading, symbol/structure, appendix image, reverse cross-reference, original-bracket/original-ellipsis statement, or cut-off-line basis must be checked. |
 | `visual_material_basis` | Map, photograph, chart, image, graphic attachment, appendix image, caption, visual title, attached-but-not-printed, not-found, printed target, source-image, publication-suitability, or person/object/place identification evidence is uncertain. | Which visual item, caption/title, source image, attachment or publication status, printed target, not-found search, visual description, or identification basis must be checked. |
 | `time_zone_basis` | Washington-time, local-time, GMT/Z, EDT/EST, date-time-group, treaty-notification, event-time, as-of, deadline, conversion, ambiguity, chronological-placement, or international-date-line evidence is uncertain. | Which time label, source time basis, conversion, date-time group, treaty rule, event/call/telegram relationship, ambiguity caveat, or chronological placement must be checked. |
+| `editorial_method_basis` | Bracketed correction/addition, italic/roman distinction, underlining-to-italic treatment, abbreviation or contraction preservation, telegram number, Secto/special designator, original bracket, original ellipsis, silent typo correction, or document-text preservation evidence is uncertain. | Which editorial-method convention, source image, document text, bracket status, styling, telegram number, abbreviation, or original-text feature must be checked before editing. |
 | `attachment_status` | Attached, not attached, printed elsewhere, tabbed, enclosed, or not found claims are uncertain. | Which tab, enclosure, paper, or list must be checked. |
 | `document_number` | Same-volume or cross-volume reference lacks a stable document number. | Which target document, chapter, or volume must be matched. |
 | `document_metadata` | Heading, dateline, subject/title line, public title, sender, recipient, internal number, or document form is missing or suspect. | Which heading field and evidence source must be checked before rewriting. |
@@ -7482,6 +7492,7 @@ Default blocking rules:
 | `transcription_facsimile_basis` | yes for handwritten-note, editor-transcribed, uncertain-reading, original-bracket, original-ellipsis, cut-off-line, appendix-image, facsimile, or reverse-cross-reference edits | yes when handwritten, transcribed, or facsimile apparatus appears in publishable notes |
 | `visual_material_basis` | yes for map, photograph, chart, image, graphic-attachment, caption/title, visual description, publication status, attachment status, not-found, printed-target, source-image, or identification edits | yes when visual-material apparatus appears in publishable notes |
 | `time_zone_basis` | yes for Washington-time, local-time, GMT/Z, EDT/EST, date-time-group, treaty-notification, event-time, as-of, deadline, conversion, ambiguity, chronological-placement, or international-date-line edits | yes when time/date sequence, time-zone labels, or chronological placement appear in publishable apparatus |
+| `editorial_method_basis` | yes for bracketed-correction, bracketed-addition, italic/roman, underlining-to-italic, abbreviation/contraction, telegram-number, Secto/special-designator, original-bracket, original-ellipsis, or silent-typo edits | yes when editorial-method, transcription, bracket, styling, telegram-number, or document-text preservation claims appear in publishable apparatus |
 | `attachment_status` | yes | yes when the note asserts attached, not attached, tabbed, enclosed, printed, or not found |
 | `document_number` | yes for cross-reference edits | yes when same-volume or cross-volume references are unstable |
 | `document_metadata` | yes for heading, dateline, title, subject, or caption edits | yes when publishable apparatus identifies the document |
@@ -7516,7 +7527,7 @@ Owner hints:
   source-surrogate/release-identifier basis,
   selection-balance basis, printed/nested-attachment basis,
   transcription/facsimile basis, visual-material basis, time-zone/chronology
-  basis, release/errata apparatus basis,
+  basis, editorial-method basis, release/errata apparatus basis,
   retrospective-account basis, sensitive-record source basis,
   negative-search/no-record basis, translation status, and foreign-copy
   provenance.
@@ -7529,7 +7540,8 @@ Owner hints:
   source-surrogate/release-identifier note form,
   printed/nested-attachment note form, physical/routing note form,
   transcription/facsimile note form, visual-material note form,
-  time-zone/chronology note form, release/errata note form,
+  time-zone/chronology note form, editorial-method/transcription note form,
+  release/errata note form,
   retrospective-account note form, sensitive-record note form,
   negative-search/no-record wording, publication-status wording, and General
   Editor discrepancy preparation.
@@ -7851,67 +7863,72 @@ For every extracted unit, run checks in this order:
 23. Check declassification, omission, original-bracket, release-status, and
     whole-document withholding language against the declassification registry
     when supplied.
-24. Check target-volume status and whether the note is research-stage,
+24. Check editorial-method, transcription, bracketed-correction/addition,
+   italic/roman, underlining-to-italic, abbreviation/contraction, telegram-
+   number, Secto/special-designator, original-bracket, original-ellipsis,
+   silent-typo-correction, and document-text preservation claims against the
+   editorial-method registry when supplied.
+25. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-25. Check press release, media note, release date, GPO/ISBN/S/N, PDF/EPUB/Mobi,
+26. Check press release, media note, release date, GPO/ISBN/S/N, PDF/EPUB/Mobi,
    public URL, errata, online/full-text correction, printed-volume-revision,
    and capture-date claims against the release-apparatus registry when
    supplied.
-26. Route the unit through the relevant volume family when a 1981-1992
+27. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-27. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
+28. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-28. Check Washington-time, local-time, GMT/Z, EDT/EST, date-time groups, treaty
+29. Check Washington-time, local-time, GMT/Z, EDT/EST, date-time groups, treaty
     notification time rules, as-of times, deadlines, conversions, ambiguity, and
     international-date-line placement against the time-zone registry when
     supplied.
-29. Check summit, travel, ceremony, public address, interview, press
+30. Check summit, travel, ceremony, public address, interview, press
     conference, toast, testimony, public remarks, and public-event sequence
     evidence against the event-chronology registry when supplied.
-30. Check public diplomacy, speeches, press releases, press conferences,
+31. Check public diplomacy, speeches, press releases, press conferences,
     briefings, interviews, broadcasts, testimony, Public Papers, Department of
     State Bulletin, newspaper excerpts, official transcripts, speech files,
     briefing materials, selected-public-document status, and
     supplemental-public-context evidence against the public-source registry when
     supplied.
-31. Check memoirs, published diaries, personal diaries, oral histories, later
+32. Check memoirs, published diaries, personal diaries, oral histories, later
     interviews, recollections, press retrospectives, newspaper accounts,
     selected/supplemental status, official-record relationship, corroborating
     records, and conflict status against the retrospective-account registry when
     supplied.
-32. Check congressional testimony, hearings, public laws, statutes, continuing
+33. Check congressional testimony, hearings, public laws, statutes, continuing
     resolutions, joint resolutions, congressional notifications, Presidential
     Determinations, certifications, Executive Orders, oversight, independent
     counsel, Senate advice-and-consent, and ratification context against the
     congressional/legal registry when supplied.
-33. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
+34. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
     World Bank, MDB, GATT, UNCTAD, OECD, table, amount, percentage, currency,
     fiscal-year, loan, guarantee, quota, replenishment, conditionality, and
     policy-stage evidence against the economic/financial registry when supplied.
-34. Check intelligence, covert-action, law-enforcement, counternarcotics,
+35. Check intelligence, covert-action, law-enforcement, counternarcotics,
     counterterrorism, agency-equity, source-and-methods, operational, oversight,
     foreign-service-contact, sanitized-record, redaction, and public-policy
     evidence against the sensitive-record registry when supplied.
-35. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
+36. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
     combat-operation, contingency-plan, CONPLAN, host-nation notification,
     coalition, peacekeeping, force/unit, time-zone, casualty/damage, and
     military-assistance evidence against the military/crisis registry when
     supplied.
-36. Check human-rights reports, refugee, immigration, asylum, migration, famine,
+37. Check human-rights reports, refugee, immigration, asylum, migration, famine,
     emergency relief, food aid, public-health, AIDS/HIV, population policy,
     environmental, ozone, sanctions, waivers, certifications, public reports,
     international organizations, PVOs, AID/PRM, PL 480, Section 416, and Section
     206 evidence against the human-rights/refugee/global-issues registry when
     supplied.
-37. Check Persons, Abbreviations and Terms, repository/source-list forms,
+38. Check Persons, Abbreviations and Terms, repository/source-list forms,
     chapter labels, document-number references, public-source titles,
     date-bounded offices, and index behavior against the authority-control
     registry when supplied.
-38. Assign specific evidence requests and verification targets for unresolved
+39. Assign specific evidence requests and verification targets for unresolved
     proof.
-39. Decide direct edit versus comment-only.
-40. Return strict JSON.
-41. After schema and semantic validation, aggregate all unresolved evidence
+40. Decide direct edit versus comment-only.
+41. Return strict JSON.
+42. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -8042,6 +8059,11 @@ Duplicate-suppression rules:
   cross-reference target, uncertain reading, original-bracket statement,
   original-ellipsis statement, cut-off-line claim, or transcription-status
   phrase.
+- Merge repeated editorial-method/transcription issues by document text unit,
+  bracket type, correction/addition distinction, italic/roman status,
+  underlining-to-italic treatment, abbreviation or contraction, telegram number,
+  Secto/special designator, original-bracket statement, original-ellipsis
+  statement, silent-typo-correction claim, or wrapper styling limitation.
 - Merge repeated visual-material issues by visual item type, caption or title,
   source image, map or photograph target, visual description, attachment or
   publication status, printed target, not-found search, public/archival basis,
@@ -8189,6 +8211,12 @@ Golden packet composition:
   editor-transcribed text, an appendix image, a reverse appendix
   cross-reference, original brackets or ellipses, and bracketed `[unclear]` or
   `[illegible]` readings.
+- At least one editorial-method/transcription example with bracketed
+  correction versus addition, italic versus roman omission/correction styling,
+  underlining printed as italics, preserved abbreviation or contraction,
+  telegram number with a special designator such as Secto, original brackets,
+  original ellipses, and one ordinary document-text phrase the checker must not
+  modernize.
 - At least one visual-material example with a map, photograph, chart, image,
   caption, visual title, graphic attachment, attached-but-not-printed item,
   not-found visual item, or appendix image where the checker must preserve the
@@ -8322,6 +8350,13 @@ Expected behavior by test family:
   `[unclear]`, and `[illegible]`; comment rather than normalize prose, remove a
   facsimile link, or invent an uncertain reading when source-image or
   transcription basis is missing.
+- Editorial-method/transcription test: preserve document text, original
+  spelling/capitalization/punctuation except supplied obvious typo corrections,
+  bracketed correction/addition distinctions, italic/roman styling,
+  underlining-to-italic treatment, abbreviations and contractions, telegram
+  numbers and Secto/special designators, original-bracket statements, and
+  original ellipses; comment rather than normalize, expand, re-style, or
+  rewrite document text when `editorial_method_basis` is missing.
 - Visual-material test: preserve supplied map, photograph, chart, image,
   caption, visual title, attached-but-not-printed, printed-target,
   printed-elsewhere, not-found, not-attached, public-source-image, and
@@ -8506,6 +8541,12 @@ Use the discrepancy tally for:
 - Variations in `No classification marking`, classification/handling order,
   handling punctuation, paragraph-marking treatment, declassification phrasing,
   or omission/bracket language where the underlying evidence is sound.
+- Variations in how to handle editorial-method and transcription conventions,
+  including bracketed corrections/additions, italic/roman distinctions,
+  underlining printed as italics, abbreviations and contractions, telegram
+  special designators, original brackets, original ellipses, and silent
+  correction of obvious typographical errors when the underlying evidence is
+  sound.
 - Variations in how much handwriting, initials, stamps, read-by/seen notations,
   signed status, approval checkmarks, highlighting, underlining, marginalia,
   sent-for-action or information routing, correspondence profiles, distribution,
@@ -8633,6 +8674,7 @@ Suggested tally format:
 | style-discrepancy-0020 | visual_material_graphic | How much visual-material apparatus should appear for maps, photographs, charts, captions, graphic attachments, and not-found visual items when the facts are sound. | Detailed caption/title and visual-description note; compact attached-but-not-printed or not-found phrase; appendix-image cross-reference with details retained in audit/context | 2 | medium | Should the checker enforce a house form for visual-material notes, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0021 | release_errata_apparatus | How much release, errata, GPO/ISBN, download, and print-versus-online correction apparatus should appear when the facts are sound. | Full press-release or media-note basis plus release date, public URL, GPO/ISBN/S/N, PDF/EPUB/Mobi, generated date, and errata status; shorter publication or correction note with release/digital details retained in audit/context | 2 | medium | Should the checker enforce a house form for release and errata apparatus, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0022 | authority_control | How much Persons, Abbreviations and Terms, source-list, chapter-label, document-number, public-title, and index authority reconciliation should occur inside annotation sheets before final front-matter or index assembly. | Full registry reconciliation with approved display forms, variants, date spans, term expansions, and index rules in the checker audit; lighter annotation-sheet comments that defer final authority decisions to front-matter/index assembly | 2 | medium | Should the checker enforce authority-control forms during annotation review, or tally volume-specific authority variations for General Editor decision? |
+| style-discrepancy-0023 | editorial_method_transcription | How much editorial-method and transcription-convention enforcement should occur inside annotation sheets before final copyediting or publication production. | Full registry enforcement of bracketed correction/addition, italic/roman, underlining-to-italic, abbreviation, telegram-number, original-bracket, original-ellipsis, and typo-correction conventions; lighter comments that defer final styling and document-text treatment to production review | 2 | high | Should the checker enforce editorial-method conventions during annotation review, or tally volume-specific transcription/styling variations for General Editor decision? |
 
 Risk levels:
 
@@ -8708,6 +8750,12 @@ Required bundle files:
   symbols or structure, appendix image, facsimile target, reverse appendix
   cross-reference, source-note phrase, verification status, and source URLs for
   handwritten/facsimile records.
+- `editorial_method_map`, when available: editorial-method convention, document
+  text unit, bracketed correction/addition, italic/roman styling,
+  underlining-to-italic treatment, abbreviation/contraction preservation,
+  telegram number, Secto or other special designator, original brackets,
+  original ellipses, obvious-typo correction, wrapper styling capability,
+  verification status, and source URLs.
 - `visual_material_map`, when available: map, photograph, chart, diagram,
   image, graphic attachment, appendix image, facsimile image, caption, visual
   title, visual description, person/object/place identification, source image,
@@ -9308,6 +9356,160 @@ Audit requirements:
   reconciliation should be done inside annotation sheets versus final
   front-matter or index assembly.
 
+### 13.4 Editorial-Method, Bracket, Styling, Telegram, And Transcription-Conventions Validation
+
+Editorial-method conventions are not ordinary copyedits. Published Reagan and
+Bush volumes state that original spelling, capitalization, and punctuation are
+retained except for obvious typographical errors; bracketed corrections and
+additions have different styling; underlining becomes italics; abbreviations and
+contractions are preserved; telegram numbers and special designators are printed
+at the start of telegram text; original brackets are identified in footnotes;
+and ellipses are original to the documents. A closed-network model must not
+normalize document text or change styling conventions without supplied evidence.
+
+Use an editorial-method registry when the wrapper can supply one:
+
+```json
+{
+  "editorial_method_registry_id": "frus-1981-1992-editorial-method-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d23"
+  ],
+  "records": [
+    {
+      "editorial_method_item_id": "method-original-text-preservation",
+      "unit_id": "about-series-original-text",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries",
+      "method_type": "original_text_preservation",
+      "published_form": "spelling, capitalization, punctuation, abbreviations, and contractions retained except obvious typographical errors silently corrected",
+      "style_requirement": "do not modernize or expand document text without supplied basis",
+      "document_text_risk": "high",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "editorial_method_item_id": "method-bracket-correction-addition",
+      "unit_id": "about-series-bracketed-insertions",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries",
+      "method_type": "bracketed_correction_or_addition",
+      "published_form": "bracketed correction is italic; bracketed addition is roman",
+      "style_requirement": "preserve correction versus addition and italic versus roman distinction",
+      "document_text_risk": "high",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "editorial_method_item_id": "method-omission-italic-roman",
+      "unit_id": "about-series-omissions",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries",
+      "method_type": "omission_bracket_style",
+      "published_form": "unrelated-subject omission is roman; still-classified omission is italic; quantity and nature noted where possible",
+      "style_requirement": "coordinate with declassification registry before changing omission bracket styling or quantity",
+      "document_text_risk": "high",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "editorial_method_item_id": "method-telegram-number",
+      "unit_id": "about-series-telegram-number",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries",
+      "method_type": "telegram_number_special_designator",
+      "published_form": "telegram number, including special designations such as Secto, is printed at the start of telegram text",
+      "style_requirement": "do not remove, move, or invent telegram number or special designator without communications metadata",
+      "document_text_risk": "medium",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "editorial_method_item_id": "method-original-brackets-ellipses",
+      "unit_id": "about-series-original-brackets-ellipses",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries",
+      "method_type": "original_bracket_or_ellipsis",
+      "published_form": "original brackets are identified in footnotes; ellipses are in original documents",
+      "style_requirement": "do not reinterpret original brackets or ellipses as editorial omissions without supplied basis",
+      "document_text_risk": "high",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "editorial_method_item_id": "method-document-text-control",
+      "unit_id": "frus1989-92v31-d23-document-text",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "method_type": "document_text_preservation",
+      "published_form": "selected document text preserves source structure, tabs, capitalized section headings, and source-note linkage",
+      "style_requirement": "treat document body as transcribed text unless user requested transcription review and wrapper supplies exact evidence",
+      "document_text_risk": "high",
+      "verification_status": "verified_published_pattern"
+    }
+  ]
+}
+```
+
+Allowed `method_type` values: `original_text_preservation`,
+`bracketed_correction_or_addition`, `omission_bracket_style`,
+`underlining_to_italic`, `abbreviation_or_contraction`, `telegram_number_special_designator`,
+`original_bracket_or_ellipsis`, `silent_typo_correction`,
+`document_text_preservation`, `wrapper_styling_capability`, and `unknown`.
+
+Allowed `verification_status` values: `verified_published_pattern`,
+`verified_source_image`, `verified_wrapper_capability`,
+`needs_editorial_method_basis`, `needs_source_image`, `needs_styling_support`,
+`needs_communications_metadata`, `needs_declassification_basis`, and `unknown`.
+
+Validator sequence:
+
+1. Identify every proposed change to document body text, bracketed text,
+   correction/addition status, italic/roman styling, underlining, abbreviation,
+   contraction, telegram number, Secto/special designator, original-bracket
+   statement, original-ellipsis statement, or obvious-typo claim.
+2. Treat `transcribed_document_text` as non-editable unless the user explicitly
+   requested transcription review and the wrapper supplies exact source-image or
+   editorial-method evidence.
+3. Match editable apparatus against `editorial_method_context` before changing
+   bracket labels, styling, telegram-number placement, abbreviations, original
+   bracket statements, or original ellipsis statements.
+4. Do not expand abbreviations or contractions merely because the model knows
+   the expansion. Coordinate with authority-control and Abbreviations and Terms
+   front matter.
+5. Do not change punctuation, capitalization, spelling, indentation, headings,
+   tab labels, or line structure inside transcribed document text unless the
+   registry identifies an obvious typographical correction or the user requested
+   document-text review.
+6. Coordinate with declassification validation for omission brackets and
+   still-classified material; with handwritten/facsimile validation for
+   handwritten transcriptions; with communications-record validation for
+   telegram numbers and special designators; and with wrapper-safety validation
+   for italic/roman preservation in Word tracked changes.
+7. Add `editorial_method_transcription` discrepancies only when facts are sound
+   but practice varies on how much editorial-method detail to enforce in
+   annotation review versus final production.
+
+Direct-edit posture:
+
+- Safe direct edits may restore exact supplied bracket labels, original-bracket
+  notes, original-ellipsis notes, telegram-number/special-designator placement,
+  or styling words in editorial apparatus when registry evidence and exact Word
+  anchors support the edit.
+- Use `comment_only` with `evidence_request: editorial_method_basis` when
+  bracket status, italic/roman styling, abbreviation/contraction preservation,
+  original-text status, telegram-number placement, special designator, silent
+  typo correction, or document-text treatment is uncertain.
+- Use `wrapper_safety` when the Word wrapper cannot preserve italic/roman
+  styling, bracket boundaries, fields, footnote references, or existing tracked
+  changes.
+- Do not rewrite document body text from memory or general style preference.
+
+Audit requirements:
+
+- Count document-text, bracketed-correction/addition, italic/roman,
+  underlining-to-italic, abbreviation/contraction, telegram-number,
+  Secto/special-designator, original-bracket, original-ellipsis,
+  silent-typo-correction, and wrapper-styling warnings separately.
+- Preserve registry id, capture date, source URLs, method type, published form,
+  style requirement, document-text risk, verification status, and wrapper
+  styling capability.
+- Add General Editor tally rows for variations in how much editorial-method and
+  transcription-convention enforcement belongs in annotation sheets versus final
+  production review.
+
 ## 14. Audit Report Summary Template
 
 The wrapper may generate a human-readable report after applying changes:
@@ -9350,6 +9552,7 @@ Attachment registry: [attachment_registry_id and capture date]
 Declassification registry: [declassification_registry_id and capture date]
 Chronology registry: [chronology_registry_id and capture date]
 Time-zone chronology registry: [time_zone_registry_id and capture date]
+Editorial-method/transcription registry: [editorial_method_registry_id and capture date]
 Cross-reference registry: [cross_reference_registry_id and capture date]
 Status snapshot: [status_snapshot URL and captured_at date]
 Status registry stale: [yes/no/not supplied]
@@ -9401,6 +9604,7 @@ Counts:
 - Declassification/omission unresolved or conflicting: [n]
 - Chronology/meeting/call record issues: [n]
 - Time-zone, local-time, GMT/Z, date-time-group, treaty-notification, conversion, ambiguity, or chronological-placement issues: [n]
+- Editorial-method, document-text, bracketed-correction/addition, italic/roman, underlining-to-italic, abbreviation/contraction, telegram-number, original-bracket, original-ellipsis, or silent-typo issues: [n]
 - Cross-reference target, document-number, or scheduled-publication issues: [n]
 - Source-list, Published Sources, Abbreviations, Persons, appendix, declassification-review, special-note, or errata issues: [n]
 - Selection, completeness, balance, related-volume, withheld-document, or known-gap issues: [n]
@@ -9504,6 +9708,9 @@ Chronology warnings:
 
 Time-zone chronology warnings:
 - [unit_id or global]: [time-zone issue] - [source time label, time zone, date-time group, treaty rule, event/call/telegram relationship, conversion status, ambiguity caveat, chronological placement, and verification target]
+
+Editorial-method/transcription warnings:
+- [unit_id or global]: [editorial-method issue] - [method type, document text unit, bracket status, italic/roman or underlining status, abbreviation/contraction, telegram number or special designator, original-bracket/original-ellipsis basis, silent-typo claim, wrapper styling capability, and verification target]
 
 Cross-reference warnings:
 - [unit_id or global]: [cross-reference issue] - [target type, target status, and evidence basis]
@@ -9613,6 +9820,12 @@ Minimum components:
   excisions, unrelated omissions, original brackets, editor insertions,
   release-status notes, and whole-document withholdings before tracked changes
   are applied.
+- Editorial-method/transcription validator that distinguishes document body
+  text, bracketed corrections, bracketed additions, italic/roman styling,
+  underlining printed as italics, abbreviations and contractions, telegram
+  numbers, Secto or other special designators, original brackets, original
+  ellipses, silent typographical corrections, and wrapper styling capability
+  before tracked changes are applied.
 - Chronology and meeting-record validator that distinguishes diary/schedule
   corroboration, call-log evidence, memcons, telcons, minutes, no-record claims,
   and substantive meeting content before tracked changes are applied.
@@ -9768,6 +9981,13 @@ Operational cautions:
 - Record declassification-registry version, provisional or unknown review
   statuses, omitted-text quantities, whole-document withholdings, original
   bracket notes, and unresolved release-status warnings.
+- Record editorial-method registry version, document-text edit attempts,
+  bracketed-correction versus bracketed-addition claims, italic/roman styling
+  limitations, underlining-to-italic treatment, abbreviation/contraction
+  preservation, telegram numbers, Secto or other special designators,
+  original-bracket and original-ellipsis claims, silent-typo-correction claims,
+  wrapper styling support, rejected document-text normalizations, and
+  editorial-method discrepancy questions.
 - Record chronology-registry version, unknown record statuses, unsupported
   attendance, missing time/place, scheduled-but-unconnected calls, and
   no-record claims lacking search basis.
@@ -9850,6 +10070,10 @@ Pass:
 - Persons, Abbreviations and Terms, source-list, chapter-label,
   document-number, public-title, and index forms follow supplied authority
   context or remain comment-only.
+- Document text, bracketed insertions, italic/roman distinctions, underlining,
+  abbreviations, contractions, telegram numbers, original brackets, and original
+  ellipses are preserved unless supplied editorial-method evidence supports a
+  change.
 
 Needs revision:
 
@@ -9891,6 +10115,11 @@ Needs revision:
   cut-off lines, or `[unclear]`/`[illegible]` readings are normalized, filled
   in, or changed without supplied transcription/facsimile basis and source-image
   support.
+- Document body text, bracketed corrections or additions, italic/roman styling,
+  underlining-to-italic treatment, abbreviations, contractions, telegram
+  numbers, Secto or other special designators, original brackets, original
+  ellipses, or silent-typo-correction claims are changed without supplied
+  `editorial_method_basis`.
 - Maps, photographs, charts, images, graphic attachments, captions, visual
   titles, not-found visual items, printed targets, appendix-image references, or
   person/object/place identifications are described, corrected, or changed
@@ -9983,6 +10212,7 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d1`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d61`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d24`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/d23`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d3`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/ch1`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/ch3`
@@ -10093,8 +10323,8 @@ family router:
 
 That guide distills patterns from published Reagan and Bush FRUS volumes on
 history.state.gov, especially rules for source notes, annotation, editorial
-notes, declassification omissions, attachments, authority control, and
-cross-volume references.
+notes, editorial method, declassification omissions, attachments, authority
+control, and cross-volume references.
 
 Recent Reagan source incorporated:
 
@@ -10220,6 +10450,12 @@ Release and errata apparatus sources incorporated:
 - [Reagan Volume XXIV volume page with Media Note, EPUB/Mobi/PDF, and GPO links](https://history.state.gov/historicaldocuments/frus1981-88v24)
 - [Reagan Volume XXIV Media Note public release example](https://history.state.gov/historicaldocuments/frus1981-88v24/pressrelease)
 - [Reagan Volume VI errata with online/full-text corrections and printed volumes not revised](https://history.state.gov/historicaldocuments/frus1981-88v06/errata)
+
+Editorial-method and transcription-convention sources incorporated:
+
+- [Bush START I About the Series editorial-method rules for original text, brackets, italics, telegram numbers, and index behavior](https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries)
+- [Reagan Volume XLIV, Part 1 About the Series editorial-method rules for original text, brackets, italics, abbreviations, telegram numbers, original brackets, and ellipses](https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries)
+- [Bush START I Document 23 document-text and annotation example with tabs, section headings, attached-but-not-printed notes, and source-note linkage](https://history.state.gov/historicaldocuments/frus1989-92v31/d23)
 
 Current status source incorporated:
 
