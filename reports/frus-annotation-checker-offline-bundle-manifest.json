@@ -28,6 +28,14 @@
       "role": "No-dependency checker output validator"
     },
     {
+      "path": "scripts/extract-frus-docx-units.mjs",
+      "role": "No-dependency conservative DOCX-to-extracted-units preflight extractor"
+    },
+    {
+      "path": "scripts/test-frus-docx-unit-extractor.mjs",
+      "role": "Self-contained DOCX unit extractor smoke test"
+    },
+    {
       "path": "scripts/preflight-frus-checker-plan.mjs",
       "role": "Exact-anchor and Word direct-edit preflight"
     },
@@ -109,6 +117,7 @@
     "node scripts/verify-frus-offline-bundle.mjs --skip-smoke --format text",
     "node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json",
     "node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-direct-edit-sample-output.json",
+    "node scripts/test-frus-docx-unit-extractor.mjs",
     "node scripts/preflight-frus-checker-plan.mjs --units reports/frus-annotation-checker-extracted-units.sample.json --output reports/frus-annotation-checker-direct-edit-sample-output.json",
     "node scripts/test-frus-track-change-applier.mjs",
     "node scripts/validate-frus-status-registry.mjs --registry reports/frus-status-series-1981-1992.current.json --today 2026-06-03",
@@ -125,6 +134,7 @@
     "Change a direct-edit original_text so it is missing from exact_text; preflight-frus-checker-plan.mjs must fail.",
     "Change a status claim to direct-edit `printed in` for a target still being cleared; preflight-frus-status-claims.mjs must fail.",
     "Add an unmapped angle token such as <foo> to extracted text; preflight-frus-pseudo-markers.mjs must fail.",
+    "Remove word/document.xml from a DOCX package; extract-frus-docx-units.mjs must fail.",
     "Remove the checks array from checker-output-v1; validate-frus-checker-output.mjs and build-frus-evidence-queue.mjs must fail.",
     "Remove any required file listed in the manifest; verify-frus-offline-bundle.mjs must fail."
   ]

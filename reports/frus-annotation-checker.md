@@ -16,6 +16,9 @@ standalone runtime prompt and keep this file as the deeper reference.
 Implementation option: wrappers can validate LLM output against the standalone
 schema in `reports/frus-annotation-checker-output.schema.json` before applying
 any tracked changes.
+For no-dependency DOCX unit extraction, use
+`scripts/extract-frus-docx-units.mjs`; the self-contained smoke test is
+`scripts/test-frus-docx-unit-extractor.mjs`.
 For no-dependency closed-network smoke tests, use
 `scripts/validate-frus-checker-output.mjs` against
 `reports/frus-annotation-checker-sample-output.json`.
@@ -11806,8 +11809,11 @@ Rejected edits:
 
 Minimum components:
 
-- `.docx` extractor that reads body paragraphs, footnotes, endnotes, comments,
-  tables, headings, and tracked changes.
+- No-dependency `.docx` extractor:
+  `scripts/extract-frus-docx-units.mjs`, with smoke test
+  `scripts/test-frus-docx-unit-extractor.mjs`. It reads body paragraphs,
+  footnotes, endnotes, comments, tables, headings, headers, footers, and
+  existing tracked changes, then marks unsafe Word boundaries as comment-only.
 - LLM prompt runner with this Markdown standard loaded.
 - JSON schema validator for `checker-output-v1`.
 - Standalone output schema file:
