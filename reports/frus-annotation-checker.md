@@ -69,6 +69,10 @@ The wrapper should provide the LLM with:
   number, heading, document type, sender, recipient, offices, place/date line,
   internal document number, subject/title line, caption, public-title line,
   source-note linkage, and verification basis.
+- `classification_registry_context`, if available: structured original
+  classification marking, handling markings, precedence, paragraph markings,
+  verified absence of classification marking, release-status separation, and
+  source-image or published-pattern basis.
 - `source_family_registry_context`, if available: structured source-family
   controls derived from published FRUS source lists and local authority files,
   including family ids, volume scope, required path components, distinguishing
@@ -162,7 +166,7 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | declassification | authority_control | chronology | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | declassification | authority_control | chronology | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
@@ -182,7 +186,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | declassification | authority_control | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | declassification | authority_control | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -306,6 +310,7 @@ run the semantic and Word-safety validators below.
               "annotation",
               "editorial_note",
               "document_metadata",
+              "classification_handling",
               "declassification",
               "authority_control",
               "chronology",
@@ -423,6 +428,7 @@ run the semantic and Word-safety validators below.
               "attachment",
               "editorial_note",
               "document_metadata",
+              "classification_handling",
               "declassification",
               "authority_control",
               "communications_record",
@@ -511,9 +517,10 @@ Semantic validator behavior:
 - If `evidence_request` is not `none`, require a non-empty
   `verification_target`.
 - Reject any direct edit whose category is `publication_status`,
-  `declassification`, `attachment`, `document_metadata`, `chronology`,
-  `communications_record`, or `authority_control` when the required proof is
-  absent from the uploaded unit or wrapper context.
+  `declassification`, `attachment`, `document_metadata`,
+  `classification_handling`, `chronology`, `communications_record`, or
+  `authority_control` when the required proof is absent from the uploaded unit
+  or wrapper context.
 - Downgrade to `comment_only` when a finding passes the JSON schema but fails a
   Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
@@ -1097,6 +1104,159 @@ Communications audit requirements:
   notes, how to handle PROFS/W Files/System IV identifiers, or whether drafting
   and clearance lines should appear when the message metadata is otherwise
   complete.
+
+#### 6.1.3 Classification And Handling Registry Validation
+
+Use a classification and handling registry when the wrapper can supply one.
+Published Reagan and Bush examples show several distinct source-note patterns:
+classification alone; classification plus handling; classification plus
+precedence and handling; verified `No classification marking`; verified `No
+classification marking; Sensitive`; and bracketed whole-document withholding
+with classification and page count. The checker should not collapse these into
+one phrase or confuse them with later release/declassification status.
+
+Minimum classification and handling registry:
+
+```json
+{
+  "classification_registry_id": "frus-1981-1992-classification-handling-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/ch1",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/ch3",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/ch6",
+    "https://history.state.gov/historicaldocuments/frus1981-88v13/ch3"
+  ],
+  "records": [
+    {
+      "classification_item_id": "class-source-0001",
+      "unit_id": "source-note-0001",
+      "original_classification": "Top Secret",
+      "handling_markings": [
+        "Sensitive",
+        "Eyes Only"
+      ],
+      "precedence": "",
+      "paragraph_markings_present": false,
+      "no_classification_marking_verified": false,
+      "release_status_phrase": "",
+      "source_phrase": "Top Secret; Sensitive; Eyes Only.",
+      "verification_status": "verified"
+    },
+    {
+      "classification_item_id": "class-source-0002",
+      "unit_id": "source-note-0236",
+      "original_classification": "",
+      "handling_markings": [
+        "Sensitive"
+      ],
+      "precedence": "",
+      "paragraph_markings_present": false,
+      "no_classification_marking_verified": true,
+      "release_status_phrase": "",
+      "source_phrase": "No classification marking; Sensitive.",
+      "verification_status": "verified"
+    },
+    {
+      "classification_item_id": "class-source-0003",
+      "unit_id": "source-note-0034",
+      "original_classification": "Secret",
+      "handling_markings": [
+        "Nodis"
+      ],
+      "precedence": "Flash",
+      "paragraph_markings_present": false,
+      "no_classification_marking_verified": false,
+      "release_status_phrase": "",
+      "source_phrase": "Secret; Flash, Nodis.",
+      "verification_status": "needs_source_image"
+    }
+  ]
+}
+```
+
+Allowed `verification_status` values:
+
+- `verified`
+- `needs_source_image`
+- `needs_classification_marking`
+- `needs_handling_marking`
+- `needs_release_status_separation`
+- `unknown`
+
+Classification and handling validator sequence:
+
+1. Identify every source note, attachment note, declassification note, appendix
+   caption, editorial note, source-list entry, or document-metadata unit that
+   asserts an original classification, handling marking, precedence, paragraph
+   marking, absence of classification marking, whole-document withholding, or
+   release/declassification status.
+2. Match the unit against `classification_registry_context` before proposing a
+   direct edit to original classification or handling language.
+3. Preserve the difference between classification markings (`Top Secret`,
+   `Secret`, `Confidential`, `Unclassified` when supplied), handling markings
+   (`Sensitive`, `Nodis`, `Exdis`, `Eyes Only`, `Specat`, `Codeword`, or
+   comparable controls), and telegram precedence (`Flash`, `Immediate`,
+   `Priority`, `Niact Immediate`).
+4. Preserve verified absence as `No classification marking`, not `No
+   classification`, `Unclassified`, `Declassified`, `Released`, or `Sanitized`.
+5. Keep release, declassification, RAC/NLR, sanitization, excision, and
+   withholding language separate from original classification/handling. Later
+   release status is not an original marking.
+6. Coordinate with the communications registry for telegram precedence and
+   addressee lines, and with the declassification registry for bracketed
+   excisions, page counts, and whole-document withholding.
+7. For directives, annexes, treaty packages, briefing books, and documents with
+   paragraph markings, confirm whether markings belong to the parent document,
+   each attachment, individual paragraphs, or an omitted component before
+   rewriting.
+8. Treat punctuation/order variations in handling strings as possible General
+   Editor discrepancies when the underlying facts are supported but published
+   or local examples differ.
+
+Flag these issues:
+
+- Classification or handling marking is missing, guessed, or copied from a
+  release/declassification stamp rather than the original document.
+- `No classification marking` is asserted without source-image, registry, or
+  published-pattern support.
+- `Declassified`, `released`, `sanitized`, `RAC`, `NLR`, or `mandatory review`
+  appears where the source note needs the original marking.
+- Handling markings, precedence, or distribution controls are rearranged,
+  dropped, or standardized without support from the source phrase.
+- Parent-document classification is applied to an attachment, annex, tab, or
+  appendix item whose own marking is unknown.
+- Paragraph markings are silently removed, normalized, or used as evidence for
+  the whole document without source-image support.
+
+Direct-edit posture:
+
+- Safe direct edits may correct `No classification` to `No classification
+  marking` only when the registry or unit verifies absence of an original
+  classification marking.
+- Safe direct edits may restore an exact supported source phrase such as a
+  supplied classification/handling string when the old text maps to a single
+  Word unit and the registry supplies the replacement.
+- Use `comment_only` with `evidence_request: classification_marking` when the
+  original marking, handling marking, precedence, paragraph marking, or verified
+  absence is missing, conflicting, or inferred.
+- Do not directly add, remove, reorder, or repunctuate handling markings unless
+  the source phrase or classification registry supports the exact form.
+- Use the General Editor discrepancy tally, not a forced edit, when the only
+  issue is whether house style should prefer semicolon, comma, order, or short
+  handling-string form for already verified markings.
+
+Classification and handling audit requirements:
+
+- Count missing original markings, unsupported `No classification marking`
+  claims, handling/precedence mismatches, paragraph-marking issues, and
+  release-status confusions separately from declassification/omission issues.
+- Preserve the classification registry id, capture date, source URLs,
+  source-phrase basis, and unresolved marking fields in the audit report.
+- Add `classification_handling` discrepancies to the General Editor tally when
+  the checker sees recurring unresolved style questions about handling-marking
+  order, punctuation, abbreviation, paragraph-marking treatment, or
+  parent-versus-attachment marking placement.
 
 ### 6.2 Follow-On Footnotes
 
@@ -2905,7 +3065,7 @@ Evidence-request categories:
 | --- | --- | --- |
 | `source_image` | A scan, facsimile, or control copy must be inspected. | Which visible feature to check, such as marking, marginalia, stamp, attachment, or handwriting. |
 | `archival_path` | Repository, collection, series, box, folder, lot, OA/ID, or file unit is missing or suspect. | Which part of the source path needs confirmation. |
-| `classification_marking` | Original classification or handling is missing, guessed, or confused with release status. | To verify the original marking on the document, not the declassification result. |
+| `classification_marking` | Original classification, handling, precedence, paragraph marking, or verified absence is missing, guessed, or confused with release status. | To verify the original marking evidence on the document, not the declassification result. |
 | `attachment_status` | Attached, not attached, printed elsewhere, tabbed, enclosed, or not found claims are uncertain. | Which tab, enclosure, paper, or list must be checked. |
 | `document_number` | Same-volume or cross-volume reference lacks a stable document number. | Which target document, chapter, or volume must be matched. |
 | `document_metadata` | Heading, dateline, subject/title line, public title, sender, recipient, internal number, or document form is missing or suspect. | Which heading field and evidence source must be checked before rewriting. |
@@ -2966,7 +3126,7 @@ Default blocking rules:
 | --- | --- | --- |
 | `source_image` | yes | yes, if source-note, attachment, marking, handwriting, or marginalia claims depend on it |
 | `archival_path` | yes | yes |
-| `classification_marking` | yes | yes |
+| `classification_marking` | yes | yes when source-note, handling, precedence, paragraph-marking, attachment, or no-marking claims depend on it |
 | `attachment_status` | yes | yes when the note asserts attached, not attached, tabbed, enclosed, printed, or not found |
 | `document_number` | yes for cross-reference edits | yes when same-volume or cross-volume references are unstable |
 | `document_metadata` | yes for heading, dateline, title, subject, or caption edits | yes when publishable apparatus identifies the document |
@@ -2987,7 +3147,7 @@ Owner hints:
   consistency, publication-status wording, and General Editor discrepancy
   preparation.
 - `declassification`: classification markings, declassification outcomes,
-  withholding, excision, and agency-equity language.
+  release-status separation, withholding, excision, and agency-equity language.
 - `wrapper`: exact anchors, existing tracked changes, Word XML structures,
   tables, fields, comments, footnotes, and export integrity.
 - `general_editor`: recurring style discrepancies, house-form decisions, and
@@ -3256,7 +3416,9 @@ For every extracted unit, run checks in this order:
 7. Check telegram, cable, STARS, CFPF, PROFS, W Files, System IV, agency-cable,
    and other communications-record metadata against the communications registry
    when supplied.
-8. Check classification and handling language.
+8. Check classification, handling, precedence, paragraph-marking, and
+   no-classification-marking language against the classification registry when
+   supplied.
 9. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
    against the attachment registry when supplied.
 10. Check cross-references and follow-on citation form against the
@@ -3458,6 +3620,9 @@ Golden packet composition:
 
 - At least one source note from a published Reagan or Bush national-security or
   arms-control volume, used as a no-change control.
+- At least one classification/handling example with verified original markings,
+  handling controls, precedence, `No classification marking`, or paragraph
+  markings, used as a no-change or comment-only control.
 - At least one document heading, dateline, subject/title line, or public-title
   line from a published Reagan or Bush volume, used as a no-change or
   comment-only metadata control.
@@ -3491,6 +3656,10 @@ Expected behavior by test family:
 
 - Published-pattern test: return `no_change` or minor style comments for a
   strong published-style note, and do not force it into a generic template.
+- Classification-handling test: preserve verified classification, handling,
+  precedence, and no-marking phrases; comment rather than invent when original
+  marking evidence is missing or release status is confused with original
+  classification.
 - Document-metadata test: preserve correct document headings and datelines, and
   comment rather than invent when sender, recipient, place/date, subject, public
   title, or internal number evidence is missing.
@@ -3552,8 +3721,8 @@ Use the discrepancy tally for:
 - Different treatment of public, printed, speech, hearing, testimony, treaty, or
   memoir sources as selected documents versus supporting context.
 - Variations in `No classification marking`, classification/handling order,
-  declassification phrasing, or omission/bracket language where the underlying
-  evidence is sound.
+  handling punctuation, paragraph-marking treatment, declassification phrasing,
+  or omission/bracket language where the underlying evidence is sound.
 - Variations in `Attached but not printed`, `Not found attached`, `Printed as
   Document [n]`, appendix, tab, enclosure, or facsimile wording.
 - Variations in `scheduled for publication`, `printed in`, same-volume
@@ -3631,6 +3800,10 @@ Required bundle files:
   family, such as Reagan Library NSC files, PROFS, W Files, System IV, Bush
   H-Files, Scowcroft/Gates files, State CFPF, lot files, STARS, public sources,
   private papers, agency records, or foreign/international-organization records.
+- `classification_marking_map`, when available: original classification,
+  handling, precedence, paragraph-marking, verified absence, and source-phrase
+  evidence for source notes, attachments, captions, and selected document
+  components.
 - `authority_lists`, when available: Persons, abbreviations, source-list
   entries, index terms, known document numbers, chapter titles, and related
   volume cross-references.
@@ -3836,6 +4009,7 @@ Output schema: checker-output-v1
 Context bundle: [bundle_id and capture date]
 Authority registry: [authority_registry_id and capture date]
 Document metadata registry: [document_metadata_registry_id and capture date]
+Classification registry: [classification_registry_id and capture date]
 Source-family registry: [source_family_registry_id and capture date]
 Communications registry: [communications_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
@@ -3866,6 +4040,7 @@ Counts:
 - Status registry conflicts or stale-publication warnings: [n]
 - Authority registry conflicts or unmatched forms: [n]
 - Document heading, dateline, title, or caption issues: [n]
+- Classification, handling, precedence, or paragraph-marking issues: [n]
 - Source-family unmatched or ambiguous matches: [n]
 - Communications records unmatched or incomplete: [n]
 - Attachment status unknown or conflicting: [n]
@@ -3890,6 +4065,9 @@ Authority-control warnings:
 
 Document-metadata warnings:
 - [unit_id or global]: [metadata issue] - [heading field, evidence basis, and registry target]
+
+Classification/handling warnings:
+- [unit_id or global]: [marking issue] - [original marking, handling/precedence, and evidence basis]
 
 Source-family warnings:
 - [unit_id or global]: [source-family issue] - [registry target or unmatched family]
@@ -3939,6 +4117,10 @@ Minimum components:
   internal document numbers, subject/title lines, public-title lines, captions,
   sender/recipient offices, and source-note linkage before tracked changes are
   applied.
+- Classification/handling validator that separates original classification,
+  handling controls, precedence, paragraph markings, verified absence of
+  markings, and later release/declassification status before tracked changes
+  are applied.
 - Source-family registry validator that preserves published and local source
   ecologies, distinguishes public/printed selected sources from archival
   control copies, and blocks flattening of specific repositories into generic
@@ -3979,6 +4161,10 @@ Operational cautions:
 - Record document-metadata registry version, heading/date/title/caption issues,
   unresolved sender or recipient evidence, public-title questions, internal
   record-number placement, and document-metadata discrepancy questions.
+- Record classification-registry version, missing original markings,
+  unsupported `No classification marking` claims, handling/precedence
+  mismatches, paragraph-marking questions, release-status confusions, and
+  classification-handling discrepancy questions.
 - Record source-family registry version, unmatched or ambiguous family matches,
   direct source-family edits, and source-family discrepancy questions.
 - Record communications-registry version, unmatched message identifiers,
@@ -4072,6 +4258,10 @@ family router:
 - `https://history.state.gov/historicaldocuments/reagan`
 - `https://history.state.gov/historicaldocuments/bush-ghw`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d3`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/ch1`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/ch3`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/ch6`
+- `https://history.state.gov/historicaldocuments/frus1981-88v13/ch3`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d37`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d90`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d145`
