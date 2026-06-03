@@ -141,6 +141,12 @@ The wrapper should provide the LLM with:
   host-nation notification, coalition, peacekeeping, casualty/damage,
   after-action, classification/precedence, chronology, and verification-status
   metadata.
+- `human_rights_refugee_context`, if available: structured human-rights report,
+  refugee, immigration, asylum, migration, famine, emergency relief, food aid,
+  public-health, population, environmental, sanctions, waiver, certification,
+  public-report, international-organization, PVO, AID, PRM, PL 480, Section 416,
+  Section 206, quantity, metric, date/deadline, source-family, public/archival
+  basis, and verification-status metadata.
 - `cross_reference_registry_context`, if available: structured same-volume,
   cross-volume, footnote, appendix, tab, attachment, printed-elsewhere,
   scheduled-publication, and public-source references with target status,
@@ -213,14 +219,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | legal_authority | financial_data | agency_equity | military_operation_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -233,7 +239,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -366,6 +372,7 @@ run the semantic and Word-safety validators below.
               "economic_financial_data",
               "intelligence_law_enforcement",
               "military_crisis_operations",
+              "human_rights_refugee_global_issues",
               "declassification",
               "authority_control",
               "chronology",
@@ -419,6 +426,7 @@ run the semantic and Word-safety validators below.
               "financial_data",
               "agency_equity",
               "military_operation_basis",
+              "humanitarian_rights_basis",
               "publication_status",
               "authority_control",
               "declassification_status",
@@ -501,6 +509,7 @@ run the semantic and Word-safety validators below.
               "economic_financial_data",
               "intelligence_law_enforcement",
               "military_crisis_operations",
+              "human_rights_refugee_global_issues",
               "declassification",
               "authority_control",
               "chronology",
@@ -596,9 +605,10 @@ Semantic validator behavior:
   `foreign_international_organization`, `treaty_legal_instrument`,
   `public_diplomacy_public_source`, `congressional_legal_authority`,
   `economic_financial_data`, `intelligence_law_enforcement`,
-  `military_crisis_operations`, `chronology`, `summit_public_event`,
-  `communications_record`, or `authority_control` when the required proof is
-  absent from the uploaded unit or wrapper context.
+  `military_crisis_operations`, `human_rights_refugee_global_issues`,
+  `chronology`, `summit_public_event`, `communications_record`, or
+  `authority_control` when the required proof is absent from the uploaded unit or
+  wrapper context.
 - Downgrade to `comment_only` when a finding passes the JSON schema but fails a
   Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
@@ -3600,6 +3610,331 @@ Military/crisis audit requirements:
   classification/handling, declassification, and military-assistance authority
   warnings.
 
+### 6.8F Human Rights, Refugees, Immigration, Humanitarian Relief, And Global-Issues Records
+
+Global-issues annotation often looks deceptively simple because many documents
+have no classification marking and many notes draw on public reports, public
+health sources, international organizations, or program authorities. The checker
+must not treat that material as generic policy prose. Recent Reagan Volume XLI
+practice shows that human-rights reports, African famine, AIDS policy,
+population policy, whaling, ozone-layer protection, law-of-the-sea issues, and
+international-organization records require source-family, legal/program,
+quantity, status, and public-versus-archival separation before any tracked edit
+is safe.
+
+Use a human-rights/refugee/global-issues registry when the wrapper can supply
+one:
+
+```json
+{
+  "human_rights_refugee_registry_id": "frus-1981-1992-human-rights-refugee-global-issues-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/sources",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d1",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d37",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d51",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d214",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d220",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d276",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d350",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d355",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d358",
+    "https://history.state.gov/historicaldocuments/status-of-the-series"
+  ],
+  "records": [
+    {
+      "humanitarian_item_id": "human-rights-source-ecology-v41",
+      "unit_id": "sources-frus1981-88v41",
+      "record_type": "source_ecology",
+      "issue_area": "AIDS policy; human rights; African famine; international population policy; ozone-layer protection; whaling; law of the sea",
+      "institution_or_actor": "State HA, HR, IO, OES, L, AID; NSC; WHO; UNICEF; UNDRO; UNEP; WMO",
+      "source_family": "FRUS Volume XLI sources, including State lot files, Reagan Library NSC files, AID RG 286 records, CIA records, published sources, and international-organization material",
+      "public_or_archival_basis": "published source list and official volume scope",
+      "legal_or_program_basis": "varies by issue area",
+      "quantity_or_metric": "",
+      "stage_or_status": "published_pattern_source_ecology",
+      "verification_status": "verified"
+    },
+    {
+      "humanitarian_item_id": "human-rights-country-reports-0051",
+      "unit_id": "document-0051",
+      "record_type": "human_rights_public_report",
+      "issue_area": "Annual Country Reports on Human Rights Practices",
+      "institution_or_actor": "Department of State; Ambassadors; Congress; HA; HR; INR; IO; AID",
+      "source_family": "Department of State, Central Foreign Policy File, D810371-0204",
+      "public_or_archival_basis": "archival telegram about reports prepared for Congress",
+      "legal_or_program_basis": "continuing legal requirement for country human-rights reports to Congress",
+      "quantity_or_metric": "first group of reports due September 15",
+      "stage_or_status": "report_preparation_and_submission",
+      "verification_status": "verified"
+    },
+    {
+      "humanitarian_item_id": "aids-global-policy-0037",
+      "unit_id": "document-0037",
+      "record_type": "aids_policy",
+      "issue_area": "International effort against HIV infection",
+      "institution_or_actor": "Department of State; WHO Global Programme on AIDS; federal departments and agencies",
+      "source_family": "Department of State, Central Foreign Policy File, P880041-2106",
+      "public_or_archival_basis": "archival Department of State paper and public Presidential Commission context",
+      "legal_or_program_basis": "three-year international action plan for FY 1989-1991",
+      "quantity_or_metric": "142 countries; 124,114 AIDS cases reported worldwide; FY 1989-1991 plan",
+      "stage_or_status": "public_health_action_plan",
+      "verification_status": "verified"
+    },
+    {
+      "humanitarian_item_id": "humanitarian-third-world-hunger-0214",
+      "unit_id": "document-0214",
+      "record_type": "famine_policy_and_conference",
+      "issue_area": "Third World hunger relief and African famine",
+      "institution_or_actor": "NSC; CIA steering group; John N. McMahon",
+      "source_family": "Reagan Library, Executive Secretariat, NSC NSSD File, NSSD 1-84 [US Third World Hunger Relief]",
+      "public_or_archival_basis": "archival national-security study directive file",
+      "legal_or_program_basis": "food-assistance policy study context",
+      "quantity_or_metric": "",
+      "stage_or_status": "policy_study_or_option",
+      "verification_status": "verified"
+    },
+    {
+      "humanitarian_item_id": "humanitarian-pl480-policy-0220",
+      "unit_id": "document-0220",
+      "record_type": "pl480_food_assistance",
+      "issue_area": "Emergency food aid and refugee relief",
+      "institution_or_actor": "AID; regional and central bureaus; inter-agency Development Coordination Committee",
+      "source_family": "National Archives, RG 286, USAID/O/ADMIN/ExecSec, Box 194, ADM (Feb-May) FY 84",
+      "public_or_archival_basis": "archival AID policy determination attached to State memorandum",
+      "legal_or_program_basis": "PL 480 Title II emergency or refugee relief",
+      "quantity_or_metric": "",
+      "stage_or_status": "policy_determination_clearance",
+      "verification_status": "verified"
+    },
+    {
+      "humanitarian_item_id": "population-unfpa-china-0276",
+      "unit_id": "document-0276",
+      "record_type": "population_policy_public_controversy",
+      "issue_area": "UNFPA contribution and China population program",
+      "institution_or_actor": "State EAP; AID; IO; USUN; UNFPA; Senate Foreign Relations Committee",
+      "source_family": "Department of State, Country Files, Miscellaneous Population Files, 1974-1992, Lot 93D393",
+      "public_or_archival_basis": "archival memorandum with public and Hill controversy context",
+      "legal_or_program_basis": "UNFPA contribution and abortion/forced-sterilization certification issue",
+      "quantity_or_metric": "$50 million contribution for 1985-1989; prior $50 million package begun in 1980",
+      "stage_or_status": "public_controversy_and_policy_guidance",
+      "verification_status": "verified"
+    },
+    {
+      "humanitarian_item_id": "environment-ozone-convention-0350",
+      "unit_id": "document-0350",
+      "record_type": "environmental_global_issue",
+      "issue_area": "Convention for the Protection of the Ozone Layer",
+      "institution_or_actor": "State OES; L; IO; EPA; NASA; NOAA; OMB; UNEP; WMO; Senate",
+      "source_family": "Reagan Library, Papers of George P. Shultz, Environment-Ozone Layer",
+      "public_or_archival_basis": "archival action memorandum and attached treaty authority materials",
+      "legal_or_program_basis": "Circular 175; Article II Section 2; NEPA; Executive Orders 12498, 12291, and 12114; Paperwork Reduction Act",
+      "quantity_or_metric": "estimated U.S. costs up to $60,000 annually beginning in FY 1988",
+      "stage_or_status": "treaty_or_protocol_authority",
+      "verification_status": "verified"
+    },
+    {
+      "humanitarian_item_id": "environment-ozone-protocol-0355",
+      "unit_id": "document-0355",
+      "record_type": "environmental_global_issue",
+      "issue_area": "Montreal Protocol negotiation authority",
+      "institution_or_actor": "State OES; L; IO; EPA; NASA; NOAA; Commerce; USTR; DPC; CEQ; DOE; OMB",
+      "source_family": "Reagan Library, Bledsoe, Ralph: Files, 330-Stratospheric Ozone (1985 to June 1987)",
+      "public_or_archival_basis": "archival memorandum authorizing protocol negotiations",
+      "legal_or_program_basis": "Vienna Convention protocol negotiation authority",
+      "quantity_or_metric": "",
+      "stage_or_status": "treaty_or_protocol_authority",
+      "verification_status": "verified"
+    },
+    {
+      "humanitarian_item_id": "environment-ozone-negotiation-0358",
+      "unit_id": "document-0358",
+      "record_type": "environmental_global_issue",
+      "issue_area": "Ozone-layer protocol negotiations",
+      "institution_or_actor": "USUN Environmental Mission; EC; GATT; UNEP",
+      "source_family": "Reagan Library, Bledsoe, Ralph: Files, 330-Stratospheric Ozone (1985 to June 1987)",
+      "public_or_archival_basis": "archival telegram from USUN Environmental Mission",
+      "legal_or_program_basis": "trade and treaty negotiation context",
+      "quantity_or_metric": "",
+      "stage_or_status": "environmental_negotiation",
+      "verification_status": "verified"
+    },
+    {
+      "humanitarian_item_id": "status-refugee-global-issues-1981-1992",
+      "unit_id": "status-of-series-global-issues",
+      "record_type": "status_page_family_context",
+      "issue_area": "Reagan Refugees and Immigration; Bush Global Issues",
+      "institution_or_actor": "History Office Status of the Series",
+      "source_family": "official status page",
+      "public_or_archival_basis": "status routing context only",
+      "legal_or_program_basis": "",
+      "quantity_or_metric": "",
+      "stage_or_status": "routing_and_review_posture_only",
+      "verification_status": "verified"
+    }
+  ]
+}
+```
+
+Allowed `record_type` values:
+
+- `source_ecology`
+- `human_rights_public_report`
+- `human_rights_sanctions`
+- `human_rights_condition_or_waiver`
+- `public_report_or_country_report`
+- `famine_policy_and_conference`
+- `refugee_relief_and_food_assistance`
+- `immigration_or_asylum_policy`
+- `migration_and_refugee_assistance`
+- `pl480_food_assistance`
+- `aids_policy`
+- `population_policy_public_controversy`
+- `environmental_global_issue`
+- `international_organization_relief`
+- `pvo_relief`
+- `status_page_family_context`
+- `unknown`
+
+Allowed `stage_or_status` values:
+
+- `published_pattern_source_ecology`
+- `report_preparation_and_submission`
+- `policy_recommendation_or_approval`
+- `policy_study_or_option`
+- `policy_determination_clearance`
+- `sanctions_imposed`
+- `sanctions_lifted`
+- `condition_or_waiver_pending`
+- `relief_recommendations_approved`
+- `aid_program_planning`
+- `public_health_action_plan`
+- `public_controversy_and_policy_guidance`
+- `treaty_or_protocol_authority`
+- `environmental_negotiation`
+- `international_program_coordination`
+- `policy_agreement_and_public_conference_context`
+- `routing_and_review_posture_only`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified`
+- `needs_report_basis`
+- `needs_legal_or_program_authority`
+- `needs_amount_or_metric`
+- `needs_country_or_population_scope`
+- `needs_public_source`
+- `needs_archival_basis`
+- `needs_international_org_basis`
+- `needs_pvo_basis`
+- `needs_sanctions_or_waiver_basis`
+- `needs_stage_status`
+- `unknown`
+
+Human-rights/refugee/global-issues validator sequence:
+
+1. Identify every source note, editorial note, follow-on footnote, heading,
+   public-source note, legal note, financial note, or annotation that names human
+   rights, Country Reports, refugees, immigration, asylum, migration, famine,
+   emergency relief, food aid, PL 480, Section 416, Section 206, WFP, PVO, AID,
+   PRM, HA, HR, IO, WHO, UNICEF, UNDRO, UNEP, WMO, sanctions, waiver,
+   certification, determination, public report, AIDS, HIV, population policy,
+   UNFPA, environment, ozone, whaling, or global issues.
+2. Match the unit against `human_rights_refugee_context` before directly changing
+   report status, country or population scope, amount, tonnage, program authority,
+   agency or bureau acronym, international-organization role, sanctions/waiver
+   status, public-report basis, source family, or stage/status language.
+3. Separate source ecology from issue proof. A Volume XLI source-list entry proves
+   that a family of records appears in the volume; it does not prove a specific
+   country report, legal condition, refugee status, relief approval, population
+   program decision, environmental treaty stage, or public-health metric.
+4. Separate public reports from archival control copies. Human-rights country
+   reports, CDC/WHO/AIDS publications, White House press briefings, Department of
+   State Bulletin items, and newspaper excerpts may be selected evidence, public
+   context, or a source cited inside an editorial note. Do not collapse those
+   roles.
+5. Separate report preparation, report transmission, report publication, hearing
+   use, sanctions decision, waiver/certification, aid planning, and aid approval.
+   Do not upgrade a preparatory memorandum into a published report or approved
+   policy.
+6. Preserve legal and program authorities exactly when supplied: PL 480 Title II,
+   Section 416, Section 206, Migration and Refugee Assistance, Presidential
+   Determination, certification, Country Reports, Circular 175, Article II Section
+   2, NEPA, Executive Orders, or program-specific appropriation language.
+7. Preserve quantities and metrics exactly. Do not change dollars, tonnage,
+   fiscal years, country counts, case counts, date/deadline language, or program
+   periods unless the uploaded unit or registry supplies the exact correction.
+8. Verify international organizations and PVOs as actors, sources, recipients, or
+   program channels. WFP, WHO, UNICEF, UNDRO, UNEP, WMO, UNFPA, EC, GATT, and
+   PVOs are not interchangeable, and a public organization name does not prove a
+   source path.
+9. For refugee, migration, asylum, famine, and emergency-relief material, verify
+   the affected population, country/region, program channel, approval status,
+   monitoring condition, and source basis before polishing language.
+10. For sanctions, conditions, waivers, and certifications, coordinate with the
+    congressional/legal rules and do not infer imposed, lifted, waived, pending,
+    or certified status from neighboring documents.
+11. For amounts, food-aid tonnage, budget years, international assessments, trust
+    funds, contributions, and table data, coordinate with the economic/financial
+    rules.
+12. For public reports, press coverage, official publications, and public-health
+    publications, coordinate with the public-source rules.
+13. For international-organization records, conferences, treaty parties, and
+    convention/protocol material, coordinate with the foreign/international and
+    treaty/legal-instrument rules.
+14. Use the status page only for routing and review posture for Reagan Refugees
+    and Immigration, Bush Global Issues, or other in-preparation global-issues
+    families. It cannot prove document numbers, source families, program
+    authority, or record-stage facts.
+
+Direct-edit posture:
+
+- Safe direct edits may restore exact supplied acronyms, capitalization, program
+  labels, source-family labels, date/deadline forms, or units such as FY, MT,
+  WHO/GPA, UNFPA, PL 480, Section 416, Section 206, PRM, PVO, WFP, UNEP, WMO, and
+  AID when the uploaded unit or registry supplies the evidence.
+- Use `comment_only` with `evidence_request: humanitarian_rights_basis` when a
+  report basis, country/population scope, refugee or asylum status, relief stage,
+  program authority, amount/metric, public/archival basis, sanctions/waiver
+  status, international-organization role, PVO role, or status-page family
+  context is missing, conflicting, or inferred.
+- Use `evidence_request: legal_authority` when the blocker is the statute,
+  regulation, Presidential Determination, certification, Circular 175 authority,
+  Executive Order, treaty authority, report-to-Congress duty, condition, waiver,
+  or Senate/congressional basis.
+- Use `evidence_request: financial_data` when the blocker is a dollar amount,
+  tonnage, fiscal year, contribution, trust fund, assessment, table, budget, or
+  aid-program metric.
+- Use `evidence_request: public_source_basis` when the blocker is a public report,
+  CDC/WHO publication, White House press briefing, newspaper item, Public Papers
+  citation, official transcript, or public-versus-archival selection status.
+- Use `evidence_request: foreign_org_basis` when the blocker is WFP, WHO, UNICEF,
+  UNDRO, UNEP, WMO, UNFPA, EC, GATT, PVO, regional-body, conference, or treaty
+  party role.
+- Add a `human_rights_refugee_global_issues` discrepancy to the General Editor
+  tally when published or local examples vary on how much report basis, program
+  authority, amount/metric, public-source, international-organization,
+  country/population, sanctions/waiver, public-health, population-policy, or
+  environmental treaty detail to print, and the underlying facts are sound.
+
+Human-rights/refugee/global-issues audit requirements:
+
+- Count human-rights, refugee, immigration, asylum, migration, famine, emergency
+  relief, food-aid, public-health, population, environmental, global-issues,
+  sanctions, waiver, certification, public-report, international-organization,
+  PVO, AID, PRM, and PL 480 warnings separately from public-source,
+  congressional/legal, economic/financial, foreign/international-organization,
+  treaty, military/crisis, and sensitive-record warnings.
+- Preserve registry id, capture date, source URLs, record type, issue area,
+  institution or actor, source family, public or archival basis, legal or program
+  basis, quantity or metric, stage/status, and verification status in the audit
+  report.
+- Record unresolved report basis, legal/program authority, amount/metric,
+  country/population scope, public-source basis, archival basis, international-
+  organization role, PVO role, sanctions/waiver basis, and stage/status warnings.
+
 ### 6.9 Interagency, Foreign-Government, International-Organization, And Multilateral Records
 
 Foreign-government and international-organization annotation can be source
@@ -4822,6 +5157,13 @@ Permutation matrix for annotation sheets:
   coalition role, casualty/damage basis, CONPLAN or contingency-plan status,
   and whether the note is policy discussion, intelligence warning, planning,
   notification, execution, public statement, or after-action context.
+- Human-rights, refugee, immigration, famine, food-aid, AIDS, population,
+  environmental, or global-issues package: check report family, country or
+  population scope, public/archival basis, legal/program authority, amount or
+  metric, stage/status, sanctions or waiver basis, international-organization
+  role, PVO role, public-health source, population-policy issue, environmental
+  treaty/protocol status, and whether the note is source ecology, selected
+  public evidence, policy planning, approved action, or status-page routing.
 - Attachment/tab note: check `Attached but not printed`, `Printed as Document
   [n]`, `Tabs [letters] are printed as Document [n]`, `Not found attached`, and
   `Attached but not printed is the list of participants` as different claims.
@@ -4967,6 +5309,7 @@ Evidence-request categories:
 | `financial_data` | Economic, trade, debt, assistance, budget, institutional, table, amount, percentage, fiscal-year, currency, loan, guarantee, quota, replenishment, conditionality, or policy-stage evidence is uncertain. | Which figure, unit, fiscal year, institution, program, table, source, attachment, legal basis, or policy stage must be checked. |
 | `agency_equity` | Intelligence, covert-action, law-enforcement, counternarcotics, counterterrorism, source-and-methods, operational, oversight, foreign-service, or agency-equity proof is uncertain. | Which agency identity, source family, law-enforcement context, operational basis, oversight basis, release/redaction basis, or foreign-service contact must be checked. |
 | `military_operation_basis` | Military, defense, crisis, operation-stage, DOD/OSD/JCS/DIA, Situation Room, contingency-plan, host-nation, coalition, chronology, force/unit, casualty/damage, or military-assistance proof is uncertain. | Which operation stage, order/authorization, force/unit, source family, time basis, host-nation/coalition role, casualty/damage basis, or military-assistance authority must be checked. |
+| `humanitarian_rights_basis` | Human-rights report, refugee, immigration, asylum, migration, famine, emergency relief, food aid, public-health, population, environmental, sanctions, waiver, certification, public-report, international-organization, PVO, AID, PRM, PL 480, Section 416, or Section 206 proof is uncertain. | Which report basis, country or population scope, source family, public/archival basis, legal/program authority, amount/metric, stage/status, sanctions/waiver basis, international-organization role, or PVO role must be checked. |
 | `publication_status` | `printed in` versus `scheduled for publication` depends on current official status. | Which volume or chapter status must be confirmed. |
 | `authority_control` | Persons, titles, abbreviations, index terms, names, offices, or dates need authority-list review. | Which name, office, acronym, date span, or index term needs control. |
 | `declassification_status` | Release, withholding, excision, agency-equity, or bracket language is not final. | Which review outcome or bracket claim cannot yet be asserted. |
@@ -5036,6 +5379,7 @@ Default blocking rules:
 | `financial_data` | yes for amount, percentage, currency, fiscal-year, institution, program, table, debt/loan/guarantee, quota, conditionality, or policy-stage edits | yes when economic, trade, debt, foreign-assistance, or financial data appears in publishable apparatus |
 | `agency_equity` | yes for agency identity, sensitive source family, operational claim, source-and-methods, oversight, law-enforcement status, foreign-service contact, or sanitization edits | yes when intelligence, covert-action, law-enforcement, counternarcotics, counterterrorism, agency-equity, or operational claims appear in publishable apparatus |
 | `military_operation_basis` | yes for operation stage, order/authorization, force/unit, chronology, time-zone, host-nation, coalition, casualty/damage, contingency-plan, or military-assistance edits | yes when military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room, combat-operation, coalition, peacekeeping, or security-assistance claims appear in publishable apparatus |
+| `humanitarian_rights_basis` | yes for report basis, country/population scope, refugee or asylum status, relief stage, legal/program authority, amount/metric, public/archival basis, sanctions/waiver status, international-organization role, or PVO role edits | yes when human-rights, refugee, immigration, famine, emergency relief, food aid, public-health, population, environmental, sanctions, waiver, certification, public-report, or global-issues claims appear in publishable apparatus |
 | `publication_status` | yes for `printed in` or `scheduled for publication` edits | yes for final style if publication language is present |
 | `authority_control` | yes when a date, identity, title, acronym, or index form is uncertain | yes for final style if repeated or reader-facing |
 | `declassification_status` | yes | yes |
@@ -5052,14 +5396,16 @@ Owner hints:
   status, document numbers, source family, chronology, treaty component
   identity, event sequence, public-source basis, foreign-government or
   international-organization proof, congressional/legal proof, financial data,
-  agency-equity proof, military-operation proof, sensitive-record source basis,
-  translation status, and foreign-copy provenance.
+  agency-equity proof, military-operation proof, human-rights/refugee/global-
+  issues proof, sensitive-record source basis, translation status, and
+  foreign-copy provenance.
 - `editor`: wording, heading form, cross-reference form, source-list
   consistency, treaty/legal-instrument placement, public-event note form,
   public-source and public-diplomacy note form, congressional/legal citation
   form, foreign/international-organization note form, economic/financial table
-  and note form, military/crisis note form, sensitive-record note form,
-  publication-status wording, and General Editor discrepancy preparation.
+  and note form, military/crisis note form, human-rights/refugee/global-issues
+  note form, sensitive-record note form, publication-status wording, and General
+  Editor discrepancy preparation.
 - `declassification`: classification markings, declassification outcomes,
   release-status separation, withholding, excision, source-and-methods,
   sanitization, and agency-equity language.
@@ -5385,12 +5731,18 @@ For every extracted unit, run checks in this order:
     coalition, peacekeeping, force/unit, time-zone, casualty/damage, and
     military-assistance evidence against the military/crisis registry when
     supplied.
-25. Check Persons, abbreviations, and index authority issues.
-26. Assign specific evidence requests and verification targets for unresolved
+25. Check human-rights reports, refugee, immigration, asylum, migration, famine,
+    emergency relief, food aid, public-health, AIDS/HIV, population policy,
+    environmental, ozone, sanctions, waivers, certifications, public reports,
+    international organizations, PVOs, AID/PRM, PL 480, Section 416, and Section
+    206 evidence against the human-rights/refugee/global-issues registry when
+    supplied.
+26. Check Persons, abbreviations, and index authority issues.
+27. Assign specific evidence requests and verification targets for unresolved
     proof.
-27. Decide direct edit versus comment-only.
-28. Return strict JSON.
-29. After schema and semantic validation, aggregate all unresolved evidence
+28. Decide direct edit versus comment-only.
+29. Return strict JSON.
+30. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -5475,6 +5827,11 @@ Duplicate-suppression rules:
   record type, operation stage, order/authorization basis, force/unit,
   chronology or time zone, host-nation/coalition role, casualty/damage basis,
   contingency plan, or military-assistance authority.
+- Merge repeated human-rights/refugee/global-issues problems by report family,
+  country or population scope, public/archival basis, legal/program authority,
+  amount or metric, stage/status, sanctions/waiver basis, international-
+  organization role, PVO role, public-health source, population-policy issue, or
+  environmental treaty/protocol issue.
 - Merge repeated wrapper-safety issues by Word structure, such as tables,
   existing tracked changes, footnote references, fields, or comments.
 - Do not merge findings that require different evidence requests or different
@@ -5640,6 +5997,11 @@ Golden packet composition:
   combat-operation, contingency-plan, coalition, host-nation notification,
   peacekeeping, security-assistance, force/unit, or casualty/damage example
   where operation stage and chronology must be preserved.
+- At least one human-rights/refugee/global-issues example with a Country Report,
+  refugee or food-aid policy, AIDS/HIV public-health source, population-policy
+  contribution, ozone or environmental treaty/protocol item, sanctions/waiver
+  issue, international organization, PVO, PL 480, Section 416, Section 206,
+  amount/metric, or status-page family context.
 - At least one research-stage sheet with working labels, candidate notes, URL
   locators, or missing scan requests that should become comments rather than
   polished source-note prose.
@@ -5721,6 +6083,12 @@ Expected behavior by test family:
   contingency-plan status, and distinction between planning, notification,
   execution, public statement, and after-action context; comment rather than
   invent when military-operation proof is missing.
+- Human-rights/refugee/global-issues test: preserve report family,
+  country/population scope, public versus archival basis, legal/program
+  authority, amount or metric, stage/status, sanctions/waiver basis,
+  international-organization role, PVO role, public-health source,
+  population-policy context, and environmental treaty/protocol status; comment
+  rather than invent when humanitarian-rights proof is missing.
 - Research-stage test: identify working labels and missing evidence, but avoid
   converting source leads into publication-ready assertions.
 - Clearance-stage test: protect declassification, attachment, agency-equity,
@@ -5804,6 +6172,12 @@ Use the discrepancy tally for:
   force/unit, host-nation notification, coalition/allied role, time-zone,
   contingency-plan, security-assistance, casualty/damage, Situation Room, DOD,
   OSD, JCS, or DIA detail to print when the underlying facts are sound.
+- Variations in how much human-rights report, refugee, immigration, asylum,
+  migration, famine, emergency relief, food-aid, public-health, AIDS/HIV,
+  population-policy, environmental, sanctions, waiver, certification,
+  public-report, international-organization, PVO, AID, PRM, PL 480, Section 416,
+  Section 206, amount/metric, or stage/status detail to print when the underlying
+  facts are sound.
 - Variations in how much treaty component detail to print, where to place
   protocol, annex, memorandum-of-understanding, letter, declaration, statement,
   article-by-article analysis, transmittal, ratification, or entry-into-force
@@ -5879,6 +6253,7 @@ Suggested tally format:
 | style-discrepancy-0007 | public_diplomacy_public_source | How much public-source and archival-draft context should appear when a speech, interview, testimony, or press item is selected evidence. | Public Papers or Bulletin citation plus full-text, diary, and briefing-file context; shorter selected-public-document note with archival context elsewhere | 2 | medium | Should the checker enforce a standard public-source selected-document form, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0008 | foreign_international_organization | How much foreign-copy, international-organization, regional-body, treaty-party, successor-state, or multilateral role detail should appear when the facts are sound. | Full body/actor identity plus source-versus-subject and copy-status detail; shorter organization reference with supporting detail in source/audit context | 2 | medium | Should the checker enforce a house form for foreign/international-organization role detail, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0009 | military_crisis_operations | How much military/crisis operation-stage, force/unit, coalition, host-nation, time-zone, or casualty/damage detail should appear when the facts are sound. | Full operation-stage and chronology detail in note; shorter military/crisis phrasing with supporting detail in audit/comment context | 2 | high | Should the checker enforce a house form for military/crisis detail, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0010 | human_rights_refugee_global_issues | How much human-rights/refugee/global-issues basis should appear when the report, program, amount, source, organization, and status facts are sound. | Full report or program authority plus public/archival basis, amount/metric, organization role, and stage/status; shorter issue-area note with supporting detail in audit/comment context | 2 | medium | Should the checker enforce a house form for global-issues detail, or tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -5960,6 +6335,13 @@ Required bundle files:
   notification, coalition, peacekeeping, casualty/damage, after-action,
   operation-stage, force/unit, chronology, time-zone, classification/handling,
   verification-status, and source-URL metadata.
+- `human_rights_refugee_map`, when available: human-rights report, refugee,
+  immigration, asylum, migration, famine, emergency relief, food aid, PL 480,
+  Section 416, Section 206, AID, PRM, PVO, public-health, AIDS/HIV, population
+  policy, UNFPA, environmental issue, ozone, whaling, sanctions, waiver,
+  certification, public-report, international-organization, country or
+  population scope, public/archival basis, legal/program authority,
+  amount/metric, stage/status, verification-status, and source-URL metadata.
 - `authority_lists`, when available: Persons, abbreviations, source-list
   entries, index terms, known document numbers, chapter titles, and related
   volume cross-references.
@@ -6175,6 +6557,7 @@ Congressional/legal registry: [congressional_legal_registry_id and capture date]
 Economic/financial registry: [economic_financial_registry_id and capture date]
 Sensitive/intelligence-law-enforcement registry: [sensitive_record_registry_id and capture date]
 Military/crisis registry: [military_crisis_registry_id and capture date]
+Human-rights/refugee/global-issues registry: [human_rights_refugee_registry_id and capture date]
 Source-family registry: [source_family_registry_id and capture date]
 Communications registry: [communications_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
@@ -6215,6 +6598,7 @@ Counts:
 - Economic, debt, trade, assistance, amount, fiscal-year, institution, table, or financial-data issues: [n]
 - Intelligence, law-enforcement, agency-equity, source-and-methods, operational, oversight, or sanitized-record issues: [n]
 - Military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room, contingency, combat-operation, coalition, host-nation, chronology, or casualty/damage issues: [n]
+- Human-rights, refugee, immigration, famine, emergency relief, food-aid, public-health, population, environmental, sanctions, waiver, certification, public-report, or global-issues issues: [n]
 - Source-family unmatched or ambiguous matches: [n]
 - Communications records unmatched or incomplete: [n]
 - Attachment status unknown or conflicting: [n]
@@ -6269,6 +6653,9 @@ Sensitive/intelligence-law-enforcement warnings:
 
 Military/crisis warnings:
 - [unit_id or global]: [military/crisis issue] - [record type, military/crisis actor, source family, operation/crisis, stage/role, classification/handling, chronology/location basis, and verification target]
+
+Human-rights/refugee/global-issues warnings:
+- [unit_id or global]: [humanitarian-rights issue] - [record type, issue area, institution or actor, source family, public/archival basis, legal/program basis, amount or metric, stage/status, and verification target]
 
 Source-family warnings:
 - [unit_id or global]: [source-family issue] - [registry target or unmatched family]
@@ -6378,6 +6765,13 @@ Minimum components:
   coalition or allied support, peacekeeping, casualty/damage claims,
   operation-stage evidence, force/unit identity, chronology, time-zone basis,
   and after-action context before tracked changes are applied.
+- Human-rights/refugee/global-issues validator that distinguishes Country
+  Reports, human-rights sanctions, refugee/immigration/asylum/migration claims,
+  famine and emergency relief, PL 480, Section 416, Section 206, AID, PRM, PVOs,
+  public-health and AIDS/HIV sources, population-policy contributions,
+  environmental and ozone treaty/protocol material, public-report basis,
+  international-organization roles, amounts/metrics, legal/program authority,
+  and stage/status before tracked changes are applied.
 - Public-source validator that distinguishes public diplomacy, speeches, press
   releases, press conferences, briefings, interviews, broadcasts, testimony,
   Public Papers, Department of State Bulletin, Congressional Record, official
@@ -6470,6 +6864,12 @@ Operational cautions:
   time-zone, host-nation notification, coalition/allied role, casualty/damage,
   contingency-plan, security-assistance authority, classification/handling,
   declassification, and military-crisis discrepancy questions.
+- Record human-rights/refugee/global-issues registry version, unresolved report
+  basis, country/population scope, refugee/asylum/migration status, relief stage,
+  legal/program authority, amounts/metrics, public/archival source basis,
+  sanctions/waiver/certification status, international-organization role, PVO
+  role, public-health source, population-policy context, environmental
+  treaty/protocol status, and global-issues discrepancy questions.
 - Record cross-reference-registry version, unresolved target documents,
   footnotes, appendix references, scheduled-publication targets, stale status
   dependencies, and public-source references.
@@ -6530,6 +6930,13 @@ Needs revision:
   combat-operation, contingency-plan, force/unit, chronology, time-zone,
   host-nation, coalition, casualty/damage, after-action, or military-assistance
   claims are asserted or changed without supplied military-operation basis.
+- Human-rights reports, refugee/immigration/asylum/migration claims, famine or
+  emergency relief, PL 480, Section 416, Section 206, AID/PRM/PVO roles,
+  public-health or AIDS/HIV sources, population-policy contributions,
+  environmental or ozone treaty/protocol material, sanctions/waiver/certification
+  status, international-organization roles, amounts/metrics, legal/program
+  authorities, public/archival basis, or stage/status claims are asserted or
+  changed without supplied humanitarian-rights basis.
 - Persons, abbreviations, or index entries are inconsistent.
 
 Blocked:
@@ -6591,6 +6998,17 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v24/d341`
 - `https://history.state.gov/historicaldocuments/frus1981-88v24/d329`
 - `https://history.state.gov/historicaldocuments/frus1981-88v24/d382`
+- `https://history.state.gov/historicaldocuments/frus1981-88v41`
+- `https://history.state.gov/historicaldocuments/frus1981-88v41/sources`
+- `https://history.state.gov/historicaldocuments/frus1981-88v41/d1`
+- `https://history.state.gov/historicaldocuments/frus1981-88v41/d37`
+- `https://history.state.gov/historicaldocuments/frus1981-88v41/d51`
+- `https://history.state.gov/historicaldocuments/frus1981-88v41/d214`
+- `https://history.state.gov/historicaldocuments/frus1981-88v41/d220`
+- `https://history.state.gov/historicaldocuments/frus1981-88v41/d276`
+- `https://history.state.gov/historicaldocuments/frus1981-88v41/d350`
+- `https://history.state.gov/historicaldocuments/frus1981-88v41/d355`
+- `https://history.state.gov/historicaldocuments/frus1981-88v41/d358`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d37`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d90`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d145`
@@ -6645,6 +7063,17 @@ Recent Reagan source incorporated:
 - [U.S. action against Libya host-nation notification, Document 341](https://history.state.gov/historicaldocuments/frus1981-88v24/d341)
 - [JCS/OSD Tunisia contingency planning and military-support options, Document 329](https://history.state.gov/historicaldocuments/frus1981-88v24/d329)
 - [DIA Western Sahara military-intelligence report, Document 382](https://history.state.gov/historicaldocuments/frus1981-88v24/d382)
+- [FRUS, 1981-1988, Volume XLI, Global Issues II](https://history.state.gov/historicaldocuments/frus1981-88v41)
+- [Volume XLI source list with human-rights, AID, WHO, UNICEF, UNDRO, population, ozone, and environmental source families](https://history.state.gov/historicaldocuments/frus1981-88v41/sources)
+- [AIDS policy editorial note with CDC, White House briefing, and CFPF context, Document 1](https://history.state.gov/historicaldocuments/frus1981-88v41/d1)
+- [International HIV action plan and WHO/GPA context, Document 37](https://history.state.gov/historicaldocuments/frus1981-88v41/d37)
+- [Annual Country Reports on Human Rights Practices telegram, Document 51](https://history.state.gov/historicaldocuments/frus1981-88v41/d51)
+- [Third World hunger relief study context, Document 214](https://history.state.gov/historicaldocuments/frus1981-88v41/d214)
+- [PL 480 emergency or refugee relief policy determination, Document 220](https://history.state.gov/historicaldocuments/frus1981-88v41/d220)
+- [UNFPA contribution and population-policy controversy, Document 276](https://history.state.gov/historicaldocuments/frus1981-88v41/d276)
+- [Ozone-layer convention authority and Circular 175 package, Document 350](https://history.state.gov/historicaldocuments/frus1981-88v41/d350)
+- [Ozone-layer protocol negotiation authority, Document 355](https://history.state.gov/historicaldocuments/frus1981-88v41/d355)
+- [Ozone-layer protocol negotiation telegram, Document 358](https://history.state.gov/historicaldocuments/frus1981-88v41/d358)
 - [FRUS, 1981-1988, Volume XXXVIII, International Economic Development; International Debt; Foreign Assistance](https://history.state.gov/historicaldocuments/frus1981-88v38)
 - [Volume XXXVIII preface on developing-world economic policy, debt, assistance, IFIs, and companion trade/monetary volumes](https://history.state.gov/historicaldocuments/frus1981-88v38/preface)
 - [IMF/World Bank annual meetings and debt-crisis context, Document 177](https://history.state.gov/historicaldocuments/frus1981-88v38/d177)
