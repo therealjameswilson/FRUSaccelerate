@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -34,6 +34,7 @@ function parseArgs(argv) {
   let statusClaimsPath = null;
   let authorityRegistryPath = null;
   let sourceListRegistryPath = null;
+  let documentMetadataRegistryPath = null;
   let preparationRouterPath = null;
   let permutationMatrixPath = null;
   let targetVolume = "";
@@ -67,6 +68,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--source-list-registry") {
       sourceListRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--document-metadata-registry") {
+      documentMetadataRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--preparation-router") {
       preparationRouterPath = argv[index + 1];
@@ -115,6 +119,7 @@ function parseArgs(argv) {
     statusClaimsPath,
     authorityRegistryPath,
     sourceListRegistryPath,
+    documentMetadataRegistryPath,
     preparationRouterPath,
     permutationMatrixPath,
     targetVolume,
@@ -271,7 +276,38 @@ function compactSourceListRegistry(registry, targetVolume) {
   };
 }
 
-function renderPacket({ chunk, manifest, guide, schema, statusRegistry, statusClaims, authorityRegistry, sourceListRegistry, router, matrix }) {
+function compactDocumentMetadataRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  return {
+    schema_version: registry.schema_version,
+    document_metadata_registry_id: registry.document_metadata_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [],
+    records: records.map((record) => ({
+      document_metadata_id: record.document_metadata_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      document_type: record.document_type,
+      approved_heading_form: record.approved_heading_form,
+      variant_forms: record.variant_forms || [],
+      date_line: record.date_line,
+      subject_or_title: record.subject_or_title,
+      sender_or_originator: record.sender_or_originator,
+      recipient_or_audience: record.recipient_or_audience,
+      attachment_behavior: record.attachment_behavior,
+      source_note_basis: record.source_note_basis,
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
+function renderPacket({ chunk, manifest, guide, schema, statusRegistry, statusClaims, authorityRegistry, sourceListRegistry, documentMetadataRegistry, router, matrix }) {
   const chunkUnitsDocument = {
     schema_version: "frus-extracted-units-v1",
     source: `Chunk ${chunk.chunk_id} extracted units from ${manifest.source_files.units}`,
@@ -332,6 +368,10 @@ function renderPacket({ chunk, manifest, guide, schema, statusRegistry, statusCl
     "",
     fencedJson(sourceListRegistry || {}),
     "",
+    "## Document Metadata Registry Context",
+    "",
+    fencedJson(documentMetadataRegistry || {}),
+    "",
     "## Preparation Router Context",
     "",
     fencedJson(router || {}),
@@ -357,10 +397,12 @@ function buildChunks(options) {
   const statusClaims = options.statusClaimsPath ? readJson(options.statusClaimsPath) : null;
   const authorityRegistry = options.authorityRegistryPath ? readJson(options.authorityRegistryPath) : null;
   const sourceListRegistry = options.sourceListRegistryPath ? readJson(options.sourceListRegistryPath) : null;
+  const documentMetadataRegistry = options.documentMetadataRegistryPath ? readJson(options.documentMetadataRegistryPath) : null;
   const router = options.preparationRouterPath ? readJson(options.preparationRouterPath) : null;
   const matrix = options.permutationMatrixPath ? readJson(options.permutationMatrixPath) : null;
   const authorityRegistryContext = compactAuthorityRegistry(authorityRegistry, options.targetVolume);
   const sourceListRegistryContext = compactSourceListRegistry(sourceListRegistry, options.targetVolume);
+  const documentMetadataRegistryContext = compactDocumentMetadataRegistry(documentMetadataRegistry, options.targetVolume);
   const unitChunks = chunkUnits(unitsDocument.units, options.maxUnits, options.maxChars);
 
   fs.mkdirSync(options.outDir, { recursive: true });
@@ -378,6 +420,7 @@ function buildChunks(options) {
       status_claims: options.statusClaimsPath ? normalizePathForOutput(options.statusClaimsPath) : "",
       authority_registry: options.authorityRegistryPath ? normalizePathForOutput(options.authorityRegistryPath) : "",
       source_list_registry: options.sourceListRegistryPath ? normalizePathForOutput(options.sourceListRegistryPath) : "",
+      document_metadata_registry: options.documentMetadataRegistryPath ? normalizePathForOutput(options.documentMetadataRegistryPath) : "",
       preparation_router: options.preparationRouterPath ? normalizePathForOutput(options.preparationRouterPath) : "",
       permutation_matrix: options.permutationMatrixPath ? normalizePathForOutput(options.permutationMatrixPath) : ""
     },
@@ -389,7 +432,8 @@ function buildChunks(options) {
       units_total: unitsDocument.units.length,
       reviewable_units: unitsDocument.units.filter(reviewRequired).length,
       authority_registry_records: authorityRegistry?.records?.length || 0,
-      source_list_registry_records: sourceListRegistry?.records?.length || 0
+      source_list_registry_records: sourceListRegistry?.records?.length || 0,
+      document_metadata_registry_records: documentMetadataRegistry?.records?.length || 0
     },
     chunks: []
   };
@@ -428,6 +472,7 @@ function buildChunks(options) {
         statusClaims,
         authorityRegistry: authorityRegistryContext,
         sourceListRegistry: sourceListRegistryContext,
+        documentMetadataRegistry: documentMetadataRegistryContext,
         router,
         matrix
       })

@@ -9,7 +9,7 @@ const DIRECT_ACTIONS = new Set(["replace_text", "insert_after_text", "delete_tex
 
 function usage() {
   console.error(
-    "Usage: node scripts/run-frus-offline-review.mjs --docx <input.docx> --checker-output <checker-output.json> --out <revised.docx> [--artifact-dir DIR] [--audit audit.json] [--existing-ledger ledger.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--today YYYY-MM-DD] [--max-age-days N] [--review-mode light|normal|exhaustive] [--run-id RUN] [--author NAME] [--date ISO-DATE] [--format json|text]"
+    "Usage: node scripts/run-frus-offline-review.mjs --docx <input.docx> --checker-output <checker-output.json> --out <revised.docx> [--artifact-dir DIR] [--audit audit.json] [--existing-ledger ledger.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--today YYYY-MM-DD] [--max-age-days N] [--review-mode light|normal|exhaustive] [--run-id RUN] [--author NAME] [--date ISO-DATE] [--format json|text]"
   );
   process.exit(2);
 }
@@ -25,6 +25,7 @@ function parseArgs(argv) {
   let statusClaimsPath = null;
   let authorityRegistryPath = null;
   let sourceListRegistryPath = null;
+  let documentMetadataRegistryPath = null;
   let preparationRouterPath = null;
   let permutationMatrixPath = null;
   let targetVolume = "";
@@ -67,6 +68,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--source-list-registry") {
       sourceListRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--document-metadata-registry") {
+      documentMetadataRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--preparation-router") {
       preparationRouterPath = argv[index + 1];
@@ -134,6 +138,7 @@ function parseArgs(argv) {
     statusClaimsPath,
     authorityRegistryPath,
     sourceListRegistryPath,
+    documentMetadataRegistryPath,
     preparationRouterPath,
     permutationMatrixPath,
     targetVolume,
@@ -236,6 +241,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
   const statusClaims = statusClaimsPath ? readJson(statusClaimsPath) : null;
   const authorityAudit = reports.authority_usage_audit || null;
   const sourceListAudit = reports.source_list_usage_audit || null;
+  const documentMetadataAudit = reports.document_metadata_usage_audit || null;
   const expectedRevisions = countExpectedRevisions(trackReport);
 
   return {
@@ -269,6 +275,9 @@ function buildAudit({ options, artifacts, steps, reports }) {
       source_list_registry_usages: sourceListAudit?.summary?.source_list_usages || 0,
       source_list_registry_warnings: sourceListAudit?.summary?.warnings || 0,
       source_list_direct_edit_conflicts: sourceListAudit?.summary?.direct_source_list_edit_conflicts || 0,
+      document_metadata_registry_usages: documentMetadataAudit?.summary?.document_metadata_usages || 0,
+      document_metadata_registry_warnings: documentMetadataAudit?.summary?.warnings || 0,
+      document_metadata_direct_edit_conflicts: documentMetadataAudit?.summary?.direct_document_metadata_edit_conflicts || 0,
       review_coverage_unreviewed_units: coverageAudit?.summary?.unreviewed_units || 0,
       review_coverage_signal_gaps: coverageAudit?.summary?.signal_category_gaps || 0,
       evidence_queue_items: evidenceQueue.queue.length,
@@ -284,6 +293,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
       status_claims: statusClaimsPath ? normalizePathForOutput(statusClaimsPath) : "",
       authority_registry: options.authorityRegistryPath ? normalizePathForOutput(options.authorityRegistryPath) : "",
       source_list_registry: options.sourceListRegistryPath ? normalizePathForOutput(options.sourceListRegistryPath) : "",
+      document_metadata_registry: options.documentMetadataRegistryPath ? normalizePathForOutput(options.documentMetadataRegistryPath) : "",
       preparation_router: options.preparationRouterPath ? normalizePathForOutput(options.preparationRouterPath) : "",
       permutation_matrix: options.permutationMatrixPath ? normalizePathForOutput(options.permutationMatrixPath) : "",
       target_volume: options.targetVolume,
@@ -305,7 +315,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
 function renderText(audit) {
   return [
     `FRUS offline review passed: ${audit.counts.extracted_units} units, ${audit.counts.comments_applied} Word comments, ${audit.counts.tracked_edits_applied} tracked edits.`,
-    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; authority usages: ${audit.counts.authority_registry_usages}; authority warnings: ${audit.counts.authority_registry_warnings}; source-list usages: ${audit.counts.source_list_registry_usages}; source-list warnings: ${audit.counts.source_list_registry_warnings}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
+    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; authority usages: ${audit.counts.authority_registry_usages}; authority warnings: ${audit.counts.authority_registry_warnings}; source-list usages: ${audit.counts.source_list_registry_usages}; source-list warnings: ${audit.counts.source_list_registry_warnings}; document-metadata usages: ${audit.counts.document_metadata_registry_usages}; document-metadata warnings: ${audit.counts.document_metadata_registry_warnings}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
     `Revised DOCX: ${audit.revised_docx}`,
     `Audit: ${audit.artifacts.audit}`
   ].join("\n") + "\n";
@@ -327,6 +337,8 @@ function runReview(options) {
     authority_usage_audit: path.join(options.artifactDir, "authority-usage-audit.json"),
     source_list_registry_validation: path.join(options.artifactDir, "source-list-registry-validation.json"),
     source_list_usage_audit: path.join(options.artifactDir, "source-list-usage-audit.json"),
+    document_metadata_registry_validation: path.join(options.artifactDir, "document-metadata-registry-validation.json"),
+    document_metadata_usage_audit: path.join(options.artifactDir, "document-metadata-usage-audit.json"),
     preparation_router_validation: path.join(options.artifactDir, "preparation-router-validation.json"),
     permutation_matrix_validation: path.join(options.artifactDir, "permutation-matrix-validation.json"),
     status_claims_preflight: path.join(options.artifactDir, "status-claims-preflight.txt"),
@@ -508,6 +520,47 @@ function runReview(options) {
     });
     steps.push(sourceListAuditStep);
     optionalReports.source_list_usage_audit = sourceListAuditStep.parsed;
+  }
+  if (options.documentMetadataRegistryPath) {
+    const documentMetadataValidationStep = runNodeStep({
+      label: "validate_document_metadata_registry",
+      args: [
+        "scripts/validate-frus-document-metadata-registry.mjs",
+        "--registry",
+        options.documentMetadataRegistryPath,
+        "--format",
+        "json"
+      ],
+      cwd,
+      stdoutFile: artifacts.document_metadata_registry_validation,
+      parseJson: true
+    });
+    steps.push(documentMetadataValidationStep);
+    optionalReports.document_metadata_registry_validation = documentMetadataValidationStep.parsed;
+
+    const documentMetadataAuditArgs = [
+      "scripts/audit-frus-document-metadata-usage.mjs",
+      "--units",
+      artifacts.extracted_units,
+      "--registry",
+      options.documentMetadataRegistryPath,
+      "--checker-output",
+      options.checkerOutputPath,
+      "--format",
+      "json"
+    ];
+    if (options.targetVolume) {
+      documentMetadataAuditArgs.push("--target-volume", options.targetVolume);
+    }
+    const documentMetadataAuditStep = runNodeStep({
+      label: "audit_document_metadata_usage",
+      args: documentMetadataAuditArgs,
+      cwd,
+      stdoutFile: artifacts.document_metadata_usage_audit,
+      parseJson: true
+    });
+    steps.push(documentMetadataAuditStep);
+    optionalReports.document_metadata_usage_audit = documentMetadataAuditStep.parsed;
   }
   if (options.preparationRouterPath) {
     if (!options.statusRegistryPath) {

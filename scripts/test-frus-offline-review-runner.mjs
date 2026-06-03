@@ -197,6 +197,8 @@ try {
       "reports/frus-authority-registry.sample.json",
       "--source-list-registry",
       "reports/frus-source-list-registry.sample.json",
+      "--document-metadata-registry",
+      "reports/frus-document-metadata-registry.sample.json",
       "--preparation-router",
       "reports/frus-preparation-router-1981-1992.current.json",
       "--permutation-matrix",
@@ -234,6 +236,9 @@ try {
   assert(audit.counts.source_list_registry_usages === 1, "expected one source-list registry usage");
   assert(audit.counts.source_list_registry_warnings === 2, "expected two source-list registry warnings");
   assert(audit.counts.source_list_direct_edit_conflicts === 0, "expected zero source-list direct-edit conflicts");
+  assert(audit.counts.document_metadata_registry_usages === 0, "expected zero document metadata registry usages");
+  assert(audit.counts.document_metadata_registry_warnings === 0, "expected zero document metadata registry warnings");
+  assert(audit.counts.document_metadata_direct_edit_conflicts === 0, "expected zero document metadata direct-edit conflicts");
   assert(audit.counts.review_coverage_unreviewed_units === 0, "expected no unreviewed reviewable units");
 
   for (const artifact of [
@@ -248,6 +253,8 @@ try {
     "authority-usage-audit.json",
     "source-list-registry-validation.json",
     "source-list-usage-audit.json",
+    "document-metadata-registry-validation.json",
+    "document-metadata-usage-audit.json",
     "preparation-router-validation.json",
     "permutation-matrix-validation.json",
     "evidence-queue.json",
@@ -267,6 +274,8 @@ try {
   assert(audit.reports.authority_usage_audit.status === "pass", "expected authority usage audit report");
   assert(audit.reports.source_list_registry_validation.summary.records === 10, "expected source-list registry validation report");
   assert(audit.reports.source_list_usage_audit.status === "warning", "expected source-list usage audit warning report");
+  assert(audit.reports.document_metadata_registry_validation.summary.records === 5, "expected document metadata registry validation report");
+  assert(audit.reports.document_metadata_usage_audit.status === "pass", "expected document metadata usage audit report");
   assert(audit.reports.status_claims_extraction.summary.claims_found === 0, "expected status claim extraction report");
   assert(audit.reports.preparation_router_validation.status === "pass", "expected preparation router validation report");
   assert(audit.reports.permutation_matrix_validation.status === "pass", "expected permutation matrix validation report");
@@ -280,7 +289,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

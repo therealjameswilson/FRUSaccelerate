@@ -1,0 +1,114 @@
+{
+  "schema_version": "frus-document-metadata-registry-v1",
+  "document_metadata_registry_id": "frus-1981-1992-document-metadata-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d6",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d294"
+  ],
+  "scope": "Sample document-metadata registry for validating headings, document numbers, date lines, subjects, attachment headings, and editorial-note forms in Reagan and George H.W. Bush FRUS annotation sheets.",
+  "records": [
+    {
+      "document_metadata_id": "metadata-v31-d1-main",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "document_type": "memorandum",
+      "approved_heading_form": "Memorandum From the Vice President's Assistant for National Security Affairs (Gregg) and the Vice President's Deputy Assistant for National Security Affairs (Watson) to Vice President Bush",
+      "variant_forms": [
+        "Memo from Gregg and Watson to Bush",
+        "Memorandum to Vice President Bush"
+      ],
+      "date_line": "Washington, March 18, 1988",
+      "subject_or_title": "START: Much Tougher than INF",
+      "sender_or_originator": "Gregg and Watson",
+      "recipient_or_audience": "Vice President Bush",
+      "attachment_behavior": "Includes a printed attachment headed Letter From the Chairman of the President's Intelligence Advisory Board (Armstrong) to President Reagan.",
+      "source_note_basis": "First source note begins with George H.W. Bush Library, Bush Vice Presidential Records.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_document"
+    },
+    {
+      "document_metadata_id": "metadata-v31-d1-attachment",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "document_type": "attachment",
+      "approved_heading_form": "Letter From the Chairman of the President's Intelligence Advisory Board (Armstrong) to President Reagan",
+      "variant_forms": [
+        "Letter from Armstrong to President Reagan",
+        "Attachment: Armstrong letter to Reagan"
+      ],
+      "date_line": "Washington, February 5, 1988",
+      "subject_or_title": "",
+      "sender_or_originator": "Armstrong",
+      "recipient_or_audience": "President Reagan",
+      "attachment_behavior": "Attachment nested under Document 1.",
+      "source_note_basis": "Attachment carries separate classification note but shares the parent document apparatus.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_document"
+    },
+    {
+      "document_metadata_id": "metadata-v31-d6-main",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d6",
+      "document_number": "6",
+      "document_type": "information_memorandum",
+      "approved_heading_form": "Information Memorandum From the Director of the Policy Planning Staff (Ross) to Secretary of State Baker",
+      "variant_forms": [
+        "Information memorandum from Ross to Baker",
+        "Memo from Ross to Secretary Baker"
+      ],
+      "date_line": "Washington, February 8, 1989",
+      "subject_or_title": "Arms Control Memos from PM and Paul Nitze",
+      "sender_or_originator": "Ross",
+      "recipient_or_audience": "Secretary of State Baker",
+      "attachment_behavior": "Contains multiple attachment/tab headings, including Holmes and Nitze information memoranda and Department of State papers.",
+      "source_note_basis": "First source note supplies Department of State source-path evidence.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d6",
+      "verification_status": "verified_published_document"
+    },
+    {
+      "document_metadata_id": "metadata-v44p1-d1-main",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d1",
+      "document_number": "1",
+      "document_type": "memorandum",
+      "approved_heading_form": "Memorandum From Donald Fortier of the National Security Council Staff to the President's Assistant for National Security Affairs (McFarlane)",
+      "variant_forms": [
+        "Memo from Fortier to McFarlane",
+        "Memorandum from Donald Fortier to McFarlane"
+      ],
+      "date_line": "Washington, November 14, 1984",
+      "subject_or_title": "The MX--Your Meeting with the President and Secretary Shultz, Wednesday, November 14, 1984",
+      "sender_or_originator": "Fortier",
+      "recipient_or_audience": "McFarlane",
+      "attachment_behavior": "No printed attachment heading in the published document.",
+      "source_note_basis": "First source note begins with Reagan Library, John Poindexter Files.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1",
+      "verification_status": "verified_published_document"
+    },
+    {
+      "document_metadata_id": "metadata-v44p1-d294-editorial-note",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d294",
+      "document_number": "294",
+      "document_type": "editorial_note",
+      "approved_heading_form": "Editorial Note",
+      "variant_forms": [
+        "Editorial note",
+        "Editor note"
+      ],
+      "date_line": "",
+      "subject_or_title": "Krasnoyarsk Radar and transition briefing context",
+      "sender_or_originator": "Office of the Historian",
+      "recipient_or_audience": "Readers",
+      "attachment_behavior": "Editorial note synthesizes cited records rather than printing a single transcribed document.",
+      "source_note_basis": "Citations appear in the editorial-note text rather than as a first-footnote source note.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d294",
+      "verification_status": "verified_published_document"
+    }
+  ]
+}

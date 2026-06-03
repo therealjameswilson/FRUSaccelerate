@@ -140,6 +140,18 @@
       "role": "Self-contained source-list/front-matter registry and usage audit smoke test"
     },
     {
+      "path": "scripts/validate-frus-document-metadata-registry.mjs",
+      "role": "Document heading, number, date-line, subject/title, sender/recipient, attachment, and editorial-note metadata registry validator"
+    },
+    {
+      "path": "scripts/audit-frus-document-metadata-usage.mjs",
+      "role": "Document-metadata usage audit for extracted Word units and direct-edit safety"
+    },
+    {
+      "path": "scripts/test-frus-document-metadata-audit.mjs",
+      "role": "Self-contained document-metadata registry and usage audit smoke test"
+    },
+    {
       "path": "scripts/validate-frus-preparation-router.mjs",
       "role": "1981-1992 volume-family and preparation-router validator"
     },
@@ -188,6 +200,9 @@
     "reports/frus-source-list-registry.sample.json",
     "reports/frus-source-list-units.sample.json",
     "reports/frus-source-list-audit.sample.json",
+    "reports/frus-document-metadata-registry.sample.json",
+    "reports/frus-document-metadata-units.sample.json",
+    "reports/frus-document-metadata-audit.sample.json",
     "reports/frus-source-note-units.sample.json",
     "reports/frus-pseudo-marker-units.sample.json",
     "reports/frus-pseudo-marker-safe-output.sample.json",
@@ -213,6 +228,10 @@
     {
       "path": "reports/frus-source-list-registry.sample.json",
       "role": "Published Sources page and source-family/front-matter sample for Reagan and George H.W. Bush fixtures"
+    },
+    {
+      "path": "reports/frus-document-metadata-registry.sample.json",
+      "role": "Published document heading, date-line, subject/title, attachment, and editorial-note metadata sample for Reagan and George H.W. Bush fixtures"
     },
     {
       "path": "reports/frus-annotation-permutation-matrix.json",
@@ -245,6 +264,9 @@
     "node scripts/validate-frus-source-list-registry.mjs --registry reports/frus-source-list-registry.sample.json --format text",
     "node scripts/audit-frus-source-list-usage.mjs --units reports/frus-source-list-units.sample.json --registry reports/frus-source-list-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-source-list-audit.mjs",
+    "node scripts/validate-frus-document-metadata-registry.mjs --registry reports/frus-document-metadata-registry.sample.json --format text",
+    "node scripts/audit-frus-document-metadata-usage.mjs --units reports/frus-document-metadata-units.sample.json --registry reports/frus-document-metadata-registry.sample.json --target-volume frus1989-92v31 --format text",
+    "node scripts/test-frus-document-metadata-audit.mjs",
     "node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json",
     "node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json",
     "node scripts/build-frus-evidence-queue.mjs --output reports/frus-annotation-checker-sample-output.json --review-mode normal --format text",
@@ -258,6 +280,8 @@
     "Give validate-frus-authority-registry.mjs a duplicate authority_item_id or malformed authority-registry schema; it must fail.",
     "Give audit-frus-source-list-usage.mjs a direct edit for a cross-volume or variant source-list form; it must fail.",
     "Give validate-frus-source-list-registry.mjs a duplicate source_item_id or malformed source-list-registry schema; it must fail.",
+    "Give audit-frus-document-metadata-usage.mjs a direct edit for a cross-volume or variant heading/date/subject form; it must fail.",
+    "Give validate-frus-document-metadata-registry.mjs a duplicate document_metadata_id or malformed document-metadata-registry schema; it must fail.",
     "Give build-frus-llm-review-packet.mjs a malformed extracted-units file; it must fail before producing a model packet.",
     "Make a chunk output reference a unit assigned to another chunk; merge-frus-checker-chunks.mjs must fail.",
     "Point audit-frus-review-coverage.mjs at checker output with an unknown unit id; it must fail.",

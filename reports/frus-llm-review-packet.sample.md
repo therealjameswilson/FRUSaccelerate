@@ -2,7 +2,7 @@
 
 - schema_version: frus-llm-review-packet-v1
 - run_id: sample-llm-packet
-- generated_at: 2026-06-03T14:57:42.217Z
+- generated_at: 2026-06-03T15:09:43.700Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -155,6 +155,7 @@ Every reviewable extracted editorial unit should have a checker entry. Use `reco
   "status_claims": 4,
   "authority_registry_records": 8,
   "source_list_registry_records": 10,
+  "document_metadata_registry_records": 5,
   "preparation_routes": 74,
   "matrix_categories": 40,
   "matrix_evidence_requests": 39
@@ -181,9 +182,9 @@ For no-dependency DOCX unit extraction, run
 `node scripts/extract-frus-docx-units.mjs --docx input.docx --out extracted-units.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -196,6 +197,9 @@ For authority-control validation and direct-edit safety, run
 For source-list/front-matter validation and direct-edit safety, run
 `node scripts/validate-frus-source-list-registry.mjs --registry reports/frus-source-list-registry.sample.json --format text` and
 `node scripts/audit-frus-source-list-usage.mjs --units extracted-units.json --registry reports/frus-source-list-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For document-metadata validation and direct-edit safety, run
+`node scripts/validate-frus-document-metadata-registry.mjs --registry reports/frus-document-metadata-registry.sample.json --format text` and
+`node scripts/audit-frus-document-metadata-usage.mjs --units extracted-units.json --registry reports/frus-document-metadata-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For a no-dependency smoke test, run
 `node scripts/validate-frus-checker-output.mjs reports/frus-annotation-checker-sample-output.json`.
 For direct-edit anchor preflight, run
@@ -209,7 +213,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -228,6 +232,12 @@ target volume's Sources page, repository families, lot files, Presidential
 Library files, electronic file systems, and published sources; validate it with
 `scripts/validate-frus-source-list-registry.mjs` before direct source-list
 edits.
+For real Reagan/Bush 1981-1992 document-metadata review, replace the sample
+document-metadata registry with target-volume document-page records covering
+document number, heading, date line, subject/title, sender/recipient,
+attachment behavior, editorial-note form, and source-note linkage; validate it
+with `scripts/validate-frus-document-metadata-registry.mjs` before direct
+metadata edits.
 For volume-family and stage-posture routing, validate and use
 `reports/frus-preparation-router-1981-1992.current.json` with
 `scripts/validate-frus-preparation-router.mjs` before family-dependent direct
@@ -291,7 +301,8 @@ is flawless.
    `display_text`, unit type, and Word XML anchors.
 4. Wrapper builds a per-document `review-packet.md` from the runtime guide,
    extracted units, output schema, status registry, authority registry,
-   source-list registry, preparation router, and permutation matrix.
+   source-list registry, document-metadata registry, preparation router, and
+   permutation matrix.
 5. If the model context is too small, wrapper builds numbered chunk packets and
    later merges chunk outputs through the chunk-reconciliation gate.
 6. LLM checks the packet or chunk packet and returns a JSON edit/comment plan
@@ -310,9 +321,13 @@ is flawless.
    family forms, lot files, Presidential Library files, electronic file
    systems, and published-source references against the supplied source-list
    registry before allowing any source-list/front-matter redline.
-11. Wrapper applies only safe edits as WordprocessingML tracked insertions,
+11. Wrapper validates document numbers, headings, date/place lines,
+   subject/title lines, attachment headings, editorial-note form, and
+   sender/recipient metadata against the supplied document-metadata registry
+   before allowing any metadata redline.
+12. Wrapper applies only safe edits as WordprocessingML tracked insertions,
    deletions, and comments.
-12. User downloads a new `.docx` with changes marked in Track Changes.
+13. User downloads a new `.docx` with changes marked in Track Changes.
 
 Important: the LLM must not write `.docx`, OOXML, base64 files, or package
 instructions. The wrapper creates the revised Word file.
@@ -3013,6 +3028,190 @@ Use this to reconcile source notes, repository/source-family forms, published-so
       "source_note_usage": "Use for Ambassador Nitze's Personal Files cited in Reagan national security policy source notes.",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
       "verification_status": "verified_published_sources"
+    }
+  ]
+}
+```
+
+## Document Metadata Registry Context
+
+Use this to check document numbers, headings, document-type labels, date/place lines, subject/title lines, sender/recipient forms, attachment behavior, editorial-note form, and source-note linkage. Treat metadata variants and cross-volume document forms as comment-only unless the registry proves the direct edit.
+
+```json
+{
+  "schema_version": "frus-document-metadata-registry-v1",
+  "document_metadata_registry_id": "frus-1981-1992-document-metadata-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d6",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d294"
+  ],
+  "scope": "Sample document-metadata registry for validating headings, document numbers, date lines, subjects, attachment headings, and editorial-note forms in Reagan and George H.W. Bush FRUS annotation sheets.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "document_metadata_id": "metadata-v31-d1-main",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "document_type": "memorandum",
+      "approved_heading_form": "Memorandum From the Vice President's Assistant for National Security Affairs (Gregg) and the Vice President's Deputy Assistant for National Security Affairs (Watson) to Vice President Bush",
+      "variant_forms": [
+        "Memo from Gregg and Watson to Bush",
+        "Memorandum to Vice President Bush"
+      ],
+      "date_line": "Washington, March 18, 1988",
+      "subject_or_title": "START: Much Tougher than INF",
+      "sender_or_originator": "Gregg and Watson",
+      "recipient_or_audience": "Vice President Bush",
+      "attachment_behavior": "Includes a printed attachment headed Letter From the Chairman of the President's Intelligence Advisory Board (Armstrong) to President Reagan.",
+      "source_note_basis": "First source note begins with George H.W. Bush Library, Bush Vice Presidential Records.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_document"
+    },
+    {
+      "document_metadata_id": "metadata-v31-d1-attachment",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "document_type": "attachment",
+      "approved_heading_form": "Letter From the Chairman of the President's Intelligence Advisory Board (Armstrong) to President Reagan",
+      "variant_forms": [
+        "Letter from Armstrong to President Reagan",
+        "Attachment: Armstrong letter to Reagan"
+      ],
+      "date_line": "Washington, February 5, 1988",
+      "subject_or_title": "",
+      "sender_or_originator": "Armstrong",
+      "recipient_or_audience": "President Reagan",
+      "attachment_behavior": "Attachment nested under Document 1.",
+      "source_note_basis": "Attachment carries separate classification note but shares the parent document apparatus.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_document"
+    },
+    {
+      "document_metadata_id": "metadata-v31-d6-main",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d6",
+      "document_number": "6",
+      "document_type": "information_memorandum",
+      "approved_heading_form": "Information Memorandum From the Director of the Policy Planning Staff (Ross) to Secretary of State Baker",
+      "variant_forms": [
+        "Information memorandum from Ross to Baker",
+        "Memo from Ross to Secretary Baker"
+      ],
+      "date_line": "Washington, February 8, 1989",
+      "subject_or_title": "Arms Control Memos from PM and Paul Nitze",
+      "sender_or_originator": "Ross",
+      "recipient_or_audience": "Secretary of State Baker",
+      "attachment_behavior": "Contains multiple attachment/tab headings, including Holmes and Nitze information memoranda and Department of State papers.",
+      "source_note_basis": "First source note supplies Department of State source-path evidence.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d6",
+      "verification_status": "verified_published_document"
+    }
+  ],
+  "records": [
+    {
+      "document_metadata_id": "metadata-v31-d1-main",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "document_type": "memorandum",
+      "approved_heading_form": "Memorandum From the Vice President's Assistant for National Security Affairs (Gregg) and the Vice President's Deputy Assistant for National Security Affairs (Watson) to Vice President Bush",
+      "variant_forms": [
+        "Memo from Gregg and Watson to Bush",
+        "Memorandum to Vice President Bush"
+      ],
+      "date_line": "Washington, March 18, 1988",
+      "subject_or_title": "START: Much Tougher than INF",
+      "sender_or_originator": "Gregg and Watson",
+      "recipient_or_audience": "Vice President Bush",
+      "attachment_behavior": "Includes a printed attachment headed Letter From the Chairman of the President's Intelligence Advisory Board (Armstrong) to President Reagan.",
+      "source_note_basis": "First source note begins with George H.W. Bush Library, Bush Vice Presidential Records.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_document"
+    },
+    {
+      "document_metadata_id": "metadata-v31-d1-attachment",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d1",
+      "document_number": "1",
+      "document_type": "attachment",
+      "approved_heading_form": "Letter From the Chairman of the President's Intelligence Advisory Board (Armstrong) to President Reagan",
+      "variant_forms": [
+        "Letter from Armstrong to President Reagan",
+        "Attachment: Armstrong letter to Reagan"
+      ],
+      "date_line": "Washington, February 5, 1988",
+      "subject_or_title": "",
+      "sender_or_originator": "Armstrong",
+      "recipient_or_audience": "President Reagan",
+      "attachment_behavior": "Attachment nested under Document 1.",
+      "source_note_basis": "Attachment carries separate classification note but shares the parent document apparatus.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_document"
+    },
+    {
+      "document_metadata_id": "metadata-v31-d6-main",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d6",
+      "document_number": "6",
+      "document_type": "information_memorandum",
+      "approved_heading_form": "Information Memorandum From the Director of the Policy Planning Staff (Ross) to Secretary of State Baker",
+      "variant_forms": [
+        "Information memorandum from Ross to Baker",
+        "Memo from Ross to Secretary Baker"
+      ],
+      "date_line": "Washington, February 8, 1989",
+      "subject_or_title": "Arms Control Memos from PM and Paul Nitze",
+      "sender_or_originator": "Ross",
+      "recipient_or_audience": "Secretary of State Baker",
+      "attachment_behavior": "Contains multiple attachment/tab headings, including Holmes and Nitze information memoranda and Department of State papers.",
+      "source_note_basis": "First source note supplies Department of State source-path evidence.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d6",
+      "verification_status": "verified_published_document"
+    },
+    {
+      "document_metadata_id": "metadata-v44p1-d1-main",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d1",
+      "document_number": "1",
+      "document_type": "memorandum",
+      "approved_heading_form": "Memorandum From Donald Fortier of the National Security Council Staff to the President's Assistant for National Security Affairs (McFarlane)",
+      "variant_forms": [
+        "Memo from Fortier to McFarlane",
+        "Memorandum from Donald Fortier to McFarlane"
+      ],
+      "date_line": "Washington, November 14, 1984",
+      "subject_or_title": "The MX--Your Meeting with the President and Secretary Shultz, Wednesday, November 14, 1984",
+      "sender_or_originator": "Fortier",
+      "recipient_or_audience": "McFarlane",
+      "attachment_behavior": "No printed attachment heading in the published document.",
+      "source_note_basis": "First source note begins with Reagan Library, John Poindexter Files.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1",
+      "verification_status": "verified_published_document"
+    },
+    {
+      "document_metadata_id": "metadata-v44p1-d294-editorial-note",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d294",
+      "document_number": "294",
+      "document_type": "editorial_note",
+      "approved_heading_form": "Editorial Note",
+      "variant_forms": [
+        "Editorial note",
+        "Editor note"
+      ],
+      "date_line": "",
+      "subject_or_title": "Krasnoyarsk Radar and transition briefing context",
+      "sender_or_originator": "Office of the Historian",
+      "recipient_or_audience": "Readers",
+      "attachment_behavior": "Editorial note synthesizes cited records rather than printing a single transcribed document.",
+      "source_note_basis": "Citations appear in the editorial-note text rather than as a first-footnote source note.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d294",
+      "verification_status": "verified_published_document"
     }
   ]
 }

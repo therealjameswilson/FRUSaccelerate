@@ -51,6 +51,13 @@ For source-list/front-matter validation, use
 `reports/frus-source-list-units.sample.json`; the self-contained smoke test is
 `scripts/test-frus-source-list-audit.mjs`, and the sample audit report is
 `reports/frus-source-list-audit.sample.json`.
+For document-metadata validation, use
+`scripts/validate-frus-document-metadata-registry.mjs` and
+`scripts/audit-frus-document-metadata-usage.mjs` with
+`reports/frus-document-metadata-registry.sample.json` and
+`reports/frus-document-metadata-units.sample.json`; the self-contained smoke
+test is `scripts/test-frus-document-metadata-audit.mjs`, and the sample audit
+report is `reports/frus-document-metadata-audit.sample.json`.
 For no-dependency closed-network smoke tests, use
 `scripts/validate-frus-checker-output.mjs` against
 `reports/frus-annotation-checker-sample-output.json`.
@@ -116,13 +123,14 @@ The intended workflow is:
 3. The tool extracts the Word document into structured text.
 4. The tool builds `review-packet.md` from this standard, the extracted units,
    the output schema, status context, authority registry, source-list registry,
-   preparation router, and permutation matrix.
+   document-metadata registry, preparation router, and permutation matrix.
 5. If the model cannot fit the whole packet, the tool builds numbered chunk
    packets and merges chunk outputs through the chunk-reconciliation gate.
 6. The LLM checks the packet against the standards below.
 7. The LLM returns structured proposed edits and comments.
 8. The Word wrapper validates exact anchors, evidence basis, status context,
-   authority-control context, source-list/front-matter context, and Word safety.
+   authority-control context, source-list/front-matter context,
+   document-metadata context, and Word safety.
 9. The Word wrapper applies the proposed edits as tracked changes and comments.
 10. User downloads a new `.docx` with changes marked in Track Changes.
 
@@ -11922,6 +11930,16 @@ Minimum components:
   notes and source-list entries to published Sources-page forms, flags variant
   and cross-volume source families, and fails direct source-list edits that
   lack supplied registry support.
+- No-dependency document-metadata registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-document-metadata-registry.mjs`,
+  `scripts/audit-frus-document-metadata-usage.mjs`,
+  `reports/frus-document-metadata-registry.sample.json`,
+  `reports/frus-document-metadata-units.sample.json`, and
+  `reports/frus-document-metadata-audit.sample.json`. The audit reconciles
+  document headings, date/place lines, subject/title lines, attachment headings,
+  editorial-note forms, sender/recipient forms, and source-note linkage to
+  supplied document-page metadata, and fails direct metadata edits that lack
+  supplied registry support.
 - No-dependency source-note component linter and fixture:
   `scripts/lint-frus-source-notes.mjs` and
   `reports/frus-source-note-units.sample.json`.
@@ -11963,14 +11981,10 @@ Minimum components:
   network provides Word, LibreOffice, or Open XML SDK validation.
 - Offline context-bundle loader with provenance metadata beyond the currently
   wired status, authority, source-list, router, and permutation-matrix contexts.
-- Fuller authority and source-list registry expansion that adds target-volume
-  chapter labels, document numbers, public-source titles, appendix targets,
-  declassification-review statements, special-note decisions, errata context,
-  and local source-family aliases.
-- Document-metadata validator that checks document headings, datelines,
-  internal document numbers, subject/title lines, public-title lines, captions,
-  sender/recipient offices, and source-note linkage before tracked changes are
-  applied.
+- Fuller authority, source-list, and document-metadata registry expansion that
+  adds target-volume chapter labels, public-source titles, captions, appendix
+  targets, declassification-review statements, special-note decisions, errata
+  context, and local source-family aliases.
 - Document-status/lifecycle validator that separates draft/final, original/copy,
   printed-from-copy, signed/unsigned, initialed/uninitialed, stamped,
   sent-for-action, sent-for-information, approved/disapproved,

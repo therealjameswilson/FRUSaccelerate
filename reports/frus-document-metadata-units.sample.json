@@ -1,0 +1,78 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample extracted Word units for FRUS document-metadata audit tests.",
+  "units": [
+    {
+      "unit_id": "document-heading-0001",
+      "unit_type": "document_heading",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Document 1 heading",
+      "exact_text": "1. Memorandum From the Vice President's Assistant for National Security Affairs (Gregg) and the Vice President's Deputy Assistant for National Security Affairs (Watson) to Vice President Bush\nWashington, March 18, 1988\nSUBJECT\nSTART: Much Tougher than INF",
+      "display_text": "1. Memorandum From the Vice President's Assistant for National Security Affairs (Gregg) and the Vice President's Deputy Assistant for National Security Affairs (Watson) to Vice President Bush\nWashington, March 18, 1988\nSUBJECT\nSTART: Much Tougher than INF",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "document-heading-0002",
+      "unit_type": "document_heading",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Document 6 heading",
+      "exact_text": "6. Memo from Ross to Secretary Baker\nWashington, February 8, 1989\nSUBJECT\nArms Control Memos from PM and Paul Nitze",
+      "display_text": "6. Memo from Ross to Secretary Baker\nWashington, February 8, 1989\nSUBJECT\nArms Control Memos from PM and Paul Nitze",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "document-heading-0003",
+      "unit_type": "document_heading",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Reagan Document 1 heading in a START I packet",
+      "exact_text": "1. Memorandum From Donald Fortier of the National Security Council Staff to the President's Assistant for National Security Affairs (McFarlane)\nWashington, November 14, 1984\nSUBJECT\nThe MX--Your Meeting with the President and Secretary Shultz, Wednesday, November 14, 1984",
+      "display_text": "1. Memorandum From Donald Fortier of the National Security Council Staff to the President's Assistant for National Security Affairs (McFarlane)\nWashington, November 14, 1984\nSUBJECT\nThe MX--Your Meeting with the President and Secretary Shultz, Wednesday, November 14, 1984",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "editorial-note-heading-0004",
+      "unit_type": "editorial_note",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Editorial note heading",
+      "exact_text": "294. Editorial Note. On December 12, 1988, President Ronald Reagan participated in a national security briefing.",
+      "display_text": "294. Editorial Note. On December 12, 1988, President Ronald Reagan participated in a national security briefing.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "document-heading-0005",
+      "unit_type": "document_heading",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Unmatched draft heading",
+      "exact_text": "12. Memorandum of Conversation\nLocation and date uncertain",
+      "display_text": "12. Memorandum of Conversation\nLocation and date uncertain",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": [
+        "missing_document_metadata"
+      ]
+    }
+  ]
+}
