@@ -1,0 +1,45 @@
+{
+  "schema_version": "checker-output-v1",
+  "document_assessment": {
+    "overall_status": "needs_revision",
+    "summary": "Sample output for validating that safe citation edits do not split production pseudo-markers.",
+    "blocked_reason": ""
+  },
+  "batch_readiness": {
+    "readiness_status": "ready_for_tracked_changes",
+    "safe_to_apply_tracked_changes": true,
+    "readiness_summary": "The direct edit changes page numbers without touching literal production pseudo-markers.",
+    "gates": [
+      {
+        "gate_id": "word_anchoring",
+        "gate_status": "pass",
+        "finding": "The exact anchor does not cross marker boundaries.",
+        "required_action": ""
+      },
+      {
+        "gate_id": "wrapper_output",
+        "gate_status": "pass",
+        "finding": "Production pseudo-markers are preserved literally in the fixture.",
+        "required_action": ""
+      }
+    ]
+  },
+  "checks": [
+    {
+      "unit_id": "annotation-marker-safe-0001",
+      "rule_id": "FAS-XR-001",
+      "severity": "minor",
+      "category": "citation",
+      "finding": "The page range should be corrected without touching the surrounding italic or note-reference markers.",
+      "standard": "Production pseudo-markers such as <i>, <r>, <n>, <m>, and <1> must be preserved or mapped by the wrapper; tracked-change boundaries must not split them.",
+      "recommended_action": "replace_text",
+      "original_text": "pp. 123-124",
+      "replacement_text": "pp. 123-125",
+      "comment_text": "",
+      "evidence_request": "none",
+      "verification_target": ""
+    }
+  ],
+  "global_comments": [],
+  "style_discrepancy_tally": []
+}

@@ -20,6 +20,8 @@ For status-language preflight, run
 `node scripts/preflight-frus-status-claims.mjs --registry reports/frus-status-registry-1981-1992.sample.json --claims reports/frus-status-claims.sample.json --today 2026-06-03`.
 For source-note component diagnostics, run
 `node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json`.
+For production pseudo-marker boundary checks, run
+`node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json`.
 
 ## 1. System Role
 
@@ -95,6 +97,9 @@ The wrapper should provide:
 - `word_redline_integrity_context`: existing revisions/comments, fields,
   bookmarks, hyperlinks, footnotes/endnotes, pseudo-markers, relationship ids,
   comment/revision id allocator state, and output validation status.
+- `pseudo_marker_context`: literal production markers such as `<i>`, `<r>`,
+  `<b>`, `<n>`, `<m>`, and `<1>`, plus whether the wrapper preserves them or
+  maps them to Word formatting.
 - `style_discrepancy_ledger_context`: running General Editor ledger when
   available.
 

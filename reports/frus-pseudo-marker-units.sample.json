@@ -1,0 +1,22 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample flat annotation-sheet units with production pseudo-markers.",
+  "units": [
+    {
+      "unit_id": "annotation-marker-safe-0001",
+      "unit_type": "annotation",
+      "marker_policy": "preserve_literal",
+      "location": "Flat annotation paragraph with italic and note-reference markers",
+      "exact_text": "For Shultz's account, see <i>Turmoil and Triumph<r>, pp. 123-124.<1>",
+      "display_text": "For Shultz's account, see Turmoil and Triumph, pp. 123-124."
+    },
+    {
+      "unit_id": "source-note-marker-safe-0002",
+      "unit_type": "source_note",
+      "marker_policy": "preserve_literal",
+      "location": "Flat body source note with note number and dash marker",
+      "exact_text": "1  Source: Reagan Library, Speechwriting Files. No classification marking. Attached but not printed<n>campaign draft.",
+      "display_text": "1  Source: Reagan Library, Speechwriting Files. No classification marking. Attached but not printed-campaign draft."
+    }
+  ]
+}

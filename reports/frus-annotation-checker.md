@@ -31,6 +31,10 @@ changes publication-stage wording.
 For source-note component diagnostics, use
 `scripts/lint-frus-source-notes.mjs` with
 `reports/frus-source-note-units.sample.json`.
+For production pseudo-marker boundary checks, use
+`scripts/preflight-frus-pseudo-markers.mjs` with
+`reports/frus-pseudo-marker-units.sample.json` and
+`reports/frus-pseudo-marker-safe-output.sample.json`.
 
 The intended workflow is:
 
@@ -11788,6 +11792,10 @@ Minimum components:
 - No-dependency source-note component linter and fixture:
   `scripts/lint-frus-source-notes.mjs` and
   `reports/frus-source-note-units.sample.json`.
+- No-dependency production pseudo-marker boundary validator and fixture:
+  `scripts/preflight-frus-pseudo-markers.mjs`,
+  `reports/frus-pseudo-marker-units.sample.json`, and
+  `reports/frus-pseudo-marker-safe-output.sample.json`.
 - Spellcheck rule-id validator that rejects unknown `rule_id` values, counts
   findings by rule, flags excessive `FAS-GEN-000` fallback use, and preserves
   rule-id tallies in the audit report before tracked changes are applied.
