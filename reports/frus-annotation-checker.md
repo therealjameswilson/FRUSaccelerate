@@ -392,6 +392,7 @@ The LLM must return valid JSON with this shape:
   "checks": [
     {
       "unit_id": "footnote-0012",
+      "rule_id": "FAS-SN-001",
       "severity": "blocker | major | minor | info",
       "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | editorial_method_transcription | document_status_lifecycle | decision_process_directive | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | volume_preparation_scope | release_errata_apparatus | wording | evidence | format",
       "finding": "Plain-language issue.",
@@ -436,6 +437,9 @@ Rules for JSON edits:
 
 - `schema_version` must be `checker-output-v1`. Reject any output that omits the
   version or uses an unknown version.
+- `rule_id` must use a stable FRUS annotation spellcheck id from the catalog
+  below, or `FAS-GEN-000` when no narrower rule exists. Do not invent a new
+  id inside a run.
 - `original_text` must be an exact substring of the extracted unit when
   `recommended_action` is `replace_text`, `insert_after_text`, or
   `delete_text`.
@@ -583,6 +587,7 @@ run the semantic and Word-safety validators below.
         "additionalProperties": false,
         "required": [
           "unit_id",
+          "rule_id",
           "severity",
           "category",
           "finding",
@@ -597,6 +602,10 @@ run the semantic and Word-safety validators below.
         "properties": {
           "unit_id": {
             "type": "string"
+          },
+          "rule_id": {
+            "type": "string",
+            "pattern": "^FAS-[A-Z]{2,6}-[0-9]{3}$"
           },
           "severity": {
             "type": "string",
@@ -1280,6 +1289,64 @@ Redline integrity posture:
 - If post-write validation fails, the wrapper must not release the `.docx`.
   Return the audit report, the blocked reason, and the exact validation failure
   instead.
+
+### 4.4 Stable Spellcheck Rule IDs
+
+A bespoke spellcheck needs stable rule identifiers. Every `checks` item must
+carry one `rule_id` so the wrapper can merge duplicates, count recurring
+problems, suppress already-resolved warnings, build regression tests, and show a
+compiler why a change was proposed.
+
+Rule ID format:
+
+- Use `FAS-[GROUP]-[NUMBER]`, where `FAS` means FRUS Annotation Spellcheck.
+- Use `FAS-GEN-000` only when no narrower rule fits. Frequent use of
+  `FAS-GEN-000` is itself a signal that the standard needs a new rule.
+- Do not invent one-off ids inside a run. If a real gap appears, add it to the
+  General Editor discrepancy tally or to a future standard update.
+- Keep a finding's `rule_id` stable even when severity changes by review mode
+  or production stage.
+
+Core rule groups:
+
+| Rule id | Group | Use when the checker finds... | Default action |
+| --- | --- | --- | --- |
+| `FAS-GEN-000` | General | A valid issue not yet represented by a narrower rule. | Comment and tally if recurring. |
+| `FAS-SN-001` | Source note | Missing or malformed repository-to-document source-note order. | Direct edit only with supplied exact source facts; otherwise comment. |
+| `FAS-SN-002` | Source note | URL, scan, catalog, RAC/NLR/FOIA identifier, or discovery label replacing the controlling repository or selected published source. | Comment unless the full control source is supplied. |
+| `FAS-SN-003` | Source note | Specific Reagan/Bush source family flattened into a generic source path. | Comment or direct edit with exact registry match. |
+| `FAS-SN-004` | Source note | Missing document form, copy/draft/original status, distribution, drafting, clearance, routing, read-by, or policy-background evidence when supplied by context. | Direct edit only from exact supplied evidence. |
+| `FAS-CLS-001` | Classification | Original classification or handling marking missing, guessed, or confused with release/declassification status. | Comment pending source-image or registry proof. |
+| `FAS-CLS-002` | Classification | `No classification marking` form is wrong when absence of marking is verified. | Safe direct edit if exact anchor exists. |
+| `FAS-DEC-001` | Declassification | Omitted text, whole-document withholding, original brackets, or ellipses handled without supplied declassification/editorial-method basis. | Comment; direct edit only with supplied basis. |
+| `FAS-EDM-001` | Editorial method | Transcribed document text, spelling, capitalization, punctuation, abbreviations, contractions, underlining, italic/roman brackets, telegram numbers, original brackets, or original ellipses changed without authority. | Reject or comment. |
+| `FAS-XR-001` | Cross-reference | Same-volume, cross-volume, footnote, appendix, tab, attachment, or scheduled-publication reference lacks stable target evidence. | Comment pending target. |
+| `FAS-STAT-001` | Publication status | `printed in`, `published in`, `scheduled for publication`, `forthcoming`, `anticipated`, or chapter-status language conflicts with current status registry. | Comment unless exact current target supports direct edit. |
+| `FAS-ATT-001` | Attachments | `Attached but not printed`, `Not found attached`, `Not attached`, `Printed as Document [n]`, tab, enclosure, appendix, or child-document status is conflated or unsupported. | Comment pending attachment proof. |
+| `FAS-NEG-001` | Negative search | `Not found`, no-minutes, no-memcon, no-telcon, unlocated draft, unresolved source path, or found-elsewhere claim lacks search basis. | Comment pending search basis. |
+| `FAS-CHRON-001` | Chronology | Washington time, local time, GMT/Z, date-time group, treaty time, meeting/call placement, diary/schedule use, or event sequence is unsupported or conflated. | Comment pending chronology basis. |
+| `FAS-PHYS-001` | Physical evidence | Handwriting, initials, stamp, marginalia, read-by/seen notation, approval checkmark, signature, routing, or unknown-hand evidence is overstated or unsupported. | Comment pending source image. |
+| `FAS-PUB-001` | Public source | Speech, press, interview, testimony, broadcast, public report, Public Papers, newspaper, memoir, or diary source is misclassified as mere background or used without publication/delivery basis. | Comment or direct edit with supplied public-source registry. |
+| `FAS-AUTH-001` | Authority control | Person, office, title, abbreviation, repository/source-list form, chapter label, public title, or index behavior conflicts with supplied authority context. | Direct edit only with exact registry match. |
+| `FAS-FAM-001` | Volume family | In-preparation Reagan/Bush family is inferred too strongly or wrong published pattern is transferred into a different volume family. | Comment and tally if recurring. |
+| `FAS-WORK-001` | Working label | `candidate`, `possible`, `needs scan`, `verify`, `TK`, `TBD`, or similar research label remains in publishable apparatus. | Comment unless direct deletion is safe and clearly authorized. |
+| `FAS-WRAP-001` | Wrapper safety | Exact anchor, Word XML boundary, existing revision, comment, field, table, note reference, pseudo-marker, or output package validation is unsafe. | Reject direct edit or downgrade to comment. |
+| `FAS-GE-001` | General Editor | A recurring plausible style variation should be preserved in the separate General Editor discrepancy ledger rather than forced into a redline. | Tally; no direct edit unless resolved guidance exists. |
+
+Rule-id behavior:
+
+- A direct edit with `evidence_request: none` should normally use a narrow rule
+  id such as `FAS-CLS-002` or `FAS-AUTH-001`, not `FAS-GEN-000`.
+- A `comment_only` finding should still use the narrowest rule id available.
+  The evidence request explains what proof is missing; the rule id explains
+  what standard was implicated.
+- A `no_change` finding may use the rule id that was checked, especially for
+  calibration cases where a good note should be protected from false positives.
+- When multiple rules apply, choose the rule that controls the recommended
+  action. Mention secondary issues in `finding` or `comment_text`.
+- The wrapper should report counts by `rule_id`, severity, action, and
+  evidence request. A spike in one rule id is more useful to the compiler than
+  a generic pile of major comments.
 
 ## 5. Review Severity
 
@@ -8459,6 +8526,7 @@ Case 1: Safe style replacement.
 ```json
 {
   "unit_id": "source-note-0001",
+  "rule_id": "FAS-CLS-002",
   "severity": "minor",
   "category": "source_note",
   "finding": "The note uses non-standard classification wording.",
@@ -8477,6 +8545,7 @@ Case 2: URL-only source note.
 ```json
 {
   "unit_id": "source-note-0002",
+  "rule_id": "FAS-SN-002",
   "severity": "major",
   "category": "source_note",
   "finding": "The source note leads with a discovery URL instead of the archival or published control source.",
@@ -8495,6 +8564,7 @@ Case 3: Missing Bush H-Files subseries.
 ```json
 {
   "unit_id": "source-note-0003",
+  "rule_id": "FAS-SN-003",
   "severity": "major",
   "category": "source_note",
   "finding": "The Bush H-Files citation omits the specific subseries.",
@@ -8513,6 +8583,7 @@ Case 4: Editorial note without a source footnote.
 ```json
 {
   "unit_id": "editorial-note-0004",
+  "rule_id": "FAS-SN-001",
   "severity": "info",
   "category": "editorial_note",
   "finding": "No issue. A source footnote is not required if the editorial note itself supplies documentary citations and chronology.",
@@ -8531,6 +8602,7 @@ Case 5: Transcribed document text mistakenly targeted.
 ```json
 {
   "unit_id": "document-body-0005",
+  "rule_id": "FAS-EDM-001",
   "severity": "info",
   "category": "evidence",
   "finding": "The unit appears to be transcribed document text rather than editorial apparatus.",
@@ -8549,6 +8621,7 @@ Case 6: Scheduled-publication language.
 ```json
 {
   "unit_id": "follow-on-0006",
+  "rule_id": "FAS-STAT-001",
   "severity": "major",
   "category": "citation",
   "finding": "The proposed wording would change a scheduled-publication claim into a published-document claim without supplied proof.",
@@ -8567,6 +8640,7 @@ Case 7: Working label left in publishable apparatus.
 ```json
 {
   "unit_id": "source-note-0007",
+  "rule_id": "FAS-WORK-001",
   "severity": "major",
   "category": "format",
   "finding": "A compiler working label remains inside publishable annotation text.",
@@ -8585,6 +8659,7 @@ Case 8: Classification confused with release status.
 ```json
 {
   "unit_id": "source-note-0008",
+  "rule_id": "FAS-CLS-001",
   "severity": "major",
   "category": "declassification",
   "finding": "The note appears to use release/declassification status as if it were the original classification marking.",
@@ -8603,6 +8678,7 @@ Case 9: Excellent non-template source note.
 ```json
 {
   "unit_id": "source-note-0009",
+  "rule_id": "FAS-SN-003",
   "severity": "info",
   "category": "source_note",
   "finding": "No issue. The note preserves a specific source family rather than forcing a generic template.",
@@ -8621,6 +8697,7 @@ Case 10: Exact replacement anchor not found.
 ```json
 {
   "unit_id": "source-note-0010",
+  "rule_id": "FAS-WRAP-001",
   "severity": "blocker",
   "category": "format",
   "finding": "The proposed edit cannot be applied because the exact target text is not present in the extracted unit.",
@@ -8639,6 +8716,7 @@ Case 11: Authority title depends on document date.
 ```json
 {
   "unit_id": "persons-entry-0011",
+  "rule_id": "FAS-AUTH-001",
   "severity": "major",
   "category": "authority_control",
   "finding": "The title may not match the person's office on the document date.",
@@ -9669,6 +9747,7 @@ Suggested tally format:
 | style-discrepancy-0032 | volume_preparation_scope | How much START I published-pattern context should be carried into related Bush arms-control, Soviet/Russia, European-security, and national-security sheets. | START I pattern retained in audit only; short Word comment for target-lane confirmation; full General Editor ledger entry when START-adjacent context affects cross-volume style | 2 | high | Should the checker enforce a standard form for START-adjacent transfer cautions, or leave them as audit/General Editor questions unless the annotation text makes a wrong source or treaty claim? |
 | style-discrepancy-0033 | wrapper | Whether the redline wrapper should preserve unresolved tracked changes, convert pseudo-markers before redline, or fall back to comments-only when complex WordprocessingML boundaries are present. | Preserve existing revisions and block overlaps; accept/reject existing revisions before checker run; map pseudo-markers before review; downgrade complex field/bookmark/note/comment/table boundaries to comments-only | 2 | high | Should the closed-network checker enforce a single pre-redline cleanup policy for unresolved revisions and pseudo-markers, or preserve multiple safe wrapper modes for General Editor decision? |
 | style-discrepancy-0034 | publication_status | Whether status-page parser-integrity counts should be treated as a hard gate for all cross-volume publication language or only for direct redlines that change publication wording. | Treat any incomplete status snapshot as a global blocker; allow source-note edits while blocking only publication-status changes; allow comments with stale registry but require fresh capture for final style | 2 | high | Should the checker enforce status-snapshot completeness as a packet-level gate, or only as a gate for publication-status and cross-volume wording? |
+| style-discrepancy-0035 | wrapper | How quickly recurring annotation-checker findings should be promoted from fallback `FAS-GEN-000` to named spellcheck rule ids. | Keep fallback ids for rare issues; promote any recurring issue after two or more packets; promote only after General Editor confirms that the issue reflects house style rather than local practice | 2 | medium | Should the General Editor control additions to the stable rule-id catalog, or may the wrapper maintain provisional rule ids for recurring checker findings? |
 
 For the separate running ledger, add these columns or equivalent structured
 fields:
@@ -11285,6 +11364,8 @@ Counts:
 - Direct tracked edits applied: [n]
 - Comments inserted: [n]
 - LLM edits rejected by validator: [n]
+- Spellcheck rule ids triggered: [FAS-SN-001 n; FAS-CLS-001 n; FAS-WRAP-001 n; etc.]
+- Findings using fallback `FAS-GEN-000`: [n]
 - Word redline integrity checks passed/warned/failed: [pass n; warning n; fail n]
 - Track-change insertions/deletions/comments created: [insertions n; deletions n; comments n]
 - Redline edits downgraded for run, field, marker, note-reference, comment, or existing-revision boundary risk: [n]
@@ -11386,6 +11467,9 @@ Blocking evidence queue:
 
 Readiness gate warnings:
 - [gate_id]: [gate_status] - [finding] - [required_action]
+
+Spellcheck rule warnings:
+- [rule_id]: [count] - [highest severity] - [dominant evidence_request] - [representative unit ids] - [recommended batch posture]
 
 Word redline integrity warnings:
 - [unit_id or global]: [Word part/anchor/id issue] - [boundary, existing-revision, comment, relationship, content-type, validation, or package-open risk] - [recommended posture]
@@ -11551,6 +11635,9 @@ Minimum components:
   tables, headings, and tracked changes.
 - LLM prompt runner with this Markdown standard loaded.
 - JSON schema validator for `checker-output-v1`.
+- Spellcheck rule-id validator that rejects unknown `rule_id` values, counts
+  findings by rule, flags excessive `FAS-GEN-000` fallback use, and preserves
+  rule-id tallies in the audit report before tracked changes are applied.
 - Pre-redline readiness validator that evaluates extraction/unitization, Word
   anchoring, context bundle freshness, status and authority registries,
   evidence basis, General Editor discrepancy ledger, chunk reconciliation, and
