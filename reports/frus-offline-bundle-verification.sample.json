@@ -3,25 +3,25 @@
   "manifest": "reports/frus-annotation-checker-offline-bundle-manifest.json",
   "bundle_schema_version": "frus-annotation-checker-offline-bundle-v1",
   "required_files": {
-    "count": 64,
+    "count": 67,
     "missing": []
   },
   "sample_files": {
-    "count": 52,
+    "count": 55,
     "missing": []
   },
   "context_files": {
-    "count": 13,
+    "count": 14,
     "missing": []
   },
   "json_files": {
-    "checked": 54,
+    "checked": 57,
     "invalid": []
   },
   "smoke_tests": {
-    "count": 52,
+    "count": 55,
     "skipped": false,
-    "passed": 52,
+    "passed": 55,
     "failed": []
   },
   "status": "pass",

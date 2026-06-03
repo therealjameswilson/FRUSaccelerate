@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -25,6 +25,7 @@ function parseArgs(argv) {
   let classificationRegistryPath = null;
   let declassificationRegistryPath = null;
   let translationRegistryPath = null;
+  let printedAttachmentRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
   let communicationsRegistryPath = null;
@@ -72,6 +73,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--translation-registry") {
       translationRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--printed-attachment-registry") {
+      printedAttachmentRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--negative-search-registry") {
       negativeSearchRegistryPath = argv[index + 1];
@@ -122,6 +126,7 @@ function parseArgs(argv) {
     classificationRegistryPath,
     declassificationRegistryPath,
     translationRegistryPath,
+    printedAttachmentRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
     communicationsRegistryPath,
@@ -456,6 +461,43 @@ function compactTranslationRegistry(registry, targetVolume) {
   };
 }
 
+function compactPrintedAttachmentRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    printed_attachment_registry_id: registry.printed_attachment_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      printed_attachment_id: record.printed_attachment_id,
+      volume_id: record.volume_id,
+      parent_document_id: record.parent_document_id,
+      parent_document_number: record.parent_document_number,
+      child_unit_label: record.child_unit_label,
+      relationship_type: record.relationship_type,
+      approved_phrase: record.approved_phrase,
+      tab_or_attachment_label: record.tab_or_attachment_label,
+      child_heading: record.child_heading,
+      child_date_or_place: record.child_date_or_place,
+      child_title_or_subject: record.child_title_or_subject,
+      child_source_note_or_footnote: record.child_source_note_or_footnote,
+      child_classification_or_marking: record.child_classification_or_marking,
+      editorial_status: record.editorial_status,
+      printed_target: record.printed_target,
+      cross_reference_target: record.cross_reference_target,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactNegativeSearchRegistry(registry, targetVolume) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -601,6 +643,9 @@ function buildPacket(options) {
   const translationRegistry = options.translationRegistryPath
     ? readJson(options.translationRegistryPath, options.translationRegistryPath)
     : null;
+  const printedAttachmentRegistry = options.printedAttachmentRegistryPath
+    ? readJson(options.printedAttachmentRegistryPath, options.printedAttachmentRegistryPath)
+    : null;
   const negativeSearchRegistry = options.negativeSearchRegistryPath
     ? readJson(options.negativeSearchRegistryPath, options.negativeSearchRegistryPath)
     : null;
@@ -635,6 +680,7 @@ function buildPacket(options) {
       classification_registry: options.classificationRegistryPath ? normalizePathForOutput(options.classificationRegistryPath) : "",
       declassification_registry: options.declassificationRegistryPath ? normalizePathForOutput(options.declassificationRegistryPath) : "",
       translation_registry: options.translationRegistryPath ? normalizePathForOutput(options.translationRegistryPath) : "",
+      printed_attachment_registry: options.printedAttachmentRegistryPath ? normalizePathForOutput(options.printedAttachmentRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
       communications_registry: options.communicationsRegistryPath ? normalizePathForOutput(options.communicationsRegistryPath) : "",
@@ -670,6 +716,7 @@ function buildPacket(options) {
       classification_registry_records: classificationRegistry?.records?.length || 0,
       declassification_registry_records: declassificationRegistry?.records?.length || 0,
       translation_registry_records: translationRegistry?.records?.length || 0,
+      printed_attachment_registry_records: printedAttachmentRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
       document_relationship_registry_records: documentRelationshipRegistry?.records?.length || 0,
       communications_registry_records: communicationsRegistry?.records?.length || 0,
@@ -690,6 +737,7 @@ function buildPacket(options) {
       classification_registry: compactClassificationRegistry(classificationRegistry, options.targetVolume),
       declassification_registry: compactDeclassificationRegistry(declassificationRegistry, options.targetVolume),
       translation_registry: compactTranslationRegistry(translationRegistry, options.targetVolume),
+      printed_attachment_registry: compactPrintedAttachmentRegistry(printedAttachmentRegistry, options.targetVolume),
       negative_search_registry: compactNegativeSearchRegistry(negativeSearchRegistry, options.targetVolume),
       document_relationship_registry: compactDocumentRelationshipRegistry(documentRelationshipRegistry, options.targetVolume),
       communications_registry: compactCommunicationsRegistry(communicationsRegistry, options.targetVolume),
@@ -797,6 +845,12 @@ function renderMarkdown(packet) {
     "Use this to check official, unofficial, informal, Language Services, editor-transcribed, original-language, foreign-copy, and foreign-text-in-file apparatus. Do not simplify translation status, original-language basis, foreign-copy provenance, or selected-versus-supplemental foreign-origin records unless the registry proves the direct edit.",
     "",
     fencedJson(packet.contexts.translation_registry || {}),
+    "",
+    "## Printed And Nested Attachment Registry Context",
+    "",
+    "Use this to check printed-in-parent child papers, attached-but-not-printed details, printed-as-document targets, tab/enclosure labels, child headings, child date/place lines, child source notes, child classification markings, and parent-child maps. Do not change printed targets, child apparatus, tab labels, or attached/not-printed status unless the registry proves the direct edit.",
+    "",
+    fencedJson(packet.contexts.printed_attachment_registry || {}),
     "",
     "## Negative Search And No-Record Registry Context",
     "",

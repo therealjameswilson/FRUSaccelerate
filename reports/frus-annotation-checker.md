@@ -12097,6 +12097,17 @@ Minimum components:
   original-language, foreign-copy, and foreign-text-in-file apparatus to
   supplied translation records and fails direct translation or foreign-origin
   edits that lack supplied registry support.
+- No-dependency printed/nested attachment registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-printed-attachment-registry.mjs`,
+  `scripts/audit-frus-printed-attachment-usage.mjs`,
+  `reports/frus-printed-attachment-registry.sample.json`,
+  `reports/frus-printed-attachment-units.sample.json`, and
+  `reports/frus-printed-attachment-audit.sample.json`. The audit reconciles
+  printed-in-parent child papers, attached-but-not-printed descriptions,
+  printed-as-document targets, tab/enclosure labels, child headings, child
+  source notes, child classifications, and parent-child maps to supplied
+  printed-attachment records and fails direct printed-attachment edits that
+  lack supplied registry support.
 - No-dependency negative-search/no-record registry validator, usage audit, and
   fixtures: `scripts/validate-frus-negative-search-registry.mjs`,
   `scripts/audit-frus-negative-search-usage.mjs`,
@@ -12248,11 +12259,12 @@ Minimum components:
   found attached.`, `Not attached.`, no-minutes, no-memcon, no-telcon,
   missing-attachment, unlocated-draft, unresolved-source-path, and
   found-elsewhere claims before tracked changes are applied.
-- Printed/nested-attachment validator that distinguishes printed-in-parent,
-  printed-elsewhere, attached-but-not-printed, not-attached, not-found-attached,
-  child headings, child source notes, child classifications, parent-child maps,
-  foreign-paper attachments, treaty-component attachments, and
-  translation/original-text pairs before tracked changes are applied.
+- Expand the printed/nested-attachment validator to cover more target-volume
+  records for printed-in-parent, printed-elsewhere, attached-but-not-printed,
+  not-attached, not-found-attached, child headings, child source notes, child
+  classifications, parent-child maps, foreign-paper attachments,
+  treaty-component attachments, and translation/original-text pairs before
+  tracked changes are applied.
 - Handwritten/facsimile transcription validator that distinguishes handwritten
   notes, handwritten letters, editor-transcribed portions, uncertain readings,
   original brackets, original ellipses, cut-off lines, appendix images,

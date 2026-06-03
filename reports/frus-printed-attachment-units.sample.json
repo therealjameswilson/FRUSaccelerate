@@ -1,0 +1,66 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample printed and nested attachment FRUS annotation units",
+  "units": [
+    {
+      "unit_id": "printed-attachment-0001",
+      "unit_type": "document_heading",
+      "location": "START I Document 222 attachment heading",
+      "exact_text": "Attachment\nPaper Prepared in the Soviet Ministry of Foreign Affairs",
+      "display_text": "Attachment\nPaper Prepared in the Soviet Ministry of Foreign Affairs",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "printed-attachment-0002",
+      "unit_type": "follow_on_footnote",
+      "location": "START I Document 1 attached-but-not-printed footnote",
+      "exact_text": "Attached but not printed are two papers drafted by the Arms Control Support Group: GRIP 34 H (Mobile ICBM s), dated March 12, 1988; and GRIP 59A (Suspect Site Inspections), dated March 7, 1988.",
+      "display_text": "Attached but not printed are two papers drafted by the Arms Control Support Group: GRIP 34 H (Mobile ICBM s), dated March 12, 1988; and GRIP 59A (Suspect Site Inspections), dated March 7, 1988.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "printed-attachment-0003",
+      "unit_type": "document_heading",
+      "location": "Reagan START Document 181 nested child title",
+      "exact_text": "Paper Prepared in the National Security Council\nWashington, undated\nSTART Instructions—Round VII",
+      "display_text": "Paper Prepared in the National Security Council\nWashington, undated\nSTART Instructions—Round VII",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "printed-attachment-0004",
+      "unit_type": "follow_on_footnote",
+      "location": "Reagan START Document 276 printed target",
+      "exact_text": "Printed as Document 277.",
+      "display_text": "Printed as Document 277.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "printed-attachment-0005",
+      "unit_type": "follow_on_footnote",
+      "location": "START I Document 1 variant attached-but-not-printed note",
+      "exact_text": "Attached but not printed are two papers drafted by the Arms Control Support Group.",
+      "display_text": "Attached but not printed are two papers drafted by the Arms Control Support Group.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "printed-attachment-0006",
+      "unit_type": "follow_on_footnote",
+      "location": "Unsupported printed attachment phrase",
+      "exact_text": "The attachment is printed elsewhere.",
+      "display_text": "The attachment is printed elsewhere.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    }
+  ]
+}

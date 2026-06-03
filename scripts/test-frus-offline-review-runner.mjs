@@ -207,6 +207,8 @@ try {
       "reports/frus-declassification-registry.sample.json",
       "--translation-registry",
       "reports/frus-translation-registry.sample.json",
+      "--printed-attachment-registry",
+      "reports/frus-printed-attachment-registry.sample.json",
       "--negative-search-registry",
       "reports/frus-negative-search-registry.sample.json",
       "--document-relationship-registry",
@@ -263,6 +265,9 @@ try {
   assert(audit.counts.translation_registry_usages === 0, "expected zero translation registry usages");
   assert(audit.counts.translation_registry_warnings === 0, "expected zero translation registry warnings");
   assert(audit.counts.translation_direct_edit_conflicts === 0, "expected zero translation direct-edit conflicts");
+  assert(audit.counts.printed_attachment_registry_usages === 0, "expected zero printed attachment registry usages");
+  assert(audit.counts.printed_attachment_registry_warnings === 0, "expected zero printed attachment registry warnings");
+  assert(audit.counts.printed_attachment_direct_edit_conflicts === 0, "expected zero printed attachment direct-edit conflicts");
   assert(audit.counts.negative_search_registry_usages === 0, "expected zero negative-search registry usages");
   assert(audit.counts.negative_search_registry_warnings === 0, "expected zero negative-search registry warnings");
   assert(audit.counts.negative_search_direct_edit_conflicts === 0, "expected zero negative-search direct-edit conflicts");
@@ -298,6 +303,8 @@ try {
     "declassification-usage-audit.json",
     "translation-registry-validation.json",
     "translation-usage-audit.json",
+    "printed-attachment-registry-validation.json",
+    "printed-attachment-usage-audit.json",
     "negative-search-registry-validation.json",
     "negative-search-usage-audit.json",
     "document-relationship-registry-validation.json",
@@ -329,6 +336,8 @@ try {
   assert(audit.reports.declassification_usage_audit.status === "pass", "expected declassification usage audit report");
   assert(audit.reports.translation_registry_validation.summary.records === 7, "expected translation registry validation report");
   assert(audit.reports.translation_usage_audit.status === "pass", "expected translation usage audit report");
+  assert(audit.reports.printed_attachment_registry_validation.summary.records === 6, "expected printed attachment registry validation report");
+  assert(audit.reports.printed_attachment_usage_audit.status === "pass", "expected printed attachment usage audit report");
   assert(audit.reports.document_relationship_registry_validation.summary.records === 10, "expected document relationship registry validation report");
   assert(audit.reports.document_relationship_usage_audit.status === "pass", "expected document relationship usage audit report");
   assert(audit.reports.communications_registry_validation.summary.records === 8, "expected communications registry validation report");
@@ -346,7 +355,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

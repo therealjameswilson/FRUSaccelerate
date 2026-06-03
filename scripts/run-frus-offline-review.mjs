@@ -9,7 +9,7 @@ const DIRECT_ACTIONS = new Set(["replace_text", "insert_after_text", "delete_tex
 
 function usage() {
   console.error(
-    "Usage: node scripts/run-frus-offline-review.mjs --docx <input.docx> --checker-output <checker-output.json> --out <revised.docx> [--artifact-dir DIR] [--audit audit.json] [--existing-ledger ledger.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--today YYYY-MM-DD] [--max-age-days N] [--review-mode light|normal|exhaustive] [--run-id RUN] [--author NAME] [--date ISO-DATE] [--format json|text]"
+    "Usage: node scripts/run-frus-offline-review.mjs --docx <input.docx> --checker-output <checker-output.json> --out <revised.docx> [--artifact-dir DIR] [--audit audit.json] [--existing-ledger ledger.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--today YYYY-MM-DD] [--max-age-days N] [--review-mode light|normal|exhaustive] [--run-id RUN] [--author NAME] [--date ISO-DATE] [--format json|text]"
   );
   process.exit(2);
 }
@@ -30,6 +30,7 @@ function parseArgs(argv) {
   let classificationRegistryPath = null;
   let declassificationRegistryPath = null;
   let translationRegistryPath = null;
+  let printedAttachmentRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
   let communicationsRegistryPath = null;
@@ -90,6 +91,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--translation-registry") {
       translationRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--printed-attachment-registry") {
+      printedAttachmentRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--negative-search-registry") {
       negativeSearchRegistryPath = argv[index + 1];
@@ -171,6 +175,7 @@ function parseArgs(argv) {
     classificationRegistryPath,
     declassificationRegistryPath,
     translationRegistryPath,
+    printedAttachmentRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
     communicationsRegistryPath,
@@ -280,6 +285,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
   const classificationAudit = reports.classification_usage_audit || null;
   const declassificationAudit = reports.declassification_usage_audit || null;
   const translationAudit = reports.translation_usage_audit || null;
+  const printedAttachmentAudit = reports.printed_attachment_usage_audit || null;
   const negativeSearchAudit = reports.negative_search_usage_audit || null;
   const documentRelationshipAudit = reports.document_relationship_usage_audit || null;
   const communicationsAudit = reports.communications_usage_audit || null;
@@ -331,6 +337,10 @@ function buildAudit({ options, artifacts, steps, reports }) {
       translation_registry_usages: translationAudit?.summary?.translation_usages || 0,
       translation_registry_warnings: translationAudit?.summary?.warnings || 0,
       translation_direct_edit_conflicts: translationAudit?.summary?.direct_translation_edit_conflicts || 0,
+      printed_attachment_registry_usages: printedAttachmentAudit?.summary?.printed_attachment_usages || 0,
+      printed_attachment_registry_warnings: printedAttachmentAudit?.summary?.warnings || 0,
+      printed_attachment_direct_edit_conflicts:
+        printedAttachmentAudit?.summary?.direct_printed_attachment_edit_conflicts || 0,
       negative_search_registry_usages: negativeSearchAudit?.summary?.negative_search_usages || 0,
       negative_search_registry_warnings: negativeSearchAudit?.summary?.warnings || 0,
       negative_search_direct_edit_conflicts: negativeSearchAudit?.summary?.direct_negative_search_edit_conflicts || 0,
@@ -367,6 +377,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
       classification_registry: options.classificationRegistryPath ? normalizePathForOutput(options.classificationRegistryPath) : "",
       declassification_registry: options.declassificationRegistryPath ? normalizePathForOutput(options.declassificationRegistryPath) : "",
       translation_registry: options.translationRegistryPath ? normalizePathForOutput(options.translationRegistryPath) : "",
+      printed_attachment_registry: options.printedAttachmentRegistryPath ? normalizePathForOutput(options.printedAttachmentRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
       communications_registry: options.communicationsRegistryPath ? normalizePathForOutput(options.communicationsRegistryPath) : "",
@@ -391,7 +402,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
 function renderText(audit) {
   return [
     `FRUS offline review passed: ${audit.counts.extracted_units} units, ${audit.counts.comments_applied} Word comments, ${audit.counts.tracked_edits_applied} tracked edits.`,
-    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; authority usages: ${audit.counts.authority_registry_usages}; authority warnings: ${audit.counts.authority_registry_warnings}; source-list usages: ${audit.counts.source_list_registry_usages}; source-list warnings: ${audit.counts.source_list_registry_warnings}; document-metadata usages: ${audit.counts.document_metadata_registry_usages}; document-metadata warnings: ${audit.counts.document_metadata_registry_warnings}; classification usages: ${audit.counts.classification_registry_usages}; classification warnings: ${audit.counts.classification_registry_warnings}; declassification usages: ${audit.counts.declassification_registry_usages}; declassification warnings: ${audit.counts.declassification_registry_warnings}; translation usages: ${audit.counts.translation_registry_usages}; translation warnings: ${audit.counts.translation_registry_warnings}; negative-search usages: ${audit.counts.negative_search_registry_usages}; negative-search warnings: ${audit.counts.negative_search_registry_warnings}; document-relationship usages: ${audit.counts.document_relationship_registry_usages}; document-relationship warnings: ${audit.counts.document_relationship_registry_warnings}; communications usages: ${audit.counts.communications_registry_usages}; communications warnings: ${audit.counts.communications_registry_warnings}; annotation-sheet profile lexical misses: ${audit.counts.annotation_sheet_profile_lexical_misclassifications}; marker conflicts: ${audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
+    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; authority usages: ${audit.counts.authority_registry_usages}; authority warnings: ${audit.counts.authority_registry_warnings}; source-list usages: ${audit.counts.source_list_registry_usages}; source-list warnings: ${audit.counts.source_list_registry_warnings}; document-metadata usages: ${audit.counts.document_metadata_registry_usages}; document-metadata warnings: ${audit.counts.document_metadata_registry_warnings}; classification usages: ${audit.counts.classification_registry_usages}; classification warnings: ${audit.counts.classification_registry_warnings}; declassification usages: ${audit.counts.declassification_registry_usages}; declassification warnings: ${audit.counts.declassification_registry_warnings}; translation usages: ${audit.counts.translation_registry_usages}; translation warnings: ${audit.counts.translation_registry_warnings}; printed-attachment usages: ${audit.counts.printed_attachment_registry_usages}; printed-attachment warnings: ${audit.counts.printed_attachment_registry_warnings}; negative-search usages: ${audit.counts.negative_search_registry_usages}; negative-search warnings: ${audit.counts.negative_search_registry_warnings}; document-relationship usages: ${audit.counts.document_relationship_registry_usages}; document-relationship warnings: ${audit.counts.document_relationship_registry_warnings}; communications usages: ${audit.counts.communications_registry_usages}; communications warnings: ${audit.counts.communications_registry_warnings}; annotation-sheet profile lexical misses: ${audit.counts.annotation_sheet_profile_lexical_misclassifications}; marker conflicts: ${audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
     `Revised DOCX: ${audit.revised_docx}`,
     `Audit: ${audit.artifacts.audit}`
   ].join("\n") + "\n";
@@ -422,6 +433,8 @@ function runReview(options) {
     declassification_usage_audit: path.join(options.artifactDir, "declassification-usage-audit.json"),
     translation_registry_validation: path.join(options.artifactDir, "translation-registry-validation.json"),
     translation_usage_audit: path.join(options.artifactDir, "translation-usage-audit.json"),
+    printed_attachment_registry_validation: path.join(options.artifactDir, "printed-attachment-registry-validation.json"),
+    printed_attachment_usage_audit: path.join(options.artifactDir, "printed-attachment-usage-audit.json"),
     negative_search_registry_validation: path.join(options.artifactDir, "negative-search-registry-validation.json"),
     negative_search_usage_audit: path.join(options.artifactDir, "negative-search-usage-audit.json"),
     document_relationship_registry_validation: path.join(options.artifactDir, "document-relationship-registry-validation.json"),
@@ -794,6 +807,47 @@ function runReview(options) {
     });
     steps.push(translationAuditStep);
     optionalReports.translation_usage_audit = translationAuditStep.parsed;
+  }
+  if (options.printedAttachmentRegistryPath) {
+    const printedAttachmentValidationStep = runNodeStep({
+      label: "validate_printed_attachment_registry",
+      args: [
+        "scripts/validate-frus-printed-attachment-registry.mjs",
+        "--registry",
+        options.printedAttachmentRegistryPath,
+        "--format",
+        "json"
+      ],
+      cwd,
+      stdoutFile: artifacts.printed_attachment_registry_validation,
+      parseJson: true
+    });
+    steps.push(printedAttachmentValidationStep);
+    optionalReports.printed_attachment_registry_validation = printedAttachmentValidationStep.parsed;
+
+    const printedAttachmentAuditArgs = [
+      "scripts/audit-frus-printed-attachment-usage.mjs",
+      "--units",
+      artifacts.extracted_units,
+      "--registry",
+      options.printedAttachmentRegistryPath,
+      "--checker-output",
+      options.checkerOutputPath,
+      "--format",
+      "json"
+    ];
+    if (options.targetVolume) {
+      printedAttachmentAuditArgs.push("--target-volume", options.targetVolume);
+    }
+    const printedAttachmentAuditStep = runNodeStep({
+      label: "audit_printed_attachment_usage",
+      args: printedAttachmentAuditArgs,
+      cwd,
+      stdoutFile: artifacts.printed_attachment_usage_audit,
+      parseJson: true
+    });
+    steps.push(printedAttachmentAuditStep);
+    optionalReports.printed_attachment_usage_audit = printedAttachmentAuditStep.parsed;
   }
   if (options.negativeSearchRegistryPath) {
     const negativeSearchValidationStep = runNodeStep({

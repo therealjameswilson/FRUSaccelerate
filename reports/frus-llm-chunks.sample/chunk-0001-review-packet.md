@@ -54,9 +54,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -81,6 +81,9 @@ For declassification/omission validation and direct-edit safety, run
 For translation/foreign-origin validation and direct-edit safety, run
 `node scripts/validate-frus-translation-registry.mjs --registry reports/frus-translation-registry.sample.json --format text` and
 `node scripts/audit-frus-translation-usage.mjs --units extracted-units.json --registry reports/frus-translation-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For printed/nested attachment validation and direct-edit safety, run
+`node scripts/validate-frus-printed-attachment-registry.mjs --registry reports/frus-printed-attachment-registry.sample.json --format text` and
+`node scripts/audit-frus-printed-attachment-usage.mjs --units extracted-units.json --registry reports/frus-printed-attachment-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For negative-search/no-record validation and direct-edit safety, run
 `node scripts/validate-frus-negative-search-registry.mjs --registry reports/frus-negative-search-registry.sample.json --format text` and
 `node scripts/audit-frus-negative-search-usage.mjs --units extracted-units.json --registry reports/frus-negative-search-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -103,7 +106,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -148,6 +151,14 @@ foreign-copy provenance, original-language text retained in file, and
 translation-status source-note phrases; validate it with
 `scripts/validate-frus-translation-registry.mjs` before direct translation or
 foreign-origin edits.
+For real Reagan/Bush 1981-1992 printed/nested attachment review, replace the
+sample printed-attachment registry with target-volume records for
+printed-in-parent child papers, attached-but-not-printed details,
+printed-as-document targets, tab/enclosure labels, child headings, child
+date/place lines, child source notes, child classification markings, and
+parent-child maps; validate it with
+`scripts/validate-frus-printed-attachment-registry.mjs` before direct printed
+attachment edits.
 For real Reagan/Bush 1981-1992 negative-search/no-record review, replace the
 sample negative-search registry with target-volume records for no-minutes,
 not-found, not-attached, not-found-attached, no-memcon, no-telcon, unlocated
@@ -185,6 +196,8 @@ For sample declassification/omission checks, run
 `node scripts/audit-frus-declassification-usage.mjs --units reports/frus-declassification-units.sample.json --registry reports/frus-declassification-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample translation/foreign-origin checks, run
 `node scripts/audit-frus-translation-usage.mjs --units reports/frus-translation-units.sample.json --registry reports/frus-translation-registry.sample.json --target-volume frus1989-92v31 --format text`.
+For sample printed/nested attachment checks, run
+`node scripts/audit-frus-printed-attachment-usage.mjs --units reports/frus-printed-attachment-units.sample.json --registry reports/frus-printed-attachment-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample negative-search/no-record checks, run
 `node scripts/audit-frus-negative-search-usage.mjs --units reports/frus-negative-search-units.sample.json --registry reports/frus-negative-search-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample document-relationship checks, run
@@ -318,6 +331,10 @@ The wrapper should provide:
 - `translation_registry_context`: official, unofficial, informal, Language
   Services, editor-transcribed, original-language, foreign-copy, and
   foreign-text-in-file apparatus records when available.
+- `printed_attachment_registry_context`: printed-in-parent, printed-elsewhere,
+  attached-but-not-printed, tab/enclosure, child heading, child source note,
+  child classification, printed target, and parent-child map records when
+  available.
 - `negative_search_context`: no-minutes, no-memcon/no-telcon, not-found,
   not-attached, not-found-attached, missing-attachment, RAC ambiguity, and
   search-log basis records when available.
@@ -3775,6 +3792,229 @@ Use this to check official, unofficial, informal, Language Services, editor-tran
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v13/d30",
       "verification_status": "verified_published_translation_record"
+    }
+  ]
+}
+```
+
+## Printed And Nested Attachment Registry Context
+
+Use this to check printed-in-parent child papers, attached-but-not-printed details, printed-as-document targets, tab/enclosure labels, child headings, child date/place lines, child source notes, child classification markings, and parent-child maps. Do not change printed targets, child apparatus, tab labels, or attached/not-printed status unless the registry proves the direct edit.
+
+```json
+{
+  "schema_version": "frus-printed-attachment-registry-v1",
+  "printed_attachment_registry_id": "frus-1981-1992-printed-nested-attachments-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d222",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d181",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d276",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d277"
+  ],
+  "scope": "Published FRUS printed-in-parent, printed-elsewhere, attached-but-not-printed, and child-apparatus patterns for Reagan and George H.W. Bush annotation sheets.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "printed_attachment_id": "printed-attachment-v31-d222-soviet-mfa-paper",
+      "volume_id": "frus1989-92v31",
+      "parent_document_id": "frus1989-92v31/d222",
+      "parent_document_number": "222",
+      "child_unit_label": "Attachment",
+      "relationship_type": "printed_nested_attachment",
+      "approved_phrase": "Paper Prepared in the Soviet Ministry of Foreign Affairs",
+      "tab_or_attachment_label": "Attachment",
+      "child_heading": "Paper Prepared in the Soviet Ministry of Foreign Affairs",
+      "child_date_or_place": "Moscow, undated",
+      "child_title_or_subject": "oral message context",
+      "child_source_note_or_footnote": "Secret; unknown-hand note; Scowcroft saw stamp; Russian text in same file",
+      "child_classification_or_marking": "Secret",
+      "editorial_status": "printed_in_parent",
+      "printed_target": "Document 222",
+      "cross_reference_target": "",
+      "source_or_context": "Foreign paper printed as an attachment inside Document 222 with its own heading, place/date line, and child footnote.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d222",
+      "verification_status": "verified_published_printed_attachment_record",
+      "variant_forms": [
+        "Attachment. Paper Prepared in the Soviet Ministry of Foreign Affairs",
+        "Paper prepared in the Soviet Ministry of Foreign Affairs"
+      ]
+    },
+    {
+      "printed_attachment_id": "printed-attachment-v31-d1-grip-papers",
+      "volume_id": "frus1989-92v31",
+      "parent_document_id": "frus1989-92v31/d1",
+      "parent_document_number": "1",
+      "child_unit_label": "attached papers",
+      "relationship_type": "attached_but_not_printed",
+      "approved_phrase": "Attached but not printed are two papers drafted by the Arms Control Support Group: GRIP 34 H (Mobile ICBM s), dated March 12, 1988; and GRIP 59A (Suspect Site Inspections), dated March 7, 1988.",
+      "tab_or_attachment_label": "",
+      "child_heading": "",
+      "child_date_or_place": "March 12, 1988; March 7, 1988",
+      "child_title_or_subject": "GRIP 34 H (Mobile ICBMs); GRIP 59A (Suspect Site Inspections)",
+      "child_source_note_or_footnote": "Attached but not printed.",
+      "child_classification_or_marking": "",
+      "editorial_status": "attached_not_printed",
+      "printed_target": "",
+      "cross_reference_target": "",
+      "source_or_context": "Document 1 footnote identifies two attached but unprinted GRIP papers by drafter, title, and date.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_printed_attachment_record",
+      "variant_forms": [
+        "Attached but not printed are two papers drafted by the Arms Control Support Group",
+        "GRIP 34 H (Mobile ICBMs); GRIP 59A (Suspect Site Inspections)"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "printed_attachment_id": "printed-attachment-v31-d222-soviet-mfa-paper",
+      "volume_id": "frus1989-92v31",
+      "parent_document_id": "frus1989-92v31/d222",
+      "parent_document_number": "222",
+      "child_unit_label": "Attachment",
+      "relationship_type": "printed_nested_attachment",
+      "approved_phrase": "Paper Prepared in the Soviet Ministry of Foreign Affairs",
+      "tab_or_attachment_label": "Attachment",
+      "child_heading": "Paper Prepared in the Soviet Ministry of Foreign Affairs",
+      "child_date_or_place": "Moscow, undated",
+      "child_title_or_subject": "oral message context",
+      "child_source_note_or_footnote": "Secret; unknown-hand note; Scowcroft saw stamp; Russian text in same file",
+      "child_classification_or_marking": "Secret",
+      "editorial_status": "printed_in_parent",
+      "printed_target": "Document 222",
+      "cross_reference_target": "",
+      "source_or_context": "Foreign paper printed as an attachment inside Document 222 with its own heading, place/date line, and child footnote.",
+      "variant_forms": [
+        "Attachment. Paper Prepared in the Soviet Ministry of Foreign Affairs",
+        "Paper prepared in the Soviet Ministry of Foreign Affairs"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d222",
+      "verification_status": "verified_published_printed_attachment_record"
+    },
+    {
+      "printed_attachment_id": "printed-attachment-v31-d1-grip-papers",
+      "volume_id": "frus1989-92v31",
+      "parent_document_id": "frus1989-92v31/d1",
+      "parent_document_number": "1",
+      "child_unit_label": "attached papers",
+      "relationship_type": "attached_but_not_printed",
+      "approved_phrase": "Attached but not printed are two papers drafted by the Arms Control Support Group: GRIP 34 H (Mobile ICBM s), dated March 12, 1988; and GRIP 59A (Suspect Site Inspections), dated March 7, 1988.",
+      "tab_or_attachment_label": "",
+      "child_heading": "",
+      "child_date_or_place": "March 12, 1988; March 7, 1988",
+      "child_title_or_subject": "GRIP 34 H (Mobile ICBMs); GRIP 59A (Suspect Site Inspections)",
+      "child_source_note_or_footnote": "Attached but not printed.",
+      "child_classification_or_marking": "",
+      "editorial_status": "attached_not_printed",
+      "printed_target": "",
+      "cross_reference_target": "",
+      "source_or_context": "Document 1 footnote identifies two attached but unprinted GRIP papers by drafter, title, and date.",
+      "variant_forms": [
+        "Attached but not printed are two papers drafted by the Arms Control Support Group",
+        "GRIP 34 H (Mobile ICBMs); GRIP 59A (Suspect Site Inspections)"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+      "verification_status": "verified_published_printed_attachment_record"
+    },
+    {
+      "printed_attachment_id": "printed-attachment-v11-d181-overall-instructions",
+      "volume_id": "frus1981-88v11",
+      "parent_document_id": "frus1981-88v11/d181",
+      "parent_document_number": "181",
+      "child_unit_label": "Attachment",
+      "relationship_type": "printed_nested_attachment",
+      "approved_phrase": "Overall Instructions—Round VII",
+      "tab_or_attachment_label": "Tab A",
+      "child_heading": "Paper Prepared in the National Security Council",
+      "child_date_or_place": "Washington, undated",
+      "child_title_or_subject": "Overall Instructions—Round VII",
+      "child_source_note_or_footnote": "Secret. Prepared by Brooks.",
+      "child_classification_or_marking": "Secret",
+      "editorial_status": "printed_in_parent",
+      "printed_target": "Document 181",
+      "cross_reference_target": "",
+      "source_or_context": "Document 181 prints nested NSC negotiating instructions as attachments with child headings and footnotes.",
+      "variant_forms": [
+        "Overall Instructions-Round VII",
+        "Overall Instructions--Round VII"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d181",
+      "verification_status": "verified_published_printed_attachment_record"
+    },
+    {
+      "printed_attachment_id": "printed-attachment-v11-d181-start-instructions",
+      "volume_id": "frus1981-88v11",
+      "parent_document_id": "frus1981-88v11/d181",
+      "parent_document_number": "181",
+      "child_unit_label": "Attachment",
+      "relationship_type": "printed_nested_attachment",
+      "approved_phrase": "START Instructions—Round VII",
+      "tab_or_attachment_label": "Tab C",
+      "child_heading": "Paper Prepared in the National Security Council",
+      "child_date_or_place": "Washington, undated",
+      "child_title_or_subject": "START Instructions—Round VII",
+      "child_source_note_or_footnote": "Secret. Prepared by Brooks.",
+      "child_classification_or_marking": "Secret",
+      "editorial_status": "printed_in_parent",
+      "printed_target": "Document 181",
+      "cross_reference_target": "",
+      "source_or_context": "Document 181 prints the START instructions as a child attachment with title, heading, and source note.",
+      "variant_forms": [
+        "START Instructions-Round VII",
+        "START Instructions--Round VII"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d181",
+      "verification_status": "verified_published_printed_attachment_record"
+    },
+    {
+      "printed_attachment_id": "printed-attachment-v11-d276-printed-as-277",
+      "volume_id": "frus1981-88v11",
+      "parent_document_id": "frus1981-88v11/d276",
+      "parent_document_number": "276",
+      "child_unit_label": "Tab I",
+      "relationship_type": "printed_as_document",
+      "approved_phrase": "Printed as Document 277.",
+      "tab_or_attachment_label": "Tab I",
+      "child_heading": "Memorandum From the President’s Assistant for National Security Affairs (Powell) to President Reagan",
+      "child_date_or_place": "Washington, February 26, 1988",
+      "child_title_or_subject": "START Memorandum of Understanding (MOU)",
+      "child_source_note_or_footnote": "Tab I printed separately as Document 277.",
+      "child_classification_or_marking": "Secret",
+      "editorial_status": "printed_elsewhere",
+      "printed_target": "Document 277",
+      "cross_reference_target": "frus1981-88v11/d277",
+      "source_or_context": "Document 276 footnote points a tab to Document 277, which supplies the printed target heading and source note.",
+      "variant_forms": [
+        "Printed as Document 277"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d276",
+      "verification_status": "verified_published_printed_attachment_record"
+    },
+    {
+      "printed_attachment_id": "printed-attachment-v11-d276-draft-mou",
+      "volume_id": "frus1981-88v11",
+      "parent_document_id": "frus1981-88v11/d276",
+      "parent_document_number": "276",
+      "child_unit_label": "draft MOU",
+      "relationship_type": "attached_but_not_printed",
+      "approved_phrase": "Attached but not printed is the draft MOU.",
+      "tab_or_attachment_label": "",
+      "child_heading": "",
+      "child_date_or_place": "",
+      "child_title_or_subject": "draft MOU",
+      "child_source_note_or_footnote": "Attached but not printed.",
+      "child_classification_or_marking": "",
+      "editorial_status": "attached_not_printed",
+      "printed_target": "",
+      "cross_reference_target": "",
+      "source_or_context": "Document 276 footnote identifies the attached but unprinted draft MOU.",
+      "variant_forms": [
+        "draft MOU attached but not printed"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d276",
+      "verification_status": "verified_published_printed_attachment_record"
     }
   ]
 }
