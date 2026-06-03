@@ -210,6 +210,10 @@ The wrapper should provide the LLM with:
   production stage (`being_cleared`, `being_researched`, `planned`, or
   `published`) and any release bucket (`published_2025`, `anticipated_2026`,
   chapters outstanding, or similar).
+- `release_apparatus_context`, if available: dated press release, media note,
+  release date, public URL, GPO, ISBN, S/N, PDF, EPUB, Mobi, generated-date,
+  download-link, bookstore/purchase, errata, online/full-text correction,
+  printed-volume-revision, publication-status, and capture-date metadata.
 - `volume_family_context`, if available: likely FRUS volume family, such as
   foundations/public diplomacy, organization/management, Europe/Russia,
   Americas, Middle East, Africa, East Asia/Pacific, arms control/national
@@ -269,14 +273,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | release_errata_apparatus | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | source_surrogate_basis | source_list_basis | selection_balance_basis | physical_evidence_basis | negative_search_basis | printed_attachment_basis | transcription_facsimile_basis | visual_material_basis | time_zone_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | source_surrogate_basis | source_list_basis | selection_balance_basis | physical_evidence_basis | negative_search_basis | printed_attachment_basis | transcription_facsimile_basis | visual_material_basis | time_zone_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | release_apparatus_basis | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -289,7 +293,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | release_errata_apparatus | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -439,6 +443,7 @@ run the semantic and Word-safety validators below.
               "summit_public_event",
               "communications_record",
               "publication_status",
+              "release_errata_apparatus",
               "wording",
               "evidence",
               "format"
@@ -498,6 +503,7 @@ run the semantic and Word-safety validators below.
               "military_operation_basis",
               "humanitarian_rights_basis",
               "publication_status",
+              "release_apparatus_basis",
               "authority_control",
               "declassification_status",
               "translation_status",
@@ -596,6 +602,7 @@ run the semantic and Word-safety validators below.
               "summit_public_event",
               "communications_record",
               "publication_status",
+              "release_errata_apparatus",
               "wording",
               "format",
               "wrapper"
@@ -695,9 +702,9 @@ Semantic validator behavior:
   `public_diplomacy_public_source`, `congressional_legal_authority`,
   `economic_financial_data`, `intelligence_law_enforcement`,
   `military_crisis_operations`, `human_rights_refugee_global_issues`,
-  `chronology`, `summit_public_event`, `communications_record`, or
-  `authority_control` when the required proof is absent from the uploaded unit or
-  wrapper context.
+  `chronology`, `summit_public_event`, `communications_record`,
+  `release_errata_apparatus`, or `authority_control` when the required proof is
+  absent from the uploaded unit or wrapper context.
 - Downgrade to `comment_only` when a finding passes the JSON schema but fails a
   Word-safety, status-registry, cross-chunk, or exact-anchor validator.
 
@@ -7405,6 +7412,7 @@ Evidence-request categories:
 | `military_operation_basis` | Military, defense, crisis, operation-stage, DOD/OSD/JCS/DIA, Situation Room, contingency-plan, host-nation, coalition, chronology, force/unit, casualty/damage, or military-assistance proof is uncertain. | Which operation stage, order/authorization, force/unit, source family, time basis, host-nation/coalition role, casualty/damage basis, or military-assistance authority must be checked. |
 | `humanitarian_rights_basis` | Human-rights report, refugee, immigration, asylum, migration, famine, emergency relief, food aid, public-health, population, environmental, sanctions, waiver, certification, public-report, international-organization, PVO, AID, PRM, PL 480, Section 416, or Section 206 proof is uncertain. | Which report basis, country or population scope, source family, public/archival basis, legal/program authority, amount/metric, stage/status, sanctions/waiver basis, international-organization role, or PVO role must be checked. |
 | `publication_status` | `printed in` versus `scheduled for publication` depends on current official status. | Which volume or chapter status must be confirmed. |
+| `release_apparatus_basis` | Press release, media note, release date, public URL, GPO, ISBN, S/N, PDF/EPUB/Mobi download, generated date, errata, online/full-text correction, printed-volume-revision, or status-page capture evidence is uncertain. | Which release, correction, digital-edition, GPO/ISBN/S/N, status-page, public URL, or capture-date target must be checked. |
 | `authority_control` | Persons, titles, abbreviations, index terms, names, offices, or dates need authority-list review. | Which name, office, acronym, date span, or index term needs control. |
 | `declassification_status` | Release, withholding, excision, agency-equity, or bracket language is not final. | Which review outcome or bracket claim cannot yet be asserted. |
 | `translation_status` | Language, translation office, official/unofficial status, foreign-origin copy, typed signature, bracket treatment, or translated excerpt is uncertain. | Which language/copy/translation/equity fact needs verification. |
@@ -7485,6 +7493,7 @@ Default blocking rules:
 | `military_operation_basis` | yes for operation stage, order/authorization, force/unit, chronology, time-zone, host-nation, coalition, casualty/damage, contingency-plan, or military-assistance edits | yes when military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room, combat-operation, coalition, peacekeeping, or security-assistance claims appear in publishable apparatus |
 | `humanitarian_rights_basis` | yes for report basis, country/population scope, refugee or asylum status, relief stage, legal/program authority, amount/metric, public/archival basis, sanctions/waiver status, international-organization role, or PVO role edits | yes when human-rights, refugee, immigration, famine, emergency relief, food aid, public-health, population, environmental, sanctions, waiver, certification, public-report, or global-issues claims appear in publishable apparatus |
 | `publication_status` | yes for `printed in` or `scheduled for publication` edits | yes for final style if publication language is present |
+| `release_apparatus_basis` | yes for press-release, media-note, release-date, public-URL, GPO/ISBN/S/N, PDF/EPUB/Mobi, generated-date, errata, online/full-text correction, print-not-revised, or status-capture edits | yes when release, errata, digital-edition, GPO/ISBN/S/N, public URL, or print-versus-online correction language appears in publishable apparatus |
 | `authority_control` | yes when a date, identity, title, acronym, or index form is uncertain | yes for final style if repeated or reader-facing |
 | `declassification_status` | yes | yes |
 | `translation_status` | yes when language, translation, typed-signature, bracket-treatment, or foreign-copy identity is asserted | yes when the printed document depends on the claim |
@@ -7505,7 +7514,7 @@ Owner hints:
   source-surrogate/release-identifier basis,
   selection-balance basis, printed/nested-attachment basis,
   transcription/facsimile basis, visual-material basis, time-zone/chronology
-  basis,
+  basis, release/errata apparatus basis,
   retrospective-account basis, sensitive-record source basis,
   negative-search/no-record basis, translation status, and foreign-copy
   provenance.
@@ -7518,7 +7527,7 @@ Owner hints:
   source-surrogate/release-identifier note form,
   printed/nested-attachment note form, physical/routing note form,
   transcription/facsimile note form, visual-material note form,
-  time-zone/chronology note form,
+  time-zone/chronology note form, release/errata note form,
   retrospective-account note form, sensitive-record note form,
   negative-search/no-record wording, publication-status wording, and General
   Editor discrepancy preparation.
@@ -7842,58 +7851,62 @@ For every extracted unit, run checks in this order:
     when supplied.
 24. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-25. Route the unit through the relevant volume family when a 1981-1992
+25. Check press release, media note, release date, GPO/ISBN/S/N, PDF/EPUB/Mobi,
+   public URL, errata, online/full-text correction, printed-volume-revision,
+   and capture-date claims against the release-apparatus registry when
+   supplied.
+26. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-26. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
+27. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-27. Check Washington-time, local-time, GMT/Z, EDT/EST, date-time groups, treaty
+28. Check Washington-time, local-time, GMT/Z, EDT/EST, date-time groups, treaty
     notification time rules, as-of times, deadlines, conversions, ambiguity, and
     international-date-line placement against the time-zone registry when
     supplied.
-28. Check summit, travel, ceremony, public address, interview, press
+29. Check summit, travel, ceremony, public address, interview, press
     conference, toast, testimony, public remarks, and public-event sequence
     evidence against the event-chronology registry when supplied.
-29. Check public diplomacy, speeches, press releases, press conferences,
+30. Check public diplomacy, speeches, press releases, press conferences,
     briefings, interviews, broadcasts, testimony, Public Papers, Department of
     State Bulletin, newspaper excerpts, official transcripts, speech files,
     briefing materials, selected-public-document status, and
     supplemental-public-context evidence against the public-source registry when
     supplied.
-30. Check memoirs, published diaries, personal diaries, oral histories, later
+31. Check memoirs, published diaries, personal diaries, oral histories, later
     interviews, recollections, press retrospectives, newspaper accounts,
     selected/supplemental status, official-record relationship, corroborating
     records, and conflict status against the retrospective-account registry when
     supplied.
-31. Check congressional testimony, hearings, public laws, statutes, continuing
+32. Check congressional testimony, hearings, public laws, statutes, continuing
     resolutions, joint resolutions, congressional notifications, Presidential
     Determinations, certifications, Executive Orders, oversight, independent
     counsel, Senate advice-and-consent, and ratification context against the
     congressional/legal registry when supplied.
-32. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
+33. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
     World Bank, MDB, GATT, UNCTAD, OECD, table, amount, percentage, currency,
     fiscal-year, loan, guarantee, quota, replenishment, conditionality, and
     policy-stage evidence against the economic/financial registry when supplied.
-33. Check intelligence, covert-action, law-enforcement, counternarcotics,
+34. Check intelligence, covert-action, law-enforcement, counternarcotics,
     counterterrorism, agency-equity, source-and-methods, operational, oversight,
     foreign-service-contact, sanitized-record, redaction, and public-policy
     evidence against the sensitive-record registry when supplied.
-34. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
+35. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
     combat-operation, contingency-plan, CONPLAN, host-nation notification,
     coalition, peacekeeping, force/unit, time-zone, casualty/damage, and
     military-assistance evidence against the military/crisis registry when
     supplied.
-35. Check human-rights reports, refugee, immigration, asylum, migration, famine,
+36. Check human-rights reports, refugee, immigration, asylum, migration, famine,
     emergency relief, food aid, public-health, AIDS/HIV, population policy,
     environmental, ozone, sanctions, waivers, certifications, public reports,
     international organizations, PVOs, AID/PRM, PL 480, Section 416, and Section
     206 evidence against the human-rights/refugee/global-issues registry when
     supplied.
-36. Check Persons, abbreviations, and index authority issues.
-37. Assign specific evidence requests and verification targets for unresolved
+37. Check Persons, abbreviations, and index authority issues.
+38. Assign specific evidence requests and verification targets for unresolved
     proof.
-38. Decide direct edit versus comment-only.
-39. Return strict JSON.
-40. After schema and semantic validation, aggregate all unresolved evidence
+39. Decide direct edit versus comment-only.
+40. Return strict JSON.
+41. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -7972,6 +7985,10 @@ Duplicate-suppression rules:
   status, read-by/seen status, routing status, correspondence profile,
   distribution list, attached profile, or no-record/search context.
 - Merge repeated scheduled-publication questions by target volume or chapter.
+- Merge repeated release/errata apparatus issues by volume id, release item
+  type, release date, public URL, GPO/ISBN/S/N string, download target,
+  generated date, errata item, correction date, print-revision status, capture
+  date, or status-page target.
 - Merge repeated time-zone/chronology issues by source time label, time zone,
   date-time group, event, call, telegram, conversion status, treaty rule,
   ambiguity note, international-date-line problem, or chronological placement.
@@ -8229,6 +8246,10 @@ Golden packet composition:
   time, GMT/Zulu or Z notation, a treaty notification rule or as-of/deadline
   time, and one ambiguous-time control that must remain comment-only until the
   basis is supplied.
+- At least one release/errata apparatus example with a press release or media
+  note, a release date, public volume URL, GPO/ISBN/S/N or download target, and
+  one errata item where online/full-text correction must remain distinct from
+  printed volumes not revised.
 - At least one research-stage sheet with working labels, candidate notes, URL
   locators, or missing scan requests that should become comments rather than
   polished source-note prose.
@@ -8367,6 +8388,11 @@ Expected behavior by test family:
   EST, date-time-group, treaty-notification, as-of, deadline, and ambiguity
   labels; comment rather than convert, relabel, resolve ambiguity, or move
   chronological placement when `time_zone_basis` is missing.
+- Release/errata apparatus test: preserve press release versus media note
+  labels, release dates, public URLs, GPO/ISBN/S/N strings, PDF/EPUB/Mobi
+  download facts, generated dates, errata items, online/full-text correction
+  status, and printed-volume-not-revised statements; comment rather than update
+  release or digital-edition claims when `release_apparatus_basis` is missing.
 - Research-stage test: identify working labels and missing evidence, but avoid
   converting source leads into publication-ready assertions.
 - Clearance-stage test: protect declassification, attachment, agency-equity,
@@ -8530,6 +8556,9 @@ Use the discrepancy tally for:
   date-time-group, treaty-notification, as-of, deadline, conversion,
   ambiguity, or international-date-line detail to print when the underlying
   time and sequence facts are sound.
+- Variations in how much release, errata, public URL, GPO/ISBN/S/N,
+  PDF/EPUB/Mobi, generated-date, bookstore, online/full-text correction, and
+  print-not-revised apparatus to retain when the underlying facts are sound.
 - Repeated wrapper-safety or extraction ambiguities that suggest the tool needs
   a house rule before it can safely redline similar Word structures.
 
@@ -8589,6 +8618,7 @@ Suggested tally format:
 | style-discrepancy-0018 | source_surrogate_release | How much RAC/NLR/source-surrogate and release-identifier detail should appear in final source notes versus closed-network audit context. | Repository path plus NLR/release identifier in the source note; repository path in the source note with RAC/URL/PDF/catalog/discovery details retained only in the audit/context bundle | 2 | medium | Should the checker enforce a standard form for RAC/NLR/source-surrogate detail, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0019 | time_zone_chronology | How much time-zone, conversion, date-time-group, treaty-time, and ambiguity detail should appear when the time and sequence facts are sound. | Volume-wide Washington-time rule; telegram Z/GMT label retained without conversion; local-time explanatory note; treaty notification rule; ambiguity preserved in comment or note | 2 | medium | Should the checker enforce a house form for time-zone and chronological-placement detail, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0020 | visual_material_graphic | How much visual-material apparatus should appear for maps, photographs, charts, captions, graphic attachments, and not-found visual items when the facts are sound. | Detailed caption/title and visual-description note; compact attached-but-not-printed or not-found phrase; appendix-image cross-reference with details retained in audit/context | 2 | medium | Should the checker enforce a house form for visual-material notes, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0021 | release_errata_apparatus | How much release, errata, GPO/ISBN, download, and print-versus-online correction apparatus should appear when the facts are sound. | Full press-release or media-note basis plus release date, public URL, GPO/ISBN/S/N, PDF/EPUB/Mobi, generated date, and errata status; shorter publication or correction note with release/digital details retained in audit/context | 2 | medium | Should the checker enforce a house form for release and errata apparatus, or tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -8630,6 +8660,11 @@ Required bundle files:
   Persons, Contents, Preface, About the Series, appendix, declassification
   review, Advisory Committee, special-note, and errata context needed to
   reconcile source-note families and front-matter claims.
+- `release_apparatus_map`, when available: press release, media note, release
+  date, public volume URL, GPO, ISBN, S/N, PDF, EPUB, Mobi, generated date,
+  download or bookstore target, errata item, online/full-text correction,
+  printed-volume-revision status, status-page capture, verification status, and
+  source URLs.
 - `selection_balance_map`, when available: volume scope, principles of
   selection, chapter scope, decision points, options considered, dissenting
   views, agency positions, intelligence basis, negotiation rounds, foreign
@@ -8923,6 +8958,172 @@ Status-registry freshness gates:
   registry immediately before the batch and record the capture date in the audit
   report.
 
+### 13.2 Release, Errata, Digital Edition, And Publication Apparatus Validation
+
+Release apparatus is not ordinary source annotation. It controls whether an
+uploaded sheet is talking about a press release, media note, official volume
+page, GPO record, download file, errata item, online correction, printed copy,
+or current status page. A closed-network model must not infer publication
+dates, ISBNs, GPO stock numbers, PDF/EPUB/Mobi availability, or errata effects
+from memory.
+
+Use a release-apparatus registry when the wrapper can supply one:
+
+```json
+{
+  "release_apparatus_registry_id": "frus-1981-1992-release-errata-digital-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/status-of-the-series",
+    "https://history.state.gov/historicaldocuments/frus1981-88v10/pressrelease",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/pressrelease",
+    "https://history.state.gov/historicaldocuments/frus1981-88v06/errata"
+  ],
+  "records": [
+    {
+      "release_item_id": "release-status-series-2026-06-03",
+      "unit_id": "status-page-snapshot",
+      "source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
+      "release_item_type": "status_snapshot",
+      "published_form": "status page organizes published volumes, anticipated releases, chapters outstanding, volumes in progress, and stages from planning through publication",
+      "release_date": "not applicable",
+      "public_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
+      "digital_formats": [],
+      "gpo_or_isbn": "not applicable",
+      "errata_or_correction_status": "not applicable",
+      "print_revision_status": "not applicable",
+      "verification_status": "verified_current_official"
+    },
+    {
+      "release_item_id": "release-reagan-v10-pressrelease",
+      "unit_id": "frus1981-88v10-pressrelease",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v10/pressrelease",
+      "release_item_type": "press_release",
+      "published_form": "press release announces Reagan Volume X public release and gives GPO sale data",
+      "release_date": "2023-10-31",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1981-88v10",
+      "digital_formats": [
+        "web_volume"
+      ],
+      "gpo_or_isbn": "GPO S/N and ISBN supplied by press release",
+      "errata_or_correction_status": "not supplied",
+      "print_revision_status": "not supplied",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "release_item_id": "release-reagan-v24-volume-page",
+      "unit_id": "frus1981-88v24-volume-page",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24",
+      "release_item_type": "volume_page_downloads",
+      "published_form": "volume page supplies Media Note, EPUB, Mobi, PDF, and GPO bookstore targets",
+      "release_date": "not supplied on volume-page control",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1981-88v24",
+      "digital_formats": [
+        "EPUB",
+        "Mobi",
+        "PDF"
+      ],
+      "gpo_or_isbn": "GPO bookstore link supplied",
+      "errata_or_correction_status": "not supplied",
+      "print_revision_status": "not supplied",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "release_item_id": "release-reagan-v24-media-note",
+      "unit_id": "frus1981-88v24-media-note",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/pressrelease",
+      "release_item_type": "media_note",
+      "published_form": "media note announces Reagan Volume XXIV release and public URL",
+      "release_date": "2024-11-14",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1981-88v24",
+      "digital_formats": [
+        "web_volume"
+      ],
+      "gpo_or_isbn": "not supplied in media-note registry entry",
+      "errata_or_correction_status": "not supplied",
+      "print_revision_status": "not supplied",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "release_item_id": "release-reagan-v06-errata",
+      "unit_id": "frus1981-88v06-errata",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v06/errata",
+      "release_item_type": "errata",
+      "published_form": "errata page states printed volumes were not revised and records corrected online/full-text editions",
+      "release_date": "correction dates supplied by errata entries",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1981-88v06/errata",
+      "digital_formats": [
+        "online_edition",
+        "full_text"
+      ],
+      "gpo_or_isbn": "not applicable",
+      "errata_or_correction_status": "online and full-text editions corrected",
+      "print_revision_status": "printed_volumes_not_revised",
+      "verification_status": "verified_published_pattern"
+    }
+  ]
+}
+```
+
+Allowed `release_item_type` values: `status_snapshot`, `press_release`,
+`media_note`, `volume_page_downloads`, `gpo_listing`, `ebook_download`,
+`pdf_download`, `errata`, `online_correction`, `print_revision_note`, and
+`unknown`.
+
+Allowed `verification_status` values: `verified_current_official`,
+`verified_published_pattern`, `needs_capture_date`, `needs_current_status`,
+`needs_release_date`, `needs_gpo_or_isbn`, `needs_download_target`,
+`needs_errata_basis`, and `unknown`.
+
+Validator sequence:
+
+1. Identify press release, media note, release date, official volume page,
+   status page, GPO, ISBN, S/N, PDF, EPUB, Mobi, e-book generated date,
+   bookstore/purchase, errata, correction date, online/full-text correction, and
+   printed-volume-not-revised claims.
+2. Match against `release_apparatus_context` before changing any release,
+   publication, digital-edition, or errata apparatus.
+3. Keep press release versus media note labels exact. Do not silently convert
+   one to the other.
+4. Keep status-page staging separate from release apparatus. Anticipated or
+   current status can change and requires a capture date.
+5. Do not infer GPO/ISBN/S/N, public URLs, download formats, file sizes, or
+   generated dates without supplied registry evidence.
+6. For errata, distinguish online/full-text corrected editions from printed
+   volumes not revised. Never rewrite print status from web correction alone.
+7. Coordinate with source-list/front-matter for apparatus and with
+   publication-status logic for `printed in` or `scheduled for publication`.
+8. Add `release_errata_apparatus` discrepancies only when facts are sound but
+   practice varies on how much release, errata, or digital-edition detail to
+   retain.
+
+Direct-edit posture:
+
+- Safe direct edits may restore exact supplied labels, release dates, URLs,
+  GPO/ISBN/S/N strings, format names, or errata phrases when registry evidence
+  and exact Word anchors support the edit.
+- Use `comment_only` with `evidence_request: release_apparatus_basis` when any
+  release, errata, digital-edition, GPO/ISBN/S/N, status-page, or capture-date
+  claim is uncertain.
+- Use `evidence_request: publication_status` for cross-volume `printed in` or
+  `scheduled for publication` issues; use `source_list_basis` for final front
+  matter; use `cross_reference` for unstable target references.
+- Do not update status, release, digital-edition, GPO/ISBN/S/N, or errata claims
+  from memory.
+
+Audit requirements:
+
+- Count press-release/media-note, release-date, GPO/ISBN/S/N, PDF/EPUB/Mobi,
+  public URL, status-page capture, errata, online/full-text correction,
+  print-not-revised, generated-date, and stale-capture warnings.
+- Preserve registry id, captured_at, source URLs, release item type, release
+  date, public URL, digital formats, GPO/ISBN/S/N basis, correction status,
+  print revision status, and verification status.
+- Add General Editor tally rows for variations in how much release, errata,
+  digital-edition, GPO/ISBN/S/N, or print-versus-online correction apparatus to
+  print or keep in audit context.
+
 ## 14. Audit Report Summary Template
 
 The wrapper may generate a human-readable report after applying changes:
@@ -8959,6 +9160,7 @@ Source-family registry: [source_family_registry_id and capture date]
 Source-surrogate/release registry: [source_surrogate_registry_id and capture date]
 Source-list/front-matter registry: [source_list_front_matter_registry_id and capture date]
 Selection-balance registry: [selection_balance_registry_id and capture date]
+Release/errata apparatus registry: [release_apparatus_registry_id and capture date]
 Communications registry: [communications_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
 Declassification registry: [declassification_registry_id and capture date]
@@ -9016,6 +9218,7 @@ Counts:
 - Cross-reference target, document-number, or scheduled-publication issues: [n]
 - Source-list, Published Sources, Abbreviations, Persons, appendix, declassification-review, special-note, or errata issues: [n]
 - Selection, completeness, balance, related-volume, withheld-document, or known-gap issues: [n]
+- Release, errata, press release, media note, GPO/ISBN/S/N, PDF/EPUB/Mobi, online correction, print-not-revised, or digital-publication issues: [n]
 
 Major issues:
 - [unit_id]: [finding]
@@ -9037,6 +9240,9 @@ Document-metadata warnings:
 
 Source-surrogate/release warnings:
 - [unit_id or global]: [source-surrogate issue] - [surrogate type, identifier text, repository relationship, source image or URL/PDF/catalog target, release-package status, attachment caveat, publication suitability, and verification target]
+
+Release/errata apparatus warnings:
+- [unit_id or global]: [release-apparatus issue] - [release item type, release date, public URL, GPO/ISBN/S/N, digital format or download target, errata or correction status, printed-volume-revision status, capture date, and verification target]
 
 Physical/routing/marginalia warnings:
 - [unit_id or global]: [physical/routing issue] - [record type, source family, physical evidence, actor or hand, action/status, placement, linked source or attachment, and verification target]
@@ -9168,6 +9374,11 @@ Minimum components:
   scan filenames, source-image URLs, `no N number`, and discovery labels from
   repository paths, attachment proof, original classification, and release
   outcomes before tracked changes are applied.
+- Release/errata apparatus validator that separates press releases, media
+  notes, release dates, official volume pages, public URLs, GPO/ISBN/S/N
+  strings, PDF/EPUB/Mobi downloads, generated dates, errata entries,
+  online/full-text corrections, printed-volume revision status, and status-page
+  captures before tracked changes are applied.
 - Source-list/front-matter validator that reconciles source-note families,
   Published Sources, Abbreviations, Persons, Contents, Preface, About the
   Series, appendix, declassification-review, special-note, and errata context
@@ -9308,6 +9519,12 @@ Operational cautions:
   source-image availability, `no N number` claims, release-package labels,
   attachment-proof caveats, rejected source-surrogate inferences, and
   source-surrogate discrepancy questions.
+- Record release/errata apparatus registry version, press release versus media
+  note labels, release dates, public URLs, GPO/ISBN/S/N strings, PDF/EPUB/Mobi
+  or generated-date facts, bookstore/download targets, errata items,
+  online/full-text correction status, printed-volume-not-revised status,
+  status-page capture dates, rejected release-apparatus inferences, and
+  release/errata discrepancy questions.
 - Record negative-search/no-record registry version, item-sought and
   repository-scope gaps, missing search logs, unresolved attachment
   relationships, found-elsewhere targets without document numbers, and
@@ -9437,6 +9654,8 @@ Pass:
 - Cross-references use document numbers.
 - Missing attachments and withheld text are handled explicitly.
 - No URLs, discovery labels, or speculative claims remain in publishable notes.
+- Release, errata, digital-edition, GPO/ISBN/S/N, and public-URL facts are
+  either verified in the supplied registry or kept out of publishable notes.
 
 Needs revision:
 
@@ -9450,6 +9669,10 @@ Needs revision:
   part of the locator, or are used to infer attachment, classification,
   declassification, routing, or physical-file facts without supplied
   source-surrogate basis.
+- Press-release, media-note, release-date, GPO/ISBN/S/N, PDF/EPUB/Mobi,
+  generated-date, public-URL, errata, online/full-text correction,
+  print-not-revised, or status-capture claims are changed without supplied
+  `release_apparatus_basis`.
 - A final-style sheet claims complete, balanced, representative, or
   publication-ready coverage without supplied selection-balance evidence for
   relevant decision points, options, dissent, agency positions, intelligence
@@ -9654,6 +9877,10 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d272`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/appendix-A`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/pressrelease`
+- `https://history.state.gov/historicaldocuments/frus1981-88v10/pressrelease`
+- `https://history.state.gov/historicaldocuments/frus1981-88v24`
+- `https://history.state.gov/historicaldocuments/frus1981-88v24/pressrelease`
+- `https://history.state.gov/historicaldocuments/frus1981-88v06/errata`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/preface`
@@ -9777,6 +10004,13 @@ Visual-material source examples incorporated:
 - [START I monitoring discussion with photographing and counting rail-launcher cars, Document 1](https://history.state.gov/historicaldocuments/frus1989-92v31/d1)
 - [Reagan Soviet Union attached-but-not-printed photograph with caption and visible-person description, Document 16](https://history.state.gov/historicaldocuments/frus1981-88v05/d16)
 - [Reagan Soviet Union INF photograph-exchange discussion, Document 151](https://history.state.gov/historicaldocuments/frus1981-88v06/d151)
+
+Release and errata apparatus sources incorporated:
+
+- [Reagan Volume X press release with release date and GPO/ISBN sale data](https://history.state.gov/historicaldocuments/frus1981-88v10/pressrelease)
+- [Reagan Volume XXIV volume page with Media Note, EPUB/Mobi/PDF, and GPO links](https://history.state.gov/historicaldocuments/frus1981-88v24)
+- [Reagan Volume XXIV Media Note public release example](https://history.state.gov/historicaldocuments/frus1981-88v24/pressrelease)
+- [Reagan Volume VI errata with online/full-text corrections and printed volumes not revised](https://history.state.gov/historicaldocuments/frus1981-88v06/errata)
 
 Current status source incorporated:
 
