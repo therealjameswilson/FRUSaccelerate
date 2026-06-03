@@ -96,6 +96,11 @@ The wrapper should provide the LLM with:
   unsigned status, approval boxes, sent-for-action or sent-for-information
   routing, correspondence profiles, distribution lists, attached routing slips,
   unknown-hand notes, and verification basis.
+- `negative_search_context`, if available: structured no-record and not-found
+  evidence for missing minutes, memcons, telcons, attachments, tabs, drafts,
+  telegrams, related papers, source paths, daily-diary leads, repository or
+  folder searches, published phrase, item sought, search scope, result, and
+  follow-up status.
 - `retrospective_account_context`, if available: structured memoir, published
   diary, personal diary, oral history, recollection, later interview, press
   retrospective, author/editor, publication, page, date, event described,
@@ -229,14 +234,14 @@ The LLM must return valid JSON with this shape:
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | physical_routing_marginalia | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
+      "category": "source_note | citation | attachment | annotation | editorial_note | document_metadata | classification_handling | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
       "original_text": "Exact text to be changed, or empty for comment_only.",
       "replacement_text": "Exact replacement text, or empty if not applicable.",
       "comment_text": "Comment to place in Word, explaining rationale or needed verification.",
-      "evidence_request": "none | source_image | archival_path | classification_marking | physical_evidence_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
+      "evidence_request": "none | source_image | archival_path | classification_marking | physical_evidence_basis | negative_search_basis | attachment_status | document_number | document_metadata | foreign_org_basis | treaty_component | public_source_basis | retrospective_account_basis | legal_authority | financial_data | agency_equity | military_operation_basis | humanitarian_rights_basis | publication_status | authority_control | declassification_status | translation_status | chronology | event_chronology | communications_metadata | source_family | cross_reference | wrapper_safety",
       "verification_target": "Short target for the compiler or wrapper, or empty if not applicable."
     }
   ],
@@ -249,7 +254,7 @@ The LLM must return valid JSON with this shape:
   "style_discrepancy_tally": [
     {
       "discrepancy_id": "style-discrepancy-0001",
-      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | physical_routing_marginalia | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
+      "category": "source_note | citation | attachment | editorial_note | document_metadata | classification_handling | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | summit_public_event | communications_record | publication_status | wording | format | wrapper",
       "style_question": "Short description of the unresolved style variation.",
       "variant_a": "One observed form.",
       "variant_b": "Another observed form.",
@@ -375,6 +380,7 @@ run the semantic and Word-safety validators below.
               "document_metadata",
               "classification_handling",
               "physical_routing_marginalia",
+              "negative_search_no_record",
               "memoir_oral_history_recollection",
               "translation_foreign_origin",
               "foreign_international_organization",
@@ -429,6 +435,7 @@ run the semantic and Word-safety validators below.
               "archival_path",
               "classification_marking",
               "physical_evidence_basis",
+              "negative_search_basis",
               "attachment_status",
               "document_number",
               "document_metadata",
@@ -516,6 +523,7 @@ run the semantic and Word-safety validators below.
               "document_metadata",
               "classification_handling",
               "physical_routing_marginalia",
+              "negative_search_no_record",
               "memoir_oral_history_recollection",
               "translation_foreign_origin",
               "foreign_international_organization",
@@ -618,6 +626,7 @@ Semantic validator behavior:
 - Reject any direct edit whose category is `publication_status`,
   `declassification`, `attachment`, `document_metadata`,
   `classification_handling`, `physical_routing_marginalia`,
+  `negative_search_no_record`,
   `memoir_oral_history_recollection`, `translation_foreign_origin`,
   `foreign_international_organization`, `treaty_legal_instrument`,
   `public_diplomacy_public_source`, `congressional_legal_authority`,
@@ -2621,6 +2630,245 @@ Chronology audit requirements:
   asserts substantive meeting content based only on diary, schedule, or call-log
   evidence unless the volume editor waives the issue and the waiver appears in
   the audit report.
+
+### 6.8.1 Negative Search, No-Record, Not-Found, And Unlocated-Item Evidence
+
+Published FRUS volumes often use compact negative-search phrases. They are
+powerful because they tell readers that editors looked for a thing and did not
+find it, but they are safe only when the search basis is explicit in the
+uploaded sheet or wrapper context. Keep these assertions distinct:
+
+- `Not found.` means the specific referenced item was searched for and not
+  located.
+- `Not found attached.` means an item expected as an attachment was not found
+  attached to the source; do not silently rewrite it as a general `Not found.`
+- `Not attached.` means the physical or file-copy attachment was not with the
+  document; it does not by itself prove the item was never found elsewhere.
+- `No minutes were found.`, `No formal minutes were found.`, `No memorandum of
+  conversation has been found.`, and `No telcon was found.` require a meeting or
+  call target plus a search scope.
+- `Attached but not printed`, `Printed as Document [n]`, and `printed
+  elsewhere` are publication or cross-reference claims, not negative-search
+  claims.
+- `unlocated draft`, `unlocated source path`, `missing attachment`, and
+  `pending search` are research-management states until resolved into a
+  publishable phrase.
+
+Use a negative-search registry when the wrapper can supply one:
+
+```json
+{
+  "negative_search_registry_id": "frus-1981-1992-negative-search-no-record-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d100",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d282",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d182",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d213",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d226",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d301",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d294"
+  ],
+  "records": [
+    {
+      "negative_search_item_id": "negative-v01-speech-strategy-0100",
+      "unit_id": "document-0100-fn2",
+      "claim_type": "not_found",
+      "item_sought": "March speech-strategy item referenced in the annotation",
+      "record_or_attachment_type": "referenced paper or public/draft item",
+      "published_phrase": "Not found.",
+      "search_scope_or_basis": "published FRUS follow-on footnote and local source context; exact internal search log must be supplied for direct edits",
+      "related_document_or_event": "Volume I Document 100",
+      "result_status": "not_found",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "negative_search_item_id": "negative-v01-iran-news-conference-0282",
+      "unit_id": "document-0282-fn3",
+      "claim_type": "not_found",
+      "item_sought": "document or cited source identified in Iran arms news-conference annotation",
+      "record_or_attachment_type": "related record or cited item",
+      "published_phrase": "Not found.",
+      "search_scope_or_basis": "published FRUS follow-on footnote and source-note context; exact internal search log must be supplied for direct edits",
+      "related_document_or_event": "Volume I Document 282",
+      "result_status": "not_found",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "negative_search_item_id": "negative-reagan-start-tabs-0182",
+      "unit_id": "document-0182-tabs",
+      "claim_type": "not_attached_and_not_found",
+      "item_sought": "draft telegrams and tabs referenced in NSDD/START package",
+      "record_or_attachment_type": "tabs or draft telegram attachments",
+      "published_phrase": "not attached; not found",
+      "search_scope_or_basis": "published Reagan START I note distinguishes absent attachment from unlocated item",
+      "related_document_or_event": "Reagan START I Document 182",
+      "result_status": "not_attached_or_not_found",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "negative_search_item_id": "negative-reagan-start-nsc-0213",
+      "unit_id": "document-0213",
+      "claim_type": "no_minutes_and_not_attached",
+      "item_sought": "NSC meeting minutes and attached materials",
+      "record_or_attachment_type": "minutes and attachment",
+      "published_phrase": "No minutes were found; not attached",
+      "search_scope_or_basis": "published Reagan START I note separates no-minutes result from missing attachment status",
+      "related_document_or_event": "Reagan START I Document 213",
+      "result_status": "no_minutes_found_and_not_attached",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "negative_search_item_id": "negative-reagan-start-tabs-0226",
+      "unit_id": "document-0226",
+      "claim_type": "not_attached_and_not_found",
+      "item_sought": "Tabs or referenced papers in START package",
+      "record_or_attachment_type": "tabs or related records",
+      "published_phrase": "not attached; not found",
+      "search_scope_or_basis": "published Reagan START I note distinguishes tabs not attached from unlocated material",
+      "related_document_or_event": "Reagan START I Document 226",
+      "result_status": "not_attached_or_not_found",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "negative_search_item_id": "negative-reagan-start-minutes-0301",
+      "unit_id": "document-0301",
+      "claim_type": "no_minutes_and_not_attached",
+      "item_sought": "meeting minutes and attachment",
+      "record_or_attachment_type": "minutes and attachment",
+      "published_phrase": "No minutes were found; not attached",
+      "search_scope_or_basis": "published Reagan START I note separates no-minutes result from attachment status",
+      "related_document_or_event": "Reagan START I Document 301",
+      "result_status": "no_minutes_found_and_not_attached",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "negative_search_item_id": "negative-reagan-nspg-minutes-0044p1-0001",
+      "unit_id": "document-0001",
+      "claim_type": "no_minutes_found",
+      "item_sought": "NSPG meeting minutes",
+      "record_or_attachment_type": "meeting minutes",
+      "published_phrase": "No minutes were found.",
+      "search_scope_or_basis": "published source note uses President's Daily Diary to document event and separately states no minutes were found",
+      "related_document_or_event": "Reagan XLIV Part 1 Document 1",
+      "result_status": "no_minutes_found",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "negative_search_item_id": "negative-reagan-transition-minutes-0044p1-0294",
+      "unit_id": "document-0294",
+      "claim_type": "no_minutes_found",
+      "item_sought": "meeting minutes or formal minutes",
+      "record_or_attachment_type": "meeting minutes",
+      "published_phrase": "No formal minutes were found.",
+      "search_scope_or_basis": "published editorial note/source context reports no formal minutes for the meeting",
+      "related_document_or_event": "Reagan XLIV Part 1 Document 294",
+      "result_status": "no_minutes_found",
+      "verification_status": "verified_published_pattern"
+    }
+  ]
+}
+```
+
+Allowed `claim_type` values:
+
+- `not_found`
+- `not_found_attached`
+- `not_attached`
+- `not_attached_and_not_found`
+- `no_minutes_found`
+- `no_minutes_and_not_attached`
+- `no_memcon_found`
+- `no_telcon_found`
+- `no_record_found`
+- `missing_attachment`
+- `unlocated_draft`
+- `unlocated_source_path`
+- `searched_found_elsewhere`
+- `pending_search`
+- `unknown`
+
+Allowed `result_status` values:
+
+- `not_found`
+- `not_found_attached`
+- `not_attached`
+- `not_attached_or_not_found`
+- `no_minutes_found`
+- `no_minutes_found_and_not_attached`
+- `no_record_found`
+- `found_elsewhere`
+- `pending`
+- `unknown`
+
+Allowed `verification_status` values:
+
+- `verified_published_pattern`
+- `verified_internal_search_log`
+- `needs_search_log`
+- `needs_repository_scope`
+- `needs_item_identity`
+- `needs_record_type`
+- `needs_attachment_basis`
+- `needs_diary_or_schedule_basis`
+- `needs_cross_reference_target`
+- `needs_follow_up`
+- `unknown`
+
+Negative-search validator sequence:
+
+1. Identify every `Not found`, `Not found attached`, `Not attached`, `No minutes
+   were found`, `No formal minutes were found`, `No memorandum of conversation
+   has been found`, `No telcon was found`, `unlocated`, `missing attachment`,
+   and unresolved source-path claim.
+2. Match the claim against `negative_search_context` when supplied, including
+   item sought, record type, repository or folder scope, search date if supplied,
+   follow-up needed, result status, and public phrase.
+3. Separate search result from attachment status, event occurrence, publication
+   status, cross-reference target, and declassification/release outcome.
+4. Keep `Not found.` distinct from `Not found attached.` and keep both distinct
+   from `No minutes were found.`
+5. Do not convert an internal working label such as `not located`, `TK`, or
+   `needs search` into a publishable negative-search claim without a search log
+   or wrapper-supplied verification.
+6. Use `evidence_request: negative_search_basis` when the missing proof is the
+   search scope, item identity, repository/file list, result, or follow-up
+   status.
+7. Use `evidence_request: attachment_status` when the issue is whether a tab,
+   enclosure, appendix, routing slip, or profile was physically attached.
+8. Use `evidence_request: chronology` when the issue is whether a meeting or
+   call occurred, or whether a diary/schedule basis supports a no-minutes claim.
+9. Use `evidence_request: cross_reference` or `document_number` when the note
+   says an item is printed elsewhere or found as another document.
+10. Use `evidence_request: publication_status` when the issue is whether a
+    related item is printed, scheduled, anticipated, or merely planned.
+11. Add a `negative_search_no_record` discrepancy to the General Editor tally
+    only when the search facts are sound but published or local examples vary on
+    how much negative-search detail to print.
+
+Direct-edit posture:
+
+- Safe direct edits may normalize narrow wording only when the registry supplies
+  final search facts, the Word anchor is exact, and the correction does not
+  broaden the claim.
+- Use `comment_only` when the item sought, search scope, repository/file path,
+  record type, attachment relationship, or found-elsewhere target is missing.
+- Never rewrite `Not found attached.` as `Not found.` unless the wrapper supplies
+  evidence that the broader search was actually completed.
+- Never treat `No minutes were found.` as proof that no meeting occurred.
+- Never treat `Not attached.` as proof that the cited item was not found in
+  another file or printed elsewhere.
+
+Negative-search audit requirements:
+
+- Count negative-search warnings by claim type and result status.
+- Record missing search logs, unresolved repository scope, missing item identity,
+  ambiguous attachment status, and found-elsewhere targets without document
+  numbers.
+- Keep a separate General Editor tally item for recurring wording variation in
+  `Not found.`, `Not found attached.`, `Not attached.`, `No minutes were found.`,
+  and related no-record phrases.
 
 ### 6.8A Summit, Travel, And Public-Event Chronology Validation
 
@@ -5759,6 +6007,7 @@ Evidence-request categories:
 | `archival_path` | Repository, collection, series, box, folder, lot, OA/ID, or file unit is missing or suspect. | Which part of the source path needs confirmation. |
 | `classification_marking` | Original classification, handling, precedence, paragraph marking, or verified absence is missing, guessed, or confused with release status. | To verify the original marking evidence on the document, not the declassification result. |
 | `physical_evidence_basis` | Handwriting, initials, marginalia, highlighting, underlining, checkmark, stamp, read-by/seen notation, signed status, approval box, sent-for-action or information routing, correspondence profile, distribution, physical placement, or unknown-hand evidence is uncertain. | Which visible physical feature, actor/hand, placement, routing status, approval status, profile, attachment, source image, or search/diary context must be checked. |
+| `negative_search_basis` | Negative search, no-record, not-found, not-found-attached, no-minutes, no-memcon, no-telcon, unlocated draft, missing attachment, unresolved source path, found-elsewhere, or pending follow-up evidence is uncertain. | Which item was sought, record type, repository/file scope, search basis, result status, follow-up, and public phrase must be checked. |
 | `attachment_status` | Attached, not attached, printed elsewhere, tabbed, enclosed, or not found claims are uncertain. | Which tab, enclosure, paper, or list must be checked. |
 | `document_number` | Same-volume or cross-volume reference lacks a stable document number. | Which target document, chapter, or volume must be matched. |
 | `document_metadata` | Heading, dateline, subject/title line, public title, sender, recipient, internal number, or document form is missing or suspect. | Which heading field and evidence source must be checked before rewriting. |
@@ -5831,6 +6080,7 @@ Default blocking rules:
 | `archival_path` | yes | yes |
 | `classification_marking` | yes | yes when source-note, handling, precedence, paragraph-marking, attachment, or no-marking claims depend on it |
 | `physical_evidence_basis` | yes for handwriting, initials, marginalia, stamp, read-by/seen, signed, approval, routing, correspondence-profile, distribution, placement, or unknown-hand edits | yes when physical/source-image evidence appears in publishable apparatus |
+| `negative_search_basis` | yes for `Not found`, `Not found attached`, `No minutes were found`, no-record, unlocated-draft, missing-attachment, unresolved-source-path, or found-elsewhere edits | yes when negative-search or no-record language appears in publishable apparatus |
 | `attachment_status` | yes | yes when the note asserts attached, not attached, tabbed, enclosed, printed, or not found |
 | `document_number` | yes for cross-reference edits | yes when same-volume or cross-volume references are unstable |
 | `document_metadata` | yes for heading, dateline, title, subject, or caption edits | yes when publishable apparatus identifies the document |
@@ -5861,15 +6111,16 @@ Owner hints:
   international-organization proof, congressional/legal proof, financial data,
   agency-equity proof, military-operation proof, human-rights/refugee/global-
   issues proof, physical/routing evidence, retrospective-account basis,
-  sensitive-record source basis, translation status, and foreign-copy provenance.
+  sensitive-record source basis, negative-search/no-record basis, translation
+  status, and foreign-copy provenance.
 - `editor`: wording, heading form, cross-reference form, source-list
   consistency, treaty/legal-instrument placement, public-event note form,
   public-source and public-diplomacy note form, congressional/legal citation
   form, foreign/international-organization note form, economic/financial table
   and note form, military/crisis note form, human-rights/refugee/global-issues
   note form, physical/routing note form, retrospective-account note form,
-  sensitive-record note form, publication-status wording, and General Editor
-  discrepancy preparation.
+  sensitive-record note form, negative-search/no-record wording,
+  publication-status wording, and General Editor discrepancy preparation.
 - `declassification`: classification markings, declassification outcomes,
   release-status separation, withholding, excision, source-and-methods,
   sanitization, and agency-equity language.
@@ -6159,62 +6410,65 @@ For every extracted unit, run checks in this order:
     and entry-into-force language against the treaty registry when supplied.
 13. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
    against the attachment registry when supplied.
-14. Check cross-references and follow-on citation form against the
+14. Check negative-search, no-record, not-found, not-found-attached,
+   no-minutes, no-memcon, no-telcon, unlocated-draft, missing-attachment, and
+   found-elsewhere claims against the negative-search registry when supplied.
+15. Check cross-references and follow-on citation form against the
    cross-reference registry when supplied.
-15. Check annotation purpose and concision.
-16. Check declassification, omission, original-bracket, release-status, and
+16. Check annotation purpose and concision.
+17. Check declassification, omission, original-bracket, release-status, and
     whole-document withholding language against the declassification registry
     when supplied.
-17. Check target-volume status and whether the note is research-stage,
+18. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-18. Route the unit through the relevant volume family when a 1981-1992
+19. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-19. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
+20. Check chronology, diary, schedule, call-log, meeting, briefing, travel, and
     no-record usage against the chronology registry when supplied.
-20. Check summit, travel, ceremony, public address, interview, press
+21. Check summit, travel, ceremony, public address, interview, press
     conference, toast, testimony, public remarks, and public-event sequence
     evidence against the event-chronology registry when supplied.
-21. Check public diplomacy, speeches, press releases, press conferences,
+22. Check public diplomacy, speeches, press releases, press conferences,
     briefings, interviews, broadcasts, testimony, Public Papers, Department of
     State Bulletin, newspaper excerpts, official transcripts, speech files,
     briefing materials, selected-public-document status, and
     supplemental-public-context evidence against the public-source registry when
     supplied.
-22. Check memoirs, published diaries, personal diaries, oral histories, later
+23. Check memoirs, published diaries, personal diaries, oral histories, later
     interviews, recollections, press retrospectives, newspaper accounts,
     selected/supplemental status, official-record relationship, corroborating
     records, and conflict status against the retrospective-account registry when
     supplied.
-23. Check congressional testimony, hearings, public laws, statutes, continuing
+24. Check congressional testimony, hearings, public laws, statutes, continuing
     resolutions, joint resolutions, congressional notifications, Presidential
     Determinations, certifications, Executive Orders, oversight, independent
     counsel, Senate advice-and-consent, and ratification context against the
     congressional/legal registry when supplied.
-24. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
+25. Check economic, debt, trade, monetary, foreign-assistance, budget, IMF,
     World Bank, MDB, GATT, UNCTAD, OECD, table, amount, percentage, currency,
     fiscal-year, loan, guarantee, quota, replenishment, conditionality, and
     policy-stage evidence against the economic/financial registry when supplied.
-25. Check intelligence, covert-action, law-enforcement, counternarcotics,
+26. Check intelligence, covert-action, law-enforcement, counternarcotics,
     counterterrorism, agency-equity, source-and-methods, operational, oversight,
     foreign-service-contact, sanitized-record, redaction, and public-policy
     evidence against the sensitive-record registry when supplied.
-26. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
+27. Check military, defense, crisis, DOD/OSD/JCS/DIA, Situation Room,
     combat-operation, contingency-plan, CONPLAN, host-nation notification,
     coalition, peacekeeping, force/unit, time-zone, casualty/damage, and
     military-assistance evidence against the military/crisis registry when
     supplied.
-27. Check human-rights reports, refugee, immigration, asylum, migration, famine,
+28. Check human-rights reports, refugee, immigration, asylum, migration, famine,
     emergency relief, food aid, public-health, AIDS/HIV, population policy,
     environmental, ozone, sanctions, waivers, certifications, public reports,
     international organizations, PVOs, AID/PRM, PL 480, Section 416, and Section
     206 evidence against the human-rights/refugee/global-issues registry when
     supplied.
-28. Check Persons, abbreviations, and index authority issues.
-29. Assign specific evidence requests and verification targets for unresolved
+29. Check Persons, abbreviations, and index authority issues.
+30. Assign specific evidence requests and verification targets for unresolved
     proof.
-30. Decide direct edit versus comment-only.
-31. Return strict JSON.
-32. After schema and semantic validation, aggregate all unresolved evidence
+31. Decide direct edit versus comment-only.
+32. Return strict JSON.
+33. After schema and semantic validation, aggregate all unresolved evidence
     requests into the wrapper evidence queue before applying tracked changes.
 
 ## 9. Review Modes And Batch Workflow
@@ -6312,6 +6566,9 @@ Duplicate-suppression rules:
   amount or metric, stage/status, sanctions/waiver basis, international-
   organization role, PVO role, public-health source, population-policy issue, or
   environmental treaty/protocol issue.
+- Merge repeated negative-search/no-record issues by claim type, item sought,
+  record type, repository or folder scope, attachment relationship, search
+  result, follow-up status, found-elsewhere target, or public phrase.
 - Merge repeated wrapper-safety issues by Word structure, such as tables,
   existing tracked changes, footnote references, fields, or comments.
 - Do not merge findings that require different evidence requests or different
@@ -6438,6 +6695,9 @@ Golden packet composition:
   marginalia, highlighting, underlining, checkmark, stamped notation, read-by or
   seen stamp, sent-for-action routing, correspondence profile, approval box,
   unknown-hand note, or source-image placement evidence.
+- At least one negative-search/no-record example with `Not found.`, `Not found
+  attached.`, `Not attached.`, `No minutes were found.`, or an unlocated draft,
+  including one verified no-change control and one missing-search-basis control.
 - At least one translated or foreign-origin document with official,
   unofficial, informal, Language Services, typed-signature, or foreign-copy
   provenance language, used as a no-change or comment-only control.
@@ -6527,6 +6787,11 @@ Expected behavior by test family:
   status, sent-for-action or information routing, correspondence profile,
   approval-line status, placement, and linked attachment context; comment rather
   than infer when physical-evidence basis is missing.
+- Negative-search/no-record test: preserve `Not found.`, `Not found attached.`,
+  `Not attached.`, `No minutes were found.`, and found-elsewhere distinctions
+  when the search basis is supplied; comment rather than convert working labels
+  into publishable no-record claims when item identity, repository scope,
+  record type, attachment relationship, or target document is missing.
 - Translation/foreign-origin test: preserve official/unofficial/informal
   translation language, foreign-copy provenance, typed-signature notes, and
   bracket-treatment facts; comment rather than invent when the translation basis
@@ -6695,6 +6960,10 @@ Use the discrepancy tally for:
   facts are sound.
 - Variations in `Attached but not printed`, `Not found attached`, `Printed as
   Document [n]`, appendix, tab, enclosure, or facsimile wording.
+- Variations in how much negative-search or no-record basis to print for `Not
+  found.`, `Not found attached.`, `Not attached.`, `No minutes were found.`,
+  no-memcon/no-telcon claims, unlocated drafts, unresolved source paths, or
+  found-elsewhere targets when the underlying search facts are sound.
 - Variations in `scheduled for publication`, `printed in`, same-volume
   cross-references, footnote cross-references, or document-number style.
 - Variations in document-heading form, place/date line placement,
@@ -6763,6 +7032,7 @@ Suggested tally format:
 | style-discrepancy-0010 | human_rights_refugee_global_issues | How much human-rights/refugee/global-issues basis should appear when the report, program, amount, source, organization, and status facts are sound. | Full report or program authority plus public/archival basis, amount/metric, organization role, and stage/status; shorter issue-area note with supporting detail in audit/comment context | 2 | medium | Should the checker enforce a house form for global-issues detail, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0011 | physical_routing_marginalia | How much physical, routing, approval, read-by, and marginalia evidence should appear when the source-image facts are sound. | Full actor/hand plus placement, stamp/notation phrase, action status, and linked attachment/profile; shorter physical-evidence note with supporting detail in audit/comment context | 2 | medium | Should the checker enforce a house form for physical and routing evidence, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0012 | memoir_oral_history_recollection | How much memoir, diary, oral-history, or later-recollection detail should appear when the account and official-record relationship are sound. | Full author/title/page plus official-record relationship and corroborating record; shorter recollection note with supporting detail in audit/comment context | 2 | medium | Should the checker enforce a house form for retrospective accounts, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0013 | negative_search_no_record | How much negative-search/no-record basis should appear in notes when the item sought, search scope, record type, and result are sound. | Compact published phrase such as `Not found.` or `No minutes were found.`; fuller note or audit context naming item sought, repository/file scope, attachment relationship, and follow-up status | 2 | medium | Should the checker enforce a house form for negative-search/no-record wording, or preserve compact published phrases and tally volume-specific variation for General Editor decision? |
 
 Risk levels:
 
@@ -6801,6 +7071,12 @@ Required bundle files:
   distribution lists, attached routing slips, actor/hand, placement,
   linked-attachment context, no-record/search context, verification status, and
   source URLs.
+- `negative_search_map`, when available: item sought, claim type, record or
+  attachment type, repository/file scope, source image or diary/schedule basis,
+  search result, found-elsewhere target, follow-up status, public phrase,
+  verification status, and source URLs for `Not found`, `Not found attached`,
+  `Not attached`, no-minutes, no-memcon, no-telcon, missing-attachment,
+  unlocated-draft, unresolved-source-path, and found-elsewhere claims.
 - `classification_marking_map`, when available: original classification,
   handling, precedence, paragraph-marking, verified absence, and source-phrase
   evidence for source notes, attachments, captions, and selected document
@@ -7070,6 +7346,7 @@ Context bundle: [bundle_id and capture date]
 Authority registry: [authority_registry_id and capture date]
 Document metadata registry: [document_metadata_registry_id and capture date]
 Physical/routing registry: [physical_routing_registry_id and capture date]
+Negative-search/no-record registry: [negative_search_registry_id and capture date]
 Classification registry: [classification_registry_id and capture date]
 Translation registry: [translation_registry_id and capture date]
 Foreign/international-organization registry: [foreign_international_org_registry_id and capture date]
@@ -7113,6 +7390,7 @@ Counts:
 - Authority registry conflicts or unmatched forms: [n]
 - Document heading, dateline, title, or caption issues: [n]
 - Physical evidence, routing, marginalia, read-by/seen, approval, or placement issues: [n]
+- Negative-search/no-record/not-found/not-attached/no-minutes issues: [n]
 - Classification, handling, precedence, or paragraph-marking issues: [n]
 - Translation, foreign-origin copy, or language-services issues: [n]
 - Foreign-government, international-organization, multilateral, alliance, coalition, conference, treaty-party, or foreign-copy issues: [n]
@@ -7152,6 +7430,9 @@ Document-metadata warnings:
 
 Physical/routing/marginalia warnings:
 - [unit_id or global]: [physical/routing issue] - [record type, source family, physical evidence, actor or hand, action/status, placement, linked source or attachment, and verification target]
+
+Negative-search/no-record warnings:
+- [unit_id or global]: [negative-search issue] - [claim type, item sought, record type, repository or folder scope, attachment relationship, search result, found-elsewhere target, follow-up status, and verification target]
 
 Classification/handling warnings:
 - [unit_id or global]: [marking issue] - [original marking, handling/precedence, and evidence basis]
@@ -7260,6 +7541,10 @@ Minimum components:
   sent-for-information routing, correspondence profiles, distribution lists,
   attached routing slips, actor/hand, placement, and linked attachment or search
   context before tracked changes are applied.
+- Negative-search/no-record validator that distinguishes `Not found.`, `Not
+  found attached.`, `Not attached.`, no-minutes, no-memcon, no-telcon,
+  missing-attachment, unlocated-draft, unresolved-source-path, and
+  found-elsewhere claims before tracked changes are applied.
 - Communications-record validator that checks telegram, cable, STARS, CFPF,
   PROFS, W Files, System IV, agency-message, and other electronic-message
   identifiers, origin/addressee, date-time group, precedence,
@@ -7348,6 +7633,10 @@ Operational cautions:
 - Record document-metadata registry version, heading/date/title/caption issues,
   unresolved sender or recipient evidence, public-title questions, internal
   record-number placement, and document-metadata discrepancy questions.
+- Record negative-search/no-record registry version, item-sought and
+  repository-scope gaps, missing search logs, unresolved attachment
+  relationships, found-elsewhere targets without document numbers, and
+  negative-search discrepancy questions.
 - Record classification-registry version, missing original markings,
   unsupported `No classification marking` claims, handling/precedence
   mismatches, paragraph-marking questions, release-status confusions, and
@@ -7460,6 +7749,10 @@ Needs revision:
 - Source notes contain incomplete archival paths or guessed classifications.
 - Follow-on notes are wordy, argumentative, or inconsistent.
 - Attachments are inferred rather than verified.
+- `Not found.`, `Not found attached.`, `Not attached.`, `No minutes were found.`,
+  no-memcon/no-telcon, unlocated-draft, missing-attachment,
+  unresolved-source-path, or found-elsewhere language is asserted without
+  supplied negative-search basis.
 - Diary/schedule evidence is used as substantive conversation evidence.
 - Summit, travel, ceremony, press, or public-event sequence is asserted without
   public-source, diary/schedule, press, or full-record target support.
@@ -7561,6 +7854,7 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d34`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d236`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d260`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/d100`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d282`
 - `https://history.state.gov/historicaldocuments/frus1981-88v13/ch3`
 - `https://history.state.gov/historicaldocuments/frus1981-88v24/d290`
@@ -7600,9 +7894,15 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v38/d371`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/sources`
+- `https://history.state.gov/historicaldocuments/frus1981-88v11/d182`
+- `https://history.state.gov/historicaldocuments/frus1981-88v11/d213`
+- `https://history.state.gov/historicaldocuments/frus1981-88v11/d226`
+- `https://history.state.gov/historicaldocuments/frus1981-88v11/d301`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources`
+- `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1`
+- `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d294`
 - `https://history.state.gov/historicaldocuments/frus1981-88v10/d46`
 - `https://history.state.gov/historicaldocuments/frus1981-88v10/d56`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/d294`
@@ -7628,6 +7928,7 @@ Recent Reagan source incorporated:
 - [Reagan Cronkite interview editorial note, Document 33](https://history.state.gov/historicaldocuments/frus1981-88v01/d33)
 - [Haig Senate Foreign Relations Committee testimony, Document 39](https://history.state.gov/historicaldocuments/frus1981-88v01/d39)
 - [Haig private-paper source note with read-by stamp, marginalia, highlighting, underlining, and checkmark, Document 75](https://history.state.gov/historicaldocuments/frus1981-88v01/d75)
+- [Published `Not found.` negative-search pattern in follow-on annotation, Document 100](https://history.state.gov/historicaldocuments/frus1981-88v01/d100)
 - [NSC source note with stamped read-by notation and attached correspondence profile, Document 129](https://history.state.gov/historicaldocuments/frus1981-88v01/d129)
 - [Reagan United Nations General Assembly address, Document 169](https://history.state.gov/historicaldocuments/frus1981-88v01/d169)
 - [Reagan United Nations address editorial note, Document 206](https://history.state.gov/historicaldocuments/frus1981-88v01/d206)
@@ -7636,10 +7937,15 @@ Recent Reagan source incorporated:
 - [Contra aid congressional/public-law annotation, Document 274](https://history.state.gov/historicaldocuments/frus1981-88v01/d274)
 - [Iran arms/Contra aid Executive Order and oversight annotation, Document 286](https://history.state.gov/historicaldocuments/frus1981-88v01/d286)
 - [Shultz memoir supplementing Iran arms press-conference context, Document 282](https://history.state.gov/historicaldocuments/frus1981-88v01/d282)
+- [Published `Not found.` negative-search pattern in Iran arms press-conference annotation, Document 282](https://history.state.gov/historicaldocuments/frus1981-88v01/d282)
 - [Shultz Papers source note with unknown-hand meeting-folder notation and no-minutes context, Document 316](https://history.state.gov/historicaldocuments/frus1981-88v01/d316)
 - [FRUS, 1981-1988, Volume IV, Soviet Union, January 1983-March 1985](https://history.state.gov/historicaldocuments/frus1981-88v04)
 - [FRUS, 1981-1988, Volume X, Eastern Europe](https://history.state.gov/historicaldocuments/frus1981-88v10)
 - [FRUS, 1981-1988, Volume XI, START I](https://history.state.gov/historicaldocuments/frus1981-88v11)
+- [START I attachment and `not found` distinction, Document 182](https://history.state.gov/historicaldocuments/frus1981-88v11/d182)
+- [START I no-minutes and not-attached distinction, Document 213](https://history.state.gov/historicaldocuments/frus1981-88v11/d213)
+- [START I tabs not-attached/not-found distinction, Document 226](https://history.state.gov/historicaldocuments/frus1981-88v11/d226)
+- [START I no-minutes and not-attached distinction, Document 301](https://history.state.gov/historicaldocuments/frus1981-88v11/d301)
 - [FRUS, 1981-1988, Volume XXIV, North Africa](https://history.state.gov/historicaldocuments/frus1981-88v24)
 - [Volume XXIV source list with DOD, NSC Crisis Management Center, OSD, CIA, and State NODIS/EXDIS records](https://history.state.gov/historicaldocuments/frus1981-88v24/sources)
 - [U.S. action against Libya host-nation notification, Document 341](https://history.state.gov/historicaldocuments/frus1981-88v24/d341)
@@ -7665,7 +7971,9 @@ Recent Reagan source incorporated:
 - [Presidential Determination and Public Law note in Volume XXXVIII, Document 371](https://history.state.gov/historicaldocuments/frus1981-88v38/d371)
 - [FRUS, 1981-1988, Volume XLIV, Part 1, National Security Policy, 1985-1988](https://history.state.gov/historicaldocuments/frus1981-88v44p1)
 - [Volume XLIV, Part 1 about-the-series source and declassification statement](https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries)
+- [NSPG meeting source note with Daily Diary basis and `No minutes were found`, Document 1](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1)
 - [Action memorandum with Reagan initials, signed stamp, approval checkmark, and tabs printed as next document, Document 50](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d50)
+- [Transition meeting note with `No formal minutes were found`, Document 294](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d294)
 - [Covert-action memorandum of notification, Document 46](https://history.state.gov/historicaldocuments/frus1981-88v10/d46)
 - [CIA paper on Soviet/East European program, Document 56](https://history.state.gov/historicaldocuments/frus1981-88v10/d56)
 - [Andean narcotics and terrorism policy initiative, Document 294](https://history.state.gov/historicaldocuments/frus1981-88v01/d294)
