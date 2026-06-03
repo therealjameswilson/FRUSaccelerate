@@ -246,6 +246,12 @@ The wrapper should provide the LLM with:
   e-book-last-updated or generated-date, download-link, bookstore/purchase,
   errata, online/full-text correction, printed-volume-revision,
   publication-status, and capture-date metadata.
+- `ebook_catalog_api_context`, if available: Office of the Historian Ebook
+  Catalog API/OPDS feed captures, including feed URL, capture date, entry id,
+  entry title, updated timestamp, summary, acquisition links, media types,
+  cover-image links, and link relationships. Use this only for digital-edition,
+  download, cover, and catalog metadata unless another context supplies
+  documentary evidence.
 - `history_state_page_context`, if available: structured captures of
   history.state.gov pages used in the offline bundle, with page type
   (`volume_landing`, `chapter`, `document`, `sources`, `persons`, `terms`,
@@ -9094,6 +9100,11 @@ Required bundle files:
   download or bookstore target, errata item, online/full-text correction,
   printed-volume-revision status, status-page capture, verification status, and
   source URLs.
+- `ebook_catalog_api_map`, when available: OPDS/XML ebook catalog entries from
+  `https://history.state.gov/api/v1/catalog` and related catalog feeds, with
+  feed URL, capture date, entry id, title, updated timestamp, summary, EPUB,
+  Mobi, PDF, and cover-image links, media types, link rel values, and warnings
+  about fields that should not be treated as FRUS source-note evidence.
 - `history_state_page_extracts`, when available: page-type-specific captures of
   history.state.gov pages with canonical URL, capture date, retained content
   regions, removed site chrome, content-role labels, download/tag/search/footer
@@ -9837,11 +9848,28 @@ Validator sequence:
    direct edits may correct the label only when the registry supplies the exact
    date type. Otherwise use `comment_only` and ask whether the sheet is referring
    to public release, e-book update, download availability, or errata.
-8. For errata, distinguish online/full-text corrected editions from printed
+8. When the wrapper uses the Office of the Historian Ebook Catalog API, treat
+   the OPDS XML feed as a digital catalog, not as FRUS documentary text. The
+   catalog entry id, title, summary, acquisition links, media types, cover image
+   links, and link relationships may confirm digital formats and download
+   targets.
+9. Do not use OPDS `updated` timestamps as publication dates, release dates,
+   e-book last-updated dates, errata dates, or status-page capture dates unless
+   the catalog context explicitly labels the timestamp's meaning. If the label
+   is unclear, use `comment_only` with `evidence_request` set to
+   `release_apparatus_basis`.
+10. Do not use subject-browse or keyword-search results from the catalog API as
+    authority-list, Persons, source-list, or index evidence. Route catalog tags
+    to navigation/context only unless a separate FRUS authority context supplies
+    the approved form.
+11. Preserve OPDS link media types and `rel` values in the audit report when
+    download links are used. Do not convert an EPUB/Mobi/PDF catalog link into a
+    source-note URL or archival locator.
+12. For errata, distinguish online/full-text corrected editions from printed
    volumes not revised. Never rewrite print status from web correction alone.
-9. Coordinate with source-list/front-matter for apparatus and with
+13. Coordinate with source-list/front-matter for apparatus and with
    publication-status logic for `printed in` or `scheduled for publication`.
-10. Add `release_errata_apparatus` discrepancies only when facts are sound but
+14. Add `release_errata_apparatus` discrepancies only when facts are sound but
    practice varies on how much release, errata, or digital-edition detail to
    retain.
 
@@ -9865,6 +9893,9 @@ Audit requirements:
   public URL, status-page capture, errata, online/full-text correction,
   print-not-revised, e-book-last-updated/generated-date, date-type-confusion,
   and stale-capture warnings.
+- Count OPDS catalog entries used, acquisition links preserved, OPDS updated
+  timestamps rejected as ambiguous date evidence, and catalog tag/search results
+  excluded from authority or source-note evidence.
 - Preserve registry id, captured_at, source URLs, release item type, release
   date, public URL, digital formats, GPO/ISBN/S/N basis, correction status,
   print revision status, e-book last-updated/generated-date fields, and
@@ -10551,6 +10582,10 @@ Counts:
 - History Office site-chrome regions removed before LLM review: [n]
 - History Office download/tag/footer/search items retained only as release or navigation context: [n]
 - History Office extracts needing manual page-extraction review: [n]
+- Office of the Historian OPDS catalog entries used for download metadata: [n]
+- OPDS acquisition links preserved by media type: [EPUB n; Mobi n; PDF n; cover image n]
+- OPDS updated timestamps rejected as ambiguous publication/release-date evidence: [n]
+- OPDS keyword/tag results excluded from authority or source-note evidence: [n]
 - Status registry conflicts or stale-publication warnings: [n]
 - Authority registry conflicts or unmatched forms: [n]
 - Persons, Abbreviations and Terms, source-list, chapter-label,
@@ -10609,6 +10644,9 @@ Extraction/unitization warnings:
 
 History Office page-extraction warnings:
 - [source_url or global]: [page type] - [retained region or removed site-chrome issue] - [recommended posture]
+
+OPDS ebook-catalog warnings:
+- [catalog entry or feed]: [download, media-type, updated-timestamp, tag/search, or link-rel issue] - [recommended posture]
 
 Publication-status warnings:
 - [unit_id or global]: [status issue] - [registry target]
@@ -11271,6 +11309,8 @@ wrapper contract:
 Official History Office pages refreshed for the 1981-1992 status and volume
 family router:
 
+- `https://history.state.gov/developer/catalog`
+- `https://history.state.gov/api/v1/catalog`
 - `https://history.state.gov/historicaldocuments/status-of-the-series`
 - `https://history.state.gov/historicaldocuments/reagan`
 - `https://history.state.gov/historicaldocuments/bush-ghw`
