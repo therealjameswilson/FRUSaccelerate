@@ -178,6 +178,124 @@ The wrapper, not the LLM, is responsible for the track-change layer. In `.docx`
 terms, replacements should be represented as paired deletion and insertion
 elements with reviewer, timestamp, and location metadata.
 
+### 4.1 Word Extraction And Track-Change Contract
+
+The wrapper must be stricter than the LLM. It should treat the uploaded Word
+file as the authority for locations, formatting, existing revisions, comments,
+footnote numbering, and table structure.
+
+Extraction contract:
+
+- Unzip the `.docx` and parse WordprocessingML with an XML parser. Do not use
+  ad hoc string replacement inside XML parts.
+- Read, at minimum, `word/document.xml`, `word/footnotes.xml`,
+  `word/endnotes.xml`, `word/comments.xml`, relevant headers and footers, and
+  relationship files needed to preserve comments, notes, numbering, and styles.
+- Preserve the original `.docx` package parts that the checker does not edit.
+  The output package should differ only where accepted edits, checker comments,
+  metadata, or audit artifacts require a change.
+- Keep two text forms for each unit:
+  - `display_text`: readable text sent to the LLM, with footnote references,
+    table cell boundaries, and comment markers represented plainly;
+  - `exact_text`: the exact string reconstructed from mapped Word text runs,
+    used for `original_text` matching.
+- Never normalize punctuation, capitalization, line breaks, tabs, nonbreaking
+  spaces, footnote references, or paragraph marks inside `exact_text` without
+  recording a reversible map back to the original runs.
+- Assign each unit a stable location object, not just a label. Include the Word
+  part, paragraph or table-cell path, footnote/endnote/comment id when
+  applicable, run sequence, and character offsets in the reconstructed
+  `exact_text`.
+- Store whether the unit overlaps existing tracked insertions, deletions,
+  moves, comments, fields, hyperlinks, content controls, bookmarks, or tables.
+  These structures change how safely the wrapper can apply edits.
+
+Recommended extracted-unit fields:
+
+```json
+{
+  "unit_id": "footnote-0012",
+  "unit_type": "source_note",
+  "location": "Document 7, footnote 1",
+  "word_part": "word/footnotes.xml",
+  "xml_anchor": {
+    "footnote_id": "12",
+    "paragraph_index": 0,
+    "run_start": 0,
+    "run_end": 14,
+    "char_start": 0,
+    "char_end": 286
+  },
+  "paragraph_style": "Footnote Text",
+  "display_text": "Source: George H.W. Bush Library...",
+  "exact_text": "Source: George H.W. Bush Library...",
+  "surrounding_text": "## 7. National Security Review 14",
+  "existing_revisions": false,
+  "existing_comments": [],
+  "edit_safety": "safe_to_edit"
+}
+```
+
+Unitization rules:
+
+- Treat source notes in footnotes or endnotes as distinct units even when Word
+  extraction places all notes in one XML part.
+- Treat document headings, supplied titles, editorial notes, attachment notes,
+  and bracketed omission notes as separate units when paragraph styles or nearby
+  context make the boundary clear.
+- Treat tables cell by cell, preserving row and column position. Do not merge a
+  source-list table row, Persons entry, or abbreviation entry with adjacent
+  rows unless the Word structure explicitly spans cells.
+- Treat comments already in the uploaded file as context. Do not edit existing
+  human comments; add new checker comments with a distinct author.
+- Treat existing tracked insertions and deletions as unresolved unless the user
+  has chosen to accept or reject them before extraction. Direct edits that
+  overlap unresolved tracked changes should be rejected or downgraded to
+  `comment_only`.
+- Treat document body paragraphs as `transcribed_document_text` by default
+  unless styles, headings, or wrapper context identify them as editorial
+  apparatus.
+
+Direct-edit validator:
+
+- Match `original_text` against `exact_text`, not `display_text`.
+- Reject a direct edit when `original_text` is missing, appears more than once
+  in the same unit, spans unmapped XML boundaries, or overlaps existing tracked
+  changes, comments, fields, hyperlinks, content controls, bookmarks, or table
+  grid changes.
+- Reject a direct edit when the proposed replacement would remove a footnote
+  reference, endnote reference, comment reference, bookmark boundary, field code,
+  tab, table-cell boundary, or paragraph mark.
+- Reject a direct edit when the LLM proposes to modify
+  `transcribed_document_text` and the user did not request transcription
+  review.
+- Downgrade to a Word comment when the wrapper can locate the issue but cannot
+  safely express the change as a valid run-level insertion or deletion.
+- Record every rejected edit in the audit report with the unit id, reason, and
+  original LLM recommendation.
+
+Track-change construction:
+
+- Use a single reviewer name, `FRUS Annotation Checker`, for all generated
+  insertions, deletions, and comments.
+- Use monotonically increasing revision ids within the output document.
+- Represent replacements as a deletion for the removed text and an insertion
+  for the new text. Preserve the surrounding run properties unless the edit
+  itself changes formatting.
+- For deletions, preserve the original text as deleted text, not as removed
+  plain text. For insertions, keep the inserted text inside Word insertion
+  markup.
+- Place checker comments on the smallest safe range: the exact source phrase
+  when available, otherwise the whole paragraph, footnote, table cell, or
+  heading unit.
+- Preserve footnote numbers and endnote numbers. Do not create new notes unless
+  a human-approved wrapper feature explicitly supports that operation.
+- Preserve document styles. The checker should not silently restyle paragraphs,
+  renumber lists, alter table geometry, or change page setup.
+- After writing the output `.docx`, reopen it and confirm that the package is
+  readable, all expected parts exist, and the count of applied tracked edits and
+  comments matches the audit report.
+
 ## 5. Review Severity
 
 Use severity consistently:
@@ -1280,6 +1398,8 @@ Family-sensitive output rules:
 The LLM may propose direct tracked changes only when:
 
 - The target text is clearly editorial apparatus, not transcribed document text.
+- The wrapper marks the unit as `safe_to_edit`, or supplies equivalent context
+  showing that the proposed phrase is not inside a risky Word structure.
 - The original text appears exactly in the extracted unit.
 - The replacement is a style, form, or wording correction supported by the input.
 - The edit does not invent facts.
@@ -1293,6 +1413,8 @@ The LLM must use `comment_only` when:
   uploaded context.
 - The target unit is transcribed document text.
 - The Word extraction is ambiguous.
+- The wrapper marks `edit_safety` as blocked, ambiguous, overlapping existing
+  revisions, or otherwise unsafe for direct run-level editing.
 
 Examples:
 
@@ -1489,21 +1611,23 @@ Case 10: Exact replacement anchor not found.
 For every extracted unit, run checks in this order:
 
 1. Identify unit type and whether it is safe to edit.
-2. Check for invented or unverifiable facts.
-3. Check source-note order and completeness.
-4. Check classification and handling language.
-5. Check attachment, tab, and not-found claims.
-6. Check cross-references and follow-on citation form.
-7. Check annotation purpose and concision.
-8. Check declassification and omission language.
-9. Check target-volume status and whether the note is research-stage,
+2. Check the wrapper's `edit_safety` and exact-text mapping before considering
+   any direct edit.
+3. Check for invented or unverifiable facts.
+4. Check source-note order and completeness.
+5. Check classification and handling language.
+6. Check attachment, tab, and not-found claims.
+7. Check cross-references and follow-on citation form.
+8. Check annotation purpose and concision.
+9. Check declassification and omission language.
+10. Check target-volume status and whether the note is research-stage,
    clearance-stage, anticipated, planned, or published.
-10. Route the unit through the relevant volume family when a 1981-1992
+11. Route the unit through the relevant volume family when a 1981-1992
     in-preparation family is known or can be tentatively inferred.
-11. Check chronology, diary, schedule, and call-log usage.
-12. Check Persons, abbreviations, and index authority issues.
-13. Decide direct edit versus comment-only.
-14. Return strict JSON.
+12. Check chronology, diary, schedule, and call-log usage.
+13. Check Persons, abbreviations, and index authority issues.
+14. Decide direct edit versus comment-only.
+15. Return strict JSON.
 
 ## 9. Audit Report Summary Template
 
