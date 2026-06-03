@@ -350,11 +350,24 @@ The LLM must return valid JSON with this shape:
     "summary": "Short assessment of annotation quality.",
     "blocked_reason": "Only if overall_status is blocked."
   },
+  "batch_readiness": {
+    "readiness_status": "ready_for_tracked_changes | comment_only_review | needs_human_triage | blocked",
+    "safe_to_apply_tracked_changes": true,
+    "readiness_summary": "Short pre-redline readiness assessment.",
+    "gates": [
+      {
+        "gate_id": "extraction_unitization | word_anchoring | context_bundle | status_registry | authority_registry | evidence_basis | style_discrepancy_ledger | chunk_reconciliation | wrapper_output",
+        "gate_status": "pass | warning | fail | not_applicable",
+        "finding": "What the readiness gate found.",
+        "required_action": "What the wrapper or human reviewer must do before applying edits, or empty if no action."
+      }
+    ]
+  },
   "checks": [
     {
       "unit_id": "footnote-0012",
       "severity": "blocker | major | minor | info",
-      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | editorial_method_transcription | document_status_lifecycle | decision_process_directive | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | release_errata_apparatus | wording | evidence | format",
+      "category": "source_note | citation | attachment | printed_nested_attachment | handwritten_facsimile_transcription | visual_material_graphic | source_surrogate_release | editorial_method_transcription | document_status_lifecycle | decision_process_directive | annotation | editorial_note | document_metadata | classification_handling | source_list_front_matter | selection_balance_completeness | physical_routing_marginalia | negative_search_no_record | memoir_oral_history_recollection | translation_foreign_origin | foreign_international_organization | treaty_legal_instrument | public_diplomacy_public_source | congressional_legal_authority | economic_financial_data | intelligence_law_enforcement | military_crisis_operations | human_rights_refugee_global_issues | declassification | authority_control | chronology | time_zone_chronology | summit_public_event | communications_record | publication_status | volume_preparation_scope | release_errata_apparatus | wording | evidence | format",
       "finding": "Plain-language issue.",
       "standard": "Specific FRUS rule applied.",
       "recommended_action": "replace_text | insert_after_text | delete_text | comment_only | no_change",
@@ -431,6 +444,7 @@ run the semantic and Word-safety validators below.
   "required": [
     "schema_version",
     "document_assessment",
+    "batch_readiness",
     "checks",
     "global_comments",
     "style_discrepancy_tally"
@@ -462,6 +476,77 @@ run the semantic and Word-safety validators below.
         },
         "blocked_reason": {
           "type": "string"
+        }
+      }
+    },
+    "batch_readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "readiness_status",
+        "safe_to_apply_tracked_changes",
+        "readiness_summary",
+        "gates"
+      ],
+      "properties": {
+        "readiness_status": {
+          "type": "string",
+          "enum": [
+            "ready_for_tracked_changes",
+            "comment_only_review",
+            "needs_human_triage",
+            "blocked"
+          ]
+        },
+        "safe_to_apply_tracked_changes": {
+          "type": "boolean"
+        },
+        "readiness_summary": {
+          "type": "string"
+        },
+        "gates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "gate_id",
+              "gate_status",
+              "finding",
+              "required_action"
+            ],
+            "properties": {
+              "gate_id": {
+                "type": "string",
+                "enum": [
+                  "extraction_unitization",
+                  "word_anchoring",
+                  "context_bundle",
+                  "status_registry",
+                  "authority_registry",
+                  "evidence_basis",
+                  "style_discrepancy_ledger",
+                  "chunk_reconciliation",
+                  "wrapper_output"
+                ]
+              },
+              "gate_status": {
+                "type": "string",
+                "enum": [
+                  "pass",
+                  "warning",
+                  "fail",
+                  "not_applicable"
+                ]
+              },
+              "finding": {
+                "type": "string"
+              },
+              "required_action": {
+                "type": "string"
+              }
+            }
+          }
         }
       }
     },
@@ -788,8 +873,8 @@ run the semantic and Word-safety validators below.
 Schema validator behavior:
 
 - Reject the entire LLM response if JSON parsing fails, the schema version is
-  missing, a required top-level array is missing, or an enum value is outside
-  the schema.
+  missing, a required top-level object or array is missing, or an enum value is
+  outside the schema.
 - Treat empty arrays as valid. A perfect packet may have no findings and no
   discrepancy-tally items.
 - Reject unknown properties. Extra prose, markdown, model reasoning, or
@@ -801,6 +886,18 @@ Semantic validator behavior:
 
 - If `overall_status` is `blocked`, require a non-empty `blocked_reason`.
 - If `overall_status` is not `blocked`, require `blocked_reason` to be empty.
+- If `safe_to_apply_tracked_changes` is `true`, require
+  `readiness_status: ready_for_tracked_changes` and no readiness gate with
+  `gate_status: fail`.
+- If any readiness gate has `gate_status: fail`, require
+  `safe_to_apply_tracked_changes: false` and require `readiness_status` to be
+  `needs_human_triage` or `blocked`.
+- If `readiness_status` is `comment_only_review`, reject all direct edits and
+  downgrade otherwise valid direct edits to comments before Word application.
+- If `readiness_status` is `blocked`, require `overall_status: blocked` and a
+  non-empty `blocked_reason`.
+- Require a non-empty `required_action` for every readiness gate with
+  `gate_status: warning` or `fail`.
 - For `replace_text`, `insert_after_text`, and `delete_text`, require non-empty
   `original_text` and exact one-time matching against the mapped `exact_text`.
 - For `replace_text` and `insert_after_text`, require non-empty
@@ -8396,21 +8493,52 @@ Batch workflow:
 1. Preflight the upload: confirm `.docx` readability, context bundle id,
    review mode, unit count, existing tracked changes, and whether source images
    are available.
-2. Unitize the Word file before calling the LLM. Keep source notes, follow-on
+2. Build the pre-redline readiness gates before asking the LLM for direct
+   edits. The wrapper should be able to say whether the packet is ready for
+   tracked changes, limited to comment-only review, needs human triage, or is
+   blocked.
+3. Unitize the Word file before calling the LLM. Keep source notes, follow-on
    footnotes, editorial notes, headings, table cells, Persons entries, and
    transcribed document text separate.
-3. Review units in document order, but keep a packet-level memory of recurring
+4. Review units in document order, but keep a packet-level memory of recurring
    issues so duplicate comments can be merged.
-4. Prefer one clear comment per unresolved fact. Do not attach identical
+5. Prefer one clear comment per unresolved fact. Do not attach identical
    comments to every occurrence if a global comment and evidence-request count
    would serve the compiler better.
-5. If two findings target the same phrase, keep the higher-severity finding and
+6. If two findings target the same phrase, keep the higher-severity finding and
    merge the lower-severity rationale into its comment or discrepancy tally.
-6. If a direct edit and a comment both target the same defect, apply the direct
+7. If a direct edit and a comment both target the same defect, apply the direct
    edit only when it fully resolves the defect; otherwise use a comment.
-7. After the LLM response, the wrapper validates all edits, applies only safe
+8. After the LLM response, the wrapper validates readiness gates, validates all
+   edits, applies only safe
    tracked changes, inserts comments, merges style-discrepancy counts, and
    writes the audit report.
+
+Pre-redline readiness gates:
+
+| Gate | Pass condition | Warning/fail condition | Wrapper action |
+| --- | --- | --- | --- |
+| `extraction_unitization` | The wrapper has stable unit ids, exact text, unit type, editable/context-only flags, and can distinguish editorial apparatus from transcribed document text. | Unit boundaries are uncertain, flat-style recovery is partial, or source notes and document text cannot be separated. | Warning limits the run to comments for affected units; fail blocks direct edits. |
+| `word_anchoring` | Every proposed direct-edit target can be mapped to one exact Word anchor without crossing fields, comments, tracked changes, pseudo-markers, footnote references, or protected text. | Existing revisions, duplicate anchors, tables, fields, comments, marker tokens, or note-reference structures make placement ambiguous. | Warning downgrades affected edits; fail makes the packet comment-only or blocked. |
+| `context_bundle` | Required volume, status, authority, source-family, and exemplar contexts are present or explicitly marked not needed for the selected review mode. | Context is stale, missing, or mismatched to the uploaded packet. | Add global comment; block direct edits that depend on missing context. |
+| `status_registry` | The status snapshot is current enough for any `printed in`, `scheduled for publication`, anticipated-release, chapter-status, or cross-volume update. | The registry is stale, missing, or conflicts with uploaded status language. | Status-language edits become comments unless fresh official capture is supplied. |
+| `authority_registry` | Persons, Abbreviations and Terms, source-list, chapter-label, public-title, and document-number registries cover the units being edited. | Unmatched authority forms or volume-family mismatch could make a direct edit wrong. | Use comments or General Editor tally for unresolved authority issues. |
+| `evidence_basis` | Direct edits rely only on supplied source images, archival paths, classification markings, source lists, public-source registries, or other explicit evidence. | An edit would require an invented archival fact, classification, attachment status, declassification outcome, date, or document number. | Reject the direct edit and create an evidence-request comment. |
+| `style_discrepancy_ledger` | Known General Editor discrepancies are loaded and recurring variations can be merged rather than duplicated. | The ledger is missing or a recurring variation has no house disposition. | Tally the discrepancy and avoid forcing one house form. |
+| `chunk_reconciliation` | All chunks validate, unit ids are unique except marked overlap, duplicate findings are merged, and contradictions are resolved by evidence and severity. | Chunk outputs conflict, lose anchors, duplicate unit ids, or leave target references unresolved. | Reconcile to comment-only; block when anchors or contradictions cannot be resolved. |
+| `wrapper_output` | The final `.docx` can be opened, track changes/comments are valid WordprocessingML, and no protected text, pseudo-marker, or note reference was corrupted. | Output validation fails or tracked changes cannot be applied safely. | Do not release the `.docx`; return audit report and blocked reason. |
+
+Readiness status meanings:
+
+- `ready_for_tracked_changes`: all gates pass or only non-edit-blocking warnings
+  remain; the wrapper may apply validated direct edits.
+- `comment_only_review`: the LLM may produce comments and a discrepancy tally,
+  but direct tracked edits must not be applied in this run.
+- `needs_human_triage`: one or more gates failed in a way a compiler, editor, or
+  wrapper operator can likely resolve by supplying context, approving a policy,
+  or fixing extraction.
+- `blocked`: the packet cannot be reviewed safely because extraction, anchoring,
+  context, or Word output integrity is too uncertain.
 
 Duplicate-suppression rules:
 
@@ -8629,6 +8757,14 @@ is necessary but not sufficient.
 
 Golden packet composition:
 
+- At least one batch-readiness example with readable `.docx`, stable unit ids,
+  exact anchors, current context bundle, and safe tracked changes; the expected
+  result is `ready_for_tracked_changes`.
+- At least one batch-readiness failure example with ambiguous unit boundaries,
+  existing tracked changes, duplicate anchors, missing status or authority
+  context, split pseudo-markers, or unreconciled chunks; the expected result is
+  `comment_only_review`, `needs_human_triage`, or `blocked`, with no direct
+  tracked edits applied.
 - At least one selection-balance example from a foundations, issue, regional,
   crisis, or negotiation volume, with a supplied coverage matrix and one missing
   coverage dimension that should become a comment rather than invented prose.
@@ -10744,6 +10880,10 @@ Chunks processed: [n]
 Units reviewed: [n]
 
 Overall status: [pass/pass_with_comments/needs_revision/blocked]
+Readiness status: [ready_for_tracked_changes/comment_only_review/needs_human_triage/blocked]
+Safe to apply tracked changes: [yes/no]
+Readiness summary: [short pre-redline assessment]
+Readiness gates: [extraction_unitization pass/warning/fail/not_applicable; word_anchoring pass/warning/fail/not_applicable; context_bundle pass/warning/fail/not_applicable; status_registry pass/warning/fail/not_applicable; authority_registry pass/warning/fail/not_applicable; evidence_basis pass/warning/fail/not_applicable; style_discrepancy_ledger pass/warning/fail/not_applicable; chunk_reconciliation pass/warning/fail/not_applicable; wrapper_output pass/warning/fail/not_applicable]
 
 Counts:
 - Blocker findings: [n]
@@ -10753,6 +10893,8 @@ Counts:
 - Direct tracked edits applied: [n]
 - Comments inserted: [n]
 - LLM edits rejected by validator: [n]
+- Readiness gates passed/warned/failed/not applicable: [pass n; warning n; fail n; not_applicable n]
+- Direct edits downgraded because readiness was comment-only or unsafe: [n]
 - Evidence requests by type: [source_image n; archival_path n; classification_marking n; etc.]
 - Evidence queue open/resolved/deferred/waived/blocked: [open n; resolved n; deferred n; waived n; blocked n]
 - Style discrepancies tallied for General Editor: [n]
@@ -10834,6 +10976,9 @@ Evidence requests:
 
 Blocking evidence queue:
 - [request_id]: [evidence_request] - [verification_target] - owner [hint] - status [state]
+
+Readiness gate warnings:
+- [gate_id]: [gate_status] - [finding] - [required_action]
 
 Extraction/unitization warnings:
 - [unit_id or global]: [flat-style, glyph-map, inline-source-note, or marker-boundary issue] - [unit_boundary_basis] - [recommended posture]
@@ -10987,6 +11132,10 @@ Minimum components:
   tables, headings, and tracked changes.
 - LLM prompt runner with this Markdown standard loaded.
 - JSON schema validator for `checker-output-v1`.
+- Pre-redline readiness validator that evaluates extraction/unitization, Word
+  anchoring, context bundle freshness, status and authority registries,
+  evidence basis, General Editor discrepancy ledger, chunk reconciliation, and
+  output safety before any tracked changes are applied.
 - Evidence-request queue builder that groups missing proof by type,
   verification target, owner hint, and blocking state before tracked changes are
   applied.
