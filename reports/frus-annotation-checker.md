@@ -81,6 +81,10 @@ The wrapper should provide the LLM with:
   briefing, travel, diary, schedule, memcon, telcon, minutes, and no-record
   assertions with time, place, participants, record-found status, and evidence
   basis.
+- `cross_reference_registry_context`, if available: structured same-volume,
+  cross-volume, footnote, appendix, tab, attachment, printed-elsewhere,
+  scheduled-publication, and public-source references with target status,
+  document number, volume title, and verification basis.
 - `series_status_context`, if available: current History Office status
   (`published`, `anticipated`, `being_cleared`, `being_researched`, or
   `planned`), target volume title, known chapter status, and any official
@@ -1021,6 +1025,123 @@ Flag these issues:
 - `Attached but not printed`, `Attached but not printed is the list of
   participants`, `Printed as Document [number]`, and `Tabs [letters] are printed
   as Document [number]` are collapsed into a single generic cross-reference.
+
+Cross-reference registry:
+
+When the wrapper can supply document-number, footnote, appendix, tab, or volume
+targets, keep them in a structured registry. Published Reagan and Bush examples
+use several distinct reference forms: `See Document [n]`, `See footnote [n],
+Document [n]`, `Printed as Document [n]`, `See Attachment, Document [n]`,
+`Scheduled for publication...`, and public-source references. These are not
+interchangeable.
+
+```json
+{
+  "cross_reference_registry_id": "frus-cross-references-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d9",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d1",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d128",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d65"
+  ],
+  "references": [
+    {
+      "reference_id": "xref-doc-0009-to-0010",
+      "unit_id": "footnote-0009-0003",
+      "reference_type": "printed_as_document",
+      "source_phrase": "Printed as Document 10.",
+      "target_volume_id": "frus1989-92v31",
+      "target_volume_title": "1989-1992, Volume XXXI, START I, 1989-1991",
+      "target_document": "Document 10",
+      "target_footnote": "",
+      "target_status": "published",
+      "verification_basis": "published FRUS same-volume link"
+    },
+    {
+      "reference_id": "xref-doc-0001-to-scheduled-xliii",
+      "unit_id": "footnote-0001-0005",
+      "reference_type": "scheduled_publication",
+      "source_phrase": "Scheduled for publication in Foreign Relations, 1981-1989, volume XLIII, National Security Policy, 1981-1984, Part 1.",
+      "target_volume_id": "frus1981-88v43",
+      "target_volume_title": "1981-1988, Volume XLIII, National Security Policy, 1981-1984",
+      "target_document": "",
+      "target_footnote": "",
+      "target_status": "being_cleared",
+      "verification_basis": "published FRUS note plus current status registry"
+    }
+  ]
+}
+```
+
+Allowed `reference_type` values:
+
+- `same_volume_document`
+- `same_volume_footnote`
+- `cross_volume_document`
+- `scheduled_publication`
+- `printed_as_document`
+- `printed_as_tab_or_attachment`
+- `appendix_reference`
+- `public_source_reference`
+- `not_found_reference`
+- `full_record_elsewhere`
+- `unknown`
+
+Allowed `target_status` values:
+
+- `published`
+- `anticipated`
+- `being_cleared`
+- `being_researched`
+- `planned`
+- `unknown`
+
+Cross-reference validator sequence:
+
+1. Identify every `See Document`, `See footnote`, `Printed as Document`, `See
+   Attachment`, appendix, scheduled-publication, public-source, not-found, and
+   full-record-elsewhere reference.
+2. Match each reference to the registry. If no registry target exists, use
+   `comment_only` for normal or exhaustive review unless the form is plainly a
+   harmless no-change same-unit comment.
+3. Require `target_document` for same-volume, cross-volume, printed-as-document,
+   and tab/attachment references when the wording asserts a document number.
+4. Require `target_volume_title` and target status for scheduled-publication and
+   cross-volume references.
+5. Do not change `scheduled for publication` to `printed in` unless the target
+   is `published` and the target document or chapter is supplied by the registry
+   or current status context.
+6. Do not turn `See footnote [n], Document [n]` into `See Document [n]` when the
+   footnote is the precise target.
+7. Do not turn public-source references into FRUS document references when the
+   published or public source is the selected evidence.
+8. Reconcile cross-references after chunk merging, because targets may appear in
+   later chunks.
+
+Direct-edit posture:
+
+- Safe direct edits may correct narrow cross-reference punctuation or document
+  number wording only when the registry supplies a stable target and the Word
+  anchor is exact.
+- Use `comment_only` when the target document, footnote, appendix, tab, volume
+  title, chapter, publication status, or public-source citation is missing,
+  stale, or inferred.
+- Use `evidence_request: cross_reference` when the reference anchor or target
+  type is uncertain.
+- Use `evidence_request: document_number` when the missing proof is the target
+  document number.
+- Use `evidence_request: publication_status` when the issue is `printed in`
+  versus `scheduled for publication`.
+
+Cross-reference audit requirements:
+
+- Count same-volume, cross-volume, scheduled-publication, footnote, appendix,
+  printed-elsewhere, and public-source reference warnings separately.
+- Record stale status-registry dependencies and unresolved target-document
+  numbers separately from ordinary citation style issues.
+- Add a General Editor discrepancy item when published or local examples vary on
+  cross-reference wording, but do not tally missing target evidence as style.
 
 ### 6.3 Annotation
 
@@ -2808,7 +2929,8 @@ For every extracted unit, run checks in this order:
 6. Check classification and handling language.
 7. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
    against the attachment registry when supplied.
-8. Check cross-references and follow-on citation form.
+8. Check cross-references and follow-on citation form against the
+   cross-reference registry when supplied.
 9. Check annotation purpose and concision.
 10. Check declassification, omission, original-bracket, release-status, and
     whole-document withholding language against the declassification registry
@@ -3375,6 +3497,7 @@ Source-family registry: [source_family_registry_id and capture date]
 Attachment registry: [attachment_registry_id and capture date]
 Declassification registry: [declassification_registry_id and capture date]
 Chronology registry: [chronology_registry_id and capture date]
+Cross-reference registry: [cross_reference_registry_id and capture date]
 Status snapshot: [status_snapshot URL and captured_at date]
 Status registry stale: [yes/no/not supplied]
 Review mode: [light/normal/exhaustive]
@@ -3402,6 +3525,7 @@ Counts:
 - Attachment status unknown or conflicting: [n]
 - Declassification/omission unresolved or conflicting: [n]
 - Chronology/meeting/call record issues: [n]
+- Cross-reference target, document-number, or scheduled-publication issues: [n]
 
 Major issues:
 - [unit_id]: [finding]
@@ -3429,6 +3553,9 @@ Declassification warnings:
 
 Chronology warnings:
 - [unit_id or global]: [chronology issue] - [event type, record status, and evidence basis]
+
+Cross-reference warnings:
+- [unit_id or global]: [cross-reference issue] - [target type, target status, and evidence basis]
 
 Style discrepancy tally:
 - [discrepancy_id]: [category] - [style_question] - count [n] - risk [level]
@@ -3470,6 +3597,10 @@ Minimum components:
 - Chronology and meeting-record validator that distinguishes diary/schedule
   corroboration, call-log evidence, memcons, telcons, minutes, no-record claims,
   and substantive meeting content before tracked changes are applied.
+- Cross-reference registry validator that checks same-volume documents,
+  footnotes, appendix items, tabs, attachments, public-source references,
+  scheduled-publication targets, and cross-volume publication status before
+  tracked changes are applied.
 - Status-registry validator that preserves production stage, release bucket,
   capture date, official URL, and cross-referenced volume targets before the
   LLM review begins.
@@ -3494,6 +3625,9 @@ Operational cautions:
 - Record chronology-registry version, unknown record statuses, unsupported
   attendance, missing time/place, scheduled-but-unconnected calls, and
   no-record claims lacking search basis.
+- Record cross-reference-registry version, unresolved target documents,
+  footnotes, appendix references, scheduled-publication targets, stale status
+  dependencies, and public-source references.
 - Record status-registry freshness and every publication-status conflict,
   especially `scheduled for publication` or `printed in` language.
 - Record the selected review mode and whether duplicate findings were merged.
