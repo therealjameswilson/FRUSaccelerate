@@ -64,7 +64,9 @@ The wrapper should provide the LLM with:
 - `authority_registry_context`, if available: structured Persons,
   abbreviations, source-list, repository, chapter, document-number, and index
   registries with stable ids, approved display forms, variants, date spans, and
-  source URLs or local provenance.
+  source URLs or local provenance. Preserve date-bounded titles, acronym and
+  term expansions, index behavior, repository/source-list homes, and public
+  source labels.
 - `document_metadata_registry_context`, if available: structured document
   number, heading, document type, sender, recipient, offices, place/date line,
   internal document number, subject/title line, caption, public-title line,
@@ -7901,7 +7903,10 @@ For every extracted unit, run checks in this order:
     international organizations, PVOs, AID/PRM, PL 480, Section 416, and Section
     206 evidence against the human-rights/refugee/global-issues registry when
     supplied.
-37. Check Persons, abbreviations, and index authority issues.
+37. Check Persons, Abbreviations and Terms, repository/source-list forms,
+    chapter labels, document-number references, public-source titles,
+    date-bounded offices, and index behavior against the authority-control
+    registry when supplied.
 38. Assign specific evidence requests and verification targets for unresolved
     proof.
 39. Decide direct edit versus comment-only.
@@ -7966,8 +7971,10 @@ Duplicate-suppression rules:
 
 - Merge repeated URL-only source-note findings into one global comment plus
   unit-level comments only where the missing archival path differs.
-- Merge repeated authority-control issues by person, office, acronym, source
-  list entry, or index term.
+- Merge repeated authority-control issues by authority type, approved display
+  form, variant form, person, date-bounded office, acronym, abbreviation, term
+  expansion, repository/source-list form, chapter label, document-number target,
+  public-source title, index rule, or source URL.
 - Merge repeated source-list/front-matter issues by apparatus component, source
   family, published-source home, abbreviation, Persons entry, appendix target,
   declassification statement, special-note decision, or errata item.
@@ -8255,8 +8262,10 @@ Golden packet composition:
   polished source-note prose.
 - At least one clearance-stage sheet with unresolved declassification,
   attachment, agency-equity, or scheduled-publication language.
-- At least one Persons, abbreviations, source-list, or index unit with
-  authority-control issues.
+- At least one Persons, Abbreviations and Terms, source-list, chapter-label,
+  document-number, public-title, or index unit with authority-control issues,
+  including one volume-specific variant that must not be normalized from a
+  different Reagan or Bush volume.
 - At least one Word file containing footnotes, comments, tables, and existing
   tracked changes so the wrapper safety rules are exercised.
 - At least one intentionally unsafe unit of transcribed document text that the
@@ -8402,9 +8411,12 @@ Expected behavior by test family:
   anchors.
 - Transcribed-text test: do not edit the document body unless the user requested
   transcription review.
-- Authority-control test: flag date-bounded titles, variant names, office
-  changes, acronym form, repository hierarchy, or document-number indexing
-  problems without inventing the replacement fact.
+- Authority-control test: preserve registry-supplied Persons forms,
+  date-bounded titles, variant names, nicknames, office changes, acronym
+  capitalization, abbreviation and term expansions, repository/source-list
+  hierarchy, public-source titles, chapter labels, document-number targets, and
+  index behavior; comment rather than invent when the authority registry is
+  missing or when a different Reagan or Bush volume uses a different form.
 
 Suggested scoring rubric:
 
@@ -8547,8 +8559,9 @@ Use the discrepancy tally for:
   regional-body, alliance, coalition, peacekeeping, conference, treaty-party,
   successor-state, copy-provenance, concurrence, or selected-versus-supplemental
   role detail to print when the underlying facts are sound.
-- Different Persons, abbreviations, source-list, or index authority forms that
-  may reflect volume-specific practice rather than error.
+- Different Persons, Abbreviations and Terms, repository/source-list, chapter,
+  document-number, public-title, or index authority forms that may reflect
+  volume-specific practice rather than error.
 - Variations in telegram, cable, STARS, CFPF, PROFS, W Files, System IV, or
   agency-message detail when the message identity is sound but published or
   local examples differ on how much metadata to print.
@@ -8619,6 +8632,7 @@ Suggested tally format:
 | style-discrepancy-0019 | time_zone_chronology | How much time-zone, conversion, date-time-group, treaty-time, and ambiguity detail should appear when the time and sequence facts are sound. | Volume-wide Washington-time rule; telegram Z/GMT label retained without conversion; local-time explanatory note; treaty notification rule; ambiguity preserved in comment or note | 2 | medium | Should the checker enforce a house form for time-zone and chronological-placement detail, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0020 | visual_material_graphic | How much visual-material apparatus should appear for maps, photographs, charts, captions, graphic attachments, and not-found visual items when the facts are sound. | Detailed caption/title and visual-description note; compact attached-but-not-printed or not-found phrase; appendix-image cross-reference with details retained in audit/context | 2 | medium | Should the checker enforce a house form for visual-material notes, or tally volume-specific variation for General Editor decision? |
 | style-discrepancy-0021 | release_errata_apparatus | How much release, errata, GPO/ISBN, download, and print-versus-online correction apparatus should appear when the facts are sound. | Full press-release or media-note basis plus release date, public URL, GPO/ISBN/S/N, PDF/EPUB/Mobi, generated date, and errata status; shorter publication or correction note with release/digital details retained in audit/context | 2 | medium | Should the checker enforce a house form for release and errata apparatus, or tally volume-specific variation for General Editor decision? |
+| style-discrepancy-0022 | authority_control | How much Persons, Abbreviations and Terms, source-list, chapter-label, document-number, public-title, and index authority reconciliation should occur inside annotation sheets before final front-matter or index assembly. | Full registry reconciliation with approved display forms, variants, date spans, term expansions, and index rules in the checker audit; lighter annotation-sheet comments that defer final authority decisions to front-matter/index assembly | 2 | medium | Should the checker enforce authority-control forms during annotation review, or tally volume-specific authority variations for General Editor decision? |
 
 Risk levels:
 
@@ -8771,6 +8785,11 @@ Required bundle files:
 - `authority_lists`, when available: Persons, abbreviations, source-list
   entries, index terms, known document numbers, chapter titles, and related
   volume cross-references.
+- `authority_control_map`, when available: approved Persons display forms,
+  variant names, nicknames, date-bounded titles, office changes, acronym
+  capitalization, abbreviation and term expansions, repository/source-list
+  forms, public-source titles, chapter labels, document-number targets, index
+  behavior, verification status, and source URLs.
 - `published_pattern_extracts`: short, cleared examples from published FRUS
   pages used as no-change or style controls, with source URLs and capture date.
 - `local_exemplar_notes`: approved internal examples, such as a clean
@@ -9124,6 +9143,171 @@ Audit requirements:
   digital-edition, GPO/ISBN/S/N, or print-versus-online correction apparatus to
   print or keep in audit context.
 
+### 13.3 Persons, Abbreviations, Terms, Index, And Authority-Control Validation
+
+Authority control is not cosmetic. Published Reagan and Bush volumes maintain
+volume-specific Persons lists, Abbreviations and Terms lists, source-list
+families, chapter labels, and index behavior. A closed-network model must not
+standardize a name, acronym, office title, abbreviation expansion, index target,
+or repository/source-list form from general knowledge when the volume registry
+supplies a different form.
+
+Use an authority-control registry when the wrapper can supply one:
+
+```json
+{
+  "authority_registry_id": "frus-1981-1992-authority-control-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/persons",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/terms",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/persons",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/terms",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/persons",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/terms"
+  ],
+  "records": [
+    {
+      "authority_item_id": "person-bush-ghw-v31",
+      "authority_type": "person",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "Bush, George Herbert Walker",
+      "variant_forms": [
+        "George H.W. Bush",
+        "President Bush",
+        "Bush, George H.W."
+      ],
+      "role_or_expansion": "Vice President of the United States until January 1989; President of the United States from January 20, 1989",
+      "date_span": "through January 1989; from January 20, 1989",
+      "index_or_front_matter_behavior": "Persons entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/persons",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "person-bush-ghw-v44p1",
+      "authority_type": "person",
+      "volume_id": "frus1981-88v44p1",
+      "approved_display_form": "Bush, George H.W.",
+      "variant_forms": [
+        "Bush, George Herbert Walker",
+        "Vice President Bush"
+      ],
+      "role_or_expansion": "Vice President of the United States",
+      "date_span": "1985-1988 volume context",
+      "index_or_front_matter_behavior": "Persons entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/persons",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "term-start-v31",
+      "authority_type": "term",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "START",
+      "variant_forms": [
+        "Strategic Arms Reduction Talks",
+        "Strategic Arms Reduction Treaty"
+      ],
+      "role_or_expansion": "Strategic Arms Reduction Talks; Strategic Arms Reduction Treaty",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "Abbreviations and Terms entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/terms",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "term-cob-v44p1",
+      "authority_type": "abbreviation",
+      "volume_id": "frus1981-88v44p1",
+      "approved_display_form": "COB or C.O.B.",
+      "variant_forms": [
+        "COB",
+        "C.O.B."
+      ],
+      "role_or_expansion": "Close of Business",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "Abbreviations and Terms entry",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/terms",
+      "verification_status": "verified_published_pattern"
+    },
+    {
+      "authority_item_id": "index-rule-v31",
+      "authority_type": "index_entry",
+      "volume_id": "frus1989-92v31",
+      "approved_display_form": "index numbers refer to document numbers",
+      "variant_forms": [
+        "page numbers",
+        "document numbers"
+      ],
+      "role_or_expansion": "Index references use document numbers rather than page numbers",
+      "date_span": "volume-wide",
+      "index_or_front_matter_behavior": "About the Series index rule",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries",
+      "verification_status": "verified_published_pattern"
+    }
+  ]
+}
+```
+
+Allowed `authority_type` values: `person`, `abbreviation`, `term`,
+`source_family`, `repository`, `chapter_label`, `document_number`,
+`index_entry`, `public_source_title`, `office_title`, and `unknown`.
+
+Allowed `verification_status` values: `verified_published_pattern`,
+`verified_local_authority`, `needs_persons_list`, `needs_terms_list`,
+`needs_source_list`, `needs_index_rule`, `needs_date_span`, `needs_variant_map`,
+and `unknown`.
+
+Validator sequence:
+
+1. Identify every person name, office title, acronym, abbreviation, term,
+   repository/source-list form, chapter label, document-number reference, public
+   source title, and index claim in editable apparatus.
+2. Match the unit against `authority_registry_context` before changing display
+   form, expansion, capitalization, punctuation, date span, nickname, office
+   title, or index behavior.
+3. Preserve volume-specific forms. Do not use one Reagan or Bush volume to
+   overwrite another volume's Persons or Abbreviations and Terms form unless the
+   wrapper supplies a cross-volume house authority.
+4. Preserve variant forms when the published volume treats both variants as
+   acceptable, such as slash forms, alternate punctuation, or a term with more
+   than one expansion.
+5. Do not expand every abbreviation in source notes. About the Series practice
+   preserves abbreviations and contractions in document text and records
+   expansions in front matter.
+6. Keep person display names separate from document-body references. A source
+   note may use a surname or office title when the Persons entry supplies the
+   fuller authority form.
+7. Keep index behavior separate from page citation behavior. If the volume rule
+   says index numbers refer to document numbers, do not convert them to pages.
+8. Coordinate with source-list/front-matter validation for source homes and with
+   document-metadata validation for headings, captions, subject lines, and
+   public titles.
+
+Direct-edit posture:
+
+- Safe direct edits may restore exact supplied Persons, Abbreviations and Terms,
+  repository/source-list, chapter-label, document-number, public-title, or index
+  forms when the registry and exact Word anchors support the edit.
+- Use `comment_only` with `evidence_request: authority_control` when a name,
+  title, acronym, expansion, source-list home, chapter label, document number,
+  public source title, or index rule is uncertain.
+- Do not invent middle initials, nicknames, office titles, date spans, acronym
+  expansions, agency homes, chapter labels, document numbers, index targets, or
+  repository hierarchy from memory.
+
+Audit requirements:
+
+- Count person-name, date-bounded title, acronym, abbreviation, term expansion,
+  repository/source-list, chapter-label, document-number, public-title, and
+  index-rule warnings separately.
+- Preserve registry id, capture date, source URLs, authority type, approved
+  display form, variant forms, role or expansion, date span, index/front-matter
+  behavior, and verification status.
+- Add General Editor tally rows for variations in how much authority-control
+  reconciliation should be done inside annotation sheets versus final
+  front-matter or index assembly.
+
 ## 14. Audit Report Summary Template
 
 The wrapper may generate a human-readable report after applying changes:
@@ -9190,6 +9374,8 @@ Counts:
 - Cross-chunk conflicts reconciled: [n]
 - Status registry conflicts or stale-publication warnings: [n]
 - Authority registry conflicts or unmatched forms: [n]
+- Persons, Abbreviations and Terms, source-list, chapter-label,
+  document-number, public-title, or index authority-control issues: [n]
 - Document heading, dateline, title, or caption issues: [n]
 - Source-surrogate, RAC, NLR, FOIA, catalog, URL, PDF, scan, release-package, or `no N number` issues: [n]
 - Physical evidence, routing, marginalia, read-by/seen, approval, or placement issues: [n]
@@ -9233,7 +9419,7 @@ Publication-status warnings:
 - [unit_id or global]: [status issue] - [registry target]
 
 Authority-control warnings:
-- [unit_id or global]: [authority issue] - [registry target or unmatched form]
+- [unit_id or global]: [authority issue] - [authority type, approved display form, variant or unmatched form, date span, term expansion, source-list or index behavior, registry target, and verification target]
 
 Document-metadata warnings:
 - [unit_id or global]: [metadata issue] - [heading field, evidence basis, and registry target]
@@ -9347,7 +9533,9 @@ Minimum components:
   provenance metadata.
 - Authority-registry validator that reconciles Persons, abbreviations,
   repository/source-list forms, chapter labels, document numbers, and index
-  terms before track changes are applied.
+  terms; preserves date-bounded titles, variant names, acronym capitalization,
+  term expansions, public-source titles, and index behavior before track
+  changes are applied.
 - Document-metadata validator that checks document headings, datelines,
   internal document numbers, subject/title lines, public-title lines, captions,
   sender/recipient offices, and source-note linkage before tracked changes are
@@ -9500,7 +9688,10 @@ Operational cautions:
 - Keep original uploaded files unchanged.
 - Record the exact checker version used.
 - Record the exact context-bundle id and capture date used.
-- Record authority-registry version, unmatched forms, direct authority edits,
+- Record authority-registry version, source URLs, unmatched forms, approved
+  display forms, variants, date-bounded titles, acronym and term expansions,
+  repository/source-list homes, public-source titles, chapter labels,
+  document-number targets, index-rule warnings, direct authority edits,
   comments, and unresolved General Editor questions.
 - Record source-list/front-matter registry version, unmatched source families,
   missing Published Sources homes, missing recurring abbreviations, Persons-list
@@ -9656,6 +9847,9 @@ Pass:
 - No URLs, discovery labels, or speculative claims remain in publishable notes.
 - Release, errata, digital-edition, GPO/ISBN/S/N, and public-URL facts are
   either verified in the supplied registry or kept out of publishable notes.
+- Persons, Abbreviations and Terms, source-list, chapter-label,
+  document-number, public-title, and index forms follow supplied authority
+  context or remain comment-only.
 
 Needs revision:
 
@@ -9741,7 +9935,10 @@ Needs revision:
   status, international-organization roles, amounts/metrics, legal/program
   authorities, public/archival basis, or stage/status claims are asserted or
   changed without supplied humanitarian-rights basis.
-- Persons, abbreviations, or index entries are inconsistent.
+- Persons, Abbreviations and Terms, repository/source-list forms, chapter
+  labels, document numbers, public-source titles, office/date spans, acronym
+  capitalization, term expansions, or index entries are inconsistent or changed
+  without supplied authority-control context.
 
 Blocked:
 
@@ -9853,6 +10050,8 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v01`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/preface`
 - `https://history.state.gov/historicaldocuments/frus1981-88v01/sources`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/persons`
+- `https://history.state.gov/historicaldocuments/frus1981-88v01/terms`
 - `https://history.state.gov/historicaldocuments/frus1981-88v06/preface`
 - `https://history.state.gov/historicaldocuments/frus1981-88v11/d182`
 - `https://history.state.gov/historicaldocuments/frus1981-88v11/d181`
@@ -9868,6 +10067,8 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/preface`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources`
+- `https://history.state.gov/historicaldocuments/frus1981-88v44p1/persons`
+- `https://history.state.gov/historicaldocuments/frus1981-88v44p1/terms`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d155`
 - `https://history.state.gov/historicaldocuments/frus1981-88v44p1/d294`
@@ -9884,6 +10085,8 @@ family router:
 - `https://history.state.gov/historicaldocuments/frus1989-92v31`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/preface`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/persons`
+- `https://history.state.gov/historicaldocuments/frus1989-92v31/terms`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d172`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/d222`
 - `https://history.state.gov/historicaldocuments/frus1989-92v31/sources`
@@ -9900,6 +10103,8 @@ Recent Reagan source incorporated:
 - [Volume I preface on representative selection of intellectual themes, public record, internal records, and principal actors](https://history.state.gov/historicaldocuments/frus1981-88v01/preface)
 - [Volume I press release describing public and archival source basis](https://history.state.gov/historicaldocuments/frus1981-88v01/pressrelease)
 - [Volume I source list with speechwriting files, speeches, and published sources](https://history.state.gov/historicaldocuments/frus1981-88v01/sources)
+- [Volume I Persons authority list](https://history.state.gov/historicaldocuments/frus1981-88v01/persons)
+- [Volume I Abbreviations and Terms authority list](https://history.state.gov/historicaldocuments/frus1981-88v01/terms)
 - [Haig confirmation chronology with memoir supplementation, Document 18](https://history.state.gov/historicaldocuments/frus1981-88v01/d18)
 - [Haig Middle East trip editorial note with memoir context, Document 34](https://history.state.gov/historicaldocuments/frus1981-88v01/d34)
 - [Reagan Cronkite interview editorial note, Document 33](https://history.state.gov/historicaldocuments/frus1981-88v01/d33)
@@ -9962,6 +10167,8 @@ Recent Reagan source incorporated:
 - [Volume XLIV, Part 1 about-the-series source, declassification, RAC scan, and attachment-ambiguity statement](https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries)
 - [Volume XLIV, Part 1 preface on SDI, strategic modernization, related volumes, internal debates, agency interactions, and outcome boundaries](https://history.state.gov/historicaldocuments/frus1981-88v44p1/preface)
 - [Volume XLIV, Part 1 source list with Reagan Library NSC files, PROFS, W Files, State lot files, agency records, and Published Sources](https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources)
+- [Volume XLIV, Part 1 Persons authority list](https://history.state.gov/historicaldocuments/frus1981-88v44p1/persons)
+- [Volume XLIV, Part 1 Abbreviations and Terms authority list](https://history.state.gov/historicaldocuments/frus1981-88v44p1/terms)
 - [NSPG meeting source note with Daily Diary basis and `No minutes were found`, Document 1](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1)
 - [Action memorandum with Reagan initials, signed stamp, approval checkmark, and tabs printed as next document, Document 50](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d50)
 - [Keel handwritten meeting notes with editor-transcribed portion, appendix image link, illegible readings, and not-declassified spans, Document 155](https://history.state.gov/historicaldocuments/frus1981-88v44p1/d155)
@@ -9989,6 +10196,8 @@ Recent Bush source incorporated:
 - [START I treaty text source note, Document 246](https://history.state.gov/historicaldocuments/frus1989-92v31/d246)
 - [START I Presidential transmittal and article-by-article analysis note, Document 247](https://history.state.gov/historicaldocuments/frus1989-92v31/d247)
 - [START I source list with Bush Library H-Files, Scowcroft/Gates collections, Vice Presidential Records, State lot files, CFPF reels, and Published Sources](https://history.state.gov/historicaldocuments/frus1989-92v31/sources)
+- [START I Persons authority list](https://history.state.gov/historicaldocuments/frus1989-92v31/persons)
+- [START I Abbreviations and Terms authority list](https://history.state.gov/historicaldocuments/frus1989-92v31/terms)
 - [START I preface discussion of Senate ratification and Lisbon Protocol context](https://history.state.gov/historicaldocuments/frus1989-92v31/preface)
 - [START I about-the-series source and declassification statement](https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries)
 - [Gorbachev letter printed from unofficial translation, Document 91](https://history.state.gov/historicaldocuments/frus1989-92v31/d91)
