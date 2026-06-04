@@ -59,6 +59,9 @@ For small-context LLMs that cannot fit a whole sheet, build chunk packets with
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
 `node scripts/extract-frus-status-claims.mjs --units extracted-units.json --registry reports/frus-status-series-1981-1992.current.json --checker-output output.json --out status-claims.json --format text`.
+Preserve target scope and subitem overlays in `status-claims.json`, especially
+anticipated-year cases such as Reagan South America/Venezuela, before using
+status language for direct redlines.
 For per-document review coverage, run
 `node scripts/audit-frus-review-coverage.mjs --units extracted-units.json --output output.json --matrix reports/frus-annotation-permutation-matrix.json`.
 For authority-control validation and direct-edit safety, run
@@ -588,7 +591,8 @@ is flawless.
    `scheduled for publication`, `forthcoming`, `anticipated`, `being cleared`,
    `being researched`, or `planned` language. Volume-level status context is
    comment-only for direct redlines unless the claim also supplies an exact
-   document, chapter, or subitem target.
+   document, chapter, or subitem target; anticipated-year overlays that name a
+   chapter/subitem must not be flattened into whole-volume prose.
 9. Wrapper validates Persons, Abbreviations and Terms, Source List/front
    matter, document-number, public-title, and index forms against the supplied
    authority registry before allowing any authority-control redline.
@@ -1802,22 +1806,22 @@ Use these deterministic wrapper-extracted publication-status phrases to avoid si
 {
   "schema_version": "frus-status-claims-v1",
   "source": "Extracted status-bearing phrases from FRUS annotation-sheet units.",
-  "generated_at": "2026-06-03T14:19:18.980Z",
+  "generated_at": "2026-06-04T14:41:10.766Z",
   "registry_source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
   "registry_captured_at": "2026-06-03",
   "target_entry_id_fallback": "",
   "summary": {
-    "units_scanned": 4,
+    "units_scanned": 5,
     "claims_found": 0,
     "direct_edit_requested": 0,
     "by_claim_type": {
       "scheduled_for_publication": 1,
-      "anticipated_in_year": 1,
+      "anticipated_in_year": 2,
       "being_cleared": 1,
       "history_office_url": 1
     },
     "by_target_inference": {
-      "high": 3,
+      "high": 4,
       "medium": 1
     }
   },

@@ -12145,8 +12145,12 @@ Minimum components:
   `audit.json` plus component reports.
 - No-dependency status-claim preflight validator and status fixtures:
   `scripts/preflight-frus-status-claims.mjs`,
+  `scripts/extract-frus-status-claims.mjs`,
   `reports/frus-status-registry-1981-1992.sample.json`, and
-  `reports/frus-status-claims.sample.json`.
+  `reports/frus-status-claims.sample.json`. The extractor preserves
+  volume-versus-subitem scope and anticipated-year subitem overlays, including
+  the Reagan South America/Venezuela 2026 distinction, so direct status
+  redlines cannot flatten chapter-level status into volume-level prose.
 - No-dependency authority-registry validator, usage audit, and fixtures:
   `scripts/validate-frus-authority-registry.mjs`,
   `scripts/audit-frus-authority-usage.mjs`,

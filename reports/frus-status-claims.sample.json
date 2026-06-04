@@ -1,22 +1,22 @@
 {
   "schema_version": "frus-status-claims-v1",
   "source": "Extracted status-bearing phrases from FRUS annotation-sheet units.",
-  "generated_at": "2026-06-03T14:19:18.980Z",
+  "generated_at": "2026-06-04T14:41:10.766Z",
   "registry_source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
   "registry_captured_at": "2026-06-03",
   "target_entry_id_fallback": "",
   "summary": {
-    "units_scanned": 4,
-    "claims_found": 4,
+    "units_scanned": 5,
+    "claims_found": 5,
     "direct_edit_requested": 0,
     "by_claim_type": {
       "scheduled_for_publication": 1,
-      "anticipated_in_year": 1,
+      "anticipated_in_year": 2,
       "being_cleared": 1,
       "history_office_url": 1
     },
     "by_target_inference": {
-      "high": 3,
+      "high": 4,
       "medium": 1
     }
   },
@@ -30,6 +30,8 @@
       "target_title": "START I, 1989-1991",
       "target_volume_number": "XXXI",
       "target_subitem": "",
+      "target_scope": "volume",
+      "subitem_overlay_candidates": [],
       "target_chapter": "",
       "target_document": "",
       "claimed_year": "",
@@ -47,6 +49,10 @@
       "target_title": "South America",
       "target_volume_number": "XVI",
       "target_subitem": "Venezuela",
+      "target_scope": "subitem",
+      "subitem_overlay_candidates": [
+        "Venezuela"
+      ],
       "target_chapter": "",
       "target_document": "",
       "claimed_year": "2026",
@@ -57,6 +63,27 @@
     },
     {
       "claim_id": "status-claim-0003",
+      "unit_id": "annotation-0052",
+      "phrase": "anticipated in 2026",
+      "claim_type": "anticipated_in_year",
+      "target_entry_id": "frus1981-88v16",
+      "target_title": "South America",
+      "target_volume_number": "XVI",
+      "target_subitem": "",
+      "target_scope": "volume",
+      "subitem_overlay_candidates": [
+        "Venezuela"
+      ],
+      "target_chapter": "",
+      "target_document": "",
+      "claimed_year": "2026",
+      "direct_edit_requested": false,
+      "target_inference": "high",
+      "inference_note": "target inferred with score 120",
+      "direct_edit_rule_ids": []
+    },
+    {
+      "claim_id": "status-claim-0004",
       "unit_id": "annotation-0077",
       "phrase": "being cleared in the Bush National Security Policy volume",
       "claim_type": "being_cleared",
@@ -64,6 +91,8 @@
       "target_title": "National Security Policy",
       "target_volume_number": "XXVI",
       "target_subitem": "",
+      "target_scope": "volume",
+      "subitem_overlay_candidates": [],
       "target_chapter": "",
       "target_document": "",
       "claimed_year": "",
@@ -73,7 +102,7 @@
       "direct_edit_rule_ids": []
     },
     {
-      "claim_id": "status-claim-0004",
+      "claim_id": "status-claim-0005",
       "unit_id": "annotation-0099",
       "phrase": "https://history.state.gov/historicaldocuments/frus1981-88v44p1",
       "claim_type": "history_office_url",
@@ -81,6 +110,8 @@
       "target_title": "National Security Policy, 1985-1988",
       "target_volume_number": "XLIV, Part 1",
       "target_subitem": "",
+      "target_scope": "volume",
+      "subitem_overlay_candidates": [],
       "target_chapter": "",
       "target_document": "",
       "claimed_year": "",

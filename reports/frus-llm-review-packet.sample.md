@@ -2,7 +2,7 @@
 
 - schema_version: frus-llm-review-packet-v1
 - run_id: sample-packet
-- generated_at: 2026-06-04T14:16:06.056Z
+- generated_at: 2026-06-04T16:30:45.460Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -154,7 +154,7 @@ Every reviewable extracted editorial unit should have a checker entry. Use `reco
   "annotation_sheet_profile_checks": 4,
   "annotation_sheet_profile_markers": 6,
   "status_registry_entries": 74,
-  "status_claims": 4,
+  "status_claims": 5,
   "authority_registry_records": 8,
   "source_list_registry_records": 10,
   "source_family_registry_families": 6,
@@ -227,6 +227,9 @@ For small-context LLMs that cannot fit a whole sheet, build chunk packets with
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
 `node scripts/extract-frus-status-claims.mjs --units extracted-units.json --registry reports/frus-status-series-1981-1992.current.json --checker-output output.json --out status-claims.json --format text`.
+Preserve target scope and subitem overlays in `status-claims.json`, especially
+anticipated-year cases such as Reagan South America/Venezuela, before using
+status language for direct redlines.
 For per-document review coverage, run
 `node scripts/audit-frus-review-coverage.mjs --units extracted-units.json --output output.json --matrix reports/frus-annotation-permutation-matrix.json`.
 For authority-control validation and direct-edit safety, run
@@ -756,7 +759,8 @@ is flawless.
    `scheduled for publication`, `forthcoming`, `anticipated`, `being cleared`,
    `being researched`, or `planned` language. Volume-level status context is
    comment-only for direct redlines unless the claim also supplies an exact
-   document, chapter, or subitem target.
+   document, chapter, or subitem target; anticipated-year overlays that name a
+   chapter/subitem must not be flattened into whole-volume prose.
 9. Wrapper validates Persons, Abbreviations and Terms, Source List/front
    matter, document-number, public-title, and index forms against the supplied
    authority registry before allowing any authority-control redline.
@@ -3127,22 +3131,22 @@ These are deterministic wrapper-extracted publication-status phrases. Use them t
 {
   "schema_version": "frus-status-claims-v1",
   "source": "Extracted status-bearing phrases from FRUS annotation-sheet units.",
-  "generated_at": "2026-06-03T14:19:18.980Z",
+  "generated_at": "2026-06-04T14:41:10.766Z",
   "registry_source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
   "registry_captured_at": "2026-06-03",
   "target_entry_id_fallback": "",
   "summary": {
-    "units_scanned": 4,
-    "claims_found": 4,
+    "units_scanned": 5,
+    "claims_found": 5,
     "direct_edit_requested": 0,
     "by_claim_type": {
       "scheduled_for_publication": 1,
-      "anticipated_in_year": 1,
+      "anticipated_in_year": 2,
       "being_cleared": 1,
       "history_office_url": 1
     },
     "by_target_inference": {
-      "high": 3,
+      "high": 4,
       "medium": 1
     }
   },
@@ -3156,6 +3160,8 @@ These are deterministic wrapper-extracted publication-status phrases. Use them t
       "target_title": "START I, 1989-1991",
       "target_volume_number": "XXXI",
       "target_subitem": "",
+      "target_scope": "volume",
+      "subitem_overlay_candidates": [],
       "target_chapter": "",
       "target_document": "",
       "claimed_year": "",
@@ -3173,6 +3179,10 @@ These are deterministic wrapper-extracted publication-status phrases. Use them t
       "target_title": "South America",
       "target_volume_number": "XVI",
       "target_subitem": "Venezuela",
+      "target_scope": "subitem",
+      "subitem_overlay_candidates": [
+        "Venezuela"
+      ],
       "target_chapter": "",
       "target_document": "",
       "claimed_year": "2026",
@@ -3183,6 +3193,27 @@ These are deterministic wrapper-extracted publication-status phrases. Use them t
     },
     {
       "claim_id": "status-claim-0003",
+      "unit_id": "annotation-0052",
+      "phrase": "anticipated in 2026",
+      "claim_type": "anticipated_in_year",
+      "target_entry_id": "frus1981-88v16",
+      "target_title": "South America",
+      "target_volume_number": "XVI",
+      "target_subitem": "",
+      "target_scope": "volume",
+      "subitem_overlay_candidates": [
+        "Venezuela"
+      ],
+      "target_chapter": "",
+      "target_document": "",
+      "claimed_year": "2026",
+      "direct_edit_requested": false,
+      "target_inference": "high",
+      "inference_note": "target inferred with score 120",
+      "direct_edit_rule_ids": []
+    },
+    {
+      "claim_id": "status-claim-0004",
       "unit_id": "annotation-0077",
       "phrase": "being cleared in the Bush National Security Policy volume",
       "claim_type": "being_cleared",
@@ -3190,6 +3221,8 @@ These are deterministic wrapper-extracted publication-status phrases. Use them t
       "target_title": "National Security Policy",
       "target_volume_number": "XXVI",
       "target_subitem": "",
+      "target_scope": "volume",
+      "subitem_overlay_candidates": [],
       "target_chapter": "",
       "target_document": "",
       "claimed_year": "",
@@ -3199,7 +3232,7 @@ These are deterministic wrapper-extracted publication-status phrases. Use them t
       "direct_edit_rule_ids": []
     },
     {
-      "claim_id": "status-claim-0004",
+      "claim_id": "status-claim-0005",
       "unit_id": "annotation-0099",
       "phrase": "https://history.state.gov/historicaldocuments/frus1981-88v44p1",
       "claim_type": "history_office_url",
@@ -3207,6 +3240,8 @@ These are deterministic wrapper-extracted publication-status phrases. Use them t
       "target_title": "National Security Policy, 1985-1988",
       "target_volume_number": "XLIV, Part 1",
       "target_subitem": "",
+      "target_scope": "volume",
+      "subitem_overlay_candidates": [],
       "target_chapter": "",
       "target_document": "",
       "claimed_year": "",

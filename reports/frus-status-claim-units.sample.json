@@ -33,6 +33,21 @@
       "blocked_boundaries": []
     },
     {
+      "unit_id": "annotation-0052",
+      "unit_type": "editorial_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Editorial note",
+      "exact_text": "The South America volume was anticipated in 2026.",
+      "display_text": "The South America volume was anticipated in 2026.",
+      "surrounding_text": "",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
       "unit_id": "annotation-0077",
       "unit_type": "editorial_note",
       "editability": "editable",

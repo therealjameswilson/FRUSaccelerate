@@ -60,6 +60,21 @@ try {
         blocked_boundaries: []
       },
       {
+        unit_id: "annotation-0052",
+        unit_type: "editorial_note",
+        editability: "editable",
+        edit_safety: "safe_to_edit",
+        comment_safety: "safe_to_comment",
+        word_part: "word/document.xml",
+        location: "Editorial note",
+        exact_text: "The South America volume was anticipated in 2026.",
+        display_text: "The South America volume was anticipated in 2026.",
+        surrounding_text: "",
+        existing_revisions: false,
+        existing_comments: [],
+        blocked_boundaries: []
+      },
+      {
         unit_id: "annotation-0077",
         unit_type: "editorial_note",
         editability: "editable",
@@ -112,14 +127,21 @@ try {
 
   const claimsDoc = JSON.parse(fs.readFileSync(outputPath, "utf8"));
   assert(claimsDoc.schema_version === "frus-status-claims-v1", "expected status-claims schema");
-  assert(claimsDoc.summary.claims_found === 4, `expected four claims, got ${claimsDoc.summary.claims_found}`);
-  const byType = new Map(claimsDoc.claims.map((claim) => [claim.claim_type, claim]));
-  assert(byType.get("scheduled_for_publication").target_entry_id === "frus1989-92v31", "expected START I target");
-  assert(byType.get("anticipated_in_year").target_entry_id === "frus1981-88v16", "expected South America target");
-  assert(byType.get("anticipated_in_year").target_subitem === "Venezuela", "expected Venezuela subitem");
-  assert(byType.get("anticipated_in_year").claimed_year === "2026", "expected anticipated year");
-  assert(byType.get("being_cleared").target_entry_id === "frus1989-92v26", "expected Bush National Security Policy target");
-  assert(byType.get("history_office_url").target_entry_id === "frus1981-88v44p1", "expected History Office URL target");
+  assert(claimsDoc.summary.claims_found === 5, `expected five claims, got ${claimsDoc.summary.claims_found}`);
+  const byUnit = new Map(claimsDoc.claims.map((claim) => [claim.unit_id, claim]));
+  assert(byUnit.get("annotation-0042").target_entry_id === "frus1989-92v31", "expected START I target");
+  assert(byUnit.get("annotation-0051").target_entry_id === "frus1981-88v16", "expected South America target");
+  assert(byUnit.get("annotation-0051").target_subitem === "Venezuela", "expected Venezuela subitem");
+  assert(byUnit.get("annotation-0051").target_scope === "subitem", "expected Venezuela claim to be subitem-scoped");
+  assert(byUnit.get("annotation-0051").claimed_year === "2026", "expected anticipated year");
+  assert(byUnit.get("annotation-0052").target_entry_id === "frus1981-88v16", "expected ambiguous South America target");
+  assert(byUnit.get("annotation-0052").target_scope === "volume", "expected ambiguous South America claim to be volume-scoped");
+  assert(
+    byUnit.get("annotation-0052").subitem_overlay_candidates.includes("Venezuela"),
+    "expected ambiguous South America claim to carry Venezuela overlay candidate"
+  );
+  assert(byUnit.get("annotation-0077").target_entry_id === "frus1989-92v26", "expected Bush National Security Policy target");
+  assert(byUnit.get("annotation-0099").target_entry_id === "frus1981-88v44p1", "expected History Office URL target");
 
   const preflight = runScript("scripts/preflight-frus-status-claims.mjs", [
     "--registry",
@@ -176,6 +198,20 @@ try {
         comment_text: "",
         evidence_request: "publication_status",
         verification_target: "Official status and exact target for annotation-0077"
+      },
+      {
+        unit_id: "annotation-0052",
+        rule_id: "FAS-STAT-003",
+        severity: "major",
+        category: "publication_status",
+        finding: "Normalize anticipated status language.",
+        standard: "Anticipated-year status language must distinguish volume-level and subitem/chapter overlays.",
+        recommended_action: "replace_text",
+        original_text: "The South America volume was anticipated in 2026.",
+        replacement_text: "The South America volume was anticipated in 2026.",
+        comment_text: "",
+        evidence_request: "publication_status",
+        verification_target: "Official South America/Venezuela status overlay"
       }
     ],
     global_comments: [],
@@ -205,6 +241,12 @@ try {
   assert(directClaim.direct_edit_requested === true, "expected direct edit to be flagged");
   const directClearanceClaim = directClaims.claims.find((claim) => claim.unit_id === "annotation-0077");
   assert(directClearanceClaim.direct_edit_requested === true, "expected clearance status direct edit to be flagged");
+  const directAmbiguousOverlayClaim = directClaims.claims.find((claim) => claim.unit_id === "annotation-0052");
+  assert(directAmbiguousOverlayClaim.direct_edit_requested === true, "expected ambiguous overlay direct edit to be flagged");
+  assert(
+    directAmbiguousOverlayClaim.subitem_overlay_candidates.includes("Venezuela"),
+    "expected ambiguous direct-edit claim to retain Venezuela overlay candidate"
+  );
 
   const directPreflight = runScript("scripts/preflight-frus-status-claims.mjs", [
     "--registry",
@@ -219,6 +261,10 @@ try {
   assert(
     directPreflight.stderr.includes("volume-level status context is comment-only"),
     "expected volume-level status direct edit to be blocked"
+  );
+  assert(
+    directPreflight.stderr.includes("chapter/subitem overlay"),
+    "expected chapter/subitem overlay ambiguity to be blocked for direct edits"
   );
 
   console.log("FRUS status claim extractor test passed: claims, targets, subitems, URL ids, preflight, and direct-edit blocking work.");

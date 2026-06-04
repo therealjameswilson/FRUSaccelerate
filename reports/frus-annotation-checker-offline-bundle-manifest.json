@@ -101,11 +101,11 @@
     },
     {
       "path": "scripts/preflight-frus-status-claims.mjs",
-      "role": "Publication-status claim preflight"
+      "role": "Publication-status claim preflight, including direct-edit blocking for volume-versus-subitem status scope"
     },
     {
       "path": "scripts/extract-frus-status-claims.mjs",
-      "role": "Automatic publication-status claim extractor from extracted Word units"
+      "role": "Automatic publication-status claim extractor from extracted Word units, preserving anticipated-year subitem overlays such as Reagan South America/Venezuela"
     },
     {
       "path": "scripts/test-frus-status-claim-extractor.mjs",
@@ -1025,7 +1025,7 @@
   "negative_tests": [
     "Change a direct-edit original_text so it is missing from exact_text; preflight-frus-checker-plan.mjs must fail.",
     "Change a status claim to direct-edit `printed in` for a target still being cleared; preflight-frus-status-claims.mjs must fail.",
-    "Give extract-frus-status-claims.mjs status text with a direct publication-status edit but no exact target, including volume-level `being cleared` status; preflight-frus-status-claims.mjs must fail.",
+    "Give extract-frus-status-claims.mjs status text with a direct publication-status edit but no exact target, including volume-level `being cleared` status or a South America/Venezuela-style subitem overlay flattened to volume-level prose; preflight-frus-status-claims.mjs must fail.",
     "Give audit-frus-authority-usage.mjs an authority-control direct edit for a cross-volume or variant Persons form; it must fail.",
     "Give validate-frus-authority-registry.mjs a duplicate authority_item_id or malformed authority-registry schema; it must fail.",
     "Give audit-frus-source-list-usage.mjs a direct edit for a cross-volume or variant source-list form; it must fail.",

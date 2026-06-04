@@ -217,6 +217,15 @@ function releaseBucketMatches(entry, claim) {
   return Array.isArray(entry.release_buckets) && entry.release_buckets.includes(expected);
 }
 
+function subitemOverlayLabels(entry, claim) {
+  if (!claim.claimed_year) return [];
+  const expected = `anticipated_${claim.claimed_year}`;
+  return (entry.subitems || [])
+    .filter((item) => Array.isArray(item.release_buckets) && item.release_buckets.includes(expected))
+    .map((item) => item.label)
+    .filter((label) => typeof label === "string" && label.length > 0);
+}
+
 function directTargetSupplied(claim) {
   return Boolean(claim.target_document || claim.target_chapter || claim.target_subitem);
 }
@@ -288,6 +297,13 @@ function evaluateClaim(claim, entriesById) {
       });
     } else if (entry.production_stage !== "published") {
       notes.push(`${claim.target_entry_id} has an anticipated release overlay and production_stage ${entry.production_stage}`);
+    }
+    const overlayLabels = subitemOverlayLabels(entry, claim);
+    if (overlayLabels.length > 0 && !claim.target_subitem) {
+      issues.push({
+        severity: "minor",
+        reason: `anticipated_${claim.claimed_year} has chapter/subitem overlay(s): ${overlayLabels.join(", ")}; claim should identify whether it refers to the whole volume or the listed subitem`
+      });
     }
   }
 

@@ -259,9 +259,10 @@ node scripts/extract-frus-docx-units.mjs --docx input.docx --out extracted-units
    The bundled extractor reads body paragraphs, tables, footnotes, endnotes,
    comments, headers, and footers. It marks complex Word boundaries as
    comment-only instead of making them eligible for direct edits.
-3. Extract publication-status claims when current status context is available,
-   then build the per-document Markdown packet that the closed-network LLM
-   should receive. The sample packet is
+3. Extract publication-status claims when current status context is available.
+   Preserve volume-versus-subitem scope and anticipated-year overlays, such as
+   the Reagan South America/Venezuela 2026 distinction, before building the
+   per-document Markdown packet that the closed-network LLM should receive. The sample packet is
    `reports/frus-llm-review-packet.sample.md`.
 
 ```sh

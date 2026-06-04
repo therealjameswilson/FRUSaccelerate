@@ -314,6 +314,9 @@ try {
   const firstPacket = fs.readFileSync(path.join(outDir, "chunk-0001-review-packet.md"), "utf8");
   assert(firstPacket.includes("Annotation Sheet Profile Context"), "expected annotation-sheet profile context in chunk packet");
   assert(firstPacket.includes("Foundations Consolidated.docx"), "expected annotation-sheet profile content in chunk packet");
+  assert(firstPacket.includes("Extracted Status Claims"), "expected status claims context in chunk packet");
+  assert(firstPacket.includes("Reagan South America/Venezuela"), "expected status subitem overlay instruction in chunk packet");
+  assert(firstPacket.includes("Venezuela"), "expected Venezuela status registry content in chunk packet");
   assert(firstPacket.includes("Authority Registry Context"), "expected authority registry context in chunk packet");
   assert(firstPacket.includes("Bush, George Herbert Walker"), "expected authority registry content in chunk packet");
   assert(firstPacket.includes("Source List And Front Matter Registry Context"), "expected source-list registry context in chunk packet");

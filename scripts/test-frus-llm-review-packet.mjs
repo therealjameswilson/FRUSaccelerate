@@ -135,6 +135,8 @@ try {
   assert(markdown.includes("lexical_frus_structure"), "expected profile unitization policy");
   assert(markdown.includes("Extracted Status Claims"), "expected status claims section");
   assert(markdown.includes("status-claim-0001"), "expected status claim context");
+  assert(markdown.includes("subitem_overlay_candidates"), "expected status subitem overlay metadata");
+  assert(markdown.includes("Venezuela"), "expected Venezuela status overlay content");
   assert(markdown.includes("Authority Registry Context"), "expected authority registry section");
   assert(markdown.includes("Bush, George Herbert Walker"), "expected authority registry content");
   assert(markdown.includes("Source List And Front Matter Registry Context"), "expected source-list registry section");
@@ -316,7 +318,13 @@ try {
   assert(packet.packet_summary.annotation_sheet_profile_checks === 4, "expected annotation-sheet profile check count");
   assert(packet.contexts.status_registry.entries.length === 74, "expected current status entries");
   assert(packet.contexts.status_registry.target_volume.entry_id === "frus1989-92v31", "expected target status entry");
-  assert(packet.contexts.status_claims.claims.length === 4, "expected extracted status claims");
+  assert(packet.contexts.status_claims.claims.length === 5, "expected extracted status claims");
+  assert(
+    packet.contexts.status_claims.claims.some(
+      (claim) => claim.unit_id === "annotation-0052" && claim.subitem_overlay_candidates.includes("Venezuela")
+    ),
+    "expected ambiguous South America status claim to carry Venezuela overlay candidate"
+  );
   assert(packet.contexts.authority_registry.records.length === 8, "expected authority registry records");
   assert(packet.contexts.authority_registry.target_records.length > 0, "expected target authority records");
   assert(packet.contexts.source_list_registry.records.length === 10, "expected source-list registry records");

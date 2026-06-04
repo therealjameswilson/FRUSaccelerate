@@ -26,6 +26,9 @@ For small-context LLMs that cannot fit a whole sheet, build chunk packets with
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
 `node scripts/extract-frus-status-claims.mjs --units extracted-units.json --registry reports/frus-status-series-1981-1992.current.json --checker-output output.json --out status-claims.json --format text`.
+Preserve target scope and subitem overlays in `status-claims.json`, especially
+anticipated-year cases such as Reagan South America/Venezuela, before using
+status language for direct redlines.
 For per-document review coverage, run
 `node scripts/audit-frus-review-coverage.mjs --units extracted-units.json --output output.json --matrix reports/frus-annotation-permutation-matrix.json`.
 For authority-control validation and direct-edit safety, run
@@ -555,7 +558,8 @@ is flawless.
    `scheduled for publication`, `forthcoming`, `anticipated`, `being cleared`,
    `being researched`, or `planned` language. Volume-level status context is
    comment-only for direct redlines unless the claim also supplies an exact
-   document, chapter, or subitem target.
+   document, chapter, or subitem target; anticipated-year overlays that name a
+   chapter/subitem must not be flattened into whole-volume prose.
 9. Wrapper validates Persons, Abbreviations and Terms, Source List/front
    matter, document-number, public-title, and index forms against the supplied
    authority registry before allowing any authority-control redline.

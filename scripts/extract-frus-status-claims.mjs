@@ -204,6 +204,15 @@ function hasAnticipatedYear(entry, subitem, claimedYear) {
   return Array.isArray(entry.release_buckets) && entry.release_buckets.includes(bucket);
 }
 
+function subitemOverlayLabels(entry, claimedYear) {
+  if (!claimedYear) return [];
+  const bucket = `anticipated_${claimedYear}`;
+  return (entry.subitems || [])
+    .filter((item) => Array.isArray(item.release_buckets) && item.release_buckets.includes(bucket))
+    .map((item) => item.label)
+    .filter((label) => typeof label === "string" && label.length > 0);
+}
+
 function inferTarget({ phrase, contextText, registry, targetEntryId, claimType, claimedYear }) {
   const fullText = `${phrase}\n${contextText || ""}`;
   const normalized = normalizeText(fullText);
@@ -323,6 +332,8 @@ function matchClaimsForUnit({ unit, registry, checkerDirectEdits, targetEntryId 
         target_title: target.entry?.title || "",
         target_volume_number: target.entry?.volume_number || "",
         target_subitem: target.subitem?.label || "",
+        target_scope: target.subitem?.label ? "subitem" : target.entry ? "volume" : "",
+        subitem_overlay_candidates: target.entry ? subitemOverlayLabels(target.entry, claimedYear) : [],
         target_chapter: "",
         target_document: "",
         claimed_year: claimedYear,
