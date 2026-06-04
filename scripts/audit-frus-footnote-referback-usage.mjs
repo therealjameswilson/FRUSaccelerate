@@ -568,7 +568,7 @@ function auditFootnoteReferbacks({ unitsDocument, registry, checkerOutput, targe
     ...diagnostics.map((diagnostic) => `${diagnostic.unit_id}: ${diagnostic.finding}`),
     ...thresholds.map(
       (threshold) =>
-        `${threshold.review_units.map((unit) => unit.unit_id).join(",")}: ${threshold.finding} First two full citations may stand; flag the third and later repeats for target confirmation.`
+        `${threshold.review_units.map((unit) => unit.unit_id).join(",")}: ${threshold.finding} First two full citation occurrences may stand; flag the third occurrence and every later occurrence for target confirmation.`
     )
   ];
   const hardErrors = conflicts.map((conflict) => `${conflict.unit_id}: ${conflict.finding}`);

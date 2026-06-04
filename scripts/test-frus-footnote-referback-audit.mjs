@@ -102,7 +102,7 @@ try {
     "expected fourth occurrence to be marked as later review trigger"
   );
   assert(
-    report.repeated_citation_thresholds[0].required_action.includes("third full repeat itself and every later full repeat"),
+    report.repeated_citation_thresholds[0].required_action.includes("third full citation occurrence itself"),
     "expected registry threshold action in repeated-citation warning"
   );
   const bulletinThreshold = report.repeated_citation_thresholds.find((threshold) =>

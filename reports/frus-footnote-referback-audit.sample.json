@@ -10,8 +10,8 @@
     "referback-0009: Bare same-document footnote refer-back lacks above/below or local same-document context.",
     "referback-0010: Document-and-footnote cross-reference is missing `thereto`.",
     "referback-0011: Footnote contains more than three `footnote N, Document X` refer-back targets.",
-    "referback-0014,referback-0015: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citations may stand; flag the third and later repeats for target confirmation.",
-    "referback-0018: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citations may stand; flag the third and later repeats for target confirmation."
+    "referback-0014,referback-0015: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citation occurrences may stand; flag the third occurrence and every later occurrence for target confirmation.",
+    "referback-0018: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citation occurrences may stand; flag the third occurrence and every later occurrence for target confirmation."
   ],
   "summary": {
     "units_scanned": 18,
@@ -83,7 +83,7 @@
       "source_unit_label": "footnote 14",
       "source_document_id": "frus1981-88v01/d146",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d146",
-      "rule_basis": "Document 146 models a three-target refer-back cluster; use it as a form model, while treating the third repeated full citation as the separate three-times review trigger.",
+      "rule_basis": "Document 146 models a three-target refer-back cluster; use it as a form model, while treating the third full citation occurrence as the separate three-times review trigger.",
       "offset": 59,
       "length": 84
     },
@@ -329,7 +329,7 @@
         }
       ],
       "finding": "Same full citation reaches the 3rd occurrence without a footnote refer-back.",
-      "required_action": "The first and second full citations may stand; on the third full repeat itself and every later full repeat, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not rewrite unless the target footnote/document is verified in the registry."
+      "required_action": "The first and second full citation occurrences may stand; on the third full citation occurrence itself and every later full citation occurrence, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not wait for a fourth occurrence, and do not rewrite unless the target footnote/document is verified in the registry."
     },
     {
       "citation_key": "department of state bulletin march 1983 p 16",
@@ -422,7 +422,7 @@
         }
       ],
       "finding": "Same full citation reaches the 3rd occurrence without a footnote refer-back.",
-      "required_action": "The first and second full citations may stand; on the third full repeat itself and every later full repeat, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not rewrite unless the target footnote/document is verified in the registry."
+      "required_action": "The first and second full citation occurrences may stand; on the third full citation occurrence itself and every later full citation occurrence, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not wait for a fourth occurrence, and do not rewrite unless the target footnote/document is verified in the registry."
     }
   ],
   "direct_edit_conflicts": []

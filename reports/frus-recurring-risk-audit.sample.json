@@ -257,7 +257,7 @@
       "severity": "major",
       "matched_text": "Third reference",
       "anti_pattern": "Repeating full citation/source details after the threshold for a refer-back has been reached, or using a bare see-footnote construction without Document or above/below context.",
-      "approved_practice": "After repeated references to the same item, refer back rather than reciting the citation again: within the same document use `see footnote 5, above` or a bare same-document parenthetical only when the sentence itself supplies the above/below context; across documents use `see footnote 9, Document 56`, `see footnote 6, Document 265 and footnote 2, Document 312`, or `See Document 34 and footnote 2 thereto`; straight document references use `See Document 69.` Treat the three-times threshold as a production-review trigger requiring human confirmation of the target.",
+      "approved_practice": "After repeated references to the same item, refer back rather than reciting the citation again: within the same document use `see footnote 5, above` or a bare same-document parenthetical only when the sentence itself supplies the above/below context; across documents use `see footnote 9, Document 56`, `see footnote 6, Document 265 and footnote 2, Document 312`, or `See Document 34 and footnote 2 thereto`; straight document references use `See Document 69.` Treat the third full citation occurrence itself and every later full citation occurrence, including plain source-note citations outside parentheses, as production-review triggers requiring human confirmation of the target. Do not wait for a fourth occurrence.",
       "direct_edit_policy": "comment_only_by_default",
       "recommended_action": "comment_only",
       "evidence_request": "cross_reference",
