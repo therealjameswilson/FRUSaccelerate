@@ -89,6 +89,48 @@
       "blocked_boundaries": [
         "missing_communications_registry_basis"
       ]
+    },
+    {
+      "unit_id": "communications-note-0007",
+      "unit_type": "editorial_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "START I Document 242 statement exchange",
+      "exact_text": "The Ambassadors then exchanged joint and reciprocal statements and Ambassador Brooks presented unilateral statements of the U.S. side.",
+      "display_text": "The Ambassadors then exchanged joint and reciprocal statements and Ambassador Brooks presented unilateral statements of the U.S. side.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "communications-note-0008",
+      "unit_type": "editorial_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "START I Document 242 joint statement correction",
+      "exact_text": "The Ambassadors agreed that the Joint Statement on Weapons Storage Areas would be exchanged later and appended to the negotiating record.",
+      "display_text": "The Ambassadors agreed that the Joint Statement on Weapons Storage Areas would be exchanged later and appended to the negotiating record.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "communications-note-0009",
+      "unit_type": "source_note",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/footnotes.xml",
+      "location": "START I Document 183 source note delivery notation",
+      "exact_text": "A typed notation on another copy of the letter indicates that a Soviet Embassy official delivered the letter to Bartholomew on December 31.",
+      "display_text": "A typed notation on another copy of the letter indicates that a Soviet Embassy official delivered the letter to Bartholomew on December 31.",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": []
     }
   ]
 }

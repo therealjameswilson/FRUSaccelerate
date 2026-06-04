@@ -281,7 +281,7 @@
       "required_context": ["communications_registry_context", "source_family_context"],
       "primary_evidence_requests": ["communications_metadata", "time_zone_basis", "classification_marking"],
       "safe_actions": ["comment_only", "replace_text", "no_change"],
-      "hazard_tags": ["communications_record", "communications_metadata"]
+      "hazard_tags": ["communications_record", "communications_metadata", "diplomatic_statement_exchange"]
     },
     {
       "category": "publication_status",
@@ -583,7 +583,7 @@
       "owner_hint": "compiler",
       "blocks_direct_edit_by_default": true,
       "blocks_final_publication_by_default": true,
-      "comment_target_template": "Identify the telegram/cable/system, message identifier, date-time group, origin, addressee, routing, or distribution metadata."
+      "comment_target_template": "Identify the telegram/cable/system, message identifier, date-time group, origin, addressee, routing, distribution metadata, statement-exchange label, or diplomatic-delivery basis."
     },
     {
       "evidence_request": "source_family",

@@ -1,7 +1,7 @@
 {
   "schema_version": "frus-llm-chunk-manifest-v1",
-  "generated_at": "2026-06-04T10:00:26.737Z",
-  "run_id": "chunk-workflow-test",
+  "generated_at": "2026-06-04T10:23:44.034Z",
+  "run_id": "sample-chunks",
   "target_volume": "frus1989-92v31",
   "chunk_count": 2,
   "source_files": {
@@ -85,11 +85,11 @@
     "military_crisis_registry_records": 16,
     "intelligence_law_enforcement_registry_records": 15,
     "human_rights_refugee_global_issues_registry_records": 12,
-    "footnote_referback_registry_records": 11,
+    "footnote_referback_registry_records": 15,
     "recurring_risk_registry_records": 13,
     "negative_search_registry_records": 6,
     "document_relationship_registry_records": 10,
-    "communications_registry_records": 8
+    "communications_registry_records": 11
   },
   "chunks": [
     {

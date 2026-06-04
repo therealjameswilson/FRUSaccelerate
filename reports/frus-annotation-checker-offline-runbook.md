@@ -215,8 +215,11 @@ not-attached items, and mixed attachment notes. The bundled sample is
 For communications checks, transfer a volume-specific communications registry
 built from published telegrams, cables, special-designator messages, source
 families, message identifiers, date-time groups, origin/addressee lines,
-precedence/routing, drafting, clearance, and approval strings. The bundled
-sample is `reports/frus-communications-registry.sample.json`.
+precedence/routing, drafting, clearance, approval strings, formal
+statement-exchange labels, joint/reciprocal/unilateral statements,
+exchange-of-notes, diplomatic notes, aide-memoires, non-papers, oral messages,
+and diplomatic-letter delivery forms. The bundled sample is
+`reports/frus-communications-registry.sample.json`.
 For finished-form annotation-sheet checks, transfer
 `reports/frus-annotation-sheet-profile.sample.json`. It records the uploaded
 good-form exemplar's flat Word structure, lexical FRUS apparatus patterns, and
@@ -749,7 +752,10 @@ node scripts/audit-frus-human-rights-refugee-global-issues-usage.mjs --units ext
    of multiple footnote/document targets. Reagan Foundations also models plural
    `See footnotes 12 and 13, Document 53` and mixed `See footnote 8, Document
    65 and Document 66` forms, so do not flatten those into a single-document
-   or bare-Document reference. The Reagan Foundations three-times
+   or bare-Document reference. It also models standalone and sentence-embedded
+   cross-document forms such as `See footnote 3, Document 59` and `see
+   footnote 4, Document 274`; preserve the clause context while checking the
+   target. The Reagan Foundations three-times
    rule should be treated as a repeated-citation review trigger: when the same
    full citation appears for a third time, whether parenthetical or plain
    source-note text, confirm whether a refer-back should replace the repeated
@@ -812,7 +818,10 @@ node scripts/audit-frus-document-relationship-usage.mjs --units extracted-units.
    notes, editorial notes, headings, or attachment notes contain telegrams,
    cables, special designators, message identifiers, date-time groups,
    origin/addressee lines, precedence/routing, source-family identifiers, or
-   drafting/clearance/approval strings. The usage audit fails if the model
+   drafting/clearance/approval strings. Also run it when notes contain formal
+   statement exchanges, joint/reciprocal/unilateral statements, exchange of
+   notes, diplomatic notes, aide-memoires, non-papers, oral messages, or
+   diplomatic-letter delivery language. The usage audit fails if the model
    proposes a direct communications edit unsupported by the supplied
    communications registry.
 

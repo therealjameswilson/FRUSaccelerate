@@ -35,7 +35,7 @@ try {
   }
   const validationReport = JSON.parse(validation.stdout);
   assert(validationReport.status === "pass", "expected footnote refer-back registry validation pass");
-  assert(validationReport.summary.records === 11, "expected eleven footnote refer-back records");
+  assert(validationReport.summary.records === 15, "expected fifteen footnote refer-back records");
   assert(validationReport.summary.repeat_threshold === 3, "expected three-times refer-back threshold");
 
   const audit = run("scripts/audit-frus-footnote-referback-usage.mjs", [
@@ -55,8 +55,8 @@ try {
   }
   const report = JSON.parse(audit.stdout);
   assert(report.status === "warning", "expected warning status for malformed refer-back fixture");
-  assert(report.summary.units_scanned === 27, "expected twenty-seven units scanned");
-  assert(report.summary.approved_referback_usages === 10, "expected ten approved refer-back matches");
+  assert(report.summary.units_scanned === 31, "expected thirty-one units scanned");
+  assert(report.summary.approved_referback_usages === 14, "expected fourteen approved refer-back matches");
   assert(report.summary.malformed_referbacks === 9, "expected nine malformed refer-backs");
   assert(report.summary.overlong_referback_clusters === 1, "expected one overlong refer-back cluster");
   assert(report.summary.repeated_citation_thresholds === 3, "expected three repeated citation thresholds");
@@ -85,6 +85,22 @@ try {
   assert(
     report.approved_matches.some((match) => match.referback_id === "referback-v01-d70-fn8-d65-d66"),
     "expected Reagan Foundations mixed footnote/document model"
+  );
+  assert(
+    report.approved_matches.some((match) => match.referback_id === "referback-v01-d65-fn4-d59fn3"),
+    "expected Reagan Foundations Document 65 cross-document footnote model"
+  );
+  assert(
+    report.approved_matches.some((match) => match.referback_id === "referback-v01-d95-fn8-d69-thereto"),
+    "expected Reagan Foundations Document 95 thereto footnote model"
+  );
+  assert(
+    report.approved_matches.some((match) => match.referback_id === "referback-v01-d269-fn4-d274fn4"),
+    "expected Reagan Foundations Document 269 embedded footnote refer-back model"
+  );
+  assert(
+    report.approved_matches.some((match) => match.referback_id === "referback-v01-d318-fn11-above"),
+    "expected Reagan Foundations Document 318 same-document above model"
   );
   assert(
     report.warnings.some((warning) => warning.includes("First two full citation occurrences may stand")),

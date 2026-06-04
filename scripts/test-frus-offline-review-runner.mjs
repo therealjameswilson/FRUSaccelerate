@@ -728,7 +728,7 @@ try {
     "expected human-rights/refugee/global-issues usage audit report"
   );
   assert(
-    audit.reports.footnote_referback_registry_validation.summary.records === 11,
+    audit.reports.footnote_referback_registry_validation.summary.records === 15,
     "expected footnote refer-back registry validation report"
   );
   assert(
@@ -740,7 +740,7 @@ try {
   assert(audit.reports.recurring_risk_usage_audit.status === "pass", "expected recurring-risk usage audit report");
   assert(audit.reports.document_relationship_registry_validation.summary.records === 10, "expected document relationship registry validation report");
   assert(audit.reports.document_relationship_usage_audit.status === "pass", "expected document relationship usage audit report");
-  assert(audit.reports.communications_registry_validation.summary.records === 8, "expected communications registry validation report");
+  assert(audit.reports.communications_registry_validation.summary.records === 11, "expected communications registry validation report");
   assert(audit.reports.communications_usage_audit.status === "pass", "expected communications usage audit report");
   assert(audit.reports.status_claims_extraction.summary.claims_found === 0, "expected status claim extraction report");
   assert(audit.reports.preparation_router_validation.status === "pass", "expected preparation router validation report");

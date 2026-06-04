@@ -13,7 +13,7 @@ const COMMUNICATIONS_UNIT_TYPES = new Set([
   "unknown_editorial_text"
 ]);
 const COMMUNICATIONS_PATTERN =
-  /\b(?:telegram|cable|cables|tosec|secto|state\s+\d+|dtg\s+\d{6}z|[0-9]{4}z|electronic telegrams|central foreign policy file|sent for information|drafted by|cleared by|approved by|joint state\/defense message|nodis|exdis|immediate|priority)\b/i;
+  /\b(?:telegram|cable|cables|tosec|secto|state\s+\d+|dtg\s+\d{6}z|[0-9]{4}z|electronic telegrams|central foreign policy file|sent for information|drafted by|cleared by|approved by|joint state\/defense message|nodis|exdis|immediate|priority|joint statements?|reciprocal statements?|unilateral statements?|presentation of statements?|exchange(?:d)? (?:of )?(?:notes|statements)|letter (?:indicates|delivered|transmitted)|delivered the letter|diplomatic note|aide-memoire|non-paper|oral message|final plenary)\b/i;
 
 function usage() {
   console.error(
@@ -271,10 +271,21 @@ function checkerCommunicationsDirectEdits(output) {
   if (!output || !Array.isArray(output.checks)) return byUnit;
   for (const check of output.checks) {
     if (!isPlainObject(check)) continue;
+    const reviewText = [
+      check.original_text,
+      check.replacement_text,
+      check.finding,
+      check.standard,
+      check.comment_text,
+      check.verification_target
+    ]
+      .filter(Boolean)
+      .join(" ");
     const communicationsSignal =
       ["communications_record", "time_zone_chronology"].includes(check.category) ||
       ["communications_metadata", "time_zone_basis"].includes(check.evidence_request) ||
-      /^FAS-(?:COM|CHRON)-\d{3}$/.test(check.rule_id || "");
+      /^FAS-(?:COM|CHRON)-\d{3}$/.test(check.rule_id || "") ||
+      COMMUNICATIONS_PATTERN.test(reviewText);
     if (!communicationsSignal || !DIRECT_ACTIONS.has(check.recommended_action)) continue;
     const list = byUnit.get(check.unit_id) || [];
     list.push(check);
@@ -305,7 +316,7 @@ function findingForStatus(status, record, match) {
     return `Matched approved communications metadata for ${record.document_id} ${record.message_identifier || record.approved_heading_form}.`;
   }
   if (status === "cross_volume_communications") {
-    return `Matched communications metadata tied to ${record.volume_id}; confirm target volume before changing message identifiers, time groups, routing, or source-family language.`;
+    return `Matched communications metadata tied to ${record.volume_id}; confirm target volume before changing message identifiers, time groups, routing, source-family language, statement-exchange labels, or diplomatic-delivery wording.`;
   }
   if (status === "needs_communications_context") {
     return `Matched ${match.matched_text}, but registry status is ${record.verification_status}; message identifier, time group, routing, and source-note proof are needed before direct edits.`;
@@ -418,7 +429,7 @@ function auditCommunications({ unitsDocument, registry, checkerOutput, targetVol
         unit_type: unit.unit_type,
         location: unit.location || "",
         diagnostic_type: "unmatched_communications_like_unit",
-        finding: "Telegram/cable/message unit had no match in the supplied communications registry.",
+        finding: "Telegram/cable/message, statement-exchange, diplomatic note, or letter-delivery unit had no match in the supplied communications registry.",
         recommended_action: "comment_only",
         evidence_request: "communications_metadata"
       };
@@ -439,7 +450,7 @@ function auditCommunications({ unitsDocument, registry, checkerOutput, targetVol
           original_text: check.original_text || "",
           replacement_text: check.replacement_text || "",
           finding: "Direct communications metadata edit lacks a target-volume approved registry match.",
-          required_action: "Downgrade to comment_only until the message identifier, special designator, origin/addressee, date-time line, source family, and handling/routing basis are supplied."
+          required_action: "Downgrade to comment_only until the message identifier, special designator, origin/addressee, date-time line, source family, handling/routing basis, statement-exchange label, or diplomatic-delivery basis is supplied."
         });
       }
     }

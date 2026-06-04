@@ -12498,7 +12498,9 @@ Minimum components:
   Reagan Foundations-style repeated-reference discipline: cross-document
   `footnote N, Document X`, plural same-document `footnotes N and M, Document
   X`, mixed `footnote N, Document X and Document Y`, same-document above/below
-  or local context, `Document X and footnote Y thereto`, Document 146-style
+  or local context, `Document X and footnote Y thereto`, standalone and
+  sentence-embedded forms such as `See footnote 3, Document 59` and `see
+  footnote 4, Document 274`, Document 146-style
   three-target footnote/document clusters, and the separate three-times rule
   that treats the
   third full citation occurrence of the same citation, whether parenthetical or
@@ -12555,9 +12557,12 @@ Minimum components:
   `reports/frus-communications-audit.sample.json`. The audit reconciles
   telegram/cable/message identifiers, SECTO/TOSEC designators, date-time
   groups, origin/addressee lines, source-family identifiers, precedence/routing,
-  drafting, clearance, and approval strings to supplied communications records
-  and fails direct communications edits that change those facts without
-  registry support.
+  drafting, clearance, approval strings, formal statement-exchange labels,
+  joint/reciprocal/unilateral statement forms, exchange-of-notes forms,
+  diplomatic notes, aide-memoires, non-papers, oral messages, and
+  diplomatic-letter delivery wording to supplied communications records and
+  fails direct communications edits that change those facts without registry
+  support.
 - No-dependency finished-form annotation-sheet profile audit and fixtures:
   `scripts/audit-frus-annotation-sheet-profile.mjs`,
   `scripts/test-frus-annotation-sheet-profile.mjs`,

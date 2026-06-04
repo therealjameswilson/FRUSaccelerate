@@ -60,7 +60,7 @@ try {
   }
   const validationReport = JSON.parse(validation.stdout);
   assert(validationReport.status === "pass", "expected communications registry validation to pass");
-  assert(validationReport.summary.records === 8, "expected eight communications records");
+  assert(validationReport.summary.records === 11, "expected eleven communications records");
 
   const audit = run("scripts/audit-frus-communications-usage.mjs", [
     "--units",
@@ -80,8 +80,8 @@ try {
   const auditReport = JSON.parse(audit.stdout);
   assert(auditReport.schema_version === "frus-communications-usage-audit-v1", "expected communications audit schema");
   assert(auditReport.status === "warning", `expected warning status, got ${auditReport.status}`);
-  assert(auditReport.summary.units_scanned === 6, "expected six scanned units");
-  assert(auditReport.summary.by_usage_status.approved >= 3, "expected approved communications matches");
+  assert(auditReport.summary.units_scanned === 9, "expected nine scanned units");
+  assert(auditReport.summary.by_usage_status.approved >= 6, "expected approved communications matches");
   assert(auditReport.summary.by_usage_status.variant_needs_review >= 1, "expected variant communications warning");
   assert(auditReport.summary.by_usage_status.cross_volume_communications >= 1, "expected cross-volume communications warning");
   assert(auditReport.summary.unmatched_communications_like_units === 1, "expected one unmatched communications-like unit");
@@ -112,6 +112,33 @@ try {
     ),
     "expected cross-volume joint State/Defense communications usage"
   );
+  assert(
+    auditReport.usages.some(
+      (usage) =>
+        usage.unit_id === "communications-note-0007" &&
+        usage.communications_type === "joint_statement_exchange" &&
+        usage.usage_status === "approved"
+    ),
+    "expected approved final-plenary statement-exchange communications usage"
+  );
+  assert(
+    auditReport.usages.some(
+      (usage) =>
+        usage.unit_id === "communications-note-0008" &&
+        usage.communications_type === "joint_statement" &&
+        usage.usage_status === "approved"
+    ),
+    "expected approved joint-statement correction communications usage"
+  );
+  assert(
+    auditReport.usages.some(
+      (usage) =>
+        usage.unit_id === "communications-note-0009" &&
+        usage.communications_type === "diplomatic_letter_delivery" &&
+        usage.usage_status === "approved"
+    ),
+    "expected approved diplomatic-letter delivery communications usage"
+  );
 
   const badOutputPath = path.join(tmpDir, "bad-output.json");
   fs.writeFileSync(
@@ -131,6 +158,20 @@ try {
           comment_text: "",
           evidence_request: "communications_metadata",
           verification_target: "Message identifier, source note, origin/addressee, and date-time line"
+        },
+        {
+          unit_id: "communications-note-0007",
+          rule_id: "FAS-GEN-000",
+          severity: "major",
+          category: "wording",
+          finding: "Unsafe fixture rewrites formal statement-exchange labels as generic discussion language.",
+          standard: "Published final-plenary statement-exchange labels require communications registry support.",
+          recommended_action: "replace_text",
+          original_text: "exchanged joint and reciprocal statements",
+          replacement_text: "discussed joint statements",
+          comment_text: "",
+          evidence_request: "none",
+          verification_target: "Target-volume communications registry"
         }
       ]),
       null,
@@ -152,7 +193,7 @@ try {
   assert(badAudit.status !== 0, "expected unsafe communications direct edit to fail");
   const badReport = JSON.parse(badAudit.stdout);
   assert(badReport.status === "fail", "expected failed communications direct-edit audit");
-  assert(badReport.summary.direct_communications_edit_conflicts >= 1, "expected direct-edit conflict count");
+  assert(badReport.summary.direct_communications_edit_conflicts >= 2, "expected direct-edit conflict count");
 
   const malformedRegistry = path.join(tmpDir, "bad-registry.json");
   fs.writeFileSync(malformedRegistry, `${JSON.stringify({ schema_version: "wrong", records: [] }, null, 2)}\n`);
@@ -167,7 +208,7 @@ try {
   assert(malformed.status !== 0, "expected malformed communications registry to fail");
   assert(malformed.stdout.includes("frus-communications-registry-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS communications audit test passed: registry validation, SECTO/TOSEC/DTG usage, cross-volume warnings, unmatched telegram-like units, and direct-edit failures work.");
+  console.log("FRUS communications audit test passed: registry validation, SECTO/TOSEC/DTG usage, final-plenary statement exchange, joint-statement correction, diplomatic-letter delivery, cross-volume warnings, unmatched telegram-like units, and direct-edit failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

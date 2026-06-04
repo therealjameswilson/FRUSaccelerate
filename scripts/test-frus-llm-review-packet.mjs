@@ -261,6 +261,10 @@ try {
   assert(markdown.includes("See footnote 6, Document 35"), "expected cross-document footnote refer-back content");
   assert(markdown.includes("See footnotes 12 and 13, Document 53"), "expected plural footnote refer-back content");
   assert(markdown.includes("See footnote 8, Document 65 and Document 66"), "expected mixed footnote/document refer-back content");
+  assert(markdown.includes("See footnote 3, Document 59"), "expected additional Reagan Foundations cross-document refer-back content");
+  assert(markdown.includes("See Document 69 and footnote 8 thereto"), "expected Reagan Foundations thereto refer-back content");
+  assert(markdown.includes("see footnote 4, Document 274"), "expected embedded Reagan Foundations refer-back content");
+  assert(markdown.includes("see footnote 3, above"), "expected same-document above refer-back content");
   assert(markdown.includes("footnote 15, Document 106"), "expected three-target footnote refer-back content");
   assert(markdown.includes("same separate page as B above"), "expected same-document local-context refer-back content");
   assert(markdown.includes("Recurring Compiler Risk Registry Context"), "expected recurring-risk registry section");
@@ -277,6 +281,8 @@ try {
   assert(markdown.includes("Communications Metadata Registry Context"), "expected communications registry section");
   assert(markdown.includes("SECTO 2017"), "expected SECTO communications registry content");
   assert(markdown.includes("424164/TOSEC 290026"), "expected TOSEC communications registry content");
+  assert(markdown.includes("Final START plenary statement exchange"), "expected statement-exchange communications registry content");
+  assert(markdown.includes("delivered the letter to Bartholomew"), "expected diplomatic-letter delivery registry content");
   assert(markdown.includes("style_discrepancy_tally"), "expected General Editor discrepancy field");
   assert(markdown.includes("Permutation Matrix Context"), "expected permutation matrix section");
 
@@ -451,20 +457,20 @@ try {
     packet.packet_summary.human_rights_refugee_global_issues_registry_records === 12,
     "expected human-rights/refugee/global-issues registry count"
   );
-  assert(packet.contexts.footnote_referback_registry.records.length === 11, "expected footnote refer-back registry records");
+  assert(packet.contexts.footnote_referback_registry.records.length === 15, "expected footnote refer-back registry records");
   assert(packet.contexts.footnote_referback_registry.repeat_threshold === 3, "expected footnote refer-back threshold context");
   assert(
     packet.contexts.footnote_referback_registry.target_records.length === 0,
     "expected no target footnote refer-back records for cross-volume Reagan sample"
   );
-  assert(packet.packet_summary.footnote_referback_registry_records === 11, "expected footnote refer-back registry count");
+  assert(packet.packet_summary.footnote_referback_registry_records === 15, "expected footnote refer-back registry count");
   assert(packet.contexts.recurring_risk_registry.records.length === 13, "expected recurring-risk registry records");
   assert(packet.packet_summary.recurring_risk_registry_records === 13, "expected recurring-risk registry count");
   assert(packet.contexts.negative_search_registry.records.length === 6, "expected negative-search registry records");
   assert(packet.contexts.negative_search_registry.target_records.length > 0, "expected target negative-search records");
   assert(packet.contexts.document_relationship_registry.records.length === 10, "expected document-relationship registry records");
   assert(packet.contexts.document_relationship_registry.target_records.length > 0, "expected target document-relationship records");
-  assert(packet.contexts.communications_registry.records.length === 8, "expected communications registry records");
+  assert(packet.contexts.communications_registry.records.length === 11, "expected communications registry records");
   assert(packet.contexts.communications_registry.target_records.length > 0, "expected target communications records");
   assert(packet.contexts.preparation_router.routes.length === 74, "expected preparation routes");
   assert(packet.contexts.permutation_matrix.category_policies.length > 0, "expected matrix categories");

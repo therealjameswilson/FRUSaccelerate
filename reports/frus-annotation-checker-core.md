@@ -367,7 +367,10 @@ cross-document `footnote N, Document X` references, plural same-document
 `footnotes N and M, Document X` references, mixed `footnote N, Document X and
 Document Y` references, same-document above/below or local-context references,
 `Document X and footnote Y thereto` references, and published multi-target
-clusters. Treat the third full citation occurrence of
+clusters. Include both standalone and sentence-embedded Reagan Foundations
+forms, such as `See footnote 3, Document 59` and `see footnote 4, Document
+274`, because the refer-back can be the last clause of a longer annotation
+sentence. Treat the third full citation occurrence of
 the same citation, whether parenthetical or plain source-note text, as the first
 human review trigger for a possible refer-back, and flag every later full
 citation occurrence too. Reagan Foundations citations can appear both with a
@@ -411,7 +414,9 @@ attachment or cross-reference edits.
 For real Reagan/Bush 1981-1992 communications review, replace the sample
 communications registry with target-volume telegram, cable, special-designator,
 source-family, date-time group, origin/addressee, precedence/routing, drafting,
-clearance, and approval records; validate it with
+clearance, approval, formal statement-exchange, joint/reciprocal/unilateral
+statement, exchange-of-notes, diplomatic-note, aide-memoire, non-paper, oral
+message, and diplomatic-letter delivery records; validate it with
 `scripts/validate-frus-communications-registry.mjs` before direct
 communications-record edits.
 For volume-family and stage-posture routing, validate and use
@@ -539,9 +544,10 @@ is flawless.
    before allowing any metadata redline.
 12. Wrapper validates telegram/cable/message identifiers, SECTO/TOSEC
    designators, origin/addressee lines, date-time groups, source-family IDs,
-   precedence/routing, drafting, clearance, and approval strings against the
-   supplied communications registry before allowing any communications-record
-   redline.
+   precedence/routing, drafting, clearance, approval strings, formal
+   statement-exchange labels, exchange-of-notes forms, and diplomatic-letter
+   delivery language against the supplied communications registry before
+   allowing any communications-record redline.
 13. Wrapper validates declassification and omission brackets, page counts,
    handling-restriction-not-declassified phrases, whole-document withholdings,
    and About the Series review statistics against the supplied declassification

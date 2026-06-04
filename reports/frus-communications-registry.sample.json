@@ -9,9 +9,11 @@
     "https://history.state.gov/historicaldocuments/frus1989-92v31/d89",
     "https://history.state.gov/historicaldocuments/frus1989-92v31/d166",
     "https://history.state.gov/historicaldocuments/frus1989-92v31/d178",
-    "https://history.state.gov/historicaldocuments/frus1989-92v31/d190"
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d190",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d242",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d183"
   ],
-  "scope": "Sample communications metadata registry for checking FRUS telegram, special-designator, time-group, routing, source-family, classification/handling, drafting, clearance, and follow-on telegram-reference form in Reagan and George H.W. Bush annotation sheets.",
+  "scope": "Sample communications metadata registry for checking FRUS telegram, special-designator, time-group, routing, source-family, classification/handling, drafting, clearance, follow-on telegram-reference, formal statement-exchange, exchange-of-notes, and diplomatic-letter delivery form in Reagan and George H.W. Bush annotation sheets.",
   "records": [
     {
       "communications_id": "communications-v01-d19-telegram-13038",
@@ -228,6 +230,88 @@
         "TOSEC 10393",
         "12562 Tosec 10393",
         "N910001-0231"
+      ]
+    },
+    {
+      "communications_id": "communications-v31-d242-final-plenary-statement-exchange",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d242",
+      "document_number": "242",
+      "communications_type": "joint_statement_exchange",
+      "approved_heading_form": "Presentation of Statements",
+      "message_identifier": "Final START plenary statement exchange",
+      "special_designator": "",
+      "origin": "U.S. and Soviet START delegations",
+      "addressees": "Negotiating record",
+      "date_time_line": "Geneva, July 29, 1991, 11:00 a.m.-11:52 a.m.",
+      "date_time_group": "",
+      "subject_or_title": "Public statements; initialling of the treaty; presentation of joint and unilateral statements",
+      "source_family": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, D910778-0128",
+      "classification_or_handling_summary": "Secret; Exdis; final plenary cable reports statement exchange",
+      "drafting_clearance_approval": "",
+      "reference_context": "The Ambassadors then exchanged joint and reciprocal statements and Ambassador Brooks presented unilateral statements of the U.S. side",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d242",
+      "verification_status": "verified_published_communications_record",
+      "variant_forms": [
+        "Presentation of Statements",
+        "joint and reciprocal statements",
+        "unilateral statements of the U.S. side",
+        "Subject summary: Public statements; initialling of the treaty; presentation of joint and unilateral statements"
+      ]
+    },
+    {
+      "communications_id": "communications-v31-d242-joint-statement-weapons-storage",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d242",
+      "document_number": "242",
+      "communications_type": "joint_statement",
+      "approved_heading_form": "Joint Statement on Weapon Storage Areas",
+      "message_identifier": "Joint Statement on Weapon Storage Areas",
+      "special_designator": "",
+      "origin": "U.S. and Soviet START delegations",
+      "addressees": "Negotiating record",
+      "date_time_line": "Geneva, July 29, 1991, later that day",
+      "date_time_group": "",
+      "subject_or_title": "Correct statement exchanged later and appended to the negotiating record",
+      "source_family": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, D910778-0128; Joint Statement on Weapon Storage Areas",
+      "classification_or_handling_summary": "Secret; Exdis; statement form appears in final plenary cable",
+      "drafting_clearance_approval": "",
+      "reference_context": "The Ambassadors agreed that the Joint Statement on Weapons Storage Areas would be exchanged later and appended to the negotiating record",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d242",
+      "verification_status": "verified_published_communications_record",
+      "variant_forms": [
+        "Joint Statement on Weapons Storage Areas",
+        "Joint Statement on Weapon Storage Areas",
+        "exchanged later and appended to the negotiating record"
+      ]
+    },
+    {
+      "communications_id": "communications-v31-d183-shevardnadze-letter-delivery",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d183",
+      "document_number": "183",
+      "communications_type": "diplomatic_letter_delivery",
+      "approved_heading_form": "Letter From Soviet Foreign Minister Shevardnadze to Secretary of State Baker",
+      "message_identifier": "Shevardnadze letter delivered December 31, 1990",
+      "special_designator": "",
+      "origin": "Soviet Foreign Minister Shevardnadze",
+      "addressees": "Secretary of State Baker",
+      "date_time_line": "December 31, 1990",
+      "date_time_group": "",
+      "subject_or_title": "START Houston package clarifications",
+      "source_family": "Bush Presidential Records and Department of State Policy Planning Staff files",
+      "source_note_form": "George H.W. Bush Library, Bush Presidential Records, National Security Council, John A. Gordon Files, Subject Files, OA/ID CF01034-005, START-January 1991 [2]",
+      "classification_or_handling_summary": "No classification marking; typed notation on another copy records Soviet Embassy delivery",
+      "drafting_clearance_approval": "",
+      "reference_context": "A typed notation on another copy of the letter indicates that a Soviet Embassy official delivered the letter to Bartholomew on December 31",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d183",
+      "verification_status": "verified_published_communications_record",
+      "variant_forms": [
+        "delivered the letter to Bartholomew on December 31",
+        "Soviet Embassy official delivered the letter",
+        "Printed from an unsigned copy"
       ]
     }
   ]

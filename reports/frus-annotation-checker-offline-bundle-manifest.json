@@ -513,7 +513,7 @@
     },
     {
       "path": "scripts/validate-frus-communications-registry.mjs",
-      "role": "Telegram, cable, message identifier, special-designator, source-family, routing, and date-time group registry validator"
+      "role": "Telegram, cable, message identifier, special-designator, source-family, routing, date-time group, formal statement-exchange, and diplomatic-delivery registry validator"
     },
     {
       "path": "scripts/audit-frus-communications-usage.mjs",
@@ -821,7 +821,7 @@
     },
     {
       "path": "reports/frus-footnote-referback-registry.sample.json",
-      "role": "Published Reagan Foundations footnote refer-back sample for repeated citations, the three-times threshold, plural footnotes, mixed footnote/document references, mixed refer-back/full-citation notes, same-document context, thereto references, and multi-target clusters"
+      "role": "Published Reagan Foundations footnote refer-back sample for repeated citations, the three-times threshold, standalone and sentence-embedded cross-document forms, plural footnotes, mixed footnote/document references, mixed refer-back/full-citation notes, same-document context, thereto references, and multi-target clusters"
     },
     {
       "path": "reports/frus-recurring-risk-registry.sample.json",
@@ -837,7 +837,7 @@
     },
     {
       "path": "reports/frus-communications-registry.sample.json",
-      "role": "Published telegram, cable, message identifier, special-designator, source-family, routing, and date-time group sample for Reagan and George H.W. Bush fixtures"
+      "role": "Published telegram, cable, message identifier, special-designator, source-family, routing, date-time group, formal statement-exchange, exchange-of-notes, and diplomatic-letter delivery sample for Reagan and George H.W. Bush fixtures"
     },
     {
       "path": "reports/frus-annotation-sheet-profile.sample.json",
@@ -1046,7 +1046,7 @@
     "Give validate-frus-negative-search-registry.mjs a duplicate negative_search_id or malformed negative-search-registry schema; it must fail.",
     "Give audit-frus-document-relationship-usage.mjs a direct edit that changes `Attached but not printed. See Document 10` to `Attached but not printed. See Document 9` without target-volume registry support; it must fail.",
     "Give validate-frus-document-relationship-registry.mjs a duplicate relationship_id or malformed document-relationship-registry schema; it must fail.",
-    "Give audit-frus-communications-usage.mjs a direct edit that changes `TOSEC 10393` to another TOSEC identifier without target-volume registry support; it must fail.",
+    "Give audit-frus-communications-usage.mjs a direct edit that changes `TOSEC 10393` to another TOSEC identifier or rewrites `exchanged joint and reciprocal statements` without target-volume registry support; it must fail.",
     "Give validate-frus-communications-registry.mjs a duplicate communications_id or malformed communications-registry schema; it must fail.",
     "Give audit-frus-annotation-sheet-profile.mjs a Normal-style paragraph beginning with `1  Source:` but unitized as transcribed_document_text; it must fail.",
     "Give audit-frus-annotation-sheet-profile.mjs a direct edit that touches `<i>`, `<r>`, `<n>`, `<m>`, or a numeric marker; it must fail.",

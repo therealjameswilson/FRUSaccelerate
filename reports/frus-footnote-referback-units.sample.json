@@ -299,6 +299,50 @@
       "edit_safety": "safe",
       "comment_safety": "safe",
       "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0028",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 65 footnote 4",
+      "exact_text": "See footnote 3, Document 59.",
+      "display_text": "See footnote 3, Document 59.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0029",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 95 footnote 8",
+      "exact_text": "See Document 69 and footnote 8 thereto.",
+      "display_text": "See Document 69 and footnote 8 thereto.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0030",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 269 footnote 4",
+      "exact_text": "For the outcome of the vote on H.R. 5052, see footnote 4, Document 274.",
+      "display_text": "For the outcome of the vote on H.R. 5052, see footnote 4, Document 274.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0031",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 318 footnote 11",
+      "exact_text": "On February 2, the President delivered an address to the nation (see footnote 3, above).",
+      "display_text": "On February 2, the President delivered an address to the nation (see footnote 3, above).",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
     }
   ]
 }

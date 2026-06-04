@@ -1,8 +1,8 @@
 # FRUS Annotation Review Packet
 
 - schema_version: frus-llm-review-packet-v1
-- run_id: packet-smoke-test
-- generated_at: 2026-06-04T10:00:06.256Z
+- run_id: sample-packet
+- generated_at: 2026-06-04T10:23:23.493Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -184,11 +184,11 @@ Every reviewable extracted editorial unit should have a checker entry. Use `reco
   "military_crisis_registry_records": 16,
   "intelligence_law_enforcement_registry_records": 15,
   "human_rights_refugee_global_issues_registry_records": 12,
-  "footnote_referback_registry_records": 11,
+  "footnote_referback_registry_records": 15,
   "recurring_risk_registry_records": 13,
   "negative_search_registry_records": 6,
   "document_relationship_registry_records": 10,
-  "communications_registry_records": 8,
+  "communications_registry_records": 11,
   "preparation_routes": 74,
   "matrix_categories": 40,
   "matrix_evidence_requests": 39
@@ -566,7 +566,10 @@ cross-document `footnote N, Document X` references, plural same-document
 `footnotes N and M, Document X` references, mixed `footnote N, Document X and
 Document Y` references, same-document above/below or local-context references,
 `Document X and footnote Y thereto` references, and published multi-target
-clusters. Treat the third full citation occurrence of
+clusters. Include both standalone and sentence-embedded Reagan Foundations
+forms, such as `See footnote 3, Document 59` and `see footnote 4, Document
+274`, because the refer-back can be the last clause of a longer annotation
+sentence. Treat the third full citation occurrence of
 the same citation, whether parenthetical or plain source-note text, as the first
 human review trigger for a possible refer-back, and flag every later full
 citation occurrence too. Reagan Foundations citations can appear both with a
@@ -610,7 +613,9 @@ attachment or cross-reference edits.
 For real Reagan/Bush 1981-1992 communications review, replace the sample
 communications registry with target-volume telegram, cable, special-designator,
 source-family, date-time group, origin/addressee, precedence/routing, drafting,
-clearance, and approval records; validate it with
+clearance, approval, formal statement-exchange, joint/reciprocal/unilateral
+statement, exchange-of-notes, diplomatic-note, aide-memoire, non-paper, oral
+message, and diplomatic-letter delivery records; validate it with
 `scripts/validate-frus-communications-registry.mjs` before direct
 communications-record edits.
 For volume-family and stage-posture routing, validate and use
@@ -738,9 +743,10 @@ is flawless.
    before allowing any metadata redline.
 12. Wrapper validates telegram/cable/message identifiers, SECTO/TOSEC
    designators, origin/addressee lines, date-time groups, source-family IDs,
-   precedence/routing, drafting, clearance, and approval strings against the
-   supplied communications registry before allowing any communications-record
-   redline.
+   precedence/routing, drafting, clearance, approval strings, formal
+   statement-exchange labels, exchange-of-notes forms, and diplomatic-letter
+   delivery language against the supplied communications registry before
+   allowing any communications-record redline.
 13. Wrapper validates declassification and omission brackets, page counts,
    handling-restriction-not-declassified phrases, whole-document withholdings,
    and About the Series review statistics against the supplied declassification
@@ -10930,7 +10936,7 @@ Use this to check human-rights reports, Country Reports, refugee, immigration, a
 
 ## Footnote Refer-Back Registry Context
 
-Use this to check repeated-reference footnote discipline in follow-on footnotes and source notes. Reagan Foundations models cross-document `footnote N, Document X`, plural same-document `footnotes N and M, Document X`, mixed `footnote N, Document X and Document Y`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. Apply the registry `repeat_threshold`: the first and second full citation occurrences may stand, but the third full citation occurrence itself and every later full citation occurrence, including plain source-note citations outside parentheses, are production-review triggers for a possible refer-back. Do not wait for a fourth occurrence, and do not ignore a repeated full citation merely because the same footnote already has a valid refer-back. Do not invent refer-back targets or directly replace a repeated full citation unless the registry proves the exact published target form.
+Use this to check repeated-reference footnote discipline in follow-on footnotes and source notes. Reagan Foundations models cross-document `footnote N, Document X`, including sentence-embedded forms, plural same-document `footnotes N and M, Document X`, mixed `footnote N, Document X and Document Y`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. Apply the registry `repeat_threshold`: the first and second full citation occurrences may stand, but the third full citation occurrence itself and every later full citation occurrence, including plain source-note citations outside parentheses, are production-review triggers for a possible refer-back. Do not wait for a fourth occurrence, and do not ignore a repeated full citation merely because the same footnote already has a valid refer-back. Do not invent refer-back targets or directly replace a repeated full citation unless the registry proves the exact published target form.
 
 ```json
 {
@@ -10940,12 +10946,16 @@ Use this to check repeated-reference footnote discipline in follow-on footnotes 
   "source_urls": [
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d45",
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d56",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d65",
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d70",
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d74",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d95",
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d146",
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d217",
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d267",
-    "https://history.state.gov/historicaldocuments/frus1981-88v01/d316"
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d269",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d316",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d318"
   ],
   "scope": "Sample registry of published Reagan Foundations footnote refer-back forms for checking FRUS annotation-sheet footnotes and source-note citations without inventing targets.",
   "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: whether the repeated citation is parenthetical or plain source-note text, the third full citation occurrence of the same citation is the first human review trigger for a proper footnote refer-back, and every later full citation occurrence remains a review unit. Do not wait for a fourth occurrence. Do not exempt a footnote merely because the same note already contains a valid refer-back; the repeated full citation in that mixed note still counts. Cross-document targets take `footnote N, Document X`; plural same-document targets can take `footnotes N and M, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; Document 146 separately models a three-target footnote/document cluster. Repeated-citation matching must catch both Reagan Foundations Public Papers forms with Book markers and no-Book forms such as `Public Papers: Reagan, 1981, p. 1156`.",
@@ -11096,6 +11106,54 @@ Use this to check repeated-reference footnote discipline in follow-on footnotes 
       "verification_status": "verified_published_form"
     },
     {
+      "referback_id": "referback-v01-d65-fn4-d59fn3",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d65",
+      "source_document_number": "65",
+      "source_unit_label": "footnote 4",
+      "referback_type": "cross_document_footnote",
+      "approved_phrase": "See footnote 3, Document 59",
+      "variant_forms": [
+        "see footnote 3, Document 59"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "frus1981-88v01/d59",
+          "target_document_number": "59",
+          "target_footnote_number": "3",
+          "target_label": "footnote 3, Document 59",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d59"
+        }
+      ],
+      "rule_basis": "Document 65 models the concise cross-document footnote refer-back form without repeating full summit citation detail.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d65",
+      "verification_status": "verified_published_form"
+    },
+    {
+      "referback_id": "referback-v01-d95-fn8-d69-thereto",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d95",
+      "source_document_number": "95",
+      "source_unit_label": "footnote 8",
+      "referback_type": "document_and_thereto",
+      "approved_phrase": "See Document 69 and footnote 8 thereto",
+      "variant_forms": [
+        "Document 69 and footnote 8 thereto"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "frus1981-88v01/d69",
+          "target_document_number": "69",
+          "target_footnote_number": "8",
+          "target_label": "Document 69, footnote 8",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d69"
+        }
+      ],
+      "rule_basis": "Document 95 confirms that `thereto` binds the footnote reference to the named document target.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d95",
+      "verification_status": "verified_published_form"
+    },
+    {
       "referback_id": "referback-v01-d74-fn4-d56-d69",
       "volume_id": "frus1981-88v01",
       "source_document_id": "frus1981-88v01/d74",
@@ -11213,6 +11271,30 @@ Use this to check repeated-reference footnote discipline in follow-on footnotes 
       "verification_status": "verified_published_form"
     },
     {
+      "referback_id": "referback-v01-d269-fn4-d274fn4",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d269",
+      "source_document_number": "269",
+      "source_unit_label": "footnote 4",
+      "referback_type": "cross_document_footnote",
+      "approved_phrase": "see footnote 4, Document 274",
+      "variant_forms": [
+        "See footnote 4, Document 274"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "frus1981-88v01/d274",
+          "target_document_number": "274",
+          "target_footnote_number": "4",
+          "target_label": "footnote 4, Document 274",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d274"
+        }
+      ],
+      "rule_basis": "Document 269 embeds the published cross-document footnote refer-back inside a sentence rather than reciting the later vote evidence in full.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d269",
+      "verification_status": "verified_published_form"
+    },
+    {
       "referback_id": "referback-v01-d316-fn2-d265-d312",
       "volume_id": "frus1981-88v01",
       "source_document_id": "frus1981-88v01/d316",
@@ -11265,6 +11347,30 @@ Use this to check repeated-reference footnote discipline in follow-on footnotes 
       ],
       "rule_basis": "Document 316 models explicit same-document `above` punctuation.",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d316",
+      "verification_status": "verified_published_form"
+    },
+    {
+      "referback_id": "referback-v01-d318-fn11-above",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d318",
+      "source_document_number": "318",
+      "source_unit_label": "footnote 11",
+      "referback_type": "same_document_above",
+      "approved_phrase": "see footnote 3, above",
+      "variant_forms": [
+        "See footnote 3, above"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "",
+          "target_document_number": "",
+          "target_footnote_number": "3",
+          "target_label": "same-document footnote 3 above",
+          "target_url": ""
+        }
+      ],
+      "rule_basis": "Document 318 models explicit same-document `above` punctuation in a later footnote.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d318",
       "verification_status": "verified_published_form"
     }
   ]
@@ -12232,7 +12338,7 @@ Use this to check `Attached but not printed`, `Printed as Document [n]`, `See Do
 
 ## Communications Metadata Registry Context
 
-Use this to check telegram/cable/message identifiers, SECTO/TOSEC/special designators, origin/addressee lines, date-time groups, source-family electronic telegram identifiers, precedence/routing, and drafting/clearance/approval strings. Do not change identifiers, date-time groups, origin/addressee, or precedence unless the registry proves the direct edit.
+Use this to check telegram/cable/message identifiers, SECTO/TOSEC/special designators, origin/addressee lines, date-time groups, source-family electronic telegram identifiers, precedence/routing, drafting/clearance/approval strings, formal statement-exchange labels, joint/reciprocal/unilateral statement forms, exchange-of-notes forms, diplomatic notes, aide-memoires, non-papers, oral messages, and diplomatic-letter delivery language. Do not change identifiers, date-time groups, origin/addressee, precedence, statement-exchange labels, or diplomatic-delivery wording unless the registry proves the direct edit.
 
 ```json
 {
@@ -12246,9 +12352,11 @@ Use this to check telegram/cable/message identifiers, SECTO/TOSEC/special design
     "https://history.state.gov/historicaldocuments/frus1989-92v31/d89",
     "https://history.state.gov/historicaldocuments/frus1989-92v31/d166",
     "https://history.state.gov/historicaldocuments/frus1989-92v31/d178",
-    "https://history.state.gov/historicaldocuments/frus1989-92v31/d190"
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d190",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d242",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d183"
   ],
-  "scope": "Sample communications metadata registry for checking FRUS telegram, special-designator, time-group, routing, source-family, classification/handling, drafting, clearance, and follow-on telegram-reference form in Reagan and George H.W. Bush annotation sheets.",
+  "scope": "Sample communications metadata registry for checking FRUS telegram, special-designator, time-group, routing, source-family, classification/handling, drafting, clearance, follow-on telegram-reference, formal statement-exchange, exchange-of-notes, and diplomatic-letter delivery form in Reagan and George H.W. Bush annotation sheets.",
   "target_volume": "frus1989-92v31",
   "target_records": [
     {
@@ -12384,6 +12492,88 @@ Use this to check telegram/cable/message identifiers, SECTO/TOSEC/special design
         "TOSEC 10393",
         "12562 Tosec 10393",
         "N910001-0231"
+      ]
+    },
+    {
+      "communications_id": "communications-v31-d242-final-plenary-statement-exchange",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d242",
+      "document_number": "242",
+      "communications_type": "joint_statement_exchange",
+      "approved_heading_form": "Presentation of Statements",
+      "message_identifier": "Final START plenary statement exchange",
+      "special_designator": "",
+      "origin": "U.S. and Soviet START delegations",
+      "addressees": "Negotiating record",
+      "date_time_line": "Geneva, July 29, 1991, 11:00 a.m.-11:52 a.m.",
+      "date_time_group": "",
+      "subject_or_title": "Public statements; initialling of the treaty; presentation of joint and unilateral statements",
+      "source_family": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, D910778-0128",
+      "classification_or_handling_summary": "Secret; Exdis; final plenary cable reports statement exchange",
+      "drafting_clearance_approval": "",
+      "reference_context": "The Ambassadors then exchanged joint and reciprocal statements and Ambassador Brooks presented unilateral statements of the U.S. side",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d242",
+      "verification_status": "verified_published_communications_record",
+      "variant_forms": [
+        "Presentation of Statements",
+        "joint and reciprocal statements",
+        "unilateral statements of the U.S. side",
+        "Subject summary: Public statements; initialling of the treaty; presentation of joint and unilateral statements"
+      ]
+    },
+    {
+      "communications_id": "communications-v31-d242-joint-statement-weapons-storage",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d242",
+      "document_number": "242",
+      "communications_type": "joint_statement",
+      "approved_heading_form": "Joint Statement on Weapon Storage Areas",
+      "message_identifier": "Joint Statement on Weapon Storage Areas",
+      "special_designator": "",
+      "origin": "U.S. and Soviet START delegations",
+      "addressees": "Negotiating record",
+      "date_time_line": "Geneva, July 29, 1991, later that day",
+      "date_time_group": "",
+      "subject_or_title": "Correct statement exchanged later and appended to the negotiating record",
+      "source_family": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, D910778-0128; Joint Statement on Weapon Storage Areas",
+      "classification_or_handling_summary": "Secret; Exdis; statement form appears in final plenary cable",
+      "drafting_clearance_approval": "",
+      "reference_context": "The Ambassadors agreed that the Joint Statement on Weapons Storage Areas would be exchanged later and appended to the negotiating record",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d242",
+      "verification_status": "verified_published_communications_record",
+      "variant_forms": [
+        "Joint Statement on Weapons Storage Areas",
+        "Joint Statement on Weapon Storage Areas",
+        "exchanged later and appended to the negotiating record"
+      ]
+    },
+    {
+      "communications_id": "communications-v31-d183-shevardnadze-letter-delivery",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d183",
+      "document_number": "183",
+      "communications_type": "diplomatic_letter_delivery",
+      "approved_heading_form": "Letter From Soviet Foreign Minister Shevardnadze to Secretary of State Baker",
+      "message_identifier": "Shevardnadze letter delivered December 31, 1990",
+      "special_designator": "",
+      "origin": "Soviet Foreign Minister Shevardnadze",
+      "addressees": "Secretary of State Baker",
+      "date_time_line": "December 31, 1990",
+      "date_time_group": "",
+      "subject_or_title": "START Houston package clarifications",
+      "source_family": "Bush Presidential Records and Department of State Policy Planning Staff files",
+      "source_note_form": "George H.W. Bush Library, Bush Presidential Records, National Security Council, John A. Gordon Files, Subject Files, OA/ID CF01034-005, START-January 1991 [2]",
+      "classification_or_handling_summary": "No classification marking; typed notation on another copy records Soviet Embassy delivery",
+      "drafting_clearance_approval": "",
+      "reference_context": "A typed notation on another copy of the letter indicates that a Soviet Embassy official delivered the letter to Bartholomew on December 31",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d183",
+      "verification_status": "verified_published_communications_record",
+      "variant_forms": [
+        "delivered the letter to Bartholomew on December 31",
+        "Soviet Embassy official delivered the letter",
+        "Printed from an unsigned copy"
       ]
     }
   ],
@@ -12603,6 +12793,88 @@ Use this to check telegram/cable/message identifiers, SECTO/TOSEC/special design
         "N910001-0231"
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d190",
+      "verification_status": "verified_published_communications_record"
+    },
+    {
+      "communications_id": "communications-v31-d242-final-plenary-statement-exchange",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d242",
+      "document_number": "242",
+      "communications_type": "joint_statement_exchange",
+      "approved_heading_form": "Presentation of Statements",
+      "message_identifier": "Final START plenary statement exchange",
+      "special_designator": "",
+      "origin": "U.S. and Soviet START delegations",
+      "addressees": "Negotiating record",
+      "date_time_line": "Geneva, July 29, 1991, 11:00 a.m.-11:52 a.m.",
+      "date_time_group": "",
+      "subject_or_title": "Public statements; initialling of the treaty; presentation of joint and unilateral statements",
+      "source_family": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, D910778-0128",
+      "classification_or_handling_summary": "Secret; Exdis; final plenary cable reports statement exchange",
+      "drafting_clearance_approval": "",
+      "reference_context": "The Ambassadors then exchanged joint and reciprocal statements and Ambassador Brooks presented unilateral statements of the U.S. side",
+      "variant_forms": [
+        "Presentation of Statements",
+        "joint and reciprocal statements",
+        "unilateral statements of the U.S. side",
+        "Subject summary: Public statements; initialling of the treaty; presentation of joint and unilateral statements"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d242",
+      "verification_status": "verified_published_communications_record"
+    },
+    {
+      "communications_id": "communications-v31-d242-joint-statement-weapons-storage",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d242",
+      "document_number": "242",
+      "communications_type": "joint_statement",
+      "approved_heading_form": "Joint Statement on Weapon Storage Areas",
+      "message_identifier": "Joint Statement on Weapon Storage Areas",
+      "special_designator": "",
+      "origin": "U.S. and Soviet START delegations",
+      "addressees": "Negotiating record",
+      "date_time_line": "Geneva, July 29, 1991, later that day",
+      "date_time_group": "",
+      "subject_or_title": "Correct statement exchanged later and appended to the negotiating record",
+      "source_family": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, D910778-0128; Joint Statement on Weapon Storage Areas",
+      "classification_or_handling_summary": "Secret; Exdis; statement form appears in final plenary cable",
+      "drafting_clearance_approval": "",
+      "reference_context": "The Ambassadors agreed that the Joint Statement on Weapons Storage Areas would be exchanged later and appended to the negotiating record",
+      "variant_forms": [
+        "Joint Statement on Weapons Storage Areas",
+        "Joint Statement on Weapon Storage Areas",
+        "exchanged later and appended to the negotiating record"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d242",
+      "verification_status": "verified_published_communications_record"
+    },
+    {
+      "communications_id": "communications-v31-d183-shevardnadze-letter-delivery",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d183",
+      "document_number": "183",
+      "communications_type": "diplomatic_letter_delivery",
+      "approved_heading_form": "Letter From Soviet Foreign Minister Shevardnadze to Secretary of State Baker",
+      "message_identifier": "Shevardnadze letter delivered December 31, 1990",
+      "special_designator": "",
+      "origin": "Soviet Foreign Minister Shevardnadze",
+      "addressees": "Secretary of State Baker",
+      "date_time_line": "December 31, 1990",
+      "date_time_group": "",
+      "subject_or_title": "START Houston package clarifications",
+      "source_family": "Bush Presidential Records and Department of State Policy Planning Staff files",
+      "source_note_form": "George H.W. Bush Library, Bush Presidential Records, National Security Council, John A. Gordon Files, Subject Files, OA/ID CF01034-005, START-January 1991 [2]",
+      "classification_or_handling_summary": "No classification marking; typed notation on another copy records Soviet Embassy delivery",
+      "drafting_clearance_approval": "",
+      "reference_context": "A typed notation on another copy of the letter indicates that a Soviet Embassy official delivered the letter to Bartholomew on December 31",
+      "variant_forms": [
+        "delivered the letter to Bartholomew on December 31",
+        "Soviet Embassy official delivered the letter",
+        "Printed from an unsigned copy"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d183",
       "verification_status": "verified_published_communications_record"
     }
   ]
@@ -14344,7 +14616,8 @@ Use this to check telegram/cable/message identifiers, SECTO/TOSEC/special design
       ],
       "hazard_tags": [
         "communications_record",
-        "communications_metadata"
+        "communications_metadata",
+        "diplomatic_statement_exchange"
       ]
     },
     {
@@ -14734,7 +15007,7 @@ Use this to check telegram/cable/message identifiers, SECTO/TOSEC/special design
       "owner_hint": "compiler",
       "blocks_direct_edit_by_default": true,
       "blocks_final_publication_by_default": true,
-      "comment_target_template": "Identify the telegram/cable/system, message identifier, date-time group, origin, addressee, routing, or distribution metadata."
+      "comment_target_template": "Identify the telegram/cable/system, message identifier, date-time group, origin, addressee, routing, distribution metadata, statement-exchange label, or diplomatic-delivery basis."
     },
     {
       "evidence_request": "source_family",

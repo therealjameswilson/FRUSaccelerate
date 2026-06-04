@@ -6,20 +6,23 @@
   "target_volume": "frus1989-92v31",
   "status": "warning",
   "summary": {
-    "units_scanned": 6,
-    "communications_usages": 5,
+    "units_scanned": 9,
+    "communications_usages": 8,
     "warnings": 3,
     "unmatched_communications_like_units": 1,
     "direct_communications_edit_conflicts": 0,
     "by_usage_status": {
-      "approved": 3,
+      "approved": 6,
       "variant_needs_review": 1,
       "cross_volume_communications": 1
     },
     "by_communications_type": {
       "telegram_with_special_designator": 3,
       "referenced_telegram": 1,
-      "joint_state_defense_message": 1
+      "joint_state_defense_message": 1,
+      "joint_statement_exchange": 1,
+      "joint_statement": 1,
+      "diplomatic_letter_delivery": 1
     }
   },
   "usages": [
@@ -171,8 +174,98 @@
       "match_kind": "approved_message_identifier",
       "usage_status": "cross_volume_communications",
       "recommended_action": "comment_only",
-      "finding": "Matched communications metadata tied to frus1981-88v13; confirm target volume before changing message identifiers, time groups, routing, or source-family language.",
+      "finding": "Matched communications metadata tied to frus1981-88v13; confirm target volume before changing message identifiers, time groups, routing, source-family language, statement-exchange labels, or diplomatic-delivery wording.",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v13/d401",
+      "verification_status": "verified_published_communications_record"
+    },
+    {
+      "unit_id": "communications-note-0007",
+      "unit_type": "editorial_note",
+      "location": "START I Document 242 statement exchange",
+      "communications_id": "communications-v31-d242-final-plenary-statement-exchange",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d242",
+      "document_number": "242",
+      "communications_type": "joint_statement_exchange",
+      "approved_heading_form": "Presentation of Statements",
+      "message_identifier": "Final START plenary statement exchange",
+      "special_designator": "",
+      "date_time_line": "Geneva, July 29, 1991, 11:00 a.m.-11:52 a.m.",
+      "date_time_group": "",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, D910778-0128",
+      "approved_forms": [
+        "Presentation of Statements",
+        "Final START plenary statement exchange",
+        "Geneva, July 29, 1991, 11:00 a.m.-11:52 a.m.",
+        "Department of State, Central Foreign Policy File, Electronic Telegrams, D910778-0128",
+        "The Ambassadors then exchanged joint and reciprocal statements and Ambassador Brooks presented unilateral statements of the U.S. side"
+      ],
+      "matched_text": "The Ambassadors then exchanged joint and reciprocal statements and Ambassador Brooks presented unilateral statements of the U.S. side",
+      "match_kind": "approved_reference_context",
+      "usage_status": "approved",
+      "recommended_action": "no_change",
+      "finding": "Matched approved communications metadata for frus1989-92v31/d242 Final START plenary statement exchange.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d242",
+      "verification_status": "verified_published_communications_record"
+    },
+    {
+      "unit_id": "communications-note-0008",
+      "unit_type": "editorial_note",
+      "location": "START I Document 242 joint statement correction",
+      "communications_id": "communications-v31-d242-joint-statement-weapons-storage",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d242",
+      "document_number": "242",
+      "communications_type": "joint_statement",
+      "approved_heading_form": "Joint Statement on Weapon Storage Areas",
+      "message_identifier": "Joint Statement on Weapon Storage Areas",
+      "special_designator": "",
+      "date_time_line": "Geneva, July 29, 1991, later that day",
+      "date_time_group": "",
+      "source_note_form": "Department of State, Central Foreign Policy File, Electronic Telegrams, D910778-0128; Joint Statement on Weapon Storage Areas",
+      "approved_forms": [
+        "Joint Statement on Weapon Storage Areas",
+        "Joint Statement on Weapon Storage Areas",
+        "Geneva, July 29, 1991, later that day",
+        "Department of State, Central Foreign Policy File, Electronic Telegrams, D910778-0128; Joint Statement on Weapon Storage Areas",
+        "The Ambassadors agreed that the Joint Statement on Weapons Storage Areas would be exchanged later and appended to the negotiating record"
+      ],
+      "matched_text": "The Ambassadors agreed that the Joint Statement on Weapons Storage Areas would be exchanged later and appended to the negotiating record",
+      "match_kind": "approved_reference_context",
+      "usage_status": "approved",
+      "recommended_action": "no_change",
+      "finding": "Matched approved communications metadata for frus1989-92v31/d242 Joint Statement on Weapon Storage Areas.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d242",
+      "verification_status": "verified_published_communications_record"
+    },
+    {
+      "unit_id": "communications-note-0009",
+      "unit_type": "source_note",
+      "location": "START I Document 183 source note delivery notation",
+      "communications_id": "communications-v31-d183-shevardnadze-letter-delivery",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d183",
+      "document_number": "183",
+      "communications_type": "diplomatic_letter_delivery",
+      "approved_heading_form": "Letter From Soviet Foreign Minister Shevardnadze to Secretary of State Baker",
+      "message_identifier": "Shevardnadze letter delivered December 31, 1990",
+      "special_designator": "",
+      "date_time_line": "December 31, 1990",
+      "date_time_group": "",
+      "source_note_form": "George H.W. Bush Library, Bush Presidential Records, National Security Council, John A. Gordon Files, Subject Files, OA/ID CF01034-005, START-January 1991 [2]",
+      "approved_forms": [
+        "Letter From Soviet Foreign Minister Shevardnadze to Secretary of State Baker",
+        "Shevardnadze letter delivered December 31, 1990",
+        "December 31, 1990",
+        "George H.W. Bush Library, Bush Presidential Records, National Security Council, John A. Gordon Files, Subject Files, OA/ID CF01034-005, START-January 1991 [2]",
+        "A typed notation on another copy of the letter indicates that a Soviet Embassy official delivered the letter to Bartholomew on December 31"
+      ],
+      "matched_text": "A typed notation on another copy of the letter indicates that a Soviet Embassy official delivered the letter to Bartholomew on December 31",
+      "match_kind": "approved_reference_context",
+      "usage_status": "approved",
+      "recommended_action": "no_change",
+      "finding": "Matched approved communications metadata for frus1989-92v31/d183 Shevardnadze letter delivered December 31, 1990.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d183",
       "verification_status": "verified_published_communications_record"
     }
   ],
@@ -182,7 +275,7 @@
       "unit_type": "source_note",
       "location": "Unsupported communications note",
       "diagnostic_type": "unmatched_communications_like_unit",
-      "finding": "Telegram/cable/message unit had no match in the supplied communications registry.",
+      "finding": "Telegram/cable/message, statement-exchange, diplomatic note, or letter-delivery unit had no match in the supplied communications registry.",
       "recommended_action": "comment_only",
       "evidence_request": "communications_metadata"
     }
@@ -190,8 +283,8 @@
   "direct_edit_conflicts": [],
   "warnings": [
     "communications-note-0003: Matched a communications metadata variant; review against approved forms for 12562/TOSEC 10393.",
-    "communications-note-0005: Matched communications metadata tied to frus1981-88v13; confirm target volume before changing message identifiers, time groups, routing, or source-family language.",
-    "communications-note-0006: Telegram/cable/message unit had no match in the supplied communications registry."
+    "communications-note-0005: Matched communications metadata tied to frus1981-88v13; confirm target volume before changing message identifiers, time groups, routing, source-family language, statement-exchange labels, or diplomatic-delivery wording.",
+    "communications-note-0006: Telegram/cable/message, statement-exchange, diplomatic note, or letter-delivery unit had no match in the supplied communications registry."
   ],
   "errors": []
 }

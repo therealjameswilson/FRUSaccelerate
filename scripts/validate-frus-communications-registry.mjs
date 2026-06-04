@@ -12,6 +12,12 @@ const COMMUNICATIONS_TYPES = new Set([
   "memorandum_of_conversation",
   "telcon",
   "message",
+  "diplomatic_letter_delivery",
+  "joint_statement_exchange",
+  "joint_statement",
+  "reciprocal_statement",
+  "unilateral_statement",
+  "exchange_of_notes",
   "unknown"
 ]);
 

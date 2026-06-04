@@ -214,11 +214,11 @@ try {
     manifest.summary.human_rights_refugee_global_issues_registry_records === 12,
     "expected human-rights/refugee/global-issues registry record count"
   );
-  assert(manifest.summary.footnote_referback_registry_records === 11, "expected footnote refer-back registry record count");
+  assert(manifest.summary.footnote_referback_registry_records === 15, "expected footnote refer-back registry record count");
   assert(manifest.summary.recurring_risk_registry_records === 13, "expected recurring-risk registry record count");
   assert(manifest.summary.negative_search_registry_records === 6, "expected negative-search registry record count");
   assert(manifest.summary.document_relationship_registry_records === 10, "expected document-relationship registry record count");
-  assert(manifest.summary.communications_registry_records === 8, "expected communications registry record count");
+  assert(manifest.summary.communications_registry_records === 11, "expected communications registry record count");
   assert(manifest.source_files.authority_registry === "reports/frus-authority-registry.sample.json", "expected authority registry source path");
   assert(manifest.source_files.source_list_registry === "reports/frus-source-list-registry.sample.json", "expected source-list registry source path");
   assert(
@@ -428,6 +428,16 @@ try {
     firstPacket.includes("See footnote 8, Document 65 and Document 66"),
     "expected mixed footnote/document content in chunk packet"
   );
+  assert(
+    firstPacket.includes("See footnote 3, Document 59"),
+    "expected additional Reagan Foundations cross-document refer-back content in chunk packet"
+  );
+  assert(
+    firstPacket.includes("See Document 69 and footnote 8 thereto"),
+    "expected Reagan Foundations thereto refer-back content in chunk packet"
+  );
+  assert(firstPacket.includes("see footnote 4, Document 274"), "expected embedded refer-back content in chunk packet");
+  assert(firstPacket.includes("see footnote 3, above"), "expected same-document above refer-back content in chunk packet");
   assert(firstPacket.includes("footnote 15, Document 106"), "expected three-target refer-back content in chunk packet");
   assert(firstPacket.includes("same separate page as B above"), "expected same-document local-context content in chunk packet");
   assert(firstPacket.includes("Recurring Compiler Risk Registry Context"), "expected recurring-risk registry context in chunk packet");
@@ -440,6 +450,8 @@ try {
   assert(firstPacket.includes("Attached but not printed. See Document 10"), "expected document-relationship registry content in chunk packet");
   assert(firstPacket.includes("Communications Metadata Registry Context"), "expected communications registry context in chunk packet");
   assert(firstPacket.includes("SECTO 2017"), "expected communications registry content in chunk packet");
+  assert(firstPacket.includes("Final START plenary statement exchange"), "expected statement-exchange registry content in chunk packet");
+  assert(firstPacket.includes("delivered the letter to Bartholomew"), "expected diplomatic-delivery registry content in chunk packet");
 
   const chunk1Output = path.join(tmpDir, "chunk-0001-output.json");
   const chunk2Output = path.join(tmpDir, "chunk-0002-output.json");
