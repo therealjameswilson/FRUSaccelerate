@@ -1,0 +1,95 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source_docx": "sample-frus-human-rights-refugee-global-issues-annotation-sheet.docx",
+  "generated_at": "2026-06-04T00:00:00.000Z",
+  "units": [
+    {
+      "unit_id": "humanitarian-0001",
+      "unit_type": "source_list_entry",
+      "location": "Reagan Global Issues II source-list sample",
+      "exact_text": "Source ecology includes Lot File 88D242; Subject Files-Human Rights, 1986, and repeated references to Annual Country Reports on Human Rights Practices.",
+      "display_text": "Source ecology includes Lot File 88D242; Subject Files-Human Rights, 1986, and repeated references to Annual Country Reports on Human Rights Practices.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "humanitarian-0002",
+      "unit_type": "editorial_note",
+      "location": "Reagan Global Issues II Document 37 AIDS policy note",
+      "exact_text": "The paper called for a three-year plan for international efforts against human immunodeficiency virus (HIV) infection.",
+      "display_text": "The paper called for a three-year plan for international efforts against human immunodeficiency virus (HIV) infection.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "humanitarian-0003",
+      "unit_type": "editorial_note",
+      "location": "Reagan Global Issues II Documents 212 and 220 relief note",
+      "exact_text": "The file links the National Security Study Directive (NSSD) on U.S. Third World Hunger Relief to USING PL 480 TITLE II FOOD AID FOR EMERGENCY OR REFUGEE RELIEF. Source note: National Archives, RG 286, USAID/O/ADMIN/ExecSec, Box 194, ADM (Feb-May) FY 84.",
+      "display_text": "The file links the National Security Study Directive (NSSD) on U.S. Third World Hunger Relief to USING PL 480 TITLE II FOOD AID FOR EMERGENCY OR REFUGEE RELIEF. Source note: National Archives, RG 286, USAID/O/ADMIN/ExecSec, Box 194, ADM (Feb-May) FY 84.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "humanitarian-0004",
+      "unit_type": "source_note",
+      "location": "Reagan Global Issues II Document 276 UNFPA note",
+      "exact_text": "Subject: Your Meeting on the US Contribution to UNFPA. The memorandum discusses the $50 million contribution to China for the period 1985-89.",
+      "display_text": "Subject: Your Meeting on the US Contribution to UNFPA. The memorandum discusses the $50 million contribution to China for the period 1985-89.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "humanitarian-0005",
+      "unit_type": "editorial_note",
+      "location": "Reagan Global Issues II Documents 260 and 349 international-organization note",
+      "exact_text": "The note tracks the World Population Plan of Action, the Convention for the Protection of the Ozone Layer, and a protocol to control the production and/or use of chlorofluorocarbons.",
+      "display_text": "The note tracks the World Population Plan of Action, the Convention for the Protection of the Ozone Layer, and a protocol to control the production and/or use of chlorofluorocarbons.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "humanitarian-0006",
+      "unit_type": "front_matter",
+      "location": "Bush global-issues routing note",
+      "exact_text": "Routing note: 1989-1992, Volume XXIX, Global Issues.",
+      "display_text": "Routing note: 1989-1992, Volume XXIX, Global Issues.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "humanitarian-0007",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft human-rights variant note",
+      "exact_text": "The draft says Country reports on human rights without confirming the exact published title.",
+      "display_text": "The draft says Country reports on human rights without confirming the exact published title.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "humanitarian-0008",
+      "unit_type": "unknown_editorial_text",
+      "location": "Draft unmatched refugee/asylum relief note",
+      "exact_text": "The draft says Section 416 refugee resettlement waiver and PRM asylum migration claims were certified for editorial review.",
+      "display_text": "The draft says Section 416 refugee resettlement waiver and PRM asylum migration claims were certified for editorial review.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}

@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -54,6 +54,7 @@ function parseArgs(argv) {
   let economicFinancialRegistryPath = null;
   let militaryCrisisRegistryPath = null;
   let intelligenceLawEnforcementRegistryPath = null;
+  let humanRightsRefugeeGlobalIssuesRegistryPath = null;
   let footnoteReferbackRegistryPath = null;
   let recurringRiskRegistryPath = null;
   let negativeSearchRegistryPath = null;
@@ -153,6 +154,9 @@ function parseArgs(argv) {
     } else if (arg === "--intelligence-law-enforcement-registry") {
       intelligenceLawEnforcementRegistryPath = argv[index + 1];
       index += 1;
+    } else if (arg === "--human-rights-refugee-global-issues-registry") {
+      humanRightsRefugeeGlobalIssuesRegistryPath = argv[index + 1];
+      index += 1;
     } else if (arg === "--footnote-referback-registry") {
       footnoteReferbackRegistryPath = argv[index + 1];
       index += 1;
@@ -235,6 +239,7 @@ function parseArgs(argv) {
     economicFinancialRegistryPath,
     militaryCrisisRegistryPath,
     intelligenceLawEnforcementRegistryPath,
+    humanRightsRefugeeGlobalIssuesRegistryPath,
     footnoteReferbackRegistryPath,
     recurringRiskRegistryPath,
     negativeSearchRegistryPath,
@@ -1109,6 +1114,40 @@ function compactIntelligenceLawEnforcementRegistry(registry, targetVolume) {
   };
 }
 
+function compactHumanRightsRefugeeGlobalIssuesRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  return {
+    schema_version: registry.schema_version,
+    human_rights_refugee_global_issues_registry_id: registry.human_rights_refugee_global_issues_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [],
+    records: records.map((record) => ({
+      humanitarian_id: record.humanitarian_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      record_type: record.record_type,
+      approved_phrase: record.approved_phrase,
+      issue_area: record.issue_area,
+      institution_or_actor: record.institution_or_actor,
+      source_family: record.source_family,
+      public_or_archival_basis: record.public_or_archival_basis,
+      legal_or_program_basis: record.legal_or_program_basis,
+      quantity_or_metric: record.quantity_or_metric,
+      stage_or_status: record.stage_or_status,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactFootnoteReferbackRegistry(registry, targetVolume) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -1211,6 +1250,7 @@ function renderPacket({
   economicFinancialRegistry,
   militaryCrisisRegistry,
   intelligenceLawEnforcementRegistry,
+  humanRightsRefugeeGlobalIssuesRegistry,
   footnoteReferbackRegistry,
   recurringRiskRegistry,
   negativeSearchRegistry,
@@ -1397,6 +1437,12 @@ function renderPacket({
     "",
     fencedJson(intelligenceLawEnforcementRegistry || {}),
     "",
+    "## Human Rights Refugee And Global Issues Registry Context",
+    "",
+    "Use this to check human-rights reports, Country Reports, refugee, immigration, asylum, migration, famine, emergency relief, food aid, PL 480, Section 416/206, AID/USAID, PRM, HA/HR/IO, WHO/UNICEF/UNDRO/UNEP/WMO, AIDS/HIV, population/UNFPA, environmental/ozone/CFC, whaling, sanctions, waiver, certification, determination, public-report, international-organization, PVO, and global-issues language. Treat report basis, country/population scope, relief stage, legal/program authority, amount/metric, public/archival basis, international-organization role, PVO role, sanctions/waiver status, and environmental/treaty status as comment-only unless the target-volume registry proves the exact direct edit.",
+    "",
+    fencedJson(humanRightsRefugeeGlobalIssuesRegistry || {}),
+    "",
     "## Footnote Refer-Back Registry Context",
     "",
     "Use this to check repeated-reference footnote discipline in follow-on footnotes and source notes. Reagan Foundations models cross-document `footnote N, Document X`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. Apply the registry `repeat_threshold`: the first and second full citation occurrences may stand, but the third full citation occurrence itself and every later full citation occurrence, including plain source-note citations outside parentheses, are production-review triggers for a possible refer-back. Do not wait for a fourth occurrence. Do not invent refer-back targets; use comment-only unless the registry proves the exact direct edit.",
@@ -1491,6 +1537,9 @@ function buildChunks(options) {
   const intelligenceLawEnforcementRegistry = options.intelligenceLawEnforcementRegistryPath
     ? readJson(options.intelligenceLawEnforcementRegistryPath)
     : null;
+  const humanRightsRefugeeGlobalIssuesRegistry = options.humanRightsRefugeeGlobalIssuesRegistryPath
+    ? readJson(options.humanRightsRefugeeGlobalIssuesRegistryPath)
+    : null;
   const footnoteReferbackRegistry = options.footnoteReferbackRegistryPath
     ? readJson(options.footnoteReferbackRegistryPath)
     : null;
@@ -1546,6 +1595,10 @@ function buildChunks(options) {
   const militaryCrisisRegistryContext = compactMilitaryCrisisRegistry(militaryCrisisRegistry, options.targetVolume);
   const intelligenceLawEnforcementRegistryContext = compactIntelligenceLawEnforcementRegistry(
     intelligenceLawEnforcementRegistry,
+    options.targetVolume
+  );
+  const humanRightsRefugeeGlobalIssuesRegistryContext = compactHumanRightsRefugeeGlobalIssuesRegistry(
+    humanRightsRefugeeGlobalIssuesRegistry,
     options.targetVolume
   );
   const footnoteReferbackRegistryContext = compactFootnoteReferbackRegistry(
@@ -1605,6 +1658,9 @@ function buildChunks(options) {
       intelligence_law_enforcement_registry: options.intelligenceLawEnforcementRegistryPath
         ? normalizePathForOutput(options.intelligenceLawEnforcementRegistryPath)
         : "",
+      human_rights_refugee_global_issues_registry: options.humanRightsRefugeeGlobalIssuesRegistryPath
+        ? normalizePathForOutput(options.humanRightsRefugeeGlobalIssuesRegistryPath)
+        : "",
       footnote_referback_registry: options.footnoteReferbackRegistryPath
         ? normalizePathForOutput(options.footnoteReferbackRegistryPath)
         : "",
@@ -1644,6 +1700,8 @@ function buildChunks(options) {
       economic_financial_registry_records: economicFinancialRegistry?.records?.length || 0,
       military_crisis_registry_records: militaryCrisisRegistry?.records?.length || 0,
       intelligence_law_enforcement_registry_records: intelligenceLawEnforcementRegistry?.records?.length || 0,
+      human_rights_refugee_global_issues_registry_records:
+        humanRightsRefugeeGlobalIssuesRegistry?.records?.length || 0,
       footnote_referback_registry_records: footnoteReferbackRegistry?.records?.length || 0,
       recurring_risk_registry_records: recurringRiskRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
@@ -1707,6 +1765,7 @@ function buildChunks(options) {
         economicFinancialRegistry: economicFinancialRegistryContext,
         militaryCrisisRegistry: militaryCrisisRegistryContext,
         intelligenceLawEnforcementRegistry: intelligenceLawEnforcementRegistryContext,
+        humanRightsRefugeeGlobalIssuesRegistry: humanRightsRefugeeGlobalIssuesRegistryContext,
         footnoteReferbackRegistry: footnoteReferbackRegistryContext,
         recurringRiskRegistry: recurringRiskRegistryContext,
         negativeSearchRegistry: negativeSearchRegistryContext,

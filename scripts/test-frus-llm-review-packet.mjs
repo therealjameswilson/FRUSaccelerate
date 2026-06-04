@@ -77,6 +77,8 @@ try {
     "reports/frus-military-crisis-registry.sample.json",
     "--intelligence-law-enforcement-registry",
     "reports/frus-intelligence-law-enforcement-registry.sample.json",
+    "--human-rights-refugee-global-issues-registry",
+    "reports/frus-human-rights-refugee-global-issues-registry.sample.json",
     "--footnote-referback-registry",
     "reports/frus-footnote-referback-registry.sample.json",
     "--recurring-risk-registry",
@@ -189,6 +191,19 @@ try {
   );
   assert(markdown.includes("Bureau of Counter-Terrorism Records"), "expected counterterrorism registry content");
   assert(markdown.includes("Counter Narcotics in Peru"), "expected counternarcotics registry content");
+  assert(
+    markdown.includes("Human Rights Refugee And Global Issues Registry Context"),
+    "expected human-rights/refugee/global-issues registry section"
+  );
+  assert(markdown.includes("Annual Country Reports on Human Rights Practices"), "expected Country Reports registry content");
+  assert(
+    markdown.includes("USING PL 480 TITLE II FOOD AID FOR EMERGENCY OR REFUGEE RELIEF"),
+    "expected PL 480 food-aid registry content"
+  );
+  assert(
+    markdown.includes("Convention for the Protection of the Ozone Layer"),
+    "expected ozone convention registry content"
+  );
   assert(markdown.includes("Footnote Refer-Back Registry Context"), "expected footnote refer-back registry section");
   assert(markdown.includes("repeat_threshold"), "expected footnote refer-back repeat threshold in Markdown packet");
   assert(markdown.includes("See footnote 6, Document 35"), "expected cross-document footnote refer-back content");
@@ -316,6 +331,18 @@ try {
     packet.packet_summary.intelligence_law_enforcement_registry_records === 15,
     "expected intelligence/law-enforcement registry count"
   );
+  assert(
+    packet.contexts.human_rights_refugee_global_issues_registry.records.length === 12,
+    "expected human-rights/refugee/global-issues registry records"
+  );
+  assert(
+    packet.contexts.human_rights_refugee_global_issues_registry.target_records.length === 0,
+    "expected no target human-rights/refugee/global-issues records for START volume fixture"
+  );
+  assert(
+    packet.packet_summary.human_rights_refugee_global_issues_registry_records === 12,
+    "expected human-rights/refugee/global-issues registry count"
+  );
   assert(packet.contexts.footnote_referback_registry.records.length === 8, "expected footnote refer-back registry records");
   assert(packet.contexts.footnote_referback_registry.repeat_threshold === 3, "expected footnote refer-back threshold context");
   assert(
@@ -341,7 +368,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

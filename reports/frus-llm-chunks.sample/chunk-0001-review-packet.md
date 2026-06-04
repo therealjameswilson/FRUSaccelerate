@@ -54,9 +54,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -123,6 +123,9 @@ For military/crisis validation and direct-edit safety, run
 For intelligence/law-enforcement validation and direct-edit safety, run
 `node scripts/validate-frus-intelligence-law-enforcement-registry.mjs --registry reports/frus-intelligence-law-enforcement-registry.sample.json --format text` and
 `node scripts/audit-frus-intelligence-law-enforcement-usage.mjs --units extracted-units.json --registry reports/frus-intelligence-law-enforcement-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For human-rights/refugee/global-issues validation and direct-edit safety, run
+`node scripts/validate-frus-human-rights-refugee-global-issues-registry.mjs --registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --format text` and
+`node scripts/audit-frus-human-rights-refugee-global-issues-usage.mjs --units extracted-units.json --registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For footnote refer-back validation and direct-edit safety, run
 `node scripts/validate-frus-footnote-referback-registry.mjs --registry reports/frus-footnote-referback-registry.sample.json --format text` and
 `node scripts/audit-frus-footnote-referback-usage.mjs --units extracted-units.json --registry reports/frus-footnote-referback-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -151,7 +154,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -306,6 +309,17 @@ narcoterrorism, and Department of Justice language. Validate it with
 `scripts/validate-frus-intelligence-law-enforcement-registry.mjs` before direct
 agency-identity, intelligence-basis, case-status, jurisdiction,
 prosecution/extradition, or counternarcotics edits.
+For real Reagan/Bush 1981-1992 human-rights/refugee/global-issues review,
+replace the sample registry with target-volume records for human-rights
+reports, Country Reports, refugee, immigration, asylum, migration, famine,
+emergency relief, food aid, PL 480, Section 416/206, AID/USAID, PRM, HA/HR/IO,
+WHO/UNICEF/UNDRO/UNEP/WMO, AIDS/HIV, population/UNFPA, environmental/ozone/CFC,
+whaling, sanctions, waiver, certification, determination, public-report,
+international-organization, PVO, and global-issues language. Validate it with
+`scripts/validate-frus-human-rights-refugee-global-issues-registry.mjs` before
+direct report-basis, country/population-scope, relief-stage, legal/program
+authority, amount/metric, public/archival-basis, international-organization,
+PVO, sanctions/waiver, or environmental/treaty edits.
 For real Reagan/Bush 1981-1992 footnote refer-back review, replace the sample
 footnote refer-back registry with target-volume examples for repeated
 cross-document `footnote N, Document X` references, same-document above/below or
@@ -8469,6 +8483,309 @@ Use this to check CIA, INR, National Intelligence Council, intelligence-source/h
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
       "verification_status": "verified_published_intelligence_law_enforcement_record"
+    }
+  ]
+}
+```
+
+## Human Rights Refugee And Global Issues Registry Context
+
+Use this to check human-rights reports, Country Reports, refugee, immigration, asylum, migration, famine, emergency relief, food aid, PL 480, Section 416/206, AID/USAID, PRM, HA/HR/IO, WHO/UNICEF/UNDRO/UNEP/WMO, AIDS/HIV, population/UNFPA, environmental/ozone/CFC, whaling, sanctions, waiver, certification, determination, public-report, international-organization, PVO, and global-issues language. Treat report basis, country/population scope, relief stage, legal/program authority, amount/metric, public/archival basis, international-organization role, PVO role, sanctions/waiver status, and environmental/treaty status as comment-only unless the target-volume registry proves the exact direct edit.
+
+```json
+{
+  "schema_version": "frus-human-rights-refugee-global-issues-registry-v1",
+  "human_rights_refugee_global_issues_registry_id": "frus-1981-1992-human-rights-refugee-global-issues-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/status-of-the-series",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/sources",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d1",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d37",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d51",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d212",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d220",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d260",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d276",
+    "https://history.state.gov/historicaldocuments/frus1981-88v41/d349"
+  ],
+  "scope": "Sample human-rights/refugee/global-issues registry for checking FRUS annotation sheets against Reagan Global Issues II and current 1981-1992 status-page routing. Use it to keep human-rights reports, AIDS/HIV, famine, PL 480, emergency/refugee food aid, population/UNFPA, environmental/ozone, international-organization, public-report, and in-preparation global-issues language tied to published examples before direct edits.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [],
+  "records": [
+    {
+      "humanitarian_id": "humanitarian-v41-sources-human-rights-001",
+      "volume_id": "frus1981-88v41",
+      "document_id": "frus1981-88v41/sources",
+      "document_number": "sources",
+      "unit_scope": "source_list",
+      "record_type": "source_ecology",
+      "approved_phrase": "Lot File 88D242; Subject Files-Human Rights, 1986",
+      "issue_area": "Human rights source files",
+      "institution_or_actor": "Department of State human-rights records",
+      "source_family": "Department of State lot files",
+      "public_or_archival_basis": "Published Volume XLI source list identifies human-rights lot files as volume source ecology.",
+      "legal_or_program_basis": "source-ecology context only",
+      "quantity_or_metric": "",
+      "stage_or_status": "published_pattern_source_ecology",
+      "source_or_context": "FRUS, 1981-1988, volume XLI, Sources.",
+      "variant_forms": [
+        "Subject Files-Human Rights, 1986",
+        "Subject Files, Human Rights, 1986"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v41/sources",
+      "verification_status": "verified_published_human_rights_refugee_global_issues_record"
+    },
+    {
+      "humanitarian_id": "humanitarian-v41-d51-country-reports-001",
+      "volume_id": "frus1981-88v41",
+      "document_id": "frus1981-88v41/d51",
+      "document_number": "51",
+      "unit_scope": "document_heading_and_text",
+      "record_type": "human_rights_public_report",
+      "approved_phrase": "Annual Country Reports on Human Rights Practices",
+      "issue_area": "Country Reports on Human Rights Practices",
+      "institution_or_actor": "Department of State; Ambassadors; Congress; HA; HR; INR; IO; AID",
+      "source_family": "Department of State Central Foreign Policy File telegram",
+      "public_or_archival_basis": "Published telegram explains the reports prepared for Congress.",
+      "legal_or_program_basis": "continuing legal requirement for Country Human Rights Reports to Congress",
+      "quantity_or_metric": "first group of reports due September 15",
+      "stage_or_status": "report_preparation_and_submission",
+      "source_or_context": "FRUS, 1981-1988, volume XLI, Document 51.",
+      "variant_forms": [
+        "Country reports on human rights",
+        "Country Human Rights Reports"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d51",
+      "verification_status": "verified_published_human_rights_refugee_global_issues_record"
+    },
+    {
+      "humanitarian_id": "humanitarian-v41-d37-hiv-plan-001",
+      "volume_id": "frus1981-88v41",
+      "document_id": "frus1981-88v41/d37",
+      "document_number": "37",
+      "unit_scope": "document_text_and_source_note",
+      "record_type": "aids_policy",
+      "approved_phrase": "three-year plan for international efforts against human immunodeficiency virus (HIV) infection",
+      "issue_area": "AIDS/HIV international action plan",
+      "institution_or_actor": "Department of State; WHO Global Programme on AIDS; federal departments and agencies",
+      "source_family": "Department of State Central Foreign Policy File paper",
+      "public_or_archival_basis": "Published Department of State paper with Presidential Commission and WHO/GPA context.",
+      "legal_or_program_basis": "FY 1989-1991 international action plan",
+      "quantity_or_metric": "142 countries; 124,114 AIDS cases reported worldwide",
+      "stage_or_status": "public_health_action_plan",
+      "source_or_context": "FRUS, 1981-1988, volume XLI, Document 37.",
+      "variant_forms": [
+        "three-year action plan",
+        "WHO Global Programme on AIDS"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d37",
+      "verification_status": "verified_published_human_rights_refugee_global_issues_record"
+    },
+    {
+      "humanitarian_id": "humanitarian-v41-d212-third-world-hunger-001",
+      "volume_id": "frus1981-88v41",
+      "document_id": "frus1981-88v41/d212",
+      "document_number": "212",
+      "unit_scope": "document_subject",
+      "record_type": "famine_policy_and_conference",
+      "approved_phrase": "National Security Study Directive (NSSD) on U.S. Third World Hunger Relief",
+      "issue_area": "Third World hunger relief and African famine",
+      "institution_or_actor": "AID; NSC; McPherson; McFarlane",
+      "source_family": "Reagan Library NSC NSSD file",
+      "public_or_archival_basis": "Published memorandum from the AID Administrator to the President's Assistant for National Security Affairs.",
+      "legal_or_program_basis": "food-assistance policy study context",
+      "quantity_or_metric": "",
+      "stage_or_status": "policy_study_or_option",
+      "source_or_context": "FRUS, 1981-1988, volume XLI, Document 212.",
+      "variant_forms": [
+        "U.S. Third World Hunger Relief",
+        "Third World Hunger Relief"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d212",
+      "verification_status": "verified_published_human_rights_refugee_global_issues_record"
+    },
+    {
+      "humanitarian_id": "humanitarian-v41-d220-pl480-title-001",
+      "volume_id": "frus1981-88v41",
+      "document_id": "frus1981-88v41/d220",
+      "document_number": "220",
+      "unit_scope": "attachment_title",
+      "record_type": "pl480_food_assistance",
+      "approved_phrase": "USING PL 480 TITLE II FOOD AID FOR EMERGENCY OR REFUGEE RELIEF",
+      "issue_area": "Emergency food aid and refugee relief",
+      "institution_or_actor": "AID; regional and central bureaus; inter-agency Development Coordination Committee",
+      "source_family": "National Archives RG 286 USAID executive secretariat records",
+      "public_or_archival_basis": "Published AID policy determination attached to the memorandum.",
+      "legal_or_program_basis": "PL 480 Title II emergency or refugee relief",
+      "quantity_or_metric": "",
+      "stage_or_status": "policy_determination_clearance",
+      "source_or_context": "FRUS, 1981-1988, volume XLI, Document 220.",
+      "variant_forms": [
+        "Using PL 480 Title II Food Aid for Emergency or Refugee Relief",
+        "PL 480 Title II Food Aid for Emergency or Refugee Relief"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d220",
+      "verification_status": "verified_published_human_rights_refugee_global_issues_record"
+    },
+    {
+      "humanitarian_id": "humanitarian-v41-d220-usaid-source-001",
+      "volume_id": "frus1981-88v41",
+      "document_id": "frus1981-88v41/d220",
+      "document_number": "220",
+      "unit_scope": "source_note",
+      "record_type": "refugee_relief_and_food_assistance",
+      "approved_phrase": "National Archives, RG 286, USAID/O/ADMIN/ExecSec, Box 194, ADM (Feb-May) FY 84",
+      "issue_area": "AID emergency food aid source provenance",
+      "institution_or_actor": "USAID/O/ADMIN/ExecSec",
+      "source_family": "National Archives RG 286 USAID records",
+      "public_or_archival_basis": "Published source note gives the archival location for the emergency/refugee food-aid policy determination.",
+      "legal_or_program_basis": "PL 480 Title II",
+      "quantity_or_metric": "",
+      "stage_or_status": "policy_determination_clearance",
+      "source_or_context": "FRUS, 1981-1988, volume XLI, Document 220.",
+      "variant_forms": [
+        "USAID/O/ADMIN/ExecSec, Box 194"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d220",
+      "verification_status": "verified_published_human_rights_refugee_global_issues_record"
+    },
+    {
+      "humanitarian_id": "humanitarian-v41-d276-unfpa-meeting-001",
+      "volume_id": "frus1981-88v41",
+      "document_id": "frus1981-88v41/d276",
+      "document_number": "276",
+      "unit_scope": "document_subject",
+      "record_type": "population_policy_public_controversy",
+      "approved_phrase": "Your Meeting on the US Contribution to UNFPA",
+      "issue_area": "UNFPA contribution and China population program",
+      "institution_or_actor": "EAP; AID; IO; OES; USUN; UNFPA",
+      "source_family": "Department of State Country Files, Miscellaneous Population Files",
+      "public_or_archival_basis": "Published memorandum with Hill, media, and UNFPA China program context.",
+      "legal_or_program_basis": "UNFPA contribution and abortion/forced-sterilization certification issue",
+      "quantity_or_metric": "$50 million contribution to China for 1985-89",
+      "stage_or_status": "public_controversy_and_policy_guidance",
+      "source_or_context": "FRUS, 1981-1988, volume XLI, Document 276.",
+      "variant_forms": [
+        "U.S. Contribution to UNFPA",
+        "US contribution to UNFPA"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d276",
+      "verification_status": "verified_published_human_rights_refugee_global_issues_record"
+    },
+    {
+      "humanitarian_id": "humanitarian-v41-d276-unfpa-amount-001",
+      "volume_id": "frus1981-88v41",
+      "document_id": "frus1981-88v41/d276",
+      "document_number": "276",
+      "unit_scope": "follow_on_footnote_or_text",
+      "record_type": "population_policy_public_controversy",
+      "approved_phrase": "$50 million contribution to China for the period 1985-89",
+      "issue_area": "UNFPA China program funding",
+      "institution_or_actor": "UNFPA; AID; Senate Foreign Relations Committee",
+      "source_family": "Department of State Country Files, Miscellaneous Population Files",
+      "public_or_archival_basis": "Published memorandum preserves the dollar amount and program period.",
+      "legal_or_program_basis": "UNFPA contribution and China population-program controversy",
+      "quantity_or_metric": "$50 million; 1985-89",
+      "stage_or_status": "public_controversy_and_policy_guidance",
+      "source_or_context": "FRUS, 1981-1988, volume XLI, Document 276.",
+      "variant_forms": [
+        "$50 million contribution for 1985-1989",
+        "$50 million contribution to China for 1985-89"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d276",
+      "verification_status": "verified_published_human_rights_refugee_global_issues_record"
+    },
+    {
+      "humanitarian_id": "humanitarian-v41-d260-population-plan-001",
+      "volume_id": "frus1981-88v41",
+      "document_id": "frus1981-88v41/d260",
+      "document_number": "260",
+      "unit_scope": "telegram_text",
+      "record_type": "international_organization_relief",
+      "approved_phrase": "World Population Plan of Action",
+      "issue_area": "UN Population Commission and international population policy",
+      "institution_or_actor": "USUN; UN Population Commission; WHO; FAO; World Bank; UNFPA",
+      "source_family": "Department of State Central Foreign Policy File telegram",
+      "public_or_archival_basis": "Published telegram summarizes UN Population Commission proceedings.",
+      "legal_or_program_basis": "World Population Plan of Action and UN Population Conference planning",
+      "quantity_or_metric": "twenty-seven member UN Population Commission",
+      "stage_or_status": "international_program_coordination",
+      "source_or_context": "FRUS, 1981-1988, volume XLI, Document 260.",
+      "variant_forms": [
+        "UN Population Commission",
+        "International Population Conference"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d260",
+      "verification_status": "verified_published_human_rights_refugee_global_issues_record"
+    },
+    {
+      "humanitarian_id": "humanitarian-v41-d349-ozone-convention-001",
+      "volume_id": "frus1981-88v41",
+      "document_id": "frus1981-88v41/d349",
+      "document_number": "349",
+      "unit_scope": "editorial_note",
+      "record_type": "environmental_global_issue",
+      "approved_phrase": "Convention for the Protection of the Ozone Layer",
+      "issue_area": "Protection of the ozone layer",
+      "institution_or_actor": "State OES; EPA; UNEP; WMO; Senate",
+      "source_family": "Department of State and Reagan Library environmental files",
+      "public_or_archival_basis": "Published editorial note traces policy movement toward an ozone-layer agreement.",
+      "legal_or_program_basis": "Vienna Convention and ozone-layer agreement context",
+      "quantity_or_metric": "",
+      "stage_or_status": "treaty_or_protocol_authority",
+      "source_or_context": "FRUS, 1981-1988, volume XLI, Document 349.",
+      "variant_forms": [
+        "Vienna Convention for the Protection of the Ozone Layer"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d349",
+      "verification_status": "verified_published_human_rights_refugee_global_issues_record"
+    },
+    {
+      "humanitarian_id": "humanitarian-v41-d349-cfc-protocol-001",
+      "volume_id": "frus1981-88v41",
+      "document_id": "frus1981-88v41/d349",
+      "document_number": "349",
+      "unit_scope": "editorial_note",
+      "record_type": "environmental_global_issue",
+      "approved_phrase": "protocol to control the production and/or use of chlorofluorocarbons",
+      "issue_area": "CFC controls and ozone protection",
+      "institution_or_actor": "State OES; EPA; Nordic countries",
+      "source_family": "Department of State Chemicals, Hazardous Waste, Ozone files",
+      "public_or_archival_basis": "Published editorial note describes protocol discussions and EPA position paper context.",
+      "legal_or_program_basis": "ozone-layer protocol negotiation context",
+      "quantity_or_metric": "world-wide ban on nonessential aerosol uses of CFCs",
+      "stage_or_status": "environmental_negotiation",
+      "source_or_context": "FRUS, 1981-1988, volume XLI, Document 349.",
+      "variant_forms": [
+        "protocol to control the production or use of chlorofluorocarbons",
+        "CFCs and the ozone layer"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d349",
+      "verification_status": "verified_published_human_rights_refugee_global_issues_record"
+    },
+    {
+      "humanitarian_id": "humanitarian-status-global-issues-1989-1992-001",
+      "volume_id": "status-of-series",
+      "document_id": "status-of-series",
+      "document_number": "status",
+      "unit_scope": "status_page",
+      "record_type": "status_page_family_context",
+      "approved_phrase": "1989-1992, Volume XXIX, Global Issues",
+      "issue_area": "Bush Global Issues planned volume routing",
+      "institution_or_actor": "Office of the Historian",
+      "source_family": "Status of the Foreign Relations Series",
+      "public_or_archival_basis": "Official status page gives routing context only; it is not source-note provenance.",
+      "legal_or_program_basis": "status routing context only",
+      "quantity_or_metric": "",
+      "stage_or_status": "routing_and_review_posture_only",
+      "source_or_context": "Status of the Foreign Relations Series.",
+      "variant_forms": [
+        "Global Issues",
+        "1981-1988, Volume XLII, Refugees and Immigration, 1975-1984"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
+      "verification_status": "verified_published_human_rights_refugee_global_issues_record"
     }
   ]
 }

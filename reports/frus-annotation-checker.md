@@ -171,6 +171,15 @@ For intelligence/law-enforcement validation, use
 self-contained smoke test is
 `scripts/test-frus-intelligence-law-enforcement-audit.mjs`, and the sample
 audit report is `reports/frus-intelligence-law-enforcement-audit.sample.json`.
+For human-rights/refugee/global-issues validation, use
+`scripts/validate-frus-human-rights-refugee-global-issues-registry.mjs` and
+`scripts/audit-frus-human-rights-refugee-global-issues-usage.mjs` with
+`reports/frus-human-rights-refugee-global-issues-registry.sample.json` and
+`reports/frus-human-rights-refugee-global-issues-units.sample.json`; the
+self-contained smoke test is
+`scripts/test-frus-human-rights-refugee-global-issues-audit.mjs`, and the
+sample audit report is
+`reports/frus-human-rights-refugee-global-issues-audit.sample.json`.
 For recurring compiler-risk spellchecks, use
 `scripts/validate-frus-recurring-risk-registry.mjs` and
 `scripts/audit-frus-recurring-risk-usage.mjs` with
@@ -12390,6 +12399,21 @@ Minimum components:
   records and fails direct agency-identity, intelligence-basis, case-status,
   jurisdiction, prosecution/extradition, or counternarcotics edits that lack
   registry support.
+- No-dependency human-rights/refugee/global-issues registry validator, usage
+  audit, and fixtures:
+  `scripts/validate-frus-human-rights-refugee-global-issues-registry.mjs`,
+  `scripts/audit-frus-human-rights-refugee-global-issues-usage.mjs`,
+  `reports/frus-human-rights-refugee-global-issues-registry.sample.json`,
+  `reports/frus-human-rights-refugee-global-issues-units.sample.json`, and
+  `reports/frus-human-rights-refugee-global-issues-audit.sample.json`. The
+  audit reconciles human-rights reports, Country Reports, refugee,
+  immigration, asylum, migration, famine, emergency relief, food aid, PL 480,
+  AID/USAID, PRM, WHO/UNICEF/UNDRO/UNEP/WMO, AIDS/HIV, population/UNFPA,
+  environmental/ozone/CFC, sanctions/waiver, public-report,
+  international-organization, PVO, and global-issues language to supplied
+  target-volume records and fails direct report-basis, relief-stage,
+  amount/metric, legal/program-authority, sanctions/waiver, or
+  environmental/treaty edits that lack registry support.
 - No-dependency footnote refer-back registry validator, usage audit, and
   fixtures: `scripts/validate-frus-footnote-referback-registry.mjs`,
   `scripts/audit-frus-footnote-referback-usage.mjs`,

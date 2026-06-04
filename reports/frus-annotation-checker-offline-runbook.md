@@ -139,6 +139,14 @@ hostage/hijacking, arrest-warrant, Interpol, extradition/prosecution, FBI/DEA
 liaison, counternarcotics, narcoterrorism, and Department of Justice language.
 The bundled sample is
 `reports/frus-intelligence-law-enforcement-registry.sample.json`.
+For human-rights/refugee/global-issues checks, transfer a target-volume
+registry for human-rights reports, Country Reports, refugee, immigration,
+asylum, migration, famine, emergency relief, food aid, PL 480, Section 416/206,
+AID/USAID, PRM, HA/HR/IO, WHO/UNICEF/UNDRO/UNEP/WMO, AIDS/HIV,
+population/UNFPA, environmental/ozone/CFC, whaling, sanctions, waiver,
+certification, determination, public-report, international-organization, PVO,
+and global-issues language. The bundled sample is
+`reports/frus-human-rights-refugee-global-issues-registry.sample.json`.
 For footnote refer-back checks, transfer a target-volume footnote refer-back
 registry when possible; the bundled Reagan Foundations sample preserves the
 three-times repeated-citation trigger and published `footnote N, Document X`,
@@ -575,7 +583,25 @@ node scripts/validate-frus-intelligence-law-enforcement-registry.mjs --registry 
 node scripts/audit-frus-intelligence-law-enforcement-usage.mjs --units extracted-units.json --registry intelligence-law-enforcement-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-29. Run footnote refer-back validation and usage audit when follow-on footnotes
+29. Run human-rights/refugee/global-issues validation and usage audit when
+   annotation sheets contain human-rights reports, Country Reports, refugee,
+   immigration, asylum, migration, famine, emergency relief, food aid, PL 480,
+   Section 416/206, AID/USAID, PRM, HA/HR/IO, WHO/UNICEF/UNDRO/UNEP/WMO,
+   AIDS/HIV, population/UNFPA, environmental/ozone/CFC, whaling, sanctions,
+   waiver, certification, determination, public-report,
+   international-organization, PVO, or global-issues language. Treat report
+   basis, country/population scope, relief stage, legal/program authority,
+   amount/metric, public/archival basis, international-organization role, PVO
+   role, sanctions/waiver status, and environmental/treaty status as unsafe for
+   direct edit unless the supplied target-volume registry proves the exact
+   form.
+
+```sh
+node scripts/validate-frus-human-rights-refugee-global-issues-registry.mjs --registry human-rights-refugee-global-issues-registry.json --format text
+node scripts/audit-frus-human-rights-refugee-global-issues-usage.mjs --units extracted-units.json --registry human-rights-refugee-global-issues-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
+```
+
+30. Run footnote refer-back validation and usage audit when follow-on footnotes
    or editorial notes contain repeated citations, `see footnote`, `Document X
    and footnote Y thereto`, same-document above/below references, or clusters
    of multiple footnote/document targets. The Reagan Foundations three-times
@@ -594,7 +620,7 @@ node scripts/validate-frus-footnote-referback-registry.mjs --registry footnote-r
 node scripts/audit-frus-footnote-referback-usage.mjs --units extracted-units.json --registry footnote-referback-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-30. Run recurring compiler-risk validation and usage audit on every annotation
+31. Run recurring compiler-risk validation and usage audit on every annotation
    sheet when the registry is available. It checks leading-zero telegram
    numbers, WHSR/NSC telegram copies that need eRecords/drafting confirmation,
    incomplete cross-reference slugs, missing page breaks, old heading-footnote
@@ -607,7 +633,7 @@ node scripts/validate-frus-recurring-risk-registry.mjs --registry recurring-risk
 node scripts/audit-frus-recurring-risk-usage.mjs --units extracted-units.json --registry recurring-risk-registry.json --checker-output output.json --format text
 ```
 
-31. Run negative-search/no-record validation and usage audit when source notes,
+32. Run negative-search/no-record validation and usage audit when source notes,
    follow-on footnotes, editorial notes, or attachment notes contain
    no-minutes, not-found, not-attached, not-found-attached, no-memcon,
    no-telcon, unlocated-draft, or missing-attachment language. The usage audit
@@ -619,7 +645,7 @@ node scripts/validate-frus-negative-search-registry.mjs --registry negative-sear
 node scripts/audit-frus-negative-search-usage.mjs --units extracted-units.json --registry negative-search-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-32. Run document-relationship validation and usage audit when source notes,
+33. Run document-relationship validation and usage audit when source notes,
    follow-on footnotes, editorial notes, or attachment notes contain
    attached-but-not-printed, printed-as-document, same-volume/cross-volume
    `See Document [n]`, tab/enclosure, not-attached, or mixed attachment
@@ -632,7 +658,7 @@ node scripts/validate-frus-document-relationship-registry.mjs --registry documen
 node scripts/audit-frus-document-relationship-usage.mjs --units extracted-units.json --registry document-relationship-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-33. Run communications validation and usage audit when source notes, follow-on
+34. Run communications validation and usage audit when source notes, follow-on
    notes, editorial notes, headings, or attachment notes contain telegrams,
    cables, special designators, message identifiers, date-time groups,
    origin/addressee lines, precedence/routing, source-family identifiers, or
@@ -645,7 +671,7 @@ node scripts/validate-frus-communications-registry.mjs --registry communications
 node scripts/audit-frus-communications-usage.mjs --units extracted-units.json --registry communications-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-34. Run source-note and production-marker checks when those unit types are
+35. Run source-note and production-marker checks when those unit types are
    present:
 
 ```sh
@@ -776,6 +802,9 @@ node scripts/test-frus-military-crisis-audit.mjs
 node scripts/validate-frus-intelligence-law-enforcement-registry.mjs --registry reports/frus-intelligence-law-enforcement-registry.sample.json --format text
 node scripts/audit-frus-intelligence-law-enforcement-usage.mjs --units reports/frus-intelligence-law-enforcement-units.sample.json --registry reports/frus-intelligence-law-enforcement-registry.sample.json --target-volume frus1981-88v24 --format text
 node scripts/test-frus-intelligence-law-enforcement-audit.mjs
+node scripts/validate-frus-human-rights-refugee-global-issues-registry.mjs --registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --format text
+node scripts/audit-frus-human-rights-refugee-global-issues-usage.mjs --units reports/frus-human-rights-refugee-global-issues-units.sample.json --registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --target-volume frus1981-88v41 --format text
+node scripts/test-frus-human-rights-refugee-global-issues-audit.mjs
 node scripts/validate-frus-footnote-referback-registry.mjs --registry reports/frus-footnote-referback-registry.sample.json --format text
 node scripts/audit-frus-footnote-referback-usage.mjs --units reports/frus-footnote-referback-units.sample.json --registry reports/frus-footnote-referback-registry.sample.json --target-volume frus1981-88v01 --format text
 node scripts/test-frus-footnote-referback-audit.mjs
