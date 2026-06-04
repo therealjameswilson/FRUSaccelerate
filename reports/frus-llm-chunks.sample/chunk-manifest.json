@@ -1,7 +1,7 @@
 {
   "schema_version": "frus-llm-chunk-manifest-v1",
-  "generated_at": "2026-06-04T08:27:07.054Z",
-  "run_id": "sample-packet",
+  "generated_at": "2026-06-04T08:51:31.860Z",
+  "run_id": "sample-chunks",
   "target_volume": "frus1989-92v31",
   "chunk_count": 2,
   "source_files": {
@@ -25,6 +25,7 @@
     "handwritten_transcription_registry": "reports/frus-handwritten-transcription-registry.sample.json",
     "document_handling_registry": "reports/frus-document-handling-registry.sample.json",
     "chronology_registry": "reports/frus-chronology-registry.sample.json",
+    "meeting_attendance_registry": "reports/frus-meeting-attendance-registry.sample.json",
     "time_zone_registry": "reports/frus-time-zone-registry.sample.json",
     "summit_public_event_registry": "reports/frus-summit-public-event-registry.sample.json",
     "selection_balance_registry": "reports/frus-selection-balance-registry.sample.json",
@@ -68,6 +69,7 @@
     "handwritten_transcription_registry_records": 5,
     "document_handling_registry_records": 7,
     "chronology_registry_records": 6,
+    "meeting_attendance_registry_records": 7,
     "time_zone_registry_records": 8,
     "summit_public_event_registry_records": 6,
     "selection_balance_registry_records": 8,

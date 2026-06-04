@@ -284,6 +284,18 @@
       "role": "Self-contained chronology registry and usage audit smoke test"
     },
     {
+      "path": "scripts/validate-frus-meeting-attendance-registry.mjs",
+      "role": "Meeting attendance, participant-list, partial-attendance, no-minutes/no-memcon, and Daily Diary attendance registry validator"
+    },
+    {
+      "path": "scripts/audit-frus-meeting-attendance-usage.mjs",
+      "role": "Meeting attendance/participant-list usage audit for extracted Word units, unmatched attendance-like warnings, and direct-edit safety"
+    },
+    {
+      "path": "scripts/test-frus-meeting-attendance-audit.mjs",
+      "role": "Self-contained meeting attendance/participant-list registry and usage audit smoke test"
+    },
+    {
       "path": "scripts/validate-frus-time-zone-registry.mjs",
       "role": "Time-zone, date-time group, local-time, Washington-time, no-precise-time, and treaty timing registry validator"
     },
@@ -592,6 +604,9 @@
     "reports/frus-chronology-registry.sample.json",
     "reports/frus-chronology-units.sample.json",
     "reports/frus-chronology-audit.sample.json",
+    "reports/frus-meeting-attendance-registry.sample.json",
+    "reports/frus-meeting-attendance-units.sample.json",
+    "reports/frus-meeting-attendance-audit.sample.json",
     "reports/frus-time-zone-registry.sample.json",
     "reports/frus-time-zone-units.sample.json",
     "reports/frus-time-zone-audit.sample.json",
@@ -723,6 +738,10 @@
     {
       "path": "reports/frus-chronology-registry.sample.json",
       "role": "Published President's Daily Diary, meeting-time, no-precise-time, and actual-versus-planned chronology sample for Reagan and George H.W. Bush fixtures"
+    },
+    {
+      "path": "reports/frus-meeting-attendance-registry.sample.json",
+      "role": "Published Daily Diary attendance, partial attendance, participant-list status, no-minutes, and no-memcon sample for Reagan and George H.W. Bush fixtures"
     },
     {
       "path": "reports/frus-time-zone-registry.sample.json",
@@ -867,6 +886,9 @@
     "node scripts/validate-frus-chronology-registry.mjs --registry reports/frus-chronology-registry.sample.json --format text",
     "node scripts/audit-frus-chronology-usage.mjs --units reports/frus-chronology-units.sample.json --registry reports/frus-chronology-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-chronology-audit.mjs",
+    "node scripts/validate-frus-meeting-attendance-registry.mjs --registry reports/frus-meeting-attendance-registry.sample.json --format text",
+    "node scripts/audit-frus-meeting-attendance-usage.mjs --units reports/frus-meeting-attendance-units.sample.json --registry reports/frus-meeting-attendance-registry.sample.json --target-volume frus1989-92v31 --format text",
+    "node scripts/test-frus-meeting-attendance-audit.mjs",
     "node scripts/validate-frus-time-zone-registry.mjs --registry reports/frus-time-zone-registry.sample.json --format text",
     "node scripts/audit-frus-time-zone-usage.mjs --units reports/frus-time-zone-units.sample.json --registry reports/frus-time-zone-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-time-zone-audit.mjs",
@@ -958,6 +980,8 @@
     "Give validate-frus-document-handling-registry.mjs a duplicate document_handling_id or malformed document-handling-registry schema; it must fail.",
     "Give audit-frus-chronology-usage.mjs a direct edit that changes a Daily Diary meeting time, place, attendance, or no-precise-time caveat without target-volume registry support; it must fail.",
     "Give validate-frus-chronology-registry.mjs a duplicate chronology_id or malformed chronology-registry schema; it must fail.",
+    "Give audit-frus-meeting-attendance-usage.mjs a direct edit that adds or removes attendees, flattens partial attendance, infers participant-list status, or changes no-minutes/no-memcon language without target-volume registry support; it must fail.",
+    "Give validate-frus-meeting-attendance-registry.mjs a duplicate meeting_attendance_id or malformed meeting-attendance-registry schema; it must fail.",
     "Give audit-frus-time-zone-usage.mjs a direct edit that converts a Z date-time group to local time, drops a Z label, or changes chronological placement without target-volume registry support; it must fail.",
     "Give validate-frus-time-zone-registry.mjs a duplicate time_zone_item_id or malformed time-zone-registry schema; it must fail.",
     "Give audit-frus-selection-balance-usage.mjs a direct edit that changes scope, excerpt, related-volume, complete-record-elsewhere, or completeness language without target-volume registry support; it must fail.",

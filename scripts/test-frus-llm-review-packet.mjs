@@ -63,6 +63,8 @@ try {
     "reports/frus-document-handling-registry.sample.json",
     "--chronology-registry",
     "reports/frus-chronology-registry.sample.json",
+    "--meeting-attendance-registry",
+    "reports/frus-meeting-attendance-registry.sample.json",
     "--time-zone-registry",
     "reports/frus-time-zone-registry.sample.json",
     "--summit-public-event-registry",
@@ -175,6 +177,12 @@ try {
   assert(markdown.includes("Chronology And Time Registry Context"), "expected chronology registry section");
   assert(markdown.includes("According to the President's Daily Diary, Bush met with Baker"), "expected chronology registry content");
   assert(markdown.includes("there is no indication as to when precisely the telephone calls took place"), "expected no-precise-time chronology content");
+  assert(
+    markdown.includes("Meeting Attendance And Participant-List Registry Context"),
+    "expected meeting attendance registry section"
+  );
+  assert(markdown.includes("Weinberger also attended the meeting"), "expected partial attendance registry content");
+  assert(markdown.includes("The List of Participants, cited here as Tab C"), "expected participant-list registry content");
   assert(markdown.includes("Time-Zone And Date-Time Group Registry Context"), "expected time-zone registry section");
   assert(markdown.includes("Geneva, January 10, 1991, 1757Z"), "expected START I Z-time registry content");
   assert(markdown.includes("open of business Washington time"), "expected Washington-time deadline registry content");
@@ -340,6 +348,12 @@ try {
   assert(packet.contexts.chronology_registry.records.length === 6, "expected chronology registry records");
   assert(packet.contexts.chronology_registry.target_records.length > 0, "expected target chronology records");
   assert(packet.packet_summary.chronology_registry_records === 6, "expected chronology registry count");
+  assert(packet.contexts.meeting_attendance_registry.records.length === 7, "expected meeting attendance registry records");
+  assert(
+    packet.contexts.meeting_attendance_registry.target_records.length > 0,
+    "expected target meeting attendance records"
+  );
+  assert(packet.packet_summary.meeting_attendance_registry_records === 7, "expected meeting attendance registry count");
   assert(packet.contexts.time_zone_registry.records.length === 8, "expected time-zone registry records");
   assert(packet.contexts.time_zone_registry.target_records.length > 0, "expected target time-zone records");
   assert(packet.packet_summary.time_zone_registry_records === 8, "expected time-zone registry count");
@@ -449,7 +463,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, source-surrogate, document-status lifecycle, document metadata, classification, declassification, editorial-method, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, source-surrogate, document-status lifecycle, document metadata, classification, declassification, editorial-method, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, meeting-attendance, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

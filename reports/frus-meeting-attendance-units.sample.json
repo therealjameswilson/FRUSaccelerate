@@ -1,0 +1,84 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source_docx": "sample-frus-annotation-sheet.docx",
+  "generated_at": "2026-06-04T00:00:00.000Z",
+  "units": [
+    {
+      "unit_id": "attendance-0001",
+      "unit_type": "follow_on_footnote",
+      "location": "START I Document 14 footnote 2",
+      "exact_text": "According to the President's Daily Diary, Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4. No minutes were found.",
+      "display_text": "According to the President's Daily Diary, Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4. No minutes were found.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "attendance-0002",
+      "unit_type": "source_note",
+      "location": "START I Document 23 source note",
+      "exact_text": "According to the President's Daily Diary, on May 25 Bush presided over a meeting of the National Security Council in the Cabinet Room lasting from 9:39-11:04 a.m. No minutes were found.",
+      "display_text": "According to the President's Daily Diary, on May 25 Bush presided over a meeting of the National Security Council in the Cabinet Room lasting from 9:39-11:04 a.m. No minutes were found.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "attendance-0003",
+      "unit_type": "follow_on_footnote",
+      "location": "START I Document 25 footnote 8",
+      "exact_text": "The List of Participants, cited here as Tab C, was not attached. The Talking Points and Agenda for the June 7 NSC meeting are printed as Tab A and Tab B, Document 26.",
+      "display_text": "The List of Participants, cited here as Tab C, was not attached. The Talking Points and Agenda for the June 7 NSC meeting are printed as Tab A and Tab B, Document 26.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "attendance-0004",
+      "unit_type": "follow_on_footnote",
+      "location": "START I Document 14 shortened variant",
+      "exact_text": "Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4.",
+      "display_text": "Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "attendance-0005",
+      "unit_type": "source_note",
+      "location": "Reagan National Security Policy Document 1 footnote 2",
+      "exact_text": "Reagan met with Shultz and McFarlane in the Oval Office on November 14 from 1:30 until 2:45 p.m. to discuss the global agenda and foreign policy in the second term. (Reagan Library, President's Daily Diary) No minutes were found.",
+      "display_text": "Reagan met with Shultz and McFarlane in the Oval Office on November 14 from 1:30 until 2:45 p.m. to discuss the global agenda and foreign policy in the second term. (Reagan Library, President's Daily Diary) No minutes were found.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "attendance-0006",
+      "unit_type": "source_note",
+      "location": "Reagan Foundations Document 316 source note",
+      "exact_text": "The President met with Shultz, Powell, Baker, and Duberstein on January 6 in the Oval Office Study from 1:04 until 1:36 p.m. Weinberger also attended the meeting from 1:04 until 1:06 p.m.",
+      "display_text": "The President met with Shultz, Powell, Baker, and Duberstein on January 6 in the Oval Office Study from 1:04 until 1:36 p.m. Weinberger also attended the meeting from 1:04 until 1:06 p.m.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "attendance-0007",
+      "unit_type": "follow_on_footnote",
+      "location": "Unsupported compiler attendance note",
+      "exact_text": "Also present were Scowcroft and Quayle, but the annotation sheet does not identify a Daily Diary, participant list, source note, or meeting record basis.",
+      "display_text": "Also present were Scowcroft and Quayle, but the annotation sheet does not identify a Daily Diary, participant list, source note, or meeting record basis.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}

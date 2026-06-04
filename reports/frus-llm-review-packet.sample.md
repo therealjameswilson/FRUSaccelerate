@@ -2,7 +2,7 @@
 
 - schema_version: frus-llm-review-packet-v1
 - run_id: sample-packet
-- generated_at: 2026-06-04T08:27:06.996Z
+- generated_at: 2026-06-04T08:51:11.669Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -169,6 +169,7 @@ Every reviewable extracted editorial unit should have a checker entry. Use `reco
   "handwritten_transcription_registry_records": 5,
   "document_handling_registry_records": 7,
   "chronology_registry_records": 6,
+  "meeting_attendance_registry_records": 7,
   "time_zone_registry_records": 8,
   "summit_public_event_registry_records": 6,
   "selection_balance_registry_records": 8,
@@ -216,9 +217,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --meeting-attendance-registry reports/frus-meeting-attendance-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --meeting-attendance-registry reports/frus-meeting-attendance-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -267,6 +268,9 @@ For document-handling/marginalia validation and direct-edit safety, run
 For chronology/time validation and direct-edit safety, run
 `node scripts/validate-frus-chronology-registry.mjs --registry reports/frus-chronology-registry.sample.json --format text` and
 `node scripts/audit-frus-chronology-usage.mjs --units extracted-units.json --registry reports/frus-chronology-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For meeting attendance and participant-list validation, run
+`node scripts/validate-frus-meeting-attendance-registry.mjs --registry reports/frus-meeting-attendance-registry.sample.json --format text` and
+`node scripts/audit-frus-meeting-attendance-usage.mjs --units extracted-units.json --registry reports/frus-meeting-attendance-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`. Use the registry to protect Daily Diary attendance basis, exact participant names, partial attendance windows, participant-list status, and no-minutes/no-memcon caveats; direct edits that add or remove attendees, flatten partial attendance, infer a participant list, or change no-record language require target-volume registry support.
 For time-zone/date-time-group validation and direct-edit safety, run
 `node scripts/validate-frus-time-zone-registry.mjs --registry reports/frus-time-zone-registry.sample.json --format text` and
 `node scripts/audit-frus-time-zone-usage.mjs --units extracted-units.json --registry reports/frus-time-zone-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -331,7 +335,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --meeting-attendance-registry reports/frus-meeting-attendance-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -6004,6 +6008,243 @@ Use this to check President's Daily Diary, meeting-time, call-time, no-precise-t
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d27",
       "verification_status": "verified_published_chronology_record"
+    }
+  ]
+}
+```
+
+## Meeting Attendance And Participant-List Registry Context
+
+Use this to check meeting/call attendees, partial attendance, President's Daily Diary attendance basis, `also attended` language, participant-list status, not-attached participant lists, and no-minutes/no-memcon caveats. Do not add or remove names, flatten partial attendance into full attendance, infer a participant list, or change no-minutes/no-memcon language unless the target-volume meeting attendance registry proves the direct edit.
+
+```json
+{
+  "schema_version": "frus-meeting-attendance-registry-v1",
+  "meeting_attendance_registry_id": "frus-reagan-bush-meeting-attendance-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d14",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d25",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d32",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d217",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d316"
+  ],
+  "scope": "Sample published meeting-attendance and participant-list forms for Reagan and George H.W. Bush FRUS annotation-sheet review. Use this to protect names, attendance basis, participant-list status, and no-minutes/no-memcon caveats from unsupported direct edits.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "meeting_attendance_id": "meet-v31-d14-daily-diary-attendance",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d14",
+      "document_number": "14",
+      "unit_scope": "footnote 2",
+      "attendance_type": "daily_diary_attendance",
+      "approved_phrase": "According to the President's Daily Diary, Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4. No minutes were found.",
+      "meeting_or_call_date": "1989-05-04",
+      "meeting_or_call_title": "May 4 White House meeting on the Moscow Ministerial",
+      "attendance_basis": "President's Daily Diary",
+      "participants_or_attendance": "Bush; Baker; Cheney; Webster; Crowe; Gates; Sununu",
+      "participant_list_status": "not_applicable",
+      "record_status": "no_minutes_found",
+      "source_or_context": "Bush START I Document 14 footnote 2 ties the attendees and no-minutes result to the President's Daily Diary.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d14",
+      "verification_status": "verified_published_attendance_record",
+      "variant_forms": [
+        "Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4"
+      ]
+    },
+    {
+      "meeting_attendance_id": "meet-v31-d23-nsc-attendance",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d23",
+      "document_number": "23",
+      "unit_scope": "source note",
+      "attendance_type": "nsc_meeting_attendance",
+      "approved_phrase": "According to the President's Daily Diary, on May 25 Bush presided over a meeting of the National Security Council in the Cabinet Room lasting from 9:39-11:04 a.m. No minutes were found.",
+      "meeting_or_call_date": "1989-05-25",
+      "meeting_or_call_title": "Meeting with the National Security Council",
+      "attendance_basis": "President's Daily Diary",
+      "participants_or_attendance": "Bush; National Security Council",
+      "participant_list_status": "not_applicable",
+      "record_status": "no_minutes_found",
+      "source_or_context": "Bush START I Document 23 source note preserves the Daily Diary meeting basis and no-minutes result.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "verification_status": "verified_published_attendance_record",
+      "variant_forms": [
+        "Bush presided over a meeting of the National Security Council in the Cabinet Room lasting from 9:39-11:04 a.m."
+      ]
+    },
+    {
+      "meeting_attendance_id": "meet-v31-d25-participant-list-not-attached",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d25",
+      "document_number": "25",
+      "unit_scope": "footnote 8",
+      "attendance_type": "participant_list_not_attached",
+      "approved_phrase": "The List of Participants, cited here as Tab C, was not attached. The Talking Points and Agenda for the June 7 NSC meeting are printed as Tab A and Tab B, Document 26",
+      "meeting_or_call_date": "1989-06-07",
+      "meeting_or_call_title": "June 7 NSC meeting",
+      "attendance_basis": "Attachment list and source-note apparatus",
+      "participants_or_attendance": "List of Participants cited as Tab C; names unavailable because Tab C was not attached",
+      "participant_list_status": "cited_tab_missing",
+      "record_status": "participant_list_missing",
+      "source_or_context": "Bush START I Document 25 footnote 8 distinguishes a missing participant list from printed talking points and agenda tabs.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d25",
+      "verification_status": "verified_published_attendance_record",
+      "variant_forms": [
+        "The List of Participants, cited here as Tab C, was not attached"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "meeting_attendance_id": "meet-v31-d14-daily-diary-attendance",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d14",
+      "document_number": "14",
+      "unit_scope": "footnote 2",
+      "attendance_type": "daily_diary_attendance",
+      "approved_phrase": "According to the President's Daily Diary, Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4. No minutes were found.",
+      "meeting_or_call_date": "1989-05-04",
+      "meeting_or_call_title": "May 4 White House meeting on the Moscow Ministerial",
+      "attendance_basis": "President's Daily Diary",
+      "participants_or_attendance": "Bush; Baker; Cheney; Webster; Crowe; Gates; Sununu",
+      "participant_list_status": "not_applicable",
+      "record_status": "no_minutes_found",
+      "source_or_context": "Bush START I Document 14 footnote 2 ties the attendees and no-minutes result to the President's Daily Diary.",
+      "variant_forms": [
+        "Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d14",
+      "verification_status": "verified_published_attendance_record"
+    },
+    {
+      "meeting_attendance_id": "meet-v31-d23-nsc-attendance",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d23",
+      "document_number": "23",
+      "unit_scope": "source note",
+      "attendance_type": "nsc_meeting_attendance",
+      "approved_phrase": "According to the President's Daily Diary, on May 25 Bush presided over a meeting of the National Security Council in the Cabinet Room lasting from 9:39-11:04 a.m. No minutes were found.",
+      "meeting_or_call_date": "1989-05-25",
+      "meeting_or_call_title": "Meeting with the National Security Council",
+      "attendance_basis": "President's Daily Diary",
+      "participants_or_attendance": "Bush; National Security Council",
+      "participant_list_status": "not_applicable",
+      "record_status": "no_minutes_found",
+      "source_or_context": "Bush START I Document 23 source note preserves the Daily Diary meeting basis and no-minutes result.",
+      "variant_forms": [
+        "Bush presided over a meeting of the National Security Council in the Cabinet Room lasting from 9:39-11:04 a.m."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "verification_status": "verified_published_attendance_record"
+    },
+    {
+      "meeting_attendance_id": "meet-v31-d25-participant-list-not-attached",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d25",
+      "document_number": "25",
+      "unit_scope": "footnote 8",
+      "attendance_type": "participant_list_not_attached",
+      "approved_phrase": "The List of Participants, cited here as Tab C, was not attached. The Talking Points and Agenda for the June 7 NSC meeting are printed as Tab A and Tab B, Document 26",
+      "meeting_or_call_date": "1989-06-07",
+      "meeting_or_call_title": "June 7 NSC meeting",
+      "attendance_basis": "Attachment list and source-note apparatus",
+      "participants_or_attendance": "List of Participants cited as Tab C; names unavailable because Tab C was not attached",
+      "participant_list_status": "cited_tab_missing",
+      "record_status": "participant_list_missing",
+      "source_or_context": "Bush START I Document 25 footnote 8 distinguishes a missing participant list from printed talking points and agenda tabs.",
+      "variant_forms": [
+        "The List of Participants, cited here as Tab C, was not attached"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d25",
+      "verification_status": "verified_published_attendance_record"
+    },
+    {
+      "meeting_attendance_id": "meet-v44p1-d1-reagan-shultz-mcfarlane",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d1",
+      "document_number": "1",
+      "unit_scope": "footnote 2",
+      "attendance_type": "meeting_note_no_minutes",
+      "approved_phrase": "Reagan met with Shultz and McFarlane in the Oval Office on November 14 from 1:30 until 2:45 p.m. to discuss the global agenda and foreign policy in the second term. (Reagan Library, President's Daily Diary) No minutes were found.",
+      "meeting_or_call_date": "1984-11-14",
+      "meeting_or_call_title": "Global agenda and foreign policy in the second term",
+      "attendance_basis": "Reagan Library, President's Daily Diary",
+      "participants_or_attendance": "Reagan; Shultz; McFarlane",
+      "participant_list_status": "not_applicable",
+      "record_status": "no_minutes_found",
+      "source_or_context": "Reagan National Security Policy Document 1 footnote 2 ties attendance to the Daily Diary and separately cites Reagan diary recollection.",
+      "variant_forms": [
+        "Reagan met with Shultz and McFarlane in the Oval Office on November 14 from 1:30 until 2:45 p.m."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1",
+      "verification_status": "verified_published_attendance_record"
+    },
+    {
+      "meeting_attendance_id": "meet-v44p1-d32-casey-regan-mcfarlane",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d32",
+      "document_number": "32",
+      "unit_scope": "source note",
+      "attendance_type": "meeting_note_no_minutes",
+      "approved_phrase": "According to the President's Daily Diary, Reagan met with Casey, Regan, and McFarlane in the Oval Office from 9:52-10:12 a.m. (Reagan Library, President's Daily Diary) No minutes were found.",
+      "meeting_or_call_date": "1985-04-26",
+      "meeting_or_call_title": "Casey discussion with Reagan",
+      "attendance_basis": "Reagan Library, President's Daily Diary",
+      "participants_or_attendance": "Reagan; Casey; Regan; McFarlane",
+      "participant_list_status": "not_applicable",
+      "record_status": "no_minutes_found",
+      "source_or_context": "Reagan National Security Policy Document 32 source note records attendance and the no-minutes result.",
+      "variant_forms": [
+        "Reagan met with Casey, Regan, and McFarlane in the Oval Office from 9:52-10:12 a.m."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d32",
+      "verification_status": "verified_published_attendance_record"
+    },
+    {
+      "meeting_attendance_id": "meet-v01-d217-no-memcon",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d217",
+      "document_number": "217",
+      "unit_scope": "footnote 17",
+      "attendance_type": "meeting_note_no_memcon",
+      "approved_phrase": "The President met with Shultz and McFarlane in the Oval Office on November 14 from 1:30 until 2:45 p.m. (Reagan Library, President's Daily Diary) No memorandum of conversation has been found.",
+      "meeting_or_call_date": "1984-11-14",
+      "meeting_or_call_title": "Foreign Policy in the Term Ahead",
+      "attendance_basis": "Reagan Library, President's Daily Diary",
+      "participants_or_attendance": "Reagan; Shultz; McFarlane",
+      "participant_list_status": "not_applicable",
+      "record_status": "no_memcon_found",
+      "source_or_context": "Reagan Foundations Document 217 footnote 17 uses Daily Diary evidence and no-memcon language for the same Shultz-McFarlane meeting context.",
+      "variant_forms": [
+        "The President met with Shultz and McFarlane in the Oval Office on November 14 from 1:30 until 2:45 p.m."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d217",
+      "verification_status": "verified_published_attendance_record"
+    },
+    {
+      "meeting_attendance_id": "meet-v01-d316-partial-attendance",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d316",
+      "document_number": "316",
+      "unit_scope": "source note",
+      "attendance_type": "daily_diary_partial_attendance",
+      "approved_phrase": "The President met with Shultz, Powell, Baker, and Duberstein on January 6 in the Oval Office Study from 1:04 until 1:36 p.m. Weinberger also attended the meeting from 1:04 until 1:06 p.m.",
+      "meeting_or_call_date": "1988-01-06",
+      "meeting_or_call_title": "Meeting with the President: The Next Six Months",
+      "attendance_basis": "Reagan Library, President's Daily Diary",
+      "participants_or_attendance": "Reagan; Shultz; Powell; Baker; Duberstein; Weinberger attended only from 1:04 until 1:06 p.m.",
+      "participant_list_status": "not_applicable",
+      "record_status": "diary_entry_only",
+      "source_or_context": "Reagan Foundations Document 316 source note models partial attendance, which should not be flattened into full-meeting attendance.",
+      "variant_forms": [
+        "Weinberger also attended the meeting from 1:04 until 1:06 p.m."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d316",
+      "verification_status": "verified_published_attendance_record"
     }
   ]
 }

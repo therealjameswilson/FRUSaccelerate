@@ -130,6 +130,13 @@ For chronology/time validation, use
 `reports/frus-chronology-units.sample.json`; the self-contained smoke test is
 `scripts/test-frus-chronology-audit.mjs`, and the sample audit report is
 `reports/frus-chronology-audit.sample.json`.
+For meeting attendance/participant-list validation, use
+`scripts/validate-frus-meeting-attendance-registry.mjs` and
+`scripts/audit-frus-meeting-attendance-usage.mjs` with
+`reports/frus-meeting-attendance-registry.sample.json` and
+`reports/frus-meeting-attendance-units.sample.json`; the self-contained smoke
+test is `scripts/test-frus-meeting-attendance-audit.mjs`, and the sample audit
+report is `reports/frus-meeting-attendance-audit.sample.json`.
 For time-zone/date-time-group validation, use
 `scripts/validate-frus-time-zone-registry.mjs` and
 `scripts/audit-frus-time-zone-usage.mjs` with
@@ -12259,6 +12266,20 @@ Minimum components:
   actual-versus-planned meeting times, schedule/diary absences,
   no-precise-time caveats, and event-sequence facts to supplied chronology
   records and fails direct chronology edits that lack target-volume registry
+  support.
+- No-dependency meeting attendance/participant-list registry validator, usage
+  audit, and fixtures:
+  `scripts/validate-frus-meeting-attendance-registry.mjs`,
+  `scripts/audit-frus-meeting-attendance-usage.mjs`,
+  `reports/frus-meeting-attendance-registry.sample.json`,
+  `reports/frus-meeting-attendance-units.sample.json`, and
+  `reports/frus-meeting-attendance-audit.sample.json`. The audit reconciles
+  President's Daily Diary attendance basis, exact participant lists, partial
+  attendance windows, NSC meeting attendance, participant-list not-attached or
+  attached-but-not-printed status, and no-minutes/no-memcon caveats to supplied
+  target-volume records. It flags unmatched attendance-like language and fails
+  direct edits that add or remove names, flatten partial attendance, infer a
+  participant list, or change no-record caveats without target-volume registry
   support.
 - No-dependency time-zone/date-time-group registry validator, usage audit, and
   fixtures: `scripts/validate-frus-time-zone-registry.mjs`,

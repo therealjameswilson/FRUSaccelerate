@@ -1,0 +1,164 @@
+{
+  "schema_version": "frus-meeting-attendance-registry-v1",
+  "meeting_attendance_registry_id": "frus-reagan-bush-meeting-attendance-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d14",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d25",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d32",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d217",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d316"
+  ],
+  "scope": "Sample published meeting-attendance and participant-list forms for Reagan and George H.W. Bush FRUS annotation-sheet review. Use this to protect names, attendance basis, participant-list status, and no-minutes/no-memcon caveats from unsupported direct edits.",
+  "records": [
+    {
+      "meeting_attendance_id": "meet-v31-d14-daily-diary-attendance",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d14",
+      "document_number": "14",
+      "unit_scope": "footnote 2",
+      "attendance_type": "daily_diary_attendance",
+      "approved_phrase": "According to the President's Daily Diary, Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4. No minutes were found.",
+      "meeting_or_call_date": "1989-05-04",
+      "meeting_or_call_title": "May 4 White House meeting on the Moscow Ministerial",
+      "attendance_basis": "President's Daily Diary",
+      "participants_or_attendance": "Bush; Baker; Cheney; Webster; Crowe; Gates; Sununu",
+      "participant_list_status": "not_applicable",
+      "record_status": "no_minutes_found",
+      "source_or_context": "Bush START I Document 14 footnote 2 ties the attendees and no-minutes result to the President's Daily Diary.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d14",
+      "verification_status": "verified_published_attendance_record",
+      "variant_forms": [
+        "Bush met with Baker, Cheney, Webster, Crowe, Gates, and Sununu in the Oval Office from 2:23 to 2:55 p.m. on May 4"
+      ]
+    },
+    {
+      "meeting_attendance_id": "meet-v31-d23-nsc-attendance",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d23",
+      "document_number": "23",
+      "unit_scope": "source note",
+      "attendance_type": "nsc_meeting_attendance",
+      "approved_phrase": "According to the President's Daily Diary, on May 25 Bush presided over a meeting of the National Security Council in the Cabinet Room lasting from 9:39-11:04 a.m. No minutes were found.",
+      "meeting_or_call_date": "1989-05-25",
+      "meeting_or_call_title": "Meeting with the National Security Council",
+      "attendance_basis": "President's Daily Diary",
+      "participants_or_attendance": "Bush; National Security Council",
+      "participant_list_status": "not_applicable",
+      "record_status": "no_minutes_found",
+      "source_or_context": "Bush START I Document 23 source note preserves the Daily Diary meeting basis and no-minutes result.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "verification_status": "verified_published_attendance_record",
+      "variant_forms": [
+        "Bush presided over a meeting of the National Security Council in the Cabinet Room lasting from 9:39-11:04 a.m."
+      ]
+    },
+    {
+      "meeting_attendance_id": "meet-v31-d25-participant-list-not-attached",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d25",
+      "document_number": "25",
+      "unit_scope": "footnote 8",
+      "attendance_type": "participant_list_not_attached",
+      "approved_phrase": "The List of Participants, cited here as Tab C, was not attached. The Talking Points and Agenda for the June 7 NSC meeting are printed as Tab A and Tab B, Document 26",
+      "meeting_or_call_date": "1989-06-07",
+      "meeting_or_call_title": "June 7 NSC meeting",
+      "attendance_basis": "Attachment list and source-note apparatus",
+      "participants_or_attendance": "List of Participants cited as Tab C; names unavailable because Tab C was not attached",
+      "participant_list_status": "cited_tab_missing",
+      "record_status": "participant_list_missing",
+      "source_or_context": "Bush START I Document 25 footnote 8 distinguishes a missing participant list from printed talking points and agenda tabs.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d25",
+      "verification_status": "verified_published_attendance_record",
+      "variant_forms": [
+        "The List of Participants, cited here as Tab C, was not attached"
+      ]
+    },
+    {
+      "meeting_attendance_id": "meet-v44p1-d1-reagan-shultz-mcfarlane",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d1",
+      "document_number": "1",
+      "unit_scope": "footnote 2",
+      "attendance_type": "meeting_note_no_minutes",
+      "approved_phrase": "Reagan met with Shultz and McFarlane in the Oval Office on November 14 from 1:30 until 2:45 p.m. to discuss the global agenda and foreign policy in the second term. (Reagan Library, President's Daily Diary) No minutes were found.",
+      "meeting_or_call_date": "1984-11-14",
+      "meeting_or_call_title": "Global agenda and foreign policy in the second term",
+      "attendance_basis": "Reagan Library, President's Daily Diary",
+      "participants_or_attendance": "Reagan; Shultz; McFarlane",
+      "participant_list_status": "not_applicable",
+      "record_status": "no_minutes_found",
+      "source_or_context": "Reagan National Security Policy Document 1 footnote 2 ties attendance to the Daily Diary and separately cites Reagan diary recollection.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1",
+      "verification_status": "verified_published_attendance_record",
+      "variant_forms": [
+        "Reagan met with Shultz and McFarlane in the Oval Office on November 14 from 1:30 until 2:45 p.m."
+      ]
+    },
+    {
+      "meeting_attendance_id": "meet-v44p1-d32-casey-regan-mcfarlane",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d32",
+      "document_number": "32",
+      "unit_scope": "source note",
+      "attendance_type": "meeting_note_no_minutes",
+      "approved_phrase": "According to the President's Daily Diary, Reagan met with Casey, Regan, and McFarlane in the Oval Office from 9:52-10:12 a.m. (Reagan Library, President's Daily Diary) No minutes were found.",
+      "meeting_or_call_date": "1985-04-26",
+      "meeting_or_call_title": "Casey discussion with Reagan",
+      "attendance_basis": "Reagan Library, President's Daily Diary",
+      "participants_or_attendance": "Reagan; Casey; Regan; McFarlane",
+      "participant_list_status": "not_applicable",
+      "record_status": "no_minutes_found",
+      "source_or_context": "Reagan National Security Policy Document 32 source note records attendance and the no-minutes result.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d32",
+      "verification_status": "verified_published_attendance_record",
+      "variant_forms": [
+        "Reagan met with Casey, Regan, and McFarlane in the Oval Office from 9:52-10:12 a.m."
+      ]
+    },
+    {
+      "meeting_attendance_id": "meet-v01-d217-no-memcon",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d217",
+      "document_number": "217",
+      "unit_scope": "footnote 17",
+      "attendance_type": "meeting_note_no_memcon",
+      "approved_phrase": "The President met with Shultz and McFarlane in the Oval Office on November 14 from 1:30 until 2:45 p.m. (Reagan Library, President's Daily Diary) No memorandum of conversation has been found.",
+      "meeting_or_call_date": "1984-11-14",
+      "meeting_or_call_title": "Foreign Policy in the Term Ahead",
+      "attendance_basis": "Reagan Library, President's Daily Diary",
+      "participants_or_attendance": "Reagan; Shultz; McFarlane",
+      "participant_list_status": "not_applicable",
+      "record_status": "no_memcon_found",
+      "source_or_context": "Reagan Foundations Document 217 footnote 17 uses Daily Diary evidence and no-memcon language for the same Shultz-McFarlane meeting context.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d217",
+      "verification_status": "verified_published_attendance_record",
+      "variant_forms": [
+        "The President met with Shultz and McFarlane in the Oval Office on November 14 from 1:30 until 2:45 p.m."
+      ]
+    },
+    {
+      "meeting_attendance_id": "meet-v01-d316-partial-attendance",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d316",
+      "document_number": "316",
+      "unit_scope": "source note",
+      "attendance_type": "daily_diary_partial_attendance",
+      "approved_phrase": "The President met with Shultz, Powell, Baker, and Duberstein on January 6 in the Oval Office Study from 1:04 until 1:36 p.m. Weinberger also attended the meeting from 1:04 until 1:06 p.m.",
+      "meeting_or_call_date": "1988-01-06",
+      "meeting_or_call_title": "Meeting with the President: The Next Six Months",
+      "attendance_basis": "Reagan Library, President's Daily Diary",
+      "participants_or_attendance": "Reagan; Shultz; Powell; Baker; Duberstein; Weinberger attended only from 1:04 until 1:06 p.m.",
+      "participant_list_status": "not_applicable",
+      "record_status": "diary_entry_only",
+      "source_or_context": "Reagan Foundations Document 316 source note models partial attendance, which should not be flattened into full-meeting attendance.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d316",
+      "verification_status": "verified_published_attendance_record",
+      "variant_forms": [
+        "Weinberger also attended the meeting from 1:04 until 1:06 p.m."
+      ]
+    }
+  ]
+}

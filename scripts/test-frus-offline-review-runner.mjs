@@ -223,6 +223,8 @@ try {
       "reports/frus-document-handling-registry.sample.json",
       "--chronology-registry",
       "reports/frus-chronology-registry.sample.json",
+      "--meeting-attendance-registry",
+      "reports/frus-meeting-attendance-registry.sample.json",
       "--time-zone-registry",
       "reports/frus-time-zone-registry.sample.json",
       "--summit-public-event-registry",
@@ -361,6 +363,13 @@ try {
   assert(audit.counts.chronology_registry_usages === 0, "expected zero chronology registry usages");
   assert(audit.counts.chronology_registry_warnings === 0, "expected zero chronology registry warnings");
   assert(audit.counts.chronology_direct_edit_conflicts === 0, "expected zero chronology direct-edit conflicts");
+  assert(audit.counts.meeting_attendance_registry_usages === 0, "expected zero meeting attendance usages");
+  assert(audit.counts.meeting_attendance_registry_warnings === 0, "expected zero meeting attendance warnings");
+  assert(audit.counts.meeting_attendance_unmatched_like_units === 0, "expected zero unmatched meeting attendance-like units");
+  assert(
+    audit.counts.meeting_attendance_direct_edit_conflicts === 0,
+    "expected zero meeting attendance direct-edit conflicts"
+  );
   assert(audit.counts.time_zone_registry_usages === 0, "expected zero time-zone registry usages");
   assert(audit.counts.time_zone_registry_warnings === 0, "expected zero time-zone registry warnings");
   assert(audit.counts.time_zone_unmatched_like_units === 0, "expected zero unmatched time-zone-like units");
@@ -527,6 +536,8 @@ try {
     "document-handling-usage-audit.json",
     "chronology-registry-validation.json",
     "chronology-usage-audit.json",
+    "meeting-attendance-registry-validation.json",
+    "meeting-attendance-usage-audit.json",
     "time-zone-registry-validation.json",
     "time-zone-usage-audit.json",
     "summit-public-event-registry-validation.json",
@@ -619,6 +630,11 @@ try {
   assert(audit.reports.document_handling_usage_audit.status === "pass", "expected document handling usage audit report");
   assert(audit.reports.chronology_registry_validation.summary.records === 6, "expected chronology registry validation report");
   assert(audit.reports.chronology_usage_audit.status === "pass", "expected chronology usage audit report");
+  assert(
+    audit.reports.meeting_attendance_registry_validation.summary.records === 7,
+    "expected meeting attendance registry validation report"
+  );
+  assert(audit.reports.meeting_attendance_usage_audit.status === "pass", "expected meeting attendance usage audit report");
   assert(audit.reports.time_zone_registry_validation.summary.records === 8, "expected time-zone registry validation report");
   assert(audit.reports.time_zone_usage_audit.status === "pass", "expected time-zone usage audit report");
   assert(
@@ -721,7 +737,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/source-surrogate/document-status-lifecycle/document-metadata/declassification/editorial-method/translation/printed-attachment/visual-material/handwritten-transcription/document-handling/chronology/time-zone/summit-public-event/selection-balance/decision-process/public-source/retrospective-account/treaty/foreign-org/congressional-legal/economic-financial/military-crisis/intelligence-law-enforcement/human-rights-refugee-global-issues/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/source-surrogate/document-status-lifecycle/document-metadata/declassification/editorial-method/translation/printed-attachment/visual-material/handwritten-transcription/document-handling/chronology/meeting-attendance/time-zone/summit-public-event/selection-balance/decision-process/public-source/retrospective-account/treaty/foreign-org/congressional-legal/economic-financial/military-crisis/intelligence-law-enforcement/human-rights-refugee-global-issues/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

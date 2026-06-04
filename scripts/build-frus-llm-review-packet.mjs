@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--source-surrogate-registry registry.json] [--document-status-lifecycle-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--editorial-method-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--handwritten-transcription-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--source-surrogate-registry registry.json] [--document-status-lifecycle-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--editorial-method-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--handwritten-transcription-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--meeting-attendance-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -33,6 +33,7 @@ function parseArgs(argv) {
   let handwrittenTranscriptionRegistryPath = null;
   let documentHandlingRegistryPath = null;
   let chronologyRegistryPath = null;
+  let meetingAttendanceRegistryPath = null;
   let timeZoneRegistryPath = null;
   let summitPublicEventRegistryPath = null;
   let selectionBalanceRegistryPath = null;
@@ -119,6 +120,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--chronology-registry") {
       chronologyRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--meeting-attendance-registry") {
+      meetingAttendanceRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--time-zone-registry") {
       timeZoneRegistryPath = argv[index + 1];
@@ -222,6 +226,7 @@ function parseArgs(argv) {
     handwrittenTranscriptionRegistryPath,
     documentHandlingRegistryPath,
     chronologyRegistryPath,
+    meetingAttendanceRegistryPath,
     timeZoneRegistryPath,
     summitPublicEventRegistryPath,
     selectionBalanceRegistryPath,
@@ -947,6 +952,40 @@ function compactChronologyRegistry(registry, targetVolume) {
   };
 }
 
+function compactMeetingAttendanceRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    meeting_attendance_registry_id: registry.meeting_attendance_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      meeting_attendance_id: record.meeting_attendance_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      attendance_type: record.attendance_type,
+      approved_phrase: record.approved_phrase,
+      meeting_or_call_date: record.meeting_or_call_date,
+      meeting_or_call_title: record.meeting_or_call_title,
+      attendance_basis: record.attendance_basis,
+      participants_or_attendance: record.participants_or_attendance,
+      participant_list_status: record.participant_list_status,
+      record_status: record.record_status,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactTimeZoneRegistry(registry, targetVolume) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -1529,6 +1568,9 @@ function buildPacket(options) {
   const chronologyRegistry = options.chronologyRegistryPath
     ? readJson(options.chronologyRegistryPath, options.chronologyRegistryPath)
     : null;
+  const meetingAttendanceRegistry = options.meetingAttendanceRegistryPath
+    ? readJson(options.meetingAttendanceRegistryPath, options.meetingAttendanceRegistryPath)
+    : null;
   const timeZoneRegistry = options.timeZoneRegistryPath
     ? readJson(options.timeZoneRegistryPath, options.timeZoneRegistryPath)
     : null;
@@ -1616,6 +1658,9 @@ function buildPacket(options) {
         : "",
       document_handling_registry: options.documentHandlingRegistryPath ? normalizePathForOutput(options.documentHandlingRegistryPath) : "",
       chronology_registry: options.chronologyRegistryPath ? normalizePathForOutput(options.chronologyRegistryPath) : "",
+      meeting_attendance_registry: options.meetingAttendanceRegistryPath
+        ? normalizePathForOutput(options.meetingAttendanceRegistryPath)
+        : "",
       time_zone_registry: options.timeZoneRegistryPath ? normalizePathForOutput(options.timeZoneRegistryPath) : "",
       summit_public_event_registry: options.summitPublicEventRegistryPath
         ? normalizePathForOutput(options.summitPublicEventRegistryPath)
@@ -1694,6 +1739,7 @@ function buildPacket(options) {
       handwritten_transcription_registry_records: handwrittenTranscriptionRegistry?.records?.length || 0,
       document_handling_registry_records: documentHandlingRegistry?.records?.length || 0,
       chronology_registry_records: chronologyRegistry?.records?.length || 0,
+      meeting_attendance_registry_records: meetingAttendanceRegistry?.records?.length || 0,
       time_zone_registry_records: timeZoneRegistry?.records?.length || 0,
       summit_public_event_registry_records: summitPublicEventRegistry?.events?.length || 0,
       selection_balance_registry_records: selectionBalanceRegistry?.records?.length || 0,
@@ -1744,6 +1790,7 @@ function buildPacket(options) {
       ),
       document_handling_registry: compactDocumentHandlingRegistry(documentHandlingRegistry, options.targetVolume),
       chronology_registry: compactChronologyRegistry(chronologyRegistry, options.targetVolume),
+      meeting_attendance_registry: compactMeetingAttendanceRegistry(meetingAttendanceRegistry, options.targetVolume),
       time_zone_registry: compactTimeZoneRegistry(timeZoneRegistry, options.targetVolume),
       summit_public_event_registry: compactSummitPublicEventRegistry(
         summitPublicEventRegistry,
@@ -1926,6 +1973,12 @@ function renderMarkdown(packet) {
     "Use this to check President's Daily Diary, meeting-time, call-time, no-precise-time, actual-versus-planned, diary/schedule, place, attendance, and event-sequence language. Do not change times, dates, places, attendance, sequence, or no-minutes/no-precise-time caveats unless the target-volume chronology registry proves the direct edit.",
     "",
     fencedJson(packet.contexts.chronology_registry || {}),
+    "",
+    "## Meeting Attendance And Participant-List Registry Context",
+    "",
+    "Use this to check meeting/call attendees, partial attendance, President's Daily Diary attendance basis, `also attended` language, participant-list status, not-attached participant lists, and no-minutes/no-memcon caveats. Do not add or remove names, flatten partial attendance into full attendance, infer a participant list, or change no-minutes/no-memcon language unless the target-volume meeting attendance registry proves the direct edit.",
+    "",
+    fencedJson(packet.contexts.meeting_attendance_registry || {}),
     "",
     "## Time-Zone And Date-Time Group Registry Context",
     "",

@@ -106,6 +106,8 @@ try {
     "reports/frus-document-handling-registry.sample.json",
     "--chronology-registry",
     "reports/frus-chronology-registry.sample.json",
+    "--meeting-attendance-registry",
+    "reports/frus-meeting-attendance-registry.sample.json",
     "--time-zone-registry",
     "reports/frus-time-zone-registry.sample.json",
     "--summit-public-event-registry",
@@ -186,6 +188,7 @@ try {
   );
   assert(manifest.summary.document_handling_registry_records === 7, "expected document handling registry record count");
   assert(manifest.summary.chronology_registry_records === 6, "expected chronology registry record count");
+  assert(manifest.summary.meeting_attendance_registry_records === 7, "expected meeting attendance registry record count");
   assert(manifest.summary.time_zone_registry_records === 8, "expected time-zone registry record count");
   assert(manifest.summary.summit_public_event_registry_records === 6, "expected summit/public-event registry record count");
   assert(manifest.summary.selection_balance_registry_records === 8, "expected selection-balance registry record count");
@@ -241,6 +244,10 @@ try {
   );
   assert(manifest.source_files.document_handling_registry === "reports/frus-document-handling-registry.sample.json", "expected document handling registry source path");
   assert(manifest.source_files.chronology_registry === "reports/frus-chronology-registry.sample.json", "expected chronology registry source path");
+  assert(
+    manifest.source_files.meeting_attendance_registry === "reports/frus-meeting-attendance-registry.sample.json",
+    "expected meeting attendance registry source path"
+  );
   assert(manifest.source_files.time_zone_registry === "reports/frus-time-zone-registry.sample.json", "expected time-zone registry source path");
   assert(
     manifest.source_files.summit_public_event_registry === "reports/frus-summit-public-event-registry.sample.json",
@@ -330,6 +337,15 @@ try {
   assert(firstPacket.includes("Watson initialed the memorandum on Gregg"), "expected document handling registry content in chunk packet");
   assert(firstPacket.includes("Chronology And Time Registry Context"), "expected chronology registry context in chunk packet");
   assert(firstPacket.includes("According to the President's Daily Diary, Bush met with Baker"), "expected chronology registry content in chunk packet");
+  assert(
+    firstPacket.includes("Meeting Attendance And Participant-List Registry Context"),
+    "expected meeting attendance registry context in chunk packet"
+  );
+  assert(firstPacket.includes("Weinberger also attended the meeting"), "expected partial attendance content in chunk packet");
+  assert(
+    firstPacket.includes("The List of Participants, cited here as Tab C"),
+    "expected participant-list status content in chunk packet"
+  );
   assert(firstPacket.includes("Time-Zone And Date-Time Group Registry Context"), "expected time-zone registry context in chunk packet");
   assert(firstPacket.includes("Geneva, January 10, 1991, 1757Z"), "expected START I Z-time registry content in chunk packet");
   assert(firstPacket.includes("open of business Washington time"), "expected Washington-time deadline content in chunk packet");
@@ -476,7 +492,7 @@ try {
   assert(badMerge.status !== 0, "expected out-of-chunk unit reference to fail");
   assert(badMerge.stdout.includes("outside chunk-0002"), "expected chunk-boundary failure detail");
 
-  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, source-surrogate, document-status lifecycle, classification, declassification, editorial-method, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
+  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, source-surrogate, document-status lifecycle, classification, declassification, editorial-method, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, meeting-attendance, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }
