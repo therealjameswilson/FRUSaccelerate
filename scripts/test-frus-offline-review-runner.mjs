@@ -293,6 +293,10 @@ try {
   assert(audit.counts.evidence_queue_items === 1, "expected one evidence queue item");
   assert(audit.counts.discrepancy_ledger_items === 1, "expected one discrepancy ledger item");
   assert(audit.counts.source_note_lint_diagnostics === 1, "expected one source-note lint diagnostic");
+  assert(
+    audit.counts.source_note_lint_direct_edit_conflicts === 0,
+    "expected zero source-note lint direct-edit conflicts"
+  );
   assert(audit.counts.status_claims_extracted === 0, "expected zero extracted status claims");
   assert(audit.counts.authority_registry_usages === 0, "expected zero authority registry usages");
   assert(audit.counts.authority_registry_warnings === 0, "expected zero authority registry warnings");

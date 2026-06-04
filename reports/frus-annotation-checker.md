@@ -12562,9 +12562,15 @@ Minimum components:
   the uploaded exemplar's flat Word structure, lexical FRUS apparatus patterns,
   inline `Source:` recognition, and production pseudo-marker protection; it
   fails direct edits that touch protected markers or mis-unitize source notes.
-- No-dependency source-note component linter and fixture:
-  `scripts/lint-frus-source-notes.mjs` and
-  `reports/frus-source-note-units.sample.json`.
+- No-dependency source-note component linter, direct-edit gate, and fixtures:
+  `scripts/lint-frus-source-notes.mjs`,
+  `scripts/test-frus-source-note-lint.mjs`,
+  `reports/frus-source-note-units.sample.json`, and
+  `reports/frus-source-note-lint.sample.json`. The linter detects URL-only
+  source notes, duplicate `Source:` labels, missing supplied components, and
+  compact notes that should be protected from overfilling; with
+  `--checker-output`, it fails direct source-note redlines that overlap
+  component gaps or introduce replacement text that fails source-note lint.
 - No-dependency production pseudo-marker boundary validator and fixture:
   `scripts/preflight-frus-pseudo-markers.mjs`,
   `reports/frus-pseudo-marker-units.sample.json`, and

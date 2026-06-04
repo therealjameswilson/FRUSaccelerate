@@ -2,7 +2,15 @@
 
 import fs from "node:fs";
 
+const DIRECT_ACTIONS = new Set(["replace_text", "insert_after_text", "delete_text"]);
 const SOURCE_NOTE_TYPES = new Set(["source_note", "inline_source_note", "footnote_source_note"]);
+const SOURCE_NOTE_EVIDENCE_REQUESTS = new Set([
+  "archival_path",
+  "source_image",
+  "source_family",
+  "source_surrogate_basis",
+  "source_list_basis"
+]);
 
 const ROLE_PATTERNS = [
   {
@@ -50,7 +58,9 @@ const ROLE_PATTERNS = [
 const SURROGATE_PATTERN = /\b(https?:\/\/|www\.|NLR|RAC|FOIA|catalog|scan|PDF)\b/i;
 
 function usage() {
-  console.error("Usage: node scripts/lint-frus-source-notes.mjs --units <extracted-units.json|-> [--format text|json]");
+  console.error(
+    "Usage: node scripts/lint-frus-source-notes.mjs --units <extracted-units.json|-> [--checker-output output.json] [--format text|json]"
+  );
   process.exit(2);
 }
 
@@ -69,12 +79,16 @@ function isPlainObject(value) {
 
 function parseArgs(argv) {
   let unitsPath = null;
+  let checkerOutputPath = null;
   let format = "text";
 
   for (let index = 2; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === "--units") {
       unitsPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--checker-output") {
+      checkerOutputPath = argv[index + 1];
       index += 1;
     } else if (arg === "--format") {
       format = argv[index + 1];
@@ -88,7 +102,7 @@ function parseArgs(argv) {
     usage();
   }
 
-  return { unitsPath, format };
+  return { unitsPath, checkerOutputPath, format };
 }
 
 function firstIndex(text, pattern) {
@@ -223,6 +237,89 @@ function lintSourceNote(unit) {
   return { components, diagnostics, protectedCompact };
 }
 
+function validateCheckerOutput(output) {
+  if (!output) return [];
+  if (!isPlainObject(output)) return ["checker_output: expected object"];
+  const errors = [];
+  if (output.schema_version !== "checker-output-v1") errors.push("checker_output.schema_version: must be checker-output-v1");
+  if (!Array.isArray(output.checks)) errors.push("checker_output.checks: expected array");
+  return errors;
+}
+
+function isSourceNoteDirectEdit(check) {
+  if (!isPlainObject(check) || !DIRECT_ACTIONS.has(check.recommended_action)) return false;
+  return (
+    check.category === "source_note" ||
+    /^FAS-SN-\d{3}$/.test(check.rule_id || "") ||
+    SOURCE_NOTE_EVIDENCE_REQUESTS.has(check.evidence_request || "")
+  );
+}
+
+function replacementUnitForCheck(check, unit) {
+  const original = check.original_text || "";
+  const replacement = check.replacement_text || "";
+  const text = unit.exact_text || unit.display_text || "";
+  let replacementText = replacement;
+  if (check.recommended_action === "replace_text" && original && text.includes(original)) {
+    replacementText = text.replace(original, replacement);
+  } else if (check.recommended_action === "insert_after_text" && original && text.includes(original)) {
+    replacementText = text.replace(original, `${original}${replacement}`);
+  } else if (check.recommended_action === "delete_text" && original && text.includes(original)) {
+    replacementText = text.replace(original, "");
+  }
+  return {
+    ...unit,
+    unit_id: `${unit.unit_id}::proposed-replacement`,
+    exact_text: replacementText,
+    display_text: replacementText,
+    expected_components: undefined
+  };
+}
+
+function directEditConflicts({ results, checkerOutput }) {
+  if (!checkerOutput || !Array.isArray(checkerOutput.checks)) return [];
+  const byUnitId = new Map(results.map((result) => [result.unit.unit_id, result]));
+  const conflicts = [];
+  for (const check of checkerOutput.checks) {
+    if (!isSourceNoteDirectEdit(check)) continue;
+    const result = byUnitId.get(check.unit_id);
+    if (!result) continue;
+    if (result.diagnostics.length > 0) {
+      conflicts.push({
+        unit_id: check.unit_id,
+        rule_id: check.rule_id || "",
+        category: check.category || "",
+        original_text: check.original_text || "",
+        replacement_text: check.replacement_text || "",
+        conflict_type: "source_note_component_gap",
+        finding:
+          "Direct source-note edit overlaps a unit with source-note component diagnostics; keep it comment-only until the missing component evidence is supplied.",
+        required_action: "Change to comment_only or supply source-note component evidence."
+      });
+      continue;
+    }
+    const replacementLint = lintSourceNote(replacementUnitForCheck(check, result.unit));
+    if (replacementLint.diagnostics.length > 0) {
+      conflicts.push({
+        unit_id: check.unit_id,
+        rule_id: check.rule_id || "",
+        category: check.category || "",
+        original_text: check.original_text || "",
+        replacement_text: check.replacement_text || "",
+        conflict_type: "replacement_fails_source_note_lint",
+        finding: "Proposed replacement source-note text fails component lint.",
+        required_action: "Change to comment_only or revise the replacement with supplied source-note component evidence.",
+        replacement_diagnostics: replacementLint.diagnostics.map((diagnostic) => ({
+          rule_id: diagnostic.rule_id,
+          component_role: diagnostic.component_role,
+          finding: diagnostic.finding
+        }))
+      });
+    }
+  }
+  return conflicts;
+}
+
 function loadUnits(document) {
   if (!isPlainObject(document)) {
     throw new Error("$.units_document: expected object");
@@ -239,7 +336,9 @@ function summarize(results) {
     source_notes_seen: results.length,
     diagnostics_count: 0,
     protected_compact_count: 0,
+    direct_edit_conflicts: 0,
     diagnostics_by_rule: {},
+    diagnostics_by_component_role: {},
     component_presence: {}
   };
 
@@ -248,6 +347,8 @@ function summarize(results) {
     if (result.protectedCompact) summary.protected_compact_count += 1;
     for (const diagnostic of result.diagnostics) {
       summary.diagnostics_by_rule[diagnostic.rule_id] = (summary.diagnostics_by_rule[diagnostic.rule_id] || 0) + 1;
+      summary.diagnostics_by_component_role[diagnostic.component_role] =
+        (summary.diagnostics_by_component_role[diagnostic.component_role] || 0) + 1;
     }
     for (const component of result.components) {
       if (!component.present) continue;
@@ -260,7 +361,7 @@ function summarize(results) {
 
 function renderText(output) {
   const lines = [
-    `FRUS source-note lint: ${output.summary.source_notes_seen} source notes, ${output.summary.diagnostics_count} diagnostics, ${output.summary.protected_compact_count} compact notes protected.`
+    `FRUS source-note lint ${output.status}: ${output.summary.source_notes_seen} source notes, ${output.summary.diagnostics_count} diagnostics, ${output.summary.protected_compact_count} compact notes protected, ${output.summary.direct_edit_conflicts} direct-edit conflicts.`
   ];
 
   for (const diagnostic of output.diagnostics) {
@@ -268,20 +369,51 @@ function renderText(output) {
       `- ${diagnostic.unit_id}: ${diagnostic.rule_id} ${diagnostic.severity} ${diagnostic.component_role}: ${diagnostic.finding}`
     );
   }
+  for (const conflict of output.direct_edit_conflicts) {
+    lines.push(`conflict: ${conflict.unit_id}: ${conflict.finding}`);
+  }
 
   return `${lines.join("\n")}\n`;
 }
 
 try {
-  const { unitsPath, format } = parseArgs(process.argv);
+  const { unitsPath, checkerOutputPath, format } = parseArgs(process.argv);
   const document = readJson(unitsPath);
+  const checkerOutput = checkerOutputPath ? readJson(checkerOutputPath) : null;
+  const outputErrors = validateCheckerOutput(checkerOutput);
+  if (outputErrors.length > 0) {
+    const output = {
+      schema_version: "frus-source-note-lint-v1",
+      status: "fail",
+      summary: {
+        schema_version: "frus-source-note-lint-v1",
+        source_notes_seen: 0,
+        diagnostics_count: 0,
+        protected_compact_count: 0,
+        direct_edit_conflicts: 0,
+        diagnostics_by_rule: {},
+        diagnostics_by_component_role: {},
+        component_presence: {}
+      },
+      diagnostics: [],
+      direct_edit_conflicts: [],
+      errors: outputErrors
+    };
+    console.log(JSON.stringify(output, null, 2));
+    process.exit(1);
+  }
   const sourceNotes = loadUnits(document);
   const results = sourceNotes.map((unit) => ({ unit, ...lintSourceNote(unit) }));
   const diagnostics = results.flatMap((result) => result.diagnostics);
+  const conflicts = directEditConflicts({ results, checkerOutput });
+  const summary = summarize(results);
+  summary.direct_edit_conflicts = conflicts.length;
   const output = {
     schema_version: "frus-source-note-lint-v1",
-    summary: summarize(results),
-    diagnostics
+    status: conflicts.length > 0 ? "fail" : diagnostics.length > 0 ? "warning" : "pass",
+    summary,
+    diagnostics,
+    direct_edit_conflicts: conflicts
   };
 
   if (format === "json") {
@@ -289,6 +421,7 @@ try {
   } else {
     process.stdout.write(renderText(output));
   }
+  process.exit(output.status === "fail" ? 1 : 0);
 } catch (error) {
   console.error(error.message);
   process.exit(1);

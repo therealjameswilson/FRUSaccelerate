@@ -818,7 +818,7 @@ node scripts/audit-frus-communications-usage.mjs --units extracted-units.json --
    present:
 
 ```sh
-node scripts/lint-frus-source-notes.mjs --units extracted-units.json
+node scripts/lint-frus-source-notes.mjs --units extracted-units.json --checker-output output.json
 node scripts/preflight-frus-pseudo-markers.mjs --units extracted-units.json --output output.json
 ```
 
@@ -985,6 +985,7 @@ node scripts/validate-frus-communications-registry.mjs --registry reports/frus-c
 node scripts/audit-frus-communications-usage.mjs --units reports/frus-communications-units.sample.json --registry reports/frus-communications-registry.sample.json --target-volume frus1989-92v31 --format text
 node scripts/test-frus-communications-audit.mjs
 node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json
+node scripts/test-frus-source-note-lint.mjs
 node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json
 node scripts/build-frus-evidence-queue.mjs --output reports/frus-annotation-checker-sample-output.json --review-mode normal --format text
 node scripts/build-frus-discrepancy-ledger.mjs --output reports/frus-annotation-checker-sample-output.json --run-id sample-fixture --format text

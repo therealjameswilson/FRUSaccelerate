@@ -1,0 +1,67 @@
+{
+  "schema_version": "frus-source-note-lint-v1",
+  "status": "warning",
+  "summary": {
+    "schema_version": "frus-source-note-lint-v1",
+    "source_notes_seen": 5,
+    "diagnostics_count": 3,
+    "protected_compact_count": 2,
+    "direct_edit_conflicts": 0,
+    "diagnostics_by_rule": {
+      "FAS-SN-002": 1,
+      "FAS-SN-005": 1,
+      "FAS-CLS-001": 1
+    },
+    "diagnostics_by_component_role": {
+      "repository": 1,
+      "source_label": 1,
+      "classification": 1
+    },
+    "component_presence": {
+      "source_label": 5,
+      "repository": 4,
+      "series_subseries": 4,
+      "locator": 4,
+      "classification": 3,
+      "drafting_clearance_routing": 2,
+      "document_status": 1,
+      "read_by_physical": 1
+    }
+  },
+  "diagnostics": [
+    {
+      "unit_id": "source-note-url-only-0003",
+      "location": "Draft source note with discovery locator only",
+      "rule_id": "FAS-SN-002",
+      "severity": "major",
+      "category": "source_note",
+      "component_role": "repository",
+      "finding": "Source note appears to rely on a discovery aid, URL, release id, scan, or catalog locator without a controlling repository or selected published source.",
+      "recommended_action": "comment_only",
+      "evidence_request": "archival_path"
+    },
+    {
+      "unit_id": "source-note-duplicate-label-0004",
+      "location": "Draft source note with duplicate label",
+      "rule_id": "FAS-SN-005",
+      "severity": "major",
+      "category": "source_note",
+      "component_role": "source_label",
+      "finding": "Source note contains more than one source label.",
+      "recommended_action": "comment_only",
+      "evidence_request": "wrapper_safety"
+    },
+    {
+      "unit_id": "source-note-missing-supplied-classification-0005",
+      "location": "Draft source note missing supplied classification",
+      "rule_id": "FAS-CLS-001",
+      "severity": "major",
+      "category": "classification_handling",
+      "component_role": "classification",
+      "finding": "Expected source-note component is missing: classification.",
+      "recommended_action": "comment_only",
+      "evidence_request": "classification_marking"
+    }
+  ],
+  "direct_edit_conflicts": []
+}

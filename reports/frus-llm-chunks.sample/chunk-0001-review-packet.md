@@ -452,7 +452,7 @@ For category, evidence-request, and router-hazard coverage, validate and use
 `reports/frus-annotation-permutation-matrix.json` with
 `scripts/validate-frus-permutation-matrix.mjs`.
 For source-note component diagnostics, run
-`node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json`.
+`node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json`; for direct-edit safety, add `--checker-output output.json` so unsafe source-note component redlines fail before Word changes are applied.
 For production pseudo-marker boundary checks, run
 `node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json`.
 For finished-form annotation-sheet profile checks, run

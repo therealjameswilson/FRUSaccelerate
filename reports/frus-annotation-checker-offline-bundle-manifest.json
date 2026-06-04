@@ -541,7 +541,11 @@
     },
     {
       "path": "scripts/lint-frus-source-notes.mjs",
-      "role": "Source-note component linter"
+      "role": "Source-note component linter and direct-edit safety gate"
+    },
+    {
+      "path": "scripts/test-frus-source-note-lint.mjs",
+      "role": "Self-contained source-note component lint and direct-edit safety smoke test"
     },
     {
       "path": "scripts/preflight-frus-pseudo-markers.mjs",
@@ -681,6 +685,7 @@
     "reports/frus-annotation-sheet-profile-safe-output.sample.json",
     "reports/frus-annotation-sheet-profile-audit.sample.json",
     "reports/frus-source-note-units.sample.json",
+    "reports/frus-source-note-lint.sample.json",
     "reports/frus-pseudo-marker-units.sample.json",
     "reports/frus-pseudo-marker-safe-output.sample.json",
     "reports/frus-evidence-queue.sample.json",
@@ -968,6 +973,7 @@
     "node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units reports/frus-annotation-sheet-profile-units.sample.json --checker-output reports/frus-annotation-sheet-profile-safe-output.sample.json --format text",
     "node scripts/test-frus-annotation-sheet-profile.mjs",
     "node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json",
+    "node scripts/test-frus-source-note-lint.mjs",
     "node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json",
     "node scripts/build-frus-evidence-queue.mjs --output reports/frus-annotation-checker-sample-output.json --review-mode normal --format text",
     "node scripts/build-frus-discrepancy-ledger.mjs --output reports/frus-annotation-checker-sample-output.json --run-id sample-fixture --format text"
@@ -1044,6 +1050,7 @@
     "Give validate-frus-communications-registry.mjs a duplicate communications_id or malformed communications-registry schema; it must fail.",
     "Give audit-frus-annotation-sheet-profile.mjs a Normal-style paragraph beginning with `1  Source:` but unitized as transcribed_document_text; it must fail.",
     "Give audit-frus-annotation-sheet-profile.mjs a direct edit that touches `<i>`, `<r>`, `<n>`, `<m>`, or a numeric marker; it must fail.",
+    "Give lint-frus-source-notes.mjs checker output that directly rewrites a URL-only source note or introduces duplicate Source labels; it must fail.",
     "Give build-frus-llm-review-packet.mjs a malformed extracted-units file; it must fail before producing a model packet.",
     "Make a chunk output reference a unit assigned to another chunk; merge-frus-checker-chunks.mjs must fail.",
     "Point audit-frus-review-coverage.mjs at checker output with an unknown unit id; it must fail.",
