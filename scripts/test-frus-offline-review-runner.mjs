@@ -201,6 +201,8 @@ try {
       "reports/frus-source-list-registry.sample.json",
       "--source-surrogate-registry",
       "reports/frus-source-surrogate-registry.sample.json",
+      "--document-status-lifecycle-registry",
+      "reports/frus-document-status-lifecycle-registry.sample.json",
       "--document-metadata-registry",
       "reports/frus-document-metadata-registry.sample.json",
       "--classification-registry",
@@ -296,6 +298,22 @@ try {
   assert(audit.counts.source_surrogate_registry_warnings === 0, "expected zero source-surrogate registry warnings");
   assert(audit.counts.source_surrogate_unmatched_like_units === 0, "expected zero unmatched source-surrogate-like units");
   assert(audit.counts.source_surrogate_direct_edit_conflicts === 0, "expected zero source-surrogate direct-edit conflicts");
+  assert(
+    audit.counts.document_status_lifecycle_registry_usages === 0,
+    "expected zero document-status lifecycle usages"
+  );
+  assert(
+    audit.counts.document_status_lifecycle_registry_warnings === 0,
+    "expected zero document-status lifecycle warnings"
+  );
+  assert(
+    audit.counts.document_status_lifecycle_unmatched_like_units === 0,
+    "expected zero unmatched document-status lifecycle-like units"
+  );
+  assert(
+    audit.counts.document_status_lifecycle_direct_edit_conflicts === 0,
+    "expected zero document-status lifecycle direct-edit conflicts"
+  );
   assert(audit.counts.document_metadata_registry_usages === 0, "expected zero document metadata registry usages");
   assert(audit.counts.document_metadata_registry_warnings === 0, "expected zero document metadata registry warnings");
   assert(audit.counts.document_metadata_direct_edit_conflicts === 0, "expected zero document metadata direct-edit conflicts");
@@ -481,6 +499,8 @@ try {
     "source-list-usage-audit.json",
     "source-surrogate-registry-validation.json",
     "source-surrogate-usage-audit.json",
+    "document-status-lifecycle-registry-validation.json",
+    "document-status-lifecycle-usage-audit.json",
     "document-metadata-registry-validation.json",
     "document-metadata-usage-audit.json",
     "classification-registry-validation.json",
@@ -559,6 +579,14 @@ try {
     "expected source-surrogate registry validation report"
   );
   assert(audit.reports.source_surrogate_usage_audit.status === "pass", "expected source-surrogate usage audit report");
+  assert(
+    audit.reports.document_status_lifecycle_registry_validation.summary.records === 5,
+    "expected document-status lifecycle registry validation report"
+  );
+  assert(
+    audit.reports.document_status_lifecycle_usage_audit.status === "pass",
+    "expected document-status lifecycle usage audit report"
+  );
   assert(audit.reports.document_metadata_registry_validation.summary.records === 5, "expected document metadata registry validation report");
   assert(audit.reports.document_metadata_usage_audit.status === "pass", "expected document metadata usage audit report");
   assert(audit.reports.declassification_registry_validation.summary.records === 8, "expected declassification registry validation report");
@@ -683,7 +711,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/source-surrogate/document-metadata/declassification/translation/printed-attachment/visual-material/handwritten-transcription/document-handling/chronology/time-zone/summit-public-event/selection-balance/decision-process/public-source/retrospective-account/treaty/foreign-org/congressional-legal/economic-financial/military-crisis/intelligence-law-enforcement/human-rights-refugee-global-issues/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/source-surrogate/document-status-lifecycle/document-metadata/declassification/translation/printed-attachment/visual-material/handwritten-transcription/document-handling/chronology/time-zone/summit-public-event/selection-balance/decision-process/public-source/retrospective-account/treaty/foreign-org/congressional-legal/economic-financial/military-crisis/intelligence-law-enforcement/human-rights-refugee-global-issues/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

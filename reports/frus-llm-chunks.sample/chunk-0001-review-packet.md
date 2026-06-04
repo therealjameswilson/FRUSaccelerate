@@ -35,7 +35,7 @@ Do not include units outside this chunk. Do not claim to edit the Word file dire
 
 # FRUS Annotation Checker Core Prompt
 
-Version: 2026-06-03
+Version: 2026-06-04
 
 Use this compact file when a closed-network LLM cannot fit the full
 `frus-annotation-checker.md` standard in context. This file is a standalone
@@ -54,9 +54,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -72,6 +72,9 @@ For source-list/front-matter validation and direct-edit safety, run
 For source-surrogate/release validation and direct-edit safety, run
 `node scripts/validate-frus-source-surrogate-registry.mjs --registry reports/frus-source-surrogate-registry.sample.json --format text` and
 `node scripts/audit-frus-source-surrogate-usage.mjs --units extracted-units.json --registry reports/frus-source-surrogate-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For document-status/lifecycle validation and direct-edit safety, run
+`node scripts/validate-frus-document-status-lifecycle-registry.mjs --registry reports/frus-document-status-lifecycle-registry.sample.json --format text` and
+`node scripts/audit-frus-document-status-lifecycle-usage.mjs --units extracted-units.json --registry reports/frus-document-status-lifecycle-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For document-metadata validation and direct-edit safety, run
 `node scripts/validate-frus-document-metadata-registry.mjs --registry reports/frus-document-metadata-registry.sample.json --format text` and
 `node scripts/audit-frus-document-metadata-usage.mjs --units extracted-units.json --registry reports/frus-document-metadata-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -163,7 +166,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -192,6 +195,14 @@ completeness, or source-image content unless the registry proves the exact
 direct edit; validate it with
 `scripts/validate-frus-source-surrogate-registry.mjs` before direct
 source-surrogate edits.
+For real Reagan/Bush 1981-1992 document-status/lifecycle review, replace the
+sample document-status lifecycle registry with target-volume records for
+prepared-by, drafted-by, cleared-by, copied-to, sent-for-action, sent-through,
+stamped/read/signed, copy/version, draft/prior-version, no-minutes/no-record,
+missing-page, and incomplete-copy language. Treat lifecycle facts as evidence,
+not ornament: do not upgrade `saw` into approval, do not drop uninitialed-copy
+or draft-version status, and do not infer routing or clearance without source
+image or target-volume registry support.
 For real Reagan/Bush 1981-1992 document-metadata review, replace the sample
 document-metadata registry with target-volume document-page records covering
 document number, heading, date line, subject/title, sender/recipient,
@@ -3400,6 +3411,210 @@ Use this to check RAC, NLR, no-N-number, FOIA or mandatory-review identifiers, N
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
       "verification_status": "verified_published_surrogate_record"
+    }
+  ]
+}
+```
+
+## Document Status Lifecycle Registry Context
+
+Use this to check prepared-by, drafted-by, cleared-by, copied-to, sent-for-action, sent-through, stamped/read/signed, copy/version, draft/prior-version, no-minutes/no-record, missing-page, and incomplete-copy language in source notes and annotation. Do not add, remove, or upgrade lifecycle facts unless the target-volume registry or source image proves the exact direct edit.
+
+```json
+{
+  "schema_version": "frus-document-status-lifecycle-registry-v1",
+  "document_status_lifecycle_registry_id": "frus-1981-1992-document-status-lifecycle-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d24",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/abouttheseries",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d74"
+  ],
+  "scope": "Published Reagan/Bush sample records for checking source-note lifecycle facts: prepared/drafted/cleared language, copy/version status, routing and distribution status, stamped/read notations, and no-minutes/no-record caveats. These records prevent the checker from inventing lifecycle language without a target-volume published form or source-image basis.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "document_status_item_id": "lifecycle-v31-d23-prepared-copied",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d23",
+      "document_number": "23",
+      "unit_scope": "source note 1",
+      "status_type": "prepared_by",
+      "approved_phrase": "Secret. Prepared by Davis. Copied to Quayle and Sununu.",
+      "variant_forms": [
+        "Prepared by Davis",
+        "Copied to Quayle and Sununu"
+      ],
+      "source_note_component": "classification, preparation, and distribution",
+      "copy_or_version_status": "not specified in the quoted lifecycle phrase",
+      "drafting_or_clearance_basis": "Prepared by Davis",
+      "routing_or_distribution_status": "Copied to Quayle and Sununu",
+      "read_or_approval_status": "not specified in the quoted lifecycle phrase",
+      "caveat_or_limitation": "Do not add preparer or copy-distribution facts unless the source note or source image supplies them.",
+      "source_or_context": "Bush START I Document 23 source note",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "verification_status": "verified_published_lifecycle_record"
+    },
+    {
+      "document_status_item_id": "lifecycle-v31-d23-no-minutes",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d23",
+      "document_number": "23",
+      "unit_scope": "source note 1",
+      "status_type": "no_minutes_or_no_record",
+      "approved_phrase": "No minutes were found.",
+      "variant_forms": [
+        "no minutes were found",
+        "No minutes were found"
+      ],
+      "source_note_component": "negative record caveat",
+      "copy_or_version_status": "not applicable",
+      "drafting_or_clearance_basis": "not applicable",
+      "routing_or_distribution_status": "not applicable",
+      "read_or_approval_status": "not applicable",
+      "caveat_or_limitation": "A no-minutes/no-record statement is a search-status claim and should not be converted into a factual absence without search basis.",
+      "source_or_context": "Bush START I Document 23 source note",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "verification_status": "verified_published_lifecycle_record"
+    },
+    {
+      "document_status_item_id": "lifecycle-v31-d24-action-through-seen",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d24",
+      "document_number": "24",
+      "unit_scope": "source note 1",
+      "status_type": "sent_for_action",
+      "approved_phrase": "Secret. Sent for action. Sent through Kanter. A stamped notation indicates Gates saw the memorandum.",
+      "variant_forms": [
+        "Sent for action",
+        "Sent through Kanter",
+        "A stamped notation indicates Gates saw the memorandum"
+      ],
+      "source_note_component": "classification, routing, and stamped/read notation",
+      "copy_or_version_status": "not specified in the quoted lifecycle phrase",
+      "drafting_or_clearance_basis": "not specified in the quoted lifecycle phrase",
+      "routing_or_distribution_status": "Sent for action; sent through Kanter",
+      "read_or_approval_status": "A stamped notation indicates Gates saw the memorandum",
+      "caveat_or_limitation": "Do not infer that a principal approved a memorandum from a saw/stamped notation.",
+      "source_or_context": "Bush START I Document 24 source note",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d24",
+      "verification_status": "verified_published_lifecycle_record"
+    }
+  ],
+  "records": [
+    {
+      "document_status_item_id": "lifecycle-v31-d23-prepared-copied",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d23",
+      "document_number": "23",
+      "unit_scope": "source note 1",
+      "status_type": "prepared_by",
+      "approved_phrase": "Secret. Prepared by Davis. Copied to Quayle and Sununu.",
+      "variant_forms": [
+        "Prepared by Davis",
+        "Copied to Quayle and Sununu"
+      ],
+      "source_note_component": "classification, preparation, and distribution",
+      "copy_or_version_status": "not specified in the quoted lifecycle phrase",
+      "drafting_or_clearance_basis": "Prepared by Davis",
+      "routing_or_distribution_status": "Copied to Quayle and Sununu",
+      "read_or_approval_status": "not specified in the quoted lifecycle phrase",
+      "caveat_or_limitation": "Do not add preparer or copy-distribution facts unless the source note or source image supplies them.",
+      "source_or_context": "Bush START I Document 23 source note",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "verification_status": "verified_published_lifecycle_record"
+    },
+    {
+      "document_status_item_id": "lifecycle-v31-d23-no-minutes",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d23",
+      "document_number": "23",
+      "unit_scope": "source note 1",
+      "status_type": "no_minutes_or_no_record",
+      "approved_phrase": "No minutes were found.",
+      "variant_forms": [
+        "no minutes were found",
+        "No minutes were found"
+      ],
+      "source_note_component": "negative record caveat",
+      "copy_or_version_status": "not applicable",
+      "drafting_or_clearance_basis": "not applicable",
+      "routing_or_distribution_status": "not applicable",
+      "read_or_approval_status": "not applicable",
+      "caveat_or_limitation": "A no-minutes/no-record statement is a search-status claim and should not be converted into a factual absence without search basis.",
+      "source_or_context": "Bush START I Document 23 source note",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "verification_status": "verified_published_lifecycle_record"
+    },
+    {
+      "document_status_item_id": "lifecycle-v31-d24-action-through-seen",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d24",
+      "document_number": "24",
+      "unit_scope": "source note 1",
+      "status_type": "sent_for_action",
+      "approved_phrase": "Secret. Sent for action. Sent through Kanter. A stamped notation indicates Gates saw the memorandum.",
+      "variant_forms": [
+        "Sent for action",
+        "Sent through Kanter",
+        "A stamped notation indicates Gates saw the memorandum"
+      ],
+      "source_note_component": "classification, routing, and stamped/read notation",
+      "copy_or_version_status": "not specified in the quoted lifecycle phrase",
+      "drafting_or_clearance_basis": "not specified in the quoted lifecycle phrase",
+      "routing_or_distribution_status": "Sent for action; sent through Kanter",
+      "read_or_approval_status": "A stamped notation indicates Gates saw the memorandum",
+      "caveat_or_limitation": "Do not infer that a principal approved a memorandum from a saw/stamped notation.",
+      "source_or_context": "Bush START I Document 24 source note",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d24",
+      "verification_status": "verified_published_lifecycle_record"
+    },
+    {
+      "document_status_item_id": "lifecycle-v01-d74-uninitialed-drafted-cleared",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d74",
+      "document_number": "74",
+      "unit_scope": "source note 1",
+      "status_type": "drafted_and_cleared",
+      "approved_phrase": "Printed from an uninitialed copy. Drafted by Kaplan and Libby on December 15 and cleared by Wolfowitz.",
+      "variant_forms": [
+        "Printed from an uninitialed copy",
+        "Drafted by Kaplan and Libby on December 15",
+        "cleared by Wolfowitz"
+      ],
+      "source_note_component": "copy status, drafting, and clearance",
+      "copy_or_version_status": "Printed from an uninitialed copy",
+      "drafting_or_clearance_basis": "Drafted by Kaplan and Libby on December 15 and cleared by Wolfowitz",
+      "routing_or_distribution_status": "not specified in the quoted lifecycle phrase",
+      "read_or_approval_status": "not specified in the quoted lifecycle phrase",
+      "caveat_or_limitation": "Do not drop uninitialed-copy status when adding drafting and clearance information.",
+      "source_or_context": "Reagan Foundations Document 74 source note",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d74",
+      "verification_status": "verified_published_lifecycle_record"
+    },
+    {
+      "document_status_item_id": "lifecycle-v01-d74-prior-draft",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d74",
+      "document_number": "74",
+      "unit_scope": "source note 1",
+      "status_type": "draft_or_prior_version",
+      "approved_phrase": "A November draft of the memorandum, with Haig's handwritten comments, is in the Department of State, Executive Secretariat, S/P Files",
+      "variant_forms": [
+        "A November draft of the memorandum",
+        "with Haig's handwritten comments"
+      ],
+      "source_note_component": "prior draft and handwritten-comments location",
+      "copy_or_version_status": "November draft",
+      "drafting_or_clearance_basis": "prior draft with Haig handwritten comments",
+      "routing_or_distribution_status": "not specified in the quoted lifecycle phrase",
+      "read_or_approval_status": "handwritten comments by Haig",
+      "caveat_or_limitation": "Do not merge a prior draft with the printed copy; preserve the separate draft/version relationship.",
+      "source_or_context": "Reagan Foundations Document 74 source note",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d74",
+      "verification_status": "verified_published_lifecycle_record"
     }
   ]
 }

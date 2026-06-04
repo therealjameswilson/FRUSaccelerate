@@ -41,6 +41,8 @@ try {
     "reports/frus-source-list-registry.sample.json",
     "--source-surrogate-registry",
     "reports/frus-source-surrogate-registry.sample.json",
+    "--document-status-lifecycle-registry",
+    "reports/frus-document-status-lifecycle-registry.sample.json",
     "--document-metadata-registry",
     "reports/frus-document-metadata-registry.sample.json",
     "--classification-registry",
@@ -132,6 +134,10 @@ try {
   assert(markdown.includes("[no N number]"), "expected no-N-number source-surrogate content");
   assert(markdown.includes("The NSC's W files"), "expected W Files source-surrogate content");
   assert(markdown.includes("available on the Internet"), "expected internet-resource source-surrogate content");
+  assert(markdown.includes("Document Status Lifecycle Registry Context"), "expected document-status lifecycle registry section");
+  assert(markdown.includes("Prepared by Davis"), "expected prepared-by lifecycle content");
+  assert(markdown.includes("Sent through Kanter"), "expected sent-through lifecycle content");
+  assert(markdown.includes("Printed from an uninitialed copy"), "expected uninitialed-copy lifecycle content");
   assert(markdown.includes("Document Metadata Registry Context"), "expected document metadata registry section");
   assert(markdown.includes("Information Memorandum From the Director of the Policy Planning Staff"), "expected document metadata registry content");
   assert(markdown.includes("Classification And Handling Registry Context"), "expected classification registry section");
@@ -274,6 +280,18 @@ try {
     "expected no target source-surrogate records for cross-volume Bush sample"
   );
   assert(packet.packet_summary.source_surrogate_registry_records === 5, "expected source-surrogate registry count");
+  assert(
+    packet.contexts.document_status_lifecycle_registry.records.length === 5,
+    "expected document-status lifecycle registry records"
+  );
+  assert(
+    packet.contexts.document_status_lifecycle_registry.target_records.length === 3,
+    "expected three target document-status lifecycle records for Bush START sample"
+  );
+  assert(
+    packet.packet_summary.document_status_lifecycle_registry_records === 5,
+    "expected document-status lifecycle registry count"
+  );
   assert(packet.contexts.document_metadata_registry.records.length === 5, "expected document metadata registry records");
   assert(packet.contexts.document_metadata_registry.target_records.length > 0, "expected target document metadata records");
   assert(packet.contexts.classification_registry.records.length === 5, "expected classification registry records");
@@ -417,7 +435,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, source-surrogate, document metadata, classification, declassification, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, source-surrogate, document-status lifecycle, document metadata, classification, declassification, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

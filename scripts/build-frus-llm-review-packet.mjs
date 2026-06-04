@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--source-surrogate-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--handwritten-transcription-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--source-surrogate-registry registry.json] [--document-status-lifecycle-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--handwritten-transcription-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -22,6 +22,7 @@ function parseArgs(argv) {
   let authorityRegistryPath = null;
   let sourceListRegistryPath = null;
   let sourceSurrogateRegistryPath = null;
+  let documentStatusLifecycleRegistryPath = null;
   let documentMetadataRegistryPath = null;
   let classificationRegistryPath = null;
   let declassificationRegistryPath = null;
@@ -84,6 +85,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--source-surrogate-registry") {
       sourceSurrogateRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--document-status-lifecycle-registry") {
+      documentStatusLifecycleRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--document-metadata-registry") {
       documentMetadataRegistryPath = argv[index + 1];
@@ -203,6 +207,7 @@ function parseArgs(argv) {
     authorityRegistryPath,
     sourceListRegistryPath,
     sourceSurrogateRegistryPath,
+    documentStatusLifecycleRegistryPath,
     documentMetadataRegistryPath,
     classificationRegistryPath,
     declassificationRegistryPath,
@@ -467,6 +472,40 @@ function compactSourceSurrogateRegistry(registry, targetVolume) {
       caveat_or_limitation: record.caveat_or_limitation,
       source_or_context: record.source_or_context,
       variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
+function compactDocumentStatusLifecycleRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    document_status_lifecycle_registry_id: registry.document_status_lifecycle_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      document_status_item_id: record.document_status_item_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      status_type: record.status_type,
+      approved_phrase: record.approved_phrase,
+      variant_forms: record.variant_forms || [],
+      source_note_component: record.source_note_component,
+      copy_or_version_status: record.copy_or_version_status,
+      drafting_or_clearance_basis: record.drafting_or_clearance_basis,
+      routing_or_distribution_status: record.routing_or_distribution_status,
+      read_or_approval_status: record.read_or_approval_status,
+      caveat_or_limitation: record.caveat_or_limitation,
+      source_or_context: record.source_or_context,
       source_url: record.source_url,
       verification_status: record.verification_status
     }))
@@ -1412,6 +1451,9 @@ function buildPacket(options) {
   const sourceSurrogateRegistry = options.sourceSurrogateRegistryPath
     ? readJson(options.sourceSurrogateRegistryPath, options.sourceSurrogateRegistryPath)
     : null;
+  const documentStatusLifecycleRegistry = options.documentStatusLifecycleRegistryPath
+    ? readJson(options.documentStatusLifecycleRegistryPath, options.documentStatusLifecycleRegistryPath)
+    : null;
   const documentMetadataRegistry = options.documentMetadataRegistryPath
     ? readJson(options.documentMetadataRegistryPath, options.documentMetadataRegistryPath)
     : null;
@@ -1518,6 +1560,9 @@ function buildPacket(options) {
       source_surrogate_registry: options.sourceSurrogateRegistryPath
         ? normalizePathForOutput(options.sourceSurrogateRegistryPath)
         : "",
+      document_status_lifecycle_registry: options.documentStatusLifecycleRegistryPath
+        ? normalizePathForOutput(options.documentStatusLifecycleRegistryPath)
+        : "",
       document_metadata_registry: options.documentMetadataRegistryPath ? normalizePathForOutput(options.documentMetadataRegistryPath) : "",
       classification_registry: options.classificationRegistryPath ? normalizePathForOutput(options.classificationRegistryPath) : "",
       declassification_registry: options.declassificationRegistryPath ? normalizePathForOutput(options.declassificationRegistryPath) : "",
@@ -1596,6 +1641,7 @@ function buildPacket(options) {
       authority_registry_records: authorityRegistry?.records?.length || 0,
       source_list_registry_records: sourceListRegistry?.records?.length || 0,
       source_surrogate_registry_records: sourceSurrogateRegistry?.records?.length || 0,
+      document_status_lifecycle_registry_records: documentStatusLifecycleRegistry?.records?.length || 0,
       document_metadata_registry_records: documentMetadataRegistry?.records?.length || 0,
       classification_registry_records: classificationRegistry?.records?.length || 0,
       declassification_registry_records: declassificationRegistry?.records?.length || 0,
@@ -1638,6 +1684,10 @@ function buildPacket(options) {
       authority_registry: compactAuthorityRegistry(authorityRegistry, options.targetVolume),
       source_list_registry: compactSourceListRegistry(sourceListRegistry, options.targetVolume),
       source_surrogate_registry: compactSourceSurrogateRegistry(sourceSurrogateRegistry, options.targetVolume),
+      document_status_lifecycle_registry: compactDocumentStatusLifecycleRegistry(
+        documentStatusLifecycleRegistry,
+        options.targetVolume
+      ),
       document_metadata_registry: compactDocumentMetadataRegistry(documentMetadataRegistry, options.targetVolume),
       classification_registry: compactClassificationRegistry(classificationRegistry, options.targetVolume),
       declassification_registry: compactDeclassificationRegistry(declassificationRegistry, options.targetVolume),
@@ -1766,6 +1816,12 @@ function renderMarkdown(packet) {
     "Use this to check RAC, NLR, no-N-number, FOIA or mandatory-review identifiers, NARA catalog identifiers, PDFs, scans, URLs, release packages, W Files, PROFS, eRecords, internet-resource notes, transfer-to-NARA language, and provisional discovery labels. Treat surrogate identifiers as locators or access context, not as proof of repository path, source family, classification, attachment status, physical-file completeness, or source-image content unless the target-volume registry proves the exact direct edit.",
     "",
     fencedJson(packet.contexts.source_surrogate_registry || {}),
+    "",
+    "## Document Status Lifecycle Registry Context",
+    "",
+    "Use this to check prepared-by, drafted-by, cleared-by, copied-to, sent-for-action, sent-through, stamped/read/signed, copy/version, draft/prior-version, no-minutes/no-record, missing-page, and incomplete-copy language in source notes and annotation. Do not add, remove, or upgrade lifecycle facts unless the target-volume registry or source image proves the exact direct edit.",
+    "",
+    fencedJson(packet.contexts.document_status_lifecycle_registry || {}),
     "",
     "## Document Metadata Registry Context",
     "",

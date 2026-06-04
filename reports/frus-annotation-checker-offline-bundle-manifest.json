@@ -152,6 +152,18 @@
       "role": "Self-contained source-surrogate registry and usage audit smoke test"
     },
     {
+      "path": "scripts/validate-frus-document-status-lifecycle-registry.mjs",
+      "role": "Document-status lifecycle registry validator for prepared/drafted/cleared, copy/version, routing, stamped/read, and no-record source-note facts"
+    },
+    {
+      "path": "scripts/audit-frus-document-status-lifecycle-usage.mjs",
+      "role": "Document-status lifecycle usage audit for extracted Word units, unmatched lifecycle warnings, and direct-edit safety"
+    },
+    {
+      "path": "scripts/test-frus-document-status-lifecycle-audit.mjs",
+      "role": "Self-contained document-status lifecycle registry and usage audit smoke test"
+    },
+    {
       "path": "scripts/validate-frus-document-metadata-registry.mjs",
       "role": "Document heading, number, date-line, subject/title, sender/recipient, attachment, and editorial-note metadata registry validator"
     },
@@ -535,6 +547,9 @@
     "reports/frus-source-surrogate-registry.sample.json",
     "reports/frus-source-surrogate-units.sample.json",
     "reports/frus-source-surrogate-audit.sample.json",
+    "reports/frus-document-status-lifecycle-registry.sample.json",
+    "reports/frus-document-status-lifecycle-units.sample.json",
+    "reports/frus-document-status-lifecycle-audit.sample.json",
     "reports/frus-document-metadata-registry.sample.json",
     "reports/frus-document-metadata-units.sample.json",
     "reports/frus-document-metadata-audit.sample.json",
@@ -649,6 +664,10 @@
     {
       "path": "reports/frus-source-surrogate-registry.sample.json",
       "role": "Published source-surrogate/release sample for Reagan Foundations NLR/no-N-number forms and Reagan NSP W Files, PROFS, internet-resource, and transfer-to-NARA context"
+    },
+    {
+      "path": "reports/frus-document-status-lifecycle-registry.sample.json",
+      "role": "Published document-status lifecycle sample for Bush START prepared/copied, no-minutes, sent-through/stamped-seen, and Reagan Foundations uninitialed-copy/draft-version forms"
     },
     {
       "path": "reports/frus-document-metadata-registry.sample.json",
@@ -796,6 +815,9 @@
     "node scripts/validate-frus-source-surrogate-registry.mjs --registry reports/frus-source-surrogate-registry.sample.json --format text",
     "node scripts/audit-frus-source-surrogate-usage.mjs --units reports/frus-source-surrogate-units.sample.json --registry reports/frus-source-surrogate-registry.sample.json --target-volume frus1981-88v01 --format text",
     "node scripts/test-frus-source-surrogate-audit.mjs",
+    "node scripts/validate-frus-document-status-lifecycle-registry.mjs --registry reports/frus-document-status-lifecycle-registry.sample.json --format text",
+    "node scripts/audit-frus-document-status-lifecycle-usage.mjs --units reports/frus-document-status-lifecycle-units.sample.json --registry reports/frus-document-status-lifecycle-registry.sample.json --target-volume frus1989-92v31 --format text",
+    "node scripts/test-frus-document-status-lifecycle-audit.mjs",
     "node scripts/validate-frus-document-metadata-registry.mjs --registry reports/frus-document-metadata-registry.sample.json --format text",
     "node scripts/audit-frus-document-metadata-usage.mjs --units reports/frus-document-metadata-units.sample.json --registry reports/frus-document-metadata-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-document-metadata-audit.mjs",
@@ -894,6 +916,8 @@
     "Give validate-frus-source-list-registry.mjs a duplicate source_item_id or malformed source-list-registry schema; it must fail.",
     "Give audit-frus-source-surrogate-usage.mjs a direct edit inventing or changing a RAC, NLR, NARA catalog, scan, URL, release, or no-N-number identifier without target-volume registry support; it must fail.",
     "Give validate-frus-source-surrogate-registry.mjs a duplicate source_surrogate_item_id, invalid surrogate_type, or malformed source-surrogate-registry schema; it must fail.",
+    "Give audit-frus-document-status-lifecycle-usage.mjs a direct edit inventing or changing prepared/drafted/cleared, copy/version, sent-through, stamped/read, no-minutes, or incomplete-copy lifecycle language without target-volume registry support; it must fail.",
+    "Give validate-frus-document-status-lifecycle-registry.mjs a duplicate document_status_item_id, invalid status_type, or malformed document-status-lifecycle-registry schema; it must fail.",
     "Give audit-frus-document-metadata-usage.mjs a direct edit for a cross-volume or variant heading/date/subject form; it must fail.",
     "Give validate-frus-document-metadata-registry.mjs a duplicate document_metadata_id or malformed document-metadata-registry schema; it must fail.",
     "Give audit-frus-classification-usage.mjs a direct edit that changes a cross-volume or release-status classification phrase; it must fail.",

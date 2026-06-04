@@ -58,6 +58,14 @@ For source-surrogate/release validation, use
 `reports/frus-source-surrogate-units.sample.json`; the self-contained smoke
 test is `scripts/test-frus-source-surrogate-audit.mjs`, and the sample audit
 report is `reports/frus-source-surrogate-audit.sample.json`.
+For document-status/lifecycle validation, use
+`scripts/validate-frus-document-status-lifecycle-registry.mjs` and
+`scripts/audit-frus-document-status-lifecycle-usage.mjs` with
+`reports/frus-document-status-lifecycle-registry.sample.json` and
+`reports/frus-document-status-lifecycle-units.sample.json`; the
+self-contained smoke test is
+`scripts/test-frus-document-status-lifecycle-audit.mjs`, and the sample audit
+report is `reports/frus-document-status-lifecycle-audit.sample.json`.
 For document-metadata validation, use
 `scripts/validate-frus-document-metadata-registry.mjs` and
 `scripts/audit-frus-document-metadata-usage.mjs` with
@@ -11476,6 +11484,11 @@ from the policy text alone.
 
 Use a document-status registry when the wrapper can supply one:
 
+The executable bundled sample uses
+`frus-document-status-lifecycle-registry-v1` and the validator/audit pair named
+above. The conceptual fields below show the broader lifecycle evidence the
+checker should preserve when a target-volume registry is expanded.
+
 ```json
 {
   "document_status_registry_id": "frus-1981-1992-document-status-lifecycle-2026-06-03",
@@ -12145,6 +12158,17 @@ Minimum components:
   PROFS, eRecords, internet-resource, transfer-to-NARA, and provisional
   discovery labels, then fails direct source-surrogate edits that lack
   target-volume registry support.
+- No-dependency document-status/lifecycle registry validator, usage audit, and
+  fixtures:
+  `scripts/validate-frus-document-status-lifecycle-registry.mjs`,
+  `scripts/audit-frus-document-status-lifecycle-usage.mjs`,
+  `reports/frus-document-status-lifecycle-registry.sample.json`,
+  `reports/frus-document-status-lifecycle-units.sample.json`, and
+  `reports/frus-document-status-lifecycle-audit.sample.json`. The audit checks
+  prepared-by, drafted-by, cleared-by, copied-to, sent-for-action, sent-through,
+  stamped/read/signed, copy/version, draft/prior-version, no-minutes/no-record,
+  missing-page, and incomplete-copy language, then fails direct lifecycle edits
+  that lack target-volume registry support.
 - No-dependency document-metadata registry validator, usage audit, and
   fixtures: `scripts/validate-frus-document-metadata-registry.mjs`,
   `scripts/audit-frus-document-metadata-usage.mjs`,
@@ -12525,12 +12549,6 @@ Minimum components:
   adds target-volume chapter labels, public-source titles, captions, appendix
   targets, declassification-review statements, special-note decisions, errata
   context, and local source-family aliases.
-- Document-status/lifecycle validator that separates draft/final, original/copy,
-  printed-from-copy, signed/unsigned, initialed/uninitialed, stamped,
-  sent-for-action, sent-for-information, approved/disapproved,
-  no-indication-sent, transmitted/delivered, drafted/cleared/approved,
-  concurrence, distribution, enclosure, and attachment-status claims before
-  tracked changes are applied.
 - Decision-process/directive validator that separates NSC, NSPG, NSC/DC,
   Deputies Committee, Principals Committee, NSDD, NSD, NSR, action memoranda,
   decision memoranda, option papers, Summary of Conclusions, directive tabs,

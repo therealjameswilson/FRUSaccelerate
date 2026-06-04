@@ -1,0 +1,127 @@
+{
+  "schema_version": "frus-document-status-lifecycle-registry-v1",
+  "document_status_lifecycle_registry_id": "frus-1981-1992-document-status-lifecycle-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "scope": "Published Reagan/Bush sample records for checking source-note lifecycle facts: prepared/drafted/cleared language, copy/version status, routing and distribution status, stamped/read notations, and no-minutes/no-record caveats. These records prevent the checker from inventing lifecycle language without a target-volume published form or source-image basis.",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/abouttheseries",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d24",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/abouttheseries",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d74"
+  ],
+  "records": [
+    {
+      "document_status_item_id": "lifecycle-v31-d23-prepared-copied",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d23",
+      "document_number": "23",
+      "unit_scope": "source note 1",
+      "status_type": "prepared_by",
+      "approved_phrase": "Secret. Prepared by Davis. Copied to Quayle and Sununu.",
+      "variant_forms": [
+        "Prepared by Davis",
+        "Copied to Quayle and Sununu"
+      ],
+      "source_note_component": "classification, preparation, and distribution",
+      "copy_or_version_status": "not specified in the quoted lifecycle phrase",
+      "drafting_or_clearance_basis": "Prepared by Davis",
+      "routing_or_distribution_status": "Copied to Quayle and Sununu",
+      "read_or_approval_status": "not specified in the quoted lifecycle phrase",
+      "caveat_or_limitation": "Do not add preparer or copy-distribution facts unless the source note or source image supplies them.",
+      "source_or_context": "Bush START I Document 23 source note",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "verification_status": "verified_published_lifecycle_record"
+    },
+    {
+      "document_status_item_id": "lifecycle-v31-d23-no-minutes",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d23",
+      "document_number": "23",
+      "unit_scope": "source note 1",
+      "status_type": "no_minutes_or_no_record",
+      "approved_phrase": "No minutes were found.",
+      "variant_forms": [
+        "no minutes were found",
+        "No minutes were found"
+      ],
+      "source_note_component": "negative record caveat",
+      "copy_or_version_status": "not applicable",
+      "drafting_or_clearance_basis": "not applicable",
+      "routing_or_distribution_status": "not applicable",
+      "read_or_approval_status": "not applicable",
+      "caveat_or_limitation": "A no-minutes/no-record statement is a search-status claim and should not be converted into a factual absence without search basis.",
+      "source_or_context": "Bush START I Document 23 source note",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "verification_status": "verified_published_lifecycle_record"
+    },
+    {
+      "document_status_item_id": "lifecycle-v31-d24-action-through-seen",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d24",
+      "document_number": "24",
+      "unit_scope": "source note 1",
+      "status_type": "sent_for_action",
+      "approved_phrase": "Secret. Sent for action. Sent through Kanter. A stamped notation indicates Gates saw the memorandum.",
+      "variant_forms": [
+        "Sent for action",
+        "Sent through Kanter",
+        "A stamped notation indicates Gates saw the memorandum"
+      ],
+      "source_note_component": "classification, routing, and stamped/read notation",
+      "copy_or_version_status": "not specified in the quoted lifecycle phrase",
+      "drafting_or_clearance_basis": "not specified in the quoted lifecycle phrase",
+      "routing_or_distribution_status": "Sent for action; sent through Kanter",
+      "read_or_approval_status": "A stamped notation indicates Gates saw the memorandum",
+      "caveat_or_limitation": "Do not infer that a principal approved a memorandum from a saw/stamped notation.",
+      "source_or_context": "Bush START I Document 24 source note",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d24",
+      "verification_status": "verified_published_lifecycle_record"
+    },
+    {
+      "document_status_item_id": "lifecycle-v01-d74-uninitialed-drafted-cleared",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d74",
+      "document_number": "74",
+      "unit_scope": "source note 1",
+      "status_type": "drafted_and_cleared",
+      "approved_phrase": "Printed from an uninitialed copy. Drafted by Kaplan and Libby on December 15 and cleared by Wolfowitz.",
+      "variant_forms": [
+        "Printed from an uninitialed copy",
+        "Drafted by Kaplan and Libby on December 15",
+        "cleared by Wolfowitz"
+      ],
+      "source_note_component": "copy status, drafting, and clearance",
+      "copy_or_version_status": "Printed from an uninitialed copy",
+      "drafting_or_clearance_basis": "Drafted by Kaplan and Libby on December 15 and cleared by Wolfowitz",
+      "routing_or_distribution_status": "not specified in the quoted lifecycle phrase",
+      "read_or_approval_status": "not specified in the quoted lifecycle phrase",
+      "caveat_or_limitation": "Do not drop uninitialed-copy status when adding drafting and clearance information.",
+      "source_or_context": "Reagan Foundations Document 74 source note",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d74",
+      "verification_status": "verified_published_lifecycle_record"
+    },
+    {
+      "document_status_item_id": "lifecycle-v01-d74-prior-draft",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d74",
+      "document_number": "74",
+      "unit_scope": "source note 1",
+      "status_type": "draft_or_prior_version",
+      "approved_phrase": "A November draft of the memorandum, with Haig's handwritten comments, is in the Department of State, Executive Secretariat, S/P Files",
+      "variant_forms": [
+        "A November draft of the memorandum",
+        "with Haig's handwritten comments"
+      ],
+      "source_note_component": "prior draft and handwritten-comments location",
+      "copy_or_version_status": "November draft",
+      "drafting_or_clearance_basis": "prior draft with Haig handwritten comments",
+      "routing_or_distribution_status": "not specified in the quoted lifecycle phrase",
+      "read_or_approval_status": "handwritten comments by Haig",
+      "caveat_or_limitation": "Do not merge a prior draft with the printed copy; preserve the separate draft/version relationship.",
+      "source_or_context": "Reagan Foundations Document 74 source note",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d74",
+      "verification_status": "verified_published_lifecycle_record"
+    }
+  ]
+}

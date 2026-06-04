@@ -84,6 +84,8 @@ try {
     "reports/frus-source-list-registry.sample.json",
     "--source-surrogate-registry",
     "reports/frus-source-surrogate-registry.sample.json",
+    "--document-status-lifecycle-registry",
+    "reports/frus-document-status-lifecycle-registry.sample.json",
     "--document-metadata-registry",
     "reports/frus-document-metadata-registry.sample.json",
     "--classification-registry",
@@ -165,6 +167,10 @@ try {
   assert(manifest.source_files.annotation_sheet_profile === "reports/frus-annotation-sheet-profile.sample.json", "expected annotation-sheet profile source path");
   assert(manifest.summary.source_list_registry_records === 10, "expected source-list registry record count");
   assert(manifest.summary.source_surrogate_registry_records === 5, "expected source-surrogate registry record count");
+  assert(
+    manifest.summary.document_status_lifecycle_registry_records === 5,
+    "expected document-status lifecycle registry record count"
+  );
   assert(manifest.summary.document_metadata_registry_records === 5, "expected document metadata registry record count");
   assert(manifest.summary.classification_registry_records === 5, "expected classification registry record count");
   assert(manifest.summary.declassification_registry_records === 8, "expected declassification registry record count");
@@ -209,6 +215,11 @@ try {
   assert(
     manifest.source_files.source_surrogate_registry === "reports/frus-source-surrogate-registry.sample.json",
     "expected source-surrogate registry source path"
+  );
+  assert(
+    manifest.source_files.document_status_lifecycle_registry ===
+      "reports/frus-document-status-lifecycle-registry.sample.json",
+    "expected document-status lifecycle registry source path"
   );
   assert(manifest.source_files.document_metadata_registry === "reports/frus-document-metadata-registry.sample.json", "expected document metadata registry source path");
   assert(manifest.source_files.classification_registry === "reports/frus-classification-registry.sample.json", "expected classification registry source path");
@@ -277,6 +288,10 @@ try {
   assert(firstPacket.includes("[no N number]"), "expected no-N-number source-surrogate content in chunk packet");
   assert(firstPacket.includes("The NSC's W files"), "expected W Files source-surrogate content in chunk packet");
   assert(firstPacket.includes("available on the Internet"), "expected internet-resource source-surrogate content in chunk packet");
+  assert(firstPacket.includes("Document Status Lifecycle Registry Context"), "expected document-status lifecycle registry context in chunk packet");
+  assert(firstPacket.includes("Prepared by Davis"), "expected prepared-by lifecycle content in chunk packet");
+  assert(firstPacket.includes("Sent through Kanter"), "expected sent-through lifecycle content in chunk packet");
+  assert(firstPacket.includes("Printed from an uninitialed copy"), "expected uninitialed-copy lifecycle content in chunk packet");
   assert(firstPacket.includes("Document Metadata Registry Context"), "expected document metadata registry context in chunk packet");
   assert(firstPacket.includes("Information Memorandum From the Director of the Policy Planning Staff"), "expected document metadata registry content in chunk packet");
   assert(firstPacket.includes("Classification And Handling Registry Context"), "expected classification registry context in chunk packet");
@@ -445,7 +460,7 @@ try {
   assert(badMerge.status !== 0, "expected out-of-chunk unit reference to fail");
   assert(badMerge.stdout.includes("outside chunk-0002"), "expected chunk-boundary failure detail");
 
-  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, source-surrogate, classification, declassification, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
+  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, source-surrogate, document-status lifecycle, classification, declassification, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }
