@@ -834,7 +834,10 @@ node scripts/audit-frus-cross-reference-usage.mjs --units extracted-units.json -
 ```
 
 38. Run recurring compiler-risk validation and usage audit on every annotation
-   sheet when the registry is available. It checks leading-zero telegram
+   sheet when the registry is available. If compilers entered their own common
+   mistakes in the standalone `annotation-mistakes/` intake page, use the
+   downloaded `custom-recurring-risk-registry.json` here instead of, or merged
+   with, the sample registry. It checks leading-zero telegram
    numbers, WHSR/NSC telegram copies that need eRecords/drafting confirmation,
    incomplete cross-reference slugs, missing page breaks, old heading-footnote
    placement, Word autoformatting, incomplete documents or source notes,

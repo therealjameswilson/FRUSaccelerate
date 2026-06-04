@@ -15,6 +15,7 @@ Published site target:
 The portal lays out:
 
 - the FRUS production constraints and source-backed findings
+- the FRUS Annotation Checker mistake-intake page for compiler-specific recurring risks
 - the 10 strongest end-of-fiscal-year projects
 - the full idea atlas behind those projects
 - the federal precedents already in use elsewhere in government
@@ -79,6 +80,8 @@ Validation checks:
 ```bash
 npm test
 node --check dashboard/app.js
+node --check annotation-mistakes/app.js
+node scripts/test-frus-mistake-intake-site.js
 ```
 
 Build the publishable static bundle:
@@ -95,9 +98,25 @@ npm run build:site
 - [`dashboard/index.html`](dashboard/index.html): portal shell
 - [`dashboard/app.js`](dashboard/app.js): portal rendering and interactions
 - [`dashboard/styles.css`](dashboard/styles.css): portal design system
+- [`annotation-mistakes/index.html`](annotation-mistakes/index.html): standalone compiler-mistake intake for the FRUS Annotation Checker
+- [`annotation-mistakes/app.js`](annotation-mistakes/app.js): client-side classifier and recurring-risk registry generator
 - [`scripts/analyze-frus.js`](scripts/analyze-frus.js): use-case scoring and report generation
 - [`scripts/build-site.js`](scripts/build-site.js): static publish build for GitHub Pages
 - [`scripts/serve-dashboard.js`](scripts/serve-dashboard.js): lightweight local server
+
+## FRUS Annotation Checker Mistake Intake
+
+Open `annotation-mistakes/index.html` locally or from the published site. Compilers can paste recurring annotation mistakes,
+download `custom-recurring-risk-registry.json`, and pass it into the offline checker:
+
+```bash
+node scripts/validate-frus-recurring-risk-registry.mjs --registry custom-recurring-risk-registry.json --format text
+node scripts/audit-frus-recurring-risk-usage.mjs --units extracted-units.json --registry custom-recurring-risk-registry.json --checker-output output.json --format text
+node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --recurring-risk-registry custom-recurring-risk-registry.json --run-id RUN-ID
+```
+
+The intake keeps compiler-entered risks in comment-first mode unless a narrow exact cleanup is safe, so the standalone agent
+can look for similar mistakes while preserving General Editor judgment on unresolved style variants.
 
 ## Publish It
 

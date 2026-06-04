@@ -7,7 +7,7 @@
     "analyze": "node scripts/analyze-frus.js",
     "build:site": "node scripts/build-site.js",
     "dashboard": "node scripts/serve-dashboard.js",
-    "test": "node scripts/analyze-frus.js --check"
+    "test": "node scripts/analyze-frus.js --check && node scripts/test-frus-mistake-intake-site.js"
   },
   "keywords": [],
   "author": "",

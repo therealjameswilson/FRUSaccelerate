@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FRUS Annotation Mistake Intake</title>
+    <meta
+      name="description"
+      content="Closed-network-ready intake page for turning recurring FRUS annotation mistakes into checker-ready risk registry records."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="home-link" href="../">FRUSaccelerate</a>
+      <nav aria-label="Page links">
+        <a href="#intake">Mistake intake</a>
+        <a href="#registry">Checker registry</a>
+        <a href="#sources">FRUS models</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">FRUS Annotation Checker</p>
+          <h1>Common mistake intake</h1>
+          <p class="lede">
+            A local workbench for turning compiler self-reports into recurring-risk checks that the offline annotation
+            checker can apply to draft Word annotation sheets.
+          </p>
+        </div>
+        <dl class="assurance-strip" aria-label="Checker posture">
+          <div>
+            <dt>Posture</dt>
+            <dd>Spellcheck-style</dd>
+          </div>
+          <div>
+            <dt>Default</dt>
+            <dd>Comment first</dd>
+          </div>
+          <div>
+            <dt>Evidence</dt>
+            <dd>Published FRUS forms</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="workspace" id="intake">
+        <form class="panel intake-panel" id="mistakeForm">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label">Compiler input</p>
+              <h2>Recurring mistakes</h2>
+            </div>
+            <span class="status-pill" id="baseRegistryStatus">Base registry loading</span>
+          </div>
+
+          <label for="mistakeText">Mistakes, habits, or review anxieties</label>
+          <textarea
+            id="mistakeText"
+            rows="13"
+            spellcheck="true"
+            placeholder="Example: I use Doc. XX instead of final Document references; I repeat full citations after the third mention; I use WHSR telegram copies without checking eRecords drafting data."
+          ></textarea>
+
+          <div class="form-grid">
+            <label>
+              Compiler or team
+              <input id="compilerName" type="text" placeholder="Optional" />
+            </label>
+            <label>
+              Volume or chapter
+              <input id="volumeHint" type="text" placeholder="Optional" />
+            </label>
+            <label>
+              Default severity
+              <select id="severityMode">
+                <option value="major">Major</option>
+                <option value="minor">Minor</option>
+                <option value="critical">Critical</option>
+                <option value="info">Info</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="button-row">
+            <button class="primary" type="submit">Analyze</button>
+            <button type="button" id="clearButton">Clear</button>
+          </div>
+        </form>
+
+        <section class="panel review-panel" aria-live="polite">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label">Detected risk families</p>
+              <h2 id="riskCount">0 rules ready</h2>
+            </div>
+            <button type="button" id="copyNoteButton">Copy agent note</button>
+          </div>
+          <div class="risk-list" id="riskList">
+            <p class="empty-state">Enter recurring mistakes to generate checker-ready watchlist records.</p>
+          </div>
+          <div class="tally" id="riskTally" aria-label="Discrepancy tally"></div>
+        </section>
+      </section>
+
+      <section class="output-grid" id="registry">
+        <section class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label">Generated JSON</p>
+              <h2>Recurring-risk registry</h2>
+            </div>
+            <div class="compact-actions">
+              <button type="button" id="copyJsonButton">Copy JSON</button>
+              <button type="button" id="downloadJsonButton">Download JSON</button>
+            </div>
+          </div>
+          <pre class="code-box" id="registryPreview" tabindex="0">{}</pre>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label">Offline checker handoff</p>
+              <h2>Import commands</h2>
+            </div>
+            <div class="compact-actions">
+              <button type="button" id="copyCommandsButton">Copy commands</button>
+              <button type="button" id="downloadNoteButton">Download note</button>
+            </div>
+          </div>
+          <pre class="code-box short" id="commandPreview" tabindex="0"></pre>
+        </section>
+      </section>
+
+      <section class="sources" id="sources">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">Published models</p>
+            <h2>FRUS forms used by this intake</h2>
+          </div>
+          <p>
+            These public volumes anchor the generated advice when a compiler describes Document references, telegram
+            source basis, source-note completeness, or refer-back problems.
+          </p>
+        </div>
+        <div class="source-grid" id="sourceGrid"></div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

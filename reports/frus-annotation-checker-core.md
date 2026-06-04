@@ -127,6 +127,10 @@ For cross-reference validation and direct-edit safety, run
 For recurring compiler-risk spellcheck validation, run
 `node scripts/validate-frus-recurring-risk-registry.mjs --registry reports/frus-recurring-risk-registry.sample.json --format text` and
 `node scripts/audit-frus-recurring-risk-usage.mjs --units extracted-units.json --registry reports/frus-recurring-risk-registry.sample.json --checker-output output.json --format text`.
+When a closed-network operator has generated `custom-recurring-risk-registry.json`
+from the standalone compiler mistake-intake page, substitute that registry so
+the checker watches for the compiler's disclosed mistakes and similar forms
+while keeping unresolved variants in the General Editor discrepancy tally.
 For negative-search/no-record validation and direct-edit safety, run
 `node scripts/validate-frus-negative-search-registry.mjs --registry reports/frus-negative-search-registry.sample.json --format text` and
 `node scripts/audit-frus-negative-search-usage.mjs --units extracted-units.json --registry reports/frus-negative-search-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.

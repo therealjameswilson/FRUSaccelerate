@@ -6,12 +6,14 @@ const SITE_ROOT = path.join(ROOT, "site");
 
 const PUBLISH_ITEMS = [
   ["index.html", "index.html"],
+  ["annotation-mistakes", "annotation-mistakes"],
   ["dashboard", "dashboard"],
   ["89-92-RussiaFSU-Policy", "89-92-RussiaFSU-Policy"],
   ["Clinton-Foundations", "Clinton-Foundations"],
   ["PRC-PostColdWar", "PRC-PostColdWar"],
   ["reports/frus-ai-opportunities.json", "reports/frus-ai-opportunities.json"],
   ["reports/frus-ai-opportunities.md", "reports/frus-ai-opportunities.md"],
+  ["reports/frus-recurring-risk-registry.sample.json", "reports/frus-recurring-risk-registry.sample.json"],
   ["data/frus-context.json", "data/frus-context.json"]
 ];
 
