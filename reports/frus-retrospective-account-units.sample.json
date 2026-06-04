@@ -1,0 +1,95 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source_docx": "sample-frus-annotation-sheet.docx",
+  "generated_at": "2026-06-04T00:00:00.000Z",
+  "units": [
+    {
+      "unit_id": "retro-0001",
+      "unit_type": "editorial_note",
+      "location": "Document 18 editorial note",
+      "exact_text": "In his memoir of his tenure as Secretary of State, Haig noted that Reagan called him in December 1980.",
+      "display_text": "In his memoir of his tenure as Secretary of State, Haig noted that Reagan called him in December 1980.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "retro-0002",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 34 footnote 2",
+      "exact_text": "In his memoir, Haig explained the genesis of the visit. (Haig, Caveat, p. 89)",
+      "display_text": "In his memoir, Haig explained the genesis of the visit. (Haig, Caveat, p. 89)",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "retro-0003",
+      "unit_type": "source_note",
+      "location": "Document 236 source note",
+      "exact_text": "In his personal diary entry for March 11, the President wrote that Chernenko was dead; In his memoir, Shultz wrote of the March 11 meeting.",
+      "display_text": "In his personal diary entry for March 11, the President wrote that Chernenko was dead; In his memoir, Shultz wrote of the March 11 meeting.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "retro-0004",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 260 footnote 3",
+      "exact_text": "In his memoir, Shultz described the segment of the meeting devoted to U.S.-Soviet issues.",
+      "display_text": "In his memoir, Shultz described the segment of the meeting devoted to U.S.-Soviet issues.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "retro-0005",
+      "unit_type": "source_note",
+      "location": "Document 282 source note",
+      "exact_text": "In his memoir, Shultz described his reaction to the President's November 19 press conference.",
+      "display_text": "In his memoir, Shultz described his reaction to the President's November 19 press conference.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "retro-0006",
+      "unit_type": "source_note",
+      "location": "Document 316 source note",
+      "exact_text": "Although no minutes of the meeting have been found, in his personal diary entry for January 6, the President noted the foreign policy schedule.",
+      "display_text": "Although no minutes of the meeting have been found, in his personal diary entry for January 6, the President noted the foreign policy schedule.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "retro-0007",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft unsupported memoir shorthand",
+      "exact_text": "Shultz's memoir proves that the President approved the arms-control plan.",
+      "display_text": "Shultz's memoir proves that the President approved the arms-control plan.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "retro-0008",
+      "unit_type": "editorial_note",
+      "location": "Draft oral history note",
+      "exact_text": "According to a later oral history, the meeting had no official minutes.",
+      "display_text": "According to a later oral history, the meeting had no official minutes.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}

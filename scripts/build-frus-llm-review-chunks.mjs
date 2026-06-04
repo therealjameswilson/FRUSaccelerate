@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--public-source-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -44,6 +44,7 @@ function parseArgs(argv) {
   let documentHandlingRegistryPath = null;
   let chronologyRegistryPath = null;
   let publicSourceRegistryPath = null;
+  let retrospectiveAccountRegistryPath = null;
   let treatyRegistryPath = null;
   let foreignOrgRegistryPath = null;
   let footnoteReferbackRegistryPath = null;
@@ -114,6 +115,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--public-source-registry") {
       publicSourceRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--retrospective-account-registry") {
+      retrospectiveAccountRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--treaty-registry") {
       treatyRegistryPath = argv[index + 1];
@@ -193,6 +197,7 @@ function parseArgs(argv) {
     documentHandlingRegistryPath,
     chronologyRegistryPath,
     publicSourceRegistryPath,
+    retrospectiveAccountRegistryPath,
     treatyRegistryPath,
     foreignOrgRegistryPath,
     footnoteReferbackRegistryPath,
@@ -742,6 +747,41 @@ function compactPublicSourceRegistry(registry, targetVolume) {
   };
 }
 
+function compactRetrospectiveAccountRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  return {
+    schema_version: registry.schema_version,
+    retrospective_account_registry_id: registry.retrospective_account_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    rule_summary: registry.rule_summary || "",
+    target_volume: targetVolume,
+    target_records: targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [],
+    records: records.map((record) => ({
+      retrospective_account_id: record.retrospective_account_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      record_type: record.record_type,
+      approved_phrase: record.approved_phrase,
+      account_author_or_source: record.account_author_or_source,
+      publication_or_collection: record.publication_or_collection,
+      page_or_locator: record.page_or_locator,
+      event_or_document_described: record.event_or_document_described,
+      official_record_relationship: record.official_record_relationship,
+      selected_or_supplemental_status: record.selected_or_supplemental_status,
+      corroborating_record: record.corroborating_record,
+      conflict_status: record.conflict_status,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactTreatyRegistry(registry, targetVolume) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -900,6 +940,7 @@ function renderPacket({
   documentHandlingRegistry,
   chronologyRegistry,
   publicSourceRegistry,
+  retrospectiveAccountRegistry,
   treatyRegistry,
   foreignOrgRegistry,
   footnoteReferbackRegistry,
@@ -1028,6 +1069,12 @@ function renderPacket({
     "",
     fencedJson(publicSourceRegistry || {}),
     "",
+    "## Retrospective Account Registry Context",
+    "",
+    "Use this to check memoirs, published or personal diaries, oral histories, later interviews, recollections, press retrospectives, newspaper accounts, author/source, publication, page locator, event match, selected-versus-supplemental status, official-record relationship, corroborating records, and conflict status. Do not let retrospective accounts replace official records; use comment-only unless the target-volume retrospective-account registry proves the exact direct edit.",
+    "",
+    fencedJson(retrospectiveAccountRegistry || {}),
+    "",
     "## Treaty And Legal Instrument Registry Context",
     "",
     "Use this to check treaty text, protocols, annexes, memoranda of understanding, associated-but-not-integral documents, Senate transmittal packages, ratification, entry-into-force, legal-authority, and draft treaty-package language. Do not change component identity, integral/associated status, source basis, legal process, ratification, or entry-into-force language unless the target-volume treaty registry proves the direct edit.",
@@ -1114,6 +1161,9 @@ function buildChunks(options) {
   const communicationsRegistry = options.communicationsRegistryPath ? readJson(options.communicationsRegistryPath) : null;
   const chronologyRegistry = options.chronologyRegistryPath ? readJson(options.chronologyRegistryPath) : null;
   const publicSourceRegistry = options.publicSourceRegistryPath ? readJson(options.publicSourceRegistryPath) : null;
+  const retrospectiveAccountRegistry = options.retrospectiveAccountRegistryPath
+    ? readJson(options.retrospectiveAccountRegistryPath)
+    : null;
   const treatyRegistry = options.treatyRegistryPath ? readJson(options.treatyRegistryPath) : null;
   const foreignOrgRegistry = options.foreignOrgRegistryPath ? readJson(options.foreignOrgRegistryPath) : null;
   const footnoteReferbackRegistry = options.footnoteReferbackRegistryPath
@@ -1145,6 +1195,10 @@ function buildChunks(options) {
   const communicationsRegistryContext = compactCommunicationsRegistry(communicationsRegistry, options.targetVolume);
   const chronologyRegistryContext = compactChronologyRegistry(chronologyRegistry, options.targetVolume);
   const publicSourceRegistryContext = compactPublicSourceRegistry(publicSourceRegistry, options.targetVolume);
+  const retrospectiveAccountRegistryContext = compactRetrospectiveAccountRegistry(
+    retrospectiveAccountRegistry,
+    options.targetVolume
+  );
   const treatyRegistryContext = compactTreatyRegistry(treatyRegistry, options.targetVolume);
   const foreignOrgRegistryContext = compactForeignOrgRegistry(foreignOrgRegistry, options.targetVolume);
   const footnoteReferbackRegistryContext = compactFootnoteReferbackRegistry(
@@ -1180,6 +1234,9 @@ function buildChunks(options) {
       document_handling_registry: options.documentHandlingRegistryPath ? normalizePathForOutput(options.documentHandlingRegistryPath) : "",
       chronology_registry: options.chronologyRegistryPath ? normalizePathForOutput(options.chronologyRegistryPath) : "",
       public_source_registry: options.publicSourceRegistryPath ? normalizePathForOutput(options.publicSourceRegistryPath) : "",
+      retrospective_account_registry: options.retrospectiveAccountRegistryPath
+        ? normalizePathForOutput(options.retrospectiveAccountRegistryPath)
+        : "",
       treaty_registry: options.treatyRegistryPath ? normalizePathForOutput(options.treatyRegistryPath) : "",
       foreign_org_registry: options.foreignOrgRegistryPath ? normalizePathForOutput(options.foreignOrgRegistryPath) : "",
       footnote_referback_registry: options.footnoteReferbackRegistryPath
@@ -1211,6 +1268,7 @@ function buildChunks(options) {
       document_handling_registry_records: documentHandlingRegistry?.records?.length || 0,
       chronology_registry_records: chronologyRegistry?.records?.length || 0,
       public_source_registry_records: publicSourceRegistry?.records?.length || 0,
+      retrospective_account_registry_records: retrospectiveAccountRegistry?.records?.length || 0,
       treaty_registry_records: treatyRegistry?.records?.length || 0,
       foreign_org_registry_records: foreignOrgRegistry?.records?.length || 0,
       footnote_referback_registry_records: footnoteReferbackRegistry?.records?.length || 0,
@@ -1266,6 +1324,7 @@ function buildChunks(options) {
         documentHandlingRegistry: documentHandlingRegistryContext,
         chronologyRegistry: chronologyRegistryContext,
         publicSourceRegistry: publicSourceRegistryContext,
+        retrospectiveAccountRegistry: retrospectiveAccountRegistryContext,
         treatyRegistry: treatyRegistryContext,
         foreignOrgRegistry: foreignOrgRegistryContext,
         footnoteReferbackRegistry: footnoteReferbackRegistryContext,

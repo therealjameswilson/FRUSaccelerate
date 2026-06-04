@@ -196,7 +196,9 @@ For real Reagan/Bush 1981-1992 footnote refer-back review, replace the sample
 footnote refer-back registry with target-volume examples for repeated
 cross-document `footnote N, Document X` references, same-document above/below or
 local-context references, `Document X and footnote Y thereto` references, and
-published multi-target clusters; validate it with
+published multi-target clusters. Treat the third full repeat of the same
+citation as a human review trigger for a possible refer-back, not as an
+automatic rewrite; validate the registry with
 `scripts/validate-frus-footnote-referback-registry.mjs` before direct
 refer-back edits.
 For every Reagan/Bush 1981-1992 sheet, keep the recurring-risk registry in the
@@ -616,6 +618,17 @@ itself supplies citations, chronology, and cross-references.
 Editorial notes should summarize pertinent unprinted material, locations of
 additional sources, related documents, key events, public statements, and
 memoirs or first-hand accounts when they supplement the official record.
+
+### Retrospective Accounts
+
+Memoirs, published or personal diaries, oral histories, later interviews,
+recollections, press retrospectives, and newspaper accounts are attributed
+supplemental context unless the target-volume registry proves selected-source
+status. Preserve author/source, title or collection, page/locator, event match,
+official-record relationship, selected/supplemental status, corroborating
+record, and conflict status. Do not rewrite recollection as official minutes,
+approval, source-path, participant, attachment, or classified-text fact without
+supplied evidence.
 
 ### Attachments And Negative Searches
 

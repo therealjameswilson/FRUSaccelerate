@@ -12233,6 +12233,18 @@ Minimum components:
   or briefing-file context, diary context, and selected-versus-supplemental
   public-source status to supplied public-source records and fails direct
   public-source edits that lack target-volume registry support.
+- No-dependency retrospective-account registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-retrospective-account-registry.mjs`,
+  `scripts/audit-frus-retrospective-account-usage.mjs`,
+  `reports/frus-retrospective-account-registry.sample.json`,
+  `reports/frus-retrospective-account-units.sample.json`, and
+  `reports/frus-retrospective-account-audit.sample.json`. The audit reconciles
+  memoirs, published and personal diaries, oral histories, later interviews,
+  recollections, press retrospectives, newspaper accounts, author/source,
+  publication, page/locator, event match, selected-versus-supplemental status,
+  official-record relationship, corroborating record, and conflict status to
+  supplied retrospective-account records and fails direct retrospective-account
+  edits that lack target-volume registry support.
 - No-dependency treaty/legal-instrument registry validator, usage audit, and
   fixtures: `scripts/validate-frus-treaty-registry.mjs`,
   `scripts/audit-frus-treaty-usage.mjs`,

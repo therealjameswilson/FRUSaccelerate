@@ -100,6 +100,8 @@ try {
     "reports/frus-chronology-registry.sample.json",
     "--public-source-registry",
     "reports/frus-public-source-registry.sample.json",
+    "--retrospective-account-registry",
+    "reports/frus-retrospective-account-registry.sample.json",
     "--treaty-registry",
     "reports/frus-treaty-registry.sample.json",
     "--foreign-org-registry",
@@ -149,6 +151,7 @@ try {
   assert(manifest.summary.document_handling_registry_records === 7, "expected document handling registry record count");
   assert(manifest.summary.chronology_registry_records === 6, "expected chronology registry record count");
   assert(manifest.summary.public_source_registry_records === 6, "expected public-source registry record count");
+  assert(manifest.summary.retrospective_account_registry_records === 6, "expected retrospective-account registry record count");
   assert(manifest.summary.treaty_registry_records === 7, "expected treaty registry record count");
   assert(manifest.summary.foreign_org_registry_records === 10, "expected foreign-org registry record count");
   assert(manifest.summary.footnote_referback_registry_records === 8, "expected footnote refer-back registry record count");
@@ -167,6 +170,10 @@ try {
   assert(manifest.source_files.document_handling_registry === "reports/frus-document-handling-registry.sample.json", "expected document handling registry source path");
   assert(manifest.source_files.chronology_registry === "reports/frus-chronology-registry.sample.json", "expected chronology registry source path");
   assert(manifest.source_files.public_source_registry === "reports/frus-public-source-registry.sample.json", "expected public-source registry source path");
+  assert(
+    manifest.source_files.retrospective_account_registry === "reports/frus-retrospective-account-registry.sample.json",
+    "expected retrospective-account registry source path"
+  );
   assert(manifest.source_files.treaty_registry === "reports/frus-treaty-registry.sample.json", "expected treaty registry source path");
   assert(manifest.source_files.foreign_org_registry === "reports/frus-foreign-org-registry.sample.json", "expected foreign-org registry source path");
   assert(
@@ -205,6 +212,8 @@ try {
   assert(firstPacket.includes("According to the President's Daily Diary, Bush met with Baker"), "expected chronology registry content in chunk packet");
   assert(firstPacket.includes("Public Source And Public Diplomacy Registry Context"), "expected public-source registry context in chunk packet");
   assert(firstPacket.includes("Public Papers: Bush, 1991, pages 986-987"), "expected Public Papers registry content in chunk packet");
+  assert(firstPacket.includes("Retrospective Account Registry Context"), "expected retrospective-account registry context in chunk packet");
+  assert(firstPacket.includes("In his memoir, Shultz described the segment"), "expected retrospective-account registry content in chunk packet");
   assert(firstPacket.includes("Treaty And Legal Instrument Registry Context"), "expected treaty registry context in chunk packet");
   assert(firstPacket.includes("Conversion or Elimination Protocol"), "expected treaty registry content in chunk packet");
   assert(firstPacket.includes("Foreign And International Organization Registry Context"), "expected foreign-org registry context in chunk packet");
@@ -288,7 +297,7 @@ try {
   assert(badMerge.status !== 0, "expected out-of-chunk unit reference to fail");
   assert(badMerge.stdout.includes("outside chunk-0002"), "expected chunk-boundary failure detail");
 
-  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, chronology, public-source, treaty, foreign-org, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
+  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, chronology, public-source, retrospective-account, treaty, foreign-org, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

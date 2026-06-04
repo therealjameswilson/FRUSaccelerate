@@ -83,6 +83,12 @@ Department of State Bulletin/Dispatch, Congressional Record, official
 transcripts, newspaper excerpts, full-text targets, archival speech or briefing
 files, diary context, and selected-versus-supplemental public-source status.
 The bundled sample is `reports/frus-public-source-registry.sample.json`.
+For retrospective-account checks, transfer a volume-specific retrospective-
+account registry built from published memoir, personal-diary, oral-history,
+later-interview, recollection, press-retrospective, newspaper-account, page-
+locator, selected-versus-supplemental, official-record-relationship,
+corroborating-record, and conflict-status examples. The bundled sample is
+`reports/frus-retrospective-account-registry.sample.json`.
 For treaty/legal-instrument checks, transfer a volume-specific treaty registry
 built from treaty text, protocols, annexes, memoranda of understanding,
 associated but non-integral documents, Senate transmittal packages, Treaty Doc.
@@ -152,7 +158,7 @@ node scripts/extract-frus-docx-units.mjs --docx input.docx --out extracted-units
 
 ```sh
 node scripts/extract-frus-status-claims.mjs --units extracted-units.json --registry reports/frus-status-series-1981-1992.current.json --out status-claims.json --format text
-node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --declassification-registry declassification-registry.json --translation-registry translation-registry.json --printed-attachment-registry printed-attachment-registry.json --visual-material-registry visual-material-registry.json --document-handling-registry document-handling-registry.json --chronology-registry chronology-registry.json --public-source-registry public-source-registry.json --treaty-registry treaty-registry.json --foreign-org-registry foreign-org-registry.json --footnote-referback-registry footnote-referback-registry.json --recurring-risk-registry recurring-risk-registry.json --negative-search-registry negative-search-registry.json --document-relationship-registry document-relationship-registry.json --communications-registry communications-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID
+node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --declassification-registry declassification-registry.json --translation-registry translation-registry.json --printed-attachment-registry printed-attachment-registry.json --visual-material-registry visual-material-registry.json --document-handling-registry document-handling-registry.json --chronology-registry chronology-registry.json --public-source-registry public-source-registry.json --retrospective-account-registry retrospective-account-registry.json --treaty-registry treaty-registry.json --foreign-org-registry foreign-org-registry.json --footnote-referback-registry footnote-referback-registry.json --recurring-risk-registry recurring-risk-registry.json --negative-search-registry negative-search-registry.json --document-relationship-registry document-relationship-registry.json --communications-registry communications-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID
 ```
 
    Upload `review-packet.md` to the LLM. Send only editorial apparatus and
@@ -165,7 +171,7 @@ node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out
    result as the corresponding `chunk-####-checker-output.json`.
 
 ```sh
-node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --declassification-registry declassification-registry.json --translation-registry translation-registry.json --printed-attachment-registry printed-attachment-registry.json --visual-material-registry visual-material-registry.json --document-handling-registry document-handling-registry.json --chronology-registry chronology-registry.json --public-source-registry public-source-registry.json --treaty-registry treaty-registry.json --foreign-org-registry foreign-org-registry.json --footnote-referback-registry footnote-referback-registry.json --recurring-risk-registry recurring-risk-registry.json --negative-search-registry negative-search-registry.json --document-relationship-registry document-relationship-registry.json --communications-registry communications-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12
+node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --declassification-registry declassification-registry.json --translation-registry translation-registry.json --printed-attachment-registry printed-attachment-registry.json --visual-material-registry visual-material-registry.json --document-handling-registry document-handling-registry.json --chronology-registry chronology-registry.json --public-source-registry public-source-registry.json --retrospective-account-registry retrospective-account-registry.json --treaty-registry treaty-registry.json --foreign-org-registry foreign-org-registry.json --footnote-referback-registry footnote-referback-registry.json --recurring-risk-registry recurring-risk-registry.json --negative-search-registry negative-search-registry.json --document-relationship-registry document-relationship-registry.json --communications-registry communications-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12
 ```
 
    After all chunks are reviewed, merge them into the single checker output
@@ -208,7 +214,7 @@ node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output outp
    Reagan/Bush routing, add the current context files:
 
 ```sh
-node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --declassification-registry declassification-registry.json --translation-registry translation-registry.json --printed-attachment-registry printed-attachment-registry.json --visual-material-registry visual-material-registry.json --document-handling-registry document-handling-registry.json --chronology-registry chronology-registry.json --public-source-registry public-source-registry.json --treaty-registry treaty-registry.json --foreign-org-registry foreign-org-registry.json --footnote-referback-registry footnote-referback-registry.json --recurring-risk-registry recurring-risk-registry.json --negative-search-registry negative-search-registry.json --document-relationship-registry document-relationship-registry.json --communications-registry communications-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD
+node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry authority-registry.json --source-list-registry source-list-registry.json --document-metadata-registry document-metadata-registry.json --classification-registry classification-registry.json --declassification-registry declassification-registry.json --translation-registry translation-registry.json --printed-attachment-registry printed-attachment-registry.json --visual-material-registry visual-material-registry.json --document-handling-registry document-handling-registry.json --chronology-registry chronology-registry.json --public-source-registry public-source-registry.json --retrospective-account-registry retrospective-account-registry.json --treaty-registry treaty-registry.json --foreign-org-registry foreign-org-registry.json --footnote-referback-registry footnote-referback-registry.json --recurring-risk-registry recurring-risk-registry.json --negative-search-registry negative-search-registry.json --document-relationship-registry document-relationship-registry.json --communications-registry communications-registry.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD
 ```
 
    If the wrapper has extracted status-bearing phrases into
@@ -382,7 +388,21 @@ node scripts/validate-frus-public-source-registry.mjs --registry public-source-r
 node scripts/audit-frus-public-source-usage.mjs --units extracted-units.json --registry public-source-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-19. Run treaty/legal-instrument validation and usage audit when source notes,
+19. Run retrospective-account validation and usage audit when source notes,
+   follow-on footnotes, editorial notes, headings, or front-matter entries
+   contain memoirs, published or personal diaries, oral histories, later
+   interviews, recollections, press retrospectives, newspaper accounts,
+   author/source, publication title, page locator, event match, selected-versus-
+   supplemental status, official-record relationship, corroborating record, or
+   conflict status. The usage audit fails if the model proposes a direct
+   retrospective-account edit unsupported by the supplied registry.
+
+```sh
+node scripts/validate-frus-retrospective-account-registry.mjs --registry retrospective-account-registry.json --format text
+node scripts/audit-frus-retrospective-account-usage.mjs --units extracted-units.json --registry retrospective-account-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
+```
+
+20. Run treaty/legal-instrument validation and usage audit when source notes,
    follow-on footnotes, editorial notes, headings, or front-matter entries
    contain treaty text, protocols, annexes, memoranda of understanding,
    associated but non-integral documents, Senate transmittal packages, Treaty
@@ -395,7 +415,7 @@ node scripts/validate-frus-treaty-registry.mjs --registry treaty-registry.json -
 node scripts/audit-frus-treaty-usage.mjs --units extracted-units.json --registry treaty-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-20. Run foreign/international-organization validation and usage audit when
+21. Run foreign/international-organization validation and usage audit when
    source notes, follow-on footnotes, editorial notes, headings, or front-matter
    entries mention country names, successor states, alliances, international
    organizations, regional bodies, summit/conference names, international
@@ -409,7 +429,7 @@ node scripts/validate-frus-foreign-org-registry.mjs --registry foreign-org-regis
 node scripts/audit-frus-foreign-org-usage.mjs --units extracted-units.json --registry foreign-org-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-21. Run footnote refer-back validation and usage audit when follow-on footnotes
+22. Run footnote refer-back validation and usage audit when follow-on footnotes
    or editorial notes contain repeated citations, `see footnote`, `Document X
    and footnote Y thereto`, same-document above/below references, or clusters
    of multiple footnote/document targets. The Reagan Foundations three-times
@@ -423,7 +443,7 @@ node scripts/validate-frus-footnote-referback-registry.mjs --registry footnote-r
 node scripts/audit-frus-footnote-referback-usage.mjs --units extracted-units.json --registry footnote-referback-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-22. Run recurring compiler-risk validation and usage audit on every annotation
+23. Run recurring compiler-risk validation and usage audit on every annotation
    sheet when the registry is available. It checks leading-zero telegram
    numbers, WHSR/NSC telegram copies that need eRecords/drafting confirmation,
    incomplete cross-reference slugs, missing page breaks, old heading-footnote

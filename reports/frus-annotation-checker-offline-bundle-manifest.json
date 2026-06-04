@@ -248,6 +248,18 @@
       "role": "Self-contained public-source and public-diplomacy registry and usage audit smoke test"
     },
     {
+      "path": "scripts/validate-frus-retrospective-account-registry.mjs",
+      "role": "Memoir, diary, oral-history, later-interview, recollection, and press-retrospective registry validator"
+    },
+    {
+      "path": "scripts/audit-frus-retrospective-account-usage.mjs",
+      "role": "Retrospective-account usage audit for extracted Word units and direct-edit safety"
+    },
+    {
+      "path": "scripts/test-frus-retrospective-account-audit.mjs",
+      "role": "Self-contained retrospective-account registry and usage audit smoke test"
+    },
+    {
       "path": "scripts/validate-frus-treaty-registry.mjs",
       "role": "Treaty, protocol, annex, MOU, associated-document, Senate transmittal, ratification, and legal-instrument registry validator"
     },
@@ -415,6 +427,9 @@
     "reports/frus-public-source-registry.sample.json",
     "reports/frus-public-source-units.sample.json",
     "reports/frus-public-source-audit.sample.json",
+    "reports/frus-retrospective-account-registry.sample.json",
+    "reports/frus-retrospective-account-units.sample.json",
+    "reports/frus-retrospective-account-audit.sample.json",
     "reports/frus-treaty-registry.sample.json",
     "reports/frus-treaty-units.sample.json",
     "reports/frus-treaty-audit.sample.json",
@@ -501,6 +516,10 @@
     {
       "path": "reports/frus-public-source-registry.sample.json",
       "role": "Published Public Papers, Department of State Bulletin/Dispatch, public remarks, press, selected public-document, and archival public-source sample for Reagan and George H.W. Bush fixtures"
+    },
+    {
+      "path": "reports/frus-retrospective-account-registry.sample.json",
+      "role": "Published Reagan Foundations memoir, personal-diary, and recollection sample for preserving retrospective accounts as supplemental context"
     },
     {
       "path": "reports/frus-treaty-registry.sample.json",
@@ -592,6 +611,9 @@
     "node scripts/validate-frus-public-source-registry.mjs --registry reports/frus-public-source-registry.sample.json --format text",
     "node scripts/audit-frus-public-source-usage.mjs --units reports/frus-public-source-units.sample.json --registry reports/frus-public-source-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-public-source-audit.mjs",
+    "node scripts/validate-frus-retrospective-account-registry.mjs --registry reports/frus-retrospective-account-registry.sample.json --format text",
+    "node scripts/audit-frus-retrospective-account-usage.mjs --units reports/frus-retrospective-account-units.sample.json --registry reports/frus-retrospective-account-registry.sample.json --target-volume frus1981-88v01 --format text",
+    "node scripts/test-frus-retrospective-account-audit.mjs",
     "node scripts/validate-frus-treaty-registry.mjs --registry reports/frus-treaty-registry.sample.json --format text",
     "node scripts/audit-frus-treaty-usage.mjs --units reports/frus-treaty-units.sample.json --registry reports/frus-treaty-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-treaty-audit.mjs",
@@ -646,6 +668,8 @@
     "Give validate-frus-chronology-registry.mjs a duplicate chronology_id or malformed chronology-registry schema; it must fail.",
     "Give audit-frus-public-source-usage.mjs a direct edit that changes Public Papers pages, delivery basis, full-text target, or selected-public-document status without target-volume registry support; it must fail.",
     "Give validate-frus-public-source-registry.mjs a duplicate public_source_id or malformed public-source-registry schema; it must fail.",
+    "Give audit-frus-retrospective-account-usage.mjs a direct edit that changes memoir, diary, oral-history, recollection, page/locator, selected/supplemental, official-record-relationship, corroboration, or conflict language without target-volume registry support; it must fail.",
+    "Give validate-frus-retrospective-account-registry.mjs a duplicate retrospective_account_id or malformed retrospective-account-registry schema; it must fail.",
     "Give audit-frus-treaty-usage.mjs a direct edit that changes treaty component identity, integral/associated status, legal process, ratification, or entry-into-force language without target-volume registry support; it must fail.",
     "Give validate-frus-treaty-registry.mjs a duplicate treaty_id or malformed treaty-registry schema; it must fail.",
     "Give audit-frus-foreign-org-usage.mjs a direct edit that changes country, alliance, international-organization, successor-state, treaty-party, or conference identity without target-volume registry support; it must fail.",

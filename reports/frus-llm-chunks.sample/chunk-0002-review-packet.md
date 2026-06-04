@@ -650,6 +650,17 @@ Editorial notes should summarize pertinent unprinted material, locations of
 additional sources, related documents, key events, public statements, and
 memoirs or first-hand accounts when they supplement the official record.
 
+### Retrospective Accounts
+
+Memoirs, published or personal diaries, oral histories, later interviews,
+recollections, press retrospectives, and newspaper accounts are attributed
+supplemental context unless the target-volume registry proves selected-source
+status. Preserve author/source, title or collection, page/locator, event match,
+official-record relationship, selected/supplemental status, corroborating
+record, and conflict status. Do not rewrite recollection as official minutes,
+approval, source-path, participant, attachment, or classified-text fact without
+supplied evidence.
+
 ### Attachments And Negative Searches
 
 Keep these forms distinct:
@@ -4963,6 +4974,167 @@ Use this to check speeches, public remarks, press releases, press conferences, b
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d66",
       "verification_status": "verified_published_public_source_record"
+    }
+  ]
+}
+```
+
+## Retrospective Account Registry Context
+
+Use this to check memoirs, published or personal diaries, oral histories, later interviews, recollections, press retrospectives, newspaper accounts, author/source, publication, page locator, event match, selected-versus-supplemental status, official-record relationship, corroborating records, and conflict status. Do not let retrospective accounts replace official records; use comment-only unless the target-volume retrospective-account registry proves the exact direct edit.
+
+```json
+{
+  "schema_version": "frus-retrospective-account-registry-v1",
+  "retrospective_account_registry_id": "frus-reagan-foundations-retrospective-account-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d18",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d34",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d236",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d260",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d282",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d316"
+  ],
+  "scope": "Sample registry of published Reagan Foundations retrospective-account forms for checking memoir, diary, oral-history, later-interview, recollection, and press-retrospective apparatus without letting those accounts replace the official record.",
+  "rule_summary": "Treat memoirs, published or personal diaries, oral histories, later interviews, press retrospectives, and recollections as attributed supplemental context unless the target-volume registry proves they are selected evidence. Preserve author/source, title, page/locator, event match, official-record relationship, selected/supplemental status, corroborating record, and conflict status before any direct edit.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [],
+  "records": [
+    {
+      "retrospective_account_id": "retro-v01-d18-haig-caveat-offer",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d18",
+      "document_number": "18",
+      "unit_scope": "editorial note",
+      "record_type": "memoir_recollection",
+      "approved_phrase": "In his memoir of his tenure as Secretary of State, Haig noted",
+      "account_author_or_source": "Alexander M. Haig, Jr.",
+      "publication_or_collection": "Caveat",
+      "page_or_locator": "pages 12, 13-14; pages 37-52",
+      "event_or_document_described": "Reagan offer to Haig and Haig confirmation hearings",
+      "official_record_relationship": "supplements Senate hearing and confirmation chronology",
+      "selected_or_supplemental_status": "supplemental_recollection",
+      "corroborating_record": "Senate hearing transcript and Senate vote chronology",
+      "conflict_status": "no_conflict_noted",
+      "variant_forms": [
+        "Haig, Caveat, pages 12, 13-14",
+        "For Haig's recollection of the hearings, see Caveat, pages 37-52"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d18",
+      "verification_status": "verified_published_retrospective_account"
+    },
+    {
+      "retrospective_account_id": "retro-v01-d34-haig-middle-east",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d34",
+      "document_number": "34",
+      "unit_scope": "footnote 2",
+      "record_type": "memoir_recollection",
+      "approved_phrase": "In his memoir, Haig explained the genesis of the visit",
+      "account_author_or_source": "Alexander M. Haig, Jr.",
+      "publication_or_collection": "Caveat",
+      "page_or_locator": "p. 89",
+      "event_or_document_described": "Genesis of Haig Middle East trip",
+      "official_record_relationship": "supplements scheduled trip documentation, Department of State Bulletin remarks, and attached Cairo telegram",
+      "selected_or_supplemental_status": "supplemental_recollection",
+      "corroborating_record": "travel schedule, Department of State Bulletin, attached telegram 5379 from Cairo",
+      "conflict_status": "no_conflict_noted",
+      "variant_forms": [
+        "Haig, Caveat, p. 89"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d34",
+      "verification_status": "verified_published_retrospective_account"
+    },
+    {
+      "retrospective_account_id": "retro-v01-d236-reagan-diary-shultz-memoir",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d236",
+      "document_number": "236",
+      "unit_scope": "source note",
+      "record_type": "published_personal_diary_and_memoir",
+      "approved_phrase": "In his personal diary entry for March 11, the President wrote",
+      "account_author_or_source": "Ronald Reagan; George P. Shultz",
+      "publication_or_collection": "The Reagan Diaries; Turmoil and Triumph",
+      "page_or_locator": "Reagan Diaries vol. I, p. 434; Shultz memoir p. 527",
+      "event_or_document_described": "March 11, 1985 Shultz meeting with Reagan after Chernenko's death",
+      "official_record_relationship": "supplements talking points, President's Daily Diary, and related document cross-reference",
+      "selected_or_supplemental_status": "supplemental_diary_and_recollection",
+      "corroborating_record": "President's Daily Diary and selected talking points",
+      "conflict_status": "no_conflict_noted",
+      "variant_forms": [
+        "In his memoir, Shultz wrote of the March 11 meeting",
+        "Brinkley, ed., The Reagan Diaries, vol. I, January 1981-October 1985, p. 434",
+        "Shultz, Turmoil and Triumph, p. 527"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d236",
+      "verification_status": "verified_published_retrospective_account"
+    },
+    {
+      "retrospective_account_id": "retro-v01-d260-shultz-arms-control",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d260",
+      "document_number": "260",
+      "unit_scope": "footnote 3",
+      "record_type": "memoir_recollection",
+      "approved_phrase": "In his memoir, Shultz described the segment of the meeting devoted to U.S.-Soviet issues",
+      "account_author_or_source": "George P. Shultz",
+      "publication_or_collection": "Turmoil and Triumph",
+      "page_or_locator": "pp. 702-703",
+      "event_or_document_described": "January 24, 1986 meeting segment on U.S.-Soviet arms control",
+      "official_record_relationship": "supplements prepared paper and President's Daily Diary meeting evidence",
+      "selected_or_supplemental_status": "supplemental_recollection",
+      "corroborating_record": "Secretary's Meeting with the President paper and President's Daily Diary",
+      "conflict_status": "no_conflict_noted",
+      "variant_forms": [
+        "Shultz, Turmoil and Triumph, pp. 702-703"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d260",
+      "verification_status": "verified_published_retrospective_account"
+    },
+    {
+      "retrospective_account_id": "retro-v01-d282-shultz-iran-press",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d282",
+      "document_number": "282",
+      "unit_scope": "source note",
+      "record_type": "memoir_recollection",
+      "approved_phrase": "In his memoir, Shultz described his reaction to the President's November 19 press conference",
+      "account_author_or_source": "George P. Shultz",
+      "publication_or_collection": "Turmoil and Triumph",
+      "page_or_locator": "pp. 830-831",
+      "event_or_document_described": "Shultz reaction to Reagan November 19, 1986 Iran arms news conference",
+      "official_record_relationship": "supplements handwritten talking points and Public Papers press-conference text",
+      "selected_or_supplemental_status": "supplemental_recollection",
+      "corroborating_record": "Hill handwritten talking points and Public Papers press-conference text",
+      "conflict_status": "no_conflict_noted",
+      "variant_forms": [
+        "Shultz, Turmoil and Triumph, pp. 830-831"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d282",
+      "verification_status": "verified_published_retrospective_account"
+    },
+    {
+      "retrospective_account_id": "retro-v01-d316-reagan-diary-schedule",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d316",
+      "document_number": "316",
+      "unit_scope": "source note",
+      "record_type": "published_personal_diary",
+      "approved_phrase": "in his personal diary entry for January 6, the President noted",
+      "account_author_or_source": "Ronald Reagan diary edited by Douglas Brinkley",
+      "publication_or_collection": "The Reagan Diaries",
+      "page_or_locator": "vol. II, p. 822",
+      "event_or_document_described": "January 6, 1988 meeting with Shultz on foreign policy schedule",
+      "official_record_relationship": "supplements no-minutes note, President's Daily Diary, and Shultz meeting paper",
+      "selected_or_supplemental_status": "supplemental_diary_context",
+      "corroborating_record": "President's Daily Diary and Shultz meeting paper",
+      "conflict_status": "no_conflict_noted",
+      "variant_forms": [
+        "Brinkley, ed., The Reagan Diaries, vol. II, November 1985-January 1989, p. 822"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d316",
+      "verification_status": "verified_published_retrospective_account"
     }
   ]
 }

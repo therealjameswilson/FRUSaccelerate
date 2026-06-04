@@ -217,6 +217,8 @@ try {
       "reports/frus-chronology-registry.sample.json",
       "--public-source-registry",
       "reports/frus-public-source-registry.sample.json",
+      "--retrospective-account-registry",
+      "reports/frus-retrospective-account-registry.sample.json",
       "--treaty-registry",
       "reports/frus-treaty-registry.sample.json",
       "--foreign-org-registry",
@@ -296,6 +298,13 @@ try {
   assert(audit.counts.public_source_registry_usages === 0, "expected zero public-source registry usages");
   assert(audit.counts.public_source_registry_warnings === 0, "expected zero public-source registry warnings");
   assert(audit.counts.public_source_direct_edit_conflicts === 0, "expected zero public-source direct-edit conflicts");
+  assert(audit.counts.retrospective_account_registry_usages === 0, "expected zero retrospective-account usages");
+  assert(audit.counts.retrospective_account_registry_warnings === 0, "expected zero retrospective-account warnings");
+  assert(audit.counts.retrospective_account_unmatched_like_units === 0, "expected zero unmatched retrospective-like units");
+  assert(
+    audit.counts.retrospective_account_direct_edit_conflicts === 0,
+    "expected zero retrospective-account direct-edit conflicts"
+  );
   assert(audit.counts.treaty_registry_usages === 0, "expected zero treaty registry usages");
   assert(audit.counts.treaty_registry_warnings === 0, "expected zero treaty registry warnings");
   assert(audit.counts.treaty_direct_edit_conflicts === 0, "expected zero treaty direct-edit conflicts");
@@ -358,6 +367,8 @@ try {
     "chronology-usage-audit.json",
     "public-source-registry-validation.json",
     "public-source-usage-audit.json",
+    "retrospective-account-registry-validation.json",
+    "retrospective-account-usage-audit.json",
     "treaty-registry-validation.json",
     "treaty-usage-audit.json",
     "foreign-org-registry-validation.json",
@@ -407,6 +418,14 @@ try {
   assert(audit.reports.chronology_usage_audit.status === "pass", "expected chronology usage audit report");
   assert(audit.reports.public_source_registry_validation.summary.records === 6, "expected public-source registry validation report");
   assert(audit.reports.public_source_usage_audit.status === "pass", "expected public-source usage audit report");
+  assert(
+    audit.reports.retrospective_account_registry_validation.summary.records === 6,
+    "expected retrospective-account registry validation report"
+  );
+  assert(
+    audit.reports.retrospective_account_usage_audit.status === "pass",
+    "expected retrospective-account usage audit report"
+  );
   assert(audit.reports.treaty_registry_validation.summary.records === 7, "expected treaty registry validation report");
   assert(audit.reports.treaty_usage_audit.status === "pass", "expected treaty usage audit report");
   assert(audit.reports.foreign_org_registry_validation.summary.records === 10, "expected foreign-org registry validation report");
@@ -435,7 +454,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/chronology/public-source/treaty/foreign-org/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/chronology/public-source/retrospective-account/treaty/foreign-org/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

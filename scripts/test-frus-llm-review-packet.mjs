@@ -57,6 +57,8 @@ try {
     "reports/frus-chronology-registry.sample.json",
     "--public-source-registry",
     "reports/frus-public-source-registry.sample.json",
+    "--retrospective-account-registry",
+    "reports/frus-retrospective-account-registry.sample.json",
     "--treaty-registry",
     "reports/frus-treaty-registry.sample.json",
     "--foreign-org-registry",
@@ -130,6 +132,9 @@ try {
   assert(markdown.includes("Public Source And Public Diplomacy Registry Context"), "expected public-source registry section");
   assert(markdown.includes("Public Papers: Bush, 1991, pages 986-987"), "expected Public Papers registry content");
   assert(markdown.includes("Department of State Dispatch Supplement, October 1991"), "expected Department of State Dispatch registry content");
+  assert(markdown.includes("Retrospective Account Registry Context"), "expected retrospective-account registry section");
+  assert(markdown.includes("In his memoir, Shultz described the segment"), "expected Shultz memoir registry content");
+  assert(markdown.includes("official-record relationship"), "expected retrospective-account guardrail text");
   assert(markdown.includes("Treaty And Legal Instrument Registry Context"), "expected treaty registry section");
   assert(markdown.includes("Conversion or Elimination Protocol"), "expected treaty registry content");
   assert(markdown.includes("associated with, but not integral parts of, the Treaty"), "expected treaty associated-document content");
@@ -202,6 +207,15 @@ try {
   assert(packet.contexts.public_source_registry.records.length === 6, "expected public-source registry records");
   assert(packet.contexts.public_source_registry.target_records.length > 0, "expected target public-source records");
   assert(packet.packet_summary.public_source_registry_records === 6, "expected public-source registry count");
+  assert(packet.contexts.retrospective_account_registry.records.length === 6, "expected retrospective-account registry records");
+  assert(
+    packet.contexts.retrospective_account_registry.target_records.length === 0,
+    "expected no target retrospective-account records for cross-volume Reagan sample"
+  );
+  assert(
+    packet.packet_summary.retrospective_account_registry_records === 6,
+    "expected retrospective-account registry count"
+  );
   assert(packet.contexts.treaty_registry.records.length === 7, "expected treaty registry records");
   assert(packet.contexts.treaty_registry.target_records.length > 0, "expected target treaty records");
   assert(packet.packet_summary.treaty_registry_records === 7, "expected treaty registry count");
@@ -232,7 +246,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, public-source, treaty, foreign-org, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, public-source, retrospective-account, treaty, foreign-org, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }
