@@ -12460,9 +12460,11 @@ Minimum components:
   `reports/frus-footnote-referback-units.sample.json`, and
   `reports/frus-footnote-referback-audit.sample.json`. The audit checks
   Reagan Foundations-style repeated-reference discipline: cross-document
-  `footnote N, Document X`, same-document above/below or local context,
-  `Document X and footnote Y thereto`, Document 146-style three-target
-  footnote/document clusters, and the separate three-times rule that treats the
+  `footnote N, Document X`, plural same-document `footnotes N and M, Document
+  X`, mixed `footnote N, Document X and Document Y`, same-document above/below
+  or local context, `Document X and footnote Y thereto`, Document 146-style
+  three-target footnote/document clusters, and the separate three-times rule
+  that treats the
   third full citation occurrence of the same citation, whether parenthetical or
   plain source-note text, as the first human refer-back review trigger and every
   later full citation occurrence as a continued review unit. It detects Public
@@ -12472,7 +12474,8 @@ Minimum components:
   fourth occurrence. The registry carries the `repeat_threshold` and
   target-confirmation action so
   closed-network packets preserve the rule even in small-context runs. It fails
-  direct refer-back edits that lack registry support.
+  direct refer-back edits and direct repeated-citation replacements that lack
+  registry support.
 - No-dependency recurring compiler-risk validator, usage audit, and fixtures:
   `scripts/validate-frus-recurring-risk-registry.mjs`,
   `scripts/audit-frus-recurring-risk-usage.mjs`,

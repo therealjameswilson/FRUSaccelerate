@@ -2,7 +2,7 @@
 
 - schema_version: frus-llm-review-packet-v1
 - run_id: sample-packet
-- generated_at: 2026-06-04T08:09:12.179Z
+- generated_at: 2026-06-04T08:27:06.996Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -182,7 +182,7 @@ Every reviewable extracted editorial unit should have a checker entry. Use `reco
   "military_crisis_registry_records": 16,
   "intelligence_law_enforcement_registry_records": 15,
   "human_rights_refugee_global_issues_registry_records": 12,
-  "footnote_referback_registry_records": 8,
+  "footnote_referback_registry_records": 11,
   "recurring_risk_registry_records": 13,
   "negative_search_registry_records": 6,
   "document_relationship_registry_records": 10,
@@ -551,9 +551,11 @@ image, official transcript, or target-volume editorial-method registry proves
 the exact change.
 For real Reagan/Bush 1981-1992 footnote refer-back review, replace the sample
 footnote refer-back registry with target-volume examples for repeated
-cross-document `footnote N, Document X` references, same-document above/below or
-local-context references, `Document X and footnote Y thereto` references, and
-published multi-target clusters. Treat the third full citation occurrence of
+cross-document `footnote N, Document X` references, plural same-document
+`footnotes N and M, Document X` references, mixed `footnote N, Document X and
+Document Y` references, same-document above/below or local-context references,
+`Document X and footnote Y thereto` references, and published multi-target
+clusters. Treat the third full citation occurrence of
 the same citation, whether parenthetical or plain source-note text, as the first
 human review trigger for a possible refer-back, and flag every later full
 citation occurrence too. Reagan Foundations citations can appear both with a
@@ -566,7 +568,8 @@ should carry `repeat_threshold: 3` and a plain-language
 the third full citation occurrence itself and every later full citation
 occurrence, including source-note citations outside parentheses, require
 comment-only target confirmation unless a registry-backed direct edit is
-available. Validate the
+available. Do not directly replace a repeated full citation with a guessed
+`see footnote` target. Validate the
 registry with
 `scripts/validate-frus-footnote-referback-registry.mjs` before direct
 refer-back edits.
@@ -10138,7 +10141,7 @@ Use this to check human-rights reports, Country Reports, refugee, immigration, a
 
 ## Footnote Refer-Back Registry Context
 
-Use this to check repeated-reference footnote discipline in follow-on footnotes and source notes. Reagan Foundations models cross-document `footnote N, Document X`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. Apply the registry `repeat_threshold`: the first and second full citation occurrences may stand, but the third full citation occurrence itself and every later full citation occurrence, including plain source-note citations outside parentheses, are production-review triggers for a possible refer-back. Do not wait for a fourth occurrence. Do not invent refer-back targets; use comment-only unless the registry proves the exact direct edit.
+Use this to check repeated-reference footnote discipline in follow-on footnotes and source notes. Reagan Foundations models cross-document `footnote N, Document X`, plural same-document `footnotes N and M, Document X`, mixed `footnote N, Document X and Document Y`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. Apply the registry `repeat_threshold`: the first and second full citation occurrences may stand, but the third full citation occurrence itself and every later full citation occurrence, including plain source-note citations outside parentheses, are production-review triggers for a possible refer-back. Do not wait for a fourth occurrence. Do not invent refer-back targets or directly replace a repeated full citation unless the registry proves the exact published target form.
 
 ```json
 {
@@ -10147,6 +10150,8 @@ Use this to check repeated-reference footnote discipline in follow-on footnotes 
   "captured_at": "2026-06-03",
   "source_urls": [
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d45",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d56",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d70",
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d74",
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d146",
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d217",
@@ -10154,7 +10159,7 @@ Use this to check repeated-reference footnote discipline in follow-on footnotes 
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d316"
   ],
   "scope": "Sample registry of published Reagan Foundations footnote refer-back forms for checking FRUS annotation-sheet footnotes and source-note citations without inventing targets.",
-  "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: whether the repeated citation is parenthetical or plain source-note text, the third full citation occurrence of the same citation is the first human review trigger for a proper footnote refer-back, and every later full citation occurrence remains a review unit. Do not wait for a fourth occurrence. Cross-document targets take `footnote N, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; Document 146 separately models a three-target footnote/document cluster. Repeated-citation matching must catch both Reagan Foundations Public Papers forms with Book markers and no-Book forms such as `Public Papers: Reagan, 1981, p. 1156`.",
+  "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: whether the repeated citation is parenthetical or plain source-note text, the third full citation occurrence of the same citation is the first human review trigger for a proper footnote refer-back, and every later full citation occurrence remains a review unit. Do not wait for a fourth occurrence. Cross-document targets take `footnote N, Document X`; plural same-document targets can take `footnotes N and M, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; Document 146 separately models a three-target footnote/document cluster. Repeated-citation matching must catch both Reagan Foundations Public Papers forms with Book markers and no-Book forms such as `Public Papers: Reagan, 1981, p. 1156`.",
   "repeat_threshold": 3,
   "repeat_threshold_action": "The first and second full citation occurrences may stand; on the third full citation occurrence itself and every later full citation occurrence, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not wait for a fourth occurrence, and do not rewrite unless the target footnote/document is verified in the registry.",
   "target_volume": "frus1989-92v31",
@@ -10206,6 +10211,99 @@ Use this to check repeated-reference footnote discipline in follow-on footnotes 
       ],
       "rule_basis": "Document 45 ties the footnote reference to the named document with `thereto`.",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d45",
+      "verification_status": "verified_published_form"
+    },
+    {
+      "referback_id": "referback-v01-d56-fn3-d53-fn12-13",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d56",
+      "source_document_number": "56",
+      "source_unit_label": "footnote 3",
+      "referback_type": "plural_footnotes_same_document",
+      "approved_phrase": "See footnotes 12 and 13, Document 53",
+      "variant_forms": [
+        "see footnotes 12 and 13, Document 53"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "frus1981-88v01/d53",
+          "target_document_number": "53",
+          "target_footnote_number": "12",
+          "target_label": "footnote 12, Document 53",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d53"
+        },
+        {
+          "target_document_id": "frus1981-88v01/d53",
+          "target_document_number": "53",
+          "target_footnote_number": "13",
+          "target_label": "footnote 13, Document 53",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d53"
+        }
+      ],
+      "rule_basis": "Document 56 models plural footnote targets in a single target document.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d56",
+      "verification_status": "verified_published_form"
+    },
+    {
+      "referback_id": "referback-v01-d56-fn7-d48-fn3-6",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d56",
+      "source_document_number": "56",
+      "source_unit_label": "footnote 7",
+      "referback_type": "plural_footnotes_same_document",
+      "approved_phrase": "See footnotes 3 and 6, Document 48",
+      "variant_forms": [
+        "see footnotes 3 and 6, Document 48"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "frus1981-88v01/d48",
+          "target_document_number": "48",
+          "target_footnote_number": "3",
+          "target_label": "footnote 3, Document 48",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d48"
+        },
+        {
+          "target_document_id": "frus1981-88v01/d48",
+          "target_document_number": "48",
+          "target_footnote_number": "6",
+          "target_label": "footnote 6, Document 48",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d48"
+        }
+      ],
+      "rule_basis": "Document 56 repeats the plural same-document-footnotes construction.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d56",
+      "verification_status": "verified_published_form"
+    },
+    {
+      "referback_id": "referback-v01-d70-fn8-d65-d66",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d70",
+      "source_document_number": "70",
+      "source_unit_label": "footnote 8",
+      "referback_type": "mixed_footnote_document_reference",
+      "approved_phrase": "See footnote 8, Document 65 and Document 66",
+      "variant_forms": [
+        "see footnote 8, Document 65 and Document 66"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "frus1981-88v01/d65",
+          "target_document_number": "65",
+          "target_footnote_number": "8",
+          "target_label": "footnote 8, Document 65",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d65"
+        },
+        {
+          "target_document_id": "frus1981-88v01/d66",
+          "target_document_number": "66",
+          "target_footnote_number": "",
+          "target_label": "Document 66",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d66"
+        }
+      ],
+      "rule_basis": "Document 70 models a mixed footnote/document refer-back where one target is a footnote and the second target is a document.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d70",
       "verification_status": "verified_published_form"
     },
     {
@@ -10393,7 +10491,7 @@ Use this as a practical spellcheck list for recurring compiler mistakes: leading
   "schema_version": "frus-recurring-risk-registry-v1",
   "recurring_risk_registry_id": "frus-recurring-compiler-risk-sample-2026-06-03",
   "captured_at": "2026-06-03",
-  "source_basis": "Compiler self-disclosure supplied by James Wilson on June 3, 2026; generalized as recurring risks that other compilers and reviewers may also share. Document-reference and footnote-referback forms are checked against Reagan Foundations published examples in FRUS, 1981-1988, volume I, including Documents 45, 74, 146, 217, 267, and 316.",
+  "source_basis": "Compiler self-disclosure supplied by James Wilson on June 3, 2026; generalized as recurring risks that other compilers and reviewers may also share. Document-reference and footnote-referback forms are checked against Reagan Foundations published examples in FRUS, 1981-1988, volume I, including Documents 45, 56, 70, 74, 146, 217, 267, and 316.",
   "scope": "Practical spellcheck-style risk register for recurrent FRUS annotation-sheet mistakes: telegram number zeros, eRecords copy basis, cross-reference slugs, Document XX construction, footnote refer-back discipline, page breaks, footnote placement, Word autoformatting, incomplete documents/source notes/backups, quote highlighting, telegram headers, and Style Guide consistency.",
   "records": [
     {
@@ -10556,7 +10654,7 @@ Use this as a practical spellcheck list for recurring compiler mistakes: leading
       "risk_family": "footnote_referback",
       "title": "Footnote refer-back rule may be missed after repeated references",
       "anti_pattern": "Repeating full citation/source details after the threshold for a refer-back has been reached, or using a bare see-footnote construction without Document or above/below context.",
-      "approved_practice": "After repeated references to the same item, refer back rather than reciting the citation again: within the same document use `see footnote 5, above` or a bare same-document parenthetical only when the sentence itself supplies the above/below context; across documents use `see footnote 9, Document 56`, `see footnote 6, Document 265 and footnote 2, Document 312`, or `See Document 34 and footnote 2 thereto`; straight document references use `See Document 69.` Treat the third full citation occurrence itself and every later full citation occurrence, including plain source-note citations outside parentheses, as production-review triggers requiring human confirmation of the target. Do not wait for a fourth occurrence.",
+      "approved_practice": "After repeated references to the same item, refer back rather than reciting the citation again: within the same document use `see footnote 5, above` or a bare same-document parenthetical only when the sentence itself supplies the above/below context; across documents use `see footnote 9, Document 56`, plural `See footnotes 12 and 13, Document 53`, mixed `See footnote 8, Document 65 and Document 66`, `see footnote 6, Document 265 and footnote 2, Document 312`, or `See Document 34 and footnote 2 thereto`; straight document references use `See Document 69.` Treat the third full citation occurrence itself and every later full citation occurrence, including plain source-note citations outside parentheses, as production-review triggers requiring human confirmation of the target. Do not wait for a fourth occurrence.",
       "unit_types": [
         "follow_on_footnote",
         "editorial_note",
@@ -10565,17 +10663,18 @@ Use this as a practical spellcheck list for recurring compiler mistakes: leading
       ],
       "detector_patterns": [
         "\\b(?:refer back|three[- ]times|3[- ]times|third reference|repeat(?:ed|ing)? full citation)\\b",
-        "\\bsee footnote\\s+(?:TK|TBD|XX|\\?\\?)\\b",
-        "\\bsee footnote\\s+\\d+\\b(?!(?:,\\s*(?:above|below|Document\\s+\\d+)|\\s+thereto))"
+        "\\bsee footnotes?\\s+(?:TK|TBD|XX|\\?\\?)\\b",
+        "\\bsee footnotes?\\s+\\d+(?:\\s*(?:,|and)\\s*\\d+)*\\b(?!(?:,\\s*(?:above|below|Document\\s+\\d+)|\\s+thereto))"
       ],
       "direct_edit_policy": "comment_only_by_default",
       "evidence_request": "cross_reference",
-      "comment_template": "Check whether this repeated reference should use a footnote refer-back. Reagan Foundations models same-document `see footnote N, above`, same-document local-context `B above (see footnote N)`, and cross-document `see footnote N, Document X` forms; confirm the target before rewriting.",
+      "comment_template": "Check whether this repeated reference should use a footnote refer-back. Reagan Foundations models same-document `see footnote N, above`, same-document local-context `B above (see footnote N)`, cross-document `see footnote N, Document X`, plural `See footnotes N and M, Document X`, and mixed `See footnote N, Document X and Document Y` forms; confirm the target before rewriting.",
       "severity": "major",
-      "source_basis": "James Wilson follow-up note on the footnote refer-back rule; Reagan Foundations published examples: Documents 45, 74, 146, 217, 267, and 316.",
+      "source_basis": "James Wilson follow-up note on the footnote refer-back rule; Reagan Foundations published examples: Documents 45, 56, 70, 74, 146, 217, 267, and 316.",
       "variant_forms": [
         "third reference repeats full citation",
         "see footnote TK",
+        "see footnotes 12 and 13, Document 53",
         "see footnote 5",
         "B above (see footnote 9)",
         "see footnote 5, above",

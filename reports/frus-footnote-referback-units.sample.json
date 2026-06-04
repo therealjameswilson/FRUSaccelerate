@@ -233,6 +233,61 @@
       "edit_safety": "safe",
       "comment_safety": "safe",
       "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0022",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 56 footnote 3",
+      "exact_text": "See footnotes 12 and 13, Document 53.",
+      "display_text": "See footnotes 12 and 13, Document 53.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0023",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 56 footnote 7",
+      "exact_text": "See footnotes 3 and 6, Document 48.",
+      "display_text": "See footnotes 3 and 6, Document 48.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0024",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 70 footnote 8",
+      "exact_text": "See footnote 8, Document 65 and Document 66.",
+      "display_text": "See footnote 8, Document 65 and Document 66.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0025",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft plural footnote missing comma",
+      "exact_text": "See footnotes 3 and 6 Document 48.",
+      "display_text": "See footnotes 3 and 6 Document 48.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0026",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft plural footnote lowercase target",
+      "exact_text": "See footnotes 12 and 13, document 53.",
+      "display_text": "See footnotes 12 and 13, document 53.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
     }
   ]
 }

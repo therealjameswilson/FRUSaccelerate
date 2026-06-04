@@ -4,6 +4,8 @@
   "captured_at": "2026-06-03",
   "source_urls": [
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d45",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d56",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d70",
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d74",
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d146",
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d217",
@@ -11,7 +13,7 @@
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d316"
   ],
   "scope": "Sample registry of published Reagan Foundations footnote refer-back forms for checking FRUS annotation-sheet footnotes and source-note citations without inventing targets.",
-  "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: whether the repeated citation is parenthetical or plain source-note text, the third full citation occurrence of the same citation is the first human review trigger for a proper footnote refer-back, and every later full citation occurrence remains a review unit. Do not wait for a fourth occurrence. Cross-document targets take `footnote N, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; Document 146 separately models a three-target footnote/document cluster. Repeated-citation matching must catch both Reagan Foundations Public Papers forms with Book markers and no-Book forms such as `Public Papers: Reagan, 1981, p. 1156`.",
+  "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: whether the repeated citation is parenthetical or plain source-note text, the third full citation occurrence of the same citation is the first human review trigger for a proper footnote refer-back, and every later full citation occurrence remains a review unit. Do not wait for a fourth occurrence. Cross-document targets take `footnote N, Document X`; plural same-document targets can take `footnotes N and M, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; Document 146 separately models a three-target footnote/document cluster. Repeated-citation matching must catch both Reagan Foundations Public Papers forms with Book markers and no-Book forms such as `Public Papers: Reagan, 1981, p. 1156`.",
   "repeat_threshold": 3,
   "repeat_threshold_action": "The first and second full citation occurrences may stand; on the third full citation occurrence itself and every later full citation occurrence, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not wait for a fourth occurrence, and do not rewrite unless the target footnote/document is verified in the registry.",
   "records": [
@@ -61,6 +63,99 @@
       ],
       "rule_basis": "Document 45 ties the footnote reference to the named document with `thereto`.",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d45",
+      "verification_status": "verified_published_form"
+    },
+    {
+      "referback_id": "referback-v01-d56-fn3-d53-fn12-13",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d56",
+      "source_document_number": "56",
+      "source_unit_label": "footnote 3",
+      "referback_type": "plural_footnotes_same_document",
+      "approved_phrase": "See footnotes 12 and 13, Document 53",
+      "variant_forms": [
+        "see footnotes 12 and 13, Document 53"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "frus1981-88v01/d53",
+          "target_document_number": "53",
+          "target_footnote_number": "12",
+          "target_label": "footnote 12, Document 53",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d53"
+        },
+        {
+          "target_document_id": "frus1981-88v01/d53",
+          "target_document_number": "53",
+          "target_footnote_number": "13",
+          "target_label": "footnote 13, Document 53",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d53"
+        }
+      ],
+      "rule_basis": "Document 56 models plural footnote targets in a single target document.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d56",
+      "verification_status": "verified_published_form"
+    },
+    {
+      "referback_id": "referback-v01-d56-fn7-d48-fn3-6",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d56",
+      "source_document_number": "56",
+      "source_unit_label": "footnote 7",
+      "referback_type": "plural_footnotes_same_document",
+      "approved_phrase": "See footnotes 3 and 6, Document 48",
+      "variant_forms": [
+        "see footnotes 3 and 6, Document 48"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "frus1981-88v01/d48",
+          "target_document_number": "48",
+          "target_footnote_number": "3",
+          "target_label": "footnote 3, Document 48",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d48"
+        },
+        {
+          "target_document_id": "frus1981-88v01/d48",
+          "target_document_number": "48",
+          "target_footnote_number": "6",
+          "target_label": "footnote 6, Document 48",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d48"
+        }
+      ],
+      "rule_basis": "Document 56 repeats the plural same-document-footnotes construction.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d56",
+      "verification_status": "verified_published_form"
+    },
+    {
+      "referback_id": "referback-v01-d70-fn8-d65-d66",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d70",
+      "source_document_number": "70",
+      "source_unit_label": "footnote 8",
+      "referback_type": "mixed_footnote_document_reference",
+      "approved_phrase": "See footnote 8, Document 65 and Document 66",
+      "variant_forms": [
+        "see footnote 8, Document 65 and Document 66"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "frus1981-88v01/d65",
+          "target_document_number": "65",
+          "target_footnote_number": "8",
+          "target_label": "footnote 8, Document 65",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d65"
+        },
+        {
+          "target_document_id": "frus1981-88v01/d66",
+          "target_document_number": "66",
+          "target_footnote_number": "",
+          "target_label": "Document 66",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d66"
+        }
+      ],
+      "rule_basis": "Document 70 models a mixed footnote/document refer-back where one target is a footnote and the second target is a document.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d70",
       "verification_status": "verified_published_form"
     },
     {

@@ -9,6 +9,8 @@ const REFERBACK_TYPES = new Set([
   "document_and_thereto",
   "same_document_above",
   "same_document_local_context",
+  "plural_footnotes_same_document",
+  "mixed_footnote_document_reference",
   "plain_document_reference",
   "unknown"
 ]);

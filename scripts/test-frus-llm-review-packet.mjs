@@ -241,6 +241,8 @@ try {
   assert(markdown.includes("Footnote Refer-Back Registry Context"), "expected footnote refer-back registry section");
   assert(markdown.includes("repeat_threshold"), "expected footnote refer-back repeat threshold in Markdown packet");
   assert(markdown.includes("See footnote 6, Document 35"), "expected cross-document footnote refer-back content");
+  assert(markdown.includes("See footnotes 12 and 13, Document 53"), "expected plural footnote refer-back content");
+  assert(markdown.includes("See footnote 8, Document 65 and Document 66"), "expected mixed footnote/document refer-back content");
   assert(markdown.includes("footnote 15, Document 106"), "expected three-target footnote refer-back content");
   assert(markdown.includes("same separate page as B above"), "expected same-document local-context refer-back content");
   assert(markdown.includes("Recurring Compiler Risk Registry Context"), "expected recurring-risk registry section");
@@ -422,13 +424,13 @@ try {
     packet.packet_summary.human_rights_refugee_global_issues_registry_records === 12,
     "expected human-rights/refugee/global-issues registry count"
   );
-  assert(packet.contexts.footnote_referback_registry.records.length === 8, "expected footnote refer-back registry records");
+  assert(packet.contexts.footnote_referback_registry.records.length === 11, "expected footnote refer-back registry records");
   assert(packet.contexts.footnote_referback_registry.repeat_threshold === 3, "expected footnote refer-back threshold context");
   assert(
     packet.contexts.footnote_referback_registry.target_records.length === 0,
     "expected no target footnote refer-back records for cross-volume Reagan sample"
   );
-  assert(packet.packet_summary.footnote_referback_registry_records === 8, "expected footnote refer-back registry count");
+  assert(packet.packet_summary.footnote_referback_registry_records === 11, "expected footnote refer-back registry count");
   assert(packet.contexts.recurring_risk_registry.records.length === 13, "expected recurring-risk registry records");
   assert(packet.packet_summary.recurring_risk_registry_records === 13, "expected recurring-risk registry count");
   assert(packet.contexts.negative_search_registry.records.length === 6, "expected negative-search registry records");

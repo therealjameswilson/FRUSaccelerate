@@ -35,7 +35,7 @@ try {
   }
   const validationReport = JSON.parse(validation.stdout);
   assert(validationReport.status === "pass", "expected footnote refer-back registry validation pass");
-  assert(validationReport.summary.records === 8, "expected eight footnote refer-back records");
+  assert(validationReport.summary.records === 11, "expected eleven footnote refer-back records");
   assert(validationReport.summary.repeat_threshold === 3, "expected three-times refer-back threshold");
 
   const audit = run("scripts/audit-frus-footnote-referback-usage.mjs", [
@@ -55,19 +55,21 @@ try {
   }
   const report = JSON.parse(audit.stdout);
   assert(report.status === "warning", "expected warning status for malformed refer-back fixture");
-  assert(report.summary.units_scanned === 21, "expected twenty-one units scanned");
-  assert(report.summary.approved_referback_usages === 6, "expected six approved refer-back matches");
-  assert(report.summary.malformed_referbacks === 5, "expected five malformed refer-backs");
+  assert(report.summary.units_scanned === 26, "expected twenty-six units scanned");
+  assert(report.summary.approved_referback_usages === 9, "expected nine approved refer-back matches");
+  assert(report.summary.malformed_referbacks === 9, "expected nine malformed refer-backs");
   assert(report.summary.overlong_referback_clusters === 1, "expected one overlong refer-back cluster");
   assert(report.summary.repeated_citation_thresholds === 3, "expected three repeated citation thresholds");
   assert(report.summary.repeated_citation_review_units === 4, "expected four third-and-later repeat review units");
   assert(report.summary.repeat_threshold === 3, "expected audit to use registry repeat threshold");
   assert(report.summary.by_referback_type.multi_target_footnote_cluster === 2, "expected two approved multi-target clusters");
   assert(report.summary.by_referback_type.same_document_local_context === 1, "expected same-document local-context match");
-  assert(report.summary.by_diagnostic_type.missing_comma_before_document === 1, "expected missing comma diagnostic");
-  assert(report.summary.by_diagnostic_type.lowercase_document_target === 1, "expected lowercase Document diagnostic");
+  assert(report.summary.by_referback_type.plural_footnotes_same_document === 2, "expected two approved plural footnote forms");
+  assert(report.summary.by_referback_type.mixed_footnote_document_reference === 1, "expected one mixed footnote/document form");
+  assert(report.summary.by_diagnostic_type.missing_comma_before_document === 2, "expected missing comma diagnostics");
+  assert(report.summary.by_diagnostic_type.lowercase_document_target === 2, "expected lowercase Document diagnostics");
   assert(report.summary.by_diagnostic_type.missing_thereto === 1, "expected missing thereto diagnostic");
-  assert(report.summary.by_diagnostic_type.bare_footnote_without_context === 2, "expected two bare-footnote diagnostics");
+  assert(report.summary.by_diagnostic_type.bare_footnote_without_context === 4, "expected four bare-footnote diagnostics");
   assert(
     report.approved_matches.some((match) => match.referback_id === "referback-v01-d146-fn14-three-targets"),
     "expected Reagan Foundations three-target refer-back model"
@@ -75,6 +77,18 @@ try {
   assert(
     report.approved_matches.some((match) => match.referback_id === "referback-v01-d217-fn10-local-context"),
     "expected same-document local-context model not to be flagged"
+  );
+  assert(
+    report.approved_matches.some((match) => match.referback_id === "referback-v01-d56-fn3-d53-fn12-13"),
+    "expected Reagan Foundations plural footnotes model"
+  );
+  assert(
+    report.approved_matches.some((match) => match.referback_id === "referback-v01-d70-fn8-d65-d66"),
+    "expected Reagan Foundations mixed footnote/document model"
+  );
+  assert(
+    report.warnings.some((warning) => warning.includes("First two full citation occurrences may stand")),
+    "expected threshold-driven repeated-citation warning"
   );
   assert(
     report.repeated_citation_thresholds[0].occurrence_count === 4,
@@ -163,6 +177,20 @@ try {
             comment_text: "",
             evidence_request: "cross_reference",
             verification_target: "published target footnote"
+          },
+          {
+            unit_id: "referback-0014",
+            rule_id: "FAS-FOOTNOTE-003",
+            severity: "minor",
+            category: "citation",
+            finding: "Unsafe repeated full citation replacement.",
+            standard: "Do not invent a refer-back target when the third full citation occurrence triggers review.",
+            recommended_action: "replace_text",
+            original_text: "(Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+            replacement_text: "See above.",
+            comment_text: "",
+            evidence_request: "source_image",
+            verification_target: "published target footnote"
           }
         ],
         global_comments: [],
@@ -187,8 +215,8 @@ try {
   assert(unsafe.status !== 0, "expected unsafe refer-back direct edit to fail");
   const unsafeReport = JSON.parse(unsafe.stdout);
   assert(
-    unsafeReport.summary.direct_footnote_referback_edit_conflicts === 1,
-    "expected one footnote refer-back direct-edit conflict"
+    unsafeReport.summary.direct_footnote_referback_edit_conflicts === 2,
+    "expected two footnote refer-back direct-edit conflicts"
   );
 
   const safeOutput = path.join(tmpDir, "safe-output.json");
@@ -265,7 +293,7 @@ try {
   assert(badValidation.status !== 0, "expected malformed footnote refer-back registry validation to fail");
 
   console.log(
-    "FRUS footnote refer-back audit test passed: Reagan Foundations cross-document, thereto, same-document local-context, above, three-target cluster, malformed forms, parenthetical and plain source-note repeated-citation thresholds, and direct-edit gates work."
+    "FRUS footnote refer-back audit test passed: Reagan Foundations cross-document, plural footnotes, mixed footnote/document, thereto, same-document local-context, above, three-target cluster, malformed forms, parenthetical and plain source-note repeated-citation thresholds, and direct-edit gates work."
   );
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });

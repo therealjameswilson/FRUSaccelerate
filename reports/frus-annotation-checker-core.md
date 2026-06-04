@@ -354,9 +354,11 @@ image, official transcript, or target-volume editorial-method registry proves
 the exact change.
 For real Reagan/Bush 1981-1992 footnote refer-back review, replace the sample
 footnote refer-back registry with target-volume examples for repeated
-cross-document `footnote N, Document X` references, same-document above/below or
-local-context references, `Document X and footnote Y thereto` references, and
-published multi-target clusters. Treat the third full citation occurrence of
+cross-document `footnote N, Document X` references, plural same-document
+`footnotes N and M, Document X` references, mixed `footnote N, Document X and
+Document Y` references, same-document above/below or local-context references,
+`Document X and footnote Y thereto` references, and published multi-target
+clusters. Treat the third full citation occurrence of
 the same citation, whether parenthetical or plain source-note text, as the first
 human review trigger for a possible refer-back, and flag every later full
 citation occurrence too. Reagan Foundations citations can appear both with a
@@ -369,7 +371,8 @@ should carry `repeat_threshold: 3` and a plain-language
 the third full citation occurrence itself and every later full citation
 occurrence, including source-note citations outside parentheses, require
 comment-only target confirmation unless a registry-backed direct edit is
-available. Validate the
+available. Do not directly replace a repeated full citation with a guessed
+`see footnote` target. Validate the
 registry with
 `scripts/validate-frus-footnote-referback-registry.mjs` before direct
 refer-back edits.

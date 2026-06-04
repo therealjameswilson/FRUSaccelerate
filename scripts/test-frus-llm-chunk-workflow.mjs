@@ -208,7 +208,7 @@ try {
     manifest.summary.human_rights_refugee_global_issues_registry_records === 12,
     "expected human-rights/refugee/global-issues registry record count"
   );
-  assert(manifest.summary.footnote_referback_registry_records === 8, "expected footnote refer-back registry record count");
+  assert(manifest.summary.footnote_referback_registry_records === 11, "expected footnote refer-back registry record count");
   assert(manifest.summary.recurring_risk_registry_records === 13, "expected recurring-risk registry record count");
   assert(manifest.summary.negative_search_registry_records === 6, "expected negative-search registry record count");
   assert(manifest.summary.document_relationship_registry_records === 10, "expected document-relationship registry record count");
@@ -395,6 +395,11 @@ try {
   assert(firstPacket.includes("Footnote Refer-Back Registry Context"), "expected footnote refer-back registry context in chunk packet");
   assert(firstPacket.includes("repeat_threshold"), "expected footnote refer-back repeat threshold in chunk packet");
   assert(firstPacket.includes("See footnote 6, Document 35"), "expected footnote refer-back registry content in chunk packet");
+  assert(firstPacket.includes("See footnotes 12 and 13, Document 53"), "expected plural footnote content in chunk packet");
+  assert(
+    firstPacket.includes("See footnote 8, Document 65 and Document 66"),
+    "expected mixed footnote/document content in chunk packet"
+  );
   assert(firstPacket.includes("footnote 15, Document 106"), "expected three-target refer-back content in chunk packet");
   assert(firstPacket.includes("same separate page as B above"), "expected same-document local-context content in chunk packet");
   assert(firstPacket.includes("Recurring Compiler Risk Registry Context"), "expected recurring-risk registry context in chunk packet");

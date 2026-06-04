@@ -10,9 +10,11 @@ const REFERBACK_UNIT_TYPES = new Set([
   "attachment_note",
   "unknown_editorial_text"
 ]);
-const FOOTNOTE_SIGNAL = /\b(?:see\s+)?(?:fn\.?|footnote)\s+(?:\d+|TK|TBD|XX|\?\?)/i;
-const FOOTNOTE_DOCUMENT_PAIR = /\bfootnote\s+(\d+)\s*,\s*Document\s+(\d+)\b/gi;
-const DIRECT_FOOTNOTE_PATTERN = /\b(?:footnote|fn\.?|Document\s+\d+\s+and\s+footnote)\b/i;
+const FOOTNOTE_TARGET_TOKEN = "(?:\\d+|TK|TBD|XX|\\?\\?)";
+const FOOTNOTE_TARGET_LIST = `${FOOTNOTE_TARGET_TOKEN}(?:\\s*(?:,|and)\\s*${FOOTNOTE_TARGET_TOKEN})*`;
+const FOOTNOTE_SIGNAL = new RegExp(`\\b(?:see\\s+)?(?:fn\\.?|footnotes?)\\s+${FOOTNOTE_TARGET_TOKEN}`, "i");
+const FOOTNOTE_DOCUMENT_TARGET = new RegExp(`\\bfootnotes?\\s+(${FOOTNOTE_TARGET_LIST})\\s*,\\s*Document\\s+(\\d+)\\b`, "gi");
+const DIRECT_FOOTNOTE_PATTERN = /\b(?:footnotes?|fn\.?|Document\s+\d+\s+and\s+footnote)\b/i;
 const CITATION_PATTERNS = [
   {
     source_type: "public_papers",
@@ -191,7 +193,7 @@ function appliesToUnit(unit) {
 }
 
 function makeLiteralPattern(form) {
-  return new RegExp(`(?<![A-Za-z0-9])${escapeRegExp(form)}\\.?(?![A-Za-z0-9])`, "gi");
+  return new RegExp(`(?<![A-Za-z0-9])${escapeRegExp(form)}\\.?(?![A-Za-z0-9])`, "g");
 }
 
 function registryForms(registry) {
@@ -279,8 +281,17 @@ function localAboveBelowContext(text, index, matchLength) {
   return /\b(?:above|below|same separate page|same page|attachment thereto|tab thereto)\b/i.test(`${before} ${after}`);
 }
 
-function footnoteDocumentPairCount(text) {
-  return [...text.matchAll(FOOTNOTE_DOCUMENT_PAIR)].length;
+function footnoteTargetCount(value) {
+  return (String(value || "").match(new RegExp(FOOTNOTE_TARGET_TOKEN, "gi")) || []).length;
+}
+
+function footnoteDocumentTargetCount(text) {
+  FOOTNOTE_DOCUMENT_TARGET.lastIndex = 0;
+  let count = 0;
+  for (const match of text.matchAll(FOOTNOTE_DOCUMENT_TARGET)) {
+    count += footnoteTargetCount(match[1]);
+  }
+  return count;
 }
 
 function detectMalformedReferbacks(unit, forms) {
@@ -288,7 +299,7 @@ function detectMalformedReferbacks(unit, forms) {
   const approvedSpans = approvedSpanMatches(text, forms);
   const diagnostics = [];
 
-  const placeholder = /\b(?:see\s+)?(?:fn\.?|footnote)\s+(?:TK|TBD|XX|\?\?)/gi;
+  const placeholder = /\b(?:see\s+)?(?:fn\.?|footnotes?)\s+(?:TK|TBD|XX|\?\?)/gi;
   for (const match of text.matchAll(placeholder)) {
     if (insideSpan(match.index || 0, approvedSpans)) continue;
     diagnostics.push({
@@ -312,19 +323,19 @@ function detectMalformedReferbacks(unit, forms) {
     });
   }
 
-  const missingComma = /\bsee\s+footnote\s+\d+\s+Document\s+\d+/gi;
+  const missingComma = new RegExp(`\\bsee\\s+footnotes?\\s+${FOOTNOTE_TARGET_LIST}\\s+Document\\s+\\d+`, "gi");
   for (const match of text.matchAll(missingComma)) {
     if (insideSpan(match.index || 0, approvedSpans)) continue;
     diagnostics.push({
       diagnostic_type: "missing_comma_before_document",
       matched_text: match[0],
       finding: "Cross-document footnote refer-back lacks the comma before `Document`.",
-      required_action: "Use `see footnote N, Document X` after confirming the target.",
+      required_action: "Use `see footnote N, Document X` or `see footnotes N and M, Document X` after confirming the target.",
       offset: match.index || 0
     });
   }
 
-  const lowerDocument = /\bsee\s+footnote\s+\d+\s*,\s*document\s+\d+/g;
+  const lowerDocument = new RegExp(`\\b[Ss]ee\\s+footnotes?\\s+${FOOTNOTE_TARGET_LIST}\\s*,\\s*document\\s+\\d+`, "g");
   for (const match of text.matchAll(lowerDocument)) {
     if (insideSpan(match.index || 0, approvedSpans)) continue;
     diagnostics.push({
@@ -348,7 +359,10 @@ function detectMalformedReferbacks(unit, forms) {
     });
   }
 
-  const bareFootnote = /\bsee\s+footnote\s+\d+\b(?!\s*,\s*(?:above|below|Document\s+\d+)|\s+thereto)/gi;
+  const bareFootnote = new RegExp(
+    `\\bsee\\s+footnotes?\\s+${FOOTNOTE_TARGET_LIST}\\b(?!\\s*,\\s*(?:above|below|Document\\s+\\d+)|\\s+thereto)`,
+    "gi"
+  );
   for (const match of text.matchAll(bareFootnote)) {
     const index = match.index || 0;
     if (insideSpan(index, approvedSpans)) continue;
@@ -362,16 +376,17 @@ function detectMalformedReferbacks(unit, forms) {
     });
   }
 
-  const pairCount = footnoteDocumentPairCount(text);
-  if (pairCount > 3) {
+  const targetCount = footnoteDocumentTargetCount(text);
+  if (targetCount > 3) {
+    FOOTNOTE_DOCUMENT_TARGET.lastIndex = 0;
     diagnostics.push({
       diagnostic_type: "overlong_footnote_document_cluster",
-      matched_text: text.match(FOOTNOTE_DOCUMENT_PAIR)?.[0] || "footnote/document cluster",
+      matched_text: text.match(FOOTNOTE_DOCUMENT_TARGET)?.[0] || "footnote/document cluster",
       finding: "Footnote contains more than three `footnote N, Document X` refer-back targets.",
       required_action:
         "Treat this as a production-review trigger; Reagan Foundations Document 146 models a three-target cluster, which is distinct from the third repeated-citation refer-back threshold.",
       offset: 0,
-      target_count: pairCount
+      target_count: targetCount
     });
   }
 
@@ -420,6 +435,17 @@ function citationCandidatesForUnit(unit) {
   return candidates;
 }
 
+function textHasCitation(value) {
+  const text = String(value || "");
+  for (const { pattern } of CITATION_PATTERNS) {
+    pattern.lastIndex = 0;
+    const hasMatch = pattern.test(text);
+    pattern.lastIndex = 0;
+    if (hasMatch) return true;
+  }
+  return false;
+}
+
 function ordinal(value) {
   const suffix =
     value % 100 >= 11 && value % 100 <= 13
@@ -432,6 +458,17 @@ function ordinal(value) {
             ? "rd"
             : "th";
   return `${value}${suffix}`;
+}
+
+function countWord(value) {
+  return (
+    {
+      1: "one",
+      2: "two",
+      3: "three",
+      4: "four"
+    }[value] || String(value)
+  );
 }
 
 function repeatedCitationThresholds(units, repeatThreshold, repeatThresholdAction) {
@@ -486,6 +523,16 @@ function repeatedCitationThresholds(units, repeatThreshold, repeatThresholdActio
   return thresholds;
 }
 
+function repeatedCitationWarning(threshold) {
+  const allowedCount = Math.max((threshold.repeat_threshold || 0) - 1, 0);
+  const allowedPhrase =
+    allowedCount === 1
+      ? "First full citation occurrence may stand"
+      : `First ${countWord(allowedCount)} full citation occurrences may stand`;
+  const trigger = ordinal(threshold.repeat_threshold || 0);
+  return `${threshold.review_units.map((unit) => unit.unit_id).join(",")}: ${threshold.finding} ${allowedPhrase}; flag the ${trigger} occurrence and every later occurrence for target confirmation.`;
+}
+
 function directEditConflicts(output, registry, matchesByUnit, diagnosticsByUnit) {
   if (!output || !Array.isArray(output.checks)) return [];
   const approvedForms = new Set(registryForms(registry).map((item) => item.normalized_form));
@@ -494,10 +541,16 @@ function directEditConflicts(output, registry, matchesByUnit, diagnosticsByUnit)
     if (!isPlainObject(check) || !DIRECT_ACTIONS.has(check.recommended_action)) continue;
     const original = check.original_text || "";
     const replacement = check.replacement_text || "";
+    const reviewText = [check.rule_id, check.finding, check.standard, check.comment_text, check.verification_target]
+      .filter(Boolean)
+      .join(" ");
     const touchesReferback =
       DIRECT_FOOTNOTE_PATTERN.test(original) ||
       DIRECT_FOOTNOTE_PATTERN.test(replacement) ||
-      (check.evidence_request || "") === "cross_reference";
+      textHasCitation(original) ||
+      textHasCitation(replacement) ||
+      (check.evidence_request || "") === "cross_reference" ||
+      /\b(?:refer[- ]back|repeated citation|full citation|footnote target)\b/i.test(reviewText);
     if (!touchesReferback) continue;
     const replacementApproved = approvedForms.has(normalizeForm(replacement));
     if (!replacementApproved) {
@@ -566,10 +619,7 @@ function auditFootnoteReferbacks({ unitsDocument, registry, checkerOutput, targe
   const conflicts = directEditConflicts(checkerOutput, registry, matchesByUnit, diagnosticsByUnit);
   const warnings = [
     ...diagnostics.map((diagnostic) => `${diagnostic.unit_id}: ${diagnostic.finding}`),
-    ...thresholds.map(
-      (threshold) =>
-        `${threshold.review_units.map((unit) => unit.unit_id).join(",")}: ${threshold.finding} First two full citation occurrences may stand; flag the third occurrence and every later occurrence for target confirmation.`
-    )
+    ...thresholds.map((threshold) => repeatedCitationWarning(threshold))
   ];
   const hardErrors = conflicts.map((conflict) => `${conflict.unit_id}: ${conflict.finding}`);
   const summary = {

@@ -694,7 +694,7 @@ try {
     "expected human-rights/refugee/global-issues usage audit report"
   );
   assert(
-    audit.reports.footnote_referback_registry_validation.summary.records === 8,
+    audit.reports.footnote_referback_registry_validation.summary.records === 11,
     "expected footnote refer-back registry validation report"
   );
   assert(

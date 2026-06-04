@@ -705,7 +705,10 @@ node scripts/audit-frus-human-rights-refugee-global-issues-usage.mjs --units ext
 35. Run footnote refer-back validation and usage audit when follow-on footnotes
    or editorial notes contain repeated citations, `see footnote`, `Document X
    and footnote Y thereto`, same-document above/below references, or clusters
-   of multiple footnote/document targets. The Reagan Foundations three-times
+   of multiple footnote/document targets. Reagan Foundations also models plural
+   `See footnotes 12 and 13, Document 53` and mixed `See footnote 8, Document
+   65 and Document 66` forms, so do not flatten those into a single-document
+   or bare-Document reference. The Reagan Foundations three-times
    rule should be treated as a repeated-citation review trigger: when the same
    full citation appears for a third time, whether parenthetical or plain
    source-note text, confirm whether a refer-back should replace the repeated
@@ -716,8 +719,8 @@ node scripts/audit-frus-human-rights-refugee-global-issues-usage.mjs --units ext
    Public Papers citations with and without Book markers, since Reagan
    Foundations uses both `Public Papers: Reagan, 1983, Book I, pp. 479-484`
    and `Public Papers: Reagan, 1981, p. 1156` forms. The usage audit fails if
-   the model proposes a direct refer-back edit unsupported by the supplied
-   registry.
+   the model proposes a direct refer-back edit or repeated-citation replacement
+   unsupported by the supplied registry.
 
 ```sh
 node scripts/validate-frus-footnote-referback-registry.mjs --registry footnote-referback-registry.json --format text
