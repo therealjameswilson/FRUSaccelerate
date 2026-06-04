@@ -1,0 +1,95 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source_docx": "sample-frus-annotation-sheet.docx",
+  "generated_at": "2026-06-04T00:00:00.000Z",
+  "units": [
+    {
+      "unit_id": "congressional-legal-0001",
+      "unit_type": "editorial_note",
+      "location": "START I Document 247 Senate package",
+      "exact_text": "Also enclosed, for the information of the Senate, are documents associated with the Treaty. Although not submitted for the advice and consent of the Senate to ratification, they were relevant to Senate consideration. The Senate has also been regularly advised on U.S. goals and objectives. Baker recommended that the Treaty be submitted to the Senate for its advice and consent to ratification at the earliest possible date.",
+      "display_text": "Also enclosed, for the information of the Senate, are documents associated with the Treaty. Although not submitted for the advice and consent of the Senate to ratification, they were relevant to Senate consideration. The Senate has also been regularly advised on U.S. goals and objectives. Baker recommended that the Treaty be submitted to the Senate for its advice and consent to ratification at the earliest possible date.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "congressional-legal-0002",
+      "unit_type": "follow_on_footnote",
+      "location": "START I Document 247 footnote 3",
+      "exact_text": "President Bush transmitted the treaty to the Senate on November 25, 1991; the United States Senate ratified the Treaty on October 1, 1992.",
+      "display_text": "President Bush transmitted the treaty to the Senate on November 25, 1991; the United States Senate ratified the Treaty on October 1, 1992.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "congressional-legal-0003",
+      "unit_type": "follow_on_footnote",
+      "location": "Reagan Foundations Document 39 hearing and budget messages",
+      "exact_text": "For Haig's statement, see Foreign Assistance Legislation For Fiscal Year 1982 (Part 1), Hearings Before the Committee on Foreign Affairs, House of Representatives, Ninety-Seventh Congress, First Session, March 13, 18, 19, and 28, 1981. The President's March 10 message also covered budget rescissions and deferrals.",
+      "display_text": "For Haig's statement, see Foreign Assistance Legislation For Fiscal Year 1982 (Part 1), Hearings Before the Committee on Foreign Affairs, House of Representatives, Ninety-Seventh Congress, First Session, March 13, 18, 19, and 28, 1981. The President's March 10 message also covered budget rescissions and deferrals.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "congressional-legal-0004",
+      "unit_type": "editorial_note",
+      "location": "Reagan Foundations Document 39 assistance request",
+      "exact_text": "The President requested $4.27 billion in budget authority and urged Congress to work through the authorization and appropriation of these FY 1982 foreign aid requests.",
+      "display_text": "The President requested $4.27 billion in budget authority and urged Congress to work through the authorization and appropriation of these FY 1982 foreign aid requests.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "congressional-legal-0005",
+      "unit_type": "follow_on_footnote",
+      "location": "Reagan Foundations Document 55 public law citations",
+      "exact_text": "The President subsequently approved both the Economic Recovery Tax Act of 1981 (H.R. 4242; P.L. 97-34; 95 Stat. 172) and the Omnibus Budget Reconciliation Act of 1981 (H.R. 3982; P.L. 97-35; 95 Stat. 357) on August 13.",
+      "display_text": "The President subsequently approved both the Economic Recovery Tax Act of 1981 (H.R. 4242; P.L. 97-34; 95 Stat. 172) and the Omnibus Budget Reconciliation Act of 1981 (H.R. 3982; P.L. 97-35; 95 Stat. 357) on August 13.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "congressional-legal-0006",
+      "unit_type": "follow_on_footnote",
+      "location": "Reagan Foundations Document 55 AWACS and FMS",
+      "exact_text": "The AWACS sale was noticed through a Department of Defense \"informal\" notice, followed by an October 1 \"formal\" notice, and Congress considered the AWACS sale package. The subcommittee cut $1 billion from the administration's Foreign Military Sales request.",
+      "display_text": "The AWACS sale was noticed through a Department of Defense \"informal\" notice, followed by an October 1 \"formal\" notice, and Congress considered the AWACS sale package. The subcommittee cut $1 billion from the administration's Foreign Military Sales request.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "congressional-legal-0007",
+      "unit_type": "attachment_note",
+      "location": "North Africa Document 144 legal authority",
+      "exact_text": "Section 3(a) of the Arms Export Control Act required the Presidential finding. Algeria was made eligible by Presidential Determination No. 83-6, dated April 8, 1983; only the latter would be published in the Federal Register.",
+      "display_text": "Section 3(a) of the Arms Export Control Act required the Presidential finding. Algeria was made eligible by Presidential Determination No. 83-6, dated April 8, 1983; only the latter would be published in the Federal Register.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "congressional-legal-0008",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft unsupported legal shorthand",
+      "exact_text": "P.L. TK and a Senate committee clearance apparently authorized the sale.",
+      "display_text": "P.L. TK and a Senate committee clearance apparently authorized the sale.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}

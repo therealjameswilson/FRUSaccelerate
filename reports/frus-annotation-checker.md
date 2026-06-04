@@ -12311,6 +12311,19 @@ Minimum components:
   institutions, trade regimes, UN resolution forms, political parties, and
   treaty-party language to supplied target-volume records and fails direct
   entity-identity edits that lack registry support.
+- No-dependency congressional/legal authority registry validator, usage audit,
+  and fixtures: `scripts/validate-frus-congressional-legal-registry.mjs`,
+  `scripts/audit-frus-congressional-legal-usage.mjs`,
+  `reports/frus-congressional-legal-registry.sample.json`,
+  `reports/frus-congressional-legal-units.sample.json`, and
+  `reports/frus-congressional-legal-audit.sample.json`. The audit reconciles
+  Senate advice-and-consent, Senate information packages, treaty transmittal
+  and ratification footnotes, congressional hearings, public-law and Stat.
+  citations, appropriations and authorizations, budget authority, budget
+  rescissions and deferrals, congressional notices, Presidential
+  Determinations, Arms Export Control Act language, and Federal Register
+  publication claims to supplied target-volume records and fails direct
+  legal-authority edits that lack registry support.
 - No-dependency footnote refer-back registry validator, usage audit, and
   fixtures: `scripts/validate-frus-footnote-referback-registry.mjs`,
   `scripts/audit-frus-footnote-referback-usage.mjs`,

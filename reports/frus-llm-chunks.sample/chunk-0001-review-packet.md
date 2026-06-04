@@ -54,9 +54,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -139,7 +139,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -258,6 +258,15 @@ regional bodies, summit/conference names, international financial institutions,
 trade regimes, UN resolution forms, political parties, and treaty-party status;
 validate it with `scripts/validate-frus-foreign-org-registry.mjs` before direct
 foreign-entity or international-organization edits.
+For real Reagan/Bush 1981-1992 congressional/legal authority review, replace
+the sample congressional/legal registry with target-volume records for Senate
+advice-and-consent, Senate information packages, treaty transmittal and
+ratification footnotes, congressional hearings, public-law and Stat. citations,
+appropriations and authorizations, budget authority, budget rescissions and
+deferrals, congressional notices, Presidential Determinations, Arms Export
+Control Act language, and Federal Register publication claims; validate it with
+`scripts/validate-frus-congressional-legal-registry.mjs` before direct
+congressional or legal-authority edits.
 For real Reagan/Bush 1981-1992 footnote refer-back review, replace the sample
 footnote refer-back registry with target-volume examples for repeated
 cross-document `footnote N, Document X` references, same-document above/below or
@@ -6797,6 +6806,432 @@ Use this to check country names, successor-state references, alliances, internat
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d161",
       "verification_status": "verified_published_foreign_org_record"
+    }
+  ]
+}
+```
+
+## Congressional And Legal Authority Registry Context
+
+Use this to check Senate advice-and-consent, Senate information packages, treaty transmittal and ratification footnotes, congressional hearings, public-law/statute citations, appropriations and authorizations, budget authority, budget rescissions and deferrals, congressional notices, Presidential Determinations, Arms Export Control Act language, and Federal Register publication claims. Treat committee names, hearing titles, public-law numbers, Stat. citations, budget figures, advice-and-consent status, and publication-stage claims as comment-only unless the target-volume congressional/legal registry proves the exact direct edit.
+
+```json
+{
+  "schema_version": "frus-congressional-legal-registry-v1",
+  "congressional_legal_registry_id": "frus-1981-1992-congressional-legal-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d39",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d55",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d144"
+  ],
+  "scope": "Sample congressional/legal authority registry for Reagan and George H.W. Bush FRUS annotation sheets. Use it to keep Senate advice-and-consent, congressional hearings, public-law/statute citations, appropriations and authorizations, budget authority, congressional notice, Presidential Determination, Arms Export Control Act, and Federal Register publication language tied to published FRUS examples before allowing direct edits.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "congressional_legal_id": "congressional-legal-start-senate-information-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "document_text",
+      "legal_type": "senate_information_package",
+      "approved_phrase": "for the information of the Senate",
+      "legal_instrument_or_body": "United States Senate",
+      "legal_action_or_stage": "associated treaty documents sent for Senate information",
+      "citation_or_locator": "Document 247, treaty transmittal report",
+      "public_or_archival_basis": "Published START I report text distinguishes Senate information documents from treaty materials submitted for advice and consent.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 247.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_congressional_legal_record",
+      "variant_forms": [
+        "sent for the information of the Senate"
+      ]
+    },
+    {
+      "congressional_legal_id": "congressional-legal-start-associated-not-submitted-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "document_text",
+      "legal_type": "senate_advice_and_consent",
+      "approved_phrase": "Although not submitted for the advice and consent of the Senate to ratification",
+      "legal_instrument_or_body": "United States Senate",
+      "legal_action_or_stage": "associated documents not submitted for advice and consent",
+      "citation_or_locator": "Document 247, associated documents paragraph",
+      "public_or_archival_basis": "Published START I report text separates associated documents from the treaty package requiring advice and consent.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 247.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_congressional_legal_record",
+      "variant_forms": [
+        "not submitted for the advice and consent of the Senate"
+      ]
+    },
+    {
+      "congressional_legal_id": "congressional-legal-start-senate-advised-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "document_text",
+      "legal_type": "senate_consultation",
+      "approved_phrase": "The Senate has also been regularly advised on U.S. goals and objectives",
+      "legal_instrument_or_body": "United States Senate",
+      "legal_action_or_stage": "consultation during negotiations",
+      "citation_or_locator": "Document 247, background information paragraph",
+      "public_or_archival_basis": "Published START I report text describes Senate consultation during strategic arms negotiations.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 247.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_congressional_legal_record",
+      "variant_forms": [
+        "Senate has been regularly advised"
+      ]
+    },
+    {
+      "congressional_legal_id": "congressional-legal-start-submit-advice-consent-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "document_text",
+      "legal_type": "senate_advice_and_consent",
+      "approved_phrase": "submitted to the Senate for its advice and consent to ratification at the earliest possible date",
+      "legal_instrument_or_body": "United States Senate",
+      "legal_action_or_stage": "Secretary recommends treaty submission for advice and consent",
+      "citation_or_locator": "Document 247, conclusion",
+      "public_or_archival_basis": "Published START I report text uses the final advice-and-consent recommendation formula.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 247.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_congressional_legal_record",
+      "variant_forms": [
+        "submitted to the Senate for its advice and consent"
+      ]
+    },
+    {
+      "congressional_legal_id": "congressional-legal-start-transmission-ratification-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "footnote",
+      "legal_type": "senate_ratification_footnote",
+      "approved_phrase": "President Bush transmitted the treaty to the Senate on November 25, 1991",
+      "legal_instrument_or_body": "United States Senate",
+      "legal_action_or_stage": "presidential treaty transmission and later Senate ratification",
+      "citation_or_locator": "Document 247, footnote 3",
+      "public_or_archival_basis": "Published START I footnote records treaty transmission date and Senate ratification context.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 247.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_congressional_legal_record",
+      "variant_forms": [
+        "United States Senate ratified the Treaty"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "congressional_legal_id": "congressional-legal-start-senate-information-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "document_text",
+      "legal_type": "senate_information_package",
+      "approved_phrase": "for the information of the Senate",
+      "legal_instrument_or_body": "United States Senate",
+      "legal_action_or_stage": "associated treaty documents sent for Senate information",
+      "citation_or_locator": "Document 247, treaty transmittal report",
+      "public_or_archival_basis": "Published START I report text distinguishes Senate information documents from treaty materials submitted for advice and consent.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 247.",
+      "variant_forms": [
+        "sent for the information of the Senate"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_congressional_legal_record"
+    },
+    {
+      "congressional_legal_id": "congressional-legal-start-associated-not-submitted-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "document_text",
+      "legal_type": "senate_advice_and_consent",
+      "approved_phrase": "Although not submitted for the advice and consent of the Senate to ratification",
+      "legal_instrument_or_body": "United States Senate",
+      "legal_action_or_stage": "associated documents not submitted for advice and consent",
+      "citation_or_locator": "Document 247, associated documents paragraph",
+      "public_or_archival_basis": "Published START I report text separates associated documents from the treaty package requiring advice and consent.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 247.",
+      "variant_forms": [
+        "not submitted for the advice and consent of the Senate"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_congressional_legal_record"
+    },
+    {
+      "congressional_legal_id": "congressional-legal-start-senate-advised-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "document_text",
+      "legal_type": "senate_consultation",
+      "approved_phrase": "The Senate has also been regularly advised on U.S. goals and objectives",
+      "legal_instrument_or_body": "United States Senate",
+      "legal_action_or_stage": "consultation during negotiations",
+      "citation_or_locator": "Document 247, background information paragraph",
+      "public_or_archival_basis": "Published START I report text describes Senate consultation during strategic arms negotiations.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 247.",
+      "variant_forms": [
+        "Senate has been regularly advised"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_congressional_legal_record"
+    },
+    {
+      "congressional_legal_id": "congressional-legal-start-submit-advice-consent-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "document_text",
+      "legal_type": "senate_advice_and_consent",
+      "approved_phrase": "submitted to the Senate for its advice and consent to ratification at the earliest possible date",
+      "legal_instrument_or_body": "United States Senate",
+      "legal_action_or_stage": "Secretary recommends treaty submission for advice and consent",
+      "citation_or_locator": "Document 247, conclusion",
+      "public_or_archival_basis": "Published START I report text uses the final advice-and-consent recommendation formula.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 247.",
+      "variant_forms": [
+        "submitted to the Senate for its advice and consent"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_congressional_legal_record"
+    },
+    {
+      "congressional_legal_id": "congressional-legal-start-transmission-ratification-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "footnote",
+      "legal_type": "senate_ratification_footnote",
+      "approved_phrase": "President Bush transmitted the treaty to the Senate on November 25, 1991",
+      "legal_instrument_or_body": "United States Senate",
+      "legal_action_or_stage": "presidential treaty transmission and later Senate ratification",
+      "citation_or_locator": "Document 247, footnote 3",
+      "public_or_archival_basis": "Published START I footnote records treaty transmission date and Senate ratification context.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 247.",
+      "variant_forms": [
+        "United States Senate ratified the Treaty"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_congressional_legal_record"
+    },
+    {
+      "congressional_legal_id": "congressional-legal-v01-hearing-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d39",
+      "document_number": "39",
+      "unit_scope": "footnote",
+      "legal_type": "congressional_hearing_citation",
+      "approved_phrase": "Foreign Assistance Legislation For Fiscal Year 1982 (Part 1), Hearings Before the Committee on Foreign Affairs, House of Representatives, Ninety-Seventh Congress, First Session, March 13, 18, 19, and 28, 1981",
+      "legal_instrument_or_body": "House Committee on Foreign Affairs",
+      "legal_action_or_stage": "hearing citation for Secretary Haig statement",
+      "citation_or_locator": "Document 39, footnote 1",
+      "public_or_archival_basis": "Published Reagan Foundations footnote cites the hearing title, committee, Congress/session, dates, GPO publication, and pages.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 39.",
+      "variant_forms": [
+        "Hearings Before the Committee on Foreign Affairs"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d39",
+      "verification_status": "verified_published_congressional_legal_record"
+    },
+    {
+      "congressional_legal_id": "congressional-legal-v01-budget-authority-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d39",
+      "document_number": "39",
+      "unit_scope": "document_text",
+      "legal_type": "budget_authority_request",
+      "approved_phrase": "$4.27 billion in budget authority",
+      "legal_instrument_or_body": "Congress",
+      "legal_action_or_stage": "FY 1982 security assistance budget authority request",
+      "citation_or_locator": "Document 39, security assistance testimony",
+      "public_or_archival_basis": "Published text states requested budget authority and total security assistance program figure.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 39.",
+      "variant_forms": [
+        "$6.87 billion security assistance program"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d39",
+      "verification_status": "verified_published_congressional_legal_record"
+    },
+    {
+      "congressional_legal_id": "congressional-legal-v01-authorization-appropriation-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d39",
+      "document_number": "39",
+      "unit_scope": "document_text",
+      "legal_type": "appropriation_or_authorization",
+      "approved_phrase": "authorization and appropriation of these FY 1982 foreign aid requests",
+      "legal_instrument_or_body": "Congress",
+      "legal_action_or_stage": "authorization and appropriation of foreign aid requests",
+      "citation_or_locator": "Document 39, conclusion",
+      "public_or_archival_basis": "Published testimony links foreign aid requests to congressional authorization and appropriation.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 39.",
+      "variant_forms": [
+        "foreign aid appropriations bill"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d39",
+      "verification_status": "verified_published_congressional_legal_record"
+    },
+    {
+      "congressional_legal_id": "congressional-legal-v01-budget-rescissions-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d39",
+      "document_number": "39",
+      "unit_scope": "footnote",
+      "legal_type": "budget_message_or_rescission",
+      "approved_phrase": "budget rescissions and deferrals",
+      "legal_instrument_or_body": "Congress",
+      "legal_action_or_stage": "message to Congress reporting budget rescissions and deferrals",
+      "citation_or_locator": "Document 39, footnote 2",
+      "public_or_archival_basis": "Published footnote identifies message-to-Congress budget materials in Public Papers.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 39.",
+      "variant_forms": [
+        "message to Congress reporting budget rescissions and deferrals"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d39",
+      "verification_status": "verified_published_congressional_legal_record"
+    },
+    {
+      "congressional_legal_id": "congressional-legal-v01-tax-act-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d55",
+      "document_number": "55",
+      "unit_scope": "footnote",
+      "legal_type": "public_law_statute",
+      "approved_phrase": "Economic Recovery Tax Act of 1981 (H.R. 4242; P.L. 97-34; 95 Stat. 172)",
+      "legal_instrument_or_body": "Congress",
+      "legal_action_or_stage": "public law and Stat. citation",
+      "citation_or_locator": "Document 55, footnote 4",
+      "public_or_archival_basis": "Published Reagan Foundations footnote gives act title, House bill, public law, and Stat. citation.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 55.",
+      "variant_forms": [
+        "P.L. 97-34",
+        "95 Stat. 172"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d55",
+      "verification_status": "verified_published_congressional_legal_record"
+    },
+    {
+      "congressional_legal_id": "congressional-legal-v01-budget-reconciliation-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d55",
+      "document_number": "55",
+      "unit_scope": "footnote",
+      "legal_type": "public_law_statute",
+      "approved_phrase": "Omnibus Budget Reconciliation Act of 1981 (H.R. 3982; P.L. 97-35; 95 Stat. 357)",
+      "legal_instrument_or_body": "Congress",
+      "legal_action_or_stage": "public law and Stat. citation",
+      "citation_or_locator": "Document 55, footnote 4",
+      "public_or_archival_basis": "Published Reagan Foundations footnote gives act title, House bill, public law, and Stat. citation.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 55.",
+      "variant_forms": [
+        "P.L. 97-35",
+        "95 Stat. 357"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d55",
+      "verification_status": "verified_published_congressional_legal_record"
+    },
+    {
+      "congressional_legal_id": "congressional-legal-v01-awacs-notice-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d55",
+      "document_number": "55",
+      "unit_scope": "footnote",
+      "legal_type": "congressional_notice",
+      "approved_phrase": "Department of Defense \"informal\" notice, followed by an October 1 \"formal\" notice",
+      "legal_instrument_or_body": "Congress",
+      "legal_action_or_stage": "informal and formal congressional notice of proposed AWACS sale",
+      "citation_or_locator": "Document 55, footnote 14",
+      "public_or_archival_basis": "Published footnote distinguishes informal and formal notice stages before congressional consideration.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 55.",
+      "variant_forms": [
+        "Congress considered the AWACS sale package"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d55",
+      "verification_status": "verified_published_congressional_legal_record"
+    },
+    {
+      "congressional_legal_id": "congressional-legal-v01-fms-cut-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d55",
+      "document_number": "55",
+      "unit_scope": "footnote",
+      "legal_type": "appropriation_or_authorization",
+      "approved_phrase": "$1 billion from the administration's Foreign Military Sales request",
+      "legal_instrument_or_body": "House appropriations subcommittee",
+      "legal_action_or_stage": "subcommittee cut to FMS request",
+      "citation_or_locator": "Document 55, footnote 16",
+      "public_or_archival_basis": "Published footnote identifies the Long Appropriations Subcommittee decision and cited press account.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 55.",
+      "variant_forms": [
+        "Foreign Military Sales request",
+        "FMS request"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d55",
+      "verification_status": "verified_published_congressional_legal_record"
+    },
+    {
+      "congressional_legal_id": "congressional-legal-v24-aeca-section-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d144",
+      "document_number": "144",
+      "unit_scope": "attachment",
+      "legal_type": "arms_export_control_act",
+      "approved_phrase": "Section 3(a) of the Arms Export Control Act",
+      "legal_instrument_or_body": "Arms Export Control Act",
+      "legal_action_or_stage": "statutory eligibility condition for defense articles and services",
+      "citation_or_locator": "Document 144, attachment",
+      "public_or_archival_basis": "Published attachment quotes legal authority for eligibility to buy defense articles and defense services.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 144.",
+      "variant_forms": [
+        "Arms Export Control Act"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d144",
+      "verification_status": "verified_published_congressional_legal_record"
+    },
+    {
+      "congressional_legal_id": "congressional-legal-v24-presidential-determination-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d144",
+      "document_number": "144",
+      "unit_scope": "attachment",
+      "legal_type": "presidential_determination",
+      "approved_phrase": "Presidential Determination No. 83-6, dated April 8, 1983",
+      "legal_instrument_or_body": "Presidential Determination",
+      "legal_action_or_stage": "country eligibility for Foreign Military Sales",
+      "citation_or_locator": "Document 144, attachment",
+      "public_or_archival_basis": "Published attachment identifies Presidential Determination number and date.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 144.",
+      "variant_forms": [
+        "Presidential Determination No. 83-6"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d144",
+      "verification_status": "verified_published_congressional_legal_record"
+    },
+    {
+      "congressional_legal_id": "congressional-legal-v24-federal-register-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d144",
+      "document_number": "144",
+      "unit_scope": "document_text",
+      "legal_type": "federal_register_publication",
+      "approved_phrase": "only the latter would be published in the Federal Register",
+      "legal_instrument_or_body": "Federal Register",
+      "legal_action_or_stage": "publication distinction for Justification and Determination",
+      "citation_or_locator": "Document 144, Shultz memorandum",
+      "public_or_archival_basis": "Published memorandum distinguishes congressional provision from Federal Register publication.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 144.",
+      "variant_forms": [
+        "published in the Federal Register"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d144",
+      "verification_status": "verified_published_congressional_legal_record"
     }
   ]
 }

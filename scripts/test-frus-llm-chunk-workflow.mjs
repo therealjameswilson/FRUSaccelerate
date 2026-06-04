@@ -112,6 +112,8 @@ try {
     "reports/frus-treaty-registry.sample.json",
     "--foreign-org-registry",
     "reports/frus-foreign-org-registry.sample.json",
+    "--congressional-legal-registry",
+    "reports/frus-congressional-legal-registry.sample.json",
     "--footnote-referback-registry",
     "reports/frus-footnote-referback-registry.sample.json",
     "--recurring-risk-registry",
@@ -163,6 +165,10 @@ try {
   assert(manifest.summary.retrospective_account_registry_records === 6, "expected retrospective-account registry record count");
   assert(manifest.summary.treaty_registry_records === 7, "expected treaty registry record count");
   assert(manifest.summary.foreign_org_registry_records === 10, "expected foreign-org registry record count");
+  assert(
+    manifest.summary.congressional_legal_registry_records === 16,
+    "expected congressional/legal registry record count"
+  );
   assert(manifest.summary.footnote_referback_registry_records === 8, "expected footnote refer-back registry record count");
   assert(manifest.summary.recurring_risk_registry_records === 13, "expected recurring-risk registry record count");
   assert(manifest.summary.negative_search_registry_records === 6, "expected negative-search registry record count");
@@ -242,6 +248,12 @@ try {
   assert(firstPacket.includes("Foreign And International Organization Registry Context"), "expected foreign-org registry context in chunk packet");
   assert(firstPacket.includes("ASEAN [Association of Southeast Asian Nations]"), "expected foreign-org registry content in chunk packet");
   assert(firstPacket.includes("President of the Union of Soviet Socialist Republics"), "expected foreign-state registry content in chunk packet");
+  assert(
+    firstPacket.includes("Congressional And Legal Authority Registry Context"),
+    "expected congressional/legal registry context in chunk packet"
+  );
+  assert(firstPacket.includes("Economic Recovery Tax Act of 1981"), "expected public-law registry content in chunk packet");
+  assert(firstPacket.includes("Presidential Determination No. 83-6"), "expected Presidential Determination content in chunk packet");
   assert(firstPacket.includes("Footnote Refer-Back Registry Context"), "expected footnote refer-back registry context in chunk packet");
   assert(firstPacket.includes("repeat_threshold"), "expected footnote refer-back repeat threshold in chunk packet");
   assert(firstPacket.includes("See footnote 6, Document 35"), "expected footnote refer-back registry content in chunk packet");
@@ -321,7 +333,7 @@ try {
   assert(badMerge.status !== 0, "expected out-of-chunk unit reference to fail");
   assert(badMerge.stdout.includes("outside chunk-0002"), "expected chunk-boundary failure detail");
 
-  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
+  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

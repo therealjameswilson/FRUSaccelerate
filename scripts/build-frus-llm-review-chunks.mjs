@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -50,6 +50,7 @@ function parseArgs(argv) {
   let retrospectiveAccountRegistryPath = null;
   let treatyRegistryPath = null;
   let foreignOrgRegistryPath = null;
+  let congressionalLegalRegistryPath = null;
   let footnoteReferbackRegistryPath = null;
   let recurringRiskRegistryPath = null;
   let negativeSearchRegistryPath = null;
@@ -137,6 +138,9 @@ function parseArgs(argv) {
     } else if (arg === "--foreign-org-registry") {
       foreignOrgRegistryPath = argv[index + 1];
       index += 1;
+    } else if (arg === "--congressional-legal-registry") {
+      congressionalLegalRegistryPath = argv[index + 1];
+      index += 1;
     } else if (arg === "--footnote-referback-registry") {
       footnoteReferbackRegistryPath = argv[index + 1];
       index += 1;
@@ -215,6 +219,7 @@ function parseArgs(argv) {
     retrospectiveAccountRegistryPath,
     treatyRegistryPath,
     foreignOrgRegistryPath,
+    congressionalLegalRegistryPath,
     footnoteReferbackRegistryPath,
     recurringRiskRegistryPath,
     negativeSearchRegistryPath,
@@ -960,6 +965,37 @@ function compactForeignOrgRegistry(registry, targetVolume) {
   };
 }
 
+function compactCongressionalLegalRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  return {
+    schema_version: registry.schema_version,
+    congressional_legal_registry_id: registry.congressional_legal_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [],
+    records: records.map((record) => ({
+      congressional_legal_id: record.congressional_legal_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      legal_type: record.legal_type,
+      approved_phrase: record.approved_phrase,
+      legal_instrument_or_body: record.legal_instrument_or_body,
+      legal_action_or_stage: record.legal_action_or_stage,
+      citation_or_locator: record.citation_or_locator,
+      public_or_archival_basis: record.public_or_archival_basis,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactFootnoteReferbackRegistry(registry, targetVolume) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -1058,6 +1094,7 @@ function renderPacket({
   retrospectiveAccountRegistry,
   treatyRegistry,
   foreignOrgRegistry,
+  congressionalLegalRegistry,
   footnoteReferbackRegistry,
   recurringRiskRegistry,
   negativeSearchRegistry,
@@ -1220,6 +1257,12 @@ function renderPacket({
     "",
     fencedJson(foreignOrgRegistry || {}),
     "",
+    "## Congressional And Legal Authority Registry Context",
+    "",
+    "Use this to check Senate advice-and-consent, Senate information packages, treaty transmittal and ratification footnotes, congressional hearings, public-law/statute citations, appropriations and authorizations, budget authority, budget rescissions and deferrals, congressional notices, Presidential Determinations, Arms Export Control Act language, and Federal Register publication claims. Treat committee names, hearing titles, public-law numbers, Stat. citations, budget figures, advice-and-consent status, and publication-stage claims as comment-only unless the target-volume congressional/legal registry proves the exact direct edit.",
+    "",
+    fencedJson(congressionalLegalRegistry || {}),
+    "",
     "## Footnote Refer-Back Registry Context",
     "",
     "Use this to check repeated-reference footnote discipline. Reagan Foundations models cross-document `footnote N, Document X`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. Apply the registry `repeat_threshold`: the first and second full citations may stand, but the third full repeat itself and every later full repeat are production-review triggers for a possible refer-back. Do not invent refer-back targets; use comment-only unless the registry proves the exact direct edit.",
@@ -1304,6 +1347,9 @@ function buildChunks(options) {
     : null;
   const treatyRegistry = options.treatyRegistryPath ? readJson(options.treatyRegistryPath) : null;
   const foreignOrgRegistry = options.foreignOrgRegistryPath ? readJson(options.foreignOrgRegistryPath) : null;
+  const congressionalLegalRegistry = options.congressionalLegalRegistryPath
+    ? readJson(options.congressionalLegalRegistryPath)
+    : null;
   const footnoteReferbackRegistry = options.footnoteReferbackRegistryPath
     ? readJson(options.footnoteReferbackRegistryPath)
     : null;
@@ -1348,6 +1394,10 @@ function buildChunks(options) {
   );
   const treatyRegistryContext = compactTreatyRegistry(treatyRegistry, options.targetVolume);
   const foreignOrgRegistryContext = compactForeignOrgRegistry(foreignOrgRegistry, options.targetVolume);
+  const congressionalLegalRegistryContext = compactCongressionalLegalRegistry(
+    congressionalLegalRegistry,
+    options.targetVolume
+  );
   const footnoteReferbackRegistryContext = compactFootnoteReferbackRegistry(
     footnoteReferbackRegistry,
     options.targetVolume
@@ -1393,6 +1443,9 @@ function buildChunks(options) {
         : "",
       treaty_registry: options.treatyRegistryPath ? normalizePathForOutput(options.treatyRegistryPath) : "",
       foreign_org_registry: options.foreignOrgRegistryPath ? normalizePathForOutput(options.foreignOrgRegistryPath) : "",
+      congressional_legal_registry: options.congressionalLegalRegistryPath
+        ? normalizePathForOutput(options.congressionalLegalRegistryPath)
+        : "",
       footnote_referback_registry: options.footnoteReferbackRegistryPath
         ? normalizePathForOutput(options.footnoteReferbackRegistryPath)
         : "",
@@ -1428,6 +1481,7 @@ function buildChunks(options) {
       retrospective_account_registry_records: retrospectiveAccountRegistry?.records?.length || 0,
       treaty_registry_records: treatyRegistry?.records?.length || 0,
       foreign_org_registry_records: foreignOrgRegistry?.records?.length || 0,
+      congressional_legal_registry_records: congressionalLegalRegistry?.records?.length || 0,
       footnote_referback_registry_records: footnoteReferbackRegistry?.records?.length || 0,
       recurring_risk_registry_records: recurringRiskRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
@@ -1487,6 +1541,7 @@ function buildChunks(options) {
         retrospectiveAccountRegistry: retrospectiveAccountRegistryContext,
         treatyRegistry: treatyRegistryContext,
         foreignOrgRegistry: foreignOrgRegistryContext,
+        congressionalLegalRegistry: congressionalLegalRegistryContext,
         footnoteReferbackRegistry: footnoteReferbackRegistryContext,
         recurringRiskRegistry: recurringRiskRegistryContext,
         negativeSearchRegistry: negativeSearchRegistryContext,
