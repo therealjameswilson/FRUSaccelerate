@@ -9,7 +9,7 @@ const DIRECT_ACTIONS = new Set(["replace_text", "insert_after_text", "delete_tex
 
 function usage() {
   console.error(
-    "Usage: node scripts/run-frus-offline-review.mjs --docx <input.docx> --checker-output <checker-output.json> --out <revised.docx> [--artifact-dir DIR] [--audit audit.json] [--existing-ledger ledger.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--today YYYY-MM-DD] [--max-age-days N] [--review-mode light|normal|exhaustive] [--run-id RUN] [--author NAME] [--date ISO-DATE] [--format json|text]"
+    "Usage: node scripts/run-frus-offline-review.mjs --docx <input.docx> --checker-output <checker-output.json> --out <revised.docx> [--artifact-dir DIR] [--audit audit.json] [--existing-ledger ledger.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--today YYYY-MM-DD] [--max-age-days N] [--review-mode light|normal|exhaustive] [--run-id RUN] [--author NAME] [--date ISO-DATE] [--format json|text]"
   );
   process.exit(2);
 }
@@ -43,6 +43,7 @@ function parseArgs(argv) {
   let foreignOrgRegistryPath = null;
   let congressionalLegalRegistryPath = null;
   let economicFinancialRegistryPath = null;
+  let militaryCrisisRegistryPath = null;
   let footnoteReferbackRegistryPath = null;
   let recurringRiskRegistryPath = null;
   let negativeSearchRegistryPath = null;
@@ -145,6 +146,9 @@ function parseArgs(argv) {
     } else if (arg === "--economic-financial-registry") {
       economicFinancialRegistryPath = argv[index + 1];
       index += 1;
+    } else if (arg === "--military-crisis-registry") {
+      militaryCrisisRegistryPath = argv[index + 1];
+      index += 1;
     } else if (arg === "--footnote-referback-registry") {
       footnoteReferbackRegistryPath = argv[index + 1];
       index += 1;
@@ -244,6 +248,7 @@ function parseArgs(argv) {
     foreignOrgRegistryPath,
     congressionalLegalRegistryPath,
     economicFinancialRegistryPath,
+    militaryCrisisRegistryPath,
     footnoteReferbackRegistryPath,
     recurringRiskRegistryPath,
     negativeSearchRegistryPath,
@@ -368,6 +373,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
   const foreignOrgAudit = reports.foreign_org_usage_audit || null;
   const congressionalLegalAudit = reports.congressional_legal_usage_audit || null;
   const economicFinancialAudit = reports.economic_financial_usage_audit || null;
+  const militaryCrisisAudit = reports.military_crisis_usage_audit || null;
   const footnoteReferbackAudit = reports.footnote_referback_usage_audit || null;
   const recurringRiskAudit = reports.recurring_risk_usage_audit || null;
   const negativeSearchAudit = reports.negative_search_usage_audit || null;
@@ -477,6 +483,12 @@ function buildAudit({ options, artifacts, steps, reports }) {
         economicFinancialAudit?.summary?.unmatched_economic_financial_like_units || 0,
       economic_financial_direct_edit_conflicts:
         economicFinancialAudit?.summary?.direct_economic_financial_edit_conflicts || 0,
+      military_crisis_registry_usages: militaryCrisisAudit?.summary?.military_crisis_usages || 0,
+      military_crisis_registry_warnings: militaryCrisisAudit?.summary?.warnings || 0,
+      military_crisis_unmatched_like_units:
+        militaryCrisisAudit?.summary?.unmatched_military_crisis_like_units || 0,
+      military_crisis_direct_edit_conflicts:
+        militaryCrisisAudit?.summary?.direct_military_crisis_edit_conflicts || 0,
       footnote_referback_approved_usages: footnoteReferbackAudit?.summary?.approved_referback_usages || 0,
       footnote_referback_malformed: footnoteReferbackAudit?.summary?.malformed_referbacks || 0,
       footnote_referback_repeated_citation_thresholds:
@@ -547,6 +559,9 @@ function buildAudit({ options, artifacts, steps, reports }) {
       economic_financial_registry: options.economicFinancialRegistryPath
         ? normalizePathForOutput(options.economicFinancialRegistryPath)
         : "",
+      military_crisis_registry: options.militaryCrisisRegistryPath
+        ? normalizePathForOutput(options.militaryCrisisRegistryPath)
+        : "",
       footnote_referback_registry: options.footnoteReferbackRegistryPath
         ? normalizePathForOutput(options.footnoteReferbackRegistryPath)
         : "",
@@ -575,7 +590,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
 function renderText(audit) {
   return [
     `FRUS offline review passed: ${audit.counts.extracted_units} units, ${audit.counts.comments_applied} Word comments, ${audit.counts.tracked_edits_applied} tracked edits.`,
-    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; authority usages: ${audit.counts.authority_registry_usages}; authority warnings: ${audit.counts.authority_registry_warnings}; source-list usages: ${audit.counts.source_list_registry_usages}; source-list warnings: ${audit.counts.source_list_registry_warnings}; document-metadata usages: ${audit.counts.document_metadata_registry_usages}; document-metadata warnings: ${audit.counts.document_metadata_registry_warnings}; classification usages: ${audit.counts.classification_registry_usages}; classification warnings: ${audit.counts.classification_registry_warnings}; declassification usages: ${audit.counts.declassification_registry_usages}; declassification warnings: ${audit.counts.declassification_registry_warnings}; translation usages: ${audit.counts.translation_registry_usages}; translation warnings: ${audit.counts.translation_registry_warnings}; printed-attachment usages: ${audit.counts.printed_attachment_registry_usages}; printed-attachment warnings: ${audit.counts.printed_attachment_registry_warnings}; visual-material usages: ${audit.counts.visual_material_registry_usages}; visual-material warnings: ${audit.counts.visual_material_registry_warnings}; document-handling usages: ${audit.counts.document_handling_registry_usages}; document-handling warnings: ${audit.counts.document_handling_registry_warnings}; chronology usages: ${audit.counts.chronology_registry_usages}; chronology warnings: ${audit.counts.chronology_registry_warnings}; time-zone usages: ${audit.counts.time_zone_registry_usages}; time-zone warnings: ${audit.counts.time_zone_registry_warnings}; selection-balance usages: ${audit.counts.selection_balance_registry_usages}; selection-balance warnings: ${audit.counts.selection_balance_registry_warnings}; decision-process usages: ${audit.counts.decision_process_registry_usages}; decision-process warnings: ${audit.counts.decision_process_registry_warnings}; public-source usages: ${audit.counts.public_source_registry_usages}; public-source warnings: ${audit.counts.public_source_registry_warnings}; retrospective-account usages: ${audit.counts.retrospective_account_registry_usages}; retrospective-account warnings: ${audit.counts.retrospective_account_registry_warnings}; treaty usages: ${audit.counts.treaty_registry_usages}; treaty warnings: ${audit.counts.treaty_registry_warnings}; foreign-org usages: ${audit.counts.foreign_org_registry_usages}; foreign-org warnings: ${audit.counts.foreign_org_registry_warnings}; congressional/legal usages: ${audit.counts.congressional_legal_registry_usages}; congressional/legal warnings: ${audit.counts.congressional_legal_registry_warnings}; economic/financial usages: ${audit.counts.economic_financial_registry_usages}; economic/financial warnings: ${audit.counts.economic_financial_registry_warnings}; footnote refer-back approved: ${audit.counts.footnote_referback_approved_usages}; malformed: ${audit.counts.footnote_referback_malformed}; repeated-citation thresholds: ${audit.counts.footnote_referback_repeated_citation_thresholds}; third-and-later review units: ${audit.counts.footnote_referback_repeated_citation_review_units}; recurring-risk matches: ${audit.counts.recurring_risk_matches}; negative-search usages: ${audit.counts.negative_search_registry_usages}; negative-search warnings: ${audit.counts.negative_search_registry_warnings}; document-relationship usages: ${audit.counts.document_relationship_registry_usages}; document-relationship warnings: ${audit.counts.document_relationship_registry_warnings}; communications usages: ${audit.counts.communications_registry_usages}; communications warnings: ${audit.counts.communications_registry_warnings}; annotation-sheet profile lexical misses: ${audit.counts.annotation_sheet_profile_lexical_misclassifications}; marker conflicts: ${audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
+    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; authority usages: ${audit.counts.authority_registry_usages}; authority warnings: ${audit.counts.authority_registry_warnings}; source-list usages: ${audit.counts.source_list_registry_usages}; source-list warnings: ${audit.counts.source_list_registry_warnings}; document-metadata usages: ${audit.counts.document_metadata_registry_usages}; document-metadata warnings: ${audit.counts.document_metadata_registry_warnings}; classification usages: ${audit.counts.classification_registry_usages}; classification warnings: ${audit.counts.classification_registry_warnings}; declassification usages: ${audit.counts.declassification_registry_usages}; declassification warnings: ${audit.counts.declassification_registry_warnings}; translation usages: ${audit.counts.translation_registry_usages}; translation warnings: ${audit.counts.translation_registry_warnings}; printed-attachment usages: ${audit.counts.printed_attachment_registry_usages}; printed-attachment warnings: ${audit.counts.printed_attachment_registry_warnings}; visual-material usages: ${audit.counts.visual_material_registry_usages}; visual-material warnings: ${audit.counts.visual_material_registry_warnings}; document-handling usages: ${audit.counts.document_handling_registry_usages}; document-handling warnings: ${audit.counts.document_handling_registry_warnings}; chronology usages: ${audit.counts.chronology_registry_usages}; chronology warnings: ${audit.counts.chronology_registry_warnings}; time-zone usages: ${audit.counts.time_zone_registry_usages}; time-zone warnings: ${audit.counts.time_zone_registry_warnings}; selection-balance usages: ${audit.counts.selection_balance_registry_usages}; selection-balance warnings: ${audit.counts.selection_balance_registry_warnings}; decision-process usages: ${audit.counts.decision_process_registry_usages}; decision-process warnings: ${audit.counts.decision_process_registry_warnings}; public-source usages: ${audit.counts.public_source_registry_usages}; public-source warnings: ${audit.counts.public_source_registry_warnings}; retrospective-account usages: ${audit.counts.retrospective_account_registry_usages}; retrospective-account warnings: ${audit.counts.retrospective_account_registry_warnings}; treaty usages: ${audit.counts.treaty_registry_usages}; treaty warnings: ${audit.counts.treaty_registry_warnings}; foreign-org usages: ${audit.counts.foreign_org_registry_usages}; foreign-org warnings: ${audit.counts.foreign_org_registry_warnings}; congressional/legal usages: ${audit.counts.congressional_legal_registry_usages}; congressional/legal warnings: ${audit.counts.congressional_legal_registry_warnings}; economic/financial usages: ${audit.counts.economic_financial_registry_usages}; economic/financial warnings: ${audit.counts.economic_financial_registry_warnings}; military/crisis usages: ${audit.counts.military_crisis_registry_usages}; military/crisis warnings: ${audit.counts.military_crisis_registry_warnings}; footnote refer-back approved: ${audit.counts.footnote_referback_approved_usages}; malformed: ${audit.counts.footnote_referback_malformed}; repeated-citation thresholds: ${audit.counts.footnote_referback_repeated_citation_thresholds}; third-and-later review units: ${audit.counts.footnote_referback_repeated_citation_review_units}; recurring-risk matches: ${audit.counts.recurring_risk_matches}; negative-search usages: ${audit.counts.negative_search_registry_usages}; negative-search warnings: ${audit.counts.negative_search_registry_warnings}; document-relationship usages: ${audit.counts.document_relationship_registry_usages}; document-relationship warnings: ${audit.counts.document_relationship_registry_warnings}; communications usages: ${audit.counts.communications_registry_usages}; communications warnings: ${audit.counts.communications_registry_warnings}; annotation-sheet profile lexical misses: ${audit.counts.annotation_sheet_profile_lexical_misclassifications}; marker conflicts: ${audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
     `Revised DOCX: ${audit.revised_docx}`,
     `Audit: ${audit.artifacts.audit}`
   ].join("\n") + "\n";
@@ -641,6 +656,11 @@ function runReview(options) {
       "economic-financial-registry-validation.json"
     ),
     economic_financial_usage_audit: path.join(options.artifactDir, "economic-financial-usage-audit.json"),
+    military_crisis_registry_validation: path.join(
+      options.artifactDir,
+      "military-crisis-registry-validation.json"
+    ),
+    military_crisis_usage_audit: path.join(options.artifactDir, "military-crisis-usage-audit.json"),
     footnote_referback_registry_validation: path.join(options.artifactDir, "footnote-referback-registry-validation.json"),
     footnote_referback_usage_audit: path.join(options.artifactDir, "footnote-referback-usage-audit.json"),
     recurring_risk_registry_validation: path.join(options.artifactDir, "recurring-risk-registry-validation.json"),
@@ -1550,6 +1570,47 @@ function runReview(options) {
     });
     steps.push(economicFinancialAuditStep);
     optionalReports.economic_financial_usage_audit = economicFinancialAuditStep.parsed;
+  }
+  if (options.militaryCrisisRegistryPath) {
+    const militaryCrisisValidationStep = runNodeStep({
+      label: "validate_military_crisis_registry",
+      args: [
+        "scripts/validate-frus-military-crisis-registry.mjs",
+        "--registry",
+        options.militaryCrisisRegistryPath,
+        "--format",
+        "json"
+      ],
+      cwd,
+      stdoutFile: artifacts.military_crisis_registry_validation,
+      parseJson: true
+    });
+    steps.push(militaryCrisisValidationStep);
+    optionalReports.military_crisis_registry_validation = militaryCrisisValidationStep.parsed;
+
+    const militaryCrisisAuditArgs = [
+      "scripts/audit-frus-military-crisis-usage.mjs",
+      "--units",
+      artifacts.extracted_units,
+      "--registry",
+      options.militaryCrisisRegistryPath,
+      "--checker-output",
+      options.checkerOutputPath,
+      "--format",
+      "json"
+    ];
+    if (options.targetVolume) {
+      militaryCrisisAuditArgs.push("--target-volume", options.targetVolume);
+    }
+    const militaryCrisisAuditStep = runNodeStep({
+      label: "audit_military_crisis_usage",
+      args: militaryCrisisAuditArgs,
+      cwd,
+      stdoutFile: artifacts.military_crisis_usage_audit,
+      parseJson: true
+    });
+    steps.push(militaryCrisisAuditStep);
+    optionalReports.military_crisis_usage_audit = militaryCrisisAuditStep.parsed;
   }
   if (options.footnoteReferbackRegistryPath) {
     const footnoteReferbackValidationStep = runNodeStep({

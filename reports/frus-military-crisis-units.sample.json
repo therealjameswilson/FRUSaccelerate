@@ -1,0 +1,56 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source_docx": "fixtures/frus-military-crisis-sample.docx",
+  "extracted_at": "2026-06-04T00:00:00.000Z",
+  "units": [
+    {
+      "unit_id": "military-crisis-0001",
+      "unit_type": "editorial_note",
+      "location": "North Africa Document 9",
+      "display_text": "Tunisia has limited defenses and wants stepped up training, equipment deliveries, and joint exercises. The Bay of Sidra exercise signaled that the strategy was being implemented, and the threat from Libya could only be met if the United States should continue to provide them with military assistance.",
+      "exact_text": "Tunisia has limited defenses and wants stepped up training, equipment deliveries, and joint exercises. The Bay of Sidra exercise signaled that the strategy was being implemented, and the threat from Libya could only be met if the United States should continue to provide them with military assistance."
+    },
+    {
+      "unit_id": "military-crisis-0002",
+      "unit_type": "editorial_note",
+      "location": "North Africa Document 45 recommendations",
+      "display_text": "The draft recommendations discussed joint US/Moroccan military exercises, defense articles and services via FMS, increasing IMET funding, Sixth Fleet port calls, military/logistical support in the event of a Libyan move against Tunisian territorial integrity, and the Stairstep program in the Gulf of Sidra.",
+      "exact_text": "The draft recommendations discussed joint US/Moroccan military exercises, defense articles and services via FMS, increasing IMET funding, Sixth Fleet port calls, military/logistical support in the event of a Libyan move against Tunisian territorial integrity, and the Stairstep program in the Gulf of Sidra."
+    },
+    {
+      "unit_id": "military-crisis-0003",
+      "unit_type": "follow_on_footnote",
+      "location": "North Africa Documents 67 and 319",
+      "display_text": "The Moroccan message followed Gulf of Sidra incidents involving U.S. military units operating in international waters; a later footnote states that two U.S. Navy F\u201314 Tomcats shot down two Libyan SU\u201322 Fitter fighter jets.",
+      "exact_text": "The Moroccan message followed Gulf of Sidra incidents involving U.S. military units operating in international waters; a later footnote states that two U.S. Navy F\u201314 Tomcats shot down two Libyan SU\u201322 Fitter fighter jets."
+    },
+    {
+      "unit_id": "military-crisis-0004",
+      "unit_type": "source_note",
+      "location": "North Africa Documents 96 and 184",
+      "display_text": "The source note and follow-on annotation refer to the Libyan Chemical Weapons Program, the Rabta chemical plant, and the question whether Libya should allow round-the-clock verification or dismantle the plant.",
+      "exact_text": "The source note and follow-on annotation refer to the Libyan Chemical Weapons Program, the Rabta chemical plant, and the question whether Libya should allow round-the-clock verification or dismantle the plant."
+    },
+    {
+      "unit_id": "military-crisis-0005",
+      "unit_type": "editorial_note",
+      "location": "Reagan Foundations Document 302 cross-volume context",
+      "display_text": "The public statement declared that the Persian Gulf will remain open to navigation and that the United States should maintain an adequate presence to deter and, if necessary, to defend ourselves.",
+      "exact_text": "The public statement declared that the Persian Gulf will remain open to navigation and that the United States should maintain an adequate presence to deter and, if necessary, to defend ourselves."
+    },
+    {
+      "unit_id": "military-crisis-0006",
+      "unit_type": "editorial_note",
+      "location": "Variant form fixture",
+      "display_text": "Bourguiba's advisers discussed a possible gulf of sidra penetration as a way to demonstrate the international nature of the waters.",
+      "exact_text": "Bourguiba's advisers discussed a possible gulf of sidra penetration as a way to demonstrate the international nature of the waters."
+    },
+    {
+      "unit_id": "military-crisis-0007",
+      "unit_type": "editorial_note",
+      "location": "Unmatched fixture",
+      "display_text": "The draft says the rules of engagement for Operation Desert Shield changed after an unverified carrier deployment, but no target-volume military/crisis registry entry or source image is supplied.",
+      "exact_text": "The draft says the rules of engagement for Operation Desert Shield changed after an unverified carrier deployment, but no target-volume military/crisis registry entry or source image is supplied."
+    }
+  ]
+}

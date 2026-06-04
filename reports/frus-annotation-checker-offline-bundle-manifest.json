@@ -344,6 +344,18 @@
       "role": "Self-contained economic/financial registry and usage audit smoke test"
     },
     {
+      "path": "scripts/validate-frus-military-crisis-registry.mjs",
+      "role": "Military/crisis registry validator for operation names, force presence, naval incidents, shootdowns, military assistance, CW/Rabta, verification, and crisis chronology examples"
+    },
+    {
+      "path": "scripts/audit-frus-military-crisis-usage.mjs",
+      "role": "Military/crisis usage audit and direct-edit safety gate"
+    },
+    {
+      "path": "scripts/test-frus-military-crisis-audit.mjs",
+      "role": "Self-contained military/crisis registry and usage audit smoke test"
+    },
+    {
       "path": "scripts/validate-frus-footnote-referback-registry.mjs",
       "role": "Footnote refer-back registry validator for repeated citation and cross-document footnote forms"
     },
@@ -511,6 +523,9 @@
     "reports/frus-economic-financial-audit.sample.json",
     "reports/frus-economic-financial-units.sample.json",
     "reports/frus-economic-financial-registry.sample.json",
+    "reports/frus-military-crisis-audit.sample.json",
+    "reports/frus-military-crisis-units.sample.json",
+    "reports/frus-military-crisis-registry.sample.json",
     "reports/frus-footnote-referback-registry.sample.json",
     "reports/frus-footnote-referback-units.sample.json",
     "reports/frus-footnote-referback-audit.sample.json",
@@ -625,6 +640,10 @@
       "role": "Published IMF, GAB, debt metrics, MDB, Paris Club, Baker Plan, World Bank, ESF/AID/Eximbank/OPIC, arrears, and foreign economic policy sample for Reagan and George H.W. Bush fixtures"
     },
     {
+      "path": "reports/frus-military-crisis-registry.sample.json",
+      "role": "Published Reagan North Africa and Foundations sample for Gulf of Sidra/Bay of Sidra, Persian Gulf navigation, military assistance, Sixth Fleet, F-14/SU-22, Libyan CW/Rabta, and verification/dismantlement forms"
+    },
+    {
       "path": "reports/frus-footnote-referback-registry.sample.json",
       "role": "Published Reagan Foundations footnote refer-back sample for repeated citations, the three-times threshold, same-document context, thereto references, and multi-target clusters"
     },
@@ -730,6 +749,9 @@
     "node scripts/test-frus-economic-financial-audit.mjs",
     "node scripts/audit-frus-economic-financial-usage.mjs --units reports/frus-economic-financial-units.sample.json --registry reports/frus-economic-financial-registry.sample.json --target-volume frus1981-88v38 --format text",
     "node scripts/validate-frus-economic-financial-registry.mjs --registry reports/frus-economic-financial-registry.sample.json --format text",
+    "node scripts/validate-frus-military-crisis-registry.mjs --registry reports/frus-military-crisis-registry.sample.json --format text",
+    "node scripts/audit-frus-military-crisis-usage.mjs --units reports/frus-military-crisis-units.sample.json --registry reports/frus-military-crisis-registry.sample.json --target-volume frus1981-88v24 --format text",
+    "node scripts/test-frus-military-crisis-audit.mjs",
     "node scripts/validate-frus-footnote-referback-registry.mjs --registry reports/frus-footnote-referback-registry.sample.json --format text",
     "node scripts/audit-frus-footnote-referback-usage.mjs --units reports/frus-footnote-referback-units.sample.json --registry reports/frus-footnote-referback-registry.sample.json --target-volume frus1981-88v01 --format text",
     "node scripts/test-frus-footnote-referback-audit.mjs",
@@ -794,6 +816,8 @@
     "Give validate-frus-congressional-legal-registry.mjs a duplicate congressional_legal_id or malformed congressional-legal-registry schema; it must fail.",
     "Give validate-frus-economic-financial-registry.mjs a duplicate economic_financial_id or malformed economic-financial-registry schema; it must fail.",
     "Give audit-frus-economic-financial-usage.mjs a direct edit that changes dollar amounts, percentages, debt metrics, IMF, World Bank, MDB, Eximbank, OPIC, ESF, AID, arrears, loans, grants, or Baker Plan language without target-volume registry support; it must fail.",
+    "Give validate-frus-military-crisis-registry.mjs a duplicate military_crisis_id or malformed military-crisis-registry schema; it must fail.",
+    "Give audit-frus-military-crisis-usage.mjs a direct edit that changes operation names, force identity, naval incidents, shootdowns, CW/Rabta, ROE, or crisis chronology without target-volume registry support; it must fail.",
     "Give audit-frus-footnote-referback-usage.mjs a direct edit that invents or changes a footnote refer-back target without registry support; it must fail.",
     "Give validate-frus-footnote-referback-registry.mjs a duplicate referback_id, invalid referback_type, or malformed footnote-referback-registry schema; it must fail.",
     "Give audit-frus-recurring-risk-usage.mjs a direct edit that changes WHSR/NSC telegram copy basis, backup completeness, or cross-reference clues without supplied evidence; it must fail.",

@@ -54,7 +54,7 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
 `node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
@@ -117,6 +117,9 @@ For congressional/legal authority validation and direct-edit safety, run
 For economic/financial validation and direct-edit safety, run
 `node scripts/validate-frus-economic-financial-registry.mjs --registry reports/frus-economic-financial-registry.sample.json --format text` and
 `node scripts/audit-frus-economic-financial-usage.mjs --units extracted-units.json --registry reports/frus-economic-financial-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For military/crisis validation and direct-edit safety, run
+`node scripts/validate-frus-military-crisis-registry.mjs --registry reports/frus-military-crisis-registry.sample.json --format text` and
+`node scripts/audit-frus-military-crisis-usage.mjs --units extracted-units.json --registry reports/frus-military-crisis-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For footnote refer-back validation and direct-edit safety, run
 `node scripts/validate-frus-footnote-referback-registry.mjs --registry reports/frus-footnote-referback-registry.sample.json --format text` and
 `node scripts/audit-frus-footnote-referback-usage.mjs --units extracted-units.json --registry reports/frus-footnote-referback-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -282,6 +285,15 @@ budget claims, trade-finance, exchange-rate, commodity-policy, and foreign
 economic policy scope language; validate it with
 `scripts/validate-frus-economic-financial-registry.mjs` before direct amount,
 institution, program-label, debt-mechanic, or financial-policy edits.
+For real Reagan/Bush 1981-1992 military/crisis review, replace the sample
+military/crisis registry with target-volume records for operation names, force
+presence, Gulf of Sidra/Bay of Sidra and Persian Gulf navigation claims, naval
+incidents, shootdowns/intercepts, military assistance and FMS/IMET terms, Sixth
+Fleet and command references, Libyan CW/Rabta language, inspection/verification
+or dismantlement claims, host-nation/base-access, evacuation/embassy-security,
+and crisis chronology. Validate it with
+`scripts/validate-frus-military-crisis-registry.mjs` before direct
+operation/deployment/CW/ROE/force-identity edits.
 For real Reagan/Bush 1981-1992 footnote refer-back review, replace the sample
 footnote refer-back registry with target-volume examples for repeated
 cross-document `footnote N, Document X` references, same-document above/below or
@@ -7696,6 +7708,375 @@ Use this to check dollar amounts, percentages, debt metrics, IMF quotas and reso
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/preface",
       "verification_status": "verified_published_economic_financial_record"
+    }
+  ]
+}
+```
+
+## Military And Crisis Operations Registry Context
+
+Use this to check operation names, Gulf of Sidra/Bay of Sidra and Persian Gulf freedom-of-navigation claims, force presence, naval incidents, shootdowns/intercepts, military assistance and FMS/IMET terms, Sixth Fleet/command references, Libyan CW/Rabta language, inspection/verification or dismantlement claims, host-nation/base-access, evacuation/embassy-security, and crisis chronology. Treat operation labels, aircraft/force identities, deployment claims, CW capability language, ROE, and legal/notification posture as comment-only unless the target-volume military/crisis registry proves the exact direct edit.
+
+```json
+{
+  "schema_version": "frus-military-crisis-registry-v1",
+  "military_crisis_registry_id": "frus-1981-1992-military-crisis-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/status-of-the-series",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d9",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d45",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d67",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d96",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d184",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d319",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d339",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d340",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d302"
+  ],
+  "scope": "Sample military/crisis operations registry for Reagan and George H.W. Bush FRUS annotation sheets. Use it to keep Gulf of Sidra, Persian Gulf, CW/Rabta, force-presence, shootdown, military-assistance, military-cooperation, host-nation, and crisis-response language tied to published FRUS examples before allowing direct edits.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [],
+  "records": [
+    {
+      "military_crisis_id": "military-crisis-v24-bay-sidra-exercise-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d9",
+      "document_number": "9",
+      "unit_scope": "document_text",
+      "military_type": "naval_exercise",
+      "approved_phrase": "Bay of Sidra exercise",
+      "operation_or_crisis": "Bay/Gulf of Sidra naval exercise",
+      "actor_or_force": "U.S. forces and Libya",
+      "stage_or_role": "signal to friends and pressure on Qadhafi",
+      "chronology_or_location_basis": "Document 9, July 13, 1981, North Africa",
+      "citation_or_locator": "Document 9 and footnote 3",
+      "public_or_archival_basis": "Published FRUS memorandum and footnote link the exercise to scheduled Libya; Chad coverage.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 9.",
+      "variant_forms": [
+        "U.S. exercises in the Gulf of Sidra",
+        "Gulf of Sidra exercises"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d9",
+      "verification_status": "verified_published_military_crisis_record"
+    },
+    {
+      "military_crisis_id": "military-crisis-v24-training-equipment-joint-exercises-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d9",
+      "document_number": "9",
+      "unit_scope": "document_text",
+      "military_type": "security_assistance",
+      "approved_phrase": "stepped up training, equipment deliveries, and joint exercises",
+      "operation_or_crisis": "Libyan threat to Tunisia",
+      "actor_or_force": "Tunisia and United States",
+      "stage_or_role": "requested security assistance and exercises",
+      "chronology_or_location_basis": "Document 9, Carlucci trip to North Africa",
+      "citation_or_locator": "Document 9",
+      "public_or_archival_basis": "Published FRUS summary records Tunisia's request and defense vulnerability.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 9.",
+      "variant_forms": [
+        "training, equipment deliveries, and joint exercises"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d9",
+      "verification_status": "verified_published_military_crisis_record"
+    },
+    {
+      "military_crisis_id": "military-crisis-v24-threatened-neighbors-assistance-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d9",
+      "document_number": "9",
+      "unit_scope": "document_text",
+      "military_type": "military_assistance",
+      "approved_phrase": "continue to provide them with military assistance",
+      "operation_or_crisis": "Regional response to Libya",
+      "actor_or_force": "United States and Libya's threatened neighbors",
+      "stage_or_role": "continuing assistance and leadership",
+      "chronology_or_location_basis": "Document 9, North Africa regional strategy",
+      "citation_or_locator": "Document 9",
+      "public_or_archival_basis": "Published FRUS memorandum states the military-assistance premise.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 9.",
+      "variant_forms": [
+        "provide military assistance to Libya's threatened neighbors"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d9",
+      "verification_status": "verified_published_military_crisis_record"
+    },
+    {
+      "military_crisis_id": "military-crisis-v24-joint-us-moroccan-exercises-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d45",
+      "document_number": "45",
+      "unit_scope": "document_text",
+      "military_type": "military_cooperation",
+      "approved_phrase": "joint US/Moroccan military exercises",
+      "operation_or_crisis": "Maghreb policy and Moroccan-Libyan union",
+      "actor_or_force": "United States and Morocco",
+      "stage_or_role": "planned and executed bilateral exercises",
+      "chronology_or_location_basis": "Document 45, Washington, December 12, 1984",
+      "citation_or_locator": "Document 45 recommendations",
+      "public_or_archival_basis": "Published FRUS paper uses this exact exercise form.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 45.",
+      "variant_forms": [
+        "joint U.S./Moroccan military exercises",
+        "joint US-Moroccan military exercises"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d45",
+      "verification_status": "verified_published_military_crisis_record"
+    },
+    {
+      "military_crisis_id": "military-crisis-v24-fms-imet-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d45",
+      "document_number": "45",
+      "unit_scope": "document_text",
+      "military_type": "security_assistance",
+      "approved_phrase": "defense articles and services via FMS, increasing IMET funding",
+      "operation_or_crisis": "Algerian access to defense articles and training",
+      "actor_or_force": "Algeria and United States",
+      "stage_or_role": "proposed Presidential determination and training funding",
+      "chronology_or_location_basis": "Document 45 recommendations for Algeria",
+      "citation_or_locator": "Document 45",
+      "public_or_archival_basis": "Published FRUS paper records the FMS and IMET wording.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 45.",
+      "variant_forms": [
+        "defense articles and services through FMS and increased IMET funding"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d45",
+      "verification_status": "verified_published_military_crisis_record"
+    },
+    {
+      "military_crisis_id": "military-crisis-v24-sixth-fleet-port-calls-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d45",
+      "document_number": "45",
+      "unit_scope": "document_text",
+      "military_type": "force_presence",
+      "approved_phrase": "Sixth Fleet port calls",
+      "operation_or_crisis": "U.S. support for Algeria and Tunisia",
+      "actor_or_force": "U.S. Sixth Fleet",
+      "stage_or_role": "visible support and regional gesture",
+      "chronology_or_location_basis": "Document 45 recommendations",
+      "citation_or_locator": "Document 45",
+      "public_or_archival_basis": "Published FRUS paper uses the exact Sixth Fleet phrase.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 45.",
+      "variant_forms": [
+        "6th Fleet port calls"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d45",
+      "verification_status": "verified_published_military_crisis_record"
+    },
+    {
+      "military_crisis_id": "military-crisis-v24-tunisia-logistical-support-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d45",
+      "document_number": "45",
+      "unit_scope": "document_text",
+      "military_type": "combat_or_strike_risk",
+      "approved_phrase": "military/logistical support in the event of a Libyan move against Tunisian territorial integrity",
+      "operation_or_crisis": "Libyan threat to Tunisia",
+      "actor_or_force": "United States, Tunisia, Libya, France or other interested countries",
+      "stage_or_role": "contingency support",
+      "chronology_or_location_basis": "Document 45 Tunisia recommendations",
+      "citation_or_locator": "Document 45",
+      "public_or_archival_basis": "Published FRUS paper preserves the contingency language and territorial-integrity basis.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 45.",
+      "variant_forms": [
+        "military and logistical support in the event of a Libyan move against Tunisia"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d45",
+      "verification_status": "verified_published_military_crisis_record"
+    },
+    {
+      "military_crisis_id": "military-crisis-v24-stairstep-gulf-sidra-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d45",
+      "document_number": "45",
+      "unit_scope": "document_text",
+      "military_type": "naval_exercise",
+      "approved_phrase": "Stairstep program in the Gulf of Sidra",
+      "operation_or_crisis": "Gulf of Sidra naval exercises",
+      "actor_or_force": "National Security Council and U.S. naval forces",
+      "stage_or_role": "program under policy discussion",
+      "chronology_or_location_basis": "Document 45 new recommendations",
+      "citation_or_locator": "Document 45 footnote 6",
+      "public_or_archival_basis": "Published FRUS footnote identifies Stairstep as the operational name for naval exercises.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 45.",
+      "variant_forms": [
+        "operational name for naval exercises in the Gulf of Sidra"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d45",
+      "verification_status": "verified_published_military_crisis_record"
+    },
+    {
+      "military_crisis_id": "military-crisis-v24-gulf-sidra-penetration-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d339",
+      "document_number": "339",
+      "unit_scope": "document_text",
+      "military_type": "freedom_of_navigation",
+      "approved_phrase": "Gulf of Sidra penetration",
+      "operation_or_crisis": "Gulf of Sidra confrontation with Libya",
+      "actor_or_force": "United States, Tunisia, Libya",
+      "stage_or_role": "demonstration of international waters claim",
+      "chronology_or_location_basis": "Document 339, Tunis, March 10, 1986",
+      "citation_or_locator": "Document 339",
+      "public_or_archival_basis": "Published FRUS telegram reports Tunisian support for a penetration to illustrate the international nature of the waters.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 339.",
+      "variant_forms": [
+        "Gulf of Sidra penetration we may choose to make"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d339",
+      "verification_status": "verified_published_military_crisis_record"
+    },
+    {
+      "military_crisis_id": "military-crisis-v24-us-military-units-international-waters-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d67",
+      "document_number": "67",
+      "unit_scope": "document_text",
+      "military_type": "naval_incident",
+      "approved_phrase": "U.S. military units operating in international waters",
+      "operation_or_crisis": "Gulf of Sidra incidents",
+      "actor_or_force": "United States, Libya, Morocco",
+      "stage_or_role": "U.S. explanation of Libyan attack",
+      "chronology_or_location_basis": "Document 67, Washington, April 10, 1986",
+      "citation_or_locator": "Document 67 and footnote 2",
+      "public_or_archival_basis": "Published FRUS telegram preserves the U.S. military-units/international-waters form.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 67.",
+      "variant_forms": [
+        "military units operating in international waters"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d67",
+      "verification_status": "verified_published_military_crisis_record"
+    },
+    {
+      "military_crisis_id": "military-crisis-v24-tomcat-shootdown-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d319",
+      "document_number": "319",
+      "unit_scope": "footnote",
+      "military_type": "shootdown_or_intercept",
+      "approved_phrase": "two U.S. Navy F–14 Tomcats shot down two Libyan SU–22 Fitter fighter jets",
+      "operation_or_crisis": "August 19, 1981 Gulf of Sidra incident",
+      "actor_or_force": "U.S. Navy F-14 Tomcats and Libyan SU-22 Fitter fighter jets",
+      "stage_or_role": "shootdown after being fired upon",
+      "chronology_or_location_basis": "Document 319 footnote 3",
+      "citation_or_locator": "Document 319 footnote 3",
+      "public_or_archival_basis": "Published FRUS footnote gives the aircraft, incident date, and scheduled Libya; Chad target volume.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 319.",
+      "variant_forms": [
+        "two U.S. Navy F-14 Tomcats shot down two Libyan SU-22 Fitter fighter jets",
+        "two U.S. Navy F-14 Tomcats shot down two Libyan SU-22s"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d319",
+      "verification_status": "verified_published_military_crisis_record"
+    },
+    {
+      "military_crisis_id": "military-crisis-v24-libyan-cw-program-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d96",
+      "document_number": "96",
+      "unit_scope": "subject_line",
+      "military_type": "chemical_weapons_crisis",
+      "approved_phrase": "Libyan Chemical Weapons Program",
+      "operation_or_crisis": "Libyan chemical weapons program",
+      "actor_or_force": "Libya and U.S. diplomatic posts in Africa",
+      "stage_or_role": "subject heading and demarche basis",
+      "chronology_or_location_basis": "Document 96, Nouakchott, December 21, 1988",
+      "citation_or_locator": "Document 96 subject",
+      "public_or_archival_basis": "Published FRUS telegram uses the subject as the crisis label.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 96.",
+      "variant_forms": [
+        "Libyan chemical weapons production"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d96",
+      "verification_status": "verified_published_military_crisis_record"
+    },
+    {
+      "military_crisis_id": "military-crisis-v24-rabta-chemical-plant-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d96",
+      "document_number": "96",
+      "unit_scope": "document_text",
+      "military_type": "chemical_weapons_crisis",
+      "approved_phrase": "Rabta chemical plant",
+      "operation_or_crisis": "Libyan chemical weapons program",
+      "actor_or_force": "Libya and neighboring states",
+      "stage_or_role": "facility at issue",
+      "chronology_or_location_basis": "Document 96, December 1988",
+      "citation_or_locator": "Document 96",
+      "public_or_archival_basis": "Published FRUS telegram identifies Rabta as the chemical plant at issue.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 96.",
+      "variant_forms": [
+        "Rabta facility",
+        "Libyan plant"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d96",
+      "verification_status": "verified_published_military_crisis_record"
+    },
+    {
+      "military_crisis_id": "military-crisis-v24-rabta-verification-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d184",
+      "document_number": "184",
+      "unit_scope": "document_text",
+      "military_type": "inspection_or_verification",
+      "approved_phrase": "round-the-clock verification or dismantle the plant",
+      "operation_or_crisis": "Libyan CW capability and Rabta verification",
+      "actor_or_force": "United States, Algeria, Libya",
+      "stage_or_role": "requested diplomatic presentation on inspection and dismantlement",
+      "chronology_or_location_basis": "Document 184, late December 1988",
+      "citation_or_locator": "Document 184",
+      "public_or_archival_basis": "Published FRUS telegram asks whether Libya should allow verification or dismantle the plant.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 184.",
+      "variant_forms": [
+        "allow round-the-clock verification or dismantle the plant"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d184",
+      "verification_status": "verified_published_military_crisis_record"
+    },
+    {
+      "military_crisis_id": "military-crisis-v01-persian-gulf-navigation-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d302",
+      "document_number": "302",
+      "unit_scope": "document_text",
+      "military_type": "freedom_of_navigation",
+      "approved_phrase": "Persian Gulf will remain open to navigation",
+      "operation_or_crisis": "Persian Gulf freedom of navigation",
+      "actor_or_force": "United States, allies, Iran, Soviet Union",
+      "stage_or_role": "public policy statement",
+      "chronology_or_location_basis": "Document 302, Washington, May 29, 1987",
+      "citation_or_locator": "Document 302",
+      "public_or_archival_basis": "Published Reagan Foundations text gives the public freedom-of-navigation form.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 302.",
+      "variant_forms": [
+        "The Persian Gulf will remain open to navigation"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d302",
+      "verification_status": "verified_published_military_crisis_record"
+    },
+    {
+      "military_crisis_id": "military-crisis-v01-gulf-force-presence-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d302",
+      "document_number": "302",
+      "unit_scope": "document_text",
+      "military_type": "force_presence",
+      "approved_phrase": "maintain an adequate presence to deter and, if necessary, to defend ourselves",
+      "operation_or_crisis": "Persian Gulf force presence",
+      "actor_or_force": "United States forces in the Persian Gulf",
+      "stage_or_role": "deterrent and defensive presence",
+      "chronology_or_location_basis": "Document 302, Washington, May 29, 1987",
+      "citation_or_locator": "Document 302",
+      "public_or_archival_basis": "Published Reagan Foundations text explains force presence in the Gulf.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 302.",
+      "variant_forms": [
+        "maintain adequate presence to deter and defend ourselves"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d302",
+      "verification_status": "verified_published_military_crisis_record"
     }
   ]
 }

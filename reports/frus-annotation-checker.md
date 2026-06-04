@@ -156,6 +156,13 @@ For footnote refer-back validation, use
 `reports/frus-footnote-referback-units.sample.json`; the self-contained smoke
 test is `scripts/test-frus-footnote-referback-audit.mjs`, and the sample audit
 report is `reports/frus-footnote-referback-audit.sample.json`.
+For military/crisis validation, use
+`scripts/validate-frus-military-crisis-registry.mjs` and
+`scripts/audit-frus-military-crisis-usage.mjs` with
+`reports/frus-military-crisis-registry.sample.json` and
+`reports/frus-military-crisis-units.sample.json`; the self-contained smoke test
+is `scripts/test-frus-military-crisis-audit.mjs`, and the sample audit report is
+`reports/frus-military-crisis-audit.sample.json`.
 For recurring compiler-risk spellchecks, use
 `scripts/validate-frus-recurring-risk-registry.mjs` and
 `scripts/audit-frus-recurring-risk-usage.mjs` with
@@ -12337,6 +12344,19 @@ Minimum components:
   commodity-policy, and foreign economic policy scope language to supplied
   target-volume records and fails direct economic/financial edits that lack
   registry support.
+- No-dependency military/crisis registry validator, usage audit, and fixtures:
+  `scripts/validate-frus-military-crisis-registry.mjs`,
+  `scripts/audit-frus-military-crisis-usage.mjs`,
+  `reports/frus-military-crisis-registry.sample.json`,
+  `reports/frus-military-crisis-units.sample.json`, and
+  `reports/frus-military-crisis-audit.sample.json`. The audit reconciles
+  operation names, force presence, Gulf of Sidra/Bay of Sidra and Persian Gulf
+  navigation claims, naval incidents, shootdowns/intercepts, military
+  assistance and FMS/IMET terms, Sixth Fleet and command references, Libyan
+  CW/Rabta language, inspection/verification or dismantlement claims,
+  host-nation/base-access, evacuation/embassy-security, and crisis chronology
+  to supplied target-volume records and fails direct military/crisis edits that
+  lack registry support.
 - No-dependency footnote refer-back registry validator, usage audit, and
   fixtures: `scripts/validate-frus-footnote-referback-registry.mjs`,
   `scripts/audit-frus-footnote-referback-usage.mjs`,
