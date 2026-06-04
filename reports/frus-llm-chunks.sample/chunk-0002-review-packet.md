@@ -52,9 +52,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -94,6 +94,9 @@ For chronology/time validation and direct-edit safety, run
 For time-zone/date-time-group validation and direct-edit safety, run
 `node scripts/validate-frus-time-zone-registry.mjs --registry reports/frus-time-zone-registry.sample.json --format text` and
 `node scripts/audit-frus-time-zone-usage.mjs --units extracted-units.json --registry reports/frus-time-zone-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For summit/public-event validation and direct-edit safety, run
+`node scripts/validate-frus-summit-public-event-registry.mjs --registry reports/frus-summit-public-event-registry.sample.json --format text` and
+`node scripts/audit-frus-summit-public-event-usage.mjs --units extracted-units.json --registry reports/frus-summit-public-event-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For selection-balance/completeness validation and direct-edit safety, run
 `node scripts/validate-frus-selection-balance-registry.mjs --registry reports/frus-selection-balance-registry.sample.json --format text` and
 `node scripts/audit-frus-selection-balance-usage.mjs --units extracted-units.json --registry reports/frus-selection-balance-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -152,7 +155,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -232,6 +235,17 @@ local-time labels, GMT/Z/Zulu date-time groups, EST/EDT labels, no-precise-time
 caveats, deadlines, treaty timing rules, conversions, and chronological
 placement; validate it with `scripts/validate-frus-time-zone-registry.mjs`
 before direct time-label, conversion, or date-time-group edits.
+For real Reagan/Bush 1981-1992 summit/public-event review, replace the sample
+summit/public-event registry with target-volume records for summit travel,
+signing ceremonies, public remarks, public addresses, news conferences,
+interviews, United Nations addresses, toasts, arrival/departure events,
+diary/schedule basis, press basis, event sequence, participants, place,
+date/time, public-source basis, and full-record-elsewhere targets. Treat event
+date, time, place, sequence, participant, public-source basis, press basis,
+diary/schedule basis, time-zone relationship, and full-record target as
+comment-only unless the target-volume registry proves the exact direct edit.
+Validate it with `scripts/validate-frus-summit-public-event-registry.mjs`
+before direct event-chronology edits.
 For real Reagan/Bush 1981-1992 selection-balance/completeness review, replace
 the sample selection-balance registry with target-volume records for principles
 of selection, chapter or volume scope, excerpted portions, omitted non-scope
@@ -325,8 +339,11 @@ local-context references, `Document X and footnote Y thereto` references, and
 published multi-target clusters. Treat the third full citation occurrence of
 the same citation, whether parenthetical or plain source-note text, as the first
 human review trigger for a possible refer-back, and flag every later full
-citation occurrence too; this is not an automatic rewrite, and the checker
-should not wait for a fourth occurrence. The registry
+citation occurrence too. Reagan Foundations citations can appear both with a
+Book marker, such as `Public Papers: Reagan, 1983, Book I, pp. 479-484`, and
+without one, such as `Public Papers: Reagan, 1981, p. 1156`; the threshold
+detector should catch both forms. This is not an automatic rewrite, and the
+checker should not wait for a fourth occurrence. The registry
 should carry `repeat_threshold: 3` and a plain-language
 `repeat_threshold_action`: first and second full citation occurrences may stand;
 the third full citation occurrence itself and every later full citation
@@ -5145,6 +5162,248 @@ Use this to check Washington-time rules, local-time labels, GMT/Z/Zulu date-time
 }
 ```
 
+## Summit Travel And Public Event Registry Context
+
+Use this to check summit travel, public signing ceremonies, public remarks, news conferences, interviews, public addresses, United Nations addresses, toasts, arrival/departure events, public-source basis, diary/schedule basis, press basis, event sequence, participants, place, date/time, and full-record-elsewhere targets. Treat event date, time, place, sequence, participant, public-source basis, press basis, diary/schedule basis, time-zone relationship, and full-record target as comment-only unless the target-volume summit/public-event registry proves the exact direct edit.
+
+```json
+{
+  "schema_version": "frus-summit-public-event-registry-v1",
+  "event_chronology_registry_id": "frus-1981-1992-summit-public-event-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d245",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d237",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d244",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d206",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d33",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/ch3"
+  ],
+  "scope": "Published Reagan and George H.W. Bush summit, travel, ceremony, interview, public-address, press-event, public-source, diary/schedule, and full-record-target patterns for FRUS annotation-sheet review.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "event_id": "event-v31-d245-start-signing-remarks",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d245",
+      "document_number": "245",
+      "unit_scope": "editorial_note",
+      "event_family": "summit_travel",
+      "event_type": "signing_ceremony",
+      "approved_phrase": "Bush and Gorbachev prepared remarks at the START signing ceremony in Moscow",
+      "date_span": "1991-07-31",
+      "place": "Moscow",
+      "public_source_basis": "Public Papers: Bush, 1991, pages 986-987",
+      "schedule_or_diary_basis": "timed Moscow summit itinerary in published editorial note",
+      "related_full_record_target": "Foreign Relations, 1989-1992, vol. III, Soviet Union, Russia, and Post-Soviet States: High-Level Contacts",
+      "press_or_ceremony_component": "START signing remarks",
+      "participants_or_actors": "Bush; Gorbachev",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 245 editorial note.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d245",
+      "verification_status": "verified_published_summit_public_event_record",
+      "variant_forms": [
+        "START signing ceremony in Moscow",
+        "Public Papers: Bush, 1991, pages 986-987"
+      ]
+    },
+    {
+      "event_id": "event-v31-d237-london-economic-summit-news-conference",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d237",
+      "document_number": "237",
+      "unit_scope": "follow_on_footnote",
+      "event_family": "summit_press",
+      "event_type": "news_conference",
+      "approved_phrase": "In an evening news conference at the London Economic Summit on July 17",
+      "date_span": "1991-07-17",
+      "place": "London Economic Summit",
+      "public_source_basis": "Public Papers: Bush, 1991, p. 907",
+      "schedule_or_diary_basis": "not supplied",
+      "related_full_record_target": "",
+      "press_or_ceremony_component": "evening news conference after joint news conference with Gorbachev",
+      "participants_or_actors": "Bush; Gorbachev",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 237 footnote 2.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d237",
+      "verification_status": "verified_published_summit_public_event_record",
+      "variant_forms": [
+        "London Economic Summit news conference",
+        "Public Papers: Bush, 1991, p. 907"
+      ]
+    },
+    {
+      "event_id": "event-v31-d244-public-signing-ceremony-margins",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d244",
+      "document_number": "244",
+      "unit_scope": "telegram_text",
+      "event_family": "summit_working_sequence",
+      "event_type": "summit_working_sequence",
+      "approved_phrase": "Conversations on the margins of the public signing ceremony 3 p.m.-4 p.m., July 31 in the Kremlin",
+      "date_span": "1991-07-31",
+      "place": "Kremlin",
+      "public_source_basis": "public signing ceremony context in selected delegation telegram",
+      "schedule_or_diary_basis": "telegram reports a timed summit working sequence",
+      "related_full_record_target": "",
+      "press_or_ceremony_component": "public signing ceremony margins",
+      "participants_or_actors": "START delegation participants",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 244.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d244",
+      "verification_status": "verified_published_summit_public_event_record",
+      "variant_forms": [
+        "public signing ceremony 3 p.m.-4 p.m., July 31 in the Kremlin",
+        "July 1991 Moscow summit"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "event_id": "event-v31-d245-start-signing-remarks",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d245",
+      "document_number": "245",
+      "unit_scope": "editorial_note",
+      "event_family": "summit_travel",
+      "event_type": "signing_ceremony",
+      "approved_phrase": "Bush and Gorbachev prepared remarks at the START signing ceremony in Moscow",
+      "date_span": "1991-07-31",
+      "place": "Moscow",
+      "public_source_basis": "Public Papers: Bush, 1991, pages 986-987",
+      "schedule_or_diary_basis": "timed Moscow summit itinerary in published editorial note",
+      "related_full_record_target": "Foreign Relations, 1989-1992, vol. III, Soviet Union, Russia, and Post-Soviet States: High-Level Contacts",
+      "press_or_ceremony_component": "START signing remarks",
+      "participants_or_actors": "Bush; Gorbachev",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 245 editorial note.",
+      "variant_forms": [
+        "START signing ceremony in Moscow",
+        "Public Papers: Bush, 1991, pages 986-987"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d245",
+      "verification_status": "verified_published_summit_public_event_record"
+    },
+    {
+      "event_id": "event-v31-d237-london-economic-summit-news-conference",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d237",
+      "document_number": "237",
+      "unit_scope": "follow_on_footnote",
+      "event_family": "summit_press",
+      "event_type": "news_conference",
+      "approved_phrase": "In an evening news conference at the London Economic Summit on July 17",
+      "date_span": "1991-07-17",
+      "place": "London Economic Summit",
+      "public_source_basis": "Public Papers: Bush, 1991, p. 907",
+      "schedule_or_diary_basis": "not supplied",
+      "related_full_record_target": "",
+      "press_or_ceremony_component": "evening news conference after joint news conference with Gorbachev",
+      "participants_or_actors": "Bush; Gorbachev",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 237 footnote 2.",
+      "variant_forms": [
+        "London Economic Summit news conference",
+        "Public Papers: Bush, 1991, p. 907"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d237",
+      "verification_status": "verified_published_summit_public_event_record"
+    },
+    {
+      "event_id": "event-v31-d244-public-signing-ceremony-margins",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d244",
+      "document_number": "244",
+      "unit_scope": "telegram_text",
+      "event_family": "summit_working_sequence",
+      "event_type": "summit_working_sequence",
+      "approved_phrase": "Conversations on the margins of the public signing ceremony 3 p.m.-4 p.m., July 31 in the Kremlin",
+      "date_span": "1991-07-31",
+      "place": "Kremlin",
+      "public_source_basis": "public signing ceremony context in selected delegation telegram",
+      "schedule_or_diary_basis": "telegram reports a timed summit working sequence",
+      "related_full_record_target": "",
+      "press_or_ceremony_component": "public signing ceremony margins",
+      "participants_or_actors": "START delegation participants",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 244.",
+      "variant_forms": [
+        "public signing ceremony 3 p.m.-4 p.m., July 31 in the Kremlin",
+        "July 1991 Moscow summit"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d244",
+      "verification_status": "verified_published_summit_public_event_record"
+    },
+    {
+      "event_id": "event-v01-d206-reagan-un-general-assembly",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d206",
+      "document_number": "206",
+      "unit_scope": "editorial_note",
+      "event_family": "public_address",
+      "event_type": "united_nations_address",
+      "approved_phrase": "On September 24, 1984, President Ronald Reagan addressed the United Nations General Assembly in New York",
+      "date_span": "1984-09-24",
+      "place": "General Assembly Hall at the United Nations",
+      "public_source_basis": "Public Papers: Reagan, 1984, Book II, pages 1355-1361",
+      "schedule_or_diary_basis": "Reagan personal diary entry",
+      "related_full_record_target": "",
+      "press_or_ceremony_component": "public address",
+      "participants_or_actors": "Reagan; United Nations General Assembly",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 206 editorial note.",
+      "variant_forms": [
+        "He spoke at 10:31 a.m. in the General Assembly Hall at the United Nations",
+        "Public Papers: Reagan, 1984, Book II, pages 1355-1361"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d206",
+      "verification_status": "verified_published_summit_public_event_record"
+    },
+    {
+      "event_id": "event-v01-d33-reagan-cronkite-interview",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d33",
+      "document_number": "33",
+      "unit_scope": "editorial_note",
+      "event_family": "broadcast_interview",
+      "event_type": "television_interview",
+      "approved_phrase": "The interview took place in the Oval Office from 1:14 until 2:34 p.m. and was videotaped for broadcast on the CBS television network at 8 p.m. that evening",
+      "date_span": "1981-03-03",
+      "place": "Oval Office",
+      "public_source_basis": "Public Papers: Reagan, 1981, pages 191-202",
+      "schedule_or_diary_basis": "Reagan Library, President's Daily Diary",
+      "related_full_record_target": "",
+      "press_or_ceremony_component": "CBS Evening News interview",
+      "participants_or_actors": "Reagan; Walter Cronkite",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 33 editorial note.",
+      "variant_forms": [
+        "CBS Evening News anchor Walter Cronkite",
+        "Public Papers: Reagan, 1981, pages 191-202"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d33",
+      "verification_status": "verified_published_summit_public_event_record"
+    },
+    {
+      "event_id": "event-v01-d106-reagan-unga-disarmament",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d106",
+      "document_number": "106",
+      "unit_scope": "source_note",
+      "event_family": "public_address",
+      "event_type": "united_nations_address",
+      "approved_phrase": "The President spoke at 11:02 a.m. in the General Assembly Hall",
+      "date_span": "1982-06-17",
+      "place": "General Assembly Hall",
+      "public_source_basis": "Public Papers: Reagan, 1982, Book I, pp. 784-789",
+      "schedule_or_diary_basis": "Reagan personal diary entry",
+      "related_full_record_target": "",
+      "press_or_ceremony_component": "United Nations General Assembly Special Session on Disarmament address",
+      "participants_or_actors": "Reagan; United Nations General Assembly",
+      "source_or_context": "FRUS, 1981-1988, volume I, Chapter 3, Document 106 source note.",
+      "variant_forms": [
+        "Address by President Reagan Before the United Nations General Assembly Special Session on Disarmament",
+        "Public Papers: Reagan, 1982, Book I, pp. 784-789"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/ch3",
+      "verification_status": "verified_published_summit_public_event_record"
+    }
+  ]
+}
+```
+
 ## Selection Balance And Completeness Registry Context
 
 Use this to check principles of selection, chapter or volume scope, excerpted portions, omitted non-scope material, related-volume boundaries, scheduled-publication targets, complete-record-elsewhere claims, withheld-document effects, and known gaps. Treat complete, balanced, representative, or no-other-record claims as comment-only unless target-volume selection-balance evidence and General Editor review support the claim.
@@ -8791,7 +9050,7 @@ Use this to check repeated-reference footnote discipline in follow-on footnotes 
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d316"
   ],
   "scope": "Sample registry of published Reagan Foundations footnote refer-back forms for checking FRUS annotation-sheet footnotes and source-note citations without inventing targets.",
-  "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: whether the repeated citation is parenthetical or plain source-note text, the third full citation occurrence of the same citation is the first human review trigger for a proper footnote refer-back, and every later full citation occurrence remains a review unit. Do not wait for a fourth occurrence. Cross-document targets take `footnote N, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; Document 146 separately models a three-target footnote/document cluster.",
+  "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: whether the repeated citation is parenthetical or plain source-note text, the third full citation occurrence of the same citation is the first human review trigger for a proper footnote refer-back, and every later full citation occurrence remains a review unit. Do not wait for a fourth occurrence. Cross-document targets take `footnote N, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; Document 146 separately models a three-target footnote/document cluster. Repeated-citation matching must catch both Reagan Foundations Public Papers forms with Book markers and no-Book forms such as `Public Papers: Reagan, 1981, p. 1156`.",
   "repeat_threshold": 3,
   "repeat_threshold_action": "The first and second full citation occurrences may stand; on the third full citation occurrence itself and every later full citation occurrence, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not wait for a fourth occurrence, and do not rewrite unless the target footnote/document is verified in the registry.",
   "target_volume": "frus1989-92v31",

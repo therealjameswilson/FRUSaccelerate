@@ -200,6 +200,39 @@
       "edit_safety": "safe",
       "comment_safety": "safe",
       "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0019",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft Public Papers no-Book repeated citation A",
+      "exact_text": "The continuing resolution signing is noted. (Public Papers: Reagan, 1981, p. 1156)",
+      "display_text": "The continuing resolution signing is noted. (Public Papers: Reagan, 1981, p. 1156)",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0020",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft Public Papers no-Book repeated citation B",
+      "exact_text": "The same signing citation appears again. (Public Papers: Reagan, 1981, p. 1156)",
+      "display_text": "The same signing citation appears again. (Public Papers: Reagan, 1981, p. 1156)",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0021",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft Public Papers no-Book repeated citation C",
+      "exact_text": "The no-Book Public Papers citation appears a third time. (Public Papers: Reagan, 1981, p. 1156)",
+      "display_text": "The no-Book Public Papers citation appears a third time. (Public Papers: Reagan, 1981, p. 1156)",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
     }
   ]
 }

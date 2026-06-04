@@ -149,6 +149,13 @@ For foreign/international-organization validation, use
 `reports/frus-foreign-org-units.sample.json`; the self-contained smoke test is
 `scripts/test-frus-foreign-org-audit.mjs`, and the sample audit report is
 `reports/frus-foreign-org-audit.sample.json`.
+For summit/public-event validation, use
+`scripts/validate-frus-summit-public-event-registry.mjs` and
+`scripts/audit-frus-summit-public-event-usage.mjs` with
+`reports/frus-summit-public-event-registry.sample.json` and
+`reports/frus-summit-public-event-units.sample.json`; the self-contained smoke
+test is `scripts/test-frus-summit-public-event-audit.mjs`, and the sample audit
+report is `reports/frus-summit-public-event-audit.sample.json`.
 For footnote refer-back validation, use
 `scripts/validate-frus-footnote-referback-registry.mjs` and
 `scripts/audit-frus-footnote-referback-usage.mjs` with
@@ -12414,6 +12421,20 @@ Minimum components:
   target-volume records and fails direct report-basis, relief-stage,
   amount/metric, legal/program-authority, sanctions/waiver, or
   environmental/treaty edits that lack registry support.
+- No-dependency summit/public-event registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-summit-public-event-registry.mjs`,
+  `scripts/audit-frus-summit-public-event-usage.mjs`,
+  `reports/frus-summit-public-event-registry.sample.json`,
+  `reports/frus-summit-public-event-units.sample.json`, and
+  `reports/frus-summit-public-event-audit.sample.json`. The audit reconciles
+  summit travel, signing ceremonies, public remarks, public addresses, news
+  conferences, interviews, United Nations addresses, toasts,
+  arrival/departure events, diary/schedule basis, press basis, event sequence,
+  participants, place, date/time, public-source basis, and full-record
+  elsewhere targets to supplied target-volume records. It fails direct event
+  date, time, place, sequence, participant, public-source basis, press basis,
+  diary/schedule basis, time-zone relationship, or full-record-target edits
+  that lack registry support.
 - No-dependency footnote refer-back registry validator, usage audit, and
   fixtures: `scripts/validate-frus-footnote-referback-registry.mjs`,
   `scripts/audit-frus-footnote-referback-usage.mjs`,
@@ -12426,7 +12447,10 @@ Minimum components:
   footnote/document clusters, and the separate three-times rule that treats the
   third full citation occurrence of the same citation, whether parenthetical or
   plain source-note text, as the first human refer-back review trigger and every
-  later full citation occurrence as a continued review unit. Do not wait for a
+  later full citation occurrence as a continued review unit. It detects Public
+  Papers citations both with and without a Book marker, matching Reagan
+  Foundations examples such as `Public Papers: Reagan, 1983, Book I, pp.
+  479-484` and `Public Papers: Reagan, 1981, p. 1156`. Do not wait for a
   fourth occurrence. The registry carries the `repeat_threshold` and
   target-confirmation action so
   closed-network packets preserve the rule even in small-context runs. It fails

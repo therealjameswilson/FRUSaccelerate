@@ -11,18 +11,19 @@
     "referback-0010: Document-and-footnote cross-reference is missing `thereto`.",
     "referback-0011: Footnote contains more than three `footnote N, Document X` refer-back targets.",
     "referback-0014,referback-0015: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citation occurrences may stand; flag the third occurrence and every later occurrence for target confirmation.",
-    "referback-0018: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citation occurrences may stand; flag the third occurrence and every later occurrence for target confirmation."
+    "referback-0018: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citation occurrences may stand; flag the third occurrence and every later occurrence for target confirmation.",
+    "referback-0021: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citation occurrences may stand; flag the third occurrence and every later occurrence for target confirmation."
   ],
   "summary": {
-    "units_scanned": 18,
+    "units_scanned": 21,
     "approved_referback_usages": 6,
     "malformed_referbacks": 5,
     "overlong_referback_clusters": 1,
-    "repeated_citation_thresholds": 2,
-    "repeated_citation_review_units": 3,
+    "repeated_citation_thresholds": 3,
+    "repeated_citation_review_units": 4,
     "repeat_threshold": 3,
     "direct_footnote_referback_edit_conflicts": 0,
-    "warnings": 8,
+    "warnings": 9,
     "by_referback_type": {
       "cross_document_footnote": 1,
       "multi_target_footnote_cluster": 2,
@@ -417,6 +418,99 @@
           "matched_text": "Department of State Bulletin, March 1983, p. 16",
           "source_type": "department_bulletin",
           "offset": 69,
+          "occurrence_number": 3,
+          "threshold_status": "first_referback_review_trigger"
+        }
+      ],
+      "finding": "Same full citation reaches the 3rd occurrence without a footnote refer-back.",
+      "required_action": "The first and second full citation occurrences may stand; on the third full citation occurrence itself and every later full citation occurrence, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not wait for a fourth occurrence, and do not rewrite unless the target footnote/document is verified in the registry."
+    },
+    {
+      "citation_key": "public papers reagan 1981 p 1156",
+      "repeat_threshold": 3,
+      "occurrence_count": 3,
+      "trigger_unit": {
+        "unit_id": "referback-0021",
+        "unit_type": "follow_on_footnote",
+        "location": "Draft Public Papers no-Book repeated citation C",
+        "matched_text": "Public Papers: Reagan, 1981, p. 1156",
+        "source_type": "public_papers",
+        "offset": 58,
+        "occurrence_number": 3,
+        "threshold_status": "first_referback_review_trigger"
+      },
+      "first_review_unit": {
+        "unit_id": "referback-0021",
+        "unit_type": "follow_on_footnote",
+        "location": "Draft Public Papers no-Book repeated citation C",
+        "matched_text": "Public Papers: Reagan, 1981, p. 1156",
+        "source_type": "public_papers",
+        "offset": 58,
+        "occurrence_number": 3,
+        "threshold_status": "first_referback_review_trigger"
+      },
+      "allowed_full_citation_units": [
+        {
+          "unit_id": "referback-0019",
+          "unit_type": "follow_on_footnote",
+          "location": "Draft Public Papers no-Book repeated citation A",
+          "matched_text": "Public Papers: Reagan, 1981, p. 1156",
+          "source_type": "public_papers",
+          "offset": 45,
+          "occurrence_number": 1,
+          "threshold_status": "full_citation_may_stand"
+        },
+        {
+          "unit_id": "referback-0020",
+          "unit_type": "follow_on_footnote",
+          "location": "Draft Public Papers no-Book repeated citation B",
+          "matched_text": "Public Papers: Reagan, 1981, p. 1156",
+          "source_type": "public_papers",
+          "offset": 42,
+          "occurrence_number": 2,
+          "threshold_status": "full_citation_may_stand"
+        }
+      ],
+      "review_units": [
+        {
+          "unit_id": "referback-0021",
+          "unit_type": "follow_on_footnote",
+          "location": "Draft Public Papers no-Book repeated citation C",
+          "matched_text": "Public Papers: Reagan, 1981, p. 1156",
+          "source_type": "public_papers",
+          "offset": 58,
+          "occurrence_number": 3,
+          "threshold_status": "first_referback_review_trigger"
+        }
+      ],
+      "units": [
+        {
+          "unit_id": "referback-0019",
+          "unit_type": "follow_on_footnote",
+          "location": "Draft Public Papers no-Book repeated citation A",
+          "matched_text": "Public Papers: Reagan, 1981, p. 1156",
+          "source_type": "public_papers",
+          "offset": 45,
+          "occurrence_number": 1,
+          "threshold_status": "full_citation_may_stand"
+        },
+        {
+          "unit_id": "referback-0020",
+          "unit_type": "follow_on_footnote",
+          "location": "Draft Public Papers no-Book repeated citation B",
+          "matched_text": "Public Papers: Reagan, 1981, p. 1156",
+          "source_type": "public_papers",
+          "offset": 42,
+          "occurrence_number": 2,
+          "threshold_status": "full_citation_may_stand"
+        },
+        {
+          "unit_id": "referback-0021",
+          "unit_type": "follow_on_footnote",
+          "location": "Draft Public Papers no-Book repeated citation C",
+          "matched_text": "Public Papers: Reagan, 1981, p. 1156",
+          "source_type": "public_papers",
+          "offset": 58,
           "occurrence_number": 3,
           "threshold_status": "first_referback_review_trigger"
         }

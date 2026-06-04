@@ -1,0 +1,84 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source_docx": "sample-frus-summit-public-event-annotation-sheet.docx",
+  "generated_at": "2026-06-04T00:00:00.000Z",
+  "units": [
+    {
+      "unit_id": "summit-event-0001",
+      "unit_type": "editorial_note",
+      "location": "Bush START I Document 245 editorial note",
+      "exact_text": "The note quotes Bush and Gorbachev prepared remarks at the START signing ceremony in Moscow and cites Public Papers: Bush, 1991, pages 986-987.",
+      "display_text": "The note quotes Bush and Gorbachev prepared remarks at the START signing ceremony in Moscow and cites Public Papers: Bush, 1991, pages 986-987.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "summit-event-0002",
+      "unit_type": "follow_on_footnote",
+      "location": "Bush START I Document 237 footnote 2",
+      "exact_text": "In an evening news conference at the London Economic Summit on July 17, Bush described the START breakthrough. The draft also calls it a London Economic Summit news conference.",
+      "display_text": "In an evening news conference at the London Economic Summit on July 17, Bush described the START breakthrough. The draft also calls it a London Economic Summit news conference.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "summit-event-0003",
+      "unit_type": "editorial_note",
+      "location": "Bush START I Document 244 summit working sequence",
+      "exact_text": "The delegation telegram reports Conversations on the margins of the public signing ceremony 3 p.m.-4 p.m., July 31 in the Kremlin.",
+      "display_text": "The delegation telegram reports Conversations on the margins of the public signing ceremony 3 p.m.-4 p.m., July 31 in the Kremlin.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "summit-event-0004",
+      "unit_type": "editorial_note",
+      "location": "Reagan Foundations Document 206 editorial note",
+      "exact_text": "On September 24, 1984, President Ronald Reagan addressed the United Nations General Assembly in New York. He spoke at 10:31 a.m. in the General Assembly Hall at the United Nations.",
+      "display_text": "On September 24, 1984, President Ronald Reagan addressed the United Nations General Assembly in New York. He spoke at 10:31 a.m. in the General Assembly Hall at the United Nations.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "summit-event-0005",
+      "unit_type": "editorial_note",
+      "location": "Reagan Foundations Document 33 editorial note",
+      "exact_text": "The interview took place in the Oval Office from 1:14 until 2:34 p.m. and was videotaped for broadcast on the CBS television network at 8 p.m. that evening.",
+      "display_text": "The interview took place in the Oval Office from 1:14 until 2:34 p.m. and was videotaped for broadcast on the CBS television network at 8 p.m. that evening.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "summit-event-0006",
+      "unit_type": "source_note",
+      "location": "Reagan Foundations Document 106 source note",
+      "exact_text": "Source note: The President spoke at 11:02 a.m. in the General Assembly Hall.",
+      "display_text": "Source note: The President spoke at 11:02 a.m. in the General Assembly Hall.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "summit-event-0007",
+      "unit_type": "unknown_editorial_text",
+      "location": "Draft unmatched summit/event note",
+      "exact_text": "The draft says the NATO summit press gaggle took place at 9 a.m. before a signing ceremony, but gives no diary, schedule, Public Papers, or published FRUS event basis.",
+      "display_text": "The draft says the NATO summit press gaggle took place at 9 a.m. before a signing ceremony, but gives no diary, schedule, Public Papers, or published FRUS event basis.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}

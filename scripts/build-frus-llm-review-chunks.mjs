@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -44,6 +44,7 @@ function parseArgs(argv) {
   let documentHandlingRegistryPath = null;
   let chronologyRegistryPath = null;
   let timeZoneRegistryPath = null;
+  let summitPublicEventRegistryPath = null;
   let selectionBalanceRegistryPath = null;
   let decisionProcessRegistryPath = null;
   let publicSourceRegistryPath = null;
@@ -123,6 +124,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--time-zone-registry") {
       timeZoneRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--summit-public-event-registry") {
+      summitPublicEventRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--selection-balance-registry") {
       selectionBalanceRegistryPath = argv[index + 1];
@@ -229,6 +233,7 @@ function parseArgs(argv) {
     documentHandlingRegistryPath,
     chronologyRegistryPath,
     timeZoneRegistryPath,
+    summitPublicEventRegistryPath,
     selectionBalanceRegistryPath,
     decisionProcessRegistryPath,
     publicSourceRegistryPath,
@@ -784,6 +789,41 @@ function compactTimeZoneRegistry(registry, targetVolume) {
   };
 }
 
+function compactSummitPublicEventRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.events) ? registry.events : [];
+  return {
+    schema_version: registry.schema_version,
+    event_chronology_registry_id: registry.event_chronology_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [],
+    events: records.map((record) => ({
+      event_id: record.event_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      event_family: record.event_family,
+      event_type: record.event_type,
+      approved_phrase: record.approved_phrase,
+      date_span: record.date_span,
+      place: record.place,
+      public_source_basis: record.public_source_basis,
+      schedule_or_diary_basis: record.schedule_or_diary_basis,
+      related_full_record_target: record.related_full_record_target,
+      press_or_ceremony_component: record.press_or_ceremony_component,
+      participants_or_actors: record.participants_or_actors,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactSelectionBalanceRegistry(registry, targetVolume) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -1240,6 +1280,7 @@ function renderPacket({
   documentHandlingRegistry,
   chronologyRegistry,
   timeZoneRegistry,
+  summitPublicEventRegistry,
   selectionBalanceRegistry,
   decisionProcessRegistry,
   publicSourceRegistry,
@@ -1376,6 +1417,12 @@ function renderPacket({
     "Use this to check Washington-time rules, local-time labels, GMT/Z/Zulu date-time groups, EST/EDT labels, no-precise-time caveats, deadlines, treaty timing rules, and chronological placement. Preserve time labels exactly; do not convert, drop `Z`, add local time, or move a document chronologically unless the target-volume time-zone registry proves the direct edit.",
     "",
     fencedJson(timeZoneRegistry || {}),
+    "",
+    "## Summit Travel And Public Event Registry Context",
+    "",
+    "Use this to check summit travel, public signing ceremonies, public remarks, news conferences, interviews, public addresses, United Nations addresses, toasts, arrival/departure events, public-source basis, diary/schedule basis, press basis, event sequence, participants, place, date/time, and full-record-elsewhere targets. Treat event date, time, place, sequence, participant, public-source basis, press basis, diary/schedule basis, time-zone relationship, and full-record target as comment-only unless the target-volume summit/public-event registry proves the exact direct edit.",
+    "",
+    fencedJson(summitPublicEventRegistry || {}),
     "",
     "## Selection Balance And Completeness Registry Context",
     "",
@@ -1517,6 +1564,9 @@ function buildChunks(options) {
   const communicationsRegistry = options.communicationsRegistryPath ? readJson(options.communicationsRegistryPath) : null;
   const chronologyRegistry = options.chronologyRegistryPath ? readJson(options.chronologyRegistryPath) : null;
   const timeZoneRegistry = options.timeZoneRegistryPath ? readJson(options.timeZoneRegistryPath) : null;
+  const summitPublicEventRegistry = options.summitPublicEventRegistryPath
+    ? readJson(options.summitPublicEventRegistryPath)
+    : null;
   const selectionBalanceRegistry = options.selectionBalanceRegistryPath ? readJson(options.selectionBalanceRegistryPath) : null;
   const decisionProcessRegistry = options.decisionProcessRegistryPath
     ? readJson(options.decisionProcessRegistryPath)
@@ -1569,6 +1619,10 @@ function buildChunks(options) {
   const communicationsRegistryContext = compactCommunicationsRegistry(communicationsRegistry, options.targetVolume);
   const chronologyRegistryContext = compactChronologyRegistry(chronologyRegistry, options.targetVolume);
   const timeZoneRegistryContext = compactTimeZoneRegistry(timeZoneRegistry, options.targetVolume);
+  const summitPublicEventRegistryContext = compactSummitPublicEventRegistry(
+    summitPublicEventRegistry,
+    options.targetVolume
+  );
   const selectionBalanceRegistryContext = compactSelectionBalanceRegistry(
     selectionBalanceRegistry,
     options.targetVolume
@@ -1634,6 +1688,9 @@ function buildChunks(options) {
       document_handling_registry: options.documentHandlingRegistryPath ? normalizePathForOutput(options.documentHandlingRegistryPath) : "",
       chronology_registry: options.chronologyRegistryPath ? normalizePathForOutput(options.chronologyRegistryPath) : "",
       time_zone_registry: options.timeZoneRegistryPath ? normalizePathForOutput(options.timeZoneRegistryPath) : "",
+      summit_public_event_registry: options.summitPublicEventRegistryPath
+        ? normalizePathForOutput(options.summitPublicEventRegistryPath)
+        : "",
       selection_balance_registry: options.selectionBalanceRegistryPath
         ? normalizePathForOutput(options.selectionBalanceRegistryPath)
         : "",
@@ -1690,6 +1747,7 @@ function buildChunks(options) {
       document_handling_registry_records: documentHandlingRegistry?.records?.length || 0,
       chronology_registry_records: chronologyRegistry?.records?.length || 0,
       time_zone_registry_records: timeZoneRegistry?.records?.length || 0,
+      summit_public_event_registry_records: summitPublicEventRegistry?.events?.length || 0,
       selection_balance_registry_records: selectionBalanceRegistry?.records?.length || 0,
       decision_process_registry_records: decisionProcessRegistry?.records?.length || 0,
       public_source_registry_records: publicSourceRegistry?.records?.length || 0,
@@ -1755,6 +1813,7 @@ function buildChunks(options) {
         documentHandlingRegistry: documentHandlingRegistryContext,
         chronologyRegistry: chronologyRegistryContext,
         timeZoneRegistry: timeZoneRegistryContext,
+        summitPublicEventRegistry: summitPublicEventRegistryContext,
         selectionBalanceRegistry: selectionBalanceRegistryContext,
         decisionProcessRegistry: decisionProcessRegistryContext,
         publicSourceRegistry: publicSourceRegistryContext,

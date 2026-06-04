@@ -55,12 +55,12 @@ try {
   }
   const report = JSON.parse(audit.stdout);
   assert(report.status === "warning", "expected warning status for malformed refer-back fixture");
-  assert(report.summary.units_scanned === 18, "expected eighteen units scanned");
+  assert(report.summary.units_scanned === 21, "expected twenty-one units scanned");
   assert(report.summary.approved_referback_usages === 6, "expected six approved refer-back matches");
   assert(report.summary.malformed_referbacks === 5, "expected five malformed refer-backs");
   assert(report.summary.overlong_referback_clusters === 1, "expected one overlong refer-back cluster");
-  assert(report.summary.repeated_citation_thresholds === 2, "expected two repeated citation thresholds");
-  assert(report.summary.repeated_citation_review_units === 3, "expected three third-and-later repeat review units");
+  assert(report.summary.repeated_citation_thresholds === 3, "expected three repeated citation thresholds");
+  assert(report.summary.repeated_citation_review_units === 4, "expected four third-and-later repeat review units");
   assert(report.summary.repeat_threshold === 3, "expected audit to use registry repeat threshold");
   assert(report.summary.by_referback_type.multi_target_footnote_cluster === 2, "expected two approved multi-target clusters");
   assert(report.summary.by_referback_type.same_document_local_context === 1, "expected same-document local-context match");
@@ -117,6 +117,19 @@ try {
   assert(
     bulletinThreshold.trigger_unit.source_type === "department_bulletin",
     "expected source-specific citation detector to classify Department of State Bulletin"
+  );
+  const publicPapersNoBookThreshold = report.repeated_citation_thresholds.find((threshold) =>
+    threshold.citation_key.includes("public papers reagan 1981 p 1156")
+  );
+  assert(publicPapersNoBookThreshold, "expected no-Book Public Papers citation threshold");
+  assert(publicPapersNoBookThreshold.occurrence_count === 3, "expected three no-Book Public Papers citation occurrences");
+  assert(
+    publicPapersNoBookThreshold.trigger_unit.unit_id === "referback-0021",
+    "expected third no-Book Public Papers citation to be trigger unit"
+  );
+  assert(
+    publicPapersNoBookThreshold.trigger_unit.source_type === "public_papers",
+    "expected no-Book Public Papers citation detector to classify Public Papers"
   );
 
   const unsafeOutput = path.join(tmpDir, "unsafe-output.json");

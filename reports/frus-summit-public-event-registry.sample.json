@@ -1,0 +1,160 @@
+{
+  "schema_version": "frus-summit-public-event-registry-v1",
+  "event_chronology_registry_id": "frus-1981-1992-summit-public-event-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d245",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d237",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d244",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d206",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d33",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/ch3"
+  ],
+  "scope": "Published Reagan and George H.W. Bush summit, travel, ceremony, interview, public-address, press-event, public-source, diary/schedule, and full-record-target patterns for FRUS annotation-sheet review.",
+  "events": [
+    {
+      "event_id": "event-v31-d245-start-signing-remarks",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d245",
+      "document_number": "245",
+      "unit_scope": "editorial_note",
+      "event_family": "summit_travel",
+      "event_type": "signing_ceremony",
+      "approved_phrase": "Bush and Gorbachev prepared remarks at the START signing ceremony in Moscow",
+      "date_span": "1991-07-31",
+      "place": "Moscow",
+      "public_source_basis": "Public Papers: Bush, 1991, pages 986-987",
+      "schedule_or_diary_basis": "timed Moscow summit itinerary in published editorial note",
+      "related_full_record_target": "Foreign Relations, 1989-1992, vol. III, Soviet Union, Russia, and Post-Soviet States: High-Level Contacts",
+      "press_or_ceremony_component": "START signing remarks",
+      "participants_or_actors": "Bush; Gorbachev",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 245 editorial note.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d245",
+      "verification_status": "verified_published_summit_public_event_record",
+      "variant_forms": [
+        "START signing ceremony in Moscow",
+        "Public Papers: Bush, 1991, pages 986-987"
+      ]
+    },
+    {
+      "event_id": "event-v31-d237-london-economic-summit-news-conference",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d237",
+      "document_number": "237",
+      "unit_scope": "follow_on_footnote",
+      "event_family": "summit_press",
+      "event_type": "news_conference",
+      "approved_phrase": "In an evening news conference at the London Economic Summit on July 17",
+      "date_span": "1991-07-17",
+      "place": "London Economic Summit",
+      "public_source_basis": "Public Papers: Bush, 1991, p. 907",
+      "schedule_or_diary_basis": "not supplied",
+      "related_full_record_target": "",
+      "press_or_ceremony_component": "evening news conference after joint news conference with Gorbachev",
+      "participants_or_actors": "Bush; Gorbachev",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 237 footnote 2.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d237",
+      "verification_status": "verified_published_summit_public_event_record",
+      "variant_forms": [
+        "London Economic Summit news conference",
+        "Public Papers: Bush, 1991, p. 907"
+      ]
+    },
+    {
+      "event_id": "event-v31-d244-public-signing-ceremony-margins",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d244",
+      "document_number": "244",
+      "unit_scope": "telegram_text",
+      "event_family": "summit_working_sequence",
+      "event_type": "summit_working_sequence",
+      "approved_phrase": "Conversations on the margins of the public signing ceremony 3 p.m.-4 p.m., July 31 in the Kremlin",
+      "date_span": "1991-07-31",
+      "place": "Kremlin",
+      "public_source_basis": "public signing ceremony context in selected delegation telegram",
+      "schedule_or_diary_basis": "telegram reports a timed summit working sequence",
+      "related_full_record_target": "",
+      "press_or_ceremony_component": "public signing ceremony margins",
+      "participants_or_actors": "START delegation participants",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 244.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d244",
+      "verification_status": "verified_published_summit_public_event_record",
+      "variant_forms": [
+        "public signing ceremony 3 p.m.-4 p.m., July 31 in the Kremlin",
+        "July 1991 Moscow summit"
+      ]
+    },
+    {
+      "event_id": "event-v01-d206-reagan-un-general-assembly",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d206",
+      "document_number": "206",
+      "unit_scope": "editorial_note",
+      "event_family": "public_address",
+      "event_type": "united_nations_address",
+      "approved_phrase": "On September 24, 1984, President Ronald Reagan addressed the United Nations General Assembly in New York",
+      "date_span": "1984-09-24",
+      "place": "General Assembly Hall at the United Nations",
+      "public_source_basis": "Public Papers: Reagan, 1984, Book II, pages 1355-1361",
+      "schedule_or_diary_basis": "Reagan personal diary entry",
+      "related_full_record_target": "",
+      "press_or_ceremony_component": "public address",
+      "participants_or_actors": "Reagan; United Nations General Assembly",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 206 editorial note.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d206",
+      "verification_status": "verified_published_summit_public_event_record",
+      "variant_forms": [
+        "He spoke at 10:31 a.m. in the General Assembly Hall at the United Nations",
+        "Public Papers: Reagan, 1984, Book II, pages 1355-1361"
+      ]
+    },
+    {
+      "event_id": "event-v01-d33-reagan-cronkite-interview",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d33",
+      "document_number": "33",
+      "unit_scope": "editorial_note",
+      "event_family": "broadcast_interview",
+      "event_type": "television_interview",
+      "approved_phrase": "The interview took place in the Oval Office from 1:14 until 2:34 p.m. and was videotaped for broadcast on the CBS television network at 8 p.m. that evening",
+      "date_span": "1981-03-03",
+      "place": "Oval Office",
+      "public_source_basis": "Public Papers: Reagan, 1981, pages 191-202",
+      "schedule_or_diary_basis": "Reagan Library, President's Daily Diary",
+      "related_full_record_target": "",
+      "press_or_ceremony_component": "CBS Evening News interview",
+      "participants_or_actors": "Reagan; Walter Cronkite",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 33 editorial note.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d33",
+      "verification_status": "verified_published_summit_public_event_record",
+      "variant_forms": [
+        "CBS Evening News anchor Walter Cronkite",
+        "Public Papers: Reagan, 1981, pages 191-202"
+      ]
+    },
+    {
+      "event_id": "event-v01-d106-reagan-unga-disarmament",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d106",
+      "document_number": "106",
+      "unit_scope": "source_note",
+      "event_family": "public_address",
+      "event_type": "united_nations_address",
+      "approved_phrase": "The President spoke at 11:02 a.m. in the General Assembly Hall",
+      "date_span": "1982-06-17",
+      "place": "General Assembly Hall",
+      "public_source_basis": "Public Papers: Reagan, 1982, Book I, pp. 784-789",
+      "schedule_or_diary_basis": "Reagan personal diary entry",
+      "related_full_record_target": "",
+      "press_or_ceremony_component": "United Nations General Assembly Special Session on Disarmament address",
+      "participants_or_actors": "Reagan; United Nations General Assembly",
+      "source_or_context": "FRUS, 1981-1988, volume I, Chapter 3, Document 106 source note.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/ch3",
+      "verification_status": "verified_published_summit_public_event_record",
+      "variant_forms": [
+        "Address by President Reagan Before the United Nations General Assembly Special Session on Disarmament",
+        "Public Papers: Reagan, 1982, Book I, pp. 784-789"
+      ]
+    }
+  ]
+}

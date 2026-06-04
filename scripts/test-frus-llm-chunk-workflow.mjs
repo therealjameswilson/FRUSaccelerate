@@ -100,6 +100,8 @@ try {
     "reports/frus-chronology-registry.sample.json",
     "--time-zone-registry",
     "reports/frus-time-zone-registry.sample.json",
+    "--summit-public-event-registry",
+    "reports/frus-summit-public-event-registry.sample.json",
     "--selection-balance-registry",
     "reports/frus-selection-balance-registry.sample.json",
     "--decision-process-registry",
@@ -167,6 +169,7 @@ try {
   assert(manifest.summary.document_handling_registry_records === 7, "expected document handling registry record count");
   assert(manifest.summary.chronology_registry_records === 6, "expected chronology registry record count");
   assert(manifest.summary.time_zone_registry_records === 8, "expected time-zone registry record count");
+  assert(manifest.summary.summit_public_event_registry_records === 6, "expected summit/public-event registry record count");
   assert(manifest.summary.selection_balance_registry_records === 8, "expected selection-balance registry record count");
   assert(manifest.summary.decision_process_registry_records === 12, "expected decision-process registry record count");
   assert(manifest.summary.public_source_registry_records === 6, "expected public-source registry record count");
@@ -203,6 +206,10 @@ try {
   assert(manifest.source_files.document_handling_registry === "reports/frus-document-handling-registry.sample.json", "expected document handling registry source path");
   assert(manifest.source_files.chronology_registry === "reports/frus-chronology-registry.sample.json", "expected chronology registry source path");
   assert(manifest.source_files.time_zone_registry === "reports/frus-time-zone-registry.sample.json", "expected time-zone registry source path");
+  assert(
+    manifest.source_files.summit_public_event_registry === "reports/frus-summit-public-event-registry.sample.json",
+    "expected summit/public-event registry source path"
+  );
   assert(manifest.source_files.selection_balance_registry === "reports/frus-selection-balance-registry.sample.json", "expected selection-balance registry source path");
   assert(manifest.source_files.decision_process_registry === "reports/frus-decision-process-registry.sample.json", "expected decision-process registry source path");
   assert(manifest.source_files.public_source_registry === "reports/frus-public-source-registry.sample.json", "expected public-source registry source path");
@@ -267,6 +274,10 @@ try {
   assert(firstPacket.includes("Time-Zone And Date-Time Group Registry Context"), "expected time-zone registry context in chunk packet");
   assert(firstPacket.includes("Geneva, January 10, 1991, 1757Z"), "expected START I Z-time registry content in chunk packet");
   assert(firstPacket.includes("open of business Washington time"), "expected Washington-time deadline content in chunk packet");
+  assert(firstPacket.includes("Summit Travel And Public Event Registry Context"), "expected summit/public-event context in chunk packet");
+  assert(firstPacket.includes("START signing ceremony in Moscow"), "expected START signing public-event content in chunk packet");
+  assert(firstPacket.includes("London Economic Summit on July 17"), "expected London Economic Summit content in chunk packet");
+  assert(firstPacket.includes("CBS television network"), "expected Reagan/CBS public-event content in chunk packet");
   assert(firstPacket.includes("Selection Balance And Completeness Registry Context"), "expected selection-balance registry context in chunk packet");
   assert(
     firstPacket.includes("complete memorandum of conversation is scheduled for publication"),
@@ -401,7 +412,7 @@ try {
   assert(badMerge.status !== 0, "expected out-of-chunk unit reference to fail");
   assert(badMerge.stdout.includes("outside chunk-0002"), "expected chunk-boundary failure detail");
 
-  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
+  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

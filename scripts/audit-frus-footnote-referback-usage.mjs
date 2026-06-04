@@ -17,7 +17,7 @@ const CITATION_PATTERNS = [
   {
     source_type: "public_papers",
     pattern:
-      /\bPublic Papers:\s*Reagan,\s*\d{4}(?:[-–]\d{4})?,\s*Book\s+[IVX]+,\s*pp?\.\s*[A-Z]?\d+(?:[-–]\d+)?(?:,\s*[A-Z]?\d+(?:[-–][A-Z]?\d+)?)*/gi
+      /\bPublic Papers:\s*(?:Reagan|Bush),\s*\d{4}(?:[-–]\d{4})?(?:,\s*Book\s+[IVX]+)?,\s*(?:pp?\.|pages?)\s*[A-Z]?\d+(?:[-–]\d+)?(?:,\s*[A-Z]?\d+(?:[-–][A-Z]?\d+)?)*/gi
   },
   {
     source_type: "department_bulletin",
@@ -396,7 +396,7 @@ function citationText(value) {
 }
 
 function citationKey(value) {
-  return normalizeForm(citationText(value)).replace(/\bpp?\b/g, "p");
+  return normalizeForm(citationText(value)).replace(/\b(?:pp?|pages?)\b/g, "p");
 }
 
 function citationCandidatesForUnit(unit) {
