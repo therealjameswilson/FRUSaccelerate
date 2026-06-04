@@ -1,7 +1,7 @@
 {
   "schema_version": "frus-llm-chunk-manifest-v1",
-  "generated_at": "2026-06-04T10:30:14.045Z",
-  "run_id": "sample-chunks",
+  "generated_at": "2026-06-04T11:19:36.952Z",
+  "run_id": "chunk-sample",
   "target_volume": "frus1989-92v31",
   "chunk_count": 2,
   "source_files": {
@@ -32,6 +32,7 @@
     "selection_balance_registry": "reports/frus-selection-balance-registry.sample.json",
     "decision_process_registry": "reports/frus-decision-process-registry.sample.json",
     "public_source_registry": "reports/frus-public-source-registry.sample.json",
+    "release_apparatus_registry": "reports/frus-release-apparatus-registry.sample.json",
     "retrospective_account_registry": "reports/frus-retrospective-account-registry.sample.json",
     "treaty_registry": "reports/frus-treaty-registry.sample.json",
     "foreign_org_registry": "reports/frus-foreign-org-registry.sample.json",
@@ -77,6 +78,7 @@
     "selection_balance_registry_records": 8,
     "decision_process_registry_records": 12,
     "public_source_registry_records": 6,
+    "release_apparatus_registry_records": 8,
     "retrospective_account_registry_records": 6,
     "treaty_registry_records": 13,
     "foreign_org_registry_records": 10,

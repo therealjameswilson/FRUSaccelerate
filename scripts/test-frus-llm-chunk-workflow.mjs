@@ -120,6 +120,8 @@ try {
     "reports/frus-decision-process-registry.sample.json",
     "--public-source-registry",
     "reports/frus-public-source-registry.sample.json",
+    "--release-apparatus-registry",
+    "reports/frus-release-apparatus-registry.sample.json",
     "--retrospective-account-registry",
     "reports/frus-retrospective-account-registry.sample.json",
     "--treaty-registry",
@@ -197,6 +199,7 @@ try {
   assert(manifest.summary.selection_balance_registry_records === 8, "expected selection-balance registry record count");
   assert(manifest.summary.decision_process_registry_records === 12, "expected decision-process registry record count");
   assert(manifest.summary.public_source_registry_records === 6, "expected public-source registry record count");
+  assert(manifest.summary.release_apparatus_registry_records === 8, "expected release apparatus registry record count");
   assert(manifest.summary.retrospective_account_registry_records === 6, "expected retrospective-account registry record count");
   assert(manifest.summary.treaty_registry_records === 13, "expected treaty registry record count");
   assert(manifest.summary.foreign_org_registry_records === 10, "expected foreign-org registry record count");
@@ -263,6 +266,10 @@ try {
   assert(manifest.source_files.selection_balance_registry === "reports/frus-selection-balance-registry.sample.json", "expected selection-balance registry source path");
   assert(manifest.source_files.decision_process_registry === "reports/frus-decision-process-registry.sample.json", "expected decision-process registry source path");
   assert(manifest.source_files.public_source_registry === "reports/frus-public-source-registry.sample.json", "expected public-source registry source path");
+  assert(
+    manifest.source_files.release_apparatus_registry === "reports/frus-release-apparatus-registry.sample.json",
+    "expected release apparatus registry source path"
+  );
   assert(
     manifest.source_files.retrospective_account_registry === "reports/frus-retrospective-account-registry.sample.json",
     "expected retrospective-account registry source path"
@@ -373,6 +380,10 @@ try {
   assert(firstPacket.includes("National Security Decision Directive 236"), "expected NSDD decision-process content in chunk packet");
   assert(firstPacket.includes("Public Source And Public Diplomacy Registry Context"), "expected public-source registry context in chunk packet");
   assert(firstPacket.includes("Public Papers: Bush, 1991, pages 986-987"), "expected Public Papers registry content in chunk packet");
+  assert(firstPacket.includes("Release And Errata Apparatus Registry Context"), "expected release apparatus context in chunk packet");
+  assert(firstPacket.includes("Published in 2025: 1989-1992, Volume XXXI"), "expected target release-date content in chunk packet");
+  assert(firstPacket.includes("Ebook last updated: September 28, 2025"), "expected ebook update content in chunk packet");
+  assert(firstPacket.includes("PDF (4.43mb)"), "expected target download content in chunk packet");
   assert(firstPacket.includes("Retrospective Account Registry Context"), "expected retrospective-account registry context in chunk packet");
   assert(firstPacket.includes("In his memoir, Shultz described the segment"), "expected retrospective-account registry content in chunk packet");
   assert(firstPacket.includes("Treaty And Legal Instrument Registry Context"), "expected treaty registry context in chunk packet");
@@ -516,7 +527,7 @@ try {
   assert(badMerge.status !== 0, "expected out-of-chunk unit reference to fail");
   assert(badMerge.stdout.includes("outside chunk-0002"), "expected chunk-boundary failure detail");
 
-  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, source-family, source-surrogate, document-status lifecycle, classification, declassification, editorial-method, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, meeting-attendance, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
+  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, source-family, source-surrogate, document-status lifecycle, classification, declassification, editorial-method, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, meeting-attendance, time-zone, summit/public-event, selection-balance, decision-process, public-source, release apparatus, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

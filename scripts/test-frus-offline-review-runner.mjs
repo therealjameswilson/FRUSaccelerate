@@ -237,6 +237,8 @@ try {
       "reports/frus-decision-process-registry.sample.json",
       "--public-source-registry",
       "reports/frus-public-source-registry.sample.json",
+      "--release-apparatus-registry",
+      "reports/frus-release-apparatus-registry.sample.json",
       "--retrospective-account-registry",
       "reports/frus-retrospective-account-registry.sample.json",
       "--treaty-registry",
@@ -406,6 +408,16 @@ try {
   assert(audit.counts.public_source_registry_usages === 0, "expected zero public-source registry usages");
   assert(audit.counts.public_source_registry_warnings === 0, "expected zero public-source registry warnings");
   assert(audit.counts.public_source_direct_edit_conflicts === 0, "expected zero public-source direct-edit conflicts");
+  assert(audit.counts.release_apparatus_registry_usages === 0, "expected zero release apparatus registry usages");
+  assert(audit.counts.release_apparatus_registry_warnings === 0, "expected zero release apparatus registry warnings");
+  assert(
+    audit.counts.release_apparatus_unmatched_like_units === 0,
+    "expected zero unmatched release-apparatus-like units"
+  );
+  assert(
+    audit.counts.release_apparatus_direct_edit_conflicts === 0,
+    "expected zero release apparatus direct-edit conflicts"
+  );
   assert(audit.counts.retrospective_account_registry_usages === 0, "expected zero retrospective-account usages");
   assert(audit.counts.retrospective_account_registry_warnings === 0, "expected zero retrospective-account warnings");
   assert(audit.counts.retrospective_account_unmatched_like_units === 0, "expected zero unmatched retrospective-like units");
@@ -561,6 +573,8 @@ try {
     "decision-process-usage-audit.json",
     "public-source-registry-validation.json",
     "public-source-usage-audit.json",
+    "release-apparatus-registry-validation.json",
+    "release-apparatus-usage-audit.json",
     "retrospective-account-registry-validation.json",
     "retrospective-account-usage-audit.json",
     "treaty-registry-validation.json",
@@ -676,6 +690,14 @@ try {
   assert(audit.reports.public_source_registry_validation.summary.records === 6, "expected public-source registry validation report");
   assert(audit.reports.public_source_usage_audit.status === "pass", "expected public-source usage audit report");
   assert(
+    audit.reports.release_apparatus_registry_validation.summary.records === 8,
+    "expected release apparatus registry validation report"
+  );
+  assert(
+    audit.reports.release_apparatus_usage_audit.status === "pass",
+    "expected release apparatus usage audit report"
+  );
+  assert(
     audit.reports.retrospective_account_registry_validation.summary.records === 6,
     "expected retrospective-account registry validation report"
   );
@@ -755,7 +777,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/source-family/source-surrogate/document-status-lifecycle/document-metadata/declassification/editorial-method/translation/printed-attachment/visual-material/handwritten-transcription/document-handling/chronology/meeting-attendance/time-zone/summit-public-event/selection-balance/decision-process/public-source/retrospective-account/treaty/foreign-org/congressional-legal/economic-financial/military-crisis/intelligence-law-enforcement/human-rights-refugee-global-issues/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/source-family/source-surrogate/document-status-lifecycle/document-metadata/declassification/editorial-method/translation/printed-attachment/visual-material/handwritten-transcription/document-handling/chronology/meeting-attendance/time-zone/summit-public-event/selection-balance/decision-process/public-source/release-apparatus/retrospective-account/treaty/foreign-org/congressional-legal/economic-financial/military-crisis/intelligence-law-enforcement/human-rights-refugee-global-issues/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

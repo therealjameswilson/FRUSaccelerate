@@ -1,6 +1,6 @@
 # FRUS Annotation Review Packet Chunk
 
-- run_id: sample-chunks
+- run_id: chunk-sample
 - chunk_id: chunk-0001
 - chunk_index: 1
 - chunk_count: 2
@@ -16,7 +16,7 @@ Do not include units outside this chunk. Do not claim to edit the Word file dire
 ```json
 {
   "schema_version": "frus-llm-review-chunk-v1",
-  "run_id": "sample-chunks",
+  "run_id": "chunk-sample",
   "chunk_id": "chunk-0001",
   "chunk_index": 1,
   "chunk_count": 2,
@@ -54,9 +54,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-family-registry reports/frus-source-family-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --meeting-attendance-registry reports/frus-meeting-attendance-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-family-registry reports/frus-source-family-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --meeting-attendance-registry reports/frus-meeting-attendance-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --release-apparatus-registry reports/frus-release-apparatus-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-family-registry reports/frus-source-family-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --meeting-attendance-registry reports/frus-meeting-attendance-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-family-registry reports/frus-source-family-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --meeting-attendance-registry reports/frus-meeting-attendance-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --release-apparatus-registry reports/frus-release-apparatus-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -126,6 +126,9 @@ For decision-process/directive validation and direct-edit safety, run
 For public-source/public-diplomacy validation and direct-edit safety, run
 `node scripts/validate-frus-public-source-registry.mjs --registry reports/frus-public-source-registry.sample.json --format text` and
 `node scripts/audit-frus-public-source-usage.mjs --units extracted-units.json --registry reports/frus-public-source-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For release/errata apparatus validation and direct-edit safety, run
+`node scripts/validate-frus-release-apparatus-registry.mjs --registry reports/frus-release-apparatus-registry.sample.json --format text` and
+`node scripts/audit-frus-release-apparatus-usage.mjs --units extracted-units.json --registry reports/frus-release-apparatus-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For treaty/legal-instrument validation and direct-edit safety, run
 `node scripts/validate-frus-treaty-registry.mjs --registry reports/frus-treaty-registry.sample.json --format text` and
 `node scripts/audit-frus-treaty-usage.mjs --units extracted-units.json --registry reports/frus-treaty-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -175,7 +178,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-family-registry reports/frus-source-family-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --meeting-attendance-registry reports/frus-meeting-attendance-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-family-registry reports/frus-source-family-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --meeting-attendance-registry reports/frus-meeting-attendance-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --release-apparatus-registry reports/frus-release-apparatus-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -414,7 +417,10 @@ without one, such as `Public Papers: Reagan, 1981, p. 1156`; the threshold
 detector should catch both forms. This is not an automatic rewrite, and the
 checker should not wait for a fourth occurrence. A footnote that already has a
 valid refer-back is not exempt: any repeated full citation in that same note
-still counts toward the third-and-later review set. The registry
+still counts toward the third-and-later review set. Reagan Foundations Document
+318 is the control example for this mixed case: it uses `see footnote 3, above`
+inside a later annotation while still requiring the repeated Public Papers
+citation to be considered separately. The registry
 should carry `repeat_threshold: 3` and a plain-language
 `repeat_threshold_action`: first and second full citation occurrences may stand;
 the third full citation occurrence itself and every later full citation
@@ -7591,6 +7597,305 @@ Use this to check speeches, public remarks, press releases, press conferences, b
 }
 ```
 
+## Release And Errata Apparatus Registry Context
+
+Use this to check status-page publication dates, press releases, media notes, public volume URLs, GPO/ISBN/S/N strings, PDF/EPUB/Mobi downloads, ebook last-updated dates, errata corrections, online/full-text correction language, printed-volume revision status, and date-type distinctions. Do not treat release/download/ebook/errata facts as source-note provenance, and do not change release dates, ebook update dates, download targets, GPO/ISBN/S/N strings, public URLs, or errata language unless the target-volume release-apparatus registry proves the exact direct edit.
+
+```json
+{
+  "schema_version": "frus-release-apparatus-registry-v1",
+  "release_apparatus_registry_id": "frus-release-apparatus-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/status-of-the-series",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31",
+    "https://history.state.gov/historicaldocuments/ebooks",
+    "https://history.state.gov/historicaldocuments/frus1981-88v06/errata",
+    "https://history.state.gov/historicaldocuments/frus1981-88v10/pressrelease"
+  ],
+  "scope": "Published release, digital-edition, GPO/ISBN/S/N, status-page, and errata apparatus for Reagan and George H.W. Bush FRUS annotation-sheet review. These records are release apparatus, not source-note provenance.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "release_item_id": "release-status-v31-2025-09-30",
+      "volume_id": "frus1989-92v31",
+      "document_id": "",
+      "unit_scope": "status page publication list",
+      "release_item_type": "status_page_publication",
+      "approved_phrase": "Published in 2025: 1989-1992, Volume XXXI, START I, 1989-1991 (September 30).",
+      "release_date": "2025-09-30",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1989-92v31",
+      "digital_formats": [],
+      "gpo_or_isbn": "",
+      "ebook_last_updated": "",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "release_date",
+      "source_or_context": "Official status page lists the Bush START I volume as published in 2025 with a September 30 date.",
+      "source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
+      "verification_status": "verified_published_release_record",
+      "variant_forms": [
+        "1989-1992, Volume XXXI, START I, 1989-1991 (September 30)",
+        "Bush START I volume published September 30, 2025"
+      ]
+    },
+    {
+      "release_item_id": "release-v31-volume-page-downloads",
+      "volume_id": "frus1989-92v31",
+      "document_id": "",
+      "unit_scope": "volume page download sidebar",
+      "release_item_type": "volume_page_downloads",
+      "approved_phrase": "Volume page supplies EPUB (1.34mb), Mobi (2.01mb), PDF (4.43mb), and GPO bookstore links.",
+      "release_date": "",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1989-92v31",
+      "digital_formats": [
+        "EPUB (1.34mb)",
+        "Mobi (2.01mb)",
+        "PDF (4.43mb)"
+      ],
+      "gpo_or_isbn": "GPO bookstore link",
+      "ebook_last_updated": "",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "download_capture_date",
+      "source_or_context": "Volume page sidebar includes EPUB, Mobi, PDF, and U.S. Government Bookstore links.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31",
+      "verification_status": "verified_published_download_record",
+      "variant_forms": [
+        "EPUB (1.34mb), Mobi (2.01mb), PDF (4.43mb)",
+        "PDF (4.43 MB)",
+        "GPO bookstore link"
+      ]
+    },
+    {
+      "release_item_id": "release-ebook-v31-updated-2025-09-28",
+      "volume_id": "frus1989-92v31",
+      "document_id": "",
+      "unit_scope": "ebook index entry",
+      "release_item_type": "ebook_catalog_entry",
+      "approved_phrase": "Ebook last updated: September 28, 2025.",
+      "release_date": "",
+      "public_url": "https://history.state.gov/historicaldocuments/ebooks",
+      "digital_formats": [
+        "EPUB",
+        "Mobi"
+      ],
+      "gpo_or_isbn": "",
+      "ebook_last_updated": "2025-09-28",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "ebook_last_updated",
+      "source_or_context": "Official Ebooks page gives the Bush START I ebook update date and EPUB/Mobi targets; this is distinct from the September 30 status-page publication date.",
+      "source_url": "https://history.state.gov/historicaldocuments/ebooks",
+      "verification_status": "verified_published_ebook_record",
+      "variant_forms": [
+        "Ebook last updated: September 28, 2025"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "release_item_id": "release-status-v44p1-2025-08-01",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "",
+      "unit_scope": "status page publication list",
+      "release_item_type": "status_page_publication",
+      "approved_phrase": "Published in 2025: 1981-1988, Volume XLIV, Part 1, National Security Policy, 1985-1988 (August 1).",
+      "release_date": "2025-08-01",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1",
+      "digital_formats": [],
+      "gpo_or_isbn": "",
+      "ebook_last_updated": "",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "release_date",
+      "source_or_context": "Official status page lists the Reagan National Security Policy volume as published in 2025 with an August 1 date.",
+      "variant_forms": [
+        "1981-1988, Volume XLIV, Part 1, National Security Policy, 1985-1988 (August 1)",
+        "Reagan National Security Policy volume published August 1, 2025"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
+      "verification_status": "verified_published_release_record"
+    },
+    {
+      "release_item_id": "release-status-v31-2025-09-30",
+      "volume_id": "frus1989-92v31",
+      "document_id": "",
+      "unit_scope": "status page publication list",
+      "release_item_type": "status_page_publication",
+      "approved_phrase": "Published in 2025: 1989-1992, Volume XXXI, START I, 1989-1991 (September 30).",
+      "release_date": "2025-09-30",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1989-92v31",
+      "digital_formats": [],
+      "gpo_or_isbn": "",
+      "ebook_last_updated": "",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "release_date",
+      "source_or_context": "Official status page lists the Bush START I volume as published in 2025 with a September 30 date.",
+      "variant_forms": [
+        "1989-1992, Volume XXXI, START I, 1989-1991 (September 30)",
+        "Bush START I volume published September 30, 2025"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
+      "verification_status": "verified_published_release_record"
+    },
+    {
+      "release_item_id": "release-v44p1-volume-page-downloads",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "",
+      "unit_scope": "volume page download sidebar",
+      "release_item_type": "volume_page_downloads",
+      "approved_phrase": "Volume page supplies EPUB (2.45mb), Mobi (2.66mb), PDF (3.93mb), and GPO bookstore links.",
+      "release_date": "",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1",
+      "digital_formats": [
+        "EPUB (2.45mb)",
+        "Mobi (2.66mb)",
+        "PDF (3.93mb)"
+      ],
+      "gpo_or_isbn": "GPO bookstore link",
+      "ebook_last_updated": "",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "download_capture_date",
+      "source_or_context": "Volume page sidebar includes EPUB, Mobi, PDF, and U.S. Government Bookstore links.",
+      "variant_forms": [
+        "EPUB (2.45mb), Mobi (2.66mb), PDF (3.93mb)",
+        "GPO bookstore link"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1",
+      "verification_status": "verified_published_download_record"
+    },
+    {
+      "release_item_id": "release-v31-volume-page-downloads",
+      "volume_id": "frus1989-92v31",
+      "document_id": "",
+      "unit_scope": "volume page download sidebar",
+      "release_item_type": "volume_page_downloads",
+      "approved_phrase": "Volume page supplies EPUB (1.34mb), Mobi (2.01mb), PDF (4.43mb), and GPO bookstore links.",
+      "release_date": "",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1989-92v31",
+      "digital_formats": [
+        "EPUB (1.34mb)",
+        "Mobi (2.01mb)",
+        "PDF (4.43mb)"
+      ],
+      "gpo_or_isbn": "GPO bookstore link",
+      "ebook_last_updated": "",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "download_capture_date",
+      "source_or_context": "Volume page sidebar includes EPUB, Mobi, PDF, and U.S. Government Bookstore links.",
+      "variant_forms": [
+        "EPUB (1.34mb), Mobi (2.01mb), PDF (4.43mb)",
+        "PDF (4.43 MB)",
+        "GPO bookstore link"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31",
+      "verification_status": "verified_published_download_record"
+    },
+    {
+      "release_item_id": "release-ebook-v44p1-updated-2025-08-01",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "",
+      "unit_scope": "ebook index entry",
+      "release_item_type": "ebook_catalog_entry",
+      "approved_phrase": "Ebook last updated: August 1, 2025.",
+      "release_date": "",
+      "public_url": "https://history.state.gov/historicaldocuments/ebooks",
+      "digital_formats": [
+        "EPUB",
+        "Mobi"
+      ],
+      "gpo_or_isbn": "",
+      "ebook_last_updated": "2025-08-01",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "ebook_last_updated",
+      "source_or_context": "Official Ebooks page gives the Reagan National Security Policy ebook update date and EPUB/Mobi targets.",
+      "variant_forms": [
+        "Ebook last updated: August 1, 2025"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/ebooks",
+      "verification_status": "verified_published_ebook_record"
+    },
+    {
+      "release_item_id": "release-ebook-v31-updated-2025-09-28",
+      "volume_id": "frus1989-92v31",
+      "document_id": "",
+      "unit_scope": "ebook index entry",
+      "release_item_type": "ebook_catalog_entry",
+      "approved_phrase": "Ebook last updated: September 28, 2025.",
+      "release_date": "",
+      "public_url": "https://history.state.gov/historicaldocuments/ebooks",
+      "digital_formats": [
+        "EPUB",
+        "Mobi"
+      ],
+      "gpo_or_isbn": "",
+      "ebook_last_updated": "2025-09-28",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "ebook_last_updated",
+      "source_or_context": "Official Ebooks page gives the Bush START I ebook update date and EPUB/Mobi targets; this is distinct from the September 30 status-page publication date.",
+      "variant_forms": [
+        "Ebook last updated: September 28, 2025"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/ebooks",
+      "verification_status": "verified_published_ebook_record"
+    },
+    {
+      "release_item_id": "release-v06-errata-d173-fn5",
+      "volume_id": "frus1981-88v06",
+      "document_id": "frus1981-88v06/d173",
+      "unit_scope": "errata page entry",
+      "release_item_type": "errata_correction",
+      "approved_phrase": "Document 173, Footnote 5, Page 1172 (date of correction: February 4, 2019).",
+      "release_date": "",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1981-88v06/errata",
+      "digital_formats": [],
+      "gpo_or_isbn": "",
+      "ebook_last_updated": "",
+      "errata_or_correction_status": "Footnote corrected on the errata page from the erroneous UN General Assembly reference to Conference on Disarmament session language.",
+      "printed_volume_revision_status": "not stated on sampled errata page",
+      "date_type": "correction_date",
+      "source_or_context": "Reagan Volume VI errata page records the correction date and corrected footnote text.",
+      "variant_forms": [
+        "date of correction: February 4, 2019",
+        "Document 173, Footnote 5, Page 1172"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v06/errata",
+      "verification_status": "verified_published_errata_record"
+    },
+    {
+      "release_item_id": "release-v10-pressrelease-gpo-isbn",
+      "volume_id": "frus1981-88v10",
+      "document_id": "",
+      "unit_scope": "press release",
+      "release_item_type": "press_release",
+      "approved_phrase": "The GPO S/N is 044-000-02709-7; the ISBN is 978-0-16-095932-5.",
+      "release_date": "2023-12-07",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1981-88v10/pressrelease",
+      "digital_formats": [],
+      "gpo_or_isbn": "GPO S/N 044-000-02709-7; ISBN 978-0-16-095932-5",
+      "ebook_last_updated": "",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "release_date",
+      "source_or_context": "Reagan Volume X press release gives release date, GPO S/N, and ISBN.",
+      "variant_forms": [
+        "GPO S/N is 044-000-02709-7",
+        "ISBN is 978-0-16-095932-5"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v10/pressrelease",
+      "verification_status": "verified_published_release_record"
+    }
+  ]
+}
+```
+
 ## Retrospective Account Registry Context
 
 Use this to check memoirs, published or personal diaries, oral histories, later interviews, recollections, press retrospectives, newspaper accounts, author/source, publication, page locator, event match, selected-versus-supplemental status, official-record relationship, corroborating records, and conflict status. Do not let retrospective accounts replace official records; use comment-only unless the target-volume retrospective-account registry proves the exact direct edit.
@@ -10572,7 +10877,7 @@ Use this to check repeated-reference footnote discipline in follow-on footnotes 
 {
   "schema_version": "frus-footnote-referback-registry-v1",
   "footnote_referback_registry_id": "frus-reagan-foundations-footnote-referback-sample-2026-06-03",
-  "captured_at": "2026-06-03",
+  "captured_at": "2026-06-04",
   "source_urls": [
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d45",
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d56",
@@ -10588,7 +10893,7 @@ Use this to check repeated-reference footnote discipline in follow-on footnotes 
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d318"
   ],
   "scope": "Sample registry of published Reagan Foundations footnote refer-back forms for checking FRUS annotation-sheet footnotes and source-note citations without inventing targets.",
-  "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: whether the repeated citation is parenthetical or plain source-note text, the third full citation occurrence of the same citation is the first human review trigger for a proper footnote refer-back, and every later full citation occurrence remains a review unit. Do not wait for a fourth occurrence. Do not exempt a footnote merely because the same note already contains a valid refer-back; the repeated full citation in that mixed note still counts. Cross-document targets take `footnote N, Document X`; plural same-document targets can take `footnotes N and M, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; Document 146 separately models a three-target footnote/document cluster. Repeated-citation matching must catch both Reagan Foundations Public Papers forms with Book markers and no-Book forms such as `Public Papers: Reagan, 1981, p. 1156`.",
+  "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: whether the repeated citation is parenthetical or plain source-note text, the third full citation occurrence of the same citation is the first human review trigger for a proper footnote refer-back, and every later full citation occurrence remains a review unit. Do not wait for a fourth occurrence. Do not exempt a footnote merely because the same note already contains a valid refer-back; the repeated full citation in that mixed note still counts. Cross-document targets take `footnote N, Document X`; plural same-document targets can take `footnotes N and M, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; Document 146 separately models a three-target footnote/document cluster; Document 318 models same-document `see footnote 3, above` while preserving separate review of later repeated Public Papers citations. Repeated-citation matching must catch both Reagan Foundations Public Papers forms with Book markers and no-Book forms such as `Public Papers: Reagan, 1981, p. 1156`.",
   "repeat_threshold": 3,
   "repeat_threshold_action": "The first and second full citation occurrences may stand; on the third full citation occurrence itself and every later full citation occurrence, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not wait for a fourth occurrence, do not exempt mixed notes that already contain a valid refer-back, and do not rewrite unless the target footnote/document is verified in the registry.",
   "target_volume": "frus1989-92v31",
@@ -10999,7 +11304,7 @@ Use this to check repeated-reference footnote discipline in follow-on footnotes 
           "target_url": ""
         }
       ],
-      "rule_basis": "Document 318 models explicit same-document `above` punctuation in a later footnote.",
+      "rule_basis": "Document 318 models explicit same-document `above` punctuation in a later footnote and shows that a valid same-note refer-back does not settle separate repeated Public Papers citation review.",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d318",
       "verification_status": "verified_published_form"
     }
@@ -11015,8 +11320,8 @@ Use this as a practical spellcheck list for recurring compiler mistakes: leading
 {
   "schema_version": "frus-recurring-risk-registry-v1",
   "recurring_risk_registry_id": "frus-recurring-compiler-risk-sample-2026-06-03",
-  "captured_at": "2026-06-03",
-  "source_basis": "Compiler self-disclosure supplied by James Wilson on June 3, 2026; generalized as recurring risks that other compilers and reviewers may also share. Document-reference and footnote-referback forms are checked against Reagan Foundations published examples in FRUS, 1981-1988, volume I, including Documents 45, 56, 70, 74, 146, 217, 267, and 316.",
+  "captured_at": "2026-06-04",
+  "source_basis": "Compiler self-disclosures supplied by James Wilson on June 3 and June 4, 2026; generalized as recurring risks that other compilers and reviewers may also share. Document-reference and footnote-referback forms are checked against Reagan Foundations published examples in FRUS, 1981-1988, volume I, including Documents 45, 56, 70, 74, 146, 217, 267, 316, and 318.",
   "scope": "Practical spellcheck-style risk register for recurrent FRUS annotation-sheet mistakes: telegram number zeros, eRecords copy basis, cross-reference slugs, Document XX construction, footnote refer-back discipline, page breaks, footnote placement, Word autoformatting, incomplete documents/source notes/backups, quote highlighting, telegram headers, and Style Guide consistency.",
   "records": [
     {
@@ -11196,7 +11501,7 @@ Use this as a practical spellcheck list for recurring compiler mistakes: leading
       "evidence_request": "cross_reference",
       "comment_template": "Check whether this repeated reference has reached the refer back 3 times rule. The third full citation occurrence itself is the first review trigger; Reagan Foundations models same-document `see footnote N, above`, same-document local-context `B above (see footnote N)`, cross-document `see footnote N, Document X`, plural `See footnotes N and M, Document X`, and mixed `See footnote N, Document X and Document Y` forms; confirm the target before rewriting.",
       "severity": "major",
-      "source_basis": "James Wilson follow-up note on the footnote refer-back rule; Reagan Foundations published examples: Documents 45, 56, 70, 74, 146, 217, 267, and 316.",
+      "source_basis": "James Wilson June 4 follow-up note on forgetting the footnote refer-back three-times rule; Reagan Foundations published examples: Documents 45, 56, 70, 74, 146, 217, 267, 316, and 318.",
       "variant_forms": [
         "refer back 3 times rule",
         "refer-back three times rule",

@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--source-family-registry registry.json] [--source-surrogate-registry registry.json] [--document-status-lifecycle-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--editorial-method-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--handwritten-transcription-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--meeting-attendance-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--source-family-registry registry.json] [--source-surrogate-registry registry.json] [--document-status-lifecycle-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--editorial-method-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--handwritten-transcription-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--meeting-attendance-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--release-apparatus-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -54,6 +54,7 @@ function parseArgs(argv) {
   let selectionBalanceRegistryPath = null;
   let decisionProcessRegistryPath = null;
   let publicSourceRegistryPath = null;
+  let releaseApparatusRegistryPath = null;
   let retrospectiveAccountRegistryPath = null;
   let treatyRegistryPath = null;
   let foreignOrgRegistryPath = null;
@@ -161,6 +162,9 @@ function parseArgs(argv) {
     } else if (arg === "--public-source-registry") {
       publicSourceRegistryPath = argv[index + 1];
       index += 1;
+    } else if (arg === "--release-apparatus-registry") {
+      releaseApparatusRegistryPath = argv[index + 1];
+      index += 1;
     } else if (arg === "--retrospective-account-registry") {
       retrospectiveAccountRegistryPath = argv[index + 1];
       index += 1;
@@ -267,6 +271,7 @@ function parseArgs(argv) {
     selectionBalanceRegistryPath,
     decisionProcessRegistryPath,
     publicSourceRegistryPath,
+    releaseApparatusRegistryPath,
     retrospectiveAccountRegistryPath,
     treatyRegistryPath,
     foreignOrgRegistryPath,
@@ -1145,6 +1150,41 @@ function compactPublicSourceRegistry(registry, targetVolume) {
   };
 }
 
+function compactReleaseApparatusRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    release_apparatus_registry_id: registry.release_apparatus_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      release_item_id: record.release_item_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      unit_scope: record.unit_scope,
+      release_item_type: record.release_item_type,
+      approved_phrase: record.approved_phrase,
+      release_date: record.release_date,
+      public_url: record.public_url,
+      digital_formats: record.digital_formats || [],
+      gpo_or_isbn: record.gpo_or_isbn,
+      ebook_last_updated: record.ebook_last_updated,
+      errata_or_correction_status: record.errata_or_correction_status,
+      printed_volume_revision_status: record.printed_volume_revision_status,
+      date_type: record.date_type,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactRetrospectiveAccountRegistry(registry, targetVolume) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -1513,6 +1553,7 @@ function renderPacket({
   selectionBalanceRegistry,
   decisionProcessRegistry,
   publicSourceRegistry,
+  releaseApparatusRegistry,
   retrospectiveAccountRegistry,
   treatyRegistry,
   foreignOrgRegistry,
@@ -1711,6 +1752,12 @@ function renderPacket({
     "",
     fencedJson(publicSourceRegistry || {}),
     "",
+    "## Release And Errata Apparatus Registry Context",
+    "",
+    "Use this to check status-page publication dates, press releases, media notes, public volume URLs, GPO/ISBN/S/N strings, PDF/EPUB/Mobi downloads, ebook last-updated dates, errata corrections, online/full-text correction language, printed-volume revision status, and date-type distinctions. Do not treat release/download/ebook/errata facts as source-note provenance, and do not change release dates, ebook update dates, download targets, GPO/ISBN/S/N strings, public URLs, or errata language unless the target-volume release-apparatus registry proves the exact direct edit.",
+    "",
+    fencedJson(releaseApparatusRegistry || {}),
+    "",
     "## Retrospective Account Registry Context",
     "",
     "Use this to check memoirs, published or personal diaries, oral histories, later interviews, recollections, press retrospectives, newspaper accounts, author/source, publication, page locator, event match, selected-versus-supplemental status, official-record relationship, corroborating records, and conflict status. Do not let retrospective accounts replace official records; use comment-only unless the target-volume retrospective-account registry proves the exact direct edit.",
@@ -1855,6 +1902,9 @@ function buildChunks(options) {
     ? readJson(options.decisionProcessRegistryPath)
     : null;
   const publicSourceRegistry = options.publicSourceRegistryPath ? readJson(options.publicSourceRegistryPath) : null;
+  const releaseApparatusRegistry = options.releaseApparatusRegistryPath
+    ? readJson(options.releaseApparatusRegistryPath)
+    : null;
   const retrospectiveAccountRegistry = options.retrospectiveAccountRegistryPath
     ? readJson(options.retrospectiveAccountRegistryPath)
     : null;
@@ -1930,6 +1980,10 @@ function buildChunks(options) {
     options.targetVolume
   );
   const publicSourceRegistryContext = compactPublicSourceRegistry(publicSourceRegistry, options.targetVolume);
+  const releaseApparatusRegistryContext = compactReleaseApparatusRegistry(
+    releaseApparatusRegistry,
+    options.targetVolume
+  );
   const retrospectiveAccountRegistryContext = compactRetrospectiveAccountRegistry(
     retrospectiveAccountRegistry,
     options.targetVolume
@@ -2012,6 +2066,9 @@ function buildChunks(options) {
         ? normalizePathForOutput(options.decisionProcessRegistryPath)
         : "",
       public_source_registry: options.publicSourceRegistryPath ? normalizePathForOutput(options.publicSourceRegistryPath) : "",
+      release_apparatus_registry: options.releaseApparatusRegistryPath
+        ? normalizePathForOutput(options.releaseApparatusRegistryPath)
+        : "",
       retrospective_account_registry: options.retrospectiveAccountRegistryPath
         ? normalizePathForOutput(options.retrospectiveAccountRegistryPath)
         : "",
@@ -2071,6 +2128,7 @@ function buildChunks(options) {
       selection_balance_registry_records: selectionBalanceRegistry?.records?.length || 0,
       decision_process_registry_records: decisionProcessRegistry?.records?.length || 0,
       public_source_registry_records: publicSourceRegistry?.records?.length || 0,
+      release_apparatus_registry_records: releaseApparatusRegistry?.records?.length || 0,
       retrospective_account_registry_records: retrospectiveAccountRegistry?.records?.length || 0,
       treaty_registry_records: treatyRegistry?.records?.length || 0,
       foreign_org_registry_records: foreignOrgRegistry?.records?.length || 0,
@@ -2143,6 +2201,7 @@ function buildChunks(options) {
         selectionBalanceRegistry: selectionBalanceRegistryContext,
         decisionProcessRegistry: decisionProcessRegistryContext,
         publicSourceRegistry: publicSourceRegistryContext,
+        releaseApparatusRegistry: releaseApparatusRegistryContext,
         retrospectiveAccountRegistry: retrospectiveAccountRegistryContext,
         treatyRegistry: treatyRegistryContext,
         foreignOrgRegistry: foreignOrgRegistryContext,

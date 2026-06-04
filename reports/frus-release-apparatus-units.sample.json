@@ -1,0 +1,94 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample release-apparatus extracted units",
+  "units": [
+    {
+      "unit_id": "release-0001",
+      "unit_type": "front_matter",
+      "location": "release note v31",
+      "exact_text": "Published in 2025: 1989-1992, Volume XXXI, START I, 1989-1991 (September 30).",
+      "display_text": "Published in 2025: 1989-1992, Volume XXXI, START I, 1989-1991 (September 30).",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "release-0002",
+      "unit_type": "front_matter",
+      "location": "download note v31",
+      "exact_text": "Volume page supplies EPUB (1.34mb), Mobi (2.01mb), PDF (4.43mb), and GPO bookstore links.",
+      "display_text": "Volume page supplies EPUB (1.34mb), Mobi (2.01mb), PDF (4.43mb), and GPO bookstore links.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "release-0003",
+      "unit_type": "front_matter",
+      "location": "ebook note v31",
+      "exact_text": "Ebook last updated: September 28, 2025.",
+      "display_text": "Ebook last updated: September 28, 2025.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "release-0004",
+      "unit_type": "front_matter",
+      "location": "ebook note v44p1 cross-volume",
+      "exact_text": "Ebook last updated: August 1, 2025.",
+      "display_text": "Ebook last updated: August 1, 2025.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "release-0005",
+      "unit_type": "editorial_note",
+      "location": "errata note v06",
+      "exact_text": "Document 173, Footnote 5, Page 1172 (date of correction: February 4, 2019).",
+      "display_text": "Document 173, Footnote 5, Page 1172 (date of correction: February 4, 2019).",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "release-0006",
+      "unit_type": "front_matter",
+      "location": "download variant v31",
+      "exact_text": "The landing page lists PDF (4.43 MB) alongside EPUB and Mobi downloads.",
+      "display_text": "The landing page lists PDF (4.43 MB) alongside EPUB and Mobi downloads.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "release-0007",
+      "unit_type": "front_matter",
+      "location": "press release v10 cross-volume",
+      "exact_text": "The GPO S/N is 044-000-02709-7; the ISBN is 978-0-16-095932-5.",
+      "display_text": "The GPO S/N is 044-000-02709-7; the ISBN is 978-0-16-095932-5.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "release-0008",
+      "unit_type": "source_note",
+      "location": "unmatched invented release fact",
+      "exact_text": "The volume was released on September 28, 2025, and the ISBN is 978-0-16-000000-0.",
+      "display_text": "The volume was released on September 28, 2025, and the ISBN is 978-0-16-000000-0.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}

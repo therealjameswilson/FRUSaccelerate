@@ -356,6 +356,18 @@
       "role": "Self-contained public-source and public-diplomacy registry and usage audit smoke test"
     },
     {
+      "path": "scripts/validate-frus-release-apparatus-registry.mjs",
+      "role": "Release and errata apparatus registry validator for status-page dates, volume-page downloads, ebooks, GPO/ISBN/S/N, press releases, media notes, public URLs, and errata"
+    },
+    {
+      "path": "scripts/audit-frus-release-apparatus-usage.mjs",
+      "role": "Release and errata apparatus usage audit for extracted Word units and direct-edit safety"
+    },
+    {
+      "path": "scripts/test-frus-release-apparatus-audit.mjs",
+      "role": "Self-contained release apparatus registry and usage audit smoke test"
+    },
+    {
       "path": "scripts/validate-frus-retrospective-account-registry.mjs",
       "role": "Memoir, diary, oral-history, later-interview, recollection, and press-retrospective registry validator"
     },
@@ -638,6 +650,9 @@
     "reports/frus-public-source-registry.sample.json",
     "reports/frus-public-source-units.sample.json",
     "reports/frus-public-source-audit.sample.json",
+    "reports/frus-release-apparatus-registry.sample.json",
+    "reports/frus-release-apparatus-units.sample.json",
+    "reports/frus-release-apparatus-audit.sample.json",
     "reports/frus-retrospective-account-registry.sample.json",
     "reports/frus-retrospective-account-units.sample.json",
     "reports/frus-retrospective-account-audit.sample.json",
@@ -784,6 +799,10 @@
       "role": "Published Public Papers, Department of State Bulletin/Dispatch, public remarks, press, selected public-document, and archival public-source sample for Reagan and George H.W. Bush fixtures"
     },
     {
+      "path": "reports/frus-release-apparatus-registry.sample.json",
+      "role": "Official status-page, volume-page, ebook, GPO/ISBN/S/N, press-release, media-note, public-URL, and errata apparatus sample for Reagan and George H.W. Bush fixtures"
+    },
+    {
       "path": "reports/frus-retrospective-account-registry.sample.json",
       "role": "Published Reagan Foundations memoir, personal-diary, and recollection sample for preserving retrospective accounts as supplemental context"
     },
@@ -928,6 +947,9 @@
     "node scripts/validate-frus-public-source-registry.mjs --registry reports/frus-public-source-registry.sample.json --format text",
     "node scripts/audit-frus-public-source-usage.mjs --units reports/frus-public-source-units.sample.json --registry reports/frus-public-source-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-public-source-audit.mjs",
+    "node scripts/validate-frus-release-apparatus-registry.mjs --registry reports/frus-release-apparatus-registry.sample.json --format text",
+    "node scripts/audit-frus-release-apparatus-usage.mjs --units reports/frus-release-apparatus-units.sample.json --registry reports/frus-release-apparatus-registry.sample.json --target-volume frus1989-92v31 --format text",
+    "node scripts/test-frus-release-apparatus-audit.mjs",
     "node scripts/validate-frus-retrospective-account-registry.mjs --registry reports/frus-retrospective-account-registry.sample.json --format text",
     "node scripts/audit-frus-retrospective-account-usage.mjs --units reports/frus-retrospective-account-units.sample.json --registry reports/frus-retrospective-account-registry.sample.json --target-volume frus1981-88v01 --format text",
     "node scripts/test-frus-retrospective-account-audit.mjs",
@@ -1020,6 +1042,8 @@
     "Give validate-frus-decision-process-registry.mjs a duplicate decision_process_id or malformed decision-process-registry schema; it must fail.",
     "Give audit-frus-public-source-usage.mjs a direct edit that changes Public Papers pages, delivery basis, full-text target, or selected-public-document status without target-volume registry support; it must fail.",
     "Give validate-frus-public-source-registry.mjs a duplicate public_source_id or malformed public-source-registry schema; it must fail.",
+    "Give audit-frus-release-apparatus-usage.mjs a direct edit that changes a release date, ebook last-updated date, download target, GPO/ISBN/S/N string, public URL, or errata/correction phrase without target-volume registry support; it must fail.",
+    "Give validate-frus-release-apparatus-registry.mjs a duplicate release_item_id, invalid release_item_type, or malformed release-apparatus-registry schema; it must fail.",
     "Give audit-frus-retrospective-account-usage.mjs a direct edit that changes memoir, diary, oral-history, recollection, page/locator, selected/supplemental, official-record-relationship, corroboration, or conflict language without target-volume registry support; it must fail.",
     "Give validate-frus-retrospective-account-registry.mjs a duplicate retrospective_account_id or malformed retrospective-account-registry schema; it must fail.",
     "Give audit-frus-treaty-usage.mjs a direct edit that changes treaty component identity, integral/associated status, legal process, ratification, entry-into-force language, or START/INF/ABM technical-verification terminology without target-volume registry support; it must fail.",

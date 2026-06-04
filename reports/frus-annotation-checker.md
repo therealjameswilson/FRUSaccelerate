@@ -12340,6 +12340,18 @@ Minimum components:
   or briefing-file context, diary context, and selected-versus-supplemental
   public-source status to supplied public-source records and fails direct
   public-source edits that lack target-volume registry support.
+- No-dependency release/errata apparatus registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-release-apparatus-registry.mjs`,
+  `scripts/audit-frus-release-apparatus-usage.mjs`,
+  `reports/frus-release-apparatus-registry.sample.json`,
+  `reports/frus-release-apparatus-units.sample.json`, and
+  `reports/frus-release-apparatus-audit.sample.json`. The audit reconciles
+  status-page publication entries, official volume-page download facts,
+  ebook last-updated dates, public URLs, GPO/ISBN/S/N strings, press releases,
+  media notes, errata corrections, online/full-text correction language, and
+  printed-volume revision-status fields to supplied release-apparatus records.
+  It keeps those facts out of source-note provenance and fails direct
+  release-apparatus edits that lack target-volume registry support.
 - No-dependency retrospective-account registry validator, usage audit, and
   fixtures: `scripts/validate-frus-retrospective-account-registry.mjs`,
   `scripts/audit-frus-retrospective-account-usage.mjs`,
@@ -12663,11 +12675,12 @@ Minimum components:
   scan filenames, source-image URLs, `no N number`, and discovery labels from
   repository paths, attachment proof, original classification, and release
   outcomes before tracked changes are applied.
-- Release/errata apparatus validator that separates press releases, media
-  notes, release dates, official volume pages, public URLs, GPO/ISBN/S/N
-  strings, PDF/EPUB/Mobi downloads, generated dates, errata entries,
-  online/full-text corrections, printed-volume revision status, and status-page
-  captures before tracked changes are applied.
+- Expand the release/errata apparatus registry beyond the current sample to
+  capture more target-volume press releases, media notes, release dates,
+  official volume pages, public URLs, GPO/ISBN/S/N strings, PDF/EPUB/Mobi
+  downloads, generated dates, errata entries, online/full-text corrections,
+  printed-volume revision-status fields, and status-page captures before
+  tracked changes are applied.
 - Fuller source-list/front-matter validator expansion that reconciles Contents,
   Preface, About the Series, appendix, declassification-review, special-note,
   and errata context beyond the currently wired Sources-page/source-family
@@ -13424,7 +13437,7 @@ Release and errata apparatus sources incorporated:
 - [Reagan Volume XXIV volume page with Media Note, EPUB/Mobi/PDF, and GPO links](https://history.state.gov/historicaldocuments/frus1981-88v24)
 - [Reagan Volume XXIV Media Note public release example](https://history.state.gov/historicaldocuments/frus1981-88v24/pressrelease)
 - [History Office Ebooks page with `Ebook last updated` dates and EPUB/Mobi download links](https://history.state.gov/historicaldocuments/ebooks)
-- [Reagan Volume VI errata with online/full-text corrections and printed volumes not revised](https://history.state.gov/historicaldocuments/frus1981-88v06/errata)
+- [Reagan Volume VI errata with online/full-text correction details and correction dates](https://history.state.gov/historicaldocuments/frus1981-88v06/errata)
 
 Editorial-method and transcription-convention sources incorporated:
 

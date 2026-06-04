@@ -77,6 +77,8 @@ try {
     "reports/frus-decision-process-registry.sample.json",
     "--public-source-registry",
     "reports/frus-public-source-registry.sample.json",
+    "--release-apparatus-registry",
+    "reports/frus-release-apparatus-registry.sample.json",
     "--retrospective-account-registry",
     "reports/frus-retrospective-account-registry.sample.json",
     "--treaty-registry",
@@ -210,6 +212,11 @@ try {
   assert(markdown.includes("Public Source And Public Diplomacy Registry Context"), "expected public-source registry section");
   assert(markdown.includes("Public Papers: Bush, 1991, pages 986-987"), "expected Public Papers registry content");
   assert(markdown.includes("Department of State Dispatch Supplement, October 1991"), "expected Department of State Dispatch registry content");
+  assert(markdown.includes("Release And Errata Apparatus Registry Context"), "expected release apparatus registry section");
+  assert(markdown.includes("Published in 2025: 1989-1992, Volume XXXI"), "expected target release-date apparatus content");
+  assert(markdown.includes("Ebook last updated: September 28, 2025"), "expected ebook update apparatus content");
+  assert(markdown.includes("PDF (4.43mb)"), "expected target download apparatus content");
+  assert(markdown.includes("Document 173, Footnote 5, Page 1172"), "expected errata apparatus content");
   assert(markdown.includes("Retrospective Account Registry Context"), "expected retrospective-account registry section");
   assert(markdown.includes("In his memoir, Shultz described the segment"), "expected Shultz memoir registry content");
   assert(markdown.includes("official-record relationship"), "expected retrospective-account guardrail text");
@@ -400,6 +407,9 @@ try {
   assert(packet.contexts.public_source_registry.records.length === 6, "expected public-source registry records");
   assert(packet.contexts.public_source_registry.target_records.length > 0, "expected target public-source records");
   assert(packet.packet_summary.public_source_registry_records === 6, "expected public-source registry count");
+  assert(packet.contexts.release_apparatus_registry.records.length === 8, "expected release apparatus registry records");
+  assert(packet.contexts.release_apparatus_registry.target_records.length === 3, "expected target release apparatus records");
+  assert(packet.packet_summary.release_apparatus_registry_records === 8, "expected release apparatus registry count");
   assert(packet.contexts.retrospective_account_registry.records.length === 6, "expected retrospective-account registry records");
   assert(
     packet.contexts.retrospective_account_registry.target_records.length === 0,
@@ -482,7 +492,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, source-family, source-surrogate, document-status lifecycle, document metadata, classification, declassification, editorial-method, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, meeting-attendance, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, source-family, source-surrogate, document-status lifecycle, document metadata, classification, declassification, editorial-method, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, meeting-attendance, time-zone, summit/public-event, selection-balance, decision-process, public-source, release apparatus, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

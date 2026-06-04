@@ -1,0 +1,199 @@
+{
+  "schema_version": "frus-release-apparatus-registry-v1",
+  "release_apparatus_registry_id": "frus-release-apparatus-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/status-of-the-series",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31",
+    "https://history.state.gov/historicaldocuments/ebooks",
+    "https://history.state.gov/historicaldocuments/frus1981-88v06/errata",
+    "https://history.state.gov/historicaldocuments/frus1981-88v10/pressrelease"
+  ],
+  "scope": "Published release, digital-edition, GPO/ISBN/S/N, status-page, and errata apparatus for Reagan and George H.W. Bush FRUS annotation-sheet review. These records are release apparatus, not source-note provenance.",
+  "records": [
+    {
+      "release_item_id": "release-status-v44p1-2025-08-01",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "",
+      "unit_scope": "status page publication list",
+      "release_item_type": "status_page_publication",
+      "approved_phrase": "Published in 2025: 1981-1988, Volume XLIV, Part 1, National Security Policy, 1985-1988 (August 1).",
+      "release_date": "2025-08-01",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1",
+      "digital_formats": [],
+      "gpo_or_isbn": "",
+      "ebook_last_updated": "",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "release_date",
+      "source_or_context": "Official status page lists the Reagan National Security Policy volume as published in 2025 with an August 1 date.",
+      "source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
+      "verification_status": "verified_published_release_record",
+      "variant_forms": [
+        "1981-1988, Volume XLIV, Part 1, National Security Policy, 1985-1988 (August 1)",
+        "Reagan National Security Policy volume published August 1, 2025"
+      ]
+    },
+    {
+      "release_item_id": "release-status-v31-2025-09-30",
+      "volume_id": "frus1989-92v31",
+      "document_id": "",
+      "unit_scope": "status page publication list",
+      "release_item_type": "status_page_publication",
+      "approved_phrase": "Published in 2025: 1989-1992, Volume XXXI, START I, 1989-1991 (September 30).",
+      "release_date": "2025-09-30",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1989-92v31",
+      "digital_formats": [],
+      "gpo_or_isbn": "",
+      "ebook_last_updated": "",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "release_date",
+      "source_or_context": "Official status page lists the Bush START I volume as published in 2025 with a September 30 date.",
+      "source_url": "https://history.state.gov/historicaldocuments/status-of-the-series",
+      "verification_status": "verified_published_release_record",
+      "variant_forms": [
+        "1989-1992, Volume XXXI, START I, 1989-1991 (September 30)",
+        "Bush START I volume published September 30, 2025"
+      ]
+    },
+    {
+      "release_item_id": "release-v44p1-volume-page-downloads",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "",
+      "unit_scope": "volume page download sidebar",
+      "release_item_type": "volume_page_downloads",
+      "approved_phrase": "Volume page supplies EPUB (2.45mb), Mobi (2.66mb), PDF (3.93mb), and GPO bookstore links.",
+      "release_date": "",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1",
+      "digital_formats": ["EPUB (2.45mb)", "Mobi (2.66mb)", "PDF (3.93mb)"],
+      "gpo_or_isbn": "GPO bookstore link",
+      "ebook_last_updated": "",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "download_capture_date",
+      "source_or_context": "Volume page sidebar includes EPUB, Mobi, PDF, and U.S. Government Bookstore links.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1",
+      "verification_status": "verified_published_download_record",
+      "variant_forms": [
+        "EPUB (2.45mb), Mobi (2.66mb), PDF (3.93mb)",
+        "GPO bookstore link"
+      ]
+    },
+    {
+      "release_item_id": "release-v31-volume-page-downloads",
+      "volume_id": "frus1989-92v31",
+      "document_id": "",
+      "unit_scope": "volume page download sidebar",
+      "release_item_type": "volume_page_downloads",
+      "approved_phrase": "Volume page supplies EPUB (1.34mb), Mobi (2.01mb), PDF (4.43mb), and GPO bookstore links.",
+      "release_date": "",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1989-92v31",
+      "digital_formats": ["EPUB (1.34mb)", "Mobi (2.01mb)", "PDF (4.43mb)"],
+      "gpo_or_isbn": "GPO bookstore link",
+      "ebook_last_updated": "",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "download_capture_date",
+      "source_or_context": "Volume page sidebar includes EPUB, Mobi, PDF, and U.S. Government Bookstore links.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31",
+      "verification_status": "verified_published_download_record",
+      "variant_forms": [
+        "EPUB (1.34mb), Mobi (2.01mb), PDF (4.43mb)",
+        "PDF (4.43 MB)",
+        "GPO bookstore link"
+      ]
+    },
+    {
+      "release_item_id": "release-ebook-v44p1-updated-2025-08-01",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "",
+      "unit_scope": "ebook index entry",
+      "release_item_type": "ebook_catalog_entry",
+      "approved_phrase": "Ebook last updated: August 1, 2025.",
+      "release_date": "",
+      "public_url": "https://history.state.gov/historicaldocuments/ebooks",
+      "digital_formats": ["EPUB", "Mobi"],
+      "gpo_or_isbn": "",
+      "ebook_last_updated": "2025-08-01",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "ebook_last_updated",
+      "source_or_context": "Official Ebooks page gives the Reagan National Security Policy ebook update date and EPUB/Mobi targets.",
+      "source_url": "https://history.state.gov/historicaldocuments/ebooks",
+      "verification_status": "verified_published_ebook_record",
+      "variant_forms": [
+        "Ebook last updated: August 1, 2025"
+      ]
+    },
+    {
+      "release_item_id": "release-ebook-v31-updated-2025-09-28",
+      "volume_id": "frus1989-92v31",
+      "document_id": "",
+      "unit_scope": "ebook index entry",
+      "release_item_type": "ebook_catalog_entry",
+      "approved_phrase": "Ebook last updated: September 28, 2025.",
+      "release_date": "",
+      "public_url": "https://history.state.gov/historicaldocuments/ebooks",
+      "digital_formats": ["EPUB", "Mobi"],
+      "gpo_or_isbn": "",
+      "ebook_last_updated": "2025-09-28",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "ebook_last_updated",
+      "source_or_context": "Official Ebooks page gives the Bush START I ebook update date and EPUB/Mobi targets; this is distinct from the September 30 status-page publication date.",
+      "source_url": "https://history.state.gov/historicaldocuments/ebooks",
+      "verification_status": "verified_published_ebook_record",
+      "variant_forms": [
+        "Ebook last updated: September 28, 2025"
+      ]
+    },
+    {
+      "release_item_id": "release-v06-errata-d173-fn5",
+      "volume_id": "frus1981-88v06",
+      "document_id": "frus1981-88v06/d173",
+      "unit_scope": "errata page entry",
+      "release_item_type": "errata_correction",
+      "approved_phrase": "Document 173, Footnote 5, Page 1172 (date of correction: February 4, 2019).",
+      "release_date": "",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1981-88v06/errata",
+      "digital_formats": [],
+      "gpo_or_isbn": "",
+      "ebook_last_updated": "",
+      "errata_or_correction_status": "Footnote corrected on the errata page from the erroneous UN General Assembly reference to Conference on Disarmament session language.",
+      "printed_volume_revision_status": "not stated on sampled errata page",
+      "date_type": "correction_date",
+      "source_or_context": "Reagan Volume VI errata page records the correction date and corrected footnote text.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v06/errata",
+      "verification_status": "verified_published_errata_record",
+      "variant_forms": [
+        "date of correction: February 4, 2019",
+        "Document 173, Footnote 5, Page 1172"
+      ]
+    },
+    {
+      "release_item_id": "release-v10-pressrelease-gpo-isbn",
+      "volume_id": "frus1981-88v10",
+      "document_id": "",
+      "unit_scope": "press release",
+      "release_item_type": "press_release",
+      "approved_phrase": "The GPO S/N is 044-000-02709-7; the ISBN is 978-0-16-095932-5.",
+      "release_date": "2023-12-07",
+      "public_url": "https://history.state.gov/historicaldocuments/frus1981-88v10/pressrelease",
+      "digital_formats": [],
+      "gpo_or_isbn": "GPO S/N 044-000-02709-7; ISBN 978-0-16-095932-5",
+      "ebook_last_updated": "",
+      "errata_or_correction_status": "",
+      "printed_volume_revision_status": "",
+      "date_type": "release_date",
+      "source_or_context": "Reagan Volume X press release gives release date, GPO S/N, and ISBN.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v10/pressrelease",
+      "verification_status": "verified_published_release_record",
+      "variant_forms": [
+        "GPO S/N is 044-000-02709-7",
+        "ISBN is 978-0-16-095932-5"
+      ]
+    }
+  ]
+}
