@@ -324,7 +324,8 @@ function detectMalformedReferbacks(unit, forms) {
       diagnostic_type: "overlong_footnote_document_cluster",
       matched_text: text.match(FOOTNOTE_DOCUMENT_PAIR)?.[0] || "footnote/document cluster",
       finding: "Footnote contains more than three `footnote N, Document X` refer-back targets.",
-      required_action: "Treat this as a production-review trigger; Reagan Foundations models clusters up to three targets in one note.",
+      required_action:
+        "Treat this as a production-review trigger; Reagan Foundations Document 146 models a three-target cluster, which is distinct from the third repeated-citation refer-back threshold.",
       offset: 0,
       target_count: pairCount
     });
@@ -371,7 +372,8 @@ function repeatedCitationThresholds(units) {
       occurrence_count: uniqueUnits.length,
       units: uniqueUnits,
       finding: "Same full citation appears at least three times without a footnote refer-back.",
-      required_action: "Confirm whether subsequent references should use a Reagan Foundations-style refer-back instead of repeating full citation details."
+      required_action:
+        "Apply the three-times refer-back review rule: confirm whether the third and later references should use a Reagan Foundations-style refer-back instead of repeating full citation details."
     });
   }
   return thresholds;

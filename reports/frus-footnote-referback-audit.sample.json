@@ -80,7 +80,7 @@
       "source_unit_label": "footnote 14",
       "source_document_id": "frus1981-88v01/d146",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d146",
-      "rule_basis": "Document 146 models the three-target refer-back cluster remembered as the three-times rule.",
+      "rule_basis": "Document 146 models a three-target refer-back cluster; use it as a form model, while treating the third repeated full citation as the separate three-times review trigger.",
       "offset": 59,
       "length": 84
     },
@@ -205,11 +205,11 @@
       "location": "Draft footnote overlong cluster",
       "severity": "major",
       "evidence_request": "cross_reference",
-      "comment_text": "Treat this as a production-review trigger; Reagan Foundations models clusters up to three targets in one note.",
+      "comment_text": "Treat this as a production-review trigger; Reagan Foundations Document 146 models a three-target cluster, which is distinct from the third repeated-citation refer-back threshold.",
       "diagnostic_type": "overlong_footnote_document_cluster",
       "matched_text": "footnote 1, Document 2",
       "finding": "Footnote contains more than three `footnote N, Document X` refer-back targets.",
-      "required_action": "Treat this as a production-review trigger; Reagan Foundations models clusters up to three targets in one note.",
+      "required_action": "Treat this as a production-review trigger; Reagan Foundations Document 146 models a three-target cluster, which is distinct from the third repeated-citation refer-back threshold.",
       "offset": 0,
       "target_count": 4
     }
@@ -239,7 +239,7 @@
         }
       ],
       "finding": "Same full citation appears at least three times without a footnote refer-back.",
-      "required_action": "Confirm whether subsequent references should use a Reagan Foundations-style refer-back instead of repeating full citation details."
+      "required_action": "Apply the three-times refer-back review rule: confirm whether the third and later references should use a Reagan Foundations-style refer-back instead of repeating full citation details."
     }
   ],
   "direct_edit_conflicts": []

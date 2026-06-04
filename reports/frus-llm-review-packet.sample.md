@@ -5972,7 +5972,7 @@ Use this to check country names, successor-state references, alliances, internat
 
 ## Footnote Refer-Back Registry Context
 
-Use this to check repeated-reference footnote discipline. Reagan Foundations models cross-document `footnote N, Document X`, same-document `above` or local above-context, `Document X and footnote Y thereto`, and clusters of up to three footnote/document targets. Do not invent refer-back targets; use comment-only unless the registry proves the exact direct edit.
+Use this to check repeated-reference footnote discipline. Reagan Foundations models cross-document `footnote N, Document X`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. When the same full citation appears three times, treat the third repeat as a production-review trigger for a refer-back. Do not invent refer-back targets; use comment-only unless the registry proves the exact direct edit.
 
 ```json
 {
@@ -5988,7 +5988,7 @@ Use this to check repeated-reference footnote discipline. Reagan Foundations mod
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d316"
   ],
   "scope": "Sample registry of published Reagan Foundations footnote refer-back forms for checking FRUS annotation-sheet footnotes without inventing targets.",
-  "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: cross-document targets take `footnote N, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; clusters of up to three footnote/document targets are modeled in Reagan Foundations.",
+  "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: by the third full repeat of the same citation, trigger human review for a proper footnote refer-back. Cross-document targets take `footnote N, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; Document 146 separately models a three-target footnote/document cluster.",
   "target_volume": "frus1989-92v31",
   "target_records": [],
   "records": [
@@ -6105,7 +6105,7 @@ Use this to check repeated-reference footnote discipline. Reagan Foundations mod
           "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d106"
         }
       ],
-      "rule_basis": "Document 146 models the three-target refer-back cluster remembered as the three-times rule.",
+      "rule_basis": "Document 146 models a three-target refer-back cluster; use it as a form model, while treating the third repeated full citation as the separate three-times review trigger.",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d146",
       "verification_status": "verified_published_form"
     },

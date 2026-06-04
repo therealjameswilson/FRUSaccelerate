@@ -412,8 +412,11 @@ node scripts/audit-frus-foreign-org-usage.mjs --units extracted-units.json --reg
 21. Run footnote refer-back validation and usage audit when follow-on footnotes
    or editorial notes contain repeated citations, `see footnote`, `Document X
    and footnote Y thereto`, same-document above/below references, or clusters
-   of multiple footnote/document targets. The usage audit fails if the model
-   proposes a direct refer-back edit unsupported by the supplied registry.
+   of multiple footnote/document targets. The Reagan Foundations three-times
+   rule should be treated as a repeated-citation review trigger: when the same
+   full citation appears for a third time, confirm whether a refer-back should
+   replace the repeated citation. The usage audit fails if the model proposes a
+   direct refer-back edit unsupported by the supplied registry.
 
 ```sh
 node scripts/validate-frus-footnote-referback-registry.mjs --registry footnote-referback-registry.json --format text
