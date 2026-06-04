@@ -1,0 +1,73 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source_docx": "sample-frus-handwritten-transcription-annotation-sheet.docx",
+  "generated_at": "2026-06-04T00:00:00.000Z",
+  "units": [
+    {
+      "unit_id": "handwritten-0001",
+      "unit_type": "source_note",
+      "location": "Reagan Foundations Document 272 source note",
+      "exact_text": "The editor transcribed the text from Shultz's handwritten notes specifically for this volume. An image of the notes is Appendix A.",
+      "display_text": "The editor transcribed the text from Shultz's handwritten notes specifically for this volume. An image of the notes is Appendix A.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "handwritten-0002",
+      "unit_type": "source_note",
+      "location": "START I Document 13 source note",
+      "exact_text": "Brackets and ellipses are in the original. The original text is handwritten. The editor transcribed the portion of the text here specifically for this volume. An image of the note is Appendix A. One line was cut off in the copy of this document in the file.",
+      "display_text": "Brackets and ellipses are in the original. The original text is handwritten. The editor transcribed the portion of the text here specifically for this volume. An image of the note is Appendix A. One line was cut off in the copy of this document in the file.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "handwritten-0003",
+      "unit_type": "source_note",
+      "location": "START I Document 32 source note",
+      "exact_text": "The original text is handwritten. The editor transcribed the portion of the text here specifically for this volume. An image of the notes is Appendix C. All brackets are in the original, except those indicating the omission of material.",
+      "display_text": "The original text is handwritten. The editor transcribed the portion of the text here specifically for this volume. An image of the notes is Appendix C. All brackets are in the original, except those indicating the omission of material.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "handwritten-0004",
+      "unit_type": "source_note",
+      "location": "National Security Policy Document 155 source note",
+      "exact_text": "Drafted by Keel, who hand wrote the notes. The editor transcribed the portion of the text here specifically for this volume. An image of the notes is Appendix A.",
+      "display_text": "Drafted by Keel, who hand wrote the notes. The editor transcribed the portion of the text here specifically for this volume. An image of the notes is Appendix A.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "handwritten-0005",
+      "unit_type": "follow_on_footnote",
+      "location": "National Security Policy Document 155 footnote 2",
+      "exact_text": "Keel wrote \"ordinary looking trains\" in the left-hand margin beside this point.",
+      "display_text": "Keel wrote \"ordinary looking trains\" in the left-hand margin beside this point.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "handwritten-0006",
+      "unit_type": "source_note",
+      "location": "Draft unsupported handwritten source note",
+      "exact_text": "The source appears to be handwritten and the editor probably transcribed it; an image may be in the backup file.",
+      "display_text": "The source appears to be handwritten and the editor probably transcribed it; an image may be in the backup file.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}

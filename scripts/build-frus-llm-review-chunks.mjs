@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--handwritten-transcription-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -41,6 +41,7 @@ function parseArgs(argv) {
   let translationRegistryPath = null;
   let printedAttachmentRegistryPath = null;
   let visualMaterialRegistryPath = null;
+  let handwrittenTranscriptionRegistryPath = null;
   let documentHandlingRegistryPath = null;
   let chronologyRegistryPath = null;
   let timeZoneRegistryPath = null;
@@ -115,6 +116,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--visual-material-registry") {
       visualMaterialRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--handwritten-transcription-registry") {
+      handwrittenTranscriptionRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--document-handling-registry") {
       documentHandlingRegistryPath = argv[index + 1];
@@ -230,6 +234,7 @@ function parseArgs(argv) {
     translationRegistryPath,
     printedAttachmentRegistryPath,
     visualMaterialRegistryPath,
+    handwrittenTranscriptionRegistryPath,
     documentHandlingRegistryPath,
     chronologyRegistryPath,
     timeZoneRegistryPath,
@@ -588,6 +593,41 @@ function compactVisualMaterialRegistry(registry, targetVolume) {
       printed_target: record.printed_target,
       cross_reference_target: record.cross_reference_target,
       identification_basis: record.identification_basis,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
+function compactHandwrittenTranscriptionRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  return {
+    schema_version: registry.schema_version,
+    handwritten_transcription_registry_id: registry.handwritten_transcription_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [],
+    records: records.map((record) => ({
+      handwritten_item_id: record.handwritten_item_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      transcription_type: record.transcription_type,
+      approved_phrase: record.approved_phrase,
+      handwritten_source_status: record.handwritten_source_status,
+      editor_transcription_basis: record.editor_transcription_basis,
+      facsimile_or_appendix_target: record.facsimile_or_appendix_target,
+      original_text_convention: record.original_text_convention,
+      unclear_or_illegible_handling: record.unclear_or_illegible_handling,
+      cut_off_or_missing_text: record.cut_off_or_missing_text,
+      physical_location_or_margin: record.physical_location_or_margin,
+      related_event_or_diary_basis: record.related_event_or_diary_basis,
       source_or_context: record.source_or_context,
       variant_forms: record.variant_forms || [],
       source_url: record.source_url,
@@ -1277,6 +1317,7 @@ function renderPacket({
   translationRegistry,
   printedAttachmentRegistry,
   visualMaterialRegistry,
+  handwrittenTranscriptionRegistry,
   documentHandlingRegistry,
   chronologyRegistry,
   timeZoneRegistry,
@@ -1399,6 +1440,12 @@ function renderPacket({
     "Use this to check maps, photographs, charts, images, graphic attachments, appendix images, captions, visual titles, not-found/not-attached visual items, visual descriptions, source-image references, printed targets, and person/object/place identification. Do not change captions, image links, visual descriptions, or attachment/not-found status unless the registry proves the direct edit.",
     "",
     fencedJson(visualMaterialRegistry || {}),
+    "",
+    "## Handwritten And Facsimile Transcription Registry Context",
+    "",
+    "Use this to check handwritten notes and letters, editor-transcribed portions, original brackets and ellipses, unclear or illegible readings, cut-off lines, appendix or facsimile images, marginalia and transcribed margin notes, source-image basis, and reverse appendix targets. Treat transcription status, original-bracket or ellipsis claims, uncertain readings, image or appendix target, cut-off or missing-text claims, and marginalia wording as comment-only unless the target-volume handwritten/facsimile registry proves the exact direct edit.",
+    "",
+    fencedJson(handwrittenTranscriptionRegistry || {}),
     "",
     "## Document Handling And Marginalia Registry Context",
     "",
@@ -1556,6 +1603,9 @@ function buildChunks(options) {
     ? readJson(options.printedAttachmentRegistryPath)
     : null;
   const visualMaterialRegistry = options.visualMaterialRegistryPath ? readJson(options.visualMaterialRegistryPath) : null;
+  const handwrittenTranscriptionRegistry = options.handwrittenTranscriptionRegistryPath
+    ? readJson(options.handwrittenTranscriptionRegistryPath)
+    : null;
   const documentHandlingRegistry = options.documentHandlingRegistryPath ? readJson(options.documentHandlingRegistryPath) : null;
   const negativeSearchRegistry = options.negativeSearchRegistryPath ? readJson(options.negativeSearchRegistryPath) : null;
   const documentRelationshipRegistry = options.documentRelationshipRegistryPath
@@ -1610,6 +1660,10 @@ function buildChunks(options) {
     options.targetVolume
   );
   const visualMaterialRegistryContext = compactVisualMaterialRegistry(visualMaterialRegistry, options.targetVolume);
+  const handwrittenTranscriptionRegistryContext = compactHandwrittenTranscriptionRegistry(
+    handwrittenTranscriptionRegistry,
+    options.targetVolume
+  );
   const documentHandlingRegistryContext = compactDocumentHandlingRegistry(documentHandlingRegistry, options.targetVolume);
   const negativeSearchRegistryContext = compactNegativeSearchRegistry(negativeSearchRegistry, options.targetVolume);
   const documentRelationshipRegistryContext = compactDocumentRelationshipRegistry(
@@ -1685,6 +1739,9 @@ function buildChunks(options) {
       translation_registry: options.translationRegistryPath ? normalizePathForOutput(options.translationRegistryPath) : "",
       printed_attachment_registry: options.printedAttachmentRegistryPath ? normalizePathForOutput(options.printedAttachmentRegistryPath) : "",
       visual_material_registry: options.visualMaterialRegistryPath ? normalizePathForOutput(options.visualMaterialRegistryPath) : "",
+      handwritten_transcription_registry: options.handwrittenTranscriptionRegistryPath
+        ? normalizePathForOutput(options.handwrittenTranscriptionRegistryPath)
+        : "",
       document_handling_registry: options.documentHandlingRegistryPath ? normalizePathForOutput(options.documentHandlingRegistryPath) : "",
       chronology_registry: options.chronologyRegistryPath ? normalizePathForOutput(options.chronologyRegistryPath) : "",
       time_zone_registry: options.timeZoneRegistryPath ? normalizePathForOutput(options.timeZoneRegistryPath) : "",
@@ -1744,6 +1801,7 @@ function buildChunks(options) {
       translation_registry_records: translationRegistry?.records?.length || 0,
       printed_attachment_registry_records: printedAttachmentRegistry?.records?.length || 0,
       visual_material_registry_records: visualMaterialRegistry?.records?.length || 0,
+      handwritten_transcription_registry_records: handwrittenTranscriptionRegistry?.records?.length || 0,
       document_handling_registry_records: documentHandlingRegistry?.records?.length || 0,
       chronology_registry_records: chronologyRegistry?.records?.length || 0,
       time_zone_registry_records: timeZoneRegistry?.records?.length || 0,
@@ -1810,6 +1868,7 @@ function buildChunks(options) {
         translationRegistry: translationRegistryContext,
         printedAttachmentRegistry: printedAttachmentRegistryContext,
         visualMaterialRegistry: visualMaterialRegistryContext,
+        handwrittenTranscriptionRegistry: handwrittenTranscriptionRegistryContext,
         documentHandlingRegistry: documentHandlingRegistryContext,
         chronologyRegistry: chronologyRegistryContext,
         timeZoneRegistry: timeZoneRegistryContext,

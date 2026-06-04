@@ -1,0 +1,131 @@
+{
+  "schema_version": "frus-handwritten-transcription-registry-v1",
+  "handwritten_transcription_registry_id": "frus-1981-1988-handwritten-transcription-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d272",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d13",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d32",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d155"
+  ],
+  "scope": "Sample registry of published Reagan-era handwritten, editor-transcribed, original-bracket, appendix-image, cut-off-line, illegible-reading, and margin-note apparatus for checking FRUS annotation sheets without inventing transcription facts.",
+  "records": [
+    {
+      "handwritten_item_id": "handwritten-v01-d272-shultz-notes",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d272",
+      "document_number": "272",
+      "unit_scope": "source note 1",
+      "transcription_type": "handwritten_notes",
+      "approved_phrase": "The editor transcribed the text from Shultz's handwritten notes specifically for this volume. An image of the notes is Appendix A",
+      "handwritten_source_status": "Shultz handwritten notes",
+      "editor_transcription_basis": "editor transcribed text specifically for the volume",
+      "facsimile_or_appendix_target": "Appendix A",
+      "original_text_convention": "",
+      "unclear_or_illegible_handling": "published note preserves unclear and illegible readings in document text",
+      "cut_off_or_missing_text": "",
+      "physical_location_or_margin": "",
+      "related_event_or_diary_basis": "June 6, 1986 NSPG meeting, Situation Room, 10:58-11:51 a.m.",
+      "source_or_context": "Reagan Foundations Document 272 source note",
+      "variant_forms": [
+        "The editor transcribed the text from Shultz’s handwritten notes specifically for this volume"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d272",
+      "verification_status": "verified_published_handwritten_transcription_record"
+    },
+    {
+      "handwritten_item_id": "handwritten-v11-d13-original-brackets-note",
+      "volume_id": "frus1981-88v11",
+      "document_id": "frus1981-88v11/d13",
+      "document_number": "13",
+      "unit_scope": "source note 1",
+      "transcription_type": "original_brackets_ellipses",
+      "approved_phrase": "Brackets and ellipses are in the original. The original text is handwritten. The editor transcribed the portion of the text here specifically for this volume. An image of the note is Appendix A",
+      "handwritten_source_status": "original text is handwritten",
+      "editor_transcription_basis": "editor transcribed the portion printed specifically for the volume",
+      "facsimile_or_appendix_target": "Appendix A",
+      "original_text_convention": "brackets and ellipses are in the original",
+      "unclear_or_illegible_handling": "",
+      "cut_off_or_missing_text": "one line cut off in the copy is separately noted",
+      "physical_location_or_margin": "",
+      "related_event_or_diary_basis": "May 3, 1982 NSC meeting in the Cabinet Room, ended at 10:52 a.m.",
+      "source_or_context": "START I Document 13 source note",
+      "variant_forms": [
+        "Brackets and ellipses are in the original",
+        "One line was cut off in the copy of this document in the file"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d13",
+      "verification_status": "verified_published_handwritten_transcription_record"
+    },
+    {
+      "handwritten_item_id": "handwritten-v11-d32-start-notes-appendix-c",
+      "volume_id": "frus1981-88v11",
+      "document_id": "frus1981-88v11/d32",
+      "document_number": "32",
+      "unit_scope": "source note 1",
+      "transcription_type": "editor_transcribed_portion",
+      "approved_phrase": "The original text is handwritten. The editor transcribed the portion of the text here specifically for this volume. An image of the notes is Appendix C",
+      "handwritten_source_status": "original text is handwritten",
+      "editor_transcription_basis": "editor transcribed the portion printed specifically for the volume",
+      "facsimile_or_appendix_target": "Appendix C",
+      "original_text_convention": "all brackets are in the original except omission brackets",
+      "unclear_or_illegible_handling": "",
+      "cut_off_or_missing_text": "",
+      "physical_location_or_margin": "",
+      "related_event_or_diary_basis": "August 9, 1982 NSC meeting in the Cabinet Room, ended at 4:11 p.m.",
+      "source_or_context": "START I Document 32 source note",
+      "variant_forms": [
+        "All brackets are in the original, except those indicating the omission of material"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d32",
+      "verification_status": "verified_published_handwritten_transcription_record"
+    },
+    {
+      "handwritten_item_id": "handwritten-v44p1-d155-keel-notes",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d155",
+      "document_number": "155",
+      "unit_scope": "source note 1",
+      "transcription_type": "handwritten_notes",
+      "approved_phrase": "Drafted by Keel, who hand wrote the notes. The editor transcribed the portion of the text here specifically for this volume. An image of the notes is Appendix A",
+      "handwritten_source_status": "Keel hand wrote the notes",
+      "editor_transcription_basis": "editor transcribed the portion printed specifically for the volume",
+      "facsimile_or_appendix_target": "Appendix A",
+      "original_text_convention": "",
+      "unclear_or_illegible_handling": "published document text preserves illegible readings",
+      "cut_off_or_missing_text": "",
+      "physical_location_or_margin": "",
+      "related_event_or_diary_basis": "November 7, 1986 Oval Office meeting, 11-11:58 a.m.",
+      "source_or_context": "National Security Policy Document 155 source note",
+      "variant_forms": [
+        "Drafted by Keel, who hand wrote the notes"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d155",
+      "verification_status": "verified_published_handwritten_transcription_record"
+    },
+    {
+      "handwritten_item_id": "handwritten-v44p1-d155-left-margin-note",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d155",
+      "document_number": "155",
+      "unit_scope": "footnote 2",
+      "transcription_type": "marginalia_left_hand",
+      "approved_phrase": "Keel wrote \"ordinary looking trains\" in the left-hand margin beside this point",
+      "handwritten_source_status": "Keel margin note",
+      "editor_transcription_basis": "published footnote transcribes the marginal note",
+      "facsimile_or_appendix_target": "",
+      "original_text_convention": "",
+      "unclear_or_illegible_handling": "",
+      "cut_off_or_missing_text": "",
+      "physical_location_or_margin": "left-hand margin beside the point",
+      "related_event_or_diary_basis": "",
+      "source_or_context": "National Security Policy Document 155 footnote 2",
+      "variant_forms": [
+        "Keel wrote “ordinary looking trains” in the left-hand margin beside this point",
+        "left-hand margin beside this point"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d155",
+      "verification_status": "verified_published_handwritten_transcription_record"
+    }
+  ]
+}

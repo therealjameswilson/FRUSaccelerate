@@ -93,6 +93,14 @@ For visual-material validation, use
 `reports/frus-visual-material-units.sample.json`; the self-contained smoke test
 is `scripts/test-frus-visual-material-audit.mjs`, and the sample audit report is
 `reports/frus-visual-material-audit.sample.json`.
+For handwritten/facsimile transcription validation, use
+`scripts/validate-frus-handwritten-transcription-registry.mjs` and
+`scripts/audit-frus-handwritten-transcription-usage.mjs` with
+`reports/frus-handwritten-transcription-registry.sample.json` and
+`reports/frus-handwritten-transcription-units.sample.json`; the self-contained
+smoke test is `scripts/test-frus-handwritten-transcription-audit.mjs`, and the
+sample audit report is
+`reports/frus-handwritten-transcription-audit.sample.json`.
 For document-handling/marginalia validation, use
 `scripts/validate-frus-document-handling-registry.mjs` and
 `scripts/audit-frus-document-handling-usage.mjs` with
@@ -287,6 +295,12 @@ reports/frus-visual-material-registry.sample.json` or a target-volume
 replacement to packet, chunk, and offline-runner commands before allowing direct
 edits to maps, photographs, captions/titles, appendix-image links, visual
 descriptions, not-found/not-attached visual status, or source-image targets.
+For handwritten/facsimile transcription claims, add
+`--handwritten-transcription-registry
+reports/frus-handwritten-transcription-registry.sample.json` or a target-volume
+replacement before allowing direct edits to handwritten/transcribed source
+status, original bracket or ellipsis claims, appendix/facsimile targets,
+uncertain or illegible readings, cut-off lines, or transcribed margin notes.
 For document-handling/marginalia claims, add `--document-handling-registry
 reports/frus-document-handling-registry.sample.json` or a target-volume
 replacement to packet, chunk, and offline-runner commands before allowing direct
@@ -4037,101 +4051,26 @@ abbreviations, original brackets, original ellipses, cut-off lines, and
 bracketed uncertain readings. The checker must not polish the transcription into
 normal prose or fill in `[unclear]` and `[illegible]` text from context.
 
-Use a handwritten-transcription registry when the wrapper can supply one:
+Use a handwritten-transcription registry when the wrapper can supply one. The
+executable schema is `frus-handwritten-transcription-registry-v1`; validate it
+with `scripts/validate-frus-handwritten-transcription-registry.mjs`. The
+bundled sample is `reports/frus-handwritten-transcription-registry.sample.json`,
+with published Reagan Foundations, START I, and Reagan national security policy
+examples for Shultz handwritten notes, original brackets and ellipses, appendix
+images, cut-off lines, Keel handwritten notes, and a transcribed left-margin
+note.
 
-```json
-{
-  "handwritten_transcription_registry_id": "frus-1981-1992-handwritten-facsimile-transcription-2026-06-03",
-  "captured_at": "2026-06-03",
-  "source_urls": [
-    "https://history.state.gov/historicaldocuments/frus1981-88v01/d272",
-    "https://history.state.gov/historicaldocuments/frus1981-88v01/appendix-A",
-    "https://history.state.gov/historicaldocuments/frus1981-88v11/d13",
-    "https://history.state.gov/historicaldocuments/frus1981-88v11/d32",
-    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d155"
-  ],
-  "records": [
-    {
-      "handwritten_item_id": "handwritten-v01-shultz-notes-0272",
-      "unit_id": "document-0272-footnote-0001",
-      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d272",
-      "claim_type": "editor_transcribed",
-      "handwriting_source": "Shultz handwritten notes",
-      "published_form": "editor-transcribed text specifically for the volume; image of the notes in Appendix A",
-      "appendix_or_facsimile_target": "Appendix A",
-      "uncertain_reading_status": "unclear and illegible readings preserved in brackets",
-      "original_brackets_or_ellipses": "handwritten structure, symbols, and bracketed uncertain readings preserved",
-      "reverse_cross_reference": "Appendix A points back to Document 272",
-      "verification_status": "verified_published_pattern"
-    },
-    {
-      "handwritten_item_id": "handwritten-v01-appendix-a-reverse-link",
-      "unit_id": "appendix-a-footnote-0001",
-      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/appendix-A",
-      "claim_type": "reverse_appendix_cross_reference",
-      "handwriting_source": "Shultz handwritten notes facsimile",
-      "published_form": "appendix image source note points to the transcribed copy",
-      "appendix_or_facsimile_target": "Document 272",
-      "uncertain_reading_status": "not applicable to appendix image entry",
-      "original_brackets_or_ellipses": "facsimile image is the evidence source",
-      "reverse_cross_reference": "For the transcribed copy of these notes, see Document 272.",
-      "verification_status": "verified_published_pattern"
-    },
-    {
-      "handwritten_item_id": "handwritten-start-0013-nsc-notes",
-      "unit_id": "document-0013-footnote-0001",
-      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d13",
-      "claim_type": "transcribed_portion",
-      "handwriting_source": "handwritten NSC meeting notes",
-      "published_form": "original text is handwritten; brackets and ellipses are original; editor transcribed a portion; image is Appendix A",
-      "appendix_or_facsimile_target": "Appendix A",
-      "uncertain_reading_status": "not-attached notes and cut-off-line note remain separate from transcription status",
-      "original_brackets_or_ellipses": "brackets and ellipses in original",
-      "reverse_cross_reference": "appendix image relationship required",
-      "verification_status": "verified_published_pattern"
-    },
-    {
-      "handwritten_item_id": "handwritten-start-0032-nsc-notes",
-      "unit_id": "document-0032-footnote-0001",
-      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d32",
-      "claim_type": "transcribed_portion_with_omission",
-      "handwriting_source": "handwritten NSC meeting notes",
-      "published_form": "original text is handwritten; editor transcribed a portion; image is Appendix C; all brackets are original except omission brackets",
-      "appendix_or_facsimile_target": "Appendix C",
-      "uncertain_reading_status": "original brackets distinguished from omission brackets",
-      "original_brackets_or_ellipses": "all brackets original except those indicating omitted material",
-      "reverse_cross_reference": "appendix image relationship required",
-      "verification_status": "verified_published_pattern"
-    },
-    {
-      "handwritten_item_id": "handwritten-v44p1-keel-notes-0155",
-      "unit_id": "document-0155-footnote-0001",
-      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d155",
-      "claim_type": "editor_transcribed_with_declassification",
-      "handwriting_source": "Keel handwritten meeting notes",
-      "published_form": "Keel hand wrote the notes; editor transcribed a portion; image is Appendix A",
-      "appendix_or_facsimile_target": "Appendix A",
-      "uncertain_reading_status": "illegible readings and not-declassified spans preserved",
-      "original_brackets_or_ellipses": "not-declassified brackets and illegible brackets remain distinct",
-      "reverse_cross_reference": "appendix image relationship required",
-      "verification_status": "verified_published_pattern"
-    }
-  ]
-}
-```
-
-Allowed `claim_type` values:
-
-- `editor_transcribed`
-- `transcribed_portion`
-- `transcribed_portion_with_omission`
-- `editor_transcribed_with_declassification`
-- `appendix_facsimile`
-- `reverse_appendix_cross_reference`
-- `original_brackets_or_ellipses`
-- `uncertain_reading`
-- `cut_off_line`
-- `unknown`
+Registry records use `transcription_type` values such as
+`handwritten_notes`, `handwritten_letter`, `editor_transcribed_portion`,
+`original_brackets_ellipses`, `unclear_or_illegible_reading`,
+`facsimile_appendix_image`, `marginalia_left_hand`, `cut_off_line`, and
+`unknown`. Required evidence fields include `approved_phrase`,
+`handwritten_source_status`, `editor_transcription_basis`,
+`facsimile_or_appendix_target`, `original_text_convention`,
+`unclear_or_illegible_handling`, `cut_off_or_missing_text`,
+`physical_location_or_margin`, `source_or_context`, `source_url`, and
+`verification_status`. Direct edits are allowed only when the replacement
+matches a target-volume approved registry phrase.
 
 Handwritten/facsimile validator sequence:
 
@@ -12435,6 +12374,21 @@ Minimum components:
   date, time, place, sequence, participant, public-source basis, press basis,
   diary/schedule basis, time-zone relationship, or full-record-target edits
   that lack registry support.
+- No-dependency handwritten/facsimile transcription registry validator, usage
+  audit, and fixtures:
+  `scripts/validate-frus-handwritten-transcription-registry.mjs`,
+  `scripts/audit-frus-handwritten-transcription-usage.mjs`,
+  `reports/frus-handwritten-transcription-registry.sample.json`,
+  `reports/frus-handwritten-transcription-units.sample.json`, and
+  `reports/frus-handwritten-transcription-audit.sample.json`. The audit
+  reconciles handwritten notes and letters, editor-transcribed portions,
+  original brackets and ellipses, unclear or illegible readings, cut-off lines,
+  appendix/facsimile images, marginalia and transcribed margin notes,
+  source-image basis, and reverse appendix targets to supplied target-volume
+  records. It flags unmatched handwritten-like units and fails direct edits
+  that invent or alter transcription status, original-bracket/ellipsis basis,
+  uncertain readings, appendix-image targets, cut-off-line basis, or transcribed
+  margin-note wording without registry support.
 - No-dependency footnote refer-back registry validator, usage audit, and
   fixtures: `scripts/validate-frus-footnote-referback-registry.mjs`,
   `scripts/audit-frus-footnote-referback-usage.mjs`,

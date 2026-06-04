@@ -211,6 +211,8 @@ try {
       "reports/frus-printed-attachment-registry.sample.json",
       "--visual-material-registry",
       "reports/frus-visual-material-registry.sample.json",
+      "--handwritten-transcription-registry",
+      "reports/frus-handwritten-transcription-registry.sample.json",
       "--document-handling-registry",
       "reports/frus-document-handling-registry.sample.json",
       "--chronology-registry",
@@ -307,6 +309,22 @@ try {
   assert(audit.counts.visual_material_registry_usages === 0, "expected zero visual material registry usages");
   assert(audit.counts.visual_material_registry_warnings === 0, "expected zero visual material registry warnings");
   assert(audit.counts.visual_material_direct_edit_conflicts === 0, "expected zero visual material direct-edit conflicts");
+  assert(
+    audit.counts.handwritten_transcription_registry_usages === 0,
+    "expected zero handwritten/facsimile transcription usages"
+  );
+  assert(
+    audit.counts.handwritten_transcription_registry_warnings === 0,
+    "expected zero handwritten/facsimile transcription warnings"
+  );
+  assert(
+    audit.counts.handwritten_transcription_unmatched_like_units === 0,
+    "expected zero unmatched handwritten/facsimile-like units"
+  );
+  assert(
+    audit.counts.handwritten_transcription_direct_edit_conflicts === 0,
+    "expected zero handwritten/facsimile direct-edit conflicts"
+  );
   assert(audit.counts.document_handling_registry_usages === 0, "expected zero document handling registry usages");
   assert(audit.counts.document_handling_registry_warnings === 0, "expected zero document handling registry warnings");
   assert(audit.counts.document_handling_direct_edit_conflicts === 0, "expected zero document handling direct-edit conflicts");
@@ -467,6 +485,8 @@ try {
     "printed-attachment-usage-audit.json",
     "visual-material-registry-validation.json",
     "visual-material-usage-audit.json",
+    "handwritten-transcription-registry-validation.json",
+    "handwritten-transcription-usage-audit.json",
     "document-handling-registry-validation.json",
     "document-handling-usage-audit.json",
     "chronology-registry-validation.json",
@@ -536,6 +556,14 @@ try {
   assert(audit.reports.printed_attachment_usage_audit.status === "pass", "expected printed attachment usage audit report");
   assert(audit.reports.visual_material_registry_validation.summary.records === 5, "expected visual material registry validation report");
   assert(audit.reports.visual_material_usage_audit.status === "pass", "expected visual material usage audit report");
+  assert(
+    audit.reports.handwritten_transcription_registry_validation.summary.records === 5,
+    "expected handwritten/facsimile transcription registry validation report"
+  );
+  assert(
+    audit.reports.handwritten_transcription_usage_audit.status === "pass",
+    "expected handwritten/facsimile transcription usage audit report"
+  );
   assert(audit.reports.document_handling_registry_validation.summary.records === 7, "expected document handling registry validation report");
   assert(audit.reports.document_handling_usage_audit.status === "pass", "expected document handling usage audit report");
   assert(audit.reports.chronology_registry_validation.summary.records === 6, "expected chronology registry validation report");
@@ -642,7 +670,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/chronology/time-zone/summit-public-event/selection-balance/decision-process/public-source/retrospective-account/treaty/foreign-org/congressional-legal/economic-financial/military-crisis/intelligence-law-enforcement/human-rights-refugee-global-issues/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/handwritten-transcription/document-handling/chronology/time-zone/summit-public-event/selection-balance/decision-process/public-source/retrospective-account/treaty/foreign-org/congressional-legal/economic-financial/military-crisis/intelligence-law-enforcement/human-rights-refugee-global-issues/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

@@ -212,6 +212,18 @@
       "role": "Self-contained visual-material registry and usage audit smoke test"
     },
     {
+      "path": "scripts/validate-frus-handwritten-transcription-registry.mjs",
+      "role": "No-dependency validator for handwritten/facsimile transcription registry records"
+    },
+    {
+      "path": "scripts/audit-frus-handwritten-transcription-usage.mjs",
+      "role": "No-dependency usage audit and direct-edit gate for handwritten/facsimile transcription apparatus"
+    },
+    {
+      "path": "scripts/test-frus-handwritten-transcription-audit.mjs",
+      "role": "Self-contained handwritten/facsimile transcription registry and usage audit smoke test"
+    },
+    {
       "path": "scripts/validate-frus-document-handling-registry.mjs",
       "role": "Document-face handling, routing, initials, marginalia, stamped notation, and approval registry validator"
     },
@@ -524,6 +536,9 @@
     "reports/frus-printed-attachment-units.sample.json",
     "reports/frus-printed-attachment-audit.sample.json",
     "reports/frus-visual-material-registry.sample.json",
+    "reports/frus-handwritten-transcription-registry.sample.json",
+    "reports/frus-handwritten-transcription-units.sample.json",
+    "reports/frus-handwritten-transcription-audit.sample.json",
     "reports/frus-visual-material-units.sample.json",
     "reports/frus-visual-material-audit.sample.json",
     "reports/frus-document-handling-registry.sample.json",
@@ -639,6 +654,10 @@
     {
       "path": "reports/frus-visual-material-registry.sample.json",
       "role": "Published map, photograph, caption/title, visual not-found, and appendix-image sample for Reagan and George H.W. Bush fixtures"
+    },
+    {
+      "path": "reports/frus-handwritten-transcription-registry.sample.json",
+      "role": "Published Reagan Foundations, START I, and Reagan national security policy sample for handwritten notes, original brackets and ellipses, appendix images, cut-off lines, Keel handwritten notes, and transcribed marginalia"
     },
     {
       "path": "reports/frus-document-handling-registry.sample.json",
@@ -773,6 +792,9 @@
     "node scripts/validate-frus-visual-material-registry.mjs --registry reports/frus-visual-material-registry.sample.json --format text",
     "node scripts/audit-frus-visual-material-usage.mjs --units reports/frus-visual-material-units.sample.json --registry reports/frus-visual-material-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-visual-material-audit.mjs",
+    "node scripts/validate-frus-handwritten-transcription-registry.mjs --registry reports/frus-handwritten-transcription-registry.sample.json --format text",
+    "node scripts/audit-frus-handwritten-transcription-usage.mjs --units reports/frus-handwritten-transcription-units.sample.json --registry reports/frus-handwritten-transcription-registry.sample.json --target-volume frus1981-88v11 --format text",
+    "node scripts/test-frus-handwritten-transcription-audit.mjs",
     "node scripts/validate-frus-document-handling-registry.mjs --registry reports/frus-document-handling-registry.sample.json --format text",
     "node scripts/audit-frus-document-handling-usage.mjs --units reports/frus-document-handling-units.sample.json --registry reports/frus-document-handling-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-document-handling-audit.mjs",
@@ -911,6 +933,8 @@
     "Remove a generated commentRangeEnd marker; validate-frus-docx-output.mjs must fail.",
     "Point run-frus-offline-review.mjs at checker output with unit ids not present in the extracted DOCX; the wrapper runner must fail during preflight.",
     "Remove the checks array from checker-output-v1; validate-frus-checker-output.mjs and build-frus-evidence-queue.mjs must fail.",
-    "Remove any required file listed in the manifest; verify-frus-offline-bundle.mjs must fail."
+    "Remove any required file listed in the manifest; verify-frus-offline-bundle.mjs must fail.",
+    "Give validate-frus-handwritten-transcription-registry.mjs a duplicate handwritten_item_id, invalid transcription_type, or malformed handwritten-transcription-registry schema; it must fail.",
+    "Give audit-frus-handwritten-transcription-usage.mjs a direct edit that invents or changes a transcription, facsimile, original-bracket, cut-off-line, or margin-note basis without registry support; it must fail."
   ]
 }

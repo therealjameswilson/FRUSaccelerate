@@ -94,6 +94,8 @@ try {
     "reports/frus-printed-attachment-registry.sample.json",
     "--visual-material-registry",
     "reports/frus-visual-material-registry.sample.json",
+    "--handwritten-transcription-registry",
+    "reports/frus-handwritten-transcription-registry.sample.json",
     "--document-handling-registry",
     "reports/frus-document-handling-registry.sample.json",
     "--chronology-registry",
@@ -166,6 +168,10 @@ try {
   assert(manifest.summary.translation_registry_records === 7, "expected translation registry record count");
   assert(manifest.summary.printed_attachment_registry_records === 6, "expected printed attachment registry record count");
   assert(manifest.summary.visual_material_registry_records === 5, "expected visual material registry record count");
+  assert(
+    manifest.summary.handwritten_transcription_registry_records === 5,
+    "expected handwritten/facsimile transcription registry record count"
+  );
   assert(manifest.summary.document_handling_registry_records === 7, "expected document handling registry record count");
   assert(manifest.summary.chronology_registry_records === 6, "expected chronology registry record count");
   assert(manifest.summary.time_zone_registry_records === 8, "expected time-zone registry record count");
@@ -203,6 +209,11 @@ try {
   assert(manifest.source_files.translation_registry === "reports/frus-translation-registry.sample.json", "expected translation registry source path");
   assert(manifest.source_files.printed_attachment_registry === "reports/frus-printed-attachment-registry.sample.json", "expected printed attachment registry source path");
   assert(manifest.source_files.visual_material_registry === "reports/frus-visual-material-registry.sample.json", "expected visual material registry source path");
+  assert(
+    manifest.source_files.handwritten_transcription_registry ===
+      "reports/frus-handwritten-transcription-registry.sample.json",
+    "expected handwritten/facsimile transcription registry source path"
+  );
   assert(manifest.source_files.document_handling_registry === "reports/frus-document-handling-registry.sample.json", "expected document handling registry source path");
   assert(manifest.source_files.chronology_registry === "reports/frus-chronology-registry.sample.json", "expected chronology registry source path");
   assert(manifest.source_files.time_zone_registry === "reports/frus-time-zone-registry.sample.json", "expected time-zone registry source path");
@@ -267,6 +278,16 @@ try {
   assert(firstPacket.includes("Visual Material Registry Context"), "expected visual material registry context in chunk packet");
   assert(firstPacket.includes("map of U.S. bases surrounding the Soviet Union"), "expected visual material registry content in chunk packet");
   assert(firstPacket.includes("Top Soviet Pop Group"), "expected photograph caption/title content in chunk packet");
+  assert(
+    firstPacket.includes("Handwritten And Facsimile Transcription Registry Context"),
+    "expected handwritten/facsimile transcription context in chunk packet"
+  );
+  assert(firstPacket.includes("Shultz's handwritten notes"), "expected Shultz handwritten-notes content in chunk packet");
+  assert(
+    firstPacket.includes("Brackets and ellipses are in the original"),
+    "expected original brackets/ellipses content in chunk packet"
+  );
+  assert(firstPacket.includes("ordinary looking trains"), "expected transcribed margin-note content in chunk packet");
   assert(firstPacket.includes("Document Handling And Marginalia Registry Context"), "expected document handling registry context in chunk packet");
   assert(firstPacket.includes("Watson initialed the memorandum on Gregg"), "expected document handling registry content in chunk packet");
   assert(firstPacket.includes("Chronology And Time Registry Context"), "expected chronology registry context in chunk packet");
@@ -412,7 +433,7 @@ try {
   assert(badMerge.status !== 0, "expected out-of-chunk unit reference to fail");
   assert(badMerge.stdout.includes("outside chunk-0002"), "expected chunk-boundary failure detail");
 
-  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
+  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

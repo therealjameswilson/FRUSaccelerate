@@ -2,7 +2,7 @@
 
 - schema_version: frus-llm-review-packet-v1
 - run_id: sample-packet
-- generated_at: 2026-06-04T06:26:57.095Z
+- generated_at: 2026-06-04T06:50:53.314Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -163,6 +163,7 @@ Every reviewable extracted editorial unit should have a checker entry. Use `reco
   "translation_registry_records": 7,
   "printed_attachment_registry_records": 6,
   "visual_material_registry_records": 5,
+  "handwritten_transcription_registry_records": 5,
   "document_handling_registry_records": 7,
   "chronology_registry_records": 6,
   "time_zone_registry_records": 8,
@@ -212,9 +213,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -245,6 +246,9 @@ For printed/nested attachment validation and direct-edit safety, run
 For visual-material validation and direct-edit safety, run
 `node scripts/validate-frus-visual-material-registry.mjs --registry reports/frus-visual-material-registry.sample.json --format text` and
 `node scripts/audit-frus-visual-material-usage.mjs --units extracted-units.json --registry reports/frus-visual-material-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For handwritten/facsimile transcription validation and direct-edit safety, run
+`node scripts/validate-frus-handwritten-transcription-registry.mjs --registry reports/frus-handwritten-transcription-registry.sample.json --format text` and
+`node scripts/audit-frus-handwritten-transcription-usage.mjs --units extracted-units.json --registry reports/frus-handwritten-transcription-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For document-handling/marginalia validation and direct-edit safety, run
 `node scripts/validate-frus-document-handling-registry.mjs --registry reports/frus-document-handling-registry.sample.json --format text` and
 `node scripts/audit-frus-document-handling-usage.mjs --units extracted-units.json --registry reports/frus-document-handling-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -315,7 +319,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -375,6 +379,17 @@ not-found or not-attached visual items, source-image links, printed targets,
 and person/object/place identification; validate it with
 `scripts/validate-frus-visual-material-registry.mjs` before direct
 visual-material edits.
+For real Reagan/Bush 1981-1992 handwritten/facsimile transcription review,
+replace the sample registry with target-volume records for handwritten notes
+and letters, editor-transcribed portions, original brackets and ellipses,
+unclear or illegible readings, cut-off lines, appendix/facsimile images,
+marginalia and transcribed margin notes, source-image basis, and reverse
+appendix targets. Treat transcription status, original-bracket or ellipsis
+claims, uncertain readings, image/appendix target, cut-off or missing-text
+claims, and marginalia wording as comment-only unless the registry proves the
+exact target-volume form. Validate it with
+`scripts/validate-frus-handwritten-transcription-registry.mjs` before direct
+handwritten/facsimile edits.
 For real Reagan/Bush 1981-1992 document-handling/marginalia review, replace
 the sample document-handling registry with target-volume records for initials,
 handwritten notes, marginalia, underlining, checkmarks, stamped notations,
@@ -563,6 +578,8 @@ For sample printed/nested attachment checks, run
 `node scripts/audit-frus-printed-attachment-usage.mjs --units reports/frus-printed-attachment-units.sample.json --registry reports/frus-printed-attachment-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample visual-material checks, run
 `node scripts/audit-frus-visual-material-usage.mjs --units reports/frus-visual-material-units.sample.json --registry reports/frus-visual-material-registry.sample.json --target-volume frus1989-92v31 --format text`.
+For sample handwritten/facsimile transcription checks, run
+`node scripts/audit-frus-handwritten-transcription-usage.mjs --units reports/frus-handwritten-transcription-units.sample.json --registry reports/frus-handwritten-transcription-registry.sample.json --target-volume frus1981-88v11 --format text`.
 For sample document-handling/marginalia checks, run
 `node scripts/audit-frus-document-handling-usage.mjs --units reports/frus-document-handling-units.sample.json --registry reports/frus-document-handling-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample chronology/time checks, run
@@ -4831,6 +4848,146 @@ Use this to check maps, photographs, charts, images, graphic attachments, append
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/appendix-A",
       "verification_status": "verified_published_visual_material_record"
+    }
+  ]
+}
+```
+
+## Handwritten And Facsimile Transcription Registry Context
+
+Use this to check handwritten notes and letters, editor-transcribed portions, original brackets and ellipses, unclear or illegible readings, cut-off lines, appendix or facsimile images, marginalia and transcribed margin notes, source-image basis, and reverse appendix targets. Treat transcription status, original-bracket or ellipsis claims, uncertain readings, image or appendix target, cut-off or missing-text claims, and marginalia wording as comment-only unless the target-volume handwritten/facsimile registry proves the exact direct edit.
+
+```json
+{
+  "schema_version": "frus-handwritten-transcription-registry-v1",
+  "handwritten_transcription_registry_id": "frus-1981-1988-handwritten-transcription-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d272",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d13",
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d32",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d155"
+  ],
+  "scope": "Sample registry of published Reagan-era handwritten, editor-transcribed, original-bracket, appendix-image, cut-off-line, illegible-reading, and margin-note apparatus for checking FRUS annotation sheets without inventing transcription facts.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [],
+  "records": [
+    {
+      "handwritten_item_id": "handwritten-v01-d272-shultz-notes",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d272",
+      "document_number": "272",
+      "unit_scope": "source note 1",
+      "transcription_type": "handwritten_notes",
+      "approved_phrase": "The editor transcribed the text from Shultz's handwritten notes specifically for this volume. An image of the notes is Appendix A",
+      "handwritten_source_status": "Shultz handwritten notes",
+      "editor_transcription_basis": "editor transcribed text specifically for the volume",
+      "facsimile_or_appendix_target": "Appendix A",
+      "original_text_convention": "",
+      "unclear_or_illegible_handling": "published note preserves unclear and illegible readings in document text",
+      "cut_off_or_missing_text": "",
+      "physical_location_or_margin": "",
+      "related_event_or_diary_basis": "June 6, 1986 NSPG meeting, Situation Room, 10:58-11:51 a.m.",
+      "source_or_context": "Reagan Foundations Document 272 source note",
+      "variant_forms": [
+        "The editor transcribed the text from Shultz’s handwritten notes specifically for this volume"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d272",
+      "verification_status": "verified_published_handwritten_transcription_record"
+    },
+    {
+      "handwritten_item_id": "handwritten-v11-d13-original-brackets-note",
+      "volume_id": "frus1981-88v11",
+      "document_id": "frus1981-88v11/d13",
+      "document_number": "13",
+      "unit_scope": "source note 1",
+      "transcription_type": "original_brackets_ellipses",
+      "approved_phrase": "Brackets and ellipses are in the original. The original text is handwritten. The editor transcribed the portion of the text here specifically for this volume. An image of the note is Appendix A",
+      "handwritten_source_status": "original text is handwritten",
+      "editor_transcription_basis": "editor transcribed the portion printed specifically for the volume",
+      "facsimile_or_appendix_target": "Appendix A",
+      "original_text_convention": "brackets and ellipses are in the original",
+      "unclear_or_illegible_handling": "",
+      "cut_off_or_missing_text": "one line cut off in the copy is separately noted",
+      "physical_location_or_margin": "",
+      "related_event_or_diary_basis": "May 3, 1982 NSC meeting in the Cabinet Room, ended at 10:52 a.m.",
+      "source_or_context": "START I Document 13 source note",
+      "variant_forms": [
+        "Brackets and ellipses are in the original",
+        "One line was cut off in the copy of this document in the file"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d13",
+      "verification_status": "verified_published_handwritten_transcription_record"
+    },
+    {
+      "handwritten_item_id": "handwritten-v11-d32-start-notes-appendix-c",
+      "volume_id": "frus1981-88v11",
+      "document_id": "frus1981-88v11/d32",
+      "document_number": "32",
+      "unit_scope": "source note 1",
+      "transcription_type": "editor_transcribed_portion",
+      "approved_phrase": "The original text is handwritten. The editor transcribed the portion of the text here specifically for this volume. An image of the notes is Appendix C",
+      "handwritten_source_status": "original text is handwritten",
+      "editor_transcription_basis": "editor transcribed the portion printed specifically for the volume",
+      "facsimile_or_appendix_target": "Appendix C",
+      "original_text_convention": "all brackets are in the original except omission brackets",
+      "unclear_or_illegible_handling": "",
+      "cut_off_or_missing_text": "",
+      "physical_location_or_margin": "",
+      "related_event_or_diary_basis": "August 9, 1982 NSC meeting in the Cabinet Room, ended at 4:11 p.m.",
+      "source_or_context": "START I Document 32 source note",
+      "variant_forms": [
+        "All brackets are in the original, except those indicating the omission of material"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v11/d32",
+      "verification_status": "verified_published_handwritten_transcription_record"
+    },
+    {
+      "handwritten_item_id": "handwritten-v44p1-d155-keel-notes",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d155",
+      "document_number": "155",
+      "unit_scope": "source note 1",
+      "transcription_type": "handwritten_notes",
+      "approved_phrase": "Drafted by Keel, who hand wrote the notes. The editor transcribed the portion of the text here specifically for this volume. An image of the notes is Appendix A",
+      "handwritten_source_status": "Keel hand wrote the notes",
+      "editor_transcription_basis": "editor transcribed the portion printed specifically for the volume",
+      "facsimile_or_appendix_target": "Appendix A",
+      "original_text_convention": "",
+      "unclear_or_illegible_handling": "published document text preserves illegible readings",
+      "cut_off_or_missing_text": "",
+      "physical_location_or_margin": "",
+      "related_event_or_diary_basis": "November 7, 1986 Oval Office meeting, 11-11:58 a.m.",
+      "source_or_context": "National Security Policy Document 155 source note",
+      "variant_forms": [
+        "Drafted by Keel, who hand wrote the notes"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d155",
+      "verification_status": "verified_published_handwritten_transcription_record"
+    },
+    {
+      "handwritten_item_id": "handwritten-v44p1-d155-left-margin-note",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d155",
+      "document_number": "155",
+      "unit_scope": "footnote 2",
+      "transcription_type": "marginalia_left_hand",
+      "approved_phrase": "Keel wrote \"ordinary looking trains\" in the left-hand margin beside this point",
+      "handwritten_source_status": "Keel margin note",
+      "editor_transcription_basis": "published footnote transcribes the marginal note",
+      "facsimile_or_appendix_target": "",
+      "original_text_convention": "",
+      "unclear_or_illegible_handling": "",
+      "cut_off_or_missing_text": "",
+      "physical_location_or_margin": "left-hand margin beside the point",
+      "related_event_or_diary_basis": "",
+      "source_or_context": "National Security Policy Document 155 footnote 2",
+      "variant_forms": [
+        "Keel wrote “ordinary looking trains” in the left-hand margin beside this point",
+        "left-hand margin beside this point"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d155",
+      "verification_status": "verified_published_handwritten_transcription_record"
     }
   ]
 }
