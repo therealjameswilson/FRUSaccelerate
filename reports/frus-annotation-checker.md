@@ -9251,7 +9251,8 @@ For every extracted unit, run checks in this order:
     against the foreign/international-organization registry when supplied.
 17. Check treaty/legal-instrument component identity, integral-versus-associated
     status, public/archival source basis, transmittal language, ratification,
-    and entry-into-force language against the treaty registry when supplied.
+    entry-into-force language, and START/INF/ABM technical-verification
+    terminology against the treaty registry when supplied.
 18. Check attachment, tab, enclosure, appendix, facsimile, and not-found claims
    against the attachment registry when supplied.
 19. Check printed attachments, nested documents, child headings, child source
@@ -12358,9 +12359,12 @@ Minimum components:
   `reports/frus-treaty-audit.sample.json`. The audit reconciles treaty text,
   protocols, annexes, memoranda of understanding, associated-but-not-integral
   documents, Senate transmittal packages, Treaty Doc. references, ratification,
-  entry-into-force, legal-authority, and draft treaty-package language to
-  supplied treaty records and fails direct treaty edits that lack target-volume
-  registry support.
+  entry-into-force, legal-authority, draft treaty-package language, and
+  START/INF/ABM technical-verification terminology such as telemetry, JCIC,
+  inspection/monitoring, national technical means, throw-weight, heavy ICBM,
+  Backfire/downloading, RV/reentry-vehicle, ABM, and `other physical
+  principles` to supplied treaty records and fails direct treaty or
+  arms-control technical edits that lack target-volume registry support.
 - No-dependency foreign/international-organization registry validator, usage
   audit, and fixtures: `scripts/validate-frus-foreign-org-registry.mjs`,
   `scripts/audit-frus-foreign-org-usage.mjs`,

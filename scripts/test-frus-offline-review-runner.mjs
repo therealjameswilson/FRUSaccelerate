@@ -683,7 +683,7 @@ try {
     audit.reports.retrospective_account_usage_audit.status === "pass",
     "expected retrospective-account usage audit report"
   );
-  assert(audit.reports.treaty_registry_validation.summary.records === 7, "expected treaty registry validation report");
+  assert(audit.reports.treaty_registry_validation.summary.records === 13, "expected treaty registry validation report");
   assert(audit.reports.treaty_usage_audit.status === "pass", "expected treaty usage audit report");
   assert(audit.reports.foreign_org_registry_validation.summary.records === 10, "expected foreign-org registry validation report");
   assert(audit.reports.foreign_org_usage_audit.status === "pass", "expected foreign-org usage audit report");

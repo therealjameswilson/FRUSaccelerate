@@ -89,6 +89,72 @@
       "edit_safety": "safe",
       "comment_safety": "safe",
       "blocked_boundaries": []
+    },
+    {
+      "unit_id": "treaty-0009",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-24",
+      "exact_text": "The package included the Protocol on Telemetric Information Relating to the Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms (\"Telemetry Protocol\").",
+      "display_text": "The package included the Protocol on Telemetric Information Relating to the Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms (\"Telemetry Protocol\").",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "treaty-0010",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-26",
+      "exact_text": "Implementation was routed through the Joint Compliance and Inspection Commission Protocol.",
+      "display_text": "Implementation was routed through the Joint Compliance and Inspection Commission Protocol.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "treaty-0011",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-28",
+      "exact_text": "The Senate transmittal described a far-reaching inspection regime, including on-site inspections, special access visits, continuous on-site monitoring of certain facilities, and technical exhibitions.",
+      "display_text": "The Senate transmittal described a far-reaching inspection regime, including on-site inspections, special access visits, continuous on-site monitoring of certain facilities, and technical exhibitions.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "treaty-0012",
+      "unit_type": "follow_on_footnote",
+      "location": "word/footnotes.xml#footnote-12",
+      "exact_text": "The joint statement covered interpretive data specified in subparagraphs 1(a) and 1(b) of Section II of the telemetry protocol.",
+      "display_text": "The joint statement covered interpretive data specified in subparagraphs 1(a) and 1(b) of Section II of the telemetry protocol.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "treaty-0013",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-30",
+      "exact_text": "The heavy ICBM package stated: Ban new silos for heavies, ban downloading of heavies, no increase in launch weight or throw-weight of heavy ICBM s.",
+      "display_text": "The heavy ICBM package stated: Ban new silos for heavies, ban downloading of heavies, no increase in launch weight or throw-weight of heavy ICBM s.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "treaty-0014",
+      "unit_type": "editorial_note",
+      "location": "word/document.xml#p-32",
+      "exact_text": "The Reagan ABM paper defined ABM systems based on \"other physical principles\" addressed in Agreed Statement D.",
+      "display_text": "The Reagan ABM paper defined ABM systems based on \"other physical principles\" addressed in Agreed Statement D.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
     }
   ]
 }

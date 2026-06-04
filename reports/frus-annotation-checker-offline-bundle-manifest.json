@@ -789,7 +789,7 @@
     },
     {
       "path": "reports/frus-treaty-registry.sample.json",
-      "role": "Published treaty text, protocols, annexes, MOU, associated-document, Senate transmittal, draft treaty, and legal-instrument sample for Reagan and George H.W. Bush fixtures"
+      "role": "Published treaty text, protocols, annexes, MOU, associated-document, Senate transmittal, draft treaty, START/INF/ABM technical-verification, and legal-instrument sample for Reagan and George H.W. Bush fixtures"
     },
     {
       "path": "reports/frus-foreign-org-registry.sample.json",
@@ -1022,7 +1022,7 @@
     "Give validate-frus-public-source-registry.mjs a duplicate public_source_id or malformed public-source-registry schema; it must fail.",
     "Give audit-frus-retrospective-account-usage.mjs a direct edit that changes memoir, diary, oral-history, recollection, page/locator, selected/supplemental, official-record-relationship, corroboration, or conflict language without target-volume registry support; it must fail.",
     "Give validate-frus-retrospective-account-registry.mjs a duplicate retrospective_account_id or malformed retrospective-account-registry schema; it must fail.",
-    "Give audit-frus-treaty-usage.mjs a direct edit that changes treaty component identity, integral/associated status, legal process, ratification, or entry-into-force language without target-volume registry support; it must fail.",
+    "Give audit-frus-treaty-usage.mjs a direct edit that changes treaty component identity, integral/associated status, legal process, ratification, entry-into-force language, or START/INF/ABM technical-verification terminology without target-volume registry support; it must fail.",
     "Give validate-frus-treaty-registry.mjs a duplicate treaty_id or malformed treaty-registry schema; it must fail.",
     "Give audit-frus-foreign-org-usage.mjs a direct edit that changes country, alliance, international-organization, successor-state, treaty-party, or conference identity without target-volume registry support; it must fail.",
     "Give validate-frus-foreign-org-registry.mjs a duplicate foreign_org_id or malformed foreign-org-registry schema; it must fail.",

@@ -216,6 +216,8 @@ try {
   assert(markdown.includes("Treaty And Legal Instrument Registry Context"), "expected treaty registry section");
   assert(markdown.includes("Conversion or Elimination Protocol"), "expected treaty registry content");
   assert(markdown.includes("associated with, but not integral parts of, the Treaty"), "expected treaty associated-document content");
+  assert(markdown.includes("Telemetry Protocol"), "expected START telemetry protocol registry content");
+  assert(markdown.includes("throw-weight of heavy ICBM"), "expected START throw-weight technical-verification content");
   assert(markdown.includes("Foreign And International Organization Registry Context"), "expected foreign-org registry section");
   assert(markdown.includes("ASEAN [Association of Southeast Asian Nations]"), "expected regional-organization registry content");
   assert(markdown.includes("President of the Union of Soviet Socialist Republics"), "expected foreign-state registry content");
@@ -401,9 +403,9 @@ try {
     packet.packet_summary.retrospective_account_registry_records === 6,
     "expected retrospective-account registry count"
   );
-  assert(packet.contexts.treaty_registry.records.length === 7, "expected treaty registry records");
+  assert(packet.contexts.treaty_registry.records.length === 13, "expected treaty registry records");
   assert(packet.contexts.treaty_registry.target_records.length > 0, "expected target treaty records");
-  assert(packet.packet_summary.treaty_registry_records === 7, "expected treaty registry count");
+  assert(packet.packet_summary.treaty_registry_records === 13, "expected treaty registry count");
   assert(packet.contexts.foreign_org_registry.records.length === 10, "expected foreign-org registry records");
   assert(packet.contexts.foreign_org_registry.target_records.length > 0, "expected target foreign-org records");
   assert(packet.packet_summary.foreign_org_registry_records === 10, "expected foreign-org registry count");

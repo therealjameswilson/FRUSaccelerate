@@ -1,6 +1,6 @@
 {
   "schema_version": "frus-llm-chunk-manifest-v1",
-  "generated_at": "2026-06-04T09:48:04.665Z",
+  "generated_at": "2026-06-04T10:00:26.737Z",
   "run_id": "chunk-workflow-test",
   "target_volume": "frus1989-92v31",
   "chunk_count": 2,
@@ -78,7 +78,7 @@
     "decision_process_registry_records": 12,
     "public_source_registry_records": 6,
     "retrospective_account_registry_records": 6,
-    "treaty_registry_records": 7,
+    "treaty_registry_records": 13,
     "foreign_org_registry_records": 10,
     "congressional_legal_registry_records": 16,
     "economic_financial_registry_records": 20,

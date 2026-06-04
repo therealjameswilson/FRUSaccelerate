@@ -21,6 +21,10 @@ const ALLOWED_COMPONENT_TYPES = new Set([
   "draft_treaty",
   "draft_protocol",
   "draft_mou",
+  "technical_definition",
+  "verification_regime",
+  "monitoring_inspection",
+  "arms_control_constraint",
   "unknown"
 ]);
 const ALLOWED_STATUSES = new Set([

@@ -289,9 +289,12 @@ For real Reagan/Bush 1981-1992 treaty/legal-instrument review, replace the
 sample treaty registry with target-volume records for treaty text, protocols,
 annexes, memoranda of understanding, associated but non-integral documents,
 Senate transmittal packages, Treaty Doc. references, ratification,
-entry-into-force, legal authority, and draft treaty-package language; validate
-it with `scripts/validate-frus-treaty-registry.mjs` before direct treaty or
-legal-instrument edits.
+entry-into-force, legal authority, draft treaty-package language, and
+arms-control technical-verification terminology such as telemetry, JCIC,
+inspection/monitoring, national technical means, throw-weight, heavy ICBM,
+Backfire/downloading, RV/reentry-vehicle, ABM, and `other physical principles`;
+validate it with `scripts/validate-frus-treaty-registry.mjs` before direct
+treaty, legal-instrument, or technical-verification edits.
 For real Reagan/Bush 1981-1992 foreign/international-organization review,
 replace the sample foreign-org registry with target-volume records for country
 names, successor-state references, alliances, international organizations,
@@ -552,8 +555,9 @@ is flawless.
 15. Wrapper validates treaty/legal-instrument claims, including treaty text,
    protocols, annexes, memoranda of understanding, associated-but-not-integral
    documents, Senate transmittals, ratification, entry-into-force, legal
-   authority, and draft treaty-package language against the supplied treaty
-   registry before allowing any treaty redline.
+   authority, draft treaty-package language, and START/INF/ABM
+   technical-verification terminology against the supplied treaty registry
+   before allowing any treaty or arms-control technical redline.
 16. Wrapper audits recurring compiler-risk patterns, including leading-zero
    telegram numbers, non-State telegram copies without eRecords/drafting
    checks, incomplete cross-reference slugs, missing page breaks, old

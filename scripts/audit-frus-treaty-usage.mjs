@@ -14,7 +14,7 @@ const TREATY_UNIT_TYPES = new Set([
   "unknown_editorial_text"
 ]);
 const TREATY_PATTERN =
-  /\b(Treaty|START|protocol|annex|Memorandum of Understanding|MOU|associated (?:document|letter)|joint statement|separate executive agreement|Senate|ratification|entry into force|instrument|Treaty Doc\.?|transmittal|notification|legal authority|draft treaty|draft protocol|CFE|Open Skies|chemical weapons)\b/i;
+  /\b(Treaty|START|protocol|annex|Memorandum of Understanding|MOU|associated (?:document|letter)|joint statement|separate executive agreement|Senate|ratification|entry into force|instrument|Treaty Doc\.?|transmittal|notification|legal authority|draft treaty|draft protocol|CFE|Open Skies|chemical weapons|throw-?weight|telemetry|telemetric|JCIC|Joint Compliance and Inspection Commission|inspection regime|continuous on-site monitoring|national technical means|heavy ICBM|Backfire|downloading|reentry vehicles?|RVs?|non-circumvention|ABM systems?|other physical principles)\b/i;
 
 function usage() {
   console.error(
@@ -175,6 +175,16 @@ function checkerTreatyDirectEdits(output) {
   if (!output || !Array.isArray(output.checks)) return byUnit;
   for (const check of output.checks) {
     if (!isPlainObject(check)) continue;
+    const reviewText = [
+      check.original_text,
+      check.replacement_text,
+      check.finding,
+      check.standard,
+      check.comment_text,
+      check.verification_target
+    ]
+      .filter(Boolean)
+      .join(" ");
     const treatySignal =
       ["treaty_legal_instrument", "congressional_legal_authority", "foreign_international_organization", "citation"].includes(
         check.category
@@ -182,7 +192,8 @@ function checkerTreatyDirectEdits(output) {
       ["treaty_component", "legal_authority", "foreign_org_basis", "decision_process_basis"].includes(
         check.evidence_request
       ) ||
-      /^FAS-TREATY-\d{3}$/.test(check.rule_id || "");
+      /^FAS-TREATY-\d{3}$/.test(check.rule_id || "") ||
+      TREATY_PATTERN.test(reviewText);
     if (!treatySignal || !DIRECT_ACTIONS.has(check.recommended_action)) continue;
     const list = byUnit.get(check.unit_id) || [];
     list.push(check);
@@ -207,7 +218,7 @@ function findingForStatus(status, record, match) {
     return `Matched approved treaty/legal phrase for ${record.document_id} ${record.treaty_component_type}.`;
   }
   if (status === "cross_volume_treaty") {
-    return `Matched treaty/legal language tied to ${record.volume_id}; confirm target volume before changing component identity, integral/associated status, legal process, source basis, ratification, or entry-into-force language.`;
+    return `Matched treaty/legal or arms-control technical-verification language tied to ${record.volume_id}; confirm target volume before changing component identity, integral/associated status, legal process, source basis, ratification, entry-into-force language, or technical-verification terminology.`;
   }
   if (status === "needs_treaty_context") {
     return `Matched ${match.matched_text}, but registry status is ${record.verification_status}; treaty component, publication, signature, ratification, or legal-authority basis is needed before direct edits.`;
@@ -317,7 +328,7 @@ function auditTreaties({ unitsDocument, registry, checkerOutput, targetVolume })
         location: unit.location || "",
         diagnostic_type: "unmatched_treaty_like_unit",
         finding:
-          "Treaty, protocol, annex, MOU, Senate package, ratification, entry-into-force, or legal-instrument unit had no match in the supplied treaty registry.",
+          "Treaty, protocol, annex, MOU, Senate package, ratification, entry-into-force, legal-instrument, or arms-control technical-verification unit had no match in the supplied treaty registry.",
         recommended_action: "comment_only",
         evidence_request: "treaty_component"
       };
@@ -336,9 +347,9 @@ function auditTreaties({ unitsDocument, registry, checkerOutput, targetVolume })
           rule_id: check.rule_id || "",
           original_text: check.original_text || "",
           replacement_text: check.replacement_text || "",
-          finding: "Direct treaty/legal-instrument edit lacks a target-volume approved registry match.",
+          finding: "Direct treaty/legal-instrument or arms-control technical-verification edit lacks a target-volume approved registry match.",
           required_action:
-            "Downgrade to comment_only until component identity, integral-or-associated status, source basis, legal process, ratification, and entry-into-force evidence are supplied."
+            "Downgrade to comment_only until component identity, integral-or-associated status, source basis, legal process, ratification, entry-into-force, or technical-verification evidence is supplied."
         });
       }
     }

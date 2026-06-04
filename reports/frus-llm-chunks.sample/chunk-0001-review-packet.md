@@ -324,9 +324,12 @@ For real Reagan/Bush 1981-1992 treaty/legal-instrument review, replace the
 sample treaty registry with target-volume records for treaty text, protocols,
 annexes, memoranda of understanding, associated but non-integral documents,
 Senate transmittal packages, Treaty Doc. references, ratification,
-entry-into-force, legal authority, and draft treaty-package language; validate
-it with `scripts/validate-frus-treaty-registry.mjs` before direct treaty or
-legal-instrument edits.
+entry-into-force, legal authority, draft treaty-package language, and
+arms-control technical-verification terminology such as telemetry, JCIC,
+inspection/monitoring, national technical means, throw-weight, heavy ICBM,
+Backfire/downloading, RV/reentry-vehicle, ABM, and `other physical principles`;
+validate it with `scripts/validate-frus-treaty-registry.mjs` before direct
+treaty, legal-instrument, or technical-verification edits.
 For real Reagan/Bush 1981-1992 foreign/international-organization review,
 replace the sample foreign-org registry with target-volume records for country
 names, successor-state references, alliances, international organizations,
@@ -587,8 +590,9 @@ is flawless.
 15. Wrapper validates treaty/legal-instrument claims, including treaty text,
    protocols, annexes, memoranda of understanding, associated-but-not-integral
    documents, Senate transmittals, ratification, entry-into-force, legal
-   authority, and draft treaty-package language against the supplied treaty
-   registry before allowing any treaty redline.
+   authority, draft treaty-package language, and START/INF/ABM
+   technical-verification terminology against the supplied treaty registry
+   before allowing any treaty or arms-control technical redline.
 16. Wrapper audits recurring compiler-risk patterns, including leading-zero
    telegram numbers, non-State telegram copies without eRecords/drafting
    checks, incomplete cross-reference slugs, missing page breaks, old
@@ -7746,11 +7750,14 @@ Use this to check treaty text, protocols, annexes, memoranda of understanding, a
   "source_urls": [
     "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
     "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d242",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d161",
     "https://history.state.gov/historicaldocuments/frus1981-88v11/d276",
     "https://history.state.gov/historicaldocuments/frus1981-88v11/d277",
-    "https://history.state.gov/historicaldocuments/frus1981-88v11/d251"
+    "https://history.state.gov/historicaldocuments/frus1981-88v11/d251",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d64"
   ],
-  "scope": "Published FRUS treaty, protocol, annex, memorandum-of-understanding, associated-document, Senate transmittal, draft treaty, and legal-instrument patterns for Reagan and George H.W. Bush annotation sheets.",
+  "scope": "Published FRUS treaty, protocol, annex, memorandum-of-understanding, associated-document, Senate transmittal, draft treaty, arms-control technical-verification, and legal-instrument patterns for Reagan and George H.W. Bush annotation sheets.",
   "target_volume": "frus1989-92v31",
   "target_records": [
     {
@@ -7847,6 +7854,126 @@ Use this to check treaty text, protocols, annexes, memoranda of understanding, a
       "variant_forms": [
         "associated but not integral parts of the Treaty",
         "associated with but not integral parts of the Treaty"
+      ]
+    },
+    {
+      "treaty_id": "treaty-v31-d247-telemetry-protocol",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "protocol",
+      "approved_phrase": "the Protocol on Telemetric Information Relating to the Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms (\"Telemetry Protocol\")",
+      "instrument_or_package": "START I treaty package",
+      "component_label": "Telemetry Protocol",
+      "signature_or_publication_date": "1991-11-20",
+      "publication_or_source_basis": "Baker treaty-submission letter lists the telemetry protocol as an integral component of the START I treaty package.",
+      "selected_or_supplemental_status": "integral component listed in treaty-submission document",
+      "integral_or_associated_status": "integral part of the Treaty",
+      "legal_status_or_process": "submitted to the President for transmission to the Senate",
+      "relationship_to_document": "component identity in treaty transmittal/editorial-note context",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 247.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_treaty_record",
+      "variant_forms": [
+        "Protocol on Telemetric Information",
+        "Telemetry Protocol"
+      ]
+    },
+    {
+      "treaty_id": "treaty-v31-d247-jcic-protocol",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "protocol",
+      "approved_phrase": "the Protocol on the Joint Compliance and Inspection Commission Relating to the Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms (\"Joint Compliance and Inspection Commission Protocol\")",
+      "instrument_or_package": "START I treaty package",
+      "component_label": "Joint Compliance and Inspection Commission Protocol",
+      "signature_or_publication_date": "1991-11-20",
+      "publication_or_source_basis": "Baker treaty-submission letter lists the JCIC protocol as an integral component of the START I treaty package.",
+      "selected_or_supplemental_status": "integral component listed in treaty-submission document",
+      "integral_or_associated_status": "integral part of the Treaty",
+      "legal_status_or_process": "submitted to the President for transmission to the Senate",
+      "relationship_to_document": "component identity in treaty transmittal/editorial-note context",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 247.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_treaty_record",
+      "variant_forms": [
+        "Joint Compliance and Inspection Commission Protocol",
+        "JCIC Protocol"
+      ]
+    },
+    {
+      "treaty_id": "treaty-v31-d247-inspection-monitoring-regime",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "verification_regime",
+      "approved_phrase": "a far-reaching inspection regime, including on-site inspections, special access visits, continuous on-site monitoring of certain facilities, and technical exhibitions",
+      "instrument_or_package": "START I treaty implementation and compliance apparatus",
+      "component_label": "Inspection, monitoring, and technical-exhibition regime",
+      "signature_or_publication_date": "1991-11-20",
+      "publication_or_source_basis": "Baker treaty-submission letter summarizes the START I verification regime.",
+      "selected_or_supplemental_status": "implementation and compliance explanation in treaty-submission document",
+      "integral_or_associated_status": "verification regime established by the Treaty and related protocols",
+      "legal_status_or_process": "submitted to the President for transmission to the Senate",
+      "relationship_to_document": "implementation/compliance annotation and editorial-note context",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 247.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_treaty_record",
+      "variant_forms": [
+        "inspection regime, including on-site inspections, special access visits, continuous on-site monitoring, and technical exhibitions",
+        "on-site inspections, special access visits, continuous on-site monitoring of certain facilities, and technical exhibitions"
+      ]
+    },
+    {
+      "treaty_id": "treaty-v31-d242-interpretive-data-telemetry",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d242",
+      "document_number": "242",
+      "unit_scope": "document_text",
+      "treaty_component_type": "technical_definition",
+      "approved_phrase": "interpretive data specified in subparagraphs 1(a) and 1(b) of Section II of the telemetry protocol",
+      "instrument_or_package": "START I joint statements",
+      "component_label": "Joint Statement Concerning Interpretive Data",
+      "signature_or_publication_date": "1991-07-29",
+      "publication_or_source_basis": "Final START plenary record prints the joint statement concerning interpretive data.",
+      "selected_or_supplemental_status": "joint statement included in final START plenary record",
+      "integral_or_associated_status": "associated verification statement tied to the telemetry protocol",
+      "legal_status_or_process": "presented with final START plenary statements",
+      "relationship_to_document": "technical-verification wording in selected document text",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 242.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d242",
+      "verification_status": "verified_published_treaty_record",
+      "variant_forms": [
+        "interpretive data specified in Section II of the Telemetry Protocol",
+        "interpretive data under the telemetry protocol"
+      ]
+    },
+    {
+      "treaty_id": "treaty-v31-d161-heavy-icbm-constraints",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d161",
+      "document_number": "161",
+      "unit_scope": "document_text",
+      "treaty_component_type": "arms_control_constraint",
+      "approved_phrase": "Ban new silos for heavies, ban downloading of heavies, no increase in launch weight or throw-weight of heavy ICBM s",
+      "instrument_or_package": "START I heavy ICBM negotiating package",
+      "component_label": "Heavy ICBM constraints",
+      "signature_or_publication_date": "1990-06-02",
+      "publication_or_source_basis": "Bush START I meeting guidance prints the U.S. position on heavy ICBM constraints.",
+      "selected_or_supplemental_status": "negotiating-position text in selected document",
+      "integral_or_associated_status": "negotiating constraint linked to heavy ICBM provisions",
+      "legal_status_or_process": "pre-signature negotiating position",
+      "relationship_to_document": "technical constraint in selected document text and annotation context",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 161.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d161",
+      "verification_status": "verified_published_treaty_record",
+      "variant_forms": [
+        "ban new silos, ban downloading, no increase in launch weight or throw-weight",
+        "no increase in launch weight or throw-weight of heavy ICBMs"
       ]
     }
   ],
@@ -7945,6 +8072,150 @@ Use this to check treaty text, protocols, annexes, memoranda of understanding, a
         "associated with but not integral parts of the Treaty"
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_treaty_record"
+    },
+    {
+      "treaty_id": "treaty-v31-d247-telemetry-protocol",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "protocol",
+      "approved_phrase": "the Protocol on Telemetric Information Relating to the Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms (\"Telemetry Protocol\")",
+      "instrument_or_package": "START I treaty package",
+      "component_label": "Telemetry Protocol",
+      "signature_or_publication_date": "1991-11-20",
+      "publication_or_source_basis": "Baker treaty-submission letter lists the telemetry protocol as an integral component of the START I treaty package.",
+      "selected_or_supplemental_status": "integral component listed in treaty-submission document",
+      "integral_or_associated_status": "integral part of the Treaty",
+      "legal_status_or_process": "submitted to the President for transmission to the Senate",
+      "relationship_to_document": "component identity in treaty transmittal/editorial-note context",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 247.",
+      "variant_forms": [
+        "Protocol on Telemetric Information",
+        "Telemetry Protocol"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_treaty_record"
+    },
+    {
+      "treaty_id": "treaty-v31-d247-jcic-protocol",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "protocol",
+      "approved_phrase": "the Protocol on the Joint Compliance and Inspection Commission Relating to the Treaty Between the United States of America and the Union of Soviet Socialist Republics on the Reduction and Limitation of Strategic Offensive Arms (\"Joint Compliance and Inspection Commission Protocol\")",
+      "instrument_or_package": "START I treaty package",
+      "component_label": "Joint Compliance and Inspection Commission Protocol",
+      "signature_or_publication_date": "1991-11-20",
+      "publication_or_source_basis": "Baker treaty-submission letter lists the JCIC protocol as an integral component of the START I treaty package.",
+      "selected_or_supplemental_status": "integral component listed in treaty-submission document",
+      "integral_or_associated_status": "integral part of the Treaty",
+      "legal_status_or_process": "submitted to the President for transmission to the Senate",
+      "relationship_to_document": "component identity in treaty transmittal/editorial-note context",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 247.",
+      "variant_forms": [
+        "Joint Compliance and Inspection Commission Protocol",
+        "JCIC Protocol"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_treaty_record"
+    },
+    {
+      "treaty_id": "treaty-v31-d247-inspection-monitoring-regime",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d247",
+      "document_number": "247",
+      "unit_scope": "editorial_note",
+      "treaty_component_type": "verification_regime",
+      "approved_phrase": "a far-reaching inspection regime, including on-site inspections, special access visits, continuous on-site monitoring of certain facilities, and technical exhibitions",
+      "instrument_or_package": "START I treaty implementation and compliance apparatus",
+      "component_label": "Inspection, monitoring, and technical-exhibition regime",
+      "signature_or_publication_date": "1991-11-20",
+      "publication_or_source_basis": "Baker treaty-submission letter summarizes the START I verification regime.",
+      "selected_or_supplemental_status": "implementation and compliance explanation in treaty-submission document",
+      "integral_or_associated_status": "verification regime established by the Treaty and related protocols",
+      "legal_status_or_process": "submitted to the President for transmission to the Senate",
+      "relationship_to_document": "implementation/compliance annotation and editorial-note context",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 247.",
+      "variant_forms": [
+        "inspection regime, including on-site inspections, special access visits, continuous on-site monitoring, and technical exhibitions",
+        "on-site inspections, special access visits, continuous on-site monitoring of certain facilities, and technical exhibitions"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
+      "verification_status": "verified_published_treaty_record"
+    },
+    {
+      "treaty_id": "treaty-v31-d242-interpretive-data-telemetry",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d242",
+      "document_number": "242",
+      "unit_scope": "document_text",
+      "treaty_component_type": "technical_definition",
+      "approved_phrase": "interpretive data specified in subparagraphs 1(a) and 1(b) of Section II of the telemetry protocol",
+      "instrument_or_package": "START I joint statements",
+      "component_label": "Joint Statement Concerning Interpretive Data",
+      "signature_or_publication_date": "1991-07-29",
+      "publication_or_source_basis": "Final START plenary record prints the joint statement concerning interpretive data.",
+      "selected_or_supplemental_status": "joint statement included in final START plenary record",
+      "integral_or_associated_status": "associated verification statement tied to the telemetry protocol",
+      "legal_status_or_process": "presented with final START plenary statements",
+      "relationship_to_document": "technical-verification wording in selected document text",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 242.",
+      "variant_forms": [
+        "interpretive data specified in Section II of the Telemetry Protocol",
+        "interpretive data under the telemetry protocol"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d242",
+      "verification_status": "verified_published_treaty_record"
+    },
+    {
+      "treaty_id": "treaty-v31-d161-heavy-icbm-constraints",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d161",
+      "document_number": "161",
+      "unit_scope": "document_text",
+      "treaty_component_type": "arms_control_constraint",
+      "approved_phrase": "Ban new silos for heavies, ban downloading of heavies, no increase in launch weight or throw-weight of heavy ICBM s",
+      "instrument_or_package": "START I heavy ICBM negotiating package",
+      "component_label": "Heavy ICBM constraints",
+      "signature_or_publication_date": "1990-06-02",
+      "publication_or_source_basis": "Bush START I meeting guidance prints the U.S. position on heavy ICBM constraints.",
+      "selected_or_supplemental_status": "negotiating-position text in selected document",
+      "integral_or_associated_status": "negotiating constraint linked to heavy ICBM provisions",
+      "legal_status_or_process": "pre-signature negotiating position",
+      "relationship_to_document": "technical constraint in selected document text and annotation context",
+      "source_or_context": "FRUS 1989-1992, volume XXXI, Document 161.",
+      "variant_forms": [
+        "ban new silos, ban downloading, no increase in launch weight or throw-weight",
+        "no increase in launch weight or throw-weight of heavy ICBMs"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d161",
+      "verification_status": "verified_published_treaty_record"
+    },
+    {
+      "treaty_id": "treaty-v44p1-d64-abm-other-physical-principles",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d64",
+      "document_number": "64",
+      "unit_scope": "document_text",
+      "treaty_component_type": "technical_definition",
+      "approved_phrase": "ABM systems based on \"other physical principles\" addressed in Agreed Statement D",
+      "instrument_or_package": "ABM Treaty terminology and SDI interpretation",
+      "component_label": "Other physical principles under Agreed Statement D",
+      "signature_or_publication_date": "1985-10-03",
+      "publication_or_source_basis": "Reagan National Security Policy volume prints the Senior Arms Control Group paper on ABM Treaty terminology.",
+      "selected_or_supplemental_status": "technical treaty-interpretation language in selected document",
+      "integral_or_associated_status": "ABM Treaty interpretation and SDI terminology",
+      "legal_status_or_process": "internal guidance on treaty interpretation",
+      "relationship_to_document": "technical definition in selected document text and annotation context",
+      "source_or_context": "FRUS 1981-1988, volume XLIV, Part 1, Document 64.",
+      "variant_forms": [
+        "ABM systems based on other physical principles",
+        "other physical principles addressed in Agreed Statement D"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d64",
       "verification_status": "verified_published_treaty_record"
     },
     {
@@ -13429,7 +13700,8 @@ Use this to check telegram/cable/message identifiers, SECTO/TOSEC/special design
       ],
       "hazard_tags": [
         "treaty_legal_instrument",
-        "treaty_component"
+        "treaty_component",
+        "arms_control_technical_verification"
       ]
     },
     {
@@ -13981,7 +14253,7 @@ Use this to check telegram/cable/message identifiers, SECTO/TOSEC/special design
       "owner_hint": "compiler",
       "blocks_direct_edit_by_default": true,
       "blocks_final_publication_by_default": true,
-      "comment_target_template": "Identify the treaty, protocol, annex, MOU, agreement, transmittal, ratification, or associated-document status."
+      "comment_target_template": "Identify the treaty, protocol, annex, MOU, agreement, transmittal, ratification, associated-document status, or START/INF/ABM technical-verification term."
     },
     {
       "evidence_request": "public_source_basis",

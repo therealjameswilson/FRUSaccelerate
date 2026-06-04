@@ -143,8 +143,9 @@ corroborating-record, and conflict-status examples. The bundled sample is
 For treaty/legal-instrument checks, transfer a volume-specific treaty registry
 built from treaty text, protocols, annexes, memoranda of understanding,
 associated but non-integral documents, Senate transmittal packages, Treaty Doc.
-references, ratification, entry-into-force, legal authority, and draft
-treaty-package language. The bundled sample is
+references, ratification, entry-into-force, legal authority, draft
+treaty-package language, and START/INF/ABM technical-verification terminology.
+The bundled sample is
 `reports/frus-treaty-registry.sample.json`.
 For foreign/international-organization checks, transfer a volume-specific
 foreign-org registry built from country names, successor-state references,
@@ -636,8 +637,12 @@ node scripts/audit-frus-retrospective-account-usage.mjs --units extracted-units.
    contain treaty text, protocols, annexes, memoranda of understanding,
    associated but non-integral documents, Senate transmittal packages, Treaty
    Doc. references, ratification, entry-into-force, legal authority, or draft
-   treaty-package language. The usage audit fails if the model proposes a
-   direct treaty edit unsupported by the supplied treaty registry.
+   treaty-package language. Also run it for START/INF/ABM
+   technical-verification language such as telemetry, JCIC, inspection and
+   monitoring, national technical means, throw-weight, heavy ICBM, Backfire,
+   downloading, RV/reentry-vehicle, or `other physical principles`. The usage
+   audit fails if the model proposes a direct treaty or arms-control technical
+   edit unsupported by the supplied treaty registry.
 
 ```sh
 node scripts/validate-frus-treaty-registry.mjs --registry treaty-registry.json --format text

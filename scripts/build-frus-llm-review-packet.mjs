@@ -2066,7 +2066,7 @@ function renderMarkdown(packet) {
     "",
     "## Treaty And Legal Instrument Registry Context",
     "",
-    "Use this to check treaty text, protocols, annexes, memoranda of understanding, associated-but-not-integral documents, Senate transmittal packages, ratification, entry-into-force, legal-authority, and draft treaty-package language. Do not change component identity, integral/associated status, source basis, legal process, ratification, or entry-into-force language unless the target-volume treaty registry proves the direct edit.",
+    "Use this to check treaty text, protocols, annexes, memoranda of understanding, associated-but-not-integral documents, Senate transmittal packages, ratification, entry-into-force, legal-authority, draft treaty-package language, and START/INF/ABM technical-verification terminology such as telemetry, JCIC, inspection/monitoring, national technical means, throw-weight, heavy ICBM, Backfire/downloading, RV/reentry-vehicle, ABM, and `other physical principles`. Do not change component identity, integral/associated status, source basis, legal process, ratification, entry-into-force language, or technical-verification terminology unless the target-volume treaty registry proves the direct edit.",
     "",
     fencedJson(packet.contexts.treaty_registry || {}),
     "",

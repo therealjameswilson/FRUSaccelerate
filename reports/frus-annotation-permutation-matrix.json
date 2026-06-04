@@ -185,7 +185,7 @@
       "required_context": ["treaty_registry_context", "congressional_legal_context"],
       "primary_evidence_requests": ["treaty_component", "legal_authority", "document_number"],
       "safe_actions": ["comment_only", "replace_text", "no_change"],
-      "hazard_tags": ["treaty_legal_instrument", "treaty_component"]
+      "hazard_tags": ["treaty_legal_instrument", "treaty_component", "arms_control_technical_verification"]
     },
     {
       "category": "public_diplomacy_public_source",
@@ -478,7 +478,7 @@
       "owner_hint": "compiler",
       "blocks_direct_edit_by_default": true,
       "blocks_final_publication_by_default": true,
-      "comment_target_template": "Identify the treaty, protocol, annex, MOU, agreement, transmittal, ratification, or associated-document status."
+      "comment_target_template": "Identify the treaty, protocol, annex, MOU, agreement, transmittal, ratification, associated-document status, or START/INF/ABM technical-verification term."
     },
     {
       "evidence_request": "public_source_basis",

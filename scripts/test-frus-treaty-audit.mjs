@@ -30,7 +30,7 @@ try {
   }
   const validationReport = JSON.parse(validation.stdout);
   assert(validationReport.status === "pass", "expected treaty registry validation pass");
-  assert(validationReport.summary.records === 7, "expected seven treaty registry records");
+  assert(validationReport.summary.records === 13, "expected thirteen treaty registry records");
 
   const audit = run("scripts/audit-frus-treaty-usage.mjs", [
     "--units",
@@ -49,17 +49,37 @@ try {
   }
   const report = JSON.parse(audit.stdout);
   assert(report.status === "warning", "expected warning status for variant, cross-volume examples, and unmatched unit");
-  assert(report.summary.units_scanned === 8, "expected eight units scanned");
-  assert(report.summary.treaty_usages === 7, "expected seven matched treaty usages");
-  assert(report.summary.by_usage_status.approved === 2, "expected two approved usages");
-  assert(report.summary.by_usage_status.cross_volume_treaty === 3, "expected three cross-volume usages");
-  assert(report.summary.by_usage_status.variant_needs_review === 2, "expected two variant usages");
+  assert(report.summary.units_scanned === 14, "expected fourteen units scanned");
+  assert(report.summary.treaty_usages === 13, "expected thirteen matched treaty usages");
+  assert(report.summary.by_usage_status.approved === 6, "expected six approved usages");
+  assert(report.summary.by_usage_status.cross_volume_treaty === 4, "expected four cross-volume usages");
+  assert(report.summary.by_usage_status.variant_needs_review === 3, "expected three variant usages");
   assert(report.summary.unmatched_treaty_like_units === 1, "expected one unmatched treaty-like unit");
   assert(report.usages.some((usage) => usage.treaty_component_type === "treaty_text"), "expected treaty text match");
   assert(report.usages.some((usage) => usage.treaty_component_type === "protocol"), "expected protocol match");
   assert(
     report.usages.some((usage) => usage.treaty_component_type === "memorandum_of_understanding"),
     "expected MOU match"
+  );
+  assert(
+    report.usages.some((usage) => usage.treaty_component_type === "verification_regime"),
+    "expected START verification-regime match"
+  );
+  assert(
+    report.usages.some((usage) => usage.treaty_component_type === "technical_definition"),
+    "expected arms-control technical-definition match"
+  );
+  assert(
+    report.usages.some((usage) => usage.treaty_component_type === "arms_control_constraint"),
+    "expected arms-control constraint match"
+  );
+  assert(
+    report.usages.some((usage) => usage.approved_phrase.includes("telemetry protocol")),
+    "expected telemetry protocol technical-verification match"
+  );
+  assert(
+    report.usages.some((usage) => usage.approved_phrase.includes("throw-weight of heavy ICBM")),
+    "expected heavy ICBM throw-weight constraint match"
   );
 
   const checkerOutput = path.join(tmpDir, "bad-output.json");
@@ -93,6 +113,20 @@ try {
             comment_text: "",
             evidence_request: "treaty_component",
             verification_target: "Target-volume treaty registry"
+          },
+          {
+            unit_id: "treaty-0013",
+            rule_id: "FAS-GEN-000",
+            severity: "major",
+            category: "wording",
+            finding: "Unsafe technical wording edit.",
+            standard: "START heavy ICBM throw-weight/downloading language is treaty technical-verification language, not ordinary prose.",
+            recommended_action: "replace_text",
+            original_text: "no increase in launch weight or throw-weight of heavy ICBM s",
+            replacement_text: "no increase in launch weight or throw-weight of heavy missiles",
+            comment_text: "",
+            evidence_request: "none",
+            verification_target: "Target-volume START technical-verification registry"
           }
         ],
         global_comments: [],
@@ -116,7 +150,7 @@ try {
   ]);
   assert(unsafe.status !== 0, "expected unsafe treaty direct edit to fail");
   const unsafeReport = JSON.parse(unsafe.stdout);
-  assert(unsafeReport.summary.direct_treaty_edit_conflicts === 1, "expected one direct treaty edit conflict");
+  assert(unsafeReport.summary.direct_treaty_edit_conflicts === 2, "expected two direct treaty edit conflicts");
 
   const malformed = path.join(tmpDir, "malformed-registry.json");
   fs.writeFileSync(malformed, `${JSON.stringify({ schema_version: "wrong", records: [] }, null, 2)}\n`);
@@ -124,7 +158,7 @@ try {
   assert(badValidation.status !== 0, "expected malformed treaty registry validation to fail");
 
   console.log(
-    "FRUS treaty audit test passed: registry validation, START treaty text, integral components, Reagan draft MOU/protocols, variants, cross-volume warnings, unmatched units, and direct-edit failures work."
+    "FRUS treaty audit test passed: registry validation, START treaty text, integral components, START telemetry/inspection/JCIC/throw-weight technical-verification language, Reagan draft MOU/protocols, Reagan ABM terminology, variants, cross-volume warnings, unmatched units, and direct-edit failures work."
   );
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });

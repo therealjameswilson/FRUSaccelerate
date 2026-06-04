@@ -198,7 +198,7 @@ try {
   assert(manifest.summary.decision_process_registry_records === 12, "expected decision-process registry record count");
   assert(manifest.summary.public_source_registry_records === 6, "expected public-source registry record count");
   assert(manifest.summary.retrospective_account_registry_records === 6, "expected retrospective-account registry record count");
-  assert(manifest.summary.treaty_registry_records === 7, "expected treaty registry record count");
+  assert(manifest.summary.treaty_registry_records === 13, "expected treaty registry record count");
   assert(manifest.summary.foreign_org_registry_records === 10, "expected foreign-org registry record count");
   assert(
     manifest.summary.congressional_legal_registry_records === 16,
@@ -377,6 +377,8 @@ try {
   assert(firstPacket.includes("In his memoir, Shultz described the segment"), "expected retrospective-account registry content in chunk packet");
   assert(firstPacket.includes("Treaty And Legal Instrument Registry Context"), "expected treaty registry context in chunk packet");
   assert(firstPacket.includes("Conversion or Elimination Protocol"), "expected treaty registry content in chunk packet");
+  assert(firstPacket.includes("Telemetry Protocol"), "expected START telemetry registry content in chunk packet");
+  assert(firstPacket.includes("throw-weight of heavy ICBM"), "expected START throw-weight registry content in chunk packet");
   assert(firstPacket.includes("Foreign And International Organization Registry Context"), "expected foreign-org registry context in chunk packet");
   assert(firstPacket.includes("ASEAN [Association of Southeast Asian Nations]"), "expected foreign-org registry content in chunk packet");
   assert(firstPacket.includes("President of the Union of Soviet Socialist Republics"), "expected foreign-state registry content in chunk packet");
