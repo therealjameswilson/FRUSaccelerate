@@ -104,6 +104,8 @@ try {
     "reports/frus-treaty-registry.sample.json",
     "--foreign-org-registry",
     "reports/frus-foreign-org-registry.sample.json",
+    "--footnote-referback-registry",
+    "reports/frus-footnote-referback-registry.sample.json",
     "--recurring-risk-registry",
     "reports/frus-recurring-risk-registry.sample.json",
     "--negative-search-registry",
@@ -149,6 +151,7 @@ try {
   assert(manifest.summary.public_source_registry_records === 6, "expected public-source registry record count");
   assert(manifest.summary.treaty_registry_records === 7, "expected treaty registry record count");
   assert(manifest.summary.foreign_org_registry_records === 10, "expected foreign-org registry record count");
+  assert(manifest.summary.footnote_referback_registry_records === 8, "expected footnote refer-back registry record count");
   assert(manifest.summary.recurring_risk_registry_records === 13, "expected recurring-risk registry record count");
   assert(manifest.summary.negative_search_registry_records === 6, "expected negative-search registry record count");
   assert(manifest.summary.document_relationship_registry_records === 10, "expected document-relationship registry record count");
@@ -166,6 +169,10 @@ try {
   assert(manifest.source_files.public_source_registry === "reports/frus-public-source-registry.sample.json", "expected public-source registry source path");
   assert(manifest.source_files.treaty_registry === "reports/frus-treaty-registry.sample.json", "expected treaty registry source path");
   assert(manifest.source_files.foreign_org_registry === "reports/frus-foreign-org-registry.sample.json", "expected foreign-org registry source path");
+  assert(
+    manifest.source_files.footnote_referback_registry === "reports/frus-footnote-referback-registry.sample.json",
+    "expected footnote refer-back registry source path"
+  );
   assert(manifest.source_files.recurring_risk_registry === "reports/frus-recurring-risk-registry.sample.json", "expected recurring-risk registry source path");
   assert(manifest.source_files.negative_search_registry === "reports/frus-negative-search-registry.sample.json", "expected negative-search registry source path");
   assert(manifest.source_files.document_relationship_registry === "reports/frus-document-relationship-registry.sample.json", "expected document-relationship registry source path");
@@ -203,6 +210,10 @@ try {
   assert(firstPacket.includes("Foreign And International Organization Registry Context"), "expected foreign-org registry context in chunk packet");
   assert(firstPacket.includes("ASEAN [Association of Southeast Asian Nations]"), "expected foreign-org registry content in chunk packet");
   assert(firstPacket.includes("President of the Union of Soviet Socialist Republics"), "expected foreign-state registry content in chunk packet");
+  assert(firstPacket.includes("Footnote Refer-Back Registry Context"), "expected footnote refer-back registry context in chunk packet");
+  assert(firstPacket.includes("See footnote 6, Document 35"), "expected footnote refer-back registry content in chunk packet");
+  assert(firstPacket.includes("footnote 15, Document 106"), "expected three-target refer-back content in chunk packet");
+  assert(firstPacket.includes("same separate page as B above"), "expected same-document local-context content in chunk packet");
   assert(firstPacket.includes("Recurring Compiler Risk Registry Context"), "expected recurring-risk registry context in chunk packet");
   assert(firstPacket.includes("Telegram number has a leading zero"), "expected recurring-risk registry content in chunk packet");
   assert(firstPacket.includes("Document XX cross-reference construction"), "expected Document XX recurring-risk content in chunk packet");

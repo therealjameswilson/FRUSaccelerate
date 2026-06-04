@@ -128,6 +128,13 @@ For foreign/international-organization validation, use
 `reports/frus-foreign-org-units.sample.json`; the self-contained smoke test is
 `scripts/test-frus-foreign-org-audit.mjs`, and the sample audit report is
 `reports/frus-foreign-org-audit.sample.json`.
+For footnote refer-back validation, use
+`scripts/validate-frus-footnote-referback-registry.mjs` and
+`scripts/audit-frus-footnote-referback-usage.mjs` with
+`reports/frus-footnote-referback-registry.sample.json` and
+`reports/frus-footnote-referback-units.sample.json`; the self-contained smoke
+test is `scripts/test-frus-footnote-referback-audit.mjs`, and the sample audit
+report is `reports/frus-footnote-referback-audit.sample.json`.
 For recurring compiler-risk spellchecks, use
 `scripts/validate-frus-recurring-risk-registry.mjs` and
 `scripts/audit-frus-recurring-risk-usage.mjs` with
@@ -12248,6 +12255,17 @@ Minimum components:
   institutions, trade regimes, UN resolution forms, political parties, and
   treaty-party language to supplied target-volume records and fails direct
   entity-identity edits that lack registry support.
+- No-dependency footnote refer-back registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-footnote-referback-registry.mjs`,
+  `scripts/audit-frus-footnote-referback-usage.mjs`,
+  `reports/frus-footnote-referback-registry.sample.json`,
+  `reports/frus-footnote-referback-units.sample.json`, and
+  `reports/frus-footnote-referback-audit.sample.json`. The audit checks
+  Reagan Foundations-style repeated-reference discipline: cross-document
+  `footnote N, Document X`, same-document above/below or local context,
+  `Document X and footnote Y thereto`, clusters of up to three footnote/document
+  targets, and repeated full citations that should trigger human refer-back
+  review. It fails direct refer-back edits that lack registry support.
 - No-dependency recurring compiler-risk validator, usage audit, and fixtures:
   `scripts/validate-frus-recurring-risk-registry.mjs`,
   `scripts/audit-frus-recurring-risk-usage.mjs`,

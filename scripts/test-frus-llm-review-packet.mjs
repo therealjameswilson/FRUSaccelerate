@@ -61,6 +61,8 @@ try {
     "reports/frus-treaty-registry.sample.json",
     "--foreign-org-registry",
     "reports/frus-foreign-org-registry.sample.json",
+    "--footnote-referback-registry",
+    "reports/frus-footnote-referback-registry.sample.json",
     "--recurring-risk-registry",
     "reports/frus-recurring-risk-registry.sample.json",
     "--negative-search-registry",
@@ -134,6 +136,10 @@ try {
   assert(markdown.includes("Foreign And International Organization Registry Context"), "expected foreign-org registry section");
   assert(markdown.includes("ASEAN [Association of Southeast Asian Nations]"), "expected regional-organization registry content");
   assert(markdown.includes("President of the Union of Soviet Socialist Republics"), "expected foreign-state registry content");
+  assert(markdown.includes("Footnote Refer-Back Registry Context"), "expected footnote refer-back registry section");
+  assert(markdown.includes("See footnote 6, Document 35"), "expected cross-document footnote refer-back content");
+  assert(markdown.includes("footnote 15, Document 106"), "expected three-target footnote refer-back content");
+  assert(markdown.includes("same separate page as B above"), "expected same-document local-context refer-back content");
   assert(markdown.includes("Recurring Compiler Risk Registry Context"), "expected recurring-risk registry section");
   assert(markdown.includes("Telegram number has a leading zero"), "expected recurring-risk registry content");
   assert(markdown.includes("Cross-reference slug or clue is incomplete"), "expected cross-reference recurring-risk content");
@@ -202,6 +208,12 @@ try {
   assert(packet.contexts.foreign_org_registry.records.length === 10, "expected foreign-org registry records");
   assert(packet.contexts.foreign_org_registry.target_records.length > 0, "expected target foreign-org records");
   assert(packet.packet_summary.foreign_org_registry_records === 10, "expected foreign-org registry count");
+  assert(packet.contexts.footnote_referback_registry.records.length === 8, "expected footnote refer-back registry records");
+  assert(
+    packet.contexts.footnote_referback_registry.target_records.length === 0,
+    "expected no target footnote refer-back records for cross-volume Reagan sample"
+  );
+  assert(packet.packet_summary.footnote_referback_registry_records === 8, "expected footnote refer-back registry count");
   assert(packet.contexts.recurring_risk_registry.records.length === 13, "expected recurring-risk registry records");
   assert(packet.packet_summary.recurring_risk_registry_records === 13, "expected recurring-risk registry count");
   assert(packet.contexts.negative_search_registry.records.length === 6, "expected negative-search registry records");
@@ -220,7 +232,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, public-source, treaty, foreign-org, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, public-source, treaty, foreign-org, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

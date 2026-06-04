@@ -9,7 +9,7 @@ const DIRECT_ACTIONS = new Set(["replace_text", "insert_after_text", "delete_tex
 
 function usage() {
   console.error(
-    "Usage: node scripts/run-frus-offline-review.mjs --docx <input.docx> --checker-output <checker-output.json> --out <revised.docx> [--artifact-dir DIR] [--audit audit.json] [--existing-ledger ledger.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--public-source-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--today YYYY-MM-DD] [--max-age-days N] [--review-mode light|normal|exhaustive] [--run-id RUN] [--author NAME] [--date ISO-DATE] [--format json|text]"
+    "Usage: node scripts/run-frus-offline-review.mjs --docx <input.docx> --checker-output <checker-output.json> --out <revised.docx> [--artifact-dir DIR] [--audit audit.json] [--existing-ledger ledger.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--public-source-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--today YYYY-MM-DD] [--max-age-days N] [--review-mode light|normal|exhaustive] [--run-id RUN] [--author NAME] [--date ISO-DATE] [--format json|text]"
   );
   process.exit(2);
 }
@@ -37,6 +37,7 @@ function parseArgs(argv) {
   let publicSourceRegistryPath = null;
   let treatyRegistryPath = null;
   let foreignOrgRegistryPath = null;
+  let footnoteReferbackRegistryPath = null;
   let recurringRiskRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
@@ -119,6 +120,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--foreign-org-registry") {
       foreignOrgRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--footnote-referback-registry") {
+      footnoteReferbackRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--recurring-risk-registry") {
       recurringRiskRegistryPath = argv[index + 1];
@@ -210,6 +214,7 @@ function parseArgs(argv) {
     publicSourceRegistryPath,
     treatyRegistryPath,
     foreignOrgRegistryPath,
+    footnoteReferbackRegistryPath,
     recurringRiskRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
@@ -327,6 +332,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
   const publicSourceAudit = reports.public_source_usage_audit || null;
   const treatyAudit = reports.treaty_usage_audit || null;
   const foreignOrgAudit = reports.foreign_org_usage_audit || null;
+  const footnoteReferbackAudit = reports.footnote_referback_usage_audit || null;
   const recurringRiskAudit = reports.recurring_risk_usage_audit || null;
   const negativeSearchAudit = reports.negative_search_usage_audit || null;
   const documentRelationshipAudit = reports.document_relationship_usage_audit || null;
@@ -402,6 +408,12 @@ function buildAudit({ options, artifacts, steps, reports }) {
       foreign_org_registry_usages: foreignOrgAudit?.summary?.foreign_org_usages || 0,
       foreign_org_registry_warnings: foreignOrgAudit?.summary?.warnings || 0,
       foreign_org_direct_edit_conflicts: foreignOrgAudit?.summary?.direct_foreign_org_edit_conflicts || 0,
+      footnote_referback_approved_usages: footnoteReferbackAudit?.summary?.approved_referback_usages || 0,
+      footnote_referback_malformed: footnoteReferbackAudit?.summary?.malformed_referbacks || 0,
+      footnote_referback_repeated_citation_thresholds:
+        footnoteReferbackAudit?.summary?.repeated_citation_thresholds || 0,
+      footnote_referback_direct_edit_conflicts:
+        footnoteReferbackAudit?.summary?.direct_footnote_referback_edit_conflicts || 0,
       recurring_risk_matches: recurringRiskAudit?.summary?.risk_matches || 0,
       recurring_risk_direct_edit_conflicts:
         recurringRiskAudit?.summary?.direct_recurring_risk_edit_conflicts || 0,
@@ -448,6 +460,9 @@ function buildAudit({ options, artifacts, steps, reports }) {
       public_source_registry: options.publicSourceRegistryPath ? normalizePathForOutput(options.publicSourceRegistryPath) : "",
       treaty_registry: options.treatyRegistryPath ? normalizePathForOutput(options.treatyRegistryPath) : "",
       foreign_org_registry: options.foreignOrgRegistryPath ? normalizePathForOutput(options.foreignOrgRegistryPath) : "",
+      footnote_referback_registry: options.footnoteReferbackRegistryPath
+        ? normalizePathForOutput(options.footnoteReferbackRegistryPath)
+        : "",
       recurring_risk_registry: options.recurringRiskRegistryPath ? normalizePathForOutput(options.recurringRiskRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
@@ -473,7 +488,7 @@ function buildAudit({ options, artifacts, steps, reports }) {
 function renderText(audit) {
   return [
     `FRUS offline review passed: ${audit.counts.extracted_units} units, ${audit.counts.comments_applied} Word comments, ${audit.counts.tracked_edits_applied} tracked edits.`,
-    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; authority usages: ${audit.counts.authority_registry_usages}; authority warnings: ${audit.counts.authority_registry_warnings}; source-list usages: ${audit.counts.source_list_registry_usages}; source-list warnings: ${audit.counts.source_list_registry_warnings}; document-metadata usages: ${audit.counts.document_metadata_registry_usages}; document-metadata warnings: ${audit.counts.document_metadata_registry_warnings}; classification usages: ${audit.counts.classification_registry_usages}; classification warnings: ${audit.counts.classification_registry_warnings}; declassification usages: ${audit.counts.declassification_registry_usages}; declassification warnings: ${audit.counts.declassification_registry_warnings}; translation usages: ${audit.counts.translation_registry_usages}; translation warnings: ${audit.counts.translation_registry_warnings}; printed-attachment usages: ${audit.counts.printed_attachment_registry_usages}; printed-attachment warnings: ${audit.counts.printed_attachment_registry_warnings}; visual-material usages: ${audit.counts.visual_material_registry_usages}; visual-material warnings: ${audit.counts.visual_material_registry_warnings}; document-handling usages: ${audit.counts.document_handling_registry_usages}; document-handling warnings: ${audit.counts.document_handling_registry_warnings}; chronology usages: ${audit.counts.chronology_registry_usages}; chronology warnings: ${audit.counts.chronology_registry_warnings}; public-source usages: ${audit.counts.public_source_registry_usages}; public-source warnings: ${audit.counts.public_source_registry_warnings}; treaty usages: ${audit.counts.treaty_registry_usages}; treaty warnings: ${audit.counts.treaty_registry_warnings}; foreign-org usages: ${audit.counts.foreign_org_registry_usages}; foreign-org warnings: ${audit.counts.foreign_org_registry_warnings}; recurring-risk matches: ${audit.counts.recurring_risk_matches}; negative-search usages: ${audit.counts.negative_search_registry_usages}; negative-search warnings: ${audit.counts.negative_search_registry_warnings}; document-relationship usages: ${audit.counts.document_relationship_registry_usages}; document-relationship warnings: ${audit.counts.document_relationship_registry_warnings}; communications usages: ${audit.counts.communications_registry_usages}; communications warnings: ${audit.counts.communications_registry_warnings}; annotation-sheet profile lexical misses: ${audit.counts.annotation_sheet_profile_lexical_misclassifications}; marker conflicts: ${audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
+    `Evidence queue items: ${audit.counts.evidence_queue_items}; discrepancy ledger items: ${audit.counts.discrepancy_ledger_items}; source-note lint diagnostics: ${audit.counts.source_note_lint_diagnostics}; status claims: ${audit.counts.status_claims_extracted}; authority usages: ${audit.counts.authority_registry_usages}; authority warnings: ${audit.counts.authority_registry_warnings}; source-list usages: ${audit.counts.source_list_registry_usages}; source-list warnings: ${audit.counts.source_list_registry_warnings}; document-metadata usages: ${audit.counts.document_metadata_registry_usages}; document-metadata warnings: ${audit.counts.document_metadata_registry_warnings}; classification usages: ${audit.counts.classification_registry_usages}; classification warnings: ${audit.counts.classification_registry_warnings}; declassification usages: ${audit.counts.declassification_registry_usages}; declassification warnings: ${audit.counts.declassification_registry_warnings}; translation usages: ${audit.counts.translation_registry_usages}; translation warnings: ${audit.counts.translation_registry_warnings}; printed-attachment usages: ${audit.counts.printed_attachment_registry_usages}; printed-attachment warnings: ${audit.counts.printed_attachment_registry_warnings}; visual-material usages: ${audit.counts.visual_material_registry_usages}; visual-material warnings: ${audit.counts.visual_material_registry_warnings}; document-handling usages: ${audit.counts.document_handling_registry_usages}; document-handling warnings: ${audit.counts.document_handling_registry_warnings}; chronology usages: ${audit.counts.chronology_registry_usages}; chronology warnings: ${audit.counts.chronology_registry_warnings}; public-source usages: ${audit.counts.public_source_registry_usages}; public-source warnings: ${audit.counts.public_source_registry_warnings}; treaty usages: ${audit.counts.treaty_registry_usages}; treaty warnings: ${audit.counts.treaty_registry_warnings}; foreign-org usages: ${audit.counts.foreign_org_registry_usages}; foreign-org warnings: ${audit.counts.foreign_org_registry_warnings}; footnote refer-back approved: ${audit.counts.footnote_referback_approved_usages}; malformed: ${audit.counts.footnote_referback_malformed}; repeated-citation thresholds: ${audit.counts.footnote_referback_repeated_citation_thresholds}; recurring-risk matches: ${audit.counts.recurring_risk_matches}; negative-search usages: ${audit.counts.negative_search_registry_usages}; negative-search warnings: ${audit.counts.negative_search_registry_warnings}; document-relationship usages: ${audit.counts.document_relationship_registry_usages}; document-relationship warnings: ${audit.counts.document_relationship_registry_warnings}; communications usages: ${audit.counts.communications_registry_usages}; communications warnings: ${audit.counts.communications_registry_warnings}; annotation-sheet profile lexical misses: ${audit.counts.annotation_sheet_profile_lexical_misclassifications}; marker conflicts: ${audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts}; unreviewed units: ${audit.counts.review_coverage_unreviewed_units}.`,
     `Revised DOCX: ${audit.revised_docx}`,
     `Audit: ${audit.artifacts.audit}`
   ].join("\n") + "\n";
@@ -518,6 +533,8 @@ function runReview(options) {
     treaty_usage_audit: path.join(options.artifactDir, "treaty-usage-audit.json"),
     foreign_org_registry_validation: path.join(options.artifactDir, "foreign-org-registry-validation.json"),
     foreign_org_usage_audit: path.join(options.artifactDir, "foreign-org-usage-audit.json"),
+    footnote_referback_registry_validation: path.join(options.artifactDir, "footnote-referback-registry-validation.json"),
+    footnote_referback_usage_audit: path.join(options.artifactDir, "footnote-referback-usage-audit.json"),
     recurring_risk_registry_validation: path.join(options.artifactDir, "recurring-risk-registry-validation.json"),
     recurring_risk_usage_audit: path.join(options.artifactDir, "recurring-risk-usage-audit.json"),
     negative_search_registry_validation: path.join(options.artifactDir, "negative-search-registry-validation.json"),
@@ -1179,6 +1196,47 @@ function runReview(options) {
     });
     steps.push(foreignOrgAuditStep);
     optionalReports.foreign_org_usage_audit = foreignOrgAuditStep.parsed;
+  }
+  if (options.footnoteReferbackRegistryPath) {
+    const footnoteReferbackValidationStep = runNodeStep({
+      label: "validate_footnote_referback_registry",
+      args: [
+        "scripts/validate-frus-footnote-referback-registry.mjs",
+        "--registry",
+        options.footnoteReferbackRegistryPath,
+        "--format",
+        "json"
+      ],
+      cwd,
+      stdoutFile: artifacts.footnote_referback_registry_validation,
+      parseJson: true
+    });
+    steps.push(footnoteReferbackValidationStep);
+    optionalReports.footnote_referback_registry_validation = footnoteReferbackValidationStep.parsed;
+
+    const footnoteReferbackAuditArgs = [
+      "scripts/audit-frus-footnote-referback-usage.mjs",
+      "--units",
+      artifacts.extracted_units,
+      "--registry",
+      options.footnoteReferbackRegistryPath,
+      "--checker-output",
+      options.checkerOutputPath,
+      "--format",
+      "json"
+    ];
+    if (options.targetVolume) {
+      footnoteReferbackAuditArgs.push("--target-volume", options.targetVolume);
+    }
+    const footnoteReferbackAuditStep = runNodeStep({
+      label: "audit_footnote_referback_usage",
+      args: footnoteReferbackAuditArgs,
+      cwd,
+      stdoutFile: artifacts.footnote_referback_usage_audit,
+      parseJson: true
+    });
+    steps.push(footnoteReferbackAuditStep);
+    optionalReports.footnote_referback_usage_audit = footnoteReferbackAuditStep.parsed;
   }
   if (options.recurringRiskRegistryPath) {
     const recurringRiskValidationStep = runNodeStep({

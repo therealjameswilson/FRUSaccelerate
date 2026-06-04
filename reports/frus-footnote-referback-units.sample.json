@@ -1,0 +1,161 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source_docx": "sample-frus-annotation-sheet.docx",
+  "generated_at": "2026-06-03T00:00:00.000Z",
+  "units": [
+    {
+      "unit_id": "referback-0001",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 45 footnote 2",
+      "exact_text": "See footnote 6, Document 35.",
+      "display_text": "See footnote 6, Document 35.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0002",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 74 footnote 4",
+      "exact_text": "See footnote 9, Document 56 and footnote 4, Document 69.",
+      "display_text": "See footnote 9, Document 56 and footnote 4, Document 69.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0003",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 146 footnote 14",
+      "exact_text": "The November address referred to earlier Berlin proposals (see footnote 7, Document 100, footnote 3, Document 104 and footnote 15, Document 106).",
+      "display_text": "The November address referred to earlier Berlin proposals (see footnote 7, Document 100, footnote 3, Document 104 and footnote 15, Document 106).",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0004",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 217 footnote 10",
+      "exact_text": "The text for C appears on the same separate page as B above (see footnote 9).",
+      "display_text": "The text for C appears on the same separate page as B above (see footnote 9).",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0005",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 316 footnote 9",
+      "exact_text": "Shultz proposed a later visit (see footnote 5, above).",
+      "display_text": "Shultz proposed a later visit (see footnote 5, above).",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0006",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 45 footnote 5",
+      "exact_text": "See Document 34 and footnote 2 thereto.",
+      "display_text": "See Document 34 and footnote 2 thereto.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0007",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft footnote missing comma",
+      "exact_text": "See footnote 9 Document 56.",
+      "display_text": "See footnote 9 Document 56.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0008",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft footnote lowercase target",
+      "exact_text": "see footnote 4, document 69.",
+      "display_text": "see footnote 4, document 69.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0009",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft footnote bare target",
+      "exact_text": "See footnote 5.",
+      "display_text": "See footnote 5.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0010",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft document-and-footnote target",
+      "exact_text": "See Document 244 and footnote 2.",
+      "display_text": "See Document 244 and footnote 2.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0011",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft footnote overlong cluster",
+      "exact_text": "See footnote 1, Document 2, footnote 3, Document 4, footnote 5, Document 6 and footnote 7, Document 8.",
+      "display_text": "See footnote 1, Document 2, footnote 3, Document 4, footnote 5, Document 6 and footnote 7, Document 8.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0012",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft repeated citation A",
+      "exact_text": "The agreement was signed in January. (Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+      "display_text": "The agreement was signed in January. (Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0013",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft repeated citation B",
+      "exact_text": "The same agreement was cited again. (Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+      "display_text": "The same agreement was cited again. (Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0014",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft repeated citation C",
+      "exact_text": "The full citation appears a third time. (Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+      "display_text": "The full citation appears a third time. (Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}

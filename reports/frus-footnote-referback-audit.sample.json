@@ -1,0 +1,246 @@
+{
+  "schema_version": "frus-footnote-referback-usage-audit-v1",
+  "status": "warning",
+  "target_volume": "frus1981-88v01",
+  "errors": [],
+  "warnings": [
+    "referback-0007: Cross-document footnote refer-back lacks the comma before `Document`.",
+    "referback-0007: Bare same-document footnote refer-back lacks above/below or local same-document context.",
+    "referback-0008: Cross-document footnote refer-back lowercases `Document`.",
+    "referback-0009: Bare same-document footnote refer-back lacks above/below or local same-document context.",
+    "referback-0010: Document-and-footnote cross-reference is missing `thereto`.",
+    "referback-0011: Footnote contains more than three `footnote N, Document X` refer-back targets.",
+    "referback-0012,referback-0013,referback-0014: Same full citation appears at least three times without a footnote refer-back."
+  ],
+  "summary": {
+    "units_scanned": 14,
+    "approved_referback_usages": 6,
+    "malformed_referbacks": 5,
+    "overlong_referback_clusters": 1,
+    "repeated_citation_thresholds": 1,
+    "direct_footnote_referback_edit_conflicts": 0,
+    "warnings": 7,
+    "by_referback_type": {
+      "cross_document_footnote": 1,
+      "multi_target_footnote_cluster": 2,
+      "same_document_local_context": 1,
+      "same_document_above": 1,
+      "document_and_thereto": 1
+    },
+    "by_diagnostic_type": {
+      "missing_comma_before_document": 1,
+      "bare_footnote_without_context": 2,
+      "lowercase_document_target": 1,
+      "missing_thereto": 1,
+      "overlong_footnote_document_cluster": 1
+    }
+  },
+  "approved_matches": [
+    {
+      "unit_id": "referback-0001",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 45 footnote 2",
+      "referback_id": "referback-v01-d45-fn2-d35fn6",
+      "referback_type": "cross_document_footnote",
+      "approved_phrase": "See footnote 6, Document 35",
+      "matched_text": "See footnote 6, Document 35.",
+      "match_kind": "approved_phrase",
+      "source_unit_label": "footnote 2",
+      "source_document_id": "frus1981-88v01/d45",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d45",
+      "rule_basis": "Document 45 models the standard cross-document refer-back construction.",
+      "offset": 0,
+      "length": 28
+    },
+    {
+      "unit_id": "referback-0002",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 74 footnote 4",
+      "referback_id": "referback-v01-d74-fn4-d56-d69",
+      "referback_type": "multi_target_footnote_cluster",
+      "approved_phrase": "See footnote 9, Document 56 and footnote 4, Document 69",
+      "matched_text": "See footnote 9, Document 56 and footnote 4, Document 69.",
+      "match_kind": "approved_phrase",
+      "source_unit_label": "footnote 4",
+      "source_document_id": "frus1981-88v01/d74",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d74",
+      "rule_basis": "Document 74 combines two cross-document footnote targets in one note.",
+      "offset": 0,
+      "length": 56
+    },
+    {
+      "unit_id": "referback-0003",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 146 footnote 14",
+      "referback_id": "referback-v01-d146-fn14-three-targets",
+      "referback_type": "multi_target_footnote_cluster",
+      "approved_phrase": "see footnote 7, Document 100, footnote 3, Document 104 and footnote 15, Document 106",
+      "matched_text": "see footnote 7, Document 100, footnote 3, Document 104 and footnote 15, Document 106",
+      "match_kind": "approved_phrase",
+      "source_unit_label": "footnote 14",
+      "source_document_id": "frus1981-88v01/d146",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d146",
+      "rule_basis": "Document 146 models the three-target refer-back cluster remembered as the three-times rule.",
+      "offset": 59,
+      "length": 84
+    },
+    {
+      "unit_id": "referback-0004",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 217 footnote 10",
+      "referback_id": "referback-v01-d217-fn10-local-context",
+      "referback_type": "same_document_local_context",
+      "approved_phrase": "same separate page as B above (see footnote 9)",
+      "matched_text": "same separate page as B above (see footnote 9).",
+      "match_kind": "approved_phrase",
+      "source_unit_label": "footnote 10",
+      "source_document_id": "frus1981-88v01/d217",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d217",
+      "rule_basis": "Document 217 shows that a same-document bare footnote reference can be acceptable when the sentence supplies the above/local context.",
+      "offset": 30,
+      "length": 47
+    },
+    {
+      "unit_id": "referback-0005",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 316 footnote 9",
+      "referback_id": "referback-v01-d316-fn9-above",
+      "referback_type": "same_document_above",
+      "approved_phrase": "see footnote 5, above",
+      "matched_text": "see footnote 5, above",
+      "match_kind": "approved_phrase",
+      "source_unit_label": "footnote 9",
+      "source_document_id": "frus1981-88v01/d316",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d316",
+      "rule_basis": "Document 316 models explicit same-document `above` punctuation.",
+      "offset": 31,
+      "length": 21
+    },
+    {
+      "unit_id": "referback-0006",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 45 footnote 5",
+      "referback_id": "referback-v01-d45-fn5-d34-thereto",
+      "referback_type": "document_and_thereto",
+      "approved_phrase": "See Document 34 and footnote 2 thereto",
+      "matched_text": "See Document 34 and footnote 2 thereto.",
+      "match_kind": "approved_phrase",
+      "source_unit_label": "footnote 5",
+      "source_document_id": "frus1981-88v01/d45",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d45",
+      "rule_basis": "Document 45 ties the footnote reference to the named document with `thereto`.",
+      "offset": 0,
+      "length": 39
+    }
+  ],
+  "diagnostics": [
+    {
+      "unit_id": "referback-0007",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft footnote missing comma",
+      "severity": "minor",
+      "evidence_request": "cross_reference",
+      "comment_text": "Use `see footnote N, Document X` after confirming the target.",
+      "diagnostic_type": "missing_comma_before_document",
+      "matched_text": "See footnote 9 Document 56",
+      "finding": "Cross-document footnote refer-back lacks the comma before `Document`.",
+      "required_action": "Use `see footnote N, Document X` after confirming the target.",
+      "offset": 0
+    },
+    {
+      "unit_id": "referback-0007",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft footnote missing comma",
+      "severity": "minor",
+      "evidence_request": "cross_reference",
+      "comment_text": "Add `above`/`below`, supply the surrounding local context, or use `footnote N, Document X` for a cross-document target.",
+      "diagnostic_type": "bare_footnote_without_context",
+      "matched_text": "See footnote 9",
+      "finding": "Bare same-document footnote refer-back lacks above/below or local same-document context.",
+      "required_action": "Add `above`/`below`, supply the surrounding local context, or use `footnote N, Document X` for a cross-document target.",
+      "offset": 0
+    },
+    {
+      "unit_id": "referback-0008",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft footnote lowercase target",
+      "severity": "minor",
+      "evidence_request": "cross_reference",
+      "comment_text": "Use capitalized `Document` in final FRUS apparatus.",
+      "diagnostic_type": "lowercase_document_target",
+      "matched_text": "see footnote 4, document 69",
+      "finding": "Cross-document footnote refer-back lowercases `Document`.",
+      "required_action": "Use capitalized `Document` in final FRUS apparatus.",
+      "offset": 0
+    },
+    {
+      "unit_id": "referback-0009",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft footnote bare target",
+      "severity": "minor",
+      "evidence_request": "cross_reference",
+      "comment_text": "Add `above`/`below`, supply the surrounding local context, or use `footnote N, Document X` for a cross-document target.",
+      "diagnostic_type": "bare_footnote_without_context",
+      "matched_text": "See footnote 5",
+      "finding": "Bare same-document footnote refer-back lacks above/below or local same-document context.",
+      "required_action": "Add `above`/`below`, supply the surrounding local context, or use `footnote N, Document X` for a cross-document target.",
+      "offset": 0
+    },
+    {
+      "unit_id": "referback-0010",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft document-and-footnote target",
+      "severity": "minor",
+      "evidence_request": "cross_reference",
+      "comment_text": "Use `See Document X and footnote Y thereto` after confirming the target.",
+      "diagnostic_type": "missing_thereto",
+      "matched_text": "Document 244 and footnote 2",
+      "finding": "Document-and-footnote cross-reference is missing `thereto`.",
+      "required_action": "Use `See Document X and footnote Y thereto` after confirming the target.",
+      "offset": 4
+    },
+    {
+      "unit_id": "referback-0011",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft footnote overlong cluster",
+      "severity": "major",
+      "evidence_request": "cross_reference",
+      "comment_text": "Treat this as a production-review trigger; Reagan Foundations models clusters up to three targets in one note.",
+      "diagnostic_type": "overlong_footnote_document_cluster",
+      "matched_text": "footnote 1, Document 2",
+      "finding": "Footnote contains more than three `footnote N, Document X` refer-back targets.",
+      "required_action": "Treat this as a production-review trigger; Reagan Foundations models clusters up to three targets in one note.",
+      "offset": 0,
+      "target_count": 4
+    }
+  ],
+  "repeated_citation_thresholds": [
+    {
+      "citation_key": "public papers reagan 1988 1989 book i p 4",
+      "occurrence_count": 3,
+      "units": [
+        {
+          "unit_id": "referback-0012",
+          "unit_type": "follow_on_footnote",
+          "location": "Draft repeated citation A",
+          "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)"
+        },
+        {
+          "unit_id": "referback-0013",
+          "unit_type": "follow_on_footnote",
+          "location": "Draft repeated citation B",
+          "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)"
+        },
+        {
+          "unit_id": "referback-0014",
+          "unit_type": "follow_on_footnote",
+          "location": "Draft repeated citation C",
+          "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)"
+        }
+      ],
+      "finding": "Same full citation appears at least three times without a footnote refer-back.",
+      "required_action": "Confirm whether subsequent references should use a Reagan Foundations-style refer-back instead of repeating full citation details."
+    }
+  ],
+  "direct_edit_conflicts": []
+}

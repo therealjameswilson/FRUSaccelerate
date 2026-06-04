@@ -257,12 +257,12 @@
       "severity": "major",
       "matched_text": "Third reference",
       "anti_pattern": "Repeating full citation/source details after the threshold for a refer-back has been reached, or using a bare see-footnote construction without Document or above/below context.",
-      "approved_practice": "After repeated references to the same item, refer back rather than reciting the citation again: within the same document use `see footnote 5, above`; across documents use `see footnote 9, Document 56`, `see footnote 6, Document 265 and footnote 2, Document 312`, or `See Document 34 and footnote 2 thereto`; straight document references use `See Document 69.` Treat the three-times threshold as a production-review trigger requiring human confirmation of the target.",
+      "approved_practice": "After repeated references to the same item, refer back rather than reciting the citation again: within the same document use `see footnote 5, above` or a bare same-document parenthetical only when the sentence itself supplies the above/below context; across documents use `see footnote 9, Document 56`, `see footnote 6, Document 265 and footnote 2, Document 312`, or `See Document 34 and footnote 2 thereto`; straight document references use `See Document 69.` Treat the three-times threshold as a production-review trigger requiring human confirmation of the target.",
       "direct_edit_policy": "comment_only_by_default",
       "recommended_action": "comment_only",
       "evidence_request": "cross_reference",
-      "comment_text": "Check whether this repeated reference should use a footnote refer-back. Reagan Foundations models same-document `see footnote N, above` and cross-document `see footnote N, Document X` forms; confirm the target before rewriting.",
-      "source_basis": "James Wilson follow-up note on the footnote refer-back rule; Reagan Foundations published examples: Documents 45, 74, 161, and 316."
+      "comment_text": "Check whether this repeated reference should use a footnote refer-back. Reagan Foundations models same-document `see footnote N, above`, same-document local-context `B above (see footnote N)`, and cross-document `see footnote N, Document X` forms; confirm the target before rewriting.",
+      "source_basis": "James Wilson follow-up note on the footnote refer-back rule; Reagan Foundations published examples: Documents 45, 74, 146, 217, 267, and 316."
     }
   ],
   "direct_edit_conflicts": []

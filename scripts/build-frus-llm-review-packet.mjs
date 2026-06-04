@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--public-source-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--public-source-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -32,6 +32,7 @@ function parseArgs(argv) {
   let publicSourceRegistryPath = null;
   let treatyRegistryPath = null;
   let foreignOrgRegistryPath = null;
+  let footnoteReferbackRegistryPath = null;
   let recurringRiskRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
@@ -102,6 +103,9 @@ function parseArgs(argv) {
     } else if (arg === "--foreign-org-registry") {
       foreignOrgRegistryPath = argv[index + 1];
       index += 1;
+    } else if (arg === "--footnote-referback-registry") {
+      footnoteReferbackRegistryPath = argv[index + 1];
+      index += 1;
     } else if (arg === "--recurring-risk-registry") {
       recurringRiskRegistryPath = argv[index + 1];
       index += 1;
@@ -161,6 +165,7 @@ function parseArgs(argv) {
     publicSourceRegistryPath,
     treatyRegistryPath,
     foreignOrgRegistryPath,
+    footnoteReferbackRegistryPath,
     recurringRiskRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
@@ -841,6 +846,36 @@ function compactForeignOrgRegistry(registry, targetVolume) {
   };
 }
 
+function compactFootnoteReferbackRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    footnote_referback_registry_id: registry.footnote_referback_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    rule_summary: registry.rule_summary || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      referback_id: record.referback_id,
+      volume_id: record.volume_id,
+      source_document_id: record.source_document_id,
+      source_document_number: record.source_document_number,
+      source_unit_label: record.source_unit_label,
+      referback_type: record.referback_type,
+      approved_phrase: record.approved_phrase,
+      variant_forms: record.variant_forms || [],
+      target_references: record.target_references || [],
+      rule_basis: record.rule_basis,
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactRecurringRiskRegistry(registry) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -943,6 +978,9 @@ function buildPacket(options) {
   const foreignOrgRegistry = options.foreignOrgRegistryPath
     ? readJson(options.foreignOrgRegistryPath, options.foreignOrgRegistryPath)
     : null;
+  const footnoteReferbackRegistry = options.footnoteReferbackRegistryPath
+    ? readJson(options.footnoteReferbackRegistryPath, options.footnoteReferbackRegistryPath)
+    : null;
   const recurringRiskRegistry = options.recurringRiskRegistryPath
     ? readJson(options.recurringRiskRegistryPath, options.recurringRiskRegistryPath)
     : null;
@@ -978,6 +1016,9 @@ function buildPacket(options) {
       public_source_registry: options.publicSourceRegistryPath ? normalizePathForOutput(options.publicSourceRegistryPath) : "",
       treaty_registry: options.treatyRegistryPath ? normalizePathForOutput(options.treatyRegistryPath) : "",
       foreign_org_registry: options.foreignOrgRegistryPath ? normalizePathForOutput(options.foreignOrgRegistryPath) : "",
+      footnote_referback_registry: options.footnoteReferbackRegistryPath
+        ? normalizePathForOutput(options.footnoteReferbackRegistryPath)
+        : "",
       recurring_risk_registry: options.recurringRiskRegistryPath ? normalizePathForOutput(options.recurringRiskRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
@@ -1021,6 +1062,7 @@ function buildPacket(options) {
       public_source_registry_records: publicSourceRegistry?.records?.length || 0,
       treaty_registry_records: treatyRegistry?.records?.length || 0,
       foreign_org_registry_records: foreignOrgRegistry?.records?.length || 0,
+      footnote_referback_registry_records: footnoteReferbackRegistry?.records?.length || 0,
       recurring_risk_registry_records: recurringRiskRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
       document_relationship_registry_records: documentRelationshipRegistry?.records?.length || 0,
@@ -1049,6 +1091,7 @@ function buildPacket(options) {
       public_source_registry: compactPublicSourceRegistry(publicSourceRegistry, options.targetVolume),
       treaty_registry: compactTreatyRegistry(treatyRegistry, options.targetVolume),
       foreign_org_registry: compactForeignOrgRegistry(foreignOrgRegistry, options.targetVolume),
+      footnote_referback_registry: compactFootnoteReferbackRegistry(footnoteReferbackRegistry, options.targetVolume),
       recurring_risk_registry: compactRecurringRiskRegistry(recurringRiskRegistry),
       negative_search_registry: compactNegativeSearchRegistry(negativeSearchRegistry, options.targetVolume),
       document_relationship_registry: compactDocumentRelationshipRegistry(documentRelationshipRegistry, options.targetVolume),
@@ -1199,6 +1242,12 @@ function renderMarkdown(packet) {
     "Use this to check country names, successor-state references, alliances, international organizations, regional bodies, summit/conference names, international financial institutions, trade regimes, UN resolution forms, and treaty-party language. Do not change entity identity, acronym expansion, body role, successor-state status, treaty-party status, or translation/authority basis unless the target-volume foreign-org registry proves the direct edit.",
     "",
     fencedJson(packet.contexts.foreign_org_registry || {}),
+    "",
+    "## Footnote Refer-Back Registry Context",
+    "",
+    "Use this to check repeated-reference footnote discipline. Reagan Foundations models cross-document `footnote N, Document X`, same-document `above` or local above-context, `Document X and footnote Y thereto`, and clusters of up to three footnote/document targets. Do not invent refer-back targets; use comment-only unless the registry proves the exact direct edit.",
+    "",
+    fencedJson(packet.contexts.footnote_referback_registry || {}),
     "",
     "## Recurring Compiler Risk Registry Context",
     "",

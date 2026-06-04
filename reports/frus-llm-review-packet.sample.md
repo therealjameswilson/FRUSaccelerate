@@ -1,8 +1,8 @@
 # FRUS Annotation Review Packet
 
 - schema_version: frus-llm-review-packet-v1
-- run_id: sample-fixture
-- generated_at: 2026-06-03T22:56:55.504Z
+- run_id: sample-packet
+- generated_at: 2026-06-04T00:25:37.678Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -168,6 +168,7 @@ Every reviewable extracted editorial unit should have a checker entry. Use `reco
   "public_source_registry_records": 6,
   "treaty_registry_records": 7,
   "foreign_org_registry_records": 10,
+  "footnote_referback_registry_records": 8,
   "recurring_risk_registry_records": 13,
   "negative_search_registry_records": 6,
   "document_relationship_registry_records": 10,
@@ -201,9 +202,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -249,6 +250,9 @@ For treaty/legal-instrument validation and direct-edit safety, run
 For foreign/international-organization validation and direct-edit safety, run
 `node scripts/validate-frus-foreign-org-registry.mjs --registry reports/frus-foreign-org-registry.sample.json --format text` and
 `node scripts/audit-frus-foreign-org-usage.mjs --units extracted-units.json --registry reports/frus-foreign-org-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For footnote refer-back validation and direct-edit safety, run
+`node scripts/validate-frus-footnote-referback-registry.mjs --registry reports/frus-footnote-referback-registry.sample.json --format text` and
+`node scripts/audit-frus-footnote-referback-usage.mjs --units extracted-units.json --registry reports/frus-footnote-referback-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For recurring compiler-risk spellcheck validation, run
 `node scripts/validate-frus-recurring-risk-registry.mjs --registry reports/frus-recurring-risk-registry.sample.json --format text` and
 `node scripts/audit-frus-recurring-risk-usage.mjs --units extracted-units.json --registry reports/frus-recurring-risk-registry.sample.json --checker-output output.json --format text`.
@@ -274,7 +278,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -371,6 +375,13 @@ regional bodies, summit/conference names, international financial institutions,
 trade regimes, UN resolution forms, political parties, and treaty-party status;
 validate it with `scripts/validate-frus-foreign-org-registry.mjs` before direct
 foreign-entity or international-organization edits.
+For real Reagan/Bush 1981-1992 footnote refer-back review, replace the sample
+footnote refer-back registry with target-volume examples for repeated
+cross-document `footnote N, Document X` references, same-document above/below or
+local-context references, `Document X and footnote Y thereto` references, and
+published multi-target clusters; validate it with
+`scripts/validate-frus-footnote-referback-registry.mjs` before direct
+refer-back edits.
 For every Reagan/Bush 1981-1992 sheet, keep the recurring-risk registry in the
 packet unless a project-specific version supersedes it. It should check for
 leading-zero telegram numbers, non-State telegram copies without eRecords or
@@ -5959,6 +5970,252 @@ Use this to check country names, successor-state references, alliances, internat
 }
 ```
 
+## Footnote Refer-Back Registry Context
+
+Use this to check repeated-reference footnote discipline. Reagan Foundations models cross-document `footnote N, Document X`, same-document `above` or local above-context, `Document X and footnote Y thereto`, and clusters of up to three footnote/document targets. Do not invent refer-back targets; use comment-only unless the registry proves the exact direct edit.
+
+```json
+{
+  "schema_version": "frus-footnote-referback-registry-v1",
+  "footnote_referback_registry_id": "frus-reagan-foundations-footnote-referback-sample-2026-06-03",
+  "captured_at": "2026-06-03",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d45",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d74",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d146",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d217",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d267",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d316"
+  ],
+  "scope": "Sample registry of published Reagan Foundations footnote refer-back forms for checking FRUS annotation-sheet footnotes without inventing targets.",
+  "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: cross-document targets take `footnote N, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; clusters of up to three footnote/document targets are modeled in Reagan Foundations.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [],
+  "records": [
+    {
+      "referback_id": "referback-v01-d45-fn2-d35fn6",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d45",
+      "source_document_number": "45",
+      "source_unit_label": "footnote 2",
+      "referback_type": "cross_document_footnote",
+      "approved_phrase": "See footnote 6, Document 35",
+      "variant_forms": [
+        "see footnote 6, Document 35"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "frus1981-88v01/d35",
+          "target_document_number": "35",
+          "target_footnote_number": "6",
+          "target_label": "footnote 6, Document 35",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d35"
+        }
+      ],
+      "rule_basis": "Document 45 models the standard cross-document refer-back construction.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d45",
+      "verification_status": "verified_published_form"
+    },
+    {
+      "referback_id": "referback-v01-d45-fn5-d34-thereto",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d45",
+      "source_document_number": "45",
+      "source_unit_label": "footnote 5",
+      "referback_type": "document_and_thereto",
+      "approved_phrase": "See Document 34 and footnote 2 thereto",
+      "variant_forms": [
+        "Document 34 and footnote 2 thereto"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "frus1981-88v01/d34",
+          "target_document_number": "34",
+          "target_footnote_number": "2",
+          "target_label": "Document 34, footnote 2",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d34"
+        }
+      ],
+      "rule_basis": "Document 45 ties the footnote reference to the named document with `thereto`.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d45",
+      "verification_status": "verified_published_form"
+    },
+    {
+      "referback_id": "referback-v01-d74-fn4-d56-d69",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d74",
+      "source_document_number": "74",
+      "source_unit_label": "footnote 4",
+      "referback_type": "multi_target_footnote_cluster",
+      "approved_phrase": "See footnote 9, Document 56 and footnote 4, Document 69",
+      "variant_forms": [
+        "see footnote 9, Document 56 and footnote 4, Document 69"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "frus1981-88v01/d56",
+          "target_document_number": "56",
+          "target_footnote_number": "9",
+          "target_label": "footnote 9, Document 56",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d56"
+        },
+        {
+          "target_document_id": "frus1981-88v01/d69",
+          "target_document_number": "69",
+          "target_footnote_number": "4",
+          "target_label": "footnote 4, Document 69",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d69"
+        }
+      ],
+      "rule_basis": "Document 74 combines two cross-document footnote targets in one note.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d74",
+      "verification_status": "verified_published_form"
+    },
+    {
+      "referback_id": "referback-v01-d146-fn14-three-targets",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d146",
+      "source_document_number": "146",
+      "source_unit_label": "footnote 14",
+      "referback_type": "multi_target_footnote_cluster",
+      "approved_phrase": "see footnote 7, Document 100, footnote 3, Document 104 and footnote 15, Document 106",
+      "variant_forms": [
+        "See footnote 7, Document 100, footnote 3, Document 104 and footnote 15, Document 106"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "frus1981-88v01/d100",
+          "target_document_number": "100",
+          "target_footnote_number": "7",
+          "target_label": "footnote 7, Document 100",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d100"
+        },
+        {
+          "target_document_id": "frus1981-88v01/d104",
+          "target_document_number": "104",
+          "target_footnote_number": "3",
+          "target_label": "footnote 3, Document 104",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d104"
+        },
+        {
+          "target_document_id": "frus1981-88v01/d106",
+          "target_document_number": "106",
+          "target_footnote_number": "15",
+          "target_label": "footnote 15, Document 106",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d106"
+        }
+      ],
+      "rule_basis": "Document 146 models the three-target refer-back cluster remembered as the three-times rule.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d146",
+      "verification_status": "verified_published_form"
+    },
+    {
+      "referback_id": "referback-v01-d217-fn10-local-context",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d217",
+      "source_document_number": "217",
+      "source_unit_label": "footnote 10",
+      "referback_type": "same_document_local_context",
+      "approved_phrase": "same separate page as B above (see footnote 9)",
+      "variant_forms": [
+        "B above (see footnote 9)"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "",
+          "target_document_number": "",
+          "target_footnote_number": "9",
+          "target_label": "same-document footnote 9",
+          "target_url": ""
+        }
+      ],
+      "rule_basis": "Document 217 shows that a same-document bare footnote reference can be acceptable when the sentence supplies the above/local context.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d217",
+      "verification_status": "verified_published_form"
+    },
+    {
+      "referback_id": "referback-v01-d267-fn2-d244-thereto",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d267",
+      "source_document_number": "267",
+      "source_unit_label": "footnote 2",
+      "referback_type": "document_and_thereto",
+      "approved_phrase": "See Document 244 and footnote 2 thereto",
+      "variant_forms": [
+        "Document 244 and footnote 2 thereto"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "frus1981-88v01/d244",
+          "target_document_number": "244",
+          "target_footnote_number": "2",
+          "target_label": "Document 244, footnote 2",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d244"
+        }
+      ],
+      "rule_basis": "Document 267 repeats the `Document X and footnote Y thereto` construction.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d267",
+      "verification_status": "verified_published_form"
+    },
+    {
+      "referback_id": "referback-v01-d316-fn2-d265-d312",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d316",
+      "source_document_number": "316",
+      "source_unit_label": "footnote 2",
+      "referback_type": "multi_target_footnote_cluster",
+      "approved_phrase": "see footnote 6, Document 265 and footnote 2, Document 312",
+      "variant_forms": [
+        "See footnote 6, Document 265 and footnote 2, Document 312"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "frus1981-88v01/d265",
+          "target_document_number": "265",
+          "target_footnote_number": "6",
+          "target_label": "footnote 6, Document 265",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d265"
+        },
+        {
+          "target_document_id": "frus1981-88v01/d312",
+          "target_document_number": "312",
+          "target_footnote_number": "2",
+          "target_label": "footnote 2, Document 312",
+          "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d312"
+        }
+      ],
+      "rule_basis": "Document 316 uses two prior footnotes as the proper alternative to repeating full Free Trade Agreement citation detail.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d316",
+      "verification_status": "verified_published_form"
+    },
+    {
+      "referback_id": "referback-v01-d316-fn9-above",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d316",
+      "source_document_number": "316",
+      "source_unit_label": "footnote 9",
+      "referback_type": "same_document_above",
+      "approved_phrase": "see footnote 5, above",
+      "variant_forms": [
+        "See footnote 5, above"
+      ],
+      "target_references": [
+        {
+          "target_document_id": "",
+          "target_document_number": "",
+          "target_footnote_number": "5",
+          "target_label": "same-document footnote 5 above",
+          "target_url": ""
+        }
+      ],
+      "rule_basis": "Document 316 models explicit same-document `above` punctuation.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d316",
+      "verification_status": "verified_published_form"
+    }
+  ]
+}
+```
+
 ## Recurring Compiler Risk Registry Context
 
 Use this as a practical spellcheck list for recurring compiler mistakes: leading-zero telegram numbers, non-State telegram copies without eRecords/drafting checks, incomplete cross-reference slugs, missing page breaks, old heading-footnote practice, Word autoformatting, incomplete documents or source notes, unhighlighted quoted backup text, missing telegram headers/film numbers, and Style Guide inconsistency. Treat these as generalized risk checks, not as personal criticism.
@@ -5968,7 +6225,7 @@ Use this as a practical spellcheck list for recurring compiler mistakes: leading
   "schema_version": "frus-recurring-risk-registry-v1",
   "recurring_risk_registry_id": "frus-recurring-compiler-risk-sample-2026-06-03",
   "captured_at": "2026-06-03",
-  "source_basis": "Compiler self-disclosure supplied by James Wilson on June 3, 2026; generalized as recurring risks that other compilers and reviewers may also share. Document-reference and footnote-referback forms are checked against Reagan Foundations published examples in FRUS, 1981-1988, volume I, including Documents 45, 74, 161, and 316.",
+  "source_basis": "Compiler self-disclosure supplied by James Wilson on June 3, 2026; generalized as recurring risks that other compilers and reviewers may also share. Document-reference and footnote-referback forms are checked against Reagan Foundations published examples in FRUS, 1981-1988, volume I, including Documents 45, 74, 146, 217, 267, and 316.",
   "scope": "Practical spellcheck-style risk register for recurrent FRUS annotation-sheet mistakes: telegram number zeros, eRecords copy basis, cross-reference slugs, Document XX construction, footnote refer-back discipline, page breaks, footnote placement, Word autoformatting, incomplete documents/source notes/backups, quote highlighting, telegram headers, and Style Guide consistency.",
   "records": [
     {
@@ -6131,7 +6388,7 @@ Use this as a practical spellcheck list for recurring compiler mistakes: leading
       "risk_family": "footnote_referback",
       "title": "Footnote refer-back rule may be missed after repeated references",
       "anti_pattern": "Repeating full citation/source details after the threshold for a refer-back has been reached, or using a bare see-footnote construction without Document or above/below context.",
-      "approved_practice": "After repeated references to the same item, refer back rather than reciting the citation again: within the same document use `see footnote 5, above`; across documents use `see footnote 9, Document 56`, `see footnote 6, Document 265 and footnote 2, Document 312`, or `See Document 34 and footnote 2 thereto`; straight document references use `See Document 69.` Treat the three-times threshold as a production-review trigger requiring human confirmation of the target.",
+      "approved_practice": "After repeated references to the same item, refer back rather than reciting the citation again: within the same document use `see footnote 5, above` or a bare same-document parenthetical only when the sentence itself supplies the above/below context; across documents use `see footnote 9, Document 56`, `see footnote 6, Document 265 and footnote 2, Document 312`, or `See Document 34 and footnote 2 thereto`; straight document references use `See Document 69.` Treat the three-times threshold as a production-review trigger requiring human confirmation of the target.",
       "unit_types": [
         "follow_on_footnote",
         "editorial_note",
@@ -6145,13 +6402,14 @@ Use this as a practical spellcheck list for recurring compiler mistakes: leading
       ],
       "direct_edit_policy": "comment_only_by_default",
       "evidence_request": "cross_reference",
-      "comment_template": "Check whether this repeated reference should use a footnote refer-back. Reagan Foundations models same-document `see footnote N, above` and cross-document `see footnote N, Document X` forms; confirm the target before rewriting.",
+      "comment_template": "Check whether this repeated reference should use a footnote refer-back. Reagan Foundations models same-document `see footnote N, above`, same-document local-context `B above (see footnote N)`, and cross-document `see footnote N, Document X` forms; confirm the target before rewriting.",
       "severity": "major",
-      "source_basis": "James Wilson follow-up note on the footnote refer-back rule; Reagan Foundations published examples: Documents 45, 74, 161, and 316.",
+      "source_basis": "James Wilson follow-up note on the footnote refer-back rule; Reagan Foundations published examples: Documents 45, 74, 146, 217, 267, and 316.",
       "variant_forms": [
         "third reference repeats full citation",
         "see footnote TK",
         "see footnote 5",
+        "B above (see footnote 9)",
         "see footnote 5, above",
         "see footnote 9, Document 56"
       ]

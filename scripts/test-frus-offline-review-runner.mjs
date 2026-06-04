@@ -221,6 +221,8 @@ try {
       "reports/frus-treaty-registry.sample.json",
       "--foreign-org-registry",
       "reports/frus-foreign-org-registry.sample.json",
+      "--footnote-referback-registry",
+      "reports/frus-footnote-referback-registry.sample.json",
       "--recurring-risk-registry",
       "reports/frus-recurring-risk-registry.sample.json",
       "--negative-search-registry",
@@ -301,6 +303,16 @@ try {
   assert(audit.counts.recurring_risk_direct_edit_conflicts === 0, "expected zero recurring-risk direct-edit conflicts");
   assert(audit.counts.foreign_org_registry_usages === 0, "expected zero foreign-org usages");
   assert(audit.counts.foreign_org_direct_edit_conflicts === 0, "expected zero foreign-org direct-edit conflicts");
+  assert(audit.counts.footnote_referback_approved_usages === 0, "expected zero footnote refer-back usages");
+  assert(audit.counts.footnote_referback_malformed === 0, "expected zero malformed footnote refer-backs");
+  assert(
+    audit.counts.footnote_referback_repeated_citation_thresholds === 0,
+    "expected zero footnote refer-back repeated-citation thresholds"
+  );
+  assert(
+    audit.counts.footnote_referback_direct_edit_conflicts === 0,
+    "expected zero footnote refer-back direct-edit conflicts"
+  );
   assert(audit.counts.negative_search_registry_usages === 0, "expected zero negative-search registry usages");
   assert(audit.counts.negative_search_registry_warnings === 0, "expected zero negative-search registry warnings");
   assert(audit.counts.negative_search_direct_edit_conflicts === 0, "expected zero negative-search direct-edit conflicts");
@@ -350,6 +362,8 @@ try {
     "treaty-usage-audit.json",
     "foreign-org-registry-validation.json",
     "foreign-org-usage-audit.json",
+    "footnote-referback-registry-validation.json",
+    "footnote-referback-usage-audit.json",
     "recurring-risk-registry-validation.json",
     "recurring-risk-usage-audit.json",
     "negative-search-registry-validation.json",
@@ -397,6 +411,11 @@ try {
   assert(audit.reports.treaty_usage_audit.status === "pass", "expected treaty usage audit report");
   assert(audit.reports.foreign_org_registry_validation.summary.records === 10, "expected foreign-org registry validation report");
   assert(audit.reports.foreign_org_usage_audit.status === "pass", "expected foreign-org usage audit report");
+  assert(
+    audit.reports.footnote_referback_registry_validation.summary.records === 8,
+    "expected footnote refer-back registry validation report"
+  );
+  assert(audit.reports.footnote_referback_usage_audit.status === "pass", "expected footnote refer-back usage audit report");
   assert(audit.reports.recurring_risk_registry_validation.summary.records === 13, "expected recurring-risk registry validation report");
   assert(audit.reports.recurring_risk_usage_audit.status === "pass", "expected recurring-risk usage audit report");
   assert(audit.reports.document_relationship_registry_validation.summary.records === 10, "expected document relationship registry validation report");
@@ -416,7 +435,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/chronology/public-source/treaty/foreign-org/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/chronology/public-source/treaty/foreign-org/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }
