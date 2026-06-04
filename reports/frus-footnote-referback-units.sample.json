@@ -167,6 +167,39 @@
       "edit_safety": "safe",
       "comment_safety": "safe",
       "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0016",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft source-note repeated citation A",
+      "exact_text": "Bush addressed the UN Committee on Disarmament. Department of State Bulletin, March 1983, p. 16.",
+      "display_text": "Bush addressed the UN Committee on Disarmament. Department of State Bulletin, March 1983, p. 16.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0017",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft source-note repeated citation B",
+      "exact_text": "The chemical weapons statement is cited again. Department of State Bulletin, March 1983, p. 16.",
+      "display_text": "The chemical weapons statement is cited again. Department of State Bulletin, March 1983, p. 16.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0018",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft source-note repeated citation C",
+      "exact_text": "The same Department of State Bulletin citation appears a third time. Department of State Bulletin, March 1983, p. 16.",
+      "display_text": "The same Department of State Bulletin citation appears a third time. Department of State Bulletin, March 1983, p. 16.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
     }
   ]
 }

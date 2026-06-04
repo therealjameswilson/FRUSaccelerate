@@ -534,12 +534,13 @@ node scripts/audit-frus-economic-financial-usage.mjs --units extracted-units.jso
    and footnote Y thereto`, same-document above/below references, or clusters
    of multiple footnote/document targets. The Reagan Foundations three-times
    rule should be treated as a repeated-citation review trigger: when the same
-   full citation appears for a third time, confirm whether a refer-back should
-   replace the repeated citation. The first and second full citations may
-   stand; the third full repeat itself and every later full repeat require
-   comment-only target confirmation unless the supplied registry proves the
-   direct edit. The usage audit fails if the model proposes a direct refer-back
-   edit unsupported by the supplied registry.
+   full citation appears for a third time, whether parenthetical or plain
+   source-note text, confirm whether a refer-back should replace the repeated
+   citation. The first and second full citations may stand; the third full
+   repeat itself and every later full repeat require comment-only target
+   confirmation unless the supplied registry proves the direct edit. The usage
+   audit fails if the model proposes a direct refer-back edit unsupported by the
+   supplied registry.
 
 ```sh
 node scripts/validate-frus-footnote-referback-registry.mjs --registry footnote-referback-registry.json --format text

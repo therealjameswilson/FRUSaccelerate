@@ -285,12 +285,14 @@ footnote refer-back registry with target-volume examples for repeated
 cross-document `footnote N, Document X` references, same-document above/below or
 local-context references, `Document X and footnote Y thereto` references, and
 published multi-target clusters. Treat the third full repeat of the same
-citation as the first human review trigger for a possible refer-back, and flag
-every later full repeat too; this is not an automatic rewrite. The registry
+citation, whether parenthetical or plain source-note text, as the first human
+review trigger for a possible refer-back, and flag every later full repeat too;
+this is not an automatic rewrite. The registry
 should carry `repeat_threshold: 3` and a plain-language
 `repeat_threshold_action`: first and second full citations may stand; the third
-full repeat itself and every later full repeat require comment-only target
-confirmation unless a registry-backed direct edit is available. Validate the
+full repeat itself and every later full repeat, including source-note citations
+outside parentheses, require comment-only target confirmation unless a
+registry-backed direct edit is available. Validate the
 registry with
 `scripts/validate-frus-footnote-referback-registry.mjs` before direct
 refer-back edits.
@@ -7683,7 +7685,7 @@ Use this to check dollar amounts, percentages, debt metrics, IMF quotas and reso
 
 ## Footnote Refer-Back Registry Context
 
-Use this to check repeated-reference footnote discipline. Reagan Foundations models cross-document `footnote N, Document X`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. Apply the registry `repeat_threshold`: the first and second full citations may stand, but the third full repeat itself and every later full repeat are production-review triggers for a possible refer-back. Do not invent refer-back targets; use comment-only unless the registry proves the exact direct edit.
+Use this to check repeated-reference footnote discipline in follow-on footnotes and source notes. Reagan Foundations models cross-document `footnote N, Document X`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. Apply the registry `repeat_threshold`: the first and second full citations may stand, but the third full repeat itself and every later full repeat, including plain source-note citations outside parentheses, are production-review triggers for a possible refer-back. Do not invent refer-back targets; use comment-only unless the registry proves the exact direct edit.
 
 ```json
 {
@@ -7698,10 +7700,10 @@ Use this to check repeated-reference footnote discipline. Reagan Foundations mod
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d267",
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d316"
   ],
-  "scope": "Sample registry of published Reagan Foundations footnote refer-back forms for checking FRUS annotation-sheet footnotes without inventing targets.",
-  "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: the third full repeat of the same citation is the first human review trigger for a proper footnote refer-back, and every later full repeat remains a review unit. Cross-document targets take `footnote N, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; Document 146 separately models a three-target footnote/document cluster.",
+  "scope": "Sample registry of published Reagan Foundations footnote refer-back forms for checking FRUS annotation-sheet footnotes and source-note citations without inventing targets.",
+  "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: whether the repeated citation is parenthetical or plain source-note text, the third full repeat of the same citation is the first human review trigger for a proper footnote refer-back, and every later full repeat remains a review unit. Cross-document targets take `footnote N, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; Document 146 separately models a three-target footnote/document cluster.",
   "repeat_threshold": 3,
-  "repeat_threshold_action": "The first and second full citations may stand; on the third full repeat itself and every later full repeat, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not rewrite unless the target footnote/document is verified in the registry.",
+  "repeat_threshold_action": "The first and second full citations may stand; on the third full repeat itself and every later full repeat, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not rewrite unless the target footnote/document is verified in the registry.",
   "target_volume": "frus1989-92v31",
   "target_records": [],
   "records": [
@@ -8101,7 +8103,7 @@ Use this as a practical spellcheck list for recurring compiler mistakes: leading
       "risk_family": "footnote_referback",
       "title": "Footnote refer-back rule may be missed after repeated references",
       "anti_pattern": "Repeating full citation/source details after the threshold for a refer-back has been reached, or using a bare see-footnote construction without Document or above/below context.",
-      "approved_practice": "After repeated references to the same item, refer back rather than reciting the citation again: within the same document use `see footnote 5, above` or a bare same-document parenthetical only when the sentence itself supplies the above/below context; across documents use `see footnote 9, Document 56`, `see footnote 6, Document 265 and footnote 2, Document 312`, or `See Document 34 and footnote 2 thereto`; straight document references use `See Document 69.` Treat the third full repeat itself and every later full repeat as production-review triggers requiring human confirmation of the target.",
+      "approved_practice": "After repeated references to the same item, refer back rather than reciting the citation again: within the same document use `see footnote 5, above` or a bare same-document parenthetical only when the sentence itself supplies the above/below context; across documents use `see footnote 9, Document 56`, `see footnote 6, Document 265 and footnote 2, Document 312`, or `See Document 34 and footnote 2 thereto`; straight document references use `See Document 69.` Treat the third full repeat itself and every later full repeat, including plain source-note citations outside parentheses, as production-review triggers requiring human confirmation of the target.",
       "unit_types": [
         "follow_on_footnote",
         "editorial_note",

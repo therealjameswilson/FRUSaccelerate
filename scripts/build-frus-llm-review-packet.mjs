@@ -1561,7 +1561,7 @@ function renderMarkdown(packet) {
     "",
     "## Footnote Refer-Back Registry Context",
     "",
-    "Use this to check repeated-reference footnote discipline. Reagan Foundations models cross-document `footnote N, Document X`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. Apply the registry `repeat_threshold`: the first and second full citations may stand, but the third full repeat itself and every later full repeat are production-review triggers for a possible refer-back. Do not invent refer-back targets; use comment-only unless the registry proves the exact direct edit.",
+    "Use this to check repeated-reference footnote discipline in follow-on footnotes and source notes. Reagan Foundations models cross-document `footnote N, Document X`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. Apply the registry `repeat_threshold`: the first and second full citations may stand, but the third full repeat itself and every later full repeat, including plain source-note citations outside parentheses, are production-review triggers for a possible refer-back. Do not invent refer-back targets; use comment-only unless the registry proves the exact direct edit.",
     "",
     fencedJson(packet.contexts.footnote_referback_registry || {}),
     "",

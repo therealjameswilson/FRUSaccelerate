@@ -55,12 +55,12 @@ try {
   }
   const report = JSON.parse(audit.stdout);
   assert(report.status === "warning", "expected warning status for malformed refer-back fixture");
-  assert(report.summary.units_scanned === 15, "expected fifteen units scanned");
+  assert(report.summary.units_scanned === 18, "expected eighteen units scanned");
   assert(report.summary.approved_referback_usages === 6, "expected six approved refer-back matches");
   assert(report.summary.malformed_referbacks === 5, "expected five malformed refer-backs");
   assert(report.summary.overlong_referback_clusters === 1, "expected one overlong refer-back cluster");
-  assert(report.summary.repeated_citation_thresholds === 1, "expected repeated citation threshold");
-  assert(report.summary.repeated_citation_review_units === 2, "expected third-and-later repeat review units");
+  assert(report.summary.repeated_citation_thresholds === 2, "expected two repeated citation thresholds");
+  assert(report.summary.repeated_citation_review_units === 3, "expected three third-and-later repeat review units");
   assert(report.summary.repeat_threshold === 3, "expected audit to use registry repeat threshold");
   assert(report.summary.by_referback_type.multi_target_footnote_cluster === 2, "expected two approved multi-target clusters");
   assert(report.summary.by_referback_type.same_document_local_context === 1, "expected same-document local-context match");
@@ -104,6 +104,19 @@ try {
   assert(
     report.repeated_citation_thresholds[0].required_action.includes("third full repeat itself and every later full repeat"),
     "expected registry threshold action in repeated-citation warning"
+  );
+  const bulletinThreshold = report.repeated_citation_thresholds.find((threshold) =>
+    threshold.citation_key.includes("department of state bulletin march 1983 p 16")
+  );
+  assert(bulletinThreshold, "expected unparenthesized Department of State Bulletin citation threshold");
+  assert(bulletinThreshold.occurrence_count === 3, "expected three unparenthesized citation occurrences");
+  assert(
+    bulletinThreshold.trigger_unit.unit_id === "referback-0018",
+    "expected third unparenthesized source-note citation to be trigger unit"
+  );
+  assert(
+    bulletinThreshold.trigger_unit.source_type === "department_bulletin",
+    "expected source-specific citation detector to classify Department of State Bulletin"
   );
 
   const unsafeOutput = path.join(tmpDir, "unsafe-output.json");
@@ -239,7 +252,7 @@ try {
   assert(badValidation.status !== 0, "expected malformed footnote refer-back registry validation to fail");
 
   console.log(
-    "FRUS footnote refer-back audit test passed: Reagan Foundations cross-document, thereto, same-document local-context, above, three-target cluster, malformed forms, repeated-citation threshold, and direct-edit gates work."
+    "FRUS footnote refer-back audit test passed: Reagan Foundations cross-document, thereto, same-document local-context, above, three-target cluster, malformed forms, parenthetical and plain source-note repeated-citation thresholds, and direct-edit gates work."
   );
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });

@@ -13,8 +13,46 @@ const REFERBACK_UNIT_TYPES = new Set([
 const FOOTNOTE_SIGNAL = /\b(?:see\s+)?(?:fn\.?|footnote)\s+(?:\d+|TK|TBD|XX|\?\?)/i;
 const FOOTNOTE_DOCUMENT_PAIR = /\bfootnote\s+(\d+)\s*,\s*Document\s+(\d+)\b/gi;
 const DIRECT_FOOTNOTE_PATTERN = /\b(?:footnote|fn\.?|Document\s+\d+\s+and\s+footnote)\b/i;
-const CITATION_PARENTHESES =
-  /\((?=[^)]*(?:Public Papers|Department of State Bulletin|New York Times|Washington Post|Reagan Library|Foreign Relations|Brinkley|Congress and the Nation|Central Foreign Policy File))[^)]{35,}\)/gi;
+const CITATION_PATTERNS = [
+  {
+    source_type: "public_papers",
+    pattern:
+      /\bPublic Papers:\s*Reagan,\s*\d{4}(?:[-–]\d{4})?,\s*Book\s+[IVX]+,\s*pp?\.\s*[A-Z]?\d+(?:[-–]\d+)?(?:,\s*[A-Z]?\d+(?:[-–][A-Z]?\d+)?)*/gi
+  },
+  {
+    source_type: "department_bulletin",
+    pattern:
+      /\bDepartment of State Bulletin,\s*[A-Z][a-z]+\s+\d{4},\s*pp?\.\s*[A-Z]?\d+(?:[-–]\d+)?(?:,\s*[A-Z]?\d+(?:[-–][A-Z]?\d+)?)*/gi
+  },
+  {
+    source_type: "newspaper",
+    pattern:
+      /\b(?:New York Times|Washington Post),\s*[A-Z][a-z]+\s+\d{1,2},\s*\d{4},\s*pp?\.\s*[A-Z]?\d+(?:[-–][A-Z]?\d+)?(?:,\s*[A-Z]?\d+(?:[-–][A-Z]?\d+)?)*/gi
+  },
+  {
+    source_type: "reagan_diaries",
+    pattern:
+      /\bBrinkley,\s*ed\.,\s*The Reagan Diaries,\s*vol\.\s*[IVX]+,\s*[A-Z][a-z]+\s+\d{4}[-–][A-Z][a-z]+\s+\d{4},\s*p\.\s*\d+/gi
+  },
+  {
+    source_type: "congress_and_the_nation",
+    pattern: /\bCongress and the Nation,\s*vol\.\s*[IVX]+,\s*\d{4}[-–]\d{4},\s*p\.\s*\d+/gi
+  },
+  {
+    source_type: "central_foreign_policy_file",
+    pattern:
+      /\bDepartment of State,\s*Central Foreign Policy File,\s*Electronic Telegrams,\s*[A-Z]\d{6}[-–]\d{4}/gi
+  },
+  {
+    source_type: "presidential_daily_diary",
+    pattern: /\bReagan Library,\s*President[’']s Daily Diary\b/gi
+  },
+  {
+    source_type: "parenthetical_source_citation",
+    pattern:
+      /\((?=[^)]*(?:Public Papers|Department of State Bulletin|New York Times|Washington Post|Reagan Library|Foreign Relations|Brinkley|Congress and the Nation|Central Foreign Policy File))[^)]{35,}\)/gi
+  }
+];
 
 function usage() {
   console.error(
@@ -348,8 +386,38 @@ function detectMalformedReferbacks(unit, forms) {
   }));
 }
 
+function citationText(value) {
+  return String(value || "")
+    .trim()
+    .replace(/^\((.*)\)$/s, "$1")
+    .replace(/^Source:\s*/i, "")
+    .replace(/\s+/g, " ")
+    .replace(/[.;,\s]+$/g, "");
+}
+
 function citationKey(value) {
-  return normalizeForm(value).replace(/\bpp?\b/g, "p");
+  return normalizeForm(citationText(value)).replace(/\bpp?\b/g, "p");
+}
+
+function citationCandidatesForUnit(unit) {
+  const text = unitText(unit);
+  const candidates = [];
+  const seen = new Set();
+  for (const { source_type: sourceType, pattern } of CITATION_PATTERNS) {
+    pattern.lastIndex = 0;
+    for (const match of text.matchAll(pattern)) {
+      const candidateText = citationText(match[0]);
+      const key = citationKey(candidateText);
+      if (!key || seen.has(key)) continue;
+      seen.add(key);
+      candidates.push({
+        matched_text: candidateText,
+        source_type: sourceType,
+        offset: match.index || 0
+      });
+    }
+  }
+  return candidates;
 }
 
 function ordinal(value) {
@@ -371,15 +439,17 @@ function repeatedCitationThresholds(units, repeatThreshold, repeatThresholdActio
   for (const unit of units) {
     const text = unitText(unit);
     if (/\bsee\s+footnote\b/i.test(text) || /\bfootnote\s+\d+\s*,\s*Document\s+\d+\b/i.test(text)) continue;
-    for (const match of text.matchAll(CITATION_PARENTHESES)) {
-      const key = citationKey(match[0]);
+    for (const candidate of citationCandidatesForUnit(unit)) {
+      const key = citationKey(candidate.matched_text);
       if (!key) continue;
       if (!groups.has(key)) groups.set(key, []);
       groups.get(key).push({
         unit_id: unit.unit_id,
         unit_type: unit.unit_type,
         location: unit.location || "",
-        matched_text: match[0]
+        matched_text: candidate.matched_text,
+        source_type: candidate.source_type,
+        offset: candidate.offset
       });
     }
   }

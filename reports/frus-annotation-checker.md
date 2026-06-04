@@ -12347,9 +12347,10 @@ Minimum components:
   `footnote N, Document X`, same-document above/below or local context,
   `Document X and footnote Y thereto`, Document 146-style three-target
   footnote/document clusters, and the separate three-times rule that treats the
-  third full repeat of the same citation as the first human refer-back review
-  trigger and every later full repeat as a continued review unit. The registry
-  carries the `repeat_threshold` and target-confirmation action so
+  third full repeat of the same citation, whether parenthetical or plain
+  source-note text, as the first human refer-back review trigger and every
+  later full repeat as a continued review unit. The registry carries the
+  `repeat_threshold` and target-confirmation action so
   closed-network packets preserve the rule even in small-context runs. It fails
   direct refer-back edits that lack registry support.
 - No-dependency recurring compiler-risk validator, usage audit, and fixtures:
