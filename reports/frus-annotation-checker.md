@@ -303,7 +303,9 @@ For uploaded sheets shaped like the `Foundations Consolidated.docx` exemplar,
 add `--annotation-sheet-profile
 reports/frus-annotation-sheet-profile.sample.json` to packet, chunk, and
 offline-runner commands so the LLM sees flat Word structure, lexical
-unitization, inline `Source:` recognition, and protected pseudo-marker policy.
+unitization, inline `Source:` recognition, protected pseudo-marker policy, and
+Word-assembly evidence for document-boundary page breaks, heading note
+references, and auto-numbering metadata in notes.
 For declassification/omission claims, add `--declassification-registry
 reports/frus-declassification-registry.sample.json` or a target-volume
 replacement to packet, chunk, and offline-runner commands before allowing
@@ -12607,8 +12609,11 @@ Minimum components:
   `reports/frus-annotation-sheet-profile-safe-output.sample.json`, and
   `reports/frus-annotation-sheet-profile-audit.sample.json`. The audit encodes
   the uploaded exemplar's flat Word structure, lexical FRUS apparatus patterns,
-  inline `Source:` recognition, and production pseudo-marker protection; it
-  fails direct edits that touch protected markers or mis-unitize source notes.
+  inline `Source:` recognition, production pseudo-marker protection, and
+  document-assembly checks for missing page-break evidence between document
+  annotations, note references on document headings, and Word numbering
+  metadata on source or follow-on footnotes; it fails direct edits that touch
+  protected markers or mis-unitize source notes and warns on assembly hazards.
 - No-dependency source-note component linter, direct-edit gate, and fixtures:
   `scripts/lint-frus-source-notes.mjs`,
   `scripts/test-frus-source-note-lint.mjs`,
@@ -13186,6 +13191,10 @@ This checker is based on the local file:
   sequence, inline body-note numbers such as `1  Source:`, and production
   pseudo-markers such as `<i>`, `<r>`, `<n>`, `<m>`, and `<1>`, not from Word
   styles alone.
+  Extracted units now also carry `word_structure` metadata for page-break
+  evidence, note references, and Word numbering, allowing the profile audit to
+  flag missing document-boundary page breaks, old first-footnote-on-heading
+  residue, and auto-numbered note paragraphs as spellcheck-style review items.
   This evidence is now encoded as
   `reports/frus-annotation-sheet-profile.sample.json`, and the closed-network
   wrapper can audit extracted units and proposed edits with

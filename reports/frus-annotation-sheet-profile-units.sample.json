@@ -18,6 +18,20 @@
         "char_end": 73
       },
       "paragraph_style": "Normal",
+      "word_structure": {
+        "page_break_before": false,
+        "page_break_before_property": false,
+        "explicit_page_breaks": 0,
+        "starts_with_page_break": false,
+        "ends_with_page_break": false,
+        "has_numbering": false,
+        "numbering_level": "",
+        "numbering_id": "",
+        "footnote_reference_ids": [],
+        "endnote_reference_ids": [],
+        "comment_reference_ids": [],
+        "has_note_reference": false
+      },
       "marker_policy": "preserve_literal",
       "exact_text": "Focus of Research and Principles of Selection for Foreign Relations, 1981<n>1988, Volume I",
       "display_text": "Focus of Research and Principles of Selection for Foreign Relations, 1981-1988, Volume I",
@@ -44,6 +58,20 @@
         "char_end": 154
       },
       "paragraph_style": "Normal",
+      "word_structure": {
+        "page_break_before": false,
+        "page_break_before_property": false,
+        "explicit_page_breaks": 0,
+        "starts_with_page_break": false,
+        "ends_with_page_break": false,
+        "has_numbering": false,
+        "numbering_level": "",
+        "numbering_id": "",
+        "footnote_reference_ids": [],
+        "endnote_reference_ids": [],
+        "comment_reference_ids": [],
+        "has_note_reference": false
+      },
       "marker_policy": "preserve_literal",
       "exact_text": "1  Source: Reagan Library, White House Office of Speechwriting, Research Office Files. No classification marking. For Shultz's account, see <i>Turmoil and Triumph<r>, pp. 123-124.<1>",
       "display_text": "1  Source: Reagan Library, White House Office of Speechwriting, Research Office Files. No classification marking. For Shultz's account, see Turmoil and Triumph, pp. 123-124.",
@@ -70,6 +98,20 @@
         "char_end": 94
       },
       "paragraph_style": "Normal",
+      "word_structure": {
+        "page_break_before": false,
+        "page_break_before_property": false,
+        "explicit_page_breaks": 0,
+        "starts_with_page_break": false,
+        "ends_with_page_break": false,
+        "has_numbering": false,
+        "numbering_level": "",
+        "numbering_id": "",
+        "footnote_reference_ids": [],
+        "endnote_reference_ids": [],
+        "comment_reference_ids": [],
+        "has_note_reference": false
+      },
       "marker_policy": "preserve_literal",
       "exact_text": "Lot 89D149: Policy Planning Staff Files, Director's Files, Chronological Files, 1981<n>1982",
       "display_text": "Lot 89D149: Policy Planning Staff Files, Director's Files, Chronological Files, 1981-1982",

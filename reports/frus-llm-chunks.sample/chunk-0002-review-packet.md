@@ -1,6 +1,6 @@
 # FRUS Annotation Review Packet Chunk
 
-- run_id: sample-chunks
+- run_id: chunk-workflow-test
 - chunk_id: chunk-0002
 - chunk_index: 2
 - chunk_count: 2
@@ -16,7 +16,7 @@ Do not include units outside this chunk. Do not claim to edit the Word file dire
 ```json
 {
   "schema_version": "frus-llm-review-chunk-v1",
-  "run_id": "sample-chunks",
+  "run_id": "chunk-workflow-test",
   "chunk_id": "chunk-0002",
   "chunk_index": 2,
   "chunk_count": 2,
@@ -491,6 +491,11 @@ For production pseudo-marker boundary checks, run
 `node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json`.
 For finished-form annotation-sheet profile checks, run
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units reports/frus-annotation-sheet-profile-units.sample.json --checker-output reports/frus-annotation-sheet-profile-safe-output.sample.json --format text`.
+This profile audit also checks Word-assembly evidence from extracted units:
+missing page-break evidence between document annotations, note references on
+document headings, and Word numbering metadata in source or follow-on
+footnotes. Treat those as spellcheck-style warnings for editor review unless
+the production template supplies another verified boundary rule.
 For sample classification/handling checks, run
 `node scripts/audit-frus-classification-usage.mjs --units reports/frus-classification-units.sample.json --registry reports/frus-classification-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample declassification/omission checks, run
@@ -1642,6 +1647,20 @@ Office pages for:
       "comment_safety": "safe_to_comment",
       "word_part": "word/footnotes.xml",
       "location": "Document 3, footnote 1",
+      "word_structure": {
+        "page_break_before": false,
+        "page_break_before_property": false,
+        "explicit_page_breaks": 0,
+        "starts_with_page_break": false,
+        "ends_with_page_break": false,
+        "has_numbering": false,
+        "numbering_level": "",
+        "numbering_id": "",
+        "footnote_reference_ids": [],
+        "endnote_reference_ids": [],
+        "comment_reference_ids": [],
+        "has_note_reference": false
+      },
       "exact_text": "Source: Reagan Library, Executive Secretariat, NSC Country File, Europe and Soviet Union, USSR, 1981. No classification.",
       "display_text": "Source: Reagan Library, Executive Secretariat, NSC Country File, Europe and Soviet Union, USSR, 1981. No classification.",
       "existing_revisions": false,
@@ -1793,6 +1812,14 @@ Use this to recognize finished-form FRUS annotation-sheet structure when Word st
     {
       "check_id": "FAS-PROFILE-004",
       "description": "Record exemplar/style discrepancies separately for the General Editor rather than normalizing uncertain production conventions."
+    },
+    {
+      "check_id": "FAS-PROFILE-005",
+      "description": "Flag missing page-break evidence between document annotations."
+    },
+    {
+      "check_id": "FAS-PROFILE-006",
+      "description": "Flag heading note references and Word numbering metadata on source notes for production-form review."
     }
   ]
 }

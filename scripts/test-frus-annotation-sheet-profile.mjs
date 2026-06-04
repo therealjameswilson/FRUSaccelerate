@@ -90,6 +90,129 @@ try {
   assert(badUnitResult.status !== 0, "expected source-note lexical misclassification to fail");
   assert(badUnitResult.stdout.includes("lex-source-note-inline"), "expected lexical pattern failure detail");
 
+  const badAssemblyPath = path.join(tmpDir, "bad-assembly-units.json");
+  const badAssemblyUnits = JSON.parse(fs.readFileSync("reports/frus-annotation-sheet-profile-units.sample.json", "utf8"));
+  badAssemblyUnits.units.push(
+    {
+      unit_id: "profile-heading-0004",
+      unit_type: "document_heading",
+      editability: "context_only",
+      edit_safety: "comment_only",
+      comment_safety: "safe_to_comment",
+      word_part: "word/document.xml",
+      location: "Document body, paragraph 4",
+      xml_anchor: {
+        paragraph_index: 4,
+        run_start: 0,
+        run_end: 1,
+        char_start: 0,
+        char_end: 38
+      },
+      paragraph_style: "Heading1",
+      word_structure: {
+        page_break_before: false,
+        explicit_page_breaks: 0,
+        has_numbering: false,
+        footnote_reference_ids: ["1"],
+        endnote_reference_ids: [],
+        comment_reference_ids: [],
+        has_note_reference: true
+      },
+      exact_text: "1. Memorandum From the President",
+      display_text: "1. Memorandum From the President[footnote 1]",
+      surrounding_text: "",
+      existing_revisions: false,
+      existing_comments: [],
+      blocked_boundaries: ["note_reference_boundary"]
+    },
+    {
+      unit_id: "profile-source-note-0005",
+      unit_type: "source_note",
+      editability: "editable",
+      edit_safety: "safe_to_edit",
+      comment_safety: "safe_to_comment",
+      word_part: "word/document.xml",
+      location: "Document body, paragraph 5",
+      xml_anchor: {
+        paragraph_index: 5,
+        run_start: 0,
+        run_end: 0,
+        char_start: 0,
+        char_end: 72
+      },
+      paragraph_style: "Normal",
+      word_structure: {
+        page_break_before: false,
+        explicit_page_breaks: 0,
+        has_numbering: true,
+        numbering_level: "0",
+        numbering_id: "9",
+        footnote_reference_ids: [],
+        endnote_reference_ids: [],
+        comment_reference_ids: [],
+        has_note_reference: false
+      },
+      exact_text: "Source: Reagan Library, Executive Secretariat, NSC Files. Secret.",
+      display_text: "Source: Reagan Library, Executive Secretariat, NSC Files. Secret.",
+      surrounding_text: "1. Memorandum From the President",
+      existing_revisions: false,
+      existing_comments: [],
+      blocked_boundaries: []
+    },
+    {
+      unit_id: "profile-heading-0006",
+      unit_type: "document_heading",
+      editability: "context_only",
+      edit_safety: "comment_only",
+      comment_safety: "safe_to_comment",
+      word_part: "word/document.xml",
+      location: "Document body, paragraph 6",
+      xml_anchor: {
+        paragraph_index: 6,
+        run_start: 0,
+        run_end: 0,
+        char_start: 0,
+        char_end: 34
+      },
+      paragraph_style: "Heading1",
+      word_structure: {
+        page_break_before: false,
+        explicit_page_breaks: 0,
+        has_numbering: false,
+        footnote_reference_ids: [],
+        endnote_reference_ids: [],
+        comment_reference_ids: [],
+        has_note_reference: false
+      },
+      exact_text: "2. Telegram From State to Moscow",
+      display_text: "2. Telegram From State to Moscow",
+      surrounding_text: "1. Memorandum From the President",
+      existing_revisions: false,
+      existing_comments: [],
+      blocked_boundaries: []
+    }
+  );
+  fs.writeFileSync(badAssemblyPath, `${JSON.stringify(badAssemblyUnits, null, 2)}\n`);
+  const badAssemblyResult = runAudit([
+    "--profile",
+    "reports/frus-annotation-sheet-profile.sample.json",
+    "--units",
+    badAssemblyPath,
+    "--format",
+    "json"
+  ]);
+  assert(badAssemblyResult.status === 0, "expected assembly warnings to keep audit non-fatal");
+  const badAssemblyAudit = JSON.parse(badAssemblyResult.stdout);
+  assert(badAssemblyAudit.status === "warning", "expected assembly fixture to warn");
+  assert(badAssemblyAudit.summary.assembly_warnings === 3, "expected three assembly warnings");
+  assert(badAssemblyAudit.summary.heading_note_reference_units === 1, "expected one heading note-reference warning");
+  assert(badAssemblyAudit.summary.note_numbering_units === 1, "expected one source-note numbering warning");
+  assert(badAssemblyAudit.summary.document_headings_without_page_break === 1, "expected one missing page-break warning");
+  assert(
+    badAssemblyAudit.warnings.some((warning) => warning.includes("page-break evidence")),
+    "expected page-break evidence warning"
+  );
+
   const badOutputPath = path.join(tmpDir, "bad-output.json");
   fs.writeFileSync(
     badOutputPath,

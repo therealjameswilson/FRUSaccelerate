@@ -349,7 +349,11 @@ node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-anno
 
    Treat failures as release blockers. They usually mean the wrapper
    mis-unitized a flat `Source:` paragraph, encountered an unmapped angle token,
-   or allowed a direct edit to touch a protected production marker.
+   or allowed a direct edit to touch a protected production marker. Treat
+   profile warnings as production-form review items: missing page-break evidence
+   between document annotations, note references on document headings, and Word
+   numbering metadata on source or follow-on footnotes should be resolved or
+   explicitly cleared before editor handoff.
 
 7. Run status preflight when the packet contains publication-status language:
 
@@ -1058,6 +1062,7 @@ node scripts/test-frus-communications-audit.mjs
 node scripts/lint-frus-source-notes.mjs --units reports/frus-source-note-units.sample.json
 node scripts/test-frus-source-note-lint.mjs
 node scripts/preflight-frus-pseudo-markers.mjs --units reports/frus-pseudo-marker-units.sample.json --output reports/frus-pseudo-marker-safe-output.sample.json
+node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units reports/frus-annotation-sheet-profile-units.sample.json --checker-output reports/frus-annotation-sheet-profile-safe-output.sample.json --format text
 node scripts/build-frus-evidence-queue.mjs --output reports/frus-annotation-checker-sample-output.json --review-mode normal --format text
 node scripts/build-frus-discrepancy-ledger.mjs --output reports/frus-annotation-checker-sample-output.json --run-id sample-fixture --format text
 ```

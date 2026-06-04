@@ -133,6 +133,8 @@ try {
   assert(markdown.includes("Annotation Sheet Profile Context"), "expected annotation-sheet profile section");
   assert(markdown.includes("Foundations Consolidated.docx"), "expected annotation-sheet profile content");
   assert(markdown.includes("lexical_frus_structure"), "expected profile unitization policy");
+  assert(markdown.includes("Word-assembly evidence"), "expected annotation-sheet assembly policy");
+  assert(markdown.includes("Flag missing page-break evidence"), "expected page-break assembly policy");
   assert(markdown.includes("Extracted Status Claims"), "expected status claims section");
   assert(markdown.includes("status-claim-0001"), "expected status claim context");
   assert(markdown.includes("subitem_overlay_candidates"), "expected status subitem overlay metadata");
@@ -315,7 +317,7 @@ try {
   assert(packet.run_id === "packet-smoke-test", "expected run id");
   assert(packet.extracted_units.units.length === 3, "expected three sample units");
   assert(packet.contexts.annotation_sheet_profile.profile_id === "foundations-consolidated-good-form-2026-06-03", "expected annotation-sheet profile context");
-  assert(packet.packet_summary.annotation_sheet_profile_checks === 4, "expected annotation-sheet profile check count");
+  assert(packet.packet_summary.annotation_sheet_profile_checks === 6, "expected annotation-sheet profile check count");
   assert(packet.contexts.status_registry.entries.length === 74, "expected current status entries");
   assert(packet.contexts.status_registry.target_volume.entry_id === "frus1989-92v31", "expected target status entry");
   assert(packet.contexts.status_claims.claims.length === 5, "expected extracted status claims");

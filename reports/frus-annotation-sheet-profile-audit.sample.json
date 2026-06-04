@@ -20,7 +20,13 @@
     "unexpected_angle_tokens": 0,
     "direct_edits_reviewed": 0,
     "direct_edit_marker_conflicts": 0,
-    "direct_edit_safety_conflicts": 0
+    "direct_edit_safety_conflicts": 0,
+    "document_headings_reviewed": 0,
+    "document_headings_without_page_break": 0,
+    "heading_note_reference_units": 0,
+    "word_numbering_units": 0,
+    "note_numbering_units": 0,
+    "assembly_warnings": 0
   },
   "diagnostics": [],
   "warnings": [],

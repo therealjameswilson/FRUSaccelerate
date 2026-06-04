@@ -165,6 +165,24 @@ function validateProfile(profile) {
   if (!Array.isArray(profile.profile_checks) || profile.profile_checks.length === 0) {
     warnings.push("$.profile_checks: no named profile checks supplied");
   }
+  if (profile.document_assembly_policy !== undefined) {
+    if (!isPlainObject(profile.document_assembly_policy)) {
+      errors.push("$.document_assembly_policy: expected object");
+    } else {
+      for (const key of [
+        "warn_missing_page_break_between_documents",
+        "warn_heading_note_references",
+        "warn_word_numbering_in_notes"
+      ]) {
+        if (
+          profile.document_assembly_policy[key] !== undefined &&
+          typeof profile.document_assembly_policy[key] !== "boolean"
+        ) {
+          errors.push(`$.document_assembly_policy.${key}: expected boolean`);
+        }
+      }
+    }
+  }
   return { errors, warnings };
 }
 
@@ -302,6 +320,44 @@ function directEditChecks(output) {
   return output.checks.filter((check) => isPlainObject(check) && DIRECT_ACTIONS.has(check.recommended_action));
 }
 
+function assemblyPolicy(profile) {
+  const policy = profile.document_assembly_policy || {};
+  return {
+    warnMissingPageBreakBetweenDocuments: policy.warn_missing_page_break_between_documents !== false,
+    warnHeadingNoteReferences: policy.warn_heading_note_references !== false,
+    warnWordNumberingInNotes: policy.warn_word_numbering_in_notes !== false
+  };
+}
+
+function unitHasPageBreakBefore(unit) {
+  return Boolean(unit.word_structure?.page_break_before || unit.word_structure?.starts_with_page_break);
+}
+
+function unitHasNoteReference(unit) {
+  return Boolean(
+    unit.word_structure?.has_note_reference ||
+      (Array.isArray(unit.word_structure?.footnote_reference_ids) && unit.word_structure.footnote_reference_ids.length > 0) ||
+      (Array.isArray(unit.word_structure?.endnote_reference_ids) && unit.word_structure.endnote_reference_ids.length > 0)
+  );
+}
+
+function unitHasWordNumbering(unit) {
+  return Boolean(unit.word_structure?.has_numbering);
+}
+
+function addAssemblyDiagnostic({ diagnostics, warnings, summary, unit, severity, category, finding, requiredAction }) {
+  summary.assembly_warnings += 1;
+  warnings.push(`${unit.unit_id}: ${finding}`);
+  diagnostics.push({
+    diagnostic_id: `profile-assembly-${diagnostics.length + 1}`,
+    unit_id: unit.unit_id,
+    severity,
+    category,
+    finding,
+    required_action: requiredAction
+  });
+}
+
 function auditProfileUsage({ profile, unitsDocument, checkerOutput }) {
   const errors = [];
   const warnings = [];
@@ -321,7 +377,13 @@ function auditProfileUsage({ profile, unitsDocument, checkerOutput }) {
     unexpected_angle_tokens: 0,
     direct_edits_reviewed: 0,
     direct_edit_marker_conflicts: 0,
-    direct_edit_safety_conflicts: 0
+    direct_edit_safety_conflicts: 0,
+    document_headings_reviewed: 0,
+    document_headings_without_page_break: 0,
+    heading_note_reference_units: 0,
+    word_numbering_units: 0,
+    note_numbering_units: 0,
+    assembly_warnings: 0
   };
 
   const diagnostics = [];
@@ -335,8 +397,10 @@ function auditProfileUsage({ profile, unitsDocument, checkerOutput }) {
 
   const patterns = compilePatterns(profile, errors);
   const policy = markerPolicy(profile);
+  const assembly = assemblyPolicy(profile);
   const allowedFlatStyles = new Set(profile.style_policy?.allowed_flat_styles || []);
   const unitMap = new Map();
+  let priorDocumentHeading = null;
 
   summary.units_reviewed = unitsDocument.units.length;
   summary.units_by_type = countBy(unitsDocument.units.map((unit) => unit.unit_type));
@@ -344,6 +408,59 @@ function auditProfileUsage({ profile, unitsDocument, checkerOutput }) {
   for (const unit of unitsDocument.units) {
     unitMap.set(unit.unit_id, unit);
     if (allowedFlatStyles.has(unit.paragraph_style || "")) summary.flat_style_units += 1;
+    if (unitHasWordNumbering(unit)) summary.word_numbering_units += 1;
+
+    if (unit.unit_type === "document_heading") {
+      summary.document_headings_reviewed += 1;
+      if (assembly.warnMissingPageBreakBetweenDocuments && priorDocumentHeading && !unitHasPageBreakBefore(unit)) {
+        summary.document_headings_without_page_break += 1;
+        addAssemblyDiagnostic({
+          diagnostics,
+          warnings,
+          summary,
+          unit,
+          severity: "warning",
+          category: "document_boundary",
+          finding: "Document heading lacks page-break evidence from the preceding document annotation.",
+          requiredAction:
+            "Confirm the document boundary in Word and insert or preserve a page break before editor handoff unless the production template manages boundaries separately."
+        });
+      }
+      if (assembly.warnHeadingNoteReferences && unitHasNoteReference(unit)) {
+        summary.heading_note_reference_units += 1;
+        addAssemblyDiagnostic({
+          diagnostics,
+          warnings,
+          summary,
+          unit,
+          severity: "warning",
+          category: "footnote_placement",
+          finding: "Document heading contains a Word note reference.",
+          requiredAction:
+            "Check whether this is the older first-footnote-on-heading practice; move source-note apparatus only after confirming current FRUS placement and Word anchor safety."
+        });
+      }
+      priorDocumentHeading = unit;
+    }
+
+    if (
+      assembly.warnWordNumberingInNotes &&
+      unitHasWordNumbering(unit) &&
+      new Set(["source_note", "follow_on_footnote"]).has(unit.unit_type)
+    ) {
+      summary.note_numbering_units += 1;
+      addAssemblyDiagnostic({
+        diagnostics,
+        warnings,
+        summary,
+        unit,
+        severity: "warning",
+        category: "word_autoformatting",
+        finding: "Source or follow-on footnote carries Word numbering metadata.",
+        requiredAction:
+          "Verify that Word auto-numbering or auto-formatting is not controlling FRUS footnote form before applying tracked changes."
+      });
+    }
 
     const inventory = markerInventory(unit, policy);
     summary.marker_tokens += inventory.allowedMarkers.length;

@@ -125,6 +125,14 @@ function commentIds(xml) {
   return [...ids];
 }
 
+function noteReferenceIds(xml, tagName) {
+  const ids = [];
+  const pattern = new RegExp(`<w:${tagName}Reference\\b[^>]*w:id="([^"]+)"[^>]*\\/>`, "g");
+  let match;
+  while ((match = pattern.exec(xml))) ids.push(decodeXmlText(match[1]));
+  return ids;
+}
+
 function hasExistingRevisions(xml) {
   return /<w:(?:ins|del|moveFrom|moveTo)\b/.test(xml);
 }
@@ -208,6 +216,56 @@ function nextUnitId(counters, unitType) {
   return `${prefix}-${String(next).padStart(4, "0")}`;
 }
 
+function pageBreakInfo(paragraphXml) {
+  const breaks = [...paragraphXml.matchAll(/<w:br\b[^>]*\/>/g)].filter((match) =>
+    /\b(?:w:type|type)="page"/.test(match[0])
+  );
+  return {
+    page_break_before_property: /<w:pageBreakBefore\b/.test(paragraphXml),
+    explicit_page_breaks: breaks.length,
+    starts_with_page_break: /^<w:p\b[\s\S]*?<w:br\b[^>]*(?:w:type|type)="page"[^>]*\/>/i.test(paragraphXml),
+    ends_with_page_break: /<w:br\b[^>]*(?:w:type|type)="page"[^>]*\/>\s*<\/w:r>\s*<\/w:p>\s*$/i.test(paragraphXml)
+  };
+}
+
+function numberingInfo(paragraphXml) {
+  const numPrMatch = paragraphXml.match(/<w:numPr\b[\s\S]*?<\/w:numPr>/);
+  if (!numPrMatch) {
+    return {
+      has_numbering: false,
+      numbering_level: "",
+      numbering_id: ""
+    };
+  }
+  const numPr = numPrMatch[0];
+  const ilvlMatch = numPr.match(/<w:ilvl\b[^>]*>/);
+  const numIdMatch = numPr.match(/<w:numId\b[^>]*>/);
+  return {
+    has_numbering: true,
+    numbering_level: ilvlMatch ? xmlAttribute(ilvlMatch[0], ["w:val", "val"]) : "",
+    numbering_id: numIdMatch ? xmlAttribute(numIdMatch[0], ["w:val", "val"]) : ""
+  };
+}
+
+function wordStructure(paragraphXml, inheritedPageBreakBefore) {
+  const pageBreaks = pageBreakInfo(paragraphXml);
+  const footnoteReferenceIds = noteReferenceIds(paragraphXml, "footnote");
+  const endnoteReferenceIds = noteReferenceIds(paragraphXml, "endnote");
+  const commentReferenceIds = noteReferenceIds(paragraphXml, "comment");
+  return {
+    page_break_before: Boolean(inheritedPageBreakBefore || pageBreaks.page_break_before_property || pageBreaks.starts_with_page_break),
+    page_break_before_property: pageBreaks.page_break_before_property,
+    explicit_page_breaks: pageBreaks.explicit_page_breaks,
+    starts_with_page_break: pageBreaks.starts_with_page_break,
+    ends_with_page_break: pageBreaks.ends_with_page_break,
+    ...numberingInfo(paragraphXml),
+    footnote_reference_ids: footnoteReferenceIds,
+    endnote_reference_ids: endnoteReferenceIds,
+    comment_reference_ids: commentReferenceIds,
+    has_note_reference: footnoteReferenceIds.length > 0 || endnoteReferenceIds.length > 0
+  };
+}
+
 function storyLabel(partKind) {
   if (partKind === "document") return "Document body";
   if (partKind === "footnote") return "Footnote";
@@ -231,11 +289,23 @@ function paragraphLocation({ partKind, partName, noteId, commentId, paragraphInd
   return `Document body, paragraph ${paragraphIndex}`;
 }
 
-function buildUnit({ counters, paragraphXml, partName, partKind, paragraphIndex, noteId, commentId, surroundingText, table }) {
+function buildUnit({
+  counters,
+  paragraphXml,
+  partName,
+  partKind,
+  paragraphIndex,
+  noteId,
+  commentId,
+  surroundingText,
+  table,
+  inheritedPageBreakBefore
+}) {
   const { exactText, displayText } = textFormsFromXml(paragraphXml);
   if (!exactText.trim() && !displayText.trim()) return null;
 
   const style = paragraphStyle(paragraphXml);
+  const structure = wordStructure(paragraphXml, inheritedPageBreakBefore);
   const unitType = unitTypeFor({ text: exactText || displayText, style, partKind });
   const blockedBoundaries = [
     ...new Set([
@@ -274,6 +344,7 @@ function buildUnit({ counters, paragraphXml, partName, partKind, paragraphIndex,
     location: paragraphLocation({ partKind, partName, noteId, commentId, paragraphIndex, table }),
     xml_anchor: xmlAnchor,
     paragraph_style: style,
+    word_structure: structure,
     exact_text: exactText,
     display_text: displayText,
     surrounding_text: surroundingText || "",
@@ -322,6 +393,7 @@ function parseStoryBlocks({ counters, xml, partName, partKind, noteId, commentId
   let paragraphIndex = 0;
   let tableIndex = 0;
   let currentSurroundingText = surroundingText || "";
+  let pendingPageBreakBefore = false;
   let match;
 
   while ((match = blockPattern.exec(xml))) {
@@ -340,6 +412,7 @@ function parseStoryBlocks({ counters, xml, partName, partKind, noteId, commentId
           surroundingText: currentSurroundingText
         })
       );
+      pendingPageBreakBefore = false;
       continue;
     }
 
@@ -352,10 +425,18 @@ function parseStoryBlocks({ counters, xml, partName, partKind, noteId, commentId
       paragraphIndex,
       noteId,
       commentId,
-      surroundingText: currentSurroundingText
+      surroundingText: currentSurroundingText,
+      inheritedPageBreakBefore: pendingPageBreakBefore
     });
-    if (!unit) continue;
+    if (!unit) {
+      const emptyBreakInfo = pageBreakInfo(blockXml);
+      if (emptyBreakInfo.explicit_page_breaks > 0 || emptyBreakInfo.page_break_before_property) {
+        pendingPageBreakBefore = true;
+      }
+      continue;
+    }
     units.push(unit);
+    pendingPageBreakBefore = unit.word_structure.ends_with_page_break;
     if (unit.unit_type === "document_heading" && unit.display_text.trim()) {
       currentSurroundingText = unit.display_text.trim();
     }
@@ -447,6 +528,9 @@ function summarize(units, partNames) {
   let revisionUnits = 0;
   let commentUnits = 0;
   let blockedUnits = 0;
+  let pageBreakBeforeUnits = 0;
+  let numberedUnits = 0;
+  let noteReferenceUnits = 0;
 
   for (const unit of units) {
     countsByType[unit.unit_type] = (countsByType[unit.unit_type] || 0) + 1;
@@ -456,6 +540,9 @@ function summarize(units, partNames) {
     if (unit.existing_revisions) revisionUnits += 1;
     if (unit.existing_comments.length > 0 || unit.word_part === "word/comments.xml") commentUnits += 1;
     if (unit.blocked_boundaries.length > 0) blockedUnits += 1;
+    if (unit.word_structure?.page_break_before) pageBreakBeforeUnits += 1;
+    if (unit.word_structure?.has_numbering) numberedUnits += 1;
+    if (unit.word_structure?.has_note_reference) noteReferenceUnits += 1;
   }
 
   return {
@@ -466,6 +553,9 @@ function summarize(units, partNames) {
     units_with_existing_revisions: revisionUnits,
     units_with_existing_comments: commentUnits,
     units_with_blocked_boundaries: blockedUnits,
+    units_with_page_break_before: pageBreakBeforeUnits,
+    units_with_word_numbering: numberedUnits,
+    units_with_note_references: noteReferenceUnits,
     counts_by_type: countsByType,
     counts_by_part: countsByPart
   };

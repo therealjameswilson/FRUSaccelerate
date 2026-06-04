@@ -88,6 +88,16 @@
       "A direct edit may correct text near markers only when the original_text anchor does not include or split marker tokens."
     ]
   },
+  "document_assembly_policy": {
+    "warn_missing_page_break_between_documents": true,
+    "warn_heading_note_references": true,
+    "warn_word_numbering_in_notes": true,
+    "notes": [
+      "Each selected document annotation should have a visible Word boundary; page-break evidence may come from pageBreakBefore, an explicit page break in the heading paragraph, or an immediately preceding page-break paragraph.",
+      "Flag document headings with Word note references because they can preserve the older first-footnote-on-heading practice.",
+      "Flag Word numbering metadata on source notes and follow-on footnotes because auto-numbering/auto-formatting can mask FRUS note form."
+    ]
+  },
   "lexical_unit_patterns": [
     {
       "pattern_id": "lex-source-note-inline",
@@ -134,6 +144,14 @@
     {
       "check_id": "FAS-PROFILE-004",
       "description": "Record exemplar/style discrepancies separately for the General Editor rather than normalizing uncertain production conventions."
+    },
+    {
+      "check_id": "FAS-PROFILE-005",
+      "description": "Flag missing page-break evidence between document annotations."
+    },
+    {
+      "check_id": "FAS-PROFILE-006",
+      "description": "Flag heading note references and Word numbering metadata on source notes for production-form review."
     }
   ]
 }

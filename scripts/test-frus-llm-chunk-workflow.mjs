@@ -172,7 +172,7 @@ try {
   const manifest = JSON.parse(fs.readFileSync(path.join(outDir, "chunk-manifest.json"), "utf8"));
   assert(manifest.schema_version === "frus-llm-chunk-manifest-v1", "expected chunk manifest schema");
   assert(manifest.chunk_count === 2, `expected two chunks, got ${manifest.chunk_count}`);
-  assert(manifest.summary.annotation_sheet_profile_checks === 4, "expected annotation-sheet profile check count");
+  assert(manifest.summary.annotation_sheet_profile_checks === 6, "expected annotation-sheet profile check count");
   assert(manifest.summary.authority_registry_records === 8, "expected authority registry record count");
   assert(manifest.source_files.annotation_sheet_profile === "reports/frus-annotation-sheet-profile.sample.json", "expected annotation-sheet profile source path");
   assert(manifest.summary.source_list_registry_records === 10, "expected source-list registry record count");
@@ -314,6 +314,8 @@ try {
   const firstPacket = fs.readFileSync(path.join(outDir, "chunk-0001-review-packet.md"), "utf8");
   assert(firstPacket.includes("Annotation Sheet Profile Context"), "expected annotation-sheet profile context in chunk packet");
   assert(firstPacket.includes("Foundations Consolidated.docx"), "expected annotation-sheet profile content in chunk packet");
+  assert(firstPacket.includes("Word-assembly evidence"), "expected annotation-sheet assembly policy in chunk packet");
+  assert(firstPacket.includes("Flag heading note references"), "expected heading note-reference policy in chunk packet");
   assert(firstPacket.includes("Extracted Status Claims"), "expected status claims context in chunk packet");
   assert(firstPacket.includes("Reagan South America/Venezuela"), "expected status subitem overlay instruction in chunk packet");
   assert(firstPacket.includes("Venezuela"), "expected Venezuela status registry content in chunk packet");

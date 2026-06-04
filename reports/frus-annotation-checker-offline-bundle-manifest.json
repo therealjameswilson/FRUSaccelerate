@@ -549,7 +549,7 @@
     },
     {
       "path": "scripts/audit-frus-annotation-sheet-profile.mjs",
-      "role": "Finished-form annotation-sheet profile audit for flat Word structure, lexical unitization, and pseudo-marker safety"
+      "role": "Finished-form annotation-sheet profile audit for flat Word structure, lexical unitization, pseudo-marker safety, document-boundary page breaks, heading note references, and Word numbering metadata"
     },
     {
       "path": "scripts/test-frus-annotation-sheet-profile.mjs",

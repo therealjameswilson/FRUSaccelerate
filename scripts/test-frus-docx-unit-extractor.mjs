@@ -51,9 +51,9 @@ function minimalDocxEntries() {
           `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>` +
             `<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">` +
             `<w:body>` +
-            `<w:p><w:pPr><w:pStyle w:val="Heading1"/></w:pPr><w:r><w:t>1. Memorandum From the President</w:t></w:r></w:p>` +
+            `<w:p><w:pPr><w:pStyle w:val="Heading1"/><w:pageBreakBefore/></w:pPr><w:r><w:t>1. Memorandum From the President</w:t></w:r></w:p>` +
             `<w:p><w:r><w:t>The President approved the recommendation</w:t></w:r><w:r><w:footnoteReference w:id="1"/></w:r></w:p>` +
-            `<w:tbl><w:tr><w:tc><w:p><w:r><w:t>Source list row, Reagan Library, NSC Files.</w:t></w:r></w:p></w:tc></w:tr></w:tbl>` +
+            `<w:tbl><w:tr><w:tc><w:p><w:pPr><w:numPr><w:ilvl w:val="0"/><w:numId w:val="7"/></w:numPr></w:pPr><w:r><w:t>Source list row, Reagan Library, NSC Files.</w:t></w:r></w:p></w:tc></w:tr></w:tbl>` +
             `</w:body>` +
             `</w:document>`,
           "utf8"
@@ -139,6 +139,7 @@ try {
   const heading = extracted.units.find((unit) => unit.unit_type === "document_heading");
   assert(heading, "expected document heading unit");
   assert(heading.surrounding_text === "", "expected first heading to start without prior surrounding text");
+  assert(heading.word_structure.page_break_before === true, "expected heading page-break-before structure");
 
   const sourceNote = extracted.units.find((unit) => unit.unit_type === "source_note");
   assert(sourceNote, "expected a source-note unit");
@@ -151,9 +152,13 @@ try {
   assert(bodyText.display_text.includes("[footnote 1]"), "expected footnote reference in display text");
   assert(!bodyText.exact_text.includes("[footnote 1]"), "expected exact text to omit synthetic footnote label");
   assert(bodyText.blocked_boundaries.includes("note_reference_boundary"), "expected note-reference boundary block");
+  assert(bodyText.word_structure.has_note_reference === true, "expected body text note-reference structure");
+  assert(bodyText.word_structure.footnote_reference_ids.includes("1"), "expected footnote reference id");
 
   const tableUnit = extracted.units.find((unit) => unit.blocked_boundaries.includes("table_cell_boundary"));
   assert(tableUnit, "expected table cell unit to be marked with table boundary");
+  assert(tableUnit.word_structure.has_numbering === true, "expected table unit numbering structure");
+  assert(tableUnit.word_structure.numbering_id === "7", "expected table unit numbering id");
 
   const revisedUnit = extracted.units.find((unit) => unit.existing_revisions === true);
   assert(revisedUnit, "expected unit with existing revisions");

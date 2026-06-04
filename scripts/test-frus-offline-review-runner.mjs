@@ -531,6 +531,16 @@ try {
   assert(audit.counts.annotation_sheet_profile_lexical_misclassifications === 0, "expected zero profile lexical misses");
   assert(audit.counts.annotation_sheet_profile_unexpected_angle_tokens === 0, "expected zero profile unexpected angle tokens");
   assert(audit.counts.annotation_sheet_profile_direct_edit_marker_conflicts === 0, "expected zero profile marker conflicts");
+  assert(audit.counts.annotation_sheet_profile_assembly_warnings === 0, "expected zero profile assembly warnings");
+  assert(
+    audit.counts.annotation_sheet_profile_missing_page_break_headings === 0,
+    "expected zero missing page-break heading warnings"
+  );
+  assert(
+    audit.counts.annotation_sheet_profile_heading_note_references === 0,
+    "expected zero heading note-reference warnings"
+  );
+  assert(audit.counts.annotation_sheet_profile_note_numbering_units === 0, "expected zero note numbering warnings");
   assert(audit.counts.review_coverage_unreviewed_units === 0, "expected no unreviewed reviewable units");
 
   for (const artifact of [
