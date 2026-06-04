@@ -107,6 +107,14 @@ try {
     "expected threshold-driven repeated-citation warning"
   );
   assert(
+    report.warnings.some((warning) => warning.includes("the 3rd occurrence itself is the first refer-back review trigger")),
+    "expected third occurrence itself to be the refer-back trigger"
+  );
+  assert(
+    report.warnings.some((warning) => warning.includes("do not wait for a fourth occurrence")),
+    "expected warning not to wait for a fourth occurrence"
+  );
+  assert(
     report.repeated_citation_thresholds[0].occurrence_count === 5,
     "expected third and later repeated citations, including mixed refer-back notes, to trigger refer-back reminder"
   );

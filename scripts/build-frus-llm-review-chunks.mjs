@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--source-family-registry registry.json] [--source-surrogate-registry registry.json] [--document-status-lifecycle-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--editorial-method-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--handwritten-transcription-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--meeting-attendance-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--release-apparatus-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--source-family-registry registry.json] [--source-surrogate-registry registry.json] [--document-status-lifecycle-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--editorial-method-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--handwritten-transcription-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--meeting-attendance-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--release-apparatus-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--cross-reference-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -64,6 +64,7 @@ function parseArgs(argv) {
   let intelligenceLawEnforcementRegistryPath = null;
   let humanRightsRefugeeGlobalIssuesRegistryPath = null;
   let footnoteReferbackRegistryPath = null;
+  let crossReferenceRegistryPath = null;
   let recurringRiskRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
@@ -192,6 +193,9 @@ function parseArgs(argv) {
     } else if (arg === "--footnote-referback-registry") {
       footnoteReferbackRegistryPath = argv[index + 1];
       index += 1;
+    } else if (arg === "--cross-reference-registry") {
+      crossReferenceRegistryPath = argv[index + 1];
+      index += 1;
     } else if (arg === "--recurring-risk-registry") {
       recurringRiskRegistryPath = argv[index + 1];
       index += 1;
@@ -281,6 +285,7 @@ function parseArgs(argv) {
     intelligenceLawEnforcementRegistryPath,
     humanRightsRefugeeGlobalIssuesRegistryPath,
     footnoteReferbackRegistryPath,
+    crossReferenceRegistryPath,
     recurringRiskRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
@@ -1482,6 +1487,41 @@ function compactFootnoteReferbackRegistry(registry, targetVolume) {
   };
 }
 
+function compactCrossReferenceRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  return {
+    schema_version: registry.schema_version,
+    cross_reference_registry_id: registry.cross_reference_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    target_volume: targetVolume,
+    target_records: targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [],
+    records: records.map((record) => ({
+      cross_reference_id: record.cross_reference_id,
+      volume_id: record.volume_id,
+      source_document_id: record.source_document_id,
+      source_document_number: record.source_document_number,
+      source_unit_label: record.source_unit_label,
+      reference_type: record.reference_type,
+      approved_phrase: record.approved_phrase,
+      target_volume_id: record.target_volume_id,
+      target_document_id: record.target_document_id,
+      target_document_number: record.target_document_number,
+      target_footnote: record.target_footnote,
+      target_chapter_or_part: record.target_chapter_or_part,
+      direction: record.direction,
+      publication_status: record.publication_status,
+      required_slug_elements: record.required_slug_elements || [],
+      variant_forms: record.variant_forms || [],
+      cross_reference_basis: record.cross_reference_basis,
+      source_url: record.source_url,
+      target_url: record.target_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactRecurringRiskRegistry(registry) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -1563,6 +1603,7 @@ function renderPacket({
   intelligenceLawEnforcementRegistry,
   humanRightsRefugeeGlobalIssuesRegistry,
   footnoteReferbackRegistry,
+  crossReferenceRegistry,
   recurringRiskRegistry,
   negativeSearchRegistry,
   documentRelationshipRegistry,
@@ -1812,6 +1853,12 @@ function renderPacket({
     "",
     fencedJson(footnoteReferbackRegistry || {}),
     "",
+    "## Cross-Reference Registry Context",
+    "",
+    "Use this to check same-volume `Document XX` references, footnote targets, attachment/tab/appendix references, related-volume scheduled-publication or also-printed references, document ranges, and compiler slugs/clues. Do not invent target documents, target footnotes, target volumes, chapter labels, or above/below/related-volume direction. Direct edits require target-volume registry support with date, sender/recipient, document type, and direction or volume/chapter context.",
+    "",
+    fencedJson(crossReferenceRegistry || {}),
+    "",
     "## Recurring Compiler Risk Registry Context",
     "",
     "Use this as a practical spellcheck list for recurring compiler mistakes: leading-zero telegram numbers, non-State telegram copies without eRecords/drafting checks, incomplete cross-reference slugs, missing page breaks, old heading-footnote practice, Word autoformatting, incomplete documents or source notes, unhighlighted quoted backup text, missing telegram headers/film numbers, and Style Guide inconsistency. Treat these as generalized risk checks, not as personal criticism.",
@@ -1926,6 +1973,7 @@ function buildChunks(options) {
   const footnoteReferbackRegistry = options.footnoteReferbackRegistryPath
     ? readJson(options.footnoteReferbackRegistryPath)
     : null;
+  const crossReferenceRegistry = options.crossReferenceRegistryPath ? readJson(options.crossReferenceRegistryPath) : null;
   const recurringRiskRegistry = options.recurringRiskRegistryPath ? readJson(options.recurringRiskRegistryPath) : null;
   const router = options.preparationRouterPath ? readJson(options.preparationRouterPath) : null;
   const matrix = options.permutationMatrixPath ? readJson(options.permutationMatrixPath) : null;
@@ -2011,6 +2059,7 @@ function buildChunks(options) {
     footnoteReferbackRegistry,
     options.targetVolume
   );
+  const crossReferenceRegistryContext = compactCrossReferenceRegistry(crossReferenceRegistry, options.targetVolume);
   const recurringRiskRegistryContext = compactRecurringRiskRegistry(recurringRiskRegistry);
   const annotationSheetProfileContext = compactAnnotationSheetProfile(annotationSheetProfile);
   const unitChunks = chunkUnits(unitsDocument.units, options.maxUnits, options.maxChars);
@@ -2092,6 +2141,9 @@ function buildChunks(options) {
       footnote_referback_registry: options.footnoteReferbackRegistryPath
         ? normalizePathForOutput(options.footnoteReferbackRegistryPath)
         : "",
+      cross_reference_registry: options.crossReferenceRegistryPath
+        ? normalizePathForOutput(options.crossReferenceRegistryPath)
+        : "",
       recurring_risk_registry: options.recurringRiskRegistryPath ? normalizePathForOutput(options.recurringRiskRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
@@ -2139,6 +2191,7 @@ function buildChunks(options) {
       human_rights_refugee_global_issues_registry_records:
         humanRightsRefugeeGlobalIssuesRegistry?.records?.length || 0,
       footnote_referback_registry_records: footnoteReferbackRegistry?.records?.length || 0,
+      cross_reference_registry_records: crossReferenceRegistry?.records?.length || 0,
       recurring_risk_registry_records: recurringRiskRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
       document_relationship_registry_records: documentRelationshipRegistry?.records?.length || 0,
@@ -2211,6 +2264,7 @@ function buildChunks(options) {
         intelligenceLawEnforcementRegistry: intelligenceLawEnforcementRegistryContext,
         humanRightsRefugeeGlobalIssuesRegistry: humanRightsRefugeeGlobalIssuesRegistryContext,
         footnoteReferbackRegistry: footnoteReferbackRegistryContext,
+        crossReferenceRegistry: crossReferenceRegistryContext,
         recurringRiskRegistry: recurringRiskRegistryContext,
         negativeSearchRegistry: negativeSearchRegistryContext,
         documentRelationshipRegistry: documentRelationshipRegistryContext,

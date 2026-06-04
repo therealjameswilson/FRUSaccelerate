@@ -1,6 +1,6 @@
 # FRUS Annotation Review Packet Chunk
 
-- run_id: chunk-sample
+- run_id: sample-chunks
 - chunk_id: chunk-0001
 - chunk_index: 1
 - chunk_count: 2
@@ -16,7 +16,7 @@ Do not include units outside this chunk. Do not claim to edit the Word file dire
 ```json
 {
   "schema_version": "frus-llm-review-chunk-v1",
-  "run_id": "chunk-sample",
+  "run_id": "sample-chunks",
   "chunk_id": "chunk-0001",
   "chunk_index": 1,
   "chunk_count": 2,
@@ -153,6 +153,9 @@ For human-rights/refugee/global-issues validation and direct-edit safety, run
 For footnote refer-back validation and direct-edit safety, run
 `node scripts/validate-frus-footnote-referback-registry.mjs --registry reports/frus-footnote-referback-registry.sample.json --format text` and
 `node scripts/audit-frus-footnote-referback-usage.mjs --units extracted-units.json --registry reports/frus-footnote-referback-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For cross-reference validation and direct-edit safety, run
+`node scripts/validate-frus-cross-reference-registry.mjs --registry reports/frus-cross-reference-registry.sample.json --format text` and
+`node scripts/audit-frus-cross-reference-usage.mjs --units extracted-units.json --registry reports/frus-cross-reference-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For recurring compiler-risk spellcheck validation, run
 `node scripts/validate-frus-recurring-risk-registry.mjs --registry reports/frus-recurring-risk-registry.sample.json --format text` and
 `node scripts/audit-frus-recurring-risk-usage.mjs --units extracted-units.json --registry reports/frus-recurring-risk-registry.sample.json --checker-output output.json --format text`.
@@ -431,6 +434,19 @@ available. Do not directly replace a repeated full citation with a guessed
 registry with
 `scripts/validate-frus-footnote-referback-registry.mjs` before direct
 refer-back edits.
+For real Reagan/Bush 1981-1992 cross-reference review, replace the sample
+cross-reference registry with target-volume examples for same-volume `See
+Document XX` references, footnote targets, attachment/tab/appendix references,
+related-volume scheduled-publication language, also-printed notes, and
+document ranges. Bush START I models `Attached but not printed. See Document
+10`, `See Document 196`, and related-volume high-level contacts scheduled for
+publication; Reagan Foundations models `Also printed in Foreign Relations,
+1981-1988, vol. VI... Document 77`, Packard Commission related-volume routing,
+and Shultz Moscow document ranges. Direct edits must not invent target
+documents, target footnotes, target volumes, chapter labels, or above/below
+direction. Compiler slugs and clues should carry date, sender/recipient,
+document type, and above/below/chapter or volume direction before the checker
+can do anything stronger than comment-only.
 For every Reagan/Bush 1981-1992 sheet, keep the recurring-risk registry in the
 packet unless a project-specific version supersedes it. It should check for
 leading-zero telegram numbers, non-State telegram copies without eRecords or
@@ -11307,6 +11323,439 @@ Use this to check repeated-reference footnote discipline in follow-on footnotes 
       "rule_basis": "Document 318 models explicit same-document `above` punctuation in a later footnote and shows that a valid same-note refer-back does not settle separate repeated Public Papers citation review.",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d318",
       "verification_status": "verified_published_form"
+    }
+  ]
+}
+```
+
+## Cross-Reference Registry Context
+
+Use this to check same-volume `Document XX` references, footnote targets, attachment/tab/appendix references, related-volume scheduled-publication or also-printed references, document ranges, and compiler slugs/clues. Do not invent target documents, target footnotes, target volumes, chapter labels, or above/below/related-volume direction. Direct edits require target-volume registry support with date, sender/recipient, document type, and direction or volume/chapter context.
+
+```json
+{
+  "schema_version": "frus-cross-reference-registry-v1",
+  "cross_reference_registry_id": "frus-cross-reference-registry-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d49",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d126",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d198",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d269",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d309"
+  ],
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "cross_reference_id": "xref-v31-d8-fn2-d10",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d8",
+      "source_document_number": "8",
+      "source_unit_label": "footnote 2",
+      "reference_type": "attachment_target_document",
+      "approved_phrase": "Attached but not printed. See Document 10",
+      "target_volume_id": "frus1989-92v31",
+      "target_document_id": "frus1989-92v31/d10",
+      "target_document_number": "10",
+      "target_footnote": "",
+      "target_chapter_or_part": "",
+      "direction": "below",
+      "publication_status": "same_volume_published",
+      "cross_reference_basis": "Document 8 footnote 2 points the unprinted attachment to a separately printed target document.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d10",
+      "verification_status": "verified_published_cross_reference",
+      "required_slug_elements": [
+        "date",
+        "sender_recipient",
+        "type",
+        "direction"
+      ],
+      "variant_forms": [
+        "See Document 10",
+        "Attached but not printed. See Document 10."
+      ]
+    },
+    {
+      "cross_reference_id": "xref-v31-d49-fn2-d34",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d49",
+      "source_document_number": "49",
+      "source_unit_label": "footnote 2",
+      "reference_type": "same_volume_document",
+      "approved_phrase": "See Document 34",
+      "target_volume_id": "frus1989-92v31",
+      "target_document_id": "frus1989-92v31/d34",
+      "target_document_number": "34",
+      "target_footnote": "",
+      "target_chapter_or_part": "",
+      "direction": "above",
+      "publication_status": "same_volume_published",
+      "cross_reference_basis": "START I footnote form for a concise same-volume document reference.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d49",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d34",
+      "verification_status": "verified_published_cross_reference",
+      "required_slug_elements": [
+        "date",
+        "sender_recipient",
+        "type",
+        "direction"
+      ],
+      "variant_forms": [
+        "see Document 34"
+      ]
+    },
+    {
+      "cross_reference_id": "xref-v31-d126-ednote-d125",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d126",
+      "source_document_number": "126",
+      "source_unit_label": "editorial note",
+      "reference_type": "same_volume_document",
+      "approved_phrase": "see Document 125",
+      "target_volume_id": "frus1989-92v31",
+      "target_document_id": "frus1989-92v31/d125",
+      "target_document_number": "125",
+      "target_footnote": "",
+      "target_chapter_or_part": "",
+      "direction": "above",
+      "publication_status": "same_volume_published",
+      "cross_reference_basis": "START I editorial-note form for a same-volume reference inside narrative text.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d126",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d125",
+      "verification_status": "verified_published_cross_reference",
+      "required_slug_elements": [
+        "date",
+        "sender_recipient",
+        "type",
+        "direction"
+      ],
+      "variant_forms": [
+        "See Document 125"
+      ]
+    },
+    {
+      "cross_reference_id": "xref-v31-d126-ednote-vol3",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d126",
+      "source_document_number": "126",
+      "source_unit_label": "editorial note",
+      "reference_type": "related_volume_scheduled_publication",
+      "approved_phrase": "scheduled for publication in Foreign Relations, 1989-1992, vol. III, Soviet Union, Russia, and Post-Soviet States: High-Level Contacts",
+      "target_volume_id": "frus1989-92v03",
+      "target_document_id": "",
+      "target_document_number": "",
+      "target_footnote": "",
+      "target_chapter_or_part": "Soviet Union, Russia, and Post-Soviet States: High-Level Contacts",
+      "direction": "related_volume",
+      "publication_status": "being_cleared_or_in_preparation",
+      "cross_reference_basis": "START I Document 126 uses a related-volume scheduled-publication cross-reference for high-level Soviet/Russian contacts.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d126",
+      "target_url": "",
+      "verification_status": "verified_published_cross_reference",
+      "required_slug_elements": [
+        "date",
+        "sender_recipient",
+        "type",
+        "volume_direction"
+      ],
+      "variant_forms": [
+        "scheduled for publication ibid."
+      ]
+    },
+    {
+      "cross_reference_id": "xref-v31-d198-fn4-d196",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d198",
+      "source_document_number": "198",
+      "source_unit_label": "footnote 4",
+      "reference_type": "same_volume_document",
+      "approved_phrase": "See Document 196",
+      "target_volume_id": "frus1989-92v31",
+      "target_document_id": "frus1989-92v31/d196",
+      "target_document_number": "196",
+      "target_footnote": "",
+      "target_chapter_or_part": "",
+      "direction": "above",
+      "publication_status": "same_volume_published",
+      "cross_reference_basis": "START I Document 198 footnote 4 refers back to the source meeting at Document 196.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d198",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d196",
+      "verification_status": "verified_published_cross_reference",
+      "required_slug_elements": [
+        "date",
+        "sender_recipient",
+        "type",
+        "direction"
+      ],
+      "variant_forms": [
+        "see Document 196"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "cross_reference_id": "xref-v31-d8-fn2-d10",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d8",
+      "source_document_number": "8",
+      "source_unit_label": "footnote 2",
+      "reference_type": "attachment_target_document",
+      "approved_phrase": "Attached but not printed. See Document 10",
+      "target_volume_id": "frus1989-92v31",
+      "target_document_id": "frus1989-92v31/d10",
+      "target_document_number": "10",
+      "target_footnote": "",
+      "target_chapter_or_part": "",
+      "direction": "below",
+      "publication_status": "same_volume_published",
+      "required_slug_elements": [
+        "date",
+        "sender_recipient",
+        "type",
+        "direction"
+      ],
+      "variant_forms": [
+        "See Document 10",
+        "Attached but not printed. See Document 10."
+      ],
+      "cross_reference_basis": "Document 8 footnote 2 points the unprinted attachment to a separately printed target document.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d8",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d10",
+      "verification_status": "verified_published_cross_reference"
+    },
+    {
+      "cross_reference_id": "xref-v31-d49-fn2-d34",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d49",
+      "source_document_number": "49",
+      "source_unit_label": "footnote 2",
+      "reference_type": "same_volume_document",
+      "approved_phrase": "See Document 34",
+      "target_volume_id": "frus1989-92v31",
+      "target_document_id": "frus1989-92v31/d34",
+      "target_document_number": "34",
+      "target_footnote": "",
+      "target_chapter_or_part": "",
+      "direction": "above",
+      "publication_status": "same_volume_published",
+      "required_slug_elements": [
+        "date",
+        "sender_recipient",
+        "type",
+        "direction"
+      ],
+      "variant_forms": [
+        "see Document 34"
+      ],
+      "cross_reference_basis": "START I footnote form for a concise same-volume document reference.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d49",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d34",
+      "verification_status": "verified_published_cross_reference"
+    },
+    {
+      "cross_reference_id": "xref-v31-d126-ednote-d125",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d126",
+      "source_document_number": "126",
+      "source_unit_label": "editorial note",
+      "reference_type": "same_volume_document",
+      "approved_phrase": "see Document 125",
+      "target_volume_id": "frus1989-92v31",
+      "target_document_id": "frus1989-92v31/d125",
+      "target_document_number": "125",
+      "target_footnote": "",
+      "target_chapter_or_part": "",
+      "direction": "above",
+      "publication_status": "same_volume_published",
+      "required_slug_elements": [
+        "date",
+        "sender_recipient",
+        "type",
+        "direction"
+      ],
+      "variant_forms": [
+        "See Document 125"
+      ],
+      "cross_reference_basis": "START I editorial-note form for a same-volume reference inside narrative text.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d126",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d125",
+      "verification_status": "verified_published_cross_reference"
+    },
+    {
+      "cross_reference_id": "xref-v31-d126-ednote-vol3",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d126",
+      "source_document_number": "126",
+      "source_unit_label": "editorial note",
+      "reference_type": "related_volume_scheduled_publication",
+      "approved_phrase": "scheduled for publication in Foreign Relations, 1989-1992, vol. III, Soviet Union, Russia, and Post-Soviet States: High-Level Contacts",
+      "target_volume_id": "frus1989-92v03",
+      "target_document_id": "",
+      "target_document_number": "",
+      "target_footnote": "",
+      "target_chapter_or_part": "Soviet Union, Russia, and Post-Soviet States: High-Level Contacts",
+      "direction": "related_volume",
+      "publication_status": "being_cleared_or_in_preparation",
+      "required_slug_elements": [
+        "date",
+        "sender_recipient",
+        "type",
+        "volume_direction"
+      ],
+      "variant_forms": [
+        "scheduled for publication ibid."
+      ],
+      "cross_reference_basis": "START I Document 126 uses a related-volume scheduled-publication cross-reference for high-level Soviet/Russian contacts.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d126",
+      "target_url": "",
+      "verification_status": "verified_published_cross_reference"
+    },
+    {
+      "cross_reference_id": "xref-v31-d198-fn4-d196",
+      "volume_id": "frus1989-92v31",
+      "source_document_id": "frus1989-92v31/d198",
+      "source_document_number": "198",
+      "source_unit_label": "footnote 4",
+      "reference_type": "same_volume_document",
+      "approved_phrase": "See Document 196",
+      "target_volume_id": "frus1989-92v31",
+      "target_document_id": "frus1989-92v31/d196",
+      "target_document_number": "196",
+      "target_footnote": "",
+      "target_chapter_or_part": "",
+      "direction": "above",
+      "publication_status": "same_volume_published",
+      "required_slug_elements": [
+        "date",
+        "sender_recipient",
+        "type",
+        "direction"
+      ],
+      "variant_forms": [
+        "see Document 196"
+      ],
+      "cross_reference_basis": "START I Document 198 footnote 4 refers back to the source meeting at Document 196.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d198",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d196",
+      "verification_status": "verified_published_cross_reference"
+    },
+    {
+      "cross_reference_id": "xref-v01-d269-fn6-v44p1",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d269",
+      "source_document_number": "269",
+      "source_unit_label": "footnote 6",
+      "reference_type": "related_volume_scheduled_publication",
+      "approved_phrase": "Additional documentation on the Packard Commission is scheduled for publication in Foreign Relations, 1981-1988, vol. XLIV, Part 1, National Security Policy, 1985-1988",
+      "target_volume_id": "frus1981-88v44p1",
+      "target_document_id": "",
+      "target_document_number": "",
+      "target_footnote": "",
+      "target_chapter_or_part": "National Security Policy, 1985-1988",
+      "direction": "related_volume",
+      "publication_status": "published_2025",
+      "required_slug_elements": [
+        "date",
+        "sender_recipient",
+        "type",
+        "volume_direction"
+      ],
+      "variant_forms": [
+        "scheduled for publication in Foreign Relations, 1981-1988, vol. XLIV, Part 1, National Security Policy, 1985-1988"
+      ],
+      "cross_reference_basis": "Reagan Foundations points readers to the later national security policy volume for Packard Commission documentation.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d269",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1",
+      "verification_status": "verified_published_cross_reference"
+    },
+    {
+      "cross_reference_id": "xref-v01-d309-fn1-v06-d77",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d309",
+      "source_document_number": "309",
+      "source_unit_label": "footnote 1",
+      "reference_type": "related_volume_also_printed",
+      "approved_phrase": "Also printed in Foreign Relations, 1981-1988, vol. VI, Soviet Union, October 1986-January 1989, Document 77",
+      "target_volume_id": "frus1981-88v06",
+      "target_document_id": "frus1981-88v06/d77",
+      "target_document_number": "77",
+      "target_footnote": "",
+      "target_chapter_or_part": "",
+      "direction": "related_volume",
+      "publication_status": "related_volume_published",
+      "required_slug_elements": [
+        "date",
+        "sender_recipient",
+        "type",
+        "volume_direction"
+      ],
+      "variant_forms": [
+        "printed in Foreign Relations, 1981-1988, vol. VI, Soviet Union, October 1986-January 1989, Document 77"
+      ],
+      "cross_reference_basis": "Reagan Foundations source note gives the alternate printed location for the same document.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d309",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v06/d77",
+      "verification_status": "verified_published_cross_reference"
+    },
+    {
+      "cross_reference_id": "xref-v01-d309-fn3-v06-docs80-85",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d309",
+      "source_document_number": "309",
+      "source_unit_label": "footnote 3",
+      "reference_type": "related_volume_document_range",
+      "approved_phrase": "For the record of Shultz's meetings in Moscow, see Foreign Relations, 1981-1988, vol. VI, Soviet Union, October 1986-January 1989, Documents 80-85",
+      "target_volume_id": "frus1981-88v06",
+      "target_document_id": "",
+      "target_document_number": "",
+      "target_footnote": "",
+      "target_chapter_or_part": "Documents 80-85",
+      "direction": "related_volume",
+      "publication_status": "related_volume_published",
+      "required_slug_elements": [
+        "date",
+        "sender_recipient",
+        "type",
+        "volume_direction"
+      ],
+      "variant_forms": [
+        "see Foreign Relations, 1981-1988, vol. VI, Soviet Union, October 1986-January 1989, Documents 80-85"
+      ],
+      "cross_reference_basis": "Reagan Foundations uses a document-range cross-reference for Shultz's Moscow meetings.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d309",
+      "target_url": "https://history.state.gov/historicaldocuments/frus1981-88v06",
+      "verification_status": "verified_published_cross_reference"
+    },
+    {
+      "cross_reference_id": "xref-v01-d309-fn4-v19",
+      "volume_id": "frus1981-88v01",
+      "source_document_id": "frus1981-88v01/d309",
+      "source_document_number": "309",
+      "source_unit_label": "footnote 4",
+      "reference_type": "related_volume_scheduled_publication",
+      "approved_phrase": "scheduled for publication in Foreign Relations, 1981-1988, vol. XIX, Arab-Israeli Dispute",
+      "target_volume_id": "frus1981-88v19",
+      "target_document_id": "",
+      "target_document_number": "",
+      "target_footnote": "",
+      "target_chapter_or_part": "Arab-Israeli Dispute",
+      "direction": "related_volume",
+      "publication_status": "being_researched_or_in_preparation",
+      "required_slug_elements": [
+        "date",
+        "sender_recipient",
+        "type",
+        "volume_direction"
+      ],
+      "variant_forms": [
+        "scheduled for publication ibid."
+      ],
+      "cross_reference_basis": "Reagan Foundations uses a related-volume scheduled-publication reference for Arab-Israeli documentation.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d309",
+      "target_url": "",
+      "verification_status": "verified_published_cross_reference"
     }
   ]
 }

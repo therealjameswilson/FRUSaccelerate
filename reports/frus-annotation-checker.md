@@ -12532,6 +12532,21 @@ Minimum components:
   closed-network packets preserve the rule even in small-context runs. It fails
   direct refer-back edits and direct repeated-citation replacements that lack
   registry support.
+- No-dependency cross-reference registry validator, usage audit, and fixtures:
+  `scripts/validate-frus-cross-reference-registry.mjs`,
+  `scripts/audit-frus-cross-reference-usage.mjs`,
+  `reports/frus-cross-reference-registry.sample.json`,
+  `reports/frus-cross-reference-units.sample.json`, and
+  `reports/frus-cross-reference-audit.sample.json`. The audit checks
+  same-volume `Document XX` references, footnote targets, attachment/tab and
+  appendix references, related-volume scheduled-publication and also-printed
+  language, document ranges, target-volume variants, unmatched `See Document`
+  units, and incomplete compiler slugs/clues. Bush START I supplies models
+  such as `Attached but not printed. See Document 10`, `See Document 196`,
+  and related-volume high-level contacts; Reagan Foundations supplies
+  also-printed, Packard Commission, and Shultz Moscow document-range models.
+  Direct edits fail unless the target-volume registry supports the exact
+  target document, footnote, volume/chapter, direction, and slug context.
 - No-dependency recurring compiler-risk validator, usage audit, and fixtures:
   `scripts/validate-frus-recurring-risk-registry.mjs`,
   `scripts/audit-frus-recurring-risk-usage.mjs`,
@@ -12796,7 +12811,7 @@ Minimum components:
   financial institutions, treaty parties, selected-source roles, venue roles,
   policy-subject roles, copy provenance, translation status, concurrence basis,
   and publication details before tracked changes are applied.
-- Cross-reference registry validator that checks same-volume documents,
+- Expanded cross-reference registry coverage for same-volume documents,
   footnotes, appendix items, tabs, attachments, public-source references,
   scheduled-publication targets, and cross-volume publication status before
   tracked changes are applied.

@@ -528,7 +528,7 @@ function repeatedCitationWarning(threshold) {
       ? "First full citation occurrence may stand"
       : `First ${countWord(allowedCount)} full citation occurrences may stand`;
   const trigger = ordinal(threshold.repeat_threshold || 0);
-  return `${threshold.review_units.map((unit) => unit.unit_id).join(",")}: ${threshold.finding} ${allowedPhrase}; flag the ${trigger} occurrence and every later occurrence for target confirmation.`;
+  return `${threshold.review_units.map((unit) => unit.unit_id).join(",")}: ${threshold.finding} ${allowedPhrase}; the ${trigger} occurrence itself is the first refer-back review trigger, so do not wait for a fourth occurrence; flag every later occurrence for target confirmation too.`;
 }
 
 function directEditConflicts(output, registry, matchesByUnit, diagnosticsByUnit) {

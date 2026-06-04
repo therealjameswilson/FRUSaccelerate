@@ -488,6 +488,18 @@
       "role": "Self-contained footnote refer-back registry and usage audit smoke test"
     },
     {
+      "path": "scripts/validate-frus-cross-reference-registry.mjs",
+      "role": "Cross-reference registry validator for same-volume, related-volume, document-range, and slug/clue forms"
+    },
+    {
+      "path": "scripts/audit-frus-cross-reference-usage.mjs",
+      "role": "Cross-reference usage audit for extracted Word units, incomplete slugs, variants, unmatched references, and direct-edit safety"
+    },
+    {
+      "path": "scripts/test-frus-cross-reference-audit.mjs",
+      "role": "Self-contained cross-reference registry and usage audit smoke test"
+    },
+    {
       "path": "scripts/validate-frus-recurring-risk-registry.mjs",
       "role": "Recurring compiler-risk registry validator for common FRUS annotation-sheet failure modes"
     },
@@ -683,6 +695,9 @@
     "reports/frus-footnote-referback-registry.sample.json",
     "reports/frus-footnote-referback-units.sample.json",
     "reports/frus-footnote-referback-audit.sample.json",
+    "reports/frus-cross-reference-registry.sample.json",
+    "reports/frus-cross-reference-units.sample.json",
+    "reports/frus-cross-reference-audit.sample.json",
     "reports/frus-recurring-risk-registry.sample.json",
     "reports/frus-recurring-risk-units.sample.json",
     "reports/frus-recurring-risk-audit.sample.json",
@@ -843,6 +858,10 @@
       "role": "Published Reagan Foundations footnote refer-back sample for repeated citations, the three-times threshold, standalone and sentence-embedded cross-document forms, plural footnotes, mixed footnote/document references, mixed refer-back/full-citation notes, same-document context, thereto references, and multi-target clusters"
     },
     {
+      "path": "reports/frus-cross-reference-registry.sample.json",
+      "role": "Published Bush START I and Reagan Foundations sample for same-volume Document references, related-volume scheduled-publication and also-printed references, document ranges, and compiler slug/clue completeness"
+    },
+    {
       "path": "reports/frus-recurring-risk-registry.sample.json",
       "role": "Recurring compiler-risk sample for telegram numbering, eRecords copy basis, cross-reference slugs, page breaks, heading footnotes, Word autoformatting, completeness, backup, and Style Guide checks"
     },
@@ -980,6 +999,9 @@
     "node scripts/validate-frus-footnote-referback-registry.mjs --registry reports/frus-footnote-referback-registry.sample.json --format text",
     "node scripts/audit-frus-footnote-referback-usage.mjs --units reports/frus-footnote-referback-units.sample.json --registry reports/frus-footnote-referback-registry.sample.json --target-volume frus1981-88v01 --format text",
     "node scripts/test-frus-footnote-referback-audit.mjs",
+    "node scripts/validate-frus-cross-reference-registry.mjs --registry reports/frus-cross-reference-registry.sample.json --format text",
+    "node scripts/audit-frus-cross-reference-usage.mjs --units reports/frus-cross-reference-units.sample.json --registry reports/frus-cross-reference-registry.sample.json --target-volume frus1989-92v31 --format text",
+    "node scripts/test-frus-cross-reference-audit.mjs",
     "node scripts/validate-frus-recurring-risk-registry.mjs --registry reports/frus-recurring-risk-registry.sample.json --format text",
     "node scripts/audit-frus-recurring-risk-usage.mjs --units reports/frus-recurring-risk-units.sample.json --registry reports/frus-recurring-risk-registry.sample.json --format text",
     "node scripts/test-frus-recurring-risk-audit.mjs",
@@ -1064,6 +1086,8 @@
     "Give audit-frus-summit-public-event-usage.mjs a direct edit that invents or changes summit chronology, public-source basis, diary/schedule basis, participant, place, event sequence, or full-record target without target-volume registry support; it must fail.",
     "Give audit-frus-footnote-referback-usage.mjs a direct edit that invents or changes a footnote refer-back target without registry support; it must fail.",
     "Give validate-frus-footnote-referback-registry.mjs a duplicate referback_id, invalid referback_type, or malformed footnote-referback-registry schema; it must fail.",
+    "Give audit-frus-cross-reference-usage.mjs a direct edit that changes `See Document 10` to `See Document 9` or invents a related-volume target without registry support; it must fail.",
+    "Give validate-frus-cross-reference-registry.mjs a duplicate cross_reference_id, invalid reference_type, or malformed cross-reference-registry schema; it must fail.",
     "Give audit-frus-recurring-risk-usage.mjs a direct edit that changes WHSR/NSC telegram copy basis, backup completeness, or cross-reference clues without supplied evidence; it must fail.",
     "Give validate-frus-recurring-risk-registry.mjs a duplicate risk_id, invalid detector regex, or malformed recurring-risk-registry schema; it must fail.",
     "Give audit-frus-negative-search-usage.mjs a direct edit that changes `Not found attached` to `Not attached` without target-volume registry support; it must fail.",

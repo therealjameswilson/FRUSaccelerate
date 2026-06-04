@@ -14,9 +14,9 @@
     "referback-0025: Bare same-document footnote refer-back lacks above/below or local same-document context.",
     "referback-0026: Cross-document footnote refer-back lowercases `Document`.",
     "referback-0026: Bare same-document footnote refer-back lacks above/below or local same-document context.",
-    "referback-0014,referback-0015,referback-0027: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citation occurrences may stand; flag the 3rd occurrence and every later occurrence for target confirmation.",
-    "referback-0018: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citation occurrences may stand; flag the 3rd occurrence and every later occurrence for target confirmation.",
-    "referback-0021: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citation occurrences may stand; flag the 3rd occurrence and every later occurrence for target confirmation."
+    "referback-0014,referback-0015,referback-0027: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citation occurrences may stand; the 3rd occurrence itself is the first refer-back review trigger, so do not wait for a fourth occurrence; flag every later occurrence for target confirmation too.",
+    "referback-0018: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citation occurrences may stand; the 3rd occurrence itself is the first refer-back review trigger, so do not wait for a fourth occurrence; flag every later occurrence for target confirmation too.",
+    "referback-0021: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citation occurrences may stand; the 3rd occurrence itself is the first refer-back review trigger, so do not wait for a fourth occurrence; flag every later occurrence for target confirmation too."
   ],
   "summary": {
     "units_scanned": 31,
@@ -266,7 +266,7 @@
       "source_unit_label": "footnote 11",
       "source_document_id": "frus1981-88v01/d318",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d318",
-      "rule_basis": "Document 318 models explicit same-document `above` punctuation in a later footnote.",
+      "rule_basis": "Document 318 models explicit same-document `above` punctuation in a later footnote and shows that a valid same-note refer-back does not settle separate repeated Public Papers citation review.",
       "offset": 65,
       "length": 21
     }

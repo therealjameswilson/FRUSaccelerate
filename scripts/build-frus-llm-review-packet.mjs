@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--source-family-registry registry.json] [--source-surrogate-registry registry.json] [--document-status-lifecycle-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--editorial-method-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--handwritten-transcription-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--meeting-attendance-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--release-apparatus-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--source-family-registry registry.json] [--source-surrogate-registry registry.json] [--document-status-lifecycle-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--editorial-method-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--handwritten-transcription-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--meeting-attendance-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--release-apparatus-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--cross-reference-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -50,6 +50,7 @@ function parseArgs(argv) {
   let intelligenceLawEnforcementRegistryPath = null;
   let humanRightsRefugeeGlobalIssuesRegistryPath = null;
   let footnoteReferbackRegistryPath = null;
+  let crossReferenceRegistryPath = null;
   let recurringRiskRegistryPath = null;
   let negativeSearchRegistryPath = null;
   let documentRelationshipRegistryPath = null;
@@ -174,6 +175,9 @@ function parseArgs(argv) {
     } else if (arg === "--footnote-referback-registry") {
       footnoteReferbackRegistryPath = argv[index + 1];
       index += 1;
+    } else if (arg === "--cross-reference-registry") {
+      crossReferenceRegistryPath = argv[index + 1];
+      index += 1;
     } else if (arg === "--recurring-risk-registry") {
       recurringRiskRegistryPath = argv[index + 1];
       index += 1;
@@ -251,6 +255,7 @@ function parseArgs(argv) {
     intelligenceLawEnforcementRegistryPath,
     humanRightsRefugeeGlobalIssuesRegistryPath,
     footnoteReferbackRegistryPath,
+    crossReferenceRegistryPath,
     recurringRiskRegistryPath,
     negativeSearchRegistryPath,
     documentRelationshipRegistryPath,
@@ -1535,6 +1540,42 @@ function compactFootnoteReferbackRegistry(registry, targetVolume) {
   };
 }
 
+function compactCrossReferenceRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    cross_reference_registry_id: registry.cross_reference_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      cross_reference_id: record.cross_reference_id,
+      volume_id: record.volume_id,
+      source_document_id: record.source_document_id,
+      source_document_number: record.source_document_number,
+      source_unit_label: record.source_unit_label,
+      reference_type: record.reference_type,
+      approved_phrase: record.approved_phrase,
+      target_volume_id: record.target_volume_id,
+      target_document_id: record.target_document_id,
+      target_document_number: record.target_document_number,
+      target_footnote: record.target_footnote,
+      target_chapter_or_part: record.target_chapter_or_part,
+      direction: record.direction,
+      publication_status: record.publication_status,
+      required_slug_elements: record.required_slug_elements || [],
+      variant_forms: record.variant_forms || [],
+      cross_reference_basis: record.cross_reference_basis,
+      source_url: record.source_url,
+      target_url: record.target_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactRecurringRiskRegistry(registry) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -1694,6 +1735,9 @@ function buildPacket(options) {
   const footnoteReferbackRegistry = options.footnoteReferbackRegistryPath
     ? readJson(options.footnoteReferbackRegistryPath, options.footnoteReferbackRegistryPath)
     : null;
+  const crossReferenceRegistry = options.crossReferenceRegistryPath
+    ? readJson(options.crossReferenceRegistryPath, options.crossReferenceRegistryPath)
+    : null;
   const recurringRiskRegistry = options.recurringRiskRegistryPath
     ? readJson(options.recurringRiskRegistryPath, options.recurringRiskRegistryPath)
     : null;
@@ -1781,6 +1825,9 @@ function buildPacket(options) {
       footnote_referback_registry: options.footnoteReferbackRegistryPath
         ? normalizePathForOutput(options.footnoteReferbackRegistryPath)
         : "",
+      cross_reference_registry: options.crossReferenceRegistryPath
+        ? normalizePathForOutput(options.crossReferenceRegistryPath)
+        : "",
       recurring_risk_registry: options.recurringRiskRegistryPath ? normalizePathForOutput(options.recurringRiskRegistryPath) : "",
       negative_search_registry: options.negativeSearchRegistryPath ? normalizePathForOutput(options.negativeSearchRegistryPath) : "",
       document_relationship_registry: options.documentRelationshipRegistryPath ? normalizePathForOutput(options.documentRelationshipRegistryPath) : "",
@@ -1843,6 +1890,7 @@ function buildPacket(options) {
       human_rights_refugee_global_issues_registry_records:
         humanRightsRefugeeGlobalIssuesRegistry?.records?.length || 0,
       footnote_referback_registry_records: footnoteReferbackRegistry?.records?.length || 0,
+      cross_reference_registry_records: crossReferenceRegistry?.records?.length || 0,
       recurring_risk_registry_records: recurringRiskRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
       document_relationship_registry_records: documentRelationshipRegistry?.records?.length || 0,
@@ -1907,6 +1955,7 @@ function buildPacket(options) {
         options.targetVolume
       ),
       footnote_referback_registry: compactFootnoteReferbackRegistry(footnoteReferbackRegistry, options.targetVolume),
+      cross_reference_registry: compactCrossReferenceRegistry(crossReferenceRegistry, options.targetVolume),
       recurring_risk_registry: compactRecurringRiskRegistry(recurringRiskRegistry),
       negative_search_registry: compactNegativeSearchRegistry(negativeSearchRegistry, options.targetVolume),
       document_relationship_registry: compactDocumentRelationshipRegistry(documentRelationshipRegistry, options.targetVolume),
@@ -2165,6 +2214,12 @@ function renderMarkdown(packet) {
     "Use this to check repeated-reference footnote discipline in follow-on footnotes and source notes. Reagan Foundations models cross-document `footnote N, Document X`, including sentence-embedded forms, plural same-document `footnotes N and M, Document X`, mixed `footnote N, Document X and Document Y`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. Apply the registry `repeat_threshold`: the first and second full citation occurrences may stand, but the third full citation occurrence itself and every later full citation occurrence, including plain source-note citations outside parentheses, are production-review triggers for a possible refer-back. Do not wait for a fourth occurrence, and do not ignore a repeated full citation merely because the same footnote already has a valid refer-back. Do not invent refer-back targets or directly replace a repeated full citation unless the registry proves the exact published target form.",
     "",
     fencedJson(packet.contexts.footnote_referback_registry || {}),
+    "",
+    "## Cross-Reference Registry Context",
+    "",
+    "Use this to check same-volume `Document XX` references, footnote targets, attachment/tab/appendix references, related-volume scheduled-publication or also-printed references, document ranges, and compiler slugs/clues. Do not invent target documents, target footnotes, target volumes, chapter labels, or above/below/related-volume direction. Direct edits require target-volume registry support with date, sender/recipient, document type, and direction or volume/chapter context.",
+    "",
+    fencedJson(packet.contexts.cross_reference_registry || {}),
     "",
     "## Recurring Compiler Risk Registry Context",
     "",

@@ -140,6 +140,8 @@ try {
     "reports/frus-human-rights-refugee-global-issues-registry.sample.json",
     "--footnote-referback-registry",
     "reports/frus-footnote-referback-registry.sample.json",
+    "--cross-reference-registry",
+    "reports/frus-cross-reference-registry.sample.json",
     "--recurring-risk-registry",
     "reports/frus-recurring-risk-registry.sample.json",
     "--negative-search-registry",
@@ -218,6 +220,7 @@ try {
     "expected human-rights/refugee/global-issues registry record count"
   );
   assert(manifest.summary.footnote_referback_registry_records === 15, "expected footnote refer-back registry record count");
+  assert(manifest.summary.cross_reference_registry_records === 9, "expected cross-reference registry record count");
   assert(manifest.summary.recurring_risk_registry_records === 13, "expected recurring-risk registry record count");
   assert(manifest.summary.negative_search_registry_records === 6, "expected negative-search registry record count");
   assert(manifest.summary.document_relationship_registry_records === 10, "expected document-relationship registry record count");
@@ -279,6 +282,10 @@ try {
   assert(
     manifest.source_files.footnote_referback_registry === "reports/frus-footnote-referback-registry.sample.json",
     "expected footnote refer-back registry source path"
+  );
+  assert(
+    manifest.source_files.cross_reference_registry === "reports/frus-cross-reference-registry.sample.json",
+    "expected cross-reference registry source path"
   );
   assert(
     manifest.source_files.economic_financial_registry === "reports/frus-economic-financial-registry.sample.json",
@@ -451,6 +458,15 @@ try {
   assert(firstPacket.includes("see footnote 3, above"), "expected same-document above refer-back content in chunk packet");
   assert(firstPacket.includes("footnote 15, Document 106"), "expected three-target refer-back content in chunk packet");
   assert(firstPacket.includes("same separate page as B above"), "expected same-document local-context content in chunk packet");
+  assert(firstPacket.includes("Cross-Reference Registry Context"), "expected cross-reference registry context in chunk packet");
+  assert(
+    firstPacket.includes("scheduled for publication in Foreign Relations, 1989-1992, vol. III"),
+    "expected START I related-volume cross-reference content in chunk packet"
+  );
+  assert(
+    firstPacket.includes("Also printed in Foreign Relations, 1981-1988, vol. VI"),
+    "expected Reagan Foundations also-printed cross-reference content in chunk packet"
+  );
   assert(firstPacket.includes("Recurring Compiler Risk Registry Context"), "expected recurring-risk registry context in chunk packet");
   assert(firstPacket.includes("Telegram number has a leading zero"), "expected recurring-risk registry content in chunk packet");
   assert(firstPacket.includes("Document XX cross-reference construction"), "expected Document XX recurring-risk content in chunk packet");

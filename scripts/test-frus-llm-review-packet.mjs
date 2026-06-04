@@ -97,6 +97,8 @@ try {
     "reports/frus-human-rights-refugee-global-issues-registry.sample.json",
     "--footnote-referback-registry",
     "reports/frus-footnote-referback-registry.sample.json",
+    "--cross-reference-registry",
+    "reports/frus-cross-reference-registry.sample.json",
     "--recurring-risk-registry",
     "reports/frus-recurring-risk-registry.sample.json",
     "--negative-search-registry",
@@ -274,6 +276,10 @@ try {
   assert(markdown.includes("see footnote 3, above"), "expected same-document above refer-back content");
   assert(markdown.includes("footnote 15, Document 106"), "expected three-target footnote refer-back content");
   assert(markdown.includes("same separate page as B above"), "expected same-document local-context refer-back content");
+  assert(markdown.includes("Cross-Reference Registry Context"), "expected cross-reference registry section");
+  assert(markdown.includes("scheduled for publication in Foreign Relations, 1989-1992, vol. III"), "expected START I related-volume cross-reference content");
+  assert(markdown.includes("Also printed in Foreign Relations, 1981-1988, vol. VI"), "expected Reagan Foundations also-printed cross-reference content");
+  assert(markdown.includes("See Document 196"), "expected same-volume Document cross-reference content");
   assert(markdown.includes("Recurring Compiler Risk Registry Context"), "expected recurring-risk registry section");
   assert(markdown.includes("Telegram number has a leading zero"), "expected recurring-risk registry content");
   assert(markdown.includes("Cross-reference slug or clue is incomplete"), "expected cross-reference recurring-risk content");
@@ -474,6 +480,12 @@ try {
     "expected no target footnote refer-back records for cross-volume Reagan sample"
   );
   assert(packet.packet_summary.footnote_referback_registry_records === 15, "expected footnote refer-back registry count");
+  assert(packet.contexts.cross_reference_registry.records.length === 9, "expected cross-reference registry records");
+  assert(
+    packet.contexts.cross_reference_registry.target_records.length === 5,
+    "expected five target-volume cross-reference records"
+  );
+  assert(packet.packet_summary.cross_reference_registry_records === 9, "expected cross-reference registry count");
   assert(packet.contexts.recurring_risk_registry.records.length === 13, "expected recurring-risk registry records");
   assert(packet.packet_summary.recurring_risk_registry_records === 13, "expected recurring-risk registry count");
   assert(packet.contexts.negative_search_registry.records.length === 6, "expected negative-search registry records");

@@ -1,0 +1,63 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source_docx": "sample-frus-annotation-sheet.docx",
+  "generated_at": "2026-06-04T00:00:00.000Z",
+  "units": [
+    {
+      "unit_id": "cross-reference-0001",
+      "unit_type": "follow_on_footnote",
+      "location": "START I Document 8 footnote 2",
+      "exact_text": "Attached but not printed. See Document 10.",
+      "display_text": "Attached but not printed. See Document 10."
+    },
+    {
+      "unit_id": "cross-reference-0002",
+      "unit_type": "editorial_note",
+      "location": "START I Document 126 editorial note",
+      "exact_text": "The complete letter and related meeting memoranda are scheduled for publication in Foreign Relations, 1989-1992, vol. III, Soviet Union, Russia, and Post-Soviet States: High-Level Contacts.",
+      "display_text": "The complete letter and related meeting memoranda are scheduled for publication in Foreign Relations, 1989-1992, vol. III, Soviet Union, Russia, and Post-Soviet States: High-Level Contacts."
+    },
+    {
+      "unit_id": "cross-reference-0003",
+      "unit_type": "unknown_editorial_text",
+      "location": "Compiler cross-reference slug",
+      "exact_text": "XREF slug: 1986 aid above",
+      "display_text": "XREF slug: 1986 aid above"
+    },
+    {
+      "unit_id": "cross-reference-0004",
+      "unit_type": "source_note",
+      "location": "Reagan Foundations Document 309 source note",
+      "exact_text": "Also printed in Foreign Relations, 1981-1988, vol. VI, Soviet Union, October 1986-January 1989, Document 77.",
+      "display_text": "Also printed in Foreign Relations, 1981-1988, vol. VI, Soviet Union, October 1986-January 1989, Document 77."
+    },
+    {
+      "unit_id": "cross-reference-0005",
+      "unit_type": "follow_on_footnote",
+      "location": "START I Document 198 footnote 4 variant",
+      "exact_text": "See document 196.",
+      "display_text": "See document 196."
+    },
+    {
+      "unit_id": "cross-reference-0006",
+      "unit_type": "follow_on_footnote",
+      "location": "Unmatched cross-reference",
+      "exact_text": "See Document 999.",
+      "display_text": "See Document 999."
+    },
+    {
+      "unit_id": "cross-reference-0007",
+      "unit_type": "follow_on_footnote",
+      "location": "Reagan Foundations Document 309 footnote 3",
+      "exact_text": "For the record of Shultz's meetings in Moscow, see Foreign Relations, 1981-1988, vol. VI, Soviet Union, October 1986-January 1989, Documents 80-85.",
+      "display_text": "For the record of Shultz's meetings in Moscow, see Foreign Relations, 1981-1988, vol. VI, Soviet Union, October 1986-January 1989, Documents 80-85."
+    },
+    {
+      "unit_id": "cross-reference-0008",
+      "unit_type": "follow_on_footnote",
+      "location": "Reagan Foundations Document 269 footnote 6",
+      "exact_text": "Additional documentation on the Packard Commission is scheduled for publication in Foreign Relations, 1981-1988, vol. XLIV, Part 1, National Security Policy, 1985-1988.",
+      "display_text": "Additional documentation on the Packard Commission is scheduled for publication in Foreign Relations, 1981-1988, vol. XLIV, Part 1, National Security Policy, 1985-1988."
+    }
+  ]
+}

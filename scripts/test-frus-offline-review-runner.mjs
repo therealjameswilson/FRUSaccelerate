@@ -257,6 +257,8 @@ try {
       "reports/frus-human-rights-refugee-global-issues-registry.sample.json",
       "--footnote-referback-registry",
       "reports/frus-footnote-referback-registry.sample.json",
+      "--cross-reference-registry",
+      "reports/frus-cross-reference-registry.sample.json",
       "--recurring-risk-registry",
       "reports/frus-recurring-risk-registry.sample.json",
       "--negative-search-registry",
@@ -508,6 +510,11 @@ try {
     audit.counts.footnote_referback_direct_edit_conflicts === 0,
     "expected zero footnote refer-back direct-edit conflicts"
   );
+  assert(audit.counts.cross_reference_registry_usages === 0, "expected zero cross-reference usages");
+  assert(audit.counts.cross_reference_registry_warnings === 0, "expected zero cross-reference warnings");
+  assert(audit.counts.cross_reference_unmatched_like_units === 0, "expected zero unmatched cross-reference units");
+  assert(audit.counts.cross_reference_incomplete_slug_units === 0, "expected zero incomplete cross-reference slugs");
+  assert(audit.counts.cross_reference_direct_edit_conflicts === 0, "expected zero cross-reference direct-edit conflicts");
   assert(audit.counts.negative_search_registry_usages === 0, "expected zero negative-search registry usages");
   assert(audit.counts.negative_search_registry_warnings === 0, "expected zero negative-search registry warnings");
   assert(audit.counts.negative_search_direct_edit_conflicts === 0, "expected zero negative-search direct-edit conflicts");
@@ -593,6 +600,8 @@ try {
     "human-rights-refugee-global-issues-usage-audit.json",
     "footnote-referback-registry-validation.json",
     "footnote-referback-usage-audit.json",
+    "cross-reference-registry-validation.json",
+    "cross-reference-usage-audit.json",
     "recurring-risk-registry-validation.json",
     "recurring-risk-usage-audit.json",
     "negative-search-registry-validation.json",
@@ -758,6 +767,11 @@ try {
     "expected footnote refer-back registry validation threshold"
   );
   assert(audit.reports.footnote_referback_usage_audit.status === "pass", "expected footnote refer-back usage audit report");
+  assert(
+    audit.reports.cross_reference_registry_validation.summary.records === 9,
+    "expected cross-reference registry validation report"
+  );
+  assert(audit.reports.cross_reference_usage_audit.status === "pass", "expected cross-reference usage audit report");
   assert(audit.reports.recurring_risk_registry_validation.summary.records === 13, "expected recurring-risk registry validation report");
   assert(audit.reports.recurring_risk_usage_audit.status === "pass", "expected recurring-risk usage audit report");
   assert(audit.reports.document_relationship_registry_validation.summary.records === 10, "expected document relationship registry validation report");

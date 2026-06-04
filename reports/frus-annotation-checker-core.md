@@ -118,6 +118,9 @@ For human-rights/refugee/global-issues validation and direct-edit safety, run
 For footnote refer-back validation and direct-edit safety, run
 `node scripts/validate-frus-footnote-referback-registry.mjs --registry reports/frus-footnote-referback-registry.sample.json --format text` and
 `node scripts/audit-frus-footnote-referback-usage.mjs --units extracted-units.json --registry reports/frus-footnote-referback-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For cross-reference validation and direct-edit safety, run
+`node scripts/validate-frus-cross-reference-registry.mjs --registry reports/frus-cross-reference-registry.sample.json --format text` and
+`node scripts/audit-frus-cross-reference-usage.mjs --units extracted-units.json --registry reports/frus-cross-reference-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For recurring compiler-risk spellcheck validation, run
 `node scripts/validate-frus-recurring-risk-registry.mjs --registry reports/frus-recurring-risk-registry.sample.json --format text` and
 `node scripts/audit-frus-recurring-risk-usage.mjs --units extracted-units.json --registry reports/frus-recurring-risk-registry.sample.json --checker-output output.json --format text`.
@@ -396,6 +399,19 @@ available. Do not directly replace a repeated full citation with a guessed
 registry with
 `scripts/validate-frus-footnote-referback-registry.mjs` before direct
 refer-back edits.
+For real Reagan/Bush 1981-1992 cross-reference review, replace the sample
+cross-reference registry with target-volume examples for same-volume `See
+Document XX` references, footnote targets, attachment/tab/appendix references,
+related-volume scheduled-publication language, also-printed notes, and
+document ranges. Bush START I models `Attached but not printed. See Document
+10`, `See Document 196`, and related-volume high-level contacts scheduled for
+publication; Reagan Foundations models `Also printed in Foreign Relations,
+1981-1988, vol. VI... Document 77`, Packard Commission related-volume routing,
+and Shultz Moscow document ranges. Direct edits must not invent target
+documents, target footnotes, target volumes, chapter labels, or above/below
+direction. Compiler slugs and clues should carry date, sender/recipient,
+document type, and above/below/chapter or volume direction before the checker
+can do anything stronger than comment-only.
 For every Reagan/Bush 1981-1992 sheet, keep the recurring-risk registry in the
 packet unless a project-specific version supersedes it. It should check for
 leading-zero telegram numbers, non-State telegram copies without eRecords or

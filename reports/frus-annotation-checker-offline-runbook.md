@@ -200,6 +200,12 @@ three-times repeated-citation trigger and published `footnote N, Document X`,
 same-document `above`, and `Document X and footnote Y thereto` forms. The
 bundled sample is
 `reports/frus-footnote-referback-registry.sample.json`.
+For cross-reference checks, transfer a target-volume cross-reference registry
+when possible; the bundled Bush START I/Reagan Foundations sample preserves
+same-volume `Document XX`, attachment target, related-volume
+scheduled-publication, also-printed, document-range, and compiler slug/clue
+forms. The bundled sample is
+`reports/frus-cross-reference-registry.sample.json`.
 For recurring compiler-risk checks, keep the bundled recurring-risk registry in
 the packet unless a project-specific version supersedes it. It covers
 leading-zero telegram numbers, non-State telegram copies without eRecords or
@@ -805,7 +811,21 @@ node scripts/validate-frus-footnote-referback-registry.mjs --registry footnote-r
 node scripts/audit-frus-footnote-referback-usage.mjs --units extracted-units.json --registry footnote-referback-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-37. Run recurring compiler-risk validation and usage audit on every annotation
+37. Run cross-reference validation and usage audit when a sheet contains
+   `See Document XX`, `see footnote`, attachment/tab/appendix references,
+   related-volume `scheduled for publication` language, `Also printed in
+   Foreign Relations`, document ranges, or compiler slugs/clues. Treat target
+   document numbers, target footnotes, target volumes, chapter labels, and
+   above/below/related-volume direction as evidence-bound fields. Incomplete
+   slugs should be comment-only until they carry date, sender/recipient,
+   document type, and direction or volume/chapter context.
+
+```sh
+node scripts/validate-frus-cross-reference-registry.mjs --registry cross-reference-registry.json --format text
+node scripts/audit-frus-cross-reference-usage.mjs --units extracted-units.json --registry cross-reference-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
+```
+
+38. Run recurring compiler-risk validation and usage audit on every annotation
    sheet when the registry is available. It checks leading-zero telegram
    numbers, WHSR/NSC telegram copies that need eRecords/drafting confirmation,
    incomplete cross-reference slugs, missing page breaks, old heading-footnote
@@ -818,7 +838,7 @@ node scripts/validate-frus-recurring-risk-registry.mjs --registry recurring-risk
 node scripts/audit-frus-recurring-risk-usage.mjs --units extracted-units.json --registry recurring-risk-registry.json --checker-output output.json --format text
 ```
 
-38. Run negative-search/no-record validation and usage audit when source notes,
+39. Run negative-search/no-record validation and usage audit when source notes,
    follow-on footnotes, editorial notes, or attachment notes contain
    no-minutes, not-found, not-attached, not-found-attached, no-memcon,
    no-telcon, unlocated-draft, or missing-attachment language. The usage audit
@@ -830,7 +850,7 @@ node scripts/validate-frus-negative-search-registry.mjs --registry negative-sear
 node scripts/audit-frus-negative-search-usage.mjs --units extracted-units.json --registry negative-search-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-39. Run document-relationship validation and usage audit when source notes,
+40. Run document-relationship validation and usage audit when source notes,
    follow-on footnotes, editorial notes, or attachment notes contain
    attached-but-not-printed, printed-as-document, same-volume/cross-volume
    `See Document [n]`, tab/enclosure, not-attached, or mixed attachment
@@ -843,7 +863,7 @@ node scripts/validate-frus-document-relationship-registry.mjs --registry documen
 node scripts/audit-frus-document-relationship-usage.mjs --units extracted-units.json --registry document-relationship-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-40. Run communications validation and usage audit when source notes, follow-on
+41. Run communications validation and usage audit when source notes, follow-on
    notes, editorial notes, headings, or attachment notes contain telegrams,
    cables, special designators, message identifiers, date-time groups,
    origin/addressee lines, precedence/routing, source-family identifiers, or
@@ -859,7 +879,7 @@ node scripts/validate-frus-communications-registry.mjs --registry communications
 node scripts/audit-frus-communications-usage.mjs --units extracted-units.json --registry communications-registry.json --checker-output output.json --target-volume VOLUME-ID --format text
 ```
 
-41. Run source-note and production-marker checks when those unit types are
+42. Run source-note and production-marker checks when those unit types are
    present:
 
 ```sh
@@ -867,14 +887,14 @@ node scripts/lint-frus-source-notes.mjs --units extracted-units.json --checker-o
 node scripts/preflight-frus-pseudo-markers.mjs --units extracted-units.json --output output.json
 ```
 
-42. Build the separate evidence queue and General Editor discrepancy ledger:
+43. Build the separate evidence queue and General Editor discrepancy ledger:
 
 ```sh
 node scripts/build-frus-evidence-queue.mjs --output output.json --review-mode normal > evidence-queue.json
 node scripts/build-frus-discrepancy-ledger.mjs --output output.json --existing prior-ledger.json --run-id RUN-ID > discrepancy-ledger.json
 ```
 
-43. Apply safe `comment_only` findings as real Word comments, then apply only
+44. Apply safe `comment_only` findings as real Word comments, then apply only
    accepted direct edits as real WordprocessingML tracked insertions and
    deletions. The no-dependency appliers handle narrow, verified single-run
    anchors and fail on complex anchors rather than guessing:
