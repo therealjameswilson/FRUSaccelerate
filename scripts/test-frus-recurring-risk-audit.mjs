@@ -47,13 +47,19 @@ try {
   }
   const report = JSON.parse(audit.stdout);
   assert(report.status === "warning", "expected warning status for recurring-risk matches");
-  assert(report.summary.units_scanned === 13, "expected thirteen units scanned");
-  assert(report.summary.risk_matches === 13, "expected thirteen risk matches");
+  assert(report.summary.units_scanned === 14, "expected fourteen units scanned");
+  assert(report.summary.risk_matches === 14, "expected fourteen risk matches");
   assert(report.summary.by_risk_family.telegram_numbering === 1, "expected telegram-numbering match");
   assert(report.summary.by_risk_family.telegram_copy_basis === 1, "expected telegram-copy-basis match");
   assert(report.summary.by_risk_family.cross_reference_slug === 1, "expected cross-reference-slug match");
   assert(report.summary.by_risk_family.document_xx_construction === 1, "expected Document XX construction match");
-  assert(report.summary.by_risk_family.footnote_referback === 1, "expected footnote refer-back match");
+  assert(report.summary.by_risk_family.footnote_referback === 2, "expected two footnote refer-back matches");
+  assert(
+    report.matches.some(
+      (match) => match.unit_id === "risk-0014" && match.matched_text.toLowerCase() === "refer back 3 times rule"
+    ),
+    "expected exact refer back 3 times rule phrase to be detected"
+  );
   assert(report.summary.by_risk_family.style_consistency === 1, "expected style-consistency match");
 
   const checkerOutput = path.join(tmpDir, "bad-output.json");

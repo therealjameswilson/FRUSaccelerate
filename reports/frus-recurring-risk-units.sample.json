@@ -144,6 +144,17 @@
       "edit_safety": "safe",
       "comment_safety": "safe",
       "blocked_boundaries": []
+    },
+    {
+      "unit_id": "risk-0014",
+      "unit_type": "follow_on_footnote",
+      "location": "word/footnotes.xml#footnote-14",
+      "exact_text": "I forgot the refer back 3 times rule in this footnote.",
+      "display_text": "I forgot the refer back 3 times rule in this footnote.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
     }
   ]
 }

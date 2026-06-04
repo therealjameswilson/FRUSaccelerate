@@ -10517,7 +10517,7 @@ Use this as a practical spellcheck list for recurring compiler mistakes: leading
       "risk_id": "risk-footnote-referback-three-times",
       "risk_family": "footnote_referback",
       "title": "Footnote refer-back rule may be missed after repeated references",
-      "anti_pattern": "Repeating full citation/source details after the threshold for a refer-back has been reached, or using a bare see-footnote construction without Document or above/below context.",
+      "anti_pattern": "Forgetting the refer back 3 times rule, repeating full citation/source details after the threshold for a refer-back has been reached, or using a bare see-footnote construction without Document or above/below context.",
       "approved_practice": "After repeated references to the same item, refer back rather than reciting the citation again: within the same document use `see footnote 5, above` or a bare same-document parenthetical only when the sentence itself supplies the above/below context; across documents use `see footnote 9, Document 56`, plural `See footnotes 12 and 13, Document 53`, mixed `See footnote 8, Document 65 and Document 66`, `see footnote 6, Document 265 and footnote 2, Document 312`, or `See Document 34 and footnote 2 thereto`; straight document references use `See Document 69.` Treat the third full citation occurrence itself and every later full citation occurrence, including plain source-note citations outside parentheses, as production-review triggers requiring human confirmation of the target. Do not wait for a fourth occurrence.",
       "unit_types": [
         "follow_on_footnote",
@@ -10526,16 +10526,19 @@ Use this as a practical spellcheck list for recurring compiler mistakes: leading
         "unknown_editorial_text"
       ],
       "detector_patterns": [
+        "\\brefer[- ]?back\\s+(?:3|three)[- ]times\\s+rule\\b",
         "\\b(?:refer back|three[- ]times|3[- ]times|third reference|repeat(?:ed|ing)? full citation)\\b",
         "\\bsee footnotes?\\s+(?:TK|TBD|XX|\\?\\?)\\b",
         "\\bsee footnotes?\\s+\\d+(?:\\s*(?:,|and)\\s*\\d+)*\\b(?!(?:,\\s*(?:above|below|Document\\s+\\d+)|\\s+thereto))"
       ],
       "direct_edit_policy": "comment_only_by_default",
       "evidence_request": "cross_reference",
-      "comment_template": "Check whether this repeated reference should use a footnote refer-back. Reagan Foundations models same-document `see footnote N, above`, same-document local-context `B above (see footnote N)`, cross-document `see footnote N, Document X`, plural `See footnotes N and M, Document X`, and mixed `See footnote N, Document X and Document Y` forms; confirm the target before rewriting.",
+      "comment_template": "Check whether this repeated reference has reached the refer back 3 times rule. The third full citation occurrence itself is the first review trigger; Reagan Foundations models same-document `see footnote N, above`, same-document local-context `B above (see footnote N)`, cross-document `see footnote N, Document X`, plural `See footnotes N and M, Document X`, and mixed `See footnote N, Document X and Document Y` forms; confirm the target before rewriting.",
       "severity": "major",
       "source_basis": "James Wilson follow-up note on the footnote refer-back rule; Reagan Foundations published examples: Documents 45, 56, 70, 74, 146, 217, 267, and 316.",
       "variant_forms": [
+        "refer back 3 times rule",
+        "refer-back three times rule",
         "third reference repeats full citation",
         "see footnote TK",
         "see footnotes 12 and 13, Document 53",
