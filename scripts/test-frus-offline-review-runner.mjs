@@ -219,6 +219,8 @@ try {
       "reports/frus-time-zone-registry.sample.json",
       "--selection-balance-registry",
       "reports/frus-selection-balance-registry.sample.json",
+      "--decision-process-registry",
+      "reports/frus-decision-process-registry.sample.json",
       "--public-source-registry",
       "reports/frus-public-source-registry.sample.json",
       "--retrospective-account-registry",
@@ -307,6 +309,10 @@ try {
   assert(audit.counts.selection_balance_registry_warnings === 0, "expected zero selection-balance registry warnings");
   assert(audit.counts.selection_balance_unmatched_like_units === 0, "expected zero unmatched selection-balance-like units");
   assert(audit.counts.selection_balance_direct_edit_conflicts === 0, "expected zero selection-balance direct-edit conflicts");
+  assert(audit.counts.decision_process_registry_usages === 0, "expected zero decision-process registry usages");
+  assert(audit.counts.decision_process_registry_warnings === 0, "expected zero decision-process registry warnings");
+  assert(audit.counts.decision_process_unmatched_like_units === 0, "expected zero unmatched decision-process-like units");
+  assert(audit.counts.decision_process_direct_edit_conflicts === 0, "expected zero decision-process direct-edit conflicts");
   assert(audit.counts.public_source_registry_usages === 0, "expected zero public-source registry usages");
   assert(audit.counts.public_source_registry_warnings === 0, "expected zero public-source registry warnings");
   assert(audit.counts.public_source_direct_edit_conflicts === 0, "expected zero public-source direct-edit conflicts");
@@ -381,6 +387,8 @@ try {
     "time-zone-usage-audit.json",
     "selection-balance-registry-validation.json",
     "selection-balance-usage-audit.json",
+    "decision-process-registry-validation.json",
+    "decision-process-usage-audit.json",
     "public-source-registry-validation.json",
     "public-source-usage-audit.json",
     "retrospective-account-registry-validation.json",
@@ -439,6 +447,11 @@ try {
     "expected selection-balance registry validation report"
   );
   assert(audit.reports.selection_balance_usage_audit.status === "pass", "expected selection-balance usage audit report");
+  assert(
+    audit.reports.decision_process_registry_validation.summary.records === 12,
+    "expected decision-process registry validation report"
+  );
+  assert(audit.reports.decision_process_usage_audit.status === "pass", "expected decision-process usage audit report");
   assert(audit.reports.public_source_registry_validation.summary.records === 6, "expected public-source registry validation report");
   assert(audit.reports.public_source_usage_audit.status === "pass", "expected public-source usage audit report");
   assert(
@@ -481,7 +494,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/chronology/time-zone/selection-balance/public-source/retrospective-account/treaty/foreign-org/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/chronology/time-zone/selection-balance/decision-process/public-source/retrospective-account/treaty/foreign-org/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

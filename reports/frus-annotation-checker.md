@@ -121,6 +121,13 @@ For selection-balance/completeness validation, use
 `reports/frus-selection-balance-units.sample.json`; the self-contained smoke
 test is `scripts/test-frus-selection-balance-audit.mjs`, and the sample audit
 report is `reports/frus-selection-balance-audit.sample.json`.
+For decision-process/directive validation, use
+`scripts/validate-frus-decision-process-registry.mjs` and
+`scripts/audit-frus-decision-process-usage.mjs` with
+`reports/frus-decision-process-registry.sample.json` and
+`reports/frus-decision-process-units.sample.json`; the self-contained smoke
+test is `scripts/test-frus-decision-process-audit.mjs`, and the sample audit
+report is `reports/frus-decision-process-audit.sample.json`.
 For public-source/public-diplomacy validation, use
 `scripts/validate-frus-public-source-registry.mjs` and
 `scripts/audit-frus-public-source-usage.mjs` with
@@ -11623,79 +11630,68 @@ Use a decision-process registry when the wrapper can supply one:
 
 ```json
 {
-  "decision_process_registry_id": "frus-1981-1992-decision-process-2026-06-03",
-  "captured_at": "2026-06-03",
+  "schema_version": "frus-decision-process-registry-v1",
+  "decision_process_registry_id": "frus-1981-1992-decision-process-sample-2026-06-04",
+  "captured_at": "2026-06-04",
   "source_urls": [
-    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d50",
-    "https://history.state.gov/historicaldocuments/frus1989-92v31/d24",
-    "https://history.state.gov/historicaldocuments/frus1989-92v31/d247"
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d10",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d129"
   ],
+  "scope": "Published Reagan/Bush decision-process examples for checking directive and interagency-process annotations.",
+  "rule_summary": "Decision-process/directive claims are comment-only by default unless target-volume evidence proves the exact direct edit.",
   "records": [
     {
-      "decision_process_item_id": "decision-reagan-nsdd-update-d50",
-      "unit_id": "frus1981-88v44p1-d50",
-      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d50",
-      "process_type": "nsdd_action_memorandum",
-      "formal_body_or_instrument": "NSDD update action memorandum with attached new Strategic Modernization NSDD and annex",
-      "decision_stage": "presidential signature recommendation and approval basis supplied",
-      "options_or_positions": "recommendation to sign attached NSDD and Annex One",
-      "related_targets": [
-        "NSDD-91",
-        "new Strategic Modernization NSDD",
-        "Document 51",
-        "Foreign Relations, 1981-1988, vol. XLIII scheduled target"
-      ],
-      "verification_status": "verified_published_pattern"
+      "decision_process_id": "decision-v31-d10-heading-nsr14",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d10",
+      "document_number": "10",
+      "unit_scope": "document heading",
+      "process_type": "national_security_review",
+      "approved_phrase": "National Security Review 14",
+      "process_identifier": "NSR-14",
+      "process_body": "National Security Council",
+      "decision_stage": "directive heading",
+      "source_or_context": "Document 10 prints NSR-14 as the controlling document heading.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d10",
+      "verification_status": "verified_published_decision_process_record",
+      "variant_forms": ["NSR-14"]
     },
     {
-      "decision_process_item_id": "decision-bush-nscdc-nsr14-d24",
-      "unit_id": "frus1989-92v31-d24",
-      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d24",
-      "process_type": "nscdc_options_summary",
-      "formal_body_or_instrument": "NSC/DC meeting on NSR-14, Defense and Space, and START Fundamental Limits",
-      "decision_stage": "Deputies Committee papers ready for NSC principals consideration according to Summary of Conclusions",
-      "options_or_positions": "options identify agency positions including DCI, ACDA, State, DOE, and JCS",
-      "related_targets": [
-        "NSR-14",
-        "Summary of Conclusions",
-        "NSC principals",
-        "Defense and Space papers",
-        "START papers"
-      ],
-      "verification_status": "verified_published_pattern"
-    },
-    {
-      "decision_process_item_id": "decision-bush-start-transmittal-d247",
-      "unit_id": "frus1989-92v31-d247",
-      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d247",
-      "process_type": "treaty_transmittal_senate_package",
-      "formal_body_or_instrument": "Presidential START I treaty transmittal and article-by-article analysis package",
-      "decision_stage": "submitted for Senate advice and consent with related analyses and associated documents",
-      "options_or_positions": "Secretary recommends submission to Senate at earliest possible date",
-      "related_targets": [
-        "Treaty",
-        "Protocols",
-        "Annexes",
-        "Memorandum of Understanding",
-        "associated agreements, letters, and statements",
-        "Senate advice and consent"
-      ],
-      "verification_status": "verified_published_pattern"
+      "decision_process_id": "decision-v44p1-d129-heading-nsdd236",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d129",
+      "document_number": "129",
+      "unit_scope": "document heading",
+      "process_type": "national_security_decision_directive",
+      "approved_phrase": "National Security Decision Directive 236",
+      "process_identifier": "NSDD 236",
+      "process_body": "National Security Council",
+      "decision_stage": "presidential decision directive",
+      "source_or_context": "Document 129 models Reagan NSDD heading form.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d129",
+      "verification_status": "verified_published_decision_process_record",
+      "variant_forms": ["NSDD 236"]
     }
   ]
 }
 ```
 
-Allowed `process_type` values: `nsdd_action_memorandum`, `nsd_directive`,
-`nsr_review`, `nspg_meeting`, `nscdc_options_summary`,
-`deputies_committee`, `principals_committee`, `summary_of_conclusions`,
-`option_paper`, `decision_memorandum`, `directive_tab`,
-`interagency_paper`, `treaty_transmittal_senate_package`, and `unknown`.
+Allowed `process_type` values include `national_security_review`,
+`national_security_review_file`, `national_security_review_response`,
+`national_security_decision_directive`,
+`national_security_decision_directive_signature`,
+`national_security_study_directive`,
+`national_security_study_directive_boundary`, `draft_directive_attached`,
+`directive_guidance`, `policy_coordinating_committee_tasking`,
+`deputies_committee_file`, `nsc_meeting_or_tasking`,
+`interagency_group_paper`, `record_of_decision`,
+`scheduled_publication_boundary`, `printed_directive_target`,
+`work_program_or_tab`, and `unknown`.
 
-Allowed `verification_status` values: `verified_published_pattern`,
-`verified_source_image`, `needs_decision_body`, `needs_directive_number`,
-`needs_summary_of_conclusions`, `needs_option_basis`, `needs_agency_position`,
-`needs_decision_stage`, `needs_treaty_package_basis`, and `unknown`.
+Allowed `verification_status` values are
+`verified_published_decision_process_record`,
+`verified_local_decision_process_record`, `needs_decision_process_basis`,
+`needs_general_editor_review`, and `unknown`.
 
 Validator sequence:
 
@@ -12257,6 +12253,17 @@ Minimum components:
   boundaries, scheduled-publication targets, withheld-document effects, known
   gaps, and unsupported complete/balanced/no-other-record claims to supplied
   selection records and fails direct selection-balance edits that lack
+  target-volume registry support.
+- No-dependency decision-process/directive registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-decision-process-registry.mjs`,
+  `scripts/audit-frus-decision-process-usage.mjs`,
+  `reports/frus-decision-process-registry.sample.json`,
+  `reports/frus-decision-process-units.sample.json`, and
+  `reports/frus-decision-process-audit.sample.json`. The audit reconciles NSR,
+  NSD, NSDD, NSSD, NSC/DC, PCC, Deputies or Principals Committee, NSC meeting,
+  tab, tasking, interagency paper, directive heading, draft directive,
+  record-of-decision, scheduled-publication boundary, and decision-stage
+  language to supplied records and fails direct decision-process edits that lack
   target-volume registry support.
 - No-dependency public-source/public-diplomacy registry validator, usage audit,
   and fixtures: `scripts/validate-frus-public-source-registry.mjs`,

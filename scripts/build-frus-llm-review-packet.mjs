@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--selection-balance-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -31,6 +31,7 @@ function parseArgs(argv) {
   let chronologyRegistryPath = null;
   let timeZoneRegistryPath = null;
   let selectionBalanceRegistryPath = null;
+  let decisionProcessRegistryPath = null;
   let publicSourceRegistryPath = null;
   let retrospectiveAccountRegistryPath = null;
   let treatyRegistryPath = null;
@@ -102,6 +103,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--selection-balance-registry") {
       selectionBalanceRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--decision-process-registry") {
+      decisionProcessRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--public-source-registry") {
       publicSourceRegistryPath = argv[index + 1];
@@ -176,6 +180,7 @@ function parseArgs(argv) {
     chronologyRegistryPath,
     timeZoneRegistryPath,
     selectionBalanceRegistryPath,
+    decisionProcessRegistryPath,
     publicSourceRegistryPath,
     retrospectiveAccountRegistryPath,
     treatyRegistryPath,
@@ -822,6 +827,38 @@ function compactSelectionBalanceRegistry(registry, targetVolume) {
   };
 }
 
+function compactDecisionProcessRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    decision_process_registry_id: registry.decision_process_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    rule_summary: registry.rule_summary || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      decision_process_id: record.decision_process_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      process_type: record.process_type,
+      approved_phrase: record.approved_phrase,
+      process_identifier: record.process_identifier,
+      process_body: record.process_body,
+      decision_stage: record.decision_stage,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactPublicSourceRegistry(registry, targetVolume) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -1096,6 +1133,9 @@ function buildPacket(options) {
   const selectionBalanceRegistry = options.selectionBalanceRegistryPath
     ? readJson(options.selectionBalanceRegistryPath, options.selectionBalanceRegistryPath)
     : null;
+  const decisionProcessRegistry = options.decisionProcessRegistryPath
+    ? readJson(options.decisionProcessRegistryPath, options.decisionProcessRegistryPath)
+    : null;
   const publicSourceRegistry = options.publicSourceRegistryPath
     ? readJson(options.publicSourceRegistryPath, options.publicSourceRegistryPath)
     : null;
@@ -1144,6 +1184,9 @@ function buildPacket(options) {
       time_zone_registry: options.timeZoneRegistryPath ? normalizePathForOutput(options.timeZoneRegistryPath) : "",
       selection_balance_registry: options.selectionBalanceRegistryPath
         ? normalizePathForOutput(options.selectionBalanceRegistryPath)
+        : "",
+      decision_process_registry: options.decisionProcessRegistryPath
+        ? normalizePathForOutput(options.decisionProcessRegistryPath)
         : "",
       public_source_registry: options.publicSourceRegistryPath ? normalizePathForOutput(options.publicSourceRegistryPath) : "",
       retrospective_account_registry: options.retrospectiveAccountRegistryPath
@@ -1196,6 +1239,7 @@ function buildPacket(options) {
       chronology_registry_records: chronologyRegistry?.records?.length || 0,
       time_zone_registry_records: timeZoneRegistry?.records?.length || 0,
       selection_balance_registry_records: selectionBalanceRegistry?.records?.length || 0,
+      decision_process_registry_records: decisionProcessRegistry?.records?.length || 0,
       public_source_registry_records: publicSourceRegistry?.records?.length || 0,
       retrospective_account_registry_records: retrospectiveAccountRegistry?.records?.length || 0,
       treaty_registry_records: treatyRegistry?.records?.length || 0,
@@ -1228,6 +1272,7 @@ function buildPacket(options) {
       chronology_registry: compactChronologyRegistry(chronologyRegistry, options.targetVolume),
       time_zone_registry: compactTimeZoneRegistry(timeZoneRegistry, options.targetVolume),
       selection_balance_registry: compactSelectionBalanceRegistry(selectionBalanceRegistry, options.targetVolume),
+      decision_process_registry: compactDecisionProcessRegistry(decisionProcessRegistry, options.targetVolume),
       public_source_registry: compactPublicSourceRegistry(publicSourceRegistry, options.targetVolume),
       retrospective_account_registry: compactRetrospectiveAccountRegistry(
         retrospectiveAccountRegistry,
@@ -1380,6 +1425,12 @@ function renderMarkdown(packet) {
     "Use this to check principles of selection, chapter or volume scope, excerpted portions, omitted non-scope material, related-volume boundaries, scheduled-publication targets, complete-record-elsewhere claims, withheld-document effects, and known gaps. Treat complete, balanced, representative, or no-other-record claims as comment-only unless target-volume selection-balance evidence and General Editor review support the claim.",
     "",
     fencedJson(packet.contexts.selection_balance_registry || {}),
+    "",
+    "## Decision Process And Directive Registry Context",
+    "",
+    "Use this to check NSR, NSD, NSDD, NSSD, PCC, DC, NSC meeting, tab, tasking, record-of-decision, interagency-paper, directive-heading, scheduled-publication, and decision-stage language. Treat directive numbers, committee/body names, tabs, and decision stages as comment-only unless the target-volume decision-process registry proves the exact direct edit.",
+    "",
+    fencedJson(packet.contexts.decision_process_registry || {}),
     "",
     "## Public Source And Public Diplomacy Registry Context",
     "",

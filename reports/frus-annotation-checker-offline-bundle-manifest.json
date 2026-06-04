@@ -260,6 +260,18 @@
       "role": "Self-contained selection-balance registry and usage audit smoke test"
     },
     {
+      "path": "scripts/validate-frus-decision-process-registry.mjs",
+      "role": "Decision-process, directive, interagency body, tab, tasking, and decision-stage registry validator"
+    },
+    {
+      "path": "scripts/audit-frus-decision-process-usage.mjs",
+      "role": "Decision-process and directive usage audit for extracted Word units and direct-edit safety"
+    },
+    {
+      "path": "scripts/test-frus-decision-process-audit.mjs",
+      "role": "Self-contained decision-process registry and usage audit smoke test"
+    },
+    {
       "path": "scripts/validate-frus-public-source-registry.mjs",
       "role": "Public-source, Public Papers, Department of State Bulletin/Dispatch, public remarks, press, testimony, broadcast, and selected-public-document registry validator"
     },
@@ -454,6 +466,9 @@
     "reports/frus-selection-balance-registry.sample.json",
     "reports/frus-selection-balance-units.sample.json",
     "reports/frus-selection-balance-audit.sample.json",
+    "reports/frus-decision-process-registry.sample.json",
+    "reports/frus-decision-process-units.sample.json",
+    "reports/frus-decision-process-audit.sample.json",
     "reports/frus-public-source-registry.sample.json",
     "reports/frus-public-source-units.sample.json",
     "reports/frus-public-source-audit.sample.json",
@@ -550,6 +565,10 @@
     {
       "path": "reports/frus-selection-balance-registry.sample.json",
       "role": "Published selection, scope, excerpt, omission, related-volume, complete-record-elsewhere, scheduled-publication, and completeness-claim sample for Reagan and George H.W. Bush fixtures"
+    },
+    {
+      "path": "reports/frus-decision-process-registry.sample.json",
+      "role": "Published NSR, NSDD, NSSD, PCC, NSC/DC, record-of-decision, tab, tasking, and scheduled-publication decision-process sample for Reagan and George H.W. Bush fixtures"
     },
     {
       "path": "reports/frus-public-source-registry.sample.json",
@@ -652,6 +671,9 @@
     "node scripts/validate-frus-selection-balance-registry.mjs --registry reports/frus-selection-balance-registry.sample.json --format text",
     "node scripts/audit-frus-selection-balance-usage.mjs --units reports/frus-selection-balance-units.sample.json --registry reports/frus-selection-balance-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-selection-balance-audit.mjs",
+    "node scripts/validate-frus-decision-process-registry.mjs --registry reports/frus-decision-process-registry.sample.json --format text",
+    "node scripts/audit-frus-decision-process-usage.mjs --units reports/frus-decision-process-units.sample.json --registry reports/frus-decision-process-registry.sample.json --target-volume frus1989-92v31 --format text",
+    "node scripts/test-frus-decision-process-audit.mjs",
     "node scripts/validate-frus-public-source-registry.mjs --registry reports/frus-public-source-registry.sample.json --format text",
     "node scripts/audit-frus-public-source-usage.mjs --units reports/frus-public-source-units.sample.json --registry reports/frus-public-source-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-public-source-audit.mjs",
@@ -714,6 +736,8 @@
     "Give validate-frus-time-zone-registry.mjs a duplicate time_zone_item_id or malformed time-zone-registry schema; it must fail.",
     "Give audit-frus-selection-balance-usage.mjs a direct edit that changes scope, excerpt, related-volume, complete-record-elsewhere, or completeness language without target-volume registry support; it must fail.",
     "Give validate-frus-selection-balance-registry.mjs a duplicate selection_item_id or malformed selection-balance-registry schema; it must fail.",
+    "Give audit-frus-decision-process-usage.mjs a direct edit that changes an NSR, NSDD, NSSD, PCC, NSC/DC, tab, tasking, record-of-decision, or decision-stage claim without target-volume registry support; it must fail.",
+    "Give validate-frus-decision-process-registry.mjs a duplicate decision_process_id or malformed decision-process-registry schema; it must fail.",
     "Give audit-frus-public-source-usage.mjs a direct edit that changes Public Papers pages, delivery basis, full-text target, or selected-public-document status without target-volume registry support; it must fail.",
     "Give validate-frus-public-source-registry.mjs a duplicate public_source_id or malformed public-source-registry schema; it must fail.",
     "Give audit-frus-retrospective-account-usage.mjs a direct edit that changes memoir, diary, oral-history, recollection, page/locator, selected/supplemental, official-record-relationship, corroboration, or conflict language without target-volume registry support; it must fail.",

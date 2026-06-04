@@ -52,9 +52,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -97,6 +97,9 @@ For time-zone/date-time-group validation and direct-edit safety, run
 For selection-balance/completeness validation and direct-edit safety, run
 `node scripts/validate-frus-selection-balance-registry.mjs --registry reports/frus-selection-balance-registry.sample.json --format text` and
 `node scripts/audit-frus-selection-balance-usage.mjs --units extracted-units.json --registry reports/frus-selection-balance-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For decision-process/directive validation and direct-edit safety, run
+`node scripts/validate-frus-decision-process-registry.mjs --registry reports/frus-decision-process-registry.sample.json --format text` and
+`node scripts/audit-frus-decision-process-usage.mjs --units extracted-units.json --registry reports/frus-decision-process-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For public-source/public-diplomacy validation and direct-edit safety, run
 `node scripts/validate-frus-public-source-registry.mjs --registry reports/frus-public-source-registry.sample.json --format text` and
 `node scripts/audit-frus-public-source-usage.mjs --units extracted-units.json --registry reports/frus-public-source-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -134,7 +137,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -222,6 +225,14 @@ boundaries, withheld-document effects, known gaps, and General Editor scope
 decisions. Complete, balanced, representative, or no-other-record claims are
 comment-only unless the supplied registry proves the target-volume basis and the
 General Editor posture.
+For real Reagan/Bush 1981-1992 decision-process/directive review, replace the
+sample decision-process registry with target-volume records for NSR, NSD, NSDD,
+NSSD, NSC/DC, PCC, Deputies or Principals Committee, NSC meeting, tab,
+tasking, interagency paper, directive heading, draft directive, record of
+decision, scheduled-publication boundary, and decision-stage language. Directive
+numbers, committee or body names, tabs, recommendation/action status, and
+decision stages are comment-only unless the supplied registry proves the exact
+target-volume basis.
 For real Reagan/Bush 1981-1992 public-source/public-diplomacy review, replace
 the sample public-source registry with target-volume records for speeches,
 public remarks, press releases, press conferences, briefings, interviews,
@@ -314,6 +325,8 @@ For sample chronology/time checks, run
 `node scripts/audit-frus-chronology-usage.mjs --units reports/frus-chronology-units.sample.json --registry reports/frus-chronology-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample selection-balance/completeness checks, run
 `node scripts/audit-frus-selection-balance-usage.mjs --units reports/frus-selection-balance-units.sample.json --registry reports/frus-selection-balance-registry.sample.json --target-volume frus1989-92v31 --format text`.
+For sample decision-process/directive checks, run
+`node scripts/audit-frus-decision-process-usage.mjs --units reports/frus-decision-process-units.sample.json --registry reports/frus-decision-process-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample public-source/public-diplomacy checks, run
 `node scripts/audit-frus-public-source-usage.mjs --units reports/frus-public-source-units.sample.json --registry reports/frus-public-source-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample treaty/legal-instrument checks, run
@@ -5367,6 +5380,411 @@ Use this to check principles of selection, chapter or volume scope, excerpted po
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d316",
       "verification_status": "verified_published_selection_record"
+    }
+  ]
+}
+```
+
+## Decision Process And Directive Registry Context
+
+Use this to check NSR, NSD, NSDD, NSSD, PCC, DC, NSC meeting, tab, tasking, record-of-decision, interagency-paper, directive-heading, scheduled-publication, and decision-stage language. Treat directive numbers, committee/body names, tabs, and decision stages as comment-only unless the target-volume decision-process registry proves the exact direct edit.
+
+```json
+{
+  "schema_version": "frus-decision-process-registry-v1",
+  "decision_process_registry_id": "frus-1981-1992-decision-process-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d9",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d10",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d21",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d128",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d129",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d103"
+  ],
+  "scope": "Published FRUS decision-process, directive, interagency-tasking, committee, tab, and scheduled-publication patterns for Reagan and George H.W. Bush annotation sheets.",
+  "rule_summary": "Decision-process and directive claims are comment-only by default. Use the registry to verify NSR, NSD, NSDD, NSSD, PCC, DC, NSC meeting, tab, tasking, decision-stage, distribution, and scheduled-publication language; do not alter directive numbers, bodies, dates, tabs, or decision stages unless target-volume evidence proves the exact form.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "decision_process_id": "decision-v31-d9-source-nsr14-file",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d9",
+      "document_number": "9",
+      "unit_scope": "source note",
+      "process_type": "national_security_review_file",
+      "approved_phrase": "NSR–14—April 03, 1989—Review of U.S. Arms Control Policies [1]",
+      "process_identifier": "NSR-14",
+      "process_body": "National Security Council H-Files, NSR Files",
+      "decision_stage": "source-file identifier",
+      "source_or_context": "Document 9 source note uses the NSR file title as part of the controlling Bush Library source path.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d9",
+      "verification_status": "verified_published_decision_process_record",
+      "variant_forms": [
+        "NSR-14-April 03, 1989-Review of U.S. Arms Control Policies [1]"
+      ]
+    },
+    {
+      "decision_process_id": "decision-v31-d9-nsr12-scheduled",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d9",
+      "document_number": "9",
+      "unit_scope": "footnote 2",
+      "process_type": "scheduled_publication_boundary",
+      "approved_phrase": "NSR–12, dated March 3, “Review of National Defense Strategy,” is scheduled for publication",
+      "process_identifier": "NSR-12",
+      "process_body": "National Security Review",
+      "decision_stage": "scheduled publication in related volume",
+      "source_or_context": "Document 9 identifies NSR-12 as a related national-security-policy directive scheduled for another volume.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d9",
+      "verification_status": "verified_published_decision_process_record",
+      "variant_forms": [
+        "NSR-12, dated March 3, \"Review of National Defense Strategy,\" is scheduled for publication"
+      ]
+    },
+    {
+      "decision_process_id": "decision-v31-d9-draft-nsr-attached",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d9",
+      "document_number": "9",
+      "unit_scope": "document text",
+      "process_type": "draft_directive_attached",
+      "approved_phrase": "A draft National Security Review providing such direction is attached",
+      "process_identifier": "draft NSR",
+      "process_body": "National Security Review",
+      "decision_stage": "draft attached for presidential signature",
+      "source_or_context": "Document 9 models language for an attached draft National Security Review and the target printed document.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d9",
+      "verification_status": "verified_published_decision_process_record",
+      "variant_forms": [
+        "draft National Security Review providing such direction is attached"
+      ]
+    },
+    {
+      "decision_process_id": "decision-v31-d10-heading-nsr14",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d10",
+      "document_number": "10",
+      "unit_scope": "document heading",
+      "process_type": "national_security_review",
+      "approved_phrase": "National Security Review 14",
+      "process_identifier": "NSR-14",
+      "process_body": "National Security Review",
+      "decision_stage": "issued directive heading",
+      "source_or_context": "Document 10 heading prints the directive as National Security Review 14.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d10",
+      "verification_status": "verified_published_decision_process_record",
+      "variant_forms": [
+        "NSR 14"
+      ]
+    },
+    {
+      "decision_process_id": "decision-v31-d10-guidance-review",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d10",
+      "document_number": "10",
+      "unit_scope": "document text",
+      "process_type": "directive_guidance",
+      "approved_phrase": "This National Security Review sets forth guidance for the arms control review",
+      "process_identifier": "NSR-14",
+      "process_body": "National Security Review",
+      "decision_stage": "guidance issued",
+      "source_or_context": "Document 10 models the formula for a National Security Review setting guidance.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d10",
+      "verification_status": "verified_published_decision_process_record",
+      "variant_forms": [
+        "National Security Review sets forth guidance"
+      ]
+    },
+    {
+      "decision_process_id": "decision-v31-d10-arms-control-pcc",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d10",
+      "document_number": "10",
+      "unit_scope": "document text",
+      "process_type": "policy_coordinating_committee_tasking",
+      "approved_phrase": "The Arms Control PCC should forward a recommended date for the resumption of the Nuclear and Space Talks",
+      "process_identifier": "Arms Control PCC",
+      "process_body": "Policy Coordinating Committee",
+      "decision_stage": "tasking and recommendation deadline",
+      "source_or_context": "Document 10 uses PCC tasking language with a specified recommendation deadline.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d10",
+      "verification_status": "verified_published_decision_process_record",
+      "variant_forms": [
+        "Arms Control PCC should forward a recommended date"
+      ]
+    },
+    {
+      "decision_process_id": "decision-v31-d10-record-of-decision",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d10",
+      "document_number": "10",
+      "unit_scope": "Tab A",
+      "process_type": "record_of_decision",
+      "approved_phrase": "The PCC Executive Secretary will prepare and forward within one week after the meeting a record of decision",
+      "process_identifier": "PCC record of decision",
+      "process_body": "Arms Control PCC",
+      "decision_stage": "post-meeting record of decision",
+      "source_or_context": "Document 10 Tab A models PCC record-of-decision language.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d10",
+      "verification_status": "verified_published_decision_process_record",
+      "variant_forms": [
+        "PCC Executive Secretary will prepare and forward within one week after the meeting a record of decision"
+      ]
+    },
+    {
+      "decision_process_id": "decision-v31-d21-nsr12-part-iv",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d21",
+      "document_number": "21",
+      "unit_scope": "document heading",
+      "process_type": "national_security_review_response",
+      "approved_phrase": "NSR–12, PART IV",
+      "process_identifier": "NSR-12 Part IV",
+      "process_body": "Ad Hoc Interagency Group on National Defense Strategy",
+      "decision_stage": "interagency response paper",
+      "source_or_context": "Document 21 prints a paper prepared as Part IV of the NSR-12 response.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d21",
+      "verification_status": "verified_published_decision_process_record",
+      "variant_forms": [
+        "NSR-12, PART IV"
+      ]
+    },
+    {
+      "decision_process_id": "decision-v31-d21-nsc-dc-source",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d21",
+      "document_number": "21",
+      "unit_scope": "source note",
+      "process_type": "deputies_committee_file",
+      "approved_phrase": "NSC/DC 027—May 20, 1989—NSC/DC Meeting on Security and Arms Control",
+      "process_identifier": "NSC/DC 027",
+      "process_body": "NSC Deputies Committee",
+      "decision_stage": "meeting file identifier",
+      "source_or_context": "Document 21 source note preserves the NSC/DC file identifier and meeting title.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d21",
+      "verification_status": "verified_published_decision_process_record",
+      "variant_forms": [
+        "NSC/DC 027-May 20, 1989-NSC/DC Meeting on Security and Arms Control"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "decision_process_id": "decision-v31-d9-source-nsr14-file",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d9",
+      "document_number": "9",
+      "unit_scope": "source note",
+      "process_type": "national_security_review_file",
+      "approved_phrase": "NSR–14—April 03, 1989—Review of U.S. Arms Control Policies [1]",
+      "process_identifier": "NSR-14",
+      "process_body": "National Security Council H-Files, NSR Files",
+      "decision_stage": "source-file identifier",
+      "source_or_context": "Document 9 source note uses the NSR file title as part of the controlling Bush Library source path.",
+      "variant_forms": [
+        "NSR-14-April 03, 1989-Review of U.S. Arms Control Policies [1]"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d9",
+      "verification_status": "verified_published_decision_process_record"
+    },
+    {
+      "decision_process_id": "decision-v31-d9-nsr12-scheduled",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d9",
+      "document_number": "9",
+      "unit_scope": "footnote 2",
+      "process_type": "scheduled_publication_boundary",
+      "approved_phrase": "NSR–12, dated March 3, “Review of National Defense Strategy,” is scheduled for publication",
+      "process_identifier": "NSR-12",
+      "process_body": "National Security Review",
+      "decision_stage": "scheduled publication in related volume",
+      "source_or_context": "Document 9 identifies NSR-12 as a related national-security-policy directive scheduled for another volume.",
+      "variant_forms": [
+        "NSR-12, dated March 3, \"Review of National Defense Strategy,\" is scheduled for publication"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d9",
+      "verification_status": "verified_published_decision_process_record"
+    },
+    {
+      "decision_process_id": "decision-v31-d9-draft-nsr-attached",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d9",
+      "document_number": "9",
+      "unit_scope": "document text",
+      "process_type": "draft_directive_attached",
+      "approved_phrase": "A draft National Security Review providing such direction is attached",
+      "process_identifier": "draft NSR",
+      "process_body": "National Security Review",
+      "decision_stage": "draft attached for presidential signature",
+      "source_or_context": "Document 9 models language for an attached draft National Security Review and the target printed document.",
+      "variant_forms": [
+        "draft National Security Review providing such direction is attached"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d9",
+      "verification_status": "verified_published_decision_process_record"
+    },
+    {
+      "decision_process_id": "decision-v31-d10-heading-nsr14",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d10",
+      "document_number": "10",
+      "unit_scope": "document heading",
+      "process_type": "national_security_review",
+      "approved_phrase": "National Security Review 14",
+      "process_identifier": "NSR-14",
+      "process_body": "National Security Review",
+      "decision_stage": "issued directive heading",
+      "source_or_context": "Document 10 heading prints the directive as National Security Review 14.",
+      "variant_forms": [
+        "NSR 14"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d10",
+      "verification_status": "verified_published_decision_process_record"
+    },
+    {
+      "decision_process_id": "decision-v31-d10-guidance-review",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d10",
+      "document_number": "10",
+      "unit_scope": "document text",
+      "process_type": "directive_guidance",
+      "approved_phrase": "This National Security Review sets forth guidance for the arms control review",
+      "process_identifier": "NSR-14",
+      "process_body": "National Security Review",
+      "decision_stage": "guidance issued",
+      "source_or_context": "Document 10 models the formula for a National Security Review setting guidance.",
+      "variant_forms": [
+        "National Security Review sets forth guidance"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d10",
+      "verification_status": "verified_published_decision_process_record"
+    },
+    {
+      "decision_process_id": "decision-v31-d10-arms-control-pcc",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d10",
+      "document_number": "10",
+      "unit_scope": "document text",
+      "process_type": "policy_coordinating_committee_tasking",
+      "approved_phrase": "The Arms Control PCC should forward a recommended date for the resumption of the Nuclear and Space Talks",
+      "process_identifier": "Arms Control PCC",
+      "process_body": "Policy Coordinating Committee",
+      "decision_stage": "tasking and recommendation deadline",
+      "source_or_context": "Document 10 uses PCC tasking language with a specified recommendation deadline.",
+      "variant_forms": [
+        "Arms Control PCC should forward a recommended date"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d10",
+      "verification_status": "verified_published_decision_process_record"
+    },
+    {
+      "decision_process_id": "decision-v31-d10-record-of-decision",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d10",
+      "document_number": "10",
+      "unit_scope": "Tab A",
+      "process_type": "record_of_decision",
+      "approved_phrase": "The PCC Executive Secretary will prepare and forward within one week after the meeting a record of decision",
+      "process_identifier": "PCC record of decision",
+      "process_body": "Arms Control PCC",
+      "decision_stage": "post-meeting record of decision",
+      "source_or_context": "Document 10 Tab A models PCC record-of-decision language.",
+      "variant_forms": [
+        "PCC Executive Secretary will prepare and forward within one week after the meeting a record of decision"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d10",
+      "verification_status": "verified_published_decision_process_record"
+    },
+    {
+      "decision_process_id": "decision-v31-d21-nsr12-part-iv",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d21",
+      "document_number": "21",
+      "unit_scope": "document heading",
+      "process_type": "national_security_review_response",
+      "approved_phrase": "NSR–12, PART IV",
+      "process_identifier": "NSR-12 Part IV",
+      "process_body": "Ad Hoc Interagency Group on National Defense Strategy",
+      "decision_stage": "interagency response paper",
+      "source_or_context": "Document 21 prints a paper prepared as Part IV of the NSR-12 response.",
+      "variant_forms": [
+        "NSR-12, PART IV"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d21",
+      "verification_status": "verified_published_decision_process_record"
+    },
+    {
+      "decision_process_id": "decision-v31-d21-nsc-dc-source",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d21",
+      "document_number": "21",
+      "unit_scope": "source note",
+      "process_type": "deputies_committee_file",
+      "approved_phrase": "NSC/DC 027—May 20, 1989—NSC/DC Meeting on Security and Arms Control",
+      "process_identifier": "NSC/DC 027",
+      "process_body": "NSC Deputies Committee",
+      "decision_stage": "meeting file identifier",
+      "source_or_context": "Document 21 source note preserves the NSC/DC file identifier and meeting title.",
+      "variant_forms": [
+        "NSC/DC 027-May 20, 1989-NSC/DC Meeting on Security and Arms Control"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d21",
+      "verification_status": "verified_published_decision_process_record"
+    },
+    {
+      "decision_process_id": "decision-v44p1-d128-sign-nsdd-tab-a",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d128",
+      "document_number": "128",
+      "unit_scope": "recommendation",
+      "process_type": "national_security_decision_directive_signature",
+      "approved_phrase": "That you sign the National Security Decision Directive at Tab A",
+      "process_identifier": "NSDD at Tab A",
+      "process_body": "National Security Decision Directive",
+      "decision_stage": "recommendation for presidential signature",
+      "source_or_context": "Document 128 models a recommendation to sign the attached NSDD at Tab A.",
+      "variant_forms": [
+        "sign the National Security Decision Directive at Tab A"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d128",
+      "verification_status": "verified_published_decision_process_record"
+    },
+    {
+      "decision_process_id": "decision-v44p1-d129-heading-nsdd236",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d129",
+      "document_number": "129",
+      "unit_scope": "document heading",
+      "process_type": "national_security_decision_directive",
+      "approved_phrase": "National Security Decision Directive 236",
+      "process_identifier": "NSDD-236",
+      "process_body": "National Security Decision Directive",
+      "decision_stage": "issued directive heading",
+      "source_or_context": "Document 129 heading prints the directive as National Security Decision Directive 236.",
+      "variant_forms": [
+        "NSDD 236"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d129",
+      "verification_status": "verified_published_decision_process_record"
+    },
+    {
+      "decision_process_id": "decision-v01-d103-nssd4-scheduled",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d103",
+      "document_number": "103",
+      "unit_scope": "footnote 5",
+      "process_type": "national_security_study_directive_boundary",
+      "approved_phrase": "NSSD 4–82, “US Strategy for the Near East and Southwest Asia,” issued on March 19; scheduled for publication",
+      "process_identifier": "NSSD-4-82",
+      "process_body": "National Security Study Directive",
+      "decision_stage": "issued and scheduled for related volume",
+      "source_or_context": "Document 103 models NSSD scheduled-publication boundary language for a related regional volume.",
+      "variant_forms": [
+        "NSSD 4-82, \"US Strategy for the Near East and Southwest Asia,\" issued on March 19; scheduled for publication"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d103",
+      "verification_status": "verified_published_decision_process_record"
     }
   ]
 }

@@ -59,6 +59,8 @@ try {
     "reports/frus-time-zone-registry.sample.json",
     "--selection-balance-registry",
     "reports/frus-selection-balance-registry.sample.json",
+    "--decision-process-registry",
+    "reports/frus-decision-process-registry.sample.json",
     "--public-source-registry",
     "reports/frus-public-source-registry.sample.json",
     "--retrospective-account-registry",
@@ -142,6 +144,9 @@ try {
     markdown.includes("complete memorandum of conversation is scheduled for publication"),
     "expected complete-record-elsewhere selection-balance content"
   );
+  assert(markdown.includes("Decision Process And Directive Registry Context"), "expected decision-process registry section");
+  assert(markdown.includes("National Security Review 14"), "expected NSR decision-process registry content");
+  assert(markdown.includes("National Security Decision Directive 236"), "expected NSDD decision-process registry content");
   assert(markdown.includes("Public Source And Public Diplomacy Registry Context"), "expected public-source registry section");
   assert(markdown.includes("Public Papers: Bush, 1991, pages 986-987"), "expected Public Papers registry content");
   assert(markdown.includes("Department of State Dispatch Supplement, October 1991"), "expected Department of State Dispatch registry content");
@@ -227,6 +232,12 @@ try {
     "expected target selection-balance records"
   );
   assert(packet.packet_summary.selection_balance_registry_records === 8, "expected selection-balance registry count");
+  assert(packet.contexts.decision_process_registry.records.length === 12, "expected decision-process registry records");
+  assert(
+    packet.contexts.decision_process_registry.target_records.length === 9,
+    "expected target decision-process records"
+  );
+  assert(packet.packet_summary.decision_process_registry_records === 12, "expected decision-process registry count");
   assert(packet.contexts.public_source_registry.records.length === 6, "expected public-source registry records");
   assert(packet.contexts.public_source_registry.target_records.length > 0, "expected target public-source records");
   assert(packet.packet_summary.public_source_registry_records === 6, "expected public-source registry count");
@@ -270,7 +281,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, selection-balance, public-source, retrospective-account, treaty, foreign-org, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

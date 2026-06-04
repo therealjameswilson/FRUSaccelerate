@@ -1,0 +1,95 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source_docx": "sample-frus-annotation-sheet.docx",
+  "generated_at": "2026-06-04T00:00:00.000Z",
+  "units": [
+    {
+      "unit_id": "decision-0001",
+      "unit_type": "source_note",
+      "location": "START I Document 9 source note",
+      "exact_text": "Source: George H.W. Bush Library, Bush Presidential Records, National Security Council, H-Files, NSR Files, OA/ID 90006-025, NSR–14—April 03, 1989—Review of U.S. Arms Control Policies [1]. Secret.",
+      "display_text": "Source: George H.W. Bush Library, Bush Presidential Records, National Security Council, H-Files, NSR Files, OA/ID 90006-025, NSR–14—April 03, 1989—Review of U.S. Arms Control Policies [1]. Secret.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "decision-0002",
+      "unit_type": "follow_on_footnote",
+      "location": "START I Document 9 footnote 2",
+      "exact_text": "NSR–12, dated March 3, “Review of National Defense Strategy,” is scheduled for publication in Foreign Relations, 1989-1992, vol. XXVIII.",
+      "display_text": "NSR–12, dated March 3, “Review of National Defense Strategy,” is scheduled for publication in Foreign Relations, 1989-1992, vol. XXVIII.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "decision-0003",
+      "unit_type": "document_heading",
+      "location": "START I Document 10 heading",
+      "exact_text": "10. National Security Review 14",
+      "display_text": "10. National Security Review 14",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "decision-0004",
+      "unit_type": "editorial_note",
+      "location": "START I Document 10 Tab A",
+      "exact_text": "The PCC Executive Secretary will prepare and forward within one week after the meeting a record of decision recording consensus.",
+      "display_text": "The PCC Executive Secretary will prepare and forward within one week after the meeting a record of decision recording consensus.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "decision-0005",
+      "unit_type": "source_note",
+      "location": "START I Document 21 source note",
+      "exact_text": "Source: Bush Library, National Security Council, H-Files-NSR Files, OA/ID 90010-006, NSC/DC 027—May 20, 1989—NSC/DC Meeting on Security and Arms Control. Secret.",
+      "display_text": "Source: Bush Library, National Security Council, H-Files-NSR Files, OA/ID 90010-006, NSC/DC 027—May 20, 1989—NSC/DC Meeting on Security and Arms Control. Secret.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "decision-0006",
+      "unit_type": "document_heading",
+      "location": "Reagan National Security Policy Document 129 heading",
+      "exact_text": "129. National Security Decision Directive 236",
+      "display_text": "129. National Security Decision Directive 236",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "decision-0007",
+      "unit_type": "follow_on_footnote",
+      "location": "Reagan Foundations Document 103 footnote",
+      "exact_text": "NSSD 4–82, “US Strategy for the Near East and Southwest Asia,” issued on March 19; scheduled for publication in Foreign Relations, 1981-1988, vol. XXII.",
+      "display_text": "NSSD 4–82, “US Strategy for the Near East and Southwest Asia,” issued on March 19; scheduled for publication in Foreign Relations, 1981-1988, vol. XXII.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "decision-0008",
+      "unit_type": "editorial_note",
+      "location": "Draft unsupported directive shorthand",
+      "exact_text": "NSDD TK directed the interagency group to change the President's decision and the Deputies Committee approved the final option.",
+      "display_text": "NSDD TK directed the interagency group to change the President's decision and the Deputies Committee approved the final option.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}
