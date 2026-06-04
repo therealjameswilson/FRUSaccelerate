@@ -1,0 +1,438 @@
+{
+  "schema_version": "frus-economic-financial-registry-v1",
+  "economic_financial_registry_id": "frus-1981-1992-economic-financial-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v38",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/preface",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d129",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d142",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d246",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d267",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d327",
+    "https://history.state.gov/historicaldocuments/status-of-the-series"
+  ],
+  "scope": "Sample economic/financial registry for Reagan and George H.W. Bush FRUS annotation sheets. Use it to keep dollar amounts, percentages, debt metrics, IMF/World Bank terminology, MDB and GAB references, Paris Club and Baker Plan language, Eximbank/OPIC/ESF/AID program labels, budget claims, and debt-relief mechanics tied to published FRUS examples before allowing direct edits.",
+  "records": [
+    {
+      "economic_financial_id": "economic-financial-v38-imf-quota-percent-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d129",
+      "document_number": "129",
+      "unit_scope": "document_text",
+      "financial_type": "imf_quota",
+      "approved_phrase": "A 47 percent increase in resources has been approved",
+      "institution_or_program": "International Monetary Fund",
+      "amount_or_metric": "47 percent increase in IMF resources",
+      "policy_context": "IMF quota increase and LDC debt situation in a SIG-IEP meeting.",
+      "citation_or_locator": "Document 129, Debt Strategy section",
+      "public_or_archival_basis": "Published FRUS text gives the approved percentage before listing U.S. and GAB amounts.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 129.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d129",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "47 percent increase in IMF resources",
+        "47% increase in IMF resources"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-imf-us-portion-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d129",
+      "document_number": "129",
+      "unit_scope": "document_text",
+      "financial_type": "imf_quota",
+      "approved_phrase": "the U.S. portion of which is $5.8 billion",
+      "institution_or_program": "International Monetary Fund",
+      "amount_or_metric": "$5.8 billion",
+      "policy_context": "U.S. share of IMF resource increase.",
+      "citation_or_locator": "Document 129, Debt Strategy section",
+      "public_or_archival_basis": "Published FRUS text records the exact U.S. portion of the IMF increase.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 129.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d129",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "U.S. portion is $5.8 billion",
+        "$5.8 billion"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-gab-amount-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d129",
+      "document_number": "129",
+      "unit_scope": "document_text",
+      "financial_type": "gab_arrangement",
+      "approved_phrase": "The GAB arrangement will be increased to $19 billion",
+      "institution_or_program": "General Arrangements to Borrow",
+      "amount_or_metric": "$19 billion",
+      "policy_context": "GAB expansion from G-10 availability to all member countries.",
+      "citation_or_locator": "Document 129, Debt Strategy section",
+      "public_or_archival_basis": "Published FRUS text identifies GAB amount and access change.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 129.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d129",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "GAB increased to $19 billion",
+        "General Arrangements to Borrow increased to $19 billion"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-congress-total-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d129",
+      "document_number": "129",
+      "unit_scope": "document_text",
+      "financial_type": "budget_authority",
+      "approved_phrase": "ask Congress for a total of $8.4 billion",
+      "institution_or_program": "Congress and IMF/GAB funding request",
+      "amount_or_metric": "$8.4 billion",
+      "policy_context": "Total request to Congress for IMF quota and GAB resources.",
+      "citation_or_locator": "Document 129, Debt Strategy section",
+      "public_or_archival_basis": "Published FRUS text gives the combined congressional request figure.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 129.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d129",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "total of $8.4 billion",
+        "no budgetary impact"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-ldc-debt-growth-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d142",
+      "document_number": "142",
+      "unit_scope": "document_text",
+      "financial_type": "international_debt_metric",
+      "approved_phrase": "grew from only $55 billion in 1970 to $625 billion last year",
+      "institution_or_program": "LDC and East European debt",
+      "amount_or_metric": "$55 billion to $625 billion",
+      "policy_context": "Medium- and long-term debt growth in the international debt problem briefing.",
+      "citation_or_locator": "Document 142, Facts section",
+      "public_or_archival_basis": "Published FRUS text preserves both endpoints and the temporal frame.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 142.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d142",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "$55 billion in 1970 to $625 billion",
+        "LDC and East European debt grew to $625 billion"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-short-term-debt-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d142",
+      "document_number": "142",
+      "unit_scope": "document_text",
+      "financial_type": "international_debt_metric",
+      "approved_phrase": "about $150 billion in short-term debt",
+      "institution_or_program": "LDC and East European debt",
+      "amount_or_metric": "$150 billion",
+      "policy_context": "Short-term debt component of debtor-country exposure.",
+      "citation_or_locator": "Document 142, Facts section",
+      "public_or_archival_basis": "Published FRUS text uses approximate short-term debt language.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 142.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d142",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "$150 billion short-term debt"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-debt-service-growth-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d142",
+      "document_number": "142",
+      "unit_scope": "document_text",
+      "financial_type": "international_debt_metric",
+      "approved_phrase": "increased correspondingly from $9 billion in 1970 to an estimated $140 billion in 1982",
+      "institution_or_program": "Annual debt service requirements",
+      "amount_or_metric": "$9 billion to $140 billion",
+      "policy_context": "Debt service growth in the international debt problem briefing.",
+      "citation_or_locator": "Document 142, Facts section",
+      "public_or_archival_basis": "Published FRUS text gives the start figure, estimated end figure, and year.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 142.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d142",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "$9 billion in 1970 to $140 billion in 1982",
+        "$140 billion in 1982"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-debt-service-ratio-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d142",
+      "document_number": "142",
+      "unit_scope": "document_text",
+      "financial_type": "debt_service_ratio",
+      "approved_phrase": "a debt service to export ratio of more than 20%",
+      "institution_or_program": "Debt service/export ratio",
+      "amount_or_metric": "more than 20%",
+      "policy_context": "Debt burden threshold in international debt analysis.",
+      "citation_or_locator": "Document 142, Facts section",
+      "public_or_archival_basis": "Published FRUS text identifies the threshold as traditionally worrisome.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 142.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d142",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "debt service/export ratio over 20 percent",
+        "debt service to export ratio over 20%"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-mdb-reduction-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d267",
+      "document_number": "267",
+      "unit_scope": "document_text",
+      "financial_type": "mdb_funding",
+      "approved_phrase": "a six percent reduction in overall funding for MDBs",
+      "institution_or_program": "Multilateral development banks",
+      "amount_or_metric": "six percent reduction",
+      "policy_context": "Cabinet Council decision on MDB funding reductions.",
+      "citation_or_locator": "Document 267, Decisions section",
+      "public_or_archival_basis": "Published FRUS text uses spelled-out percent language and MDB acronym.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 267.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d267",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "6 percent reduction in overall funding for MDBs",
+        "six percent MDB funding reduction"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-imf-world-bank-meeting-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d267",
+      "document_number": "267",
+      "unit_scope": "footnote",
+      "financial_type": "imf_world_bank_meeting",
+      "approved_phrase": "annual meeting of the Board of Governors of the World Bank Group and the International Monetary Fund",
+      "institution_or_program": "World Bank Group and International Monetary Fund",
+      "amount_or_metric": "meeting citation",
+      "policy_context": "Public Papers cross-reference for Reagan remarks.",
+      "citation_or_locator": "Document 267, footnote 3",
+      "public_or_archival_basis": "Published FRUS footnote gives the formal meeting title.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 267.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d267",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "IMF and World Bank meetings",
+        "IMF/World Bank meetings"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-paris-club-toronto-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d246",
+      "document_number": "246",
+      "unit_scope": "document_text",
+      "financial_type": "paris_club_debt_relief",
+      "approved_phrase": "rules for implementing the debt relief scheme agreed to at the Toronto Economic Summit",
+      "institution_or_program": "Paris Club and Toronto Economic Summit",
+      "amount_or_metric": "debt relief scheme",
+      "policy_context": "Debt relief for poorest countries after Toronto.",
+      "citation_or_locator": "Document 246, International Debt section",
+      "public_or_archival_basis": "Published FRUS text ties Paris Club action to Toronto Summit debt relief.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 246.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d246",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "Paris Club debt relief scheme agreed to at Toronto",
+        "Toronto Summit debt relief scheme"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-export-import-loans-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d246",
+      "document_number": "246",
+      "unit_scope": "document_text",
+      "financial_type": "trade_finance",
+      "approved_phrase": "Export-Import Bank will provide medium-term loans at concessional rates",
+      "institution_or_program": "Export-Import Bank of Japan",
+      "amount_or_metric": "medium-term loans at concessional rates",
+      "policy_context": "Japanese middle-income-country debt proposal at IMF/World Bank meetings.",
+      "citation_or_locator": "Document 246, International Debt section",
+      "public_or_archival_basis": "Published FRUS text distinguishes Japanese Ex-Im lending from U.S. position.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 246.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d246",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "Export Import Bank medium-term loans at concessional rates",
+        "untied concessional loans"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-baker-plan-departure-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d246",
+      "document_number": "246",
+      "unit_scope": "document_text",
+      "financial_type": "baker_plan",
+      "approved_phrase": "a clear departure from the Baker Plan",
+      "institution_or_program": "Baker Plan debt strategy",
+      "amount_or_metric": "policy comparison",
+      "policy_context": "Mexico debt proposal contrasted with Baker Plan principles.",
+      "citation_or_locator": "Document 246, International Debt section",
+      "public_or_archival_basis": "Published FRUS text uses Baker Plan as a named policy baseline.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 246.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d246",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "departure from Baker Plan",
+        "departed from the Baker Plan"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-argentina-world-bank-loans-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d246",
+      "document_number": "246",
+      "unit_scope": "document_text",
+      "financial_type": "world_bank_loan",
+      "approved_phrase": "Argentina and the World Bank announced agreement on $1.25 billion in new loans",
+      "institution_or_program": "World Bank",
+      "amount_or_metric": "$1.25 billion",
+      "policy_context": "World Bank lending to Argentina before an IMF program was in place.",
+      "citation_or_locator": "Document 246, International Debt section",
+      "public_or_archival_basis": "Published FRUS text identifies parties, amount, and controversy.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 246.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d246",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "$1.25 billion in World Bank loans",
+        "World Bank agreement on $1.25 billion"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-imf-arrears-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d246",
+      "document_number": "246",
+      "unit_scope": "document_text",
+      "financial_type": "arrearages_metric",
+      "approved_phrase": "arrears totalling almost $3 billion, about 10% of outstanding IMF credit",
+      "institution_or_program": "International Monetary Fund",
+      "amount_or_metric": "almost $3 billion; about 10%",
+      "policy_context": "IMF resource constraint caused by member-country arrears.",
+      "citation_or_locator": "Document 246, IMF Resources section",
+      "public_or_archival_basis": "Published FRUS text pairs arrears amount with percentage of outstanding IMF credit.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 246.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d246",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "almost $3 billion in IMF arrears",
+        "10% of outstanding IMF credit"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-world-bank-gci-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d246",
+      "document_number": "246",
+      "unit_scope": "document_text",
+      "financial_type": "mdb_funding",
+      "approved_phrase": "the Bank's $75 billion Eighth General Capital Increase",
+      "institution_or_program": "World Bank",
+      "amount_or_metric": "$75 billion",
+      "policy_context": "World Bank resources and U.S. commitment.",
+      "citation_or_locator": "Document 246, World Bank Resources section",
+      "public_or_archival_basis": "Published FRUS text names the Eighth General Capital Increase and dollar amount.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 246.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d246",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "$75 billion Eighth General Capital Increase",
+        "World Bank Eighth General Capital Increase"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-aid-finance-mechanisms-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d327",
+      "document_number": "327",
+      "unit_scope": "document_text",
+      "financial_type": "aid_finance_program",
+      "approved_phrase": "AID, Eximbank, OPIC, etc.",
+      "institution_or_program": "AID, Eximbank, OPIC",
+      "amount_or_metric": "program labels",
+      "policy_context": "Restructuring aid, investment, and trade-financing mechanisms.",
+      "citation_or_locator": "Document 327, Objectives section",
+      "public_or_archival_basis": "Published FRUS text groups the program labels in the policy objective.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 327.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d327",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "AID, Eximbank, OPIC",
+        "aid, investment and trade financing mechanisms"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-esf-programs-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d327",
+      "document_number": "327",
+      "unit_scope": "document_text",
+      "financial_type": "aid_finance_program",
+      "approved_phrase": "State/AID ESF, the entire AID organization, Eximbank, OPIC, Treasury ESF, etc.",
+      "institution_or_program": "State/AID ESF, AID, Eximbank, OPIC, Treasury ESF",
+      "amount_or_metric": "program labels",
+      "policy_context": "NSC study on financial programs linked to U.S. foreign policy.",
+      "citation_or_locator": "Document 327, Other proposed policies section",
+      "public_or_archival_basis": "Published FRUS text preserves the program list and Treasury ESF distinction.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 327.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d327",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "State/AID ESF",
+        "Treasury ESF",
+        "Eximbank, OPIC"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-debt-to-grants-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d327",
+      "document_number": "327",
+      "unit_scope": "document_text",
+      "financial_type": "aid_finance_program",
+      "approved_phrase": "conversion of certain types of Third World debt to U.S. official sources to be converted to grants in local currencies",
+      "institution_or_program": "Foreign Assistance Act debt-to-grants authority",
+      "amount_or_metric": "debt converted to local-currency grants",
+      "policy_context": "World Bank lending and Foreign Assistance Act authority.",
+      "citation_or_locator": "Document 327, Other proposed policies section",
+      "public_or_archival_basis": "Published FRUS text describes the conversion mechanism and local-currency grant endpoint.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 327.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d327",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "debt to U.S. official sources converted to grants in local currencies",
+        "debt converted to local currency grants"
+      ]
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-scope-foreign-economic-policy-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/preface",
+      "document_number": "preface",
+      "unit_scope": "front_matter",
+      "financial_type": "debt_strategy",
+      "approved_phrase": "the need to formulate policies and strategies to address an unfolding international debt crisis, which lasted until the end of the Reagan administration and continued into the George H.W. Bush administration",
+      "institution_or_program": "Reagan and George H.W. Bush foreign economic policy",
+      "amount_or_metric": "volume-scope statement",
+      "policy_context": "Preface scope connecting Reagan international debt crisis to Bush administration continuation.",
+      "citation_or_locator": "Volume XXXVIII Preface, Focus of Research and Principles of Selection",
+      "public_or_archival_basis": "Published FRUS preface explains why debt policy permutations remain relevant to Bush volumes in preparation.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Preface.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/preface",
+      "verification_status": "verified_published_economic_financial_record",
+      "variant_forms": [
+        "international debt crisis continued into the George H.W. Bush administration",
+        "foreign economic policy continued into the Bush administration"
+      ]
+    }
+  ]
+}

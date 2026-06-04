@@ -12324,6 +12324,19 @@ Minimum components:
   Determinations, Arms Export Control Act language, and Federal Register
   publication claims to supplied target-volume records and fails direct
   legal-authority edits that lack registry support.
+- No-dependency economic/financial registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-economic-financial-registry.mjs`,
+  `scripts/audit-frus-economic-financial-usage.mjs`,
+  `reports/frus-economic-financial-registry.sample.json`,
+  `reports/frus-economic-financial-units.sample.json`, and
+  `reports/frus-economic-financial-audit.sample.json`. The audit reconciles
+  dollar amounts, percentages, debt metrics, IMF quota and resource language,
+  General Arrangements to Borrow, World Bank and MDB funding, Paris Club debt
+  relief, Baker Plan references, Eximbank/OPIC/ESF/AID program labels,
+  arrears, loans, grants, budget claims, trade-finance, exchange-rate,
+  commodity-policy, and foreign economic policy scope language to supplied
+  target-volume records and fails direct economic/financial edits that lack
+  registry support.
 - No-dependency footnote refer-back registry validator, usage audit, and
   fixtures: `scripts/validate-frus-footnote-referback-registry.mjs`,
   `scripts/audit-frus-footnote-referback-usage.mjs`,

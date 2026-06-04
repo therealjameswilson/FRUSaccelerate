@@ -2,7 +2,7 @@
 
 - schema_version: frus-llm-review-packet-v1
 - run_id: sample-packet
-- generated_at: 2026-06-04T04:07:47.748Z
+- generated_at: 2026-06-04T04:27:40.756Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -173,6 +173,7 @@ Every reviewable extracted editorial unit should have a checker entry. Use `reco
   "treaty_registry_records": 7,
   "foreign_org_registry_records": 10,
   "congressional_legal_registry_records": 16,
+  "economic_financial_registry_records": 20,
   "footnote_referback_registry_records": 8,
   "recurring_risk_registry_records": 13,
   "negative_search_registry_records": 6,
@@ -207,9 +208,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -264,6 +265,12 @@ For treaty/legal-instrument validation and direct-edit safety, run
 For foreign/international-organization validation and direct-edit safety, run
 `node scripts/validate-frus-foreign-org-registry.mjs --registry reports/frus-foreign-org-registry.sample.json --format text` and
 `node scripts/audit-frus-foreign-org-usage.mjs --units extracted-units.json --registry reports/frus-foreign-org-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For congressional/legal authority validation and direct-edit safety, run
+`node scripts/validate-frus-congressional-legal-registry.mjs --registry reports/frus-congressional-legal-registry.sample.json --format text` and
+`node scripts/audit-frus-congressional-legal-usage.mjs --units extracted-units.json --registry reports/frus-congressional-legal-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For economic/financial validation and direct-edit safety, run
+`node scripts/validate-frus-economic-financial-registry.mjs --registry reports/frus-economic-financial-registry.sample.json --format text` and
+`node scripts/audit-frus-economic-financial-usage.mjs --units extracted-units.json --registry reports/frus-economic-financial-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For footnote refer-back validation and direct-edit safety, run
 `node scripts/validate-frus-footnote-referback-registry.mjs --registry reports/frus-footnote-referback-registry.sample.json --format text` and
 `node scripts/audit-frus-footnote-referback-usage.mjs --units extracted-units.json --registry reports/frus-footnote-referback-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -292,7 +299,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -420,6 +427,15 @@ deferrals, congressional notices, Presidential Determinations, Arms Export
 Control Act language, and Federal Register publication claims; validate it with
 `scripts/validate-frus-congressional-legal-registry.mjs` before direct
 congressional or legal-authority edits.
+For real Reagan/Bush 1981-1992 economic/financial review, replace the sample
+economic/financial registry with target-volume records for dollar amounts,
+percentages, debt metrics, IMF quotas and resources, General Arrangements to
+Borrow, World Bank and MDB funding, Paris Club debt relief, Baker Plan
+references, Eximbank/OPIC/ESF/AID program labels, arrears, loans, grants,
+budget claims, trade-finance, exchange-rate, commodity-policy, and foreign
+economic policy scope language; validate it with
+`scripts/validate-frus-economic-financial-registry.mjs` before direct amount,
+institution, program-label, debt-mechanic, or financial-policy edits.
 For real Reagan/Bush 1981-1992 footnote refer-back review, replace the sample
 footnote refer-back registry with target-volume examples for repeated
 cross-document `footnote N, Document X` references, same-document above/below or
@@ -7599,6 +7615,453 @@ Use this to check Senate advice-and-consent, Senate information packages, treaty
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d144",
       "verification_status": "verified_published_congressional_legal_record"
+    }
+  ]
+}
+```
+
+## Economic And Financial Registry Context
+
+Use this to check dollar amounts, percentages, debt metrics, IMF quotas and resources, General Arrangements to Borrow, World Bank and MDB funding, Paris Club debt relief, Baker Plan references, Eximbank/OPIC/ESF/AID program labels, arrears, loans, grants, budget claims, trade-finance, exchange-rate, commodity-policy, and foreign economic policy scope language. Treat figures, institution names, program labels, debt-relief mechanics, and policy-plan labels as comment-only unless the target-volume economic/financial registry proves the exact direct edit.
+
+```json
+{
+  "schema_version": "frus-economic-financial-registry-v1",
+  "economic_financial_registry_id": "frus-1981-1992-economic-financial-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v38",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/preface",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d129",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d142",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d246",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d267",
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/d327",
+    "https://history.state.gov/historicaldocuments/status-of-the-series"
+  ],
+  "scope": "Sample economic/financial registry for Reagan and George H.W. Bush FRUS annotation sheets. Use it to keep dollar amounts, percentages, debt metrics, IMF/World Bank terminology, MDB and GAB references, Paris Club and Baker Plan language, Eximbank/OPIC/ESF/AID program labels, budget claims, and debt-relief mechanics tied to published FRUS examples before allowing direct edits.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [],
+  "records": [
+    {
+      "economic_financial_id": "economic-financial-v38-imf-quota-percent-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d129",
+      "document_number": "129",
+      "unit_scope": "document_text",
+      "financial_type": "imf_quota",
+      "approved_phrase": "A 47 percent increase in resources has been approved",
+      "institution_or_program": "International Monetary Fund",
+      "amount_or_metric": "47 percent increase in IMF resources",
+      "policy_context": "IMF quota increase and LDC debt situation in a SIG-IEP meeting.",
+      "citation_or_locator": "Document 129, Debt Strategy section",
+      "public_or_archival_basis": "Published FRUS text gives the approved percentage before listing U.S. and GAB amounts.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 129.",
+      "variant_forms": [
+        "47 percent increase in IMF resources",
+        "47% increase in IMF resources"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d129",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-imf-us-portion-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d129",
+      "document_number": "129",
+      "unit_scope": "document_text",
+      "financial_type": "imf_quota",
+      "approved_phrase": "the U.S. portion of which is $5.8 billion",
+      "institution_or_program": "International Monetary Fund",
+      "amount_or_metric": "$5.8 billion",
+      "policy_context": "U.S. share of IMF resource increase.",
+      "citation_or_locator": "Document 129, Debt Strategy section",
+      "public_or_archival_basis": "Published FRUS text records the exact U.S. portion of the IMF increase.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 129.",
+      "variant_forms": [
+        "U.S. portion is $5.8 billion",
+        "$5.8 billion"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d129",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-gab-amount-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d129",
+      "document_number": "129",
+      "unit_scope": "document_text",
+      "financial_type": "gab_arrangement",
+      "approved_phrase": "The GAB arrangement will be increased to $19 billion",
+      "institution_or_program": "General Arrangements to Borrow",
+      "amount_or_metric": "$19 billion",
+      "policy_context": "GAB expansion from G-10 availability to all member countries.",
+      "citation_or_locator": "Document 129, Debt Strategy section",
+      "public_or_archival_basis": "Published FRUS text identifies GAB amount and access change.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 129.",
+      "variant_forms": [
+        "GAB increased to $19 billion",
+        "General Arrangements to Borrow increased to $19 billion"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d129",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-congress-total-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d129",
+      "document_number": "129",
+      "unit_scope": "document_text",
+      "financial_type": "budget_authority",
+      "approved_phrase": "ask Congress for a total of $8.4 billion",
+      "institution_or_program": "Congress and IMF/GAB funding request",
+      "amount_or_metric": "$8.4 billion",
+      "policy_context": "Total request to Congress for IMF quota and GAB resources.",
+      "citation_or_locator": "Document 129, Debt Strategy section",
+      "public_or_archival_basis": "Published FRUS text gives the combined congressional request figure.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 129.",
+      "variant_forms": [
+        "total of $8.4 billion",
+        "no budgetary impact"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d129",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-ldc-debt-growth-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d142",
+      "document_number": "142",
+      "unit_scope": "document_text",
+      "financial_type": "international_debt_metric",
+      "approved_phrase": "grew from only $55 billion in 1970 to $625 billion last year",
+      "institution_or_program": "LDC and East European debt",
+      "amount_or_metric": "$55 billion to $625 billion",
+      "policy_context": "Medium- and long-term debt growth in the international debt problem briefing.",
+      "citation_or_locator": "Document 142, Facts section",
+      "public_or_archival_basis": "Published FRUS text preserves both endpoints and the temporal frame.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 142.",
+      "variant_forms": [
+        "$55 billion in 1970 to $625 billion",
+        "LDC and East European debt grew to $625 billion"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d142",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-short-term-debt-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d142",
+      "document_number": "142",
+      "unit_scope": "document_text",
+      "financial_type": "international_debt_metric",
+      "approved_phrase": "about $150 billion in short-term debt",
+      "institution_or_program": "LDC and East European debt",
+      "amount_or_metric": "$150 billion",
+      "policy_context": "Short-term debt component of debtor-country exposure.",
+      "citation_or_locator": "Document 142, Facts section",
+      "public_or_archival_basis": "Published FRUS text uses approximate short-term debt language.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 142.",
+      "variant_forms": [
+        "$150 billion short-term debt"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d142",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-debt-service-growth-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d142",
+      "document_number": "142",
+      "unit_scope": "document_text",
+      "financial_type": "international_debt_metric",
+      "approved_phrase": "increased correspondingly from $9 billion in 1970 to an estimated $140 billion in 1982",
+      "institution_or_program": "Annual debt service requirements",
+      "amount_or_metric": "$9 billion to $140 billion",
+      "policy_context": "Debt service growth in the international debt problem briefing.",
+      "citation_or_locator": "Document 142, Facts section",
+      "public_or_archival_basis": "Published FRUS text gives the start figure, estimated end figure, and year.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 142.",
+      "variant_forms": [
+        "$9 billion in 1970 to $140 billion in 1982",
+        "$140 billion in 1982"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d142",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-debt-service-ratio-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d142",
+      "document_number": "142",
+      "unit_scope": "document_text",
+      "financial_type": "debt_service_ratio",
+      "approved_phrase": "a debt service to export ratio of more than 20%",
+      "institution_or_program": "Debt service/export ratio",
+      "amount_or_metric": "more than 20%",
+      "policy_context": "Debt burden threshold in international debt analysis.",
+      "citation_or_locator": "Document 142, Facts section",
+      "public_or_archival_basis": "Published FRUS text identifies the threshold as traditionally worrisome.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 142.",
+      "variant_forms": [
+        "debt service/export ratio over 20 percent",
+        "debt service to export ratio over 20%"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d142",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-mdb-reduction-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d267",
+      "document_number": "267",
+      "unit_scope": "document_text",
+      "financial_type": "mdb_funding",
+      "approved_phrase": "a six percent reduction in overall funding for MDBs",
+      "institution_or_program": "Multilateral development banks",
+      "amount_or_metric": "six percent reduction",
+      "policy_context": "Cabinet Council decision on MDB funding reductions.",
+      "citation_or_locator": "Document 267, Decisions section",
+      "public_or_archival_basis": "Published FRUS text uses spelled-out percent language and MDB acronym.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 267.",
+      "variant_forms": [
+        "6 percent reduction in overall funding for MDBs",
+        "six percent MDB funding reduction"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d267",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-imf-world-bank-meeting-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d267",
+      "document_number": "267",
+      "unit_scope": "footnote",
+      "financial_type": "imf_world_bank_meeting",
+      "approved_phrase": "annual meeting of the Board of Governors of the World Bank Group and the International Monetary Fund",
+      "institution_or_program": "World Bank Group and International Monetary Fund",
+      "amount_or_metric": "meeting citation",
+      "policy_context": "Public Papers cross-reference for Reagan remarks.",
+      "citation_or_locator": "Document 267, footnote 3",
+      "public_or_archival_basis": "Published FRUS footnote gives the formal meeting title.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 267.",
+      "variant_forms": [
+        "IMF and World Bank meetings",
+        "IMF/World Bank meetings"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d267",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-paris-club-toronto-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d246",
+      "document_number": "246",
+      "unit_scope": "document_text",
+      "financial_type": "paris_club_debt_relief",
+      "approved_phrase": "rules for implementing the debt relief scheme agreed to at the Toronto Economic Summit",
+      "institution_or_program": "Paris Club and Toronto Economic Summit",
+      "amount_or_metric": "debt relief scheme",
+      "policy_context": "Debt relief for poorest countries after Toronto.",
+      "citation_or_locator": "Document 246, International Debt section",
+      "public_or_archival_basis": "Published FRUS text ties Paris Club action to Toronto Summit debt relief.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 246.",
+      "variant_forms": [
+        "Paris Club debt relief scheme agreed to at Toronto",
+        "Toronto Summit debt relief scheme"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d246",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-export-import-loans-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d246",
+      "document_number": "246",
+      "unit_scope": "document_text",
+      "financial_type": "trade_finance",
+      "approved_phrase": "Export-Import Bank will provide medium-term loans at concessional rates",
+      "institution_or_program": "Export-Import Bank of Japan",
+      "amount_or_metric": "medium-term loans at concessional rates",
+      "policy_context": "Japanese middle-income-country debt proposal at IMF/World Bank meetings.",
+      "citation_or_locator": "Document 246, International Debt section",
+      "public_or_archival_basis": "Published FRUS text distinguishes Japanese Ex-Im lending from U.S. position.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 246.",
+      "variant_forms": [
+        "Export Import Bank medium-term loans at concessional rates",
+        "untied concessional loans"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d246",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-baker-plan-departure-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d246",
+      "document_number": "246",
+      "unit_scope": "document_text",
+      "financial_type": "baker_plan",
+      "approved_phrase": "a clear departure from the Baker Plan",
+      "institution_or_program": "Baker Plan debt strategy",
+      "amount_or_metric": "policy comparison",
+      "policy_context": "Mexico debt proposal contrasted with Baker Plan principles.",
+      "citation_or_locator": "Document 246, International Debt section",
+      "public_or_archival_basis": "Published FRUS text uses Baker Plan as a named policy baseline.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 246.",
+      "variant_forms": [
+        "departure from Baker Plan",
+        "departed from the Baker Plan"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d246",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-argentina-world-bank-loans-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d246",
+      "document_number": "246",
+      "unit_scope": "document_text",
+      "financial_type": "world_bank_loan",
+      "approved_phrase": "Argentina and the World Bank announced agreement on $1.25 billion in new loans",
+      "institution_or_program": "World Bank",
+      "amount_or_metric": "$1.25 billion",
+      "policy_context": "World Bank lending to Argentina before an IMF program was in place.",
+      "citation_or_locator": "Document 246, International Debt section",
+      "public_or_archival_basis": "Published FRUS text identifies parties, amount, and controversy.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 246.",
+      "variant_forms": [
+        "$1.25 billion in World Bank loans",
+        "World Bank agreement on $1.25 billion"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d246",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-imf-arrears-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d246",
+      "document_number": "246",
+      "unit_scope": "document_text",
+      "financial_type": "arrearages_metric",
+      "approved_phrase": "arrears totalling almost $3 billion, about 10% of outstanding IMF credit",
+      "institution_or_program": "International Monetary Fund",
+      "amount_or_metric": "almost $3 billion; about 10%",
+      "policy_context": "IMF resource constraint caused by member-country arrears.",
+      "citation_or_locator": "Document 246, IMF Resources section",
+      "public_or_archival_basis": "Published FRUS text pairs arrears amount with percentage of outstanding IMF credit.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 246.",
+      "variant_forms": [
+        "almost $3 billion in IMF arrears",
+        "10% of outstanding IMF credit"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d246",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-world-bank-gci-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d246",
+      "document_number": "246",
+      "unit_scope": "document_text",
+      "financial_type": "mdb_funding",
+      "approved_phrase": "the Bank's $75 billion Eighth General Capital Increase",
+      "institution_or_program": "World Bank",
+      "amount_or_metric": "$75 billion",
+      "policy_context": "World Bank resources and U.S. commitment.",
+      "citation_or_locator": "Document 246, World Bank Resources section",
+      "public_or_archival_basis": "Published FRUS text names the Eighth General Capital Increase and dollar amount.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 246.",
+      "variant_forms": [
+        "$75 billion Eighth General Capital Increase",
+        "World Bank Eighth General Capital Increase"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d246",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-aid-finance-mechanisms-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d327",
+      "document_number": "327",
+      "unit_scope": "document_text",
+      "financial_type": "aid_finance_program",
+      "approved_phrase": "AID, Eximbank, OPIC, etc.",
+      "institution_or_program": "AID, Eximbank, OPIC",
+      "amount_or_metric": "program labels",
+      "policy_context": "Restructuring aid, investment, and trade-financing mechanisms.",
+      "citation_or_locator": "Document 327, Objectives section",
+      "public_or_archival_basis": "Published FRUS text groups the program labels in the policy objective.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 327.",
+      "variant_forms": [
+        "AID, Eximbank, OPIC",
+        "aid, investment and trade financing mechanisms"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d327",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-esf-programs-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d327",
+      "document_number": "327",
+      "unit_scope": "document_text",
+      "financial_type": "aid_finance_program",
+      "approved_phrase": "State/AID ESF, the entire AID organization, Eximbank, OPIC, Treasury ESF, etc.",
+      "institution_or_program": "State/AID ESF, AID, Eximbank, OPIC, Treasury ESF",
+      "amount_or_metric": "program labels",
+      "policy_context": "NSC study on financial programs linked to U.S. foreign policy.",
+      "citation_or_locator": "Document 327, Other proposed policies section",
+      "public_or_archival_basis": "Published FRUS text preserves the program list and Treasury ESF distinction.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 327.",
+      "variant_forms": [
+        "State/AID ESF",
+        "Treasury ESF",
+        "Eximbank, OPIC"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d327",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-debt-to-grants-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/d327",
+      "document_number": "327",
+      "unit_scope": "document_text",
+      "financial_type": "aid_finance_program",
+      "approved_phrase": "conversion of certain types of Third World debt to U.S. official sources to be converted to grants in local currencies",
+      "institution_or_program": "Foreign Assistance Act debt-to-grants authority",
+      "amount_or_metric": "debt converted to local-currency grants",
+      "policy_context": "World Bank lending and Foreign Assistance Act authority.",
+      "citation_or_locator": "Document 327, Other proposed policies section",
+      "public_or_archival_basis": "Published FRUS text describes the conversion mechanism and local-currency grant endpoint.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Document 327.",
+      "variant_forms": [
+        "debt to U.S. official sources converted to grants in local currencies",
+        "debt converted to local currency grants"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/d327",
+      "verification_status": "verified_published_economic_financial_record"
+    },
+    {
+      "economic_financial_id": "economic-financial-v38-scope-foreign-economic-policy-001",
+      "volume_id": "frus1981-88v38",
+      "document_id": "frus1981-88v38/preface",
+      "document_number": "preface",
+      "unit_scope": "front_matter",
+      "financial_type": "debt_strategy",
+      "approved_phrase": "the need to formulate policies and strategies to address an unfolding international debt crisis, which lasted until the end of the Reagan administration and continued into the George H.W. Bush administration",
+      "institution_or_program": "Reagan and George H.W. Bush foreign economic policy",
+      "amount_or_metric": "volume-scope statement",
+      "policy_context": "Preface scope connecting Reagan international debt crisis to Bush administration continuation.",
+      "citation_or_locator": "Volume XXXVIII Preface, Focus of Research and Principles of Selection",
+      "public_or_archival_basis": "Published FRUS preface explains why debt policy permutations remain relevant to Bush volumes in preparation.",
+      "source_or_context": "FRUS, 1981-1988, volume XXXVIII, Preface.",
+      "variant_forms": [
+        "international debt crisis continued into the George H.W. Bush administration",
+        "foreign economic policy continued into the Bush administration"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v38/preface",
+      "verification_status": "verified_published_economic_financial_record"
     }
   ]
 }

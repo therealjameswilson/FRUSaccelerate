@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -37,6 +37,7 @@ function parseArgs(argv) {
   let treatyRegistryPath = null;
   let foreignOrgRegistryPath = null;
   let congressionalLegalRegistryPath = null;
+  let economicFinancialRegistryPath = null;
   let footnoteReferbackRegistryPath = null;
   let recurringRiskRegistryPath = null;
   let negativeSearchRegistryPath = null;
@@ -123,6 +124,9 @@ function parseArgs(argv) {
     } else if (arg === "--congressional-legal-registry") {
       congressionalLegalRegistryPath = argv[index + 1];
       index += 1;
+    } else if (arg === "--economic-financial-registry") {
+      economicFinancialRegistryPath = argv[index + 1];
+      index += 1;
     } else if (arg === "--footnote-referback-registry") {
       footnoteReferbackRegistryPath = argv[index + 1];
       index += 1;
@@ -190,6 +194,7 @@ function parseArgs(argv) {
     treatyRegistryPath,
     foreignOrgRegistryPath,
     congressionalLegalRegistryPath,
+    economicFinancialRegistryPath,
     footnoteReferbackRegistryPath,
     recurringRiskRegistryPath,
     negativeSearchRegistryPath,
@@ -1037,6 +1042,39 @@ function compactCongressionalLegalRegistry(registry, targetVolume) {
   };
 }
 
+function compactEconomicFinancialRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    economic_financial_registry_id: registry.economic_financial_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      economic_financial_id: record.economic_financial_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      financial_type: record.financial_type,
+      approved_phrase: record.approved_phrase,
+      institution_or_program: record.institution_or_program,
+      amount_or_metric: record.amount_or_metric,
+      policy_context: record.policy_context,
+      citation_or_locator: record.citation_or_locator,
+      public_or_archival_basis: record.public_or_archival_basis,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactFootnoteReferbackRegistry(registry, targetVolume) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -1186,6 +1224,9 @@ function buildPacket(options) {
   const congressionalLegalRegistry = options.congressionalLegalRegistryPath
     ? readJson(options.congressionalLegalRegistryPath, options.congressionalLegalRegistryPath)
     : null;
+  const economicFinancialRegistry = options.economicFinancialRegistryPath
+    ? readJson(options.economicFinancialRegistryPath, options.economicFinancialRegistryPath)
+    : null;
   const footnoteReferbackRegistry = options.footnoteReferbackRegistryPath
     ? readJson(options.footnoteReferbackRegistryPath, options.footnoteReferbackRegistryPath)
     : null;
@@ -1236,6 +1277,9 @@ function buildPacket(options) {
       foreign_org_registry: options.foreignOrgRegistryPath ? normalizePathForOutput(options.foreignOrgRegistryPath) : "",
       congressional_legal_registry: options.congressionalLegalRegistryPath
         ? normalizePathForOutput(options.congressionalLegalRegistryPath)
+        : "",
+      economic_financial_registry: options.economicFinancialRegistryPath
+        ? normalizePathForOutput(options.economicFinancialRegistryPath)
         : "",
       footnote_referback_registry: options.footnoteReferbackRegistryPath
         ? normalizePathForOutput(options.footnoteReferbackRegistryPath)
@@ -1288,6 +1332,7 @@ function buildPacket(options) {
       treaty_registry_records: treatyRegistry?.records?.length || 0,
       foreign_org_registry_records: foreignOrgRegistry?.records?.length || 0,
       congressional_legal_registry_records: congressionalLegalRegistry?.records?.length || 0,
+      economic_financial_registry_records: economicFinancialRegistry?.records?.length || 0,
       footnote_referback_registry_records: footnoteReferbackRegistry?.records?.length || 0,
       recurring_risk_registry_records: recurringRiskRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
@@ -1325,6 +1370,7 @@ function buildPacket(options) {
       treaty_registry: compactTreatyRegistry(treatyRegistry, options.targetVolume),
       foreign_org_registry: compactForeignOrgRegistry(foreignOrgRegistry, options.targetVolume),
       congressional_legal_registry: compactCongressionalLegalRegistry(congressionalLegalRegistry, options.targetVolume),
+      economic_financial_registry: compactEconomicFinancialRegistry(economicFinancialRegistry, options.targetVolume),
       footnote_referback_registry: compactFootnoteReferbackRegistry(footnoteReferbackRegistry, options.targetVolume),
       recurring_risk_registry: compactRecurringRiskRegistry(recurringRiskRegistry),
       negative_search_registry: compactNegativeSearchRegistry(negativeSearchRegistry, options.targetVolume),
@@ -1506,6 +1552,12 @@ function renderMarkdown(packet) {
     "Use this to check Senate advice-and-consent, Senate information packages, treaty transmittal and ratification footnotes, congressional hearings, public-law/statute citations, appropriations and authorizations, budget authority, budget rescissions and deferrals, congressional notices, Presidential Determinations, Arms Export Control Act language, and Federal Register publication claims. Treat committee names, hearing titles, public-law numbers, Stat. citations, budget figures, advice-and-consent status, and publication-stage claims as comment-only unless the target-volume congressional/legal registry proves the exact direct edit.",
     "",
     fencedJson(packet.contexts.congressional_legal_registry || {}),
+    "",
+    "## Economic And Financial Registry Context",
+    "",
+    "Use this to check dollar amounts, percentages, debt metrics, IMF quotas and resources, General Arrangements to Borrow, World Bank and MDB funding, Paris Club debt relief, Baker Plan references, Eximbank/OPIC/ESF/AID program labels, arrears, loans, grants, budget claims, trade-finance, exchange-rate, commodity-policy, and foreign economic policy scope language. Treat figures, institution names, program labels, debt-relief mechanics, and policy-plan labels as comment-only unless the target-volume economic/financial registry proves the exact direct edit.",
+    "",
+    fencedJson(packet.contexts.economic_financial_registry || {}),
     "",
     "## Footnote Refer-Back Registry Context",
     "",

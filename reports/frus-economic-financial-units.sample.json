@@ -1,0 +1,70 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source_docx": "fixtures/frus-economic-financial-sample.docx",
+  "extracted_at": "2026-06-04T00:00:00.000Z",
+  "units": [
+    {
+      "unit_id": "economic-financial-0001",
+      "unit_type": "editorial_note",
+      "location": "Document 129, Debt Strategy",
+      "display_text": "IMF. A 47 percent increase in resources has been approved, the U.S. portion of which is $5.8 billion. The GAB arrangement will be increased to $19 billion, and we will ask Congress for a total of $8.4 billion.",
+      "exact_text": "IMF. A 47 percent increase in resources has been approved, the U.S. portion of which is $5.8 billion. The GAB arrangement will be increased to $19 billion, and we will ask Congress for a total of $8.4 billion."
+    },
+    {
+      "unit_id": "economic-financial-0002",
+      "unit_type": "editorial_note",
+      "location": "Document 142, Facts",
+      "display_text": "The combined medium and long-term debt of the LDC's and East European countries grew from only $55 billion in 1970 to $625 billion last year. These countries also had about $150 billion in short-term debt, while debt service increased correspondingly from $9 billion in 1970 to an estimated $140 billion in 1982.",
+      "exact_text": "The combined medium and long-term debt of the LDC's and East European countries grew from only $55 billion in 1970 to $625 billion last year. These countries also had about $150 billion in short-term debt, while debt service increased correspondingly from $9 billion in 1970 to an estimated $140 billion in 1982."
+    },
+    {
+      "unit_id": "economic-financial-0003",
+      "unit_type": "follow_on_footnote",
+      "location": "Document 142, debt threshold footnote",
+      "display_text": "Traditionally, a debt service to export ratio of more than 20% was viewed as worrisome.",
+      "exact_text": "Traditionally, a debt service to export ratio of more than 20% was viewed as worrisome."
+    },
+    {
+      "unit_id": "economic-financial-0004",
+      "unit_type": "editorial_note",
+      "location": "Document 267, MDB decision",
+      "display_text": "The Council concurred in a 6 percent reduction in overall funding for MDBs and prepared language for the IMF/World Bank meetings.",
+      "exact_text": "The Council concurred in a 6 percent reduction in overall funding for MDBs and prepared language for the IMF/World Bank meetings."
+    },
+    {
+      "unit_id": "economic-financial-0005",
+      "unit_type": "editorial_note",
+      "location": "Document 246, debt strategy",
+      "display_text": "The report discussed the Paris Club debt relief scheme agreed to at Toronto, Japan's Export Import Bank medium-term loans at concessional rates, and Mexico's departure from Baker Plan principles.",
+      "exact_text": "The report discussed the Paris Club debt relief scheme agreed to at Toronto, Japan's Export Import Bank medium-term loans at concessional rates, and Mexico's departure from Baker Plan principles."
+    },
+    {
+      "unit_id": "economic-financial-0006",
+      "unit_type": "editorial_note",
+      "location": "Document 246, World Bank and arrears",
+      "display_text": "Argentina and the World Bank announced agreement on $1.25 billion in new loans. The IMF also faced almost $3 billion in IMF arrears, roughly 10% of outstanding IMF credit, while the Bank's $75 billion Eighth General Capital Increase required U.S. follow-through.",
+      "exact_text": "Argentina and the World Bank announced agreement on $1.25 billion in new loans. The IMF also faced almost $3 billion in IMF arrears, roughly 10% of outstanding IMF credit, while the Bank's $75 billion Eighth General Capital Increase required U.S. follow-through."
+    },
+    {
+      "unit_id": "economic-financial-0007",
+      "unit_type": "source_note",
+      "location": "Document 327, proposed policies",
+      "display_text": "The NSC paper discussed AID, Eximbank, OPIC, State/AID ESF, Treasury ESF, and debt to U.S. official sources converted to grants in local currencies.",
+      "exact_text": "The NSC paper discussed AID, Eximbank, OPIC, State/AID ESF, Treasury ESF, and debt to U.S. official sources converted to grants in local currencies."
+    },
+    {
+      "unit_id": "economic-financial-0008",
+      "unit_type": "front_matter",
+      "location": "Volume XXXVIII preface",
+      "display_text": "The preface explains that the international debt crisis continued into the George H.W. Bush administration, a useful cross-volume reminder for Bush foreign economic policy annotation sheets.",
+      "exact_text": "The preface explains that the international debt crisis continued into the George H.W. Bush administration, a useful cross-volume reminder for Bush foreign economic policy annotation sheets."
+    },
+    {
+      "unit_id": "economic-financial-0009",
+      "unit_type": "editorial_note",
+      "location": "Unmatched fixture",
+      "display_text": "The annotation says the IMF approved a $12.4 billion emergency facility and that the World Bank quietly reduced arrears by 19 percent, but no source image or registry entry is supplied.",
+      "exact_text": "The annotation says the IMF approved a $12.4 billion emergency facility and that the World Bank quietly reduced arrears by 19 percent, but no source image or registry entry is supplied."
+    }
+  ]
+}

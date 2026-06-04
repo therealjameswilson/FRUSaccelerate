@@ -71,6 +71,8 @@ try {
     "reports/frus-foreign-org-registry.sample.json",
     "--congressional-legal-registry",
     "reports/frus-congressional-legal-registry.sample.json",
+    "--economic-financial-registry",
+    "reports/frus-economic-financial-registry.sample.json",
     "--footnote-referback-registry",
     "reports/frus-footnote-referback-registry.sample.json",
     "--recurring-risk-registry",
@@ -165,6 +167,10 @@ try {
   assert(markdown.includes("submitted to the Senate for its advice and consent"), "expected Senate advice-and-consent registry content");
   assert(markdown.includes("Economic Recovery Tax Act of 1981"), "expected public-law registry content");
   assert(markdown.includes("Presidential Determination No. 83-6"), "expected Presidential Determination registry content");
+  assert(markdown.includes("Economic And Financial Registry Context"), "expected economic/financial registry section");
+  assert(markdown.includes("A 47 percent increase in resources has been approved"), "expected IMF quota registry content");
+  assert(markdown.includes("the Bank's $75 billion Eighth General Capital Increase"), "expected World Bank GCI registry content");
+  assert(markdown.includes("State/AID ESF, the entire AID organization"), "expected aid-finance registry content");
   assert(markdown.includes("Footnote Refer-Back Registry Context"), "expected footnote refer-back registry section");
   assert(markdown.includes("repeat_threshold"), "expected footnote refer-back repeat threshold in Markdown packet");
   assert(markdown.includes("See footnote 6, Document 35"), "expected cross-document footnote refer-back content");
@@ -268,6 +274,12 @@ try {
     "expected target congressional/legal records"
   );
   assert(packet.packet_summary.congressional_legal_registry_records === 16, "expected congressional/legal registry count");
+  assert(packet.contexts.economic_financial_registry.records.length === 20, "expected economic/financial registry records");
+  assert(
+    packet.contexts.economic_financial_registry.target_records.length === 0,
+    "expected zero target economic/financial records for START volume fixture"
+  );
+  assert(packet.packet_summary.economic_financial_registry_records === 20, "expected economic/financial registry count");
   assert(packet.contexts.footnote_referback_registry.records.length === 8, "expected footnote refer-back registry records");
   assert(packet.contexts.footnote_referback_registry.repeat_threshold === 3, "expected footnote refer-back threshold context");
   assert(
@@ -293,7 +305,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }
