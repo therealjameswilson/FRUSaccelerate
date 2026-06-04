@@ -1,0 +1,177 @@
+{
+  "schema_version": "frus-selection-balance-registry-v1",
+  "selection_balance_registry_id": "frus-1981-1992-selection-balance-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/preface",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d73",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d150",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d9",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/preface",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d316"
+  ],
+  "scope": "Published FRUS selection, scope, excerpt, omission, related-volume, and scheduled-publication patterns for Reagan and George H.W. Bush annotation sheets.",
+  "rule_summary": "Selection-balance and completeness claims are comment-only by default. Use the registry to recognize published scope language, related-volume boundaries, excerpts, omitted non-scope material, and scheduled-publication targets; do not accept claims of complete, balanced, representative, or no-other-record coverage without supplied selection-balance evidence and General Editor review.",
+  "records": [
+    {
+      "selection_item_id": "selection-v31-preface-focus-policy-negotiation",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/preface",
+      "document_number": "",
+      "unit_scope": "preface",
+      "selection_issue_type": "principles_of_selection",
+      "approved_phrase": "The focus of research and selection in this volume was to document how U.S. policymakers and negotiators worked with their Soviet counterparts",
+      "coverage_dimension": "policy development and negotiation movement",
+      "decision_point_or_scope": "START I negotiating positions, Geneva rounds, forward or backward movement toward agreement, and key NSC/interagency records",
+      "related_volume_or_target": "Reagan START I, Bush Soviet Union/Russia/Post-Soviet States volumes, START II/arms-control volumes",
+      "selection_status": "published volume-level selection principle",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "The START I preface defines the volume's focus and principles of selection rather than proving completeness for any individual annotation sheet.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/preface",
+      "verification_status": "verified_published_selection_record",
+      "variant_forms": [
+        "focus of research and selection in this volume was to document how U.S. policymakers and negotiators worked with their Soviet counterparts"
+      ]
+    },
+    {
+      "selection_item_id": "selection-v31-preface-principles-positions-rounds",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/preface",
+      "document_number": "",
+      "unit_scope": "preface",
+      "selection_issue_type": "principles_of_selection",
+      "approved_phrase": "Principles of selection include the documentation related to the development of and substantive changes to U.S. negotiating positions",
+      "coverage_dimension": "selection criteria",
+      "decision_point_or_scope": "U.S. negotiating positions, Geneva negotiation rounds, and movement toward agreement",
+      "related_volume_or_target": "Foreign Relations, 1989-1992, Volume XXXI, START I",
+      "selection_status": "published volume-level selection principle",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "The preface gives selection criteria; annotation sheets should not convert this into unverified claims that every significant record has been included.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/preface",
+      "verification_status": "verified_published_selection_record",
+      "variant_forms": [
+        "Principles of selection include documentation related to the development of and substantive changes to U.S. negotiating positions"
+      ]
+    },
+    {
+      "selection_item_id": "selection-v31-d73-omitted-non-start",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d73",
+      "document_number": "73",
+      "unit_scope": "document text omission",
+      "selection_issue_type": "omitted_non_scope_material",
+      "approved_phrase": "[Omitted here are discussions not related to START.]",
+      "coverage_dimension": "selected excerpt excludes unrelated topical material",
+      "decision_point_or_scope": "START-only excerpt from a broader meeting",
+      "related_volume_or_target": "Related Soviet high-level contacts meetings scheduled in Volume III",
+      "selection_status": "published explicit omission of non-scope material",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "Document 73 marks omitted discussion outside the START scope, showing that selection notes must state the scope basis rather than imply a complete meeting record.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d73",
+      "verification_status": "verified_published_selection_record",
+      "variant_forms": [
+        "Omitted here are discussions not related to START."
+      ]
+    },
+    {
+      "selection_item_id": "selection-v31-d73-editor-transcribed-portion",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d73",
+      "document_number": "73",
+      "unit_scope": "source note",
+      "selection_issue_type": "excerpt_selection",
+      "approved_phrase": "The editor transcribed the portion of the text specifically for this volume.",
+      "coverage_dimension": "excerpted source note",
+      "decision_point_or_scope": "Only the START-relevant portion of Gates's handwritten notes is printed",
+      "related_volume_or_target": "Foreign Relations, 1989-1992, Volume XXXI, START I",
+      "selection_status": "published excerpt-selection statement",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "The published source note distinguishes an editor-transcribed portion from the full meeting record.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d73",
+      "verification_status": "verified_published_selection_record",
+      "variant_forms": [
+        "editor transcribed the portion of the text specifically for this volume"
+      ]
+    },
+    {
+      "selection_item_id": "selection-v31-d150-complete-memcon-vol-iii",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d150",
+      "document_number": "150",
+      "unit_scope": "source note",
+      "selection_issue_type": "complete_record_elsewhere",
+      "approved_phrase": "The complete memorandum of conversation is scheduled for publication in Foreign Relations, 1989-1992, vol. III",
+      "coverage_dimension": "excerpt versus complete record",
+      "decision_point_or_scope": "START-relevant portion printed in START I; complete regional/economic discussion routed to high-level contacts volume",
+      "related_volume_or_target": "Foreign Relations, 1989-1992, vol. III, Soviet Union, Russia, and Post-Soviet States: High-Level Contacts",
+      "selection_status": "published complete-record-elsewhere statement",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "Document 150 identifies the complete memorandum as scheduled for another volume; the checker should preserve the related-volume boundary and not convert it into a completeness claim for START I.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d150",
+      "verification_status": "verified_published_selection_record",
+      "variant_forms": [
+        "complete memorandum of conversation is scheduled for publication in Foreign Relations, 1989-1992, vol. III"
+      ]
+    },
+    {
+      "selection_item_id": "selection-v31-d9-nsr-12-vol-xxviii",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d9",
+      "document_number": "9",
+      "unit_scope": "follow-on footnote",
+      "selection_issue_type": "related_volume_boundary",
+      "approved_phrase": "NSR-12, dated March 3, \"Review of National Defense Strategy,\" is scheduled for publication in Foreign Relations, 1989-1992, vol. XXVIII",
+      "coverage_dimension": "related NSR target",
+      "decision_point_or_scope": "National-defense strategy review belongs to a different Bush national-security-policy volume",
+      "related_volume_or_target": "Foreign Relations, 1989-1992, vol. XXVIII, National Security Policy, 1989-1992",
+      "selection_status": "published related-volume scheduled-publication statement",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "Document 9 models a related-volume publication target and a separate printed-as-document target in the same footnote apparatus.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d9",
+      "verification_status": "verified_published_selection_record",
+      "variant_forms": [
+        "NSR-12 is scheduled for publication in Foreign Relations, 1989-1992, vol. XXVIII"
+      ]
+    },
+    {
+      "selection_item_id": "selection-v44p1-preface-reagan-related-volumes",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/preface",
+      "document_number": "",
+      "unit_scope": "preface",
+      "selection_issue_type": "chapter_or_volume_scope",
+      "approved_phrase": "These volumes are closely linked to the four volumes in the subseries devoted to Reagan's Soviet policies",
+      "coverage_dimension": "related-volume context",
+      "decision_point_or_scope": "Strategic Defense Initiative and Strategic Modernization Program in relation to Soviet policy and arms-control volumes",
+      "related_volume_or_target": "Reagan Soviet policy volumes, START I, INF, and Global Issues I",
+      "selection_status": "published volume-scope relationship",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "The Reagan National Security Policy preface models related-volume boundaries for a thematic/chronological split.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/preface",
+      "verification_status": "verified_published_selection_record",
+      "variant_forms": [
+        "closely linked to the four volumes in the subseries devoted to Reagan's Soviet policies"
+      ]
+    },
+    {
+      "selection_item_id": "selection-v01-d316-trade-scheduled",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d316",
+      "document_number": "316",
+      "unit_scope": "follow-on footnote",
+      "selection_issue_type": "scheduled_publication_boundary",
+      "approved_phrase": "Documentation concerning the agreement is scheduled for publication in Foreign Relations, 1981-1988, vol. XXXVII",
+      "coverage_dimension": "related trade-volume boundary",
+      "decision_point_or_scope": "U.S.-Canada Free Trade Agreement documentation belongs in the Reagan trade volume",
+      "related_volume_or_target": "Foreign Relations, 1981-1988, vol. XXXVII, Trade; Monetary Policy; Industrialized Country Cooperation, 1985-1988",
+      "selection_status": "published scheduled-publication boundary",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "Reagan Foundations Document 316 models related-volume routing for a substantial issue mentioned in a broad foreign-policy paper.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d316",
+      "verification_status": "verified_published_selection_record",
+      "variant_forms": [
+        "Documentation concerning the agreement is scheduled for publication in Foreign Relations, 1981-1988, vol. XXXVII, Trade"
+      ]
+    }
+  ]
+}

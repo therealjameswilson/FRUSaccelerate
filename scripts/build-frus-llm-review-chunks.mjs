@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--selection-balance-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -44,6 +44,7 @@ function parseArgs(argv) {
   let documentHandlingRegistryPath = null;
   let chronologyRegistryPath = null;
   let timeZoneRegistryPath = null;
+  let selectionBalanceRegistryPath = null;
   let publicSourceRegistryPath = null;
   let retrospectiveAccountRegistryPath = null;
   let treatyRegistryPath = null;
@@ -116,6 +117,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--time-zone-registry") {
       timeZoneRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--selection-balance-registry") {
+      selectionBalanceRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--public-source-registry") {
       publicSourceRegistryPath = argv[index + 1];
@@ -201,6 +205,7 @@ function parseArgs(argv) {
     documentHandlingRegistryPath,
     chronologyRegistryPath,
     timeZoneRegistryPath,
+    selectionBalanceRegistryPath,
     publicSourceRegistryPath,
     retrospectiveAccountRegistryPath,
     treatyRegistryPath,
@@ -749,6 +754,39 @@ function compactTimeZoneRegistry(registry, targetVolume) {
   };
 }
 
+function compactSelectionBalanceRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  return {
+    schema_version: registry.schema_version,
+    selection_balance_registry_id: registry.selection_balance_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    rule_summary: registry.rule_summary || "",
+    target_volume: targetVolume,
+    target_records: targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [],
+    records: records.map((record) => ({
+      selection_item_id: record.selection_item_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      selection_issue_type: record.selection_issue_type,
+      approved_phrase: record.approved_phrase,
+      coverage_dimension: record.coverage_dimension,
+      decision_point_or_scope: record.decision_point_or_scope,
+      related_volume_or_target: record.related_volume_or_target,
+      selection_status: record.selection_status,
+      blocking_posture: record.blocking_posture,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactPublicSourceRegistry(registry, targetVolume) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -978,6 +1016,7 @@ function renderPacket({
   documentHandlingRegistry,
   chronologyRegistry,
   timeZoneRegistry,
+  selectionBalanceRegistry,
   publicSourceRegistry,
   retrospectiveAccountRegistry,
   treatyRegistry,
@@ -1108,6 +1147,12 @@ function renderPacket({
     "",
     fencedJson(timeZoneRegistry || {}),
     "",
+    "## Selection Balance And Completeness Registry Context",
+    "",
+    "Use this to check principles of selection, chapter or volume scope, excerpted portions, omitted non-scope material, related-volume boundaries, scheduled-publication targets, complete-record-elsewhere claims, withheld-document effects, and known gaps. Treat complete, balanced, representative, or no-other-record claims as comment-only unless target-volume selection-balance evidence and General Editor review support the claim.",
+    "",
+    fencedJson(selectionBalanceRegistry || {}),
+    "",
     "## Public Source And Public Diplomacy Registry Context",
     "",
     "Use this to check speeches, public remarks, press releases, press conferences, briefings, interviews, broadcasts, testimony, Public Papers, Department of State Bulletin/Dispatch, Congressional Record, official transcripts, newspaper excerpts, full-text targets, archival draft or briefing-file context, diary context, and selected-versus-supplemental public-source status. Do not change publication details, delivery or broadcast basis, full-text targets, archival draft context, or selected-public-document status unless the target-volume public-source registry proves the direct edit.",
@@ -1206,6 +1251,7 @@ function buildChunks(options) {
   const communicationsRegistry = options.communicationsRegistryPath ? readJson(options.communicationsRegistryPath) : null;
   const chronologyRegistry = options.chronologyRegistryPath ? readJson(options.chronologyRegistryPath) : null;
   const timeZoneRegistry = options.timeZoneRegistryPath ? readJson(options.timeZoneRegistryPath) : null;
+  const selectionBalanceRegistry = options.selectionBalanceRegistryPath ? readJson(options.selectionBalanceRegistryPath) : null;
   const publicSourceRegistry = options.publicSourceRegistryPath ? readJson(options.publicSourceRegistryPath) : null;
   const retrospectiveAccountRegistry = options.retrospectiveAccountRegistryPath
     ? readJson(options.retrospectiveAccountRegistryPath)
@@ -1241,6 +1287,10 @@ function buildChunks(options) {
   const communicationsRegistryContext = compactCommunicationsRegistry(communicationsRegistry, options.targetVolume);
   const chronologyRegistryContext = compactChronologyRegistry(chronologyRegistry, options.targetVolume);
   const timeZoneRegistryContext = compactTimeZoneRegistry(timeZoneRegistry, options.targetVolume);
+  const selectionBalanceRegistryContext = compactSelectionBalanceRegistry(
+    selectionBalanceRegistry,
+    options.targetVolume
+  );
   const publicSourceRegistryContext = compactPublicSourceRegistry(publicSourceRegistry, options.targetVolume);
   const retrospectiveAccountRegistryContext = compactRetrospectiveAccountRegistry(
     retrospectiveAccountRegistry,
@@ -1281,6 +1331,9 @@ function buildChunks(options) {
       document_handling_registry: options.documentHandlingRegistryPath ? normalizePathForOutput(options.documentHandlingRegistryPath) : "",
       chronology_registry: options.chronologyRegistryPath ? normalizePathForOutput(options.chronologyRegistryPath) : "",
       time_zone_registry: options.timeZoneRegistryPath ? normalizePathForOutput(options.timeZoneRegistryPath) : "",
+      selection_balance_registry: options.selectionBalanceRegistryPath
+        ? normalizePathForOutput(options.selectionBalanceRegistryPath)
+        : "",
       public_source_registry: options.publicSourceRegistryPath ? normalizePathForOutput(options.publicSourceRegistryPath) : "",
       retrospective_account_registry: options.retrospectiveAccountRegistryPath
         ? normalizePathForOutput(options.retrospectiveAccountRegistryPath)
@@ -1316,6 +1369,7 @@ function buildChunks(options) {
       document_handling_registry_records: documentHandlingRegistry?.records?.length || 0,
       chronology_registry_records: chronologyRegistry?.records?.length || 0,
       time_zone_registry_records: timeZoneRegistry?.records?.length || 0,
+      selection_balance_registry_records: selectionBalanceRegistry?.records?.length || 0,
       public_source_registry_records: publicSourceRegistry?.records?.length || 0,
       retrospective_account_registry_records: retrospectiveAccountRegistry?.records?.length || 0,
       treaty_registry_records: treatyRegistry?.records?.length || 0,
@@ -1373,6 +1427,7 @@ function buildChunks(options) {
         documentHandlingRegistry: documentHandlingRegistryContext,
         chronologyRegistry: chronologyRegistryContext,
         timeZoneRegistry: timeZoneRegistryContext,
+        selectionBalanceRegistry: selectionBalanceRegistryContext,
         publicSourceRegistry: publicSourceRegistryContext,
         retrospectiveAccountRegistry: retrospectiveAccountRegistryContext,
         treatyRegistry: treatyRegistryContext,

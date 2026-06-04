@@ -100,6 +100,8 @@ try {
     "reports/frus-chronology-registry.sample.json",
     "--time-zone-registry",
     "reports/frus-time-zone-registry.sample.json",
+    "--selection-balance-registry",
+    "reports/frus-selection-balance-registry.sample.json",
     "--public-source-registry",
     "reports/frus-public-source-registry.sample.json",
     "--retrospective-account-registry",
@@ -153,6 +155,7 @@ try {
   assert(manifest.summary.document_handling_registry_records === 7, "expected document handling registry record count");
   assert(manifest.summary.chronology_registry_records === 6, "expected chronology registry record count");
   assert(manifest.summary.time_zone_registry_records === 8, "expected time-zone registry record count");
+  assert(manifest.summary.selection_balance_registry_records === 8, "expected selection-balance registry record count");
   assert(manifest.summary.public_source_registry_records === 6, "expected public-source registry record count");
   assert(manifest.summary.retrospective_account_registry_records === 6, "expected retrospective-account registry record count");
   assert(manifest.summary.treaty_registry_records === 7, "expected treaty registry record count");
@@ -173,6 +176,7 @@ try {
   assert(manifest.source_files.document_handling_registry === "reports/frus-document-handling-registry.sample.json", "expected document handling registry source path");
   assert(manifest.source_files.chronology_registry === "reports/frus-chronology-registry.sample.json", "expected chronology registry source path");
   assert(manifest.source_files.time_zone_registry === "reports/frus-time-zone-registry.sample.json", "expected time-zone registry source path");
+  assert(manifest.source_files.selection_balance_registry === "reports/frus-selection-balance-registry.sample.json", "expected selection-balance registry source path");
   assert(manifest.source_files.public_source_registry === "reports/frus-public-source-registry.sample.json", "expected public-source registry source path");
   assert(
     manifest.source_files.retrospective_account_registry === "reports/frus-retrospective-account-registry.sample.json",
@@ -217,6 +221,11 @@ try {
   assert(firstPacket.includes("Time-Zone And Date-Time Group Registry Context"), "expected time-zone registry context in chunk packet");
   assert(firstPacket.includes("Geneva, January 10, 1991, 1757Z"), "expected START I Z-time registry content in chunk packet");
   assert(firstPacket.includes("open of business Washington time"), "expected Washington-time deadline content in chunk packet");
+  assert(firstPacket.includes("Selection Balance And Completeness Registry Context"), "expected selection-balance registry context in chunk packet");
+  assert(
+    firstPacket.includes("complete memorandum of conversation is scheduled for publication"),
+    "expected complete-record-elsewhere content in chunk packet"
+  );
   assert(firstPacket.includes("Public Source And Public Diplomacy Registry Context"), "expected public-source registry context in chunk packet");
   assert(firstPacket.includes("Public Papers: Bush, 1991, pages 986-987"), "expected Public Papers registry content in chunk packet");
   assert(firstPacket.includes("Retrospective Account Registry Context"), "expected retrospective-account registry context in chunk packet");
@@ -305,7 +314,7 @@ try {
   assert(badMerge.status !== 0, "expected out-of-chunk unit reference to fail");
   assert(badMerge.stdout.includes("outside chunk-0002"), "expected chunk-boundary failure detail");
 
-  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, public-source, retrospective-account, treaty, foreign-org, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
+  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, selection-balance, public-source, retrospective-account, treaty, foreign-org, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

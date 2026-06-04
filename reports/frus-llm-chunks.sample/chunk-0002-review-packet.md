@@ -1,6 +1,6 @@
 # FRUS Annotation Review Packet Chunk
 
-- run_id: chunk-workflow-test
+- run_id: sample-chunks
 - chunk_id: chunk-0002
 - chunk_index: 2
 - chunk_count: 2
@@ -16,7 +16,7 @@ Do not include units outside this chunk. Do not claim to edit the Word file dire
 ```json
 {
   "schema_version": "frus-llm-review-chunk-v1",
-  "run_id": "chunk-workflow-test",
+  "run_id": "sample-chunks",
   "chunk_id": "chunk-0002",
   "chunk_index": 2,
   "chunk_count": 2,
@@ -52,9 +52,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -94,6 +94,9 @@ For chronology/time validation and direct-edit safety, run
 For time-zone/date-time-group validation and direct-edit safety, run
 `node scripts/validate-frus-time-zone-registry.mjs --registry reports/frus-time-zone-registry.sample.json --format text` and
 `node scripts/audit-frus-time-zone-usage.mjs --units extracted-units.json --registry reports/frus-time-zone-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For selection-balance/completeness validation and direct-edit safety, run
+`node scripts/validate-frus-selection-balance-registry.mjs --registry reports/frus-selection-balance-registry.sample.json --format text` and
+`node scripts/audit-frus-selection-balance-usage.mjs --units extracted-units.json --registry reports/frus-selection-balance-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For public-source/public-diplomacy validation and direct-edit safety, run
 `node scripts/validate-frus-public-source-registry.mjs --registry reports/frus-public-source-registry.sample.json --format text` and
 `node scripts/audit-frus-public-source-usage.mjs --units extracted-units.json --registry reports/frus-public-source-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -131,7 +134,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -211,6 +214,14 @@ local-time labels, GMT/Z/Zulu date-time groups, EST/EDT labels, no-precise-time
 caveats, deadlines, treaty timing rules, conversions, and chronological
 placement; validate it with `scripts/validate-frus-time-zone-registry.mjs`
 before direct time-label, conversion, or date-time-group edits.
+For real Reagan/Bush 1981-1992 selection-balance/completeness review, replace
+the sample selection-balance registry with target-volume records for principles
+of selection, chapter or volume scope, excerpted portions, omitted non-scope
+material, complete records printed or scheduled elsewhere, related-volume
+boundaries, withheld-document effects, known gaps, and General Editor scope
+decisions. Complete, balanced, representative, or no-other-record claims are
+comment-only unless the supplied registry proves the target-volume basis and the
+General Editor posture.
 For real Reagan/Bush 1981-1992 public-source/public-diplomacy review, replace
 the sample public-source registry with target-volume records for speeches,
 public remarks, press releases, press conferences, briefings, interviews,
@@ -301,6 +312,8 @@ For sample document-handling/marginalia checks, run
 `node scripts/audit-frus-document-handling-usage.mjs --units reports/frus-document-handling-units.sample.json --registry reports/frus-document-handling-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample chronology/time checks, run
 `node scripts/audit-frus-chronology-usage.mjs --units reports/frus-chronology-units.sample.json --registry reports/frus-chronology-registry.sample.json --target-volume frus1989-92v31 --format text`.
+For sample selection-balance/completeness checks, run
+`node scripts/audit-frus-selection-balance-usage.mjs --units reports/frus-selection-balance-units.sample.json --registry reports/frus-selection-balance-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample public-source/public-diplomacy checks, run
 `node scripts/audit-frus-public-source-usage.mjs --units reports/frus-public-source-units.sample.json --registry reports/frus-public-source-registry.sample.json --target-volume frus1989-92v31 --format text`.
 For sample treaty/legal-instrument checks, run
@@ -5047,6 +5060,313 @@ Use this to check Washington-time rules, local-time labels, GMT/Z/Zulu date-time
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
       "verification_status": "verified_published_time_zone_record"
+    }
+  ]
+}
+```
+
+## Selection Balance And Completeness Registry Context
+
+Use this to check principles of selection, chapter or volume scope, excerpted portions, omitted non-scope material, related-volume boundaries, scheduled-publication targets, complete-record-elsewhere claims, withheld-document effects, and known gaps. Treat complete, balanced, representative, or no-other-record claims as comment-only unless target-volume selection-balance evidence and General Editor review support the claim.
+
+```json
+{
+  "schema_version": "frus-selection-balance-registry-v1",
+  "selection_balance_registry_id": "frus-1981-1992-selection-balance-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/preface",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d73",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d150",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d9",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/preface",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d316"
+  ],
+  "scope": "Published FRUS selection, scope, excerpt, omission, related-volume, and scheduled-publication patterns for Reagan and George H.W. Bush annotation sheets.",
+  "rule_summary": "Selection-balance and completeness claims are comment-only by default. Use the registry to recognize published scope language, related-volume boundaries, excerpts, omitted non-scope material, and scheduled-publication targets; do not accept claims of complete, balanced, representative, or no-other-record coverage without supplied selection-balance evidence and General Editor review.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "selection_item_id": "selection-v31-preface-focus-policy-negotiation",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/preface",
+      "document_number": "",
+      "unit_scope": "preface",
+      "selection_issue_type": "principles_of_selection",
+      "approved_phrase": "The focus of research and selection in this volume was to document how U.S. policymakers and negotiators worked with their Soviet counterparts",
+      "coverage_dimension": "policy development and negotiation movement",
+      "decision_point_or_scope": "START I negotiating positions, Geneva rounds, forward or backward movement toward agreement, and key NSC/interagency records",
+      "related_volume_or_target": "Reagan START I, Bush Soviet Union/Russia/Post-Soviet States volumes, START II/arms-control volumes",
+      "selection_status": "published volume-level selection principle",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "The START I preface defines the volume's focus and principles of selection rather than proving completeness for any individual annotation sheet.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/preface",
+      "verification_status": "verified_published_selection_record",
+      "variant_forms": [
+        "focus of research and selection in this volume was to document how U.S. policymakers and negotiators worked with their Soviet counterparts"
+      ]
+    },
+    {
+      "selection_item_id": "selection-v31-preface-principles-positions-rounds",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/preface",
+      "document_number": "",
+      "unit_scope": "preface",
+      "selection_issue_type": "principles_of_selection",
+      "approved_phrase": "Principles of selection include the documentation related to the development of and substantive changes to U.S. negotiating positions",
+      "coverage_dimension": "selection criteria",
+      "decision_point_or_scope": "U.S. negotiating positions, Geneva negotiation rounds, and movement toward agreement",
+      "related_volume_or_target": "Foreign Relations, 1989-1992, Volume XXXI, START I",
+      "selection_status": "published volume-level selection principle",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "The preface gives selection criteria; annotation sheets should not convert this into unverified claims that every significant record has been included.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/preface",
+      "verification_status": "verified_published_selection_record",
+      "variant_forms": [
+        "Principles of selection include documentation related to the development of and substantive changes to U.S. negotiating positions"
+      ]
+    },
+    {
+      "selection_item_id": "selection-v31-d73-omitted-non-start",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d73",
+      "document_number": "73",
+      "unit_scope": "document text omission",
+      "selection_issue_type": "omitted_non_scope_material",
+      "approved_phrase": "[Omitted here are discussions not related to START.]",
+      "coverage_dimension": "selected excerpt excludes unrelated topical material",
+      "decision_point_or_scope": "START-only excerpt from a broader meeting",
+      "related_volume_or_target": "Related Soviet high-level contacts meetings scheduled in Volume III",
+      "selection_status": "published explicit omission of non-scope material",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "Document 73 marks omitted discussion outside the START scope, showing that selection notes must state the scope basis rather than imply a complete meeting record.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d73",
+      "verification_status": "verified_published_selection_record",
+      "variant_forms": [
+        "Omitted here are discussions not related to START."
+      ]
+    },
+    {
+      "selection_item_id": "selection-v31-d73-editor-transcribed-portion",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d73",
+      "document_number": "73",
+      "unit_scope": "source note",
+      "selection_issue_type": "excerpt_selection",
+      "approved_phrase": "The editor transcribed the portion of the text specifically for this volume.",
+      "coverage_dimension": "excerpted source note",
+      "decision_point_or_scope": "Only the START-relevant portion of Gates's handwritten notes is printed",
+      "related_volume_or_target": "Foreign Relations, 1989-1992, Volume XXXI, START I",
+      "selection_status": "published excerpt-selection statement",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "The published source note distinguishes an editor-transcribed portion from the full meeting record.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d73",
+      "verification_status": "verified_published_selection_record",
+      "variant_forms": [
+        "editor transcribed the portion of the text specifically for this volume"
+      ]
+    },
+    {
+      "selection_item_id": "selection-v31-d150-complete-memcon-vol-iii",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d150",
+      "document_number": "150",
+      "unit_scope": "source note",
+      "selection_issue_type": "complete_record_elsewhere",
+      "approved_phrase": "The complete memorandum of conversation is scheduled for publication in Foreign Relations, 1989-1992, vol. III",
+      "coverage_dimension": "excerpt versus complete record",
+      "decision_point_or_scope": "START-relevant portion printed in START I; complete regional/economic discussion routed to high-level contacts volume",
+      "related_volume_or_target": "Foreign Relations, 1989-1992, vol. III, Soviet Union, Russia, and Post-Soviet States: High-Level Contacts",
+      "selection_status": "published complete-record-elsewhere statement",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "Document 150 identifies the complete memorandum as scheduled for another volume; the checker should preserve the related-volume boundary and not convert it into a completeness claim for START I.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d150",
+      "verification_status": "verified_published_selection_record",
+      "variant_forms": [
+        "complete memorandum of conversation is scheduled for publication in Foreign Relations, 1989-1992, vol. III"
+      ]
+    },
+    {
+      "selection_item_id": "selection-v31-d9-nsr-12-vol-xxviii",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d9",
+      "document_number": "9",
+      "unit_scope": "follow-on footnote",
+      "selection_issue_type": "related_volume_boundary",
+      "approved_phrase": "NSR-12, dated March 3, \"Review of National Defense Strategy,\" is scheduled for publication in Foreign Relations, 1989-1992, vol. XXVIII",
+      "coverage_dimension": "related NSR target",
+      "decision_point_or_scope": "National-defense strategy review belongs to a different Bush national-security-policy volume",
+      "related_volume_or_target": "Foreign Relations, 1989-1992, vol. XXVIII, National Security Policy, 1989-1992",
+      "selection_status": "published related-volume scheduled-publication statement",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "Document 9 models a related-volume publication target and a separate printed-as-document target in the same footnote apparatus.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d9",
+      "verification_status": "verified_published_selection_record",
+      "variant_forms": [
+        "NSR-12 is scheduled for publication in Foreign Relations, 1989-1992, vol. XXVIII"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "selection_item_id": "selection-v31-preface-focus-policy-negotiation",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/preface",
+      "document_number": "",
+      "unit_scope": "preface",
+      "selection_issue_type": "principles_of_selection",
+      "approved_phrase": "The focus of research and selection in this volume was to document how U.S. policymakers and negotiators worked with their Soviet counterparts",
+      "coverage_dimension": "policy development and negotiation movement",
+      "decision_point_or_scope": "START I negotiating positions, Geneva rounds, forward or backward movement toward agreement, and key NSC/interagency records",
+      "related_volume_or_target": "Reagan START I, Bush Soviet Union/Russia/Post-Soviet States volumes, START II/arms-control volumes",
+      "selection_status": "published volume-level selection principle",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "The START I preface defines the volume's focus and principles of selection rather than proving completeness for any individual annotation sheet.",
+      "variant_forms": [
+        "focus of research and selection in this volume was to document how U.S. policymakers and negotiators worked with their Soviet counterparts"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/preface",
+      "verification_status": "verified_published_selection_record"
+    },
+    {
+      "selection_item_id": "selection-v31-preface-principles-positions-rounds",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/preface",
+      "document_number": "",
+      "unit_scope": "preface",
+      "selection_issue_type": "principles_of_selection",
+      "approved_phrase": "Principles of selection include the documentation related to the development of and substantive changes to U.S. negotiating positions",
+      "coverage_dimension": "selection criteria",
+      "decision_point_or_scope": "U.S. negotiating positions, Geneva negotiation rounds, and movement toward agreement",
+      "related_volume_or_target": "Foreign Relations, 1989-1992, Volume XXXI, START I",
+      "selection_status": "published volume-level selection principle",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "The preface gives selection criteria; annotation sheets should not convert this into unverified claims that every significant record has been included.",
+      "variant_forms": [
+        "Principles of selection include documentation related to the development of and substantive changes to U.S. negotiating positions"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/preface",
+      "verification_status": "verified_published_selection_record"
+    },
+    {
+      "selection_item_id": "selection-v31-d73-omitted-non-start",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d73",
+      "document_number": "73",
+      "unit_scope": "document text omission",
+      "selection_issue_type": "omitted_non_scope_material",
+      "approved_phrase": "[Omitted here are discussions not related to START.]",
+      "coverage_dimension": "selected excerpt excludes unrelated topical material",
+      "decision_point_or_scope": "START-only excerpt from a broader meeting",
+      "related_volume_or_target": "Related Soviet high-level contacts meetings scheduled in Volume III",
+      "selection_status": "published explicit omission of non-scope material",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "Document 73 marks omitted discussion outside the START scope, showing that selection notes must state the scope basis rather than imply a complete meeting record.",
+      "variant_forms": [
+        "Omitted here are discussions not related to START."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d73",
+      "verification_status": "verified_published_selection_record"
+    },
+    {
+      "selection_item_id": "selection-v31-d73-editor-transcribed-portion",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d73",
+      "document_number": "73",
+      "unit_scope": "source note",
+      "selection_issue_type": "excerpt_selection",
+      "approved_phrase": "The editor transcribed the portion of the text specifically for this volume.",
+      "coverage_dimension": "excerpted source note",
+      "decision_point_or_scope": "Only the START-relevant portion of Gates's handwritten notes is printed",
+      "related_volume_or_target": "Foreign Relations, 1989-1992, Volume XXXI, START I",
+      "selection_status": "published excerpt-selection statement",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "The published source note distinguishes an editor-transcribed portion from the full meeting record.",
+      "variant_forms": [
+        "editor transcribed the portion of the text specifically for this volume"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d73",
+      "verification_status": "verified_published_selection_record"
+    },
+    {
+      "selection_item_id": "selection-v31-d150-complete-memcon-vol-iii",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d150",
+      "document_number": "150",
+      "unit_scope": "source note",
+      "selection_issue_type": "complete_record_elsewhere",
+      "approved_phrase": "The complete memorandum of conversation is scheduled for publication in Foreign Relations, 1989-1992, vol. III",
+      "coverage_dimension": "excerpt versus complete record",
+      "decision_point_or_scope": "START-relevant portion printed in START I; complete regional/economic discussion routed to high-level contacts volume",
+      "related_volume_or_target": "Foreign Relations, 1989-1992, vol. III, Soviet Union, Russia, and Post-Soviet States: High-Level Contacts",
+      "selection_status": "published complete-record-elsewhere statement",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "Document 150 identifies the complete memorandum as scheduled for another volume; the checker should preserve the related-volume boundary and not convert it into a completeness claim for START I.",
+      "variant_forms": [
+        "complete memorandum of conversation is scheduled for publication in Foreign Relations, 1989-1992, vol. III"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d150",
+      "verification_status": "verified_published_selection_record"
+    },
+    {
+      "selection_item_id": "selection-v31-d9-nsr-12-vol-xxviii",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d9",
+      "document_number": "9",
+      "unit_scope": "follow-on footnote",
+      "selection_issue_type": "related_volume_boundary",
+      "approved_phrase": "NSR-12, dated March 3, \"Review of National Defense Strategy,\" is scheduled for publication in Foreign Relations, 1989-1992, vol. XXVIII",
+      "coverage_dimension": "related NSR target",
+      "decision_point_or_scope": "National-defense strategy review belongs to a different Bush national-security-policy volume",
+      "related_volume_or_target": "Foreign Relations, 1989-1992, vol. XXVIII, National Security Policy, 1989-1992",
+      "selection_status": "published related-volume scheduled-publication statement",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "Document 9 models a related-volume publication target and a separate printed-as-document target in the same footnote apparatus.",
+      "variant_forms": [
+        "NSR-12 is scheduled for publication in Foreign Relations, 1989-1992, vol. XXVIII"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d9",
+      "verification_status": "verified_published_selection_record"
+    },
+    {
+      "selection_item_id": "selection-v44p1-preface-reagan-related-volumes",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/preface",
+      "document_number": "",
+      "unit_scope": "preface",
+      "selection_issue_type": "chapter_or_volume_scope",
+      "approved_phrase": "These volumes are closely linked to the four volumes in the subseries devoted to Reagan's Soviet policies",
+      "coverage_dimension": "related-volume context",
+      "decision_point_or_scope": "Strategic Defense Initiative and Strategic Modernization Program in relation to Soviet policy and arms-control volumes",
+      "related_volume_or_target": "Reagan Soviet policy volumes, START I, INF, and Global Issues I",
+      "selection_status": "published volume-scope relationship",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "The Reagan National Security Policy preface models related-volume boundaries for a thematic/chronological split.",
+      "variant_forms": [
+        "closely linked to the four volumes in the subseries devoted to Reagan's Soviet policies"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/preface",
+      "verification_status": "verified_published_selection_record"
+    },
+    {
+      "selection_item_id": "selection-v01-d316-trade-scheduled",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d316",
+      "document_number": "316",
+      "unit_scope": "follow-on footnote",
+      "selection_issue_type": "scheduled_publication_boundary",
+      "approved_phrase": "Documentation concerning the agreement is scheduled for publication in Foreign Relations, 1981-1988, vol. XXXVII",
+      "coverage_dimension": "related trade-volume boundary",
+      "decision_point_or_scope": "U.S.-Canada Free Trade Agreement documentation belongs in the Reagan trade volume",
+      "related_volume_or_target": "Foreign Relations, 1981-1988, vol. XXXVII, Trade; Monetary Policy; Industrialized Country Cooperation, 1985-1988",
+      "selection_status": "published scheduled-publication boundary",
+      "blocking_posture": "comment_only_for_sheet_claims",
+      "source_or_context": "Reagan Foundations Document 316 models related-volume routing for a substantial issue mentioned in a broad foreign-policy paper.",
+      "variant_forms": [
+        "Documentation concerning the agreement is scheduled for publication in Foreign Relations, 1981-1988, vol. XXXVII, Trade"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d316",
+      "verification_status": "verified_published_selection_record"
     }
   ]
 }

@@ -1,0 +1,96 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample selection-balance and completeness FRUS annotation units",
+  "units": [
+    {
+      "unit_id": "selection-balance-0001",
+      "unit_type": "front_matter",
+      "location": "START I preface focus paragraph",
+      "exact_text": "The focus of research and selection in this volume was to document how U.S. policymakers and negotiators worked with their Soviet counterparts.",
+      "display_text": "The focus of research and selection in this volume was to document how U.S. policymakers and negotiators worked with their Soviet counterparts.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "selection-balance-0002",
+      "unit_type": "front_matter",
+      "location": "START I preface principles paragraph",
+      "exact_text": "Principles of selection include the documentation related to the development of and substantive changes to U.S. negotiating positions.",
+      "display_text": "Principles of selection include the documentation related to the development of and substantive changes to U.S. negotiating positions.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "selection-balance-0003",
+      "unit_type": "source_note",
+      "location": "START I Document 73 excerpt note",
+      "exact_text": "[Omitted here are discussions not related to START.] The editor transcribed the portion of the text specifically for this volume.",
+      "display_text": "[Omitted here are discussions not related to START.] The editor transcribed the portion of the text specifically for this volume.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "selection-balance-0004",
+      "unit_type": "source_note",
+      "location": "START I Document 150 complete record elsewhere",
+      "exact_text": "The complete memorandum of conversation is scheduled for publication in Foreign Relations, 1989-1992, vol. III.",
+      "display_text": "The complete memorandum of conversation is scheduled for publication in Foreign Relations, 1989-1992, vol. III.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "selection-balance-0005",
+      "unit_type": "follow_on_footnote",
+      "location": "START I Document 9 related-volume note",
+      "exact_text": "NSR-12, dated March 3, \"Review of National Defense Strategy,\" is scheduled for publication in Foreign Relations, 1989-1992, vol. XXVIII. Printed as Document 10.",
+      "display_text": "NSR-12, dated March 3, \"Review of National Defense Strategy,\" is scheduled for publication in Foreign Relations, 1989-1992, vol. XXVIII. Printed as Document 10.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "selection-balance-0006",
+      "unit_type": "front_matter",
+      "location": "Reagan National Security Policy preface related-volume context",
+      "exact_text": "These volumes are closely linked to the four volumes in the subseries devoted to Reagan's Soviet policies.",
+      "display_text": "These volumes are closely linked to the four volumes in the subseries devoted to Reagan's Soviet policies.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "selection-balance-0007",
+      "unit_type": "follow_on_footnote",
+      "location": "Reagan Foundations Document 316 trade boundary",
+      "exact_text": "Documentation concerning the agreement is scheduled for publication in Foreign Relations, 1981-1988, vol. XXXVII, Trade.",
+      "display_text": "Documentation concerning the agreement is scheduled for publication in Foreign Relations, 1981-1988, vol. XXXVII, Trade.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "selection-balance-0008",
+      "unit_type": "editorial_note",
+      "location": "Unsupported complete coverage claim",
+      "exact_text": "This annotation sheet provides complete and balanced coverage of all major policy decisions in the chapter.",
+      "display_text": "This annotation sheet provides complete and balanced coverage of all major policy decisions in the chapter.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    },
+    {
+      "unit_id": "selection-balance-0009",
+      "unit_type": "editorial_note",
+      "location": "Unsupported no-other-records claim",
+      "exact_text": "No other significant records remain outside this selection.",
+      "display_text": "No other significant records remain outside this selection.",
+      "editability": "editable",
+      "edit_safety": "safe_single_run",
+      "comment_safety": "safe"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": "frus-llm-chunk-manifest-v1",
-  "generated_at": "2026-06-04T02:52:44.535Z",
-  "run_id": "chunk-workflow-test",
+  "generated_at": "2026-06-04T03:14:49.004Z",
+  "run_id": "sample-chunks",
   "target_volume": "frus1989-92v31",
   "chunk_count": 2,
   "source_files": {
@@ -22,6 +22,7 @@
     "document_handling_registry": "reports/frus-document-handling-registry.sample.json",
     "chronology_registry": "reports/frus-chronology-registry.sample.json",
     "time_zone_registry": "reports/frus-time-zone-registry.sample.json",
+    "selection_balance_registry": "reports/frus-selection-balance-registry.sample.json",
     "public_source_registry": "reports/frus-public-source-registry.sample.json",
     "retrospective_account_registry": "reports/frus-retrospective-account-registry.sample.json",
     "treaty_registry": "reports/frus-treaty-registry.sample.json",
@@ -53,6 +54,7 @@
     "document_handling_registry_records": 7,
     "chronology_registry_records": 6,
     "time_zone_registry_records": 8,
+    "selection_balance_registry_records": 8,
     "public_source_registry_records": 6,
     "retrospective_account_registry_records": 6,
     "treaty_registry_records": 7,

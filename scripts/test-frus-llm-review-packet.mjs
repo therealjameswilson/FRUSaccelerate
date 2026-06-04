@@ -57,6 +57,8 @@ try {
     "reports/frus-chronology-registry.sample.json",
     "--time-zone-registry",
     "reports/frus-time-zone-registry.sample.json",
+    "--selection-balance-registry",
+    "reports/frus-selection-balance-registry.sample.json",
     "--public-source-registry",
     "reports/frus-public-source-registry.sample.json",
     "--retrospective-account-registry",
@@ -135,6 +137,11 @@ try {
   assert(markdown.includes("Geneva, January 10, 1991, 1757Z"), "expected START I Z-time registry content");
   assert(markdown.includes("open of business Washington time"), "expected Washington-time deadline registry content");
   assert(markdown.includes("treaty/legal-instrument timing provision"), "expected treaty timing registry content");
+  assert(markdown.includes("Selection Balance And Completeness Registry Context"), "expected selection-balance registry section");
+  assert(
+    markdown.includes("complete memorandum of conversation is scheduled for publication"),
+    "expected complete-record-elsewhere selection-balance content"
+  );
   assert(markdown.includes("Public Source And Public Diplomacy Registry Context"), "expected public-source registry section");
   assert(markdown.includes("Public Papers: Bush, 1991, pages 986-987"), "expected Public Papers registry content");
   assert(markdown.includes("Department of State Dispatch Supplement, October 1991"), "expected Department of State Dispatch registry content");
@@ -214,6 +221,12 @@ try {
   assert(packet.contexts.time_zone_registry.records.length === 8, "expected time-zone registry records");
   assert(packet.contexts.time_zone_registry.target_records.length > 0, "expected target time-zone records");
   assert(packet.packet_summary.time_zone_registry_records === 8, "expected time-zone registry count");
+  assert(packet.contexts.selection_balance_registry.records.length === 8, "expected selection-balance registry records");
+  assert(
+    packet.contexts.selection_balance_registry.target_records.length === 6,
+    "expected target selection-balance records"
+  );
+  assert(packet.packet_summary.selection_balance_registry_records === 8, "expected selection-balance registry count");
   assert(packet.contexts.public_source_registry.records.length === 6, "expected public-source registry records");
   assert(packet.contexts.public_source_registry.target_records.length > 0, "expected target public-source records");
   assert(packet.packet_summary.public_source_registry_records === 6, "expected public-source registry count");
@@ -257,7 +270,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, public-source, retrospective-account, treaty, foreign-org, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, selection-balance, public-source, retrospective-account, treaty, foreign-org, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

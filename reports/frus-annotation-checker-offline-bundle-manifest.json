@@ -248,6 +248,18 @@
       "role": "Self-contained time-zone registry and usage audit smoke test"
     },
     {
+      "path": "scripts/validate-frus-selection-balance-registry.mjs",
+      "role": "Selection, scope, excerpt, related-volume, completeness, and known-gap registry validator"
+    },
+    {
+      "path": "scripts/audit-frus-selection-balance-usage.mjs",
+      "role": "Selection-balance and completeness usage audit for extracted Word units and direct-edit safety"
+    },
+    {
+      "path": "scripts/test-frus-selection-balance-audit.mjs",
+      "role": "Self-contained selection-balance registry and usage audit smoke test"
+    },
+    {
       "path": "scripts/validate-frus-public-source-registry.mjs",
       "role": "Public-source, Public Papers, Department of State Bulletin/Dispatch, public remarks, press, testimony, broadcast, and selected-public-document registry validator"
     },
@@ -439,6 +451,9 @@
     "reports/frus-time-zone-registry.sample.json",
     "reports/frus-time-zone-units.sample.json",
     "reports/frus-time-zone-audit.sample.json",
+    "reports/frus-selection-balance-registry.sample.json",
+    "reports/frus-selection-balance-units.sample.json",
+    "reports/frus-selection-balance-audit.sample.json",
     "reports/frus-public-source-registry.sample.json",
     "reports/frus-public-source-units.sample.json",
     "reports/frus-public-source-audit.sample.json",
@@ -531,6 +546,10 @@
     {
       "path": "reports/frus-time-zone-registry.sample.json",
       "role": "Published Washington-time, Z date-time group, no-precise-time, actual-versus-planned, and treaty timing sample for Reagan and George H.W. Bush fixtures"
+    },
+    {
+      "path": "reports/frus-selection-balance-registry.sample.json",
+      "role": "Published selection, scope, excerpt, omission, related-volume, complete-record-elsewhere, scheduled-publication, and completeness-claim sample for Reagan and George H.W. Bush fixtures"
     },
     {
       "path": "reports/frus-public-source-registry.sample.json",
@@ -630,6 +649,9 @@
     "node scripts/validate-frus-time-zone-registry.mjs --registry reports/frus-time-zone-registry.sample.json --format text",
     "node scripts/audit-frus-time-zone-usage.mjs --units reports/frus-time-zone-units.sample.json --registry reports/frus-time-zone-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-time-zone-audit.mjs",
+    "node scripts/validate-frus-selection-balance-registry.mjs --registry reports/frus-selection-balance-registry.sample.json --format text",
+    "node scripts/audit-frus-selection-balance-usage.mjs --units reports/frus-selection-balance-units.sample.json --registry reports/frus-selection-balance-registry.sample.json --target-volume frus1989-92v31 --format text",
+    "node scripts/test-frus-selection-balance-audit.mjs",
     "node scripts/validate-frus-public-source-registry.mjs --registry reports/frus-public-source-registry.sample.json --format text",
     "node scripts/audit-frus-public-source-usage.mjs --units reports/frus-public-source-units.sample.json --registry reports/frus-public-source-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-public-source-audit.mjs",
@@ -690,6 +712,8 @@
     "Give validate-frus-chronology-registry.mjs a duplicate chronology_id or malformed chronology-registry schema; it must fail.",
     "Give audit-frus-time-zone-usage.mjs a direct edit that converts a Z date-time group to local time, drops a Z label, or changes chronological placement without target-volume registry support; it must fail.",
     "Give validate-frus-time-zone-registry.mjs a duplicate time_zone_item_id or malformed time-zone-registry schema; it must fail.",
+    "Give audit-frus-selection-balance-usage.mjs a direct edit that changes scope, excerpt, related-volume, complete-record-elsewhere, or completeness language without target-volume registry support; it must fail.",
+    "Give validate-frus-selection-balance-registry.mjs a duplicate selection_item_id or malformed selection-balance-registry schema; it must fail.",
     "Give audit-frus-public-source-usage.mjs a direct edit that changes Public Papers pages, delivery basis, full-text target, or selected-public-document status without target-volume registry support; it must fail.",
     "Give validate-frus-public-source-registry.mjs a duplicate public_source_id or malformed public-source-registry schema; it must fail.",
     "Give audit-frus-retrospective-account-usage.mjs a direct edit that changes memoir, diary, oral-history, recollection, page/locator, selected/supplemental, official-record-relationship, corroboration, or conflict language without target-volume registry support; it must fail.",

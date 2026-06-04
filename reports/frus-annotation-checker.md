@@ -114,6 +114,13 @@ For time-zone/date-time-group validation, use
 `reports/frus-time-zone-units.sample.json`; the self-contained smoke test is
 `scripts/test-frus-time-zone-audit.mjs`, and the sample audit report is
 `reports/frus-time-zone-audit.sample.json`.
+For selection-balance/completeness validation, use
+`scripts/validate-frus-selection-balance-registry.mjs` and
+`scripts/audit-frus-selection-balance-usage.mjs` with
+`reports/frus-selection-balance-registry.sample.json` and
+`reports/frus-selection-balance-units.sample.json`; the self-contained smoke
+test is `scripts/test-frus-selection-balance-audit.mjs`, and the sample audit
+report is `reports/frus-selection-balance-audit.sample.json`.
 For public-source/public-diplomacy validation, use
 `scripts/validate-frus-public-source-registry.mjs` and
 `scripts/audit-frus-public-source-usage.mjs` with
@@ -12239,6 +12246,18 @@ Minimum components:
   conversions, and chronological placement to supplied time-zone records and
   fails direct time-label, conversion, or date-time-group edits that lack
   target-volume registry support.
+- No-dependency selection-balance/completeness registry validator, usage audit,
+  and fixtures: `scripts/validate-frus-selection-balance-registry.mjs`,
+  `scripts/audit-frus-selection-balance-usage.mjs`,
+  `reports/frus-selection-balance-registry.sample.json`,
+  `reports/frus-selection-balance-units.sample.json`, and
+  `reports/frus-selection-balance-audit.sample.json`. The audit reconciles
+  principles of selection, chapter or volume scope, excerpted portions, omitted
+  non-scope material, complete-record-elsewhere notes, related-volume
+  boundaries, scheduled-publication targets, withheld-document effects, known
+  gaps, and unsupported complete/balanced/no-other-record claims to supplied
+  selection records and fails direct selection-balance edits that lack
+  target-volume registry support.
 - No-dependency public-source/public-diplomacy registry validator, usage audit,
   and fixtures: `scripts/validate-frus-public-source-registry.mjs`,
   `scripts/audit-frus-public-source-usage.mjs`,
@@ -12448,9 +12467,10 @@ Minimum components:
   Preface, About the Series, appendix, declassification-review, special-note,
   and errata context beyond the currently wired Sources-page/source-family
   registry before tracked changes are applied.
-- Selection-balance validator that checks decision points, options, dissent,
-  agency positions, intelligence basis, negotiation movement, implementation,
-  foreign response, public explanation, outcome, related-volume boundaries,
+- Expand the selection-balance validator beyond the current published scope and
+  completeness registry to check decision points, options, dissent, agency
+  positions, intelligence basis, negotiation movement, implementation, foreign
+  response, public explanation, outcome, related-volume boundaries,
   withheld-document effects, and known gaps before final-style coverage claims
   are accepted.
 - Physical/routing evidence validator that distinguishes handwritten notes,
