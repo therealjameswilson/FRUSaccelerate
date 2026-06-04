@@ -156,6 +156,17 @@
       "edit_safety": "safe",
       "comment_safety": "safe",
       "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0015",
+      "unit_type": "follow_on_footnote",
+      "location": "Draft repeated citation D",
+      "exact_text": "The full citation appears yet again. (Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+      "display_text": "The full citation appears yet again. (Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
     }
   ]
 }

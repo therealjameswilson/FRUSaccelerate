@@ -352,6 +352,20 @@ function citationKey(value) {
   return normalizeForm(value).replace(/\bpp?\b/g, "p");
 }
 
+function ordinal(value) {
+  const suffix =
+    value % 100 >= 11 && value % 100 <= 13
+      ? "th"
+      : value % 10 === 1
+        ? "st"
+        : value % 10 === 2
+          ? "nd"
+          : value % 10 === 3
+            ? "rd"
+            : "th";
+  return `${value}${suffix}`;
+}
+
 function repeatedCitationThresholds(units, repeatThreshold, repeatThresholdAction) {
   const groups = new Map();
   for (const unit of units) {
@@ -371,16 +385,31 @@ function repeatedCitationThresholds(units, repeatThreshold, repeatThresholdActio
   }
   const thresholds = [];
   for (const [key, occurrences] of groups.entries()) {
-    const uniqueUnits = [...new Map(occurrences.map((item) => [item.unit_id, item])).values()];
+    const uniqueUnits = [...new Map(occurrences.map((item) => [item.unit_id, item])).values()].map(
+      (item, index) => ({
+        ...item,
+        occurrence_number: index + 1,
+        threshold_status:
+          index + 1 < repeatThreshold
+            ? "full_citation_may_stand"
+            : index + 1 === repeatThreshold
+              ? "first_referback_review_trigger"
+              : "later_referback_review_trigger"
+      })
+    );
     if (uniqueUnits.length < repeatThreshold) continue;
     const triggerUnit = uniqueUnits[repeatThreshold - 1];
+    const reviewUnits = uniqueUnits.slice(repeatThreshold - 1);
     thresholds.push({
       citation_key: key,
       repeat_threshold: repeatThreshold,
       occurrence_count: uniqueUnits.length,
       trigger_unit: triggerUnit,
+      first_review_unit: triggerUnit,
+      allowed_full_citation_units: uniqueUnits.slice(0, repeatThreshold - 1),
+      review_units: reviewUnits,
       units: uniqueUnits,
-      finding: `Same full citation appears at least ${repeatThreshold} times without a footnote refer-back.`,
+      finding: `Same full citation reaches the ${ordinal(repeatThreshold)} occurrence without a footnote refer-back.`,
       required_action: repeatThresholdAction
     });
   }
@@ -430,6 +459,7 @@ function auditFootnoteReferbacks({ unitsDocument, registry, checkerOutput, targe
         malformed_referbacks: 0,
         overlong_referback_clusters: 0,
         repeated_citation_thresholds: 0,
+        repeated_citation_review_units: 0,
         repeat_threshold: registry.repeat_threshold || 0,
         direct_footnote_referback_edit_conflicts: 0,
         warnings: 0,
@@ -466,7 +496,10 @@ function auditFootnoteReferbacks({ unitsDocument, registry, checkerOutput, targe
   const conflicts = directEditConflicts(checkerOutput, registry, matchesByUnit, diagnosticsByUnit);
   const warnings = [
     ...diagnostics.map((diagnostic) => `${diagnostic.unit_id}: ${diagnostic.finding}`),
-    ...thresholds.map((threshold) => `${threshold.units.map((unit) => unit.unit_id).join(",")}: ${threshold.finding}`)
+    ...thresholds.map(
+      (threshold) =>
+        `${threshold.review_units.map((unit) => unit.unit_id).join(",")}: ${threshold.finding} First two full citations may stand; flag the third and later repeats for target confirmation.`
+    )
   ];
   const hardErrors = conflicts.map((conflict) => `${conflict.unit_id}: ${conflict.finding}`);
   const summary = {
@@ -475,6 +508,7 @@ function auditFootnoteReferbacks({ unitsDocument, registry, checkerOutput, targe
     malformed_referbacks: diagnostics.filter((diagnostic) => diagnostic.diagnostic_type !== "overlong_footnote_document_cluster").length,
     overlong_referback_clusters: diagnostics.filter((diagnostic) => diagnostic.diagnostic_type === "overlong_footnote_document_cluster").length,
     repeated_citation_thresholds: thresholds.length,
+    repeated_citation_review_units: thresholds.reduce((total, threshold) => total + threshold.review_units.length, 0),
     repeat_threshold: repeatThreshold,
     direct_footnote_referback_edit_conflicts: conflicts.length,
     warnings: warnings.length,
@@ -501,7 +535,7 @@ function renderText(result) {
     lines.push(`FRUS footnote refer-back usage audit failed: ${result.errors.length} errors, ${result.warnings.length} warnings.`);
   } else {
     lines.push(
-      `FRUS footnote refer-back usage audit ${result.status}: ${result.summary.approved_referback_usages} approved matches, ${result.summary.malformed_referbacks} malformed refer-backs, ${result.summary.repeated_citation_thresholds} repeated-citation thresholds at ${result.summary.repeat_threshold}.`
+      `FRUS footnote refer-back usage audit ${result.status}: ${result.summary.approved_referback_usages} approved matches, ${result.summary.malformed_referbacks} malformed refer-backs, ${result.summary.repeated_citation_thresholds} repeated-citation thresholds at ${result.summary.repeat_threshold}, ${result.summary.repeated_citation_review_units} third-and-later review units.`
     );
   }
   for (const warning of result.warnings) lines.push(`warning: ${warning}`);

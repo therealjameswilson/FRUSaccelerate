@@ -10,14 +10,15 @@
     "referback-0009: Bare same-document footnote refer-back lacks above/below or local same-document context.",
     "referback-0010: Document-and-footnote cross-reference is missing `thereto`.",
     "referback-0011: Footnote contains more than three `footnote N, Document X` refer-back targets.",
-    "referback-0012,referback-0013,referback-0014: Same full citation appears at least 3 times without a footnote refer-back."
+    "referback-0014,referback-0015: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citations may stand; flag the third and later repeats for target confirmation."
   ],
   "summary": {
-    "units_scanned": 14,
+    "units_scanned": 15,
     "approved_referback_usages": 6,
     "malformed_referbacks": 5,
     "overlong_referback_clusters": 1,
     "repeated_citation_thresholds": 1,
+    "repeated_citation_review_units": 2,
     "repeat_threshold": 3,
     "direct_footnote_referback_edit_conflicts": 0,
     "warnings": 7,
@@ -219,35 +220,95 @@
     {
       "citation_key": "public papers reagan 1988 1989 book i p 4",
       "repeat_threshold": 3,
-      "occurrence_count": 3,
+      "occurrence_count": 4,
       "trigger_unit": {
         "unit_id": "referback-0014",
         "unit_type": "follow_on_footnote",
         "location": "Draft repeated citation C",
-        "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)"
+        "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+        "occurrence_number": 3,
+        "threshold_status": "first_referback_review_trigger"
       },
-      "units": [
+      "first_review_unit": {
+        "unit_id": "referback-0014",
+        "unit_type": "follow_on_footnote",
+        "location": "Draft repeated citation C",
+        "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+        "occurrence_number": 3,
+        "threshold_status": "first_referback_review_trigger"
+      },
+      "allowed_full_citation_units": [
         {
           "unit_id": "referback-0012",
           "unit_type": "follow_on_footnote",
           "location": "Draft repeated citation A",
-          "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)"
+          "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+          "occurrence_number": 1,
+          "threshold_status": "full_citation_may_stand"
         },
         {
           "unit_id": "referback-0013",
           "unit_type": "follow_on_footnote",
           "location": "Draft repeated citation B",
-          "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)"
+          "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+          "occurrence_number": 2,
+          "threshold_status": "full_citation_may_stand"
+        }
+      ],
+      "review_units": [
+        {
+          "unit_id": "referback-0014",
+          "unit_type": "follow_on_footnote",
+          "location": "Draft repeated citation C",
+          "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+          "occurrence_number": 3,
+          "threshold_status": "first_referback_review_trigger"
+        },
+        {
+          "unit_id": "referback-0015",
+          "unit_type": "follow_on_footnote",
+          "location": "Draft repeated citation D",
+          "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+          "occurrence_number": 4,
+          "threshold_status": "later_referback_review_trigger"
+        }
+      ],
+      "units": [
+        {
+          "unit_id": "referback-0012",
+          "unit_type": "follow_on_footnote",
+          "location": "Draft repeated citation A",
+          "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+          "occurrence_number": 1,
+          "threshold_status": "full_citation_may_stand"
+        },
+        {
+          "unit_id": "referback-0013",
+          "unit_type": "follow_on_footnote",
+          "location": "Draft repeated citation B",
+          "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+          "occurrence_number": 2,
+          "threshold_status": "full_citation_may_stand"
         },
         {
           "unit_id": "referback-0014",
           "unit_type": "follow_on_footnote",
           "location": "Draft repeated citation C",
-          "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)"
+          "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+          "occurrence_number": 3,
+          "threshold_status": "first_referback_review_trigger"
+        },
+        {
+          "unit_id": "referback-0015",
+          "unit_type": "follow_on_footnote",
+          "location": "Draft repeated citation D",
+          "matched_text": "(Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+          "occurrence_number": 4,
+          "threshold_status": "later_referback_review_trigger"
         }
       ],
-      "finding": "Same full citation appears at least 3 times without a footnote refer-back.",
-      "required_action": "The first and second full citations may stand; on the third and later full repeat, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not rewrite unless the target footnote/document is verified in the registry."
+      "finding": "Same full citation reaches the 3rd occurrence without a footnote refer-back.",
+      "required_action": "The first and second full citations may stand; on the third full repeat itself and every later full repeat, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not rewrite unless the target footnote/document is verified in the registry."
     }
   ],
   "direct_edit_conflicts": []

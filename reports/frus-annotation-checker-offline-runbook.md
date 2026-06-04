@@ -499,10 +499,10 @@ node scripts/audit-frus-foreign-org-usage.mjs --units extracted-units.json --reg
    rule should be treated as a repeated-citation review trigger: when the same
    full citation appears for a third time, confirm whether a refer-back should
    replace the repeated citation. The first and second full citations may
-   stand; the third and later full repeats require comment-only target
-   confirmation unless the supplied registry proves the direct edit. The usage
-   audit fails if the model proposes a direct refer-back edit unsupported by
-   the supplied registry.
+   stand; the third full repeat itself and every later full repeat require
+   comment-only target confirmation unless the supplied registry proves the
+   direct edit. The usage audit fails if the model proposes a direct refer-back
+   edit unsupported by the supplied registry.
 
 ```sh
 node scripts/validate-frus-footnote-referback-registry.mjs --registry footnote-referback-registry.json --format text

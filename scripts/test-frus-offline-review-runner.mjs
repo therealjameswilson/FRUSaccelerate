@@ -337,6 +337,10 @@ try {
     "expected zero footnote refer-back repeated-citation thresholds"
   );
   assert(
+    audit.counts.footnote_referback_repeated_citation_review_units === 0,
+    "expected zero footnote refer-back third-and-later review units"
+  );
+  assert(
     audit.counts.footnote_referback_direct_edit_conflicts === 0,
     "expected zero footnote refer-back direct-edit conflicts"
   );

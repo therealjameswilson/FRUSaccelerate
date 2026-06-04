@@ -228,10 +228,11 @@ footnote refer-back registry with target-volume examples for repeated
 cross-document `footnote N, Document X` references, same-document above/below or
 local-context references, `Document X and footnote Y thereto` references, and
 published multi-target clusters. Treat the third full repeat of the same
-citation as a human review trigger for a possible refer-back, not as an
-automatic rewrite. The registry should carry `repeat_threshold: 3` and a
-plain-language `repeat_threshold_action`: first and second full citations may
-stand; the third and later full repeats require comment-only target
+citation as the first human review trigger for a possible refer-back, and flag
+every later full repeat too; this is not an automatic rewrite. The registry
+should carry `repeat_threshold: 3` and a plain-language
+`repeat_threshold_action`: first and second full citations may stand; the third
+full repeat itself and every later full repeat require comment-only target
 confirmation unless a registry-backed direct edit is available. Validate the
 registry with
 `scripts/validate-frus-footnote-referback-registry.mjs` before direct
