@@ -1,8 +1,8 @@
 # FRUS Annotation Review Packet
 
 - schema_version: frus-llm-review-packet-v1
-- run_id: sample-packet
-- generated_at: 2026-06-04T00:25:37.678Z
+- run_id: packet-smoke-test
+- generated_at: 2026-06-04T02:52:44.482Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -165,6 +165,7 @@ Every reviewable extracted editorial unit should have a checker entry. Use `reco
   "visual_material_registry_records": 5,
   "document_handling_registry_records": 7,
   "chronology_registry_records": 6,
+  "time_zone_registry_records": 8,
   "public_source_registry_records": 6,
   "retrospective_account_registry_records": 6,
   "treaty_registry_records": 7,
@@ -203,9 +204,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -242,6 +243,9 @@ For document-handling/marginalia validation and direct-edit safety, run
 For chronology/time validation and direct-edit safety, run
 `node scripts/validate-frus-chronology-registry.mjs --registry reports/frus-chronology-registry.sample.json --format text` and
 `node scripts/audit-frus-chronology-usage.mjs --units extracted-units.json --registry reports/frus-chronology-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For time-zone/date-time-group validation and direct-edit safety, run
+`node scripts/validate-frus-time-zone-registry.mjs --registry reports/frus-time-zone-registry.sample.json --format text` and
+`node scripts/audit-frus-time-zone-usage.mjs --units extracted-units.json --registry reports/frus-time-zone-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For public-source/public-diplomacy validation and direct-edit safety, run
 `node scripts/validate-frus-public-source-registry.mjs --registry reports/frus-public-source-registry.sample.json --format text` and
 `node scripts/audit-frus-public-source-usage.mjs --units extracted-units.json --registry reports/frus-public-source-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -279,7 +283,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -353,6 +357,12 @@ meeting and call times, place and attendance, actual-versus-planned meeting
 times, schedule/diary absences, no-precise-time caveats, and event-sequence
 facts; validate it with `scripts/validate-frus-chronology-registry.mjs` before
 direct chronology edits.
+For real Reagan/Bush 1981-1992 time-zone/date-time-group review, replace the
+sample time-zone registry with target-volume records for Washington-time rules,
+local-time labels, GMT/Z/Zulu date-time groups, EST/EDT labels, no-precise-time
+caveats, deadlines, treaty timing rules, conversions, and chronological
+placement; validate it with `scripts/validate-frus-time-zone-registry.mjs`
+before direct time-label, conversion, or date-time-group edits.
 For real Reagan/Bush 1981-1992 public-source/public-diplomacy review, replace
 the sample public-source registry with target-volume records for speeches,
 public remarks, press releases, press conferences, briefings, interviews,
@@ -380,7 +390,13 @@ For real Reagan/Bush 1981-1992 footnote refer-back review, replace the sample
 footnote refer-back registry with target-volume examples for repeated
 cross-document `footnote N, Document X` references, same-document above/below or
 local-context references, `Document X and footnote Y thereto` references, and
-published multi-target clusters; validate it with
+published multi-target clusters. Treat the third full repeat of the same
+citation as a human review trigger for a possible refer-back, not as an
+automatic rewrite. The registry should carry `repeat_threshold: 3` and a
+plain-language `repeat_threshold_action`: first and second full citations may
+stand; the third and later full repeats require comment-only target
+confirmation unless a registry-backed direct edit is available. Validate the
+registry with
 `scripts/validate-frus-footnote-referback-registry.mjs` before direct
 refer-back edits.
 For every Reagan/Bush 1981-1992 sheet, keep the recurring-risk registry in the
@@ -800,6 +816,14 @@ itself supplies citations, chronology, and cross-references.
 Editorial notes should summarize pertinent unprinted material, locations of
 additional sources, related documents, key events, public statements, and
 memoirs or first-hand accounts when they supplement the official record.
+
+### Time Zones
+
+Preserve Washington-time, local-time, GMT/Z/Zulu, EST/EDT, date-time group,
+deadline, treaty-time, no-precise-time, and ambiguity labels exactly as the
+source or target-volume registry supplies them. Do not convert a telegram
+`Z` time, drop a `Z`, add a local-time gloss, or move a document
+chronologically unless the time-zone registry proves the direct edit.
 
 ### Retrospective Accounts
 
@@ -5150,6 +5174,266 @@ Use this to check President's Daily Diary, meeting-time, call-time, no-precise-t
 }
 ```
 
+## Time-Zone And Date-Time Group Registry Context
+
+Use this to check Washington-time rules, local-time labels, GMT/Z/Zulu date-time groups, EST/EDT labels, no-precise-time caveats, deadlines, treaty timing rules, and chronological placement. Preserve time labels exactly; do not convert, drop `Z`, add local time, or move a document chronologically unless the target-volume time-zone registry proves the direct edit.
+
+```json
+{
+  "schema_version": "frus-time-zone-registry-v1",
+  "time_zone_registry_id": "frus-1981-1992-time-zone-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d188",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d89",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d178",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d19",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d21",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d27"
+  ],
+  "scope": "Published FRUS time-zone, telegram date-time group, Washington-time, no-precise-time, actual-versus-planned, and treaty timing patterns for Reagan and George H.W. Bush annotation sheets.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "time_zone_item_id": "time-v31-d188-geneva-1757z",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d188",
+      "document_number": "188",
+      "unit_scope": "telegram heading and body",
+      "time_claim_type": "telegram_date_time_group_and_washington_target",
+      "approved_phrase": "Geneva, January 10, 1991, 1757Z",
+      "source_time_basis": "telegram date-time group plus body reference to Washington working deadline",
+      "display_time": "1757Z; open of business Washington time",
+      "conversion_status": "conversion_not_supplied",
+      "chronological_placement": "telegraphic transmission and Washington working-deadline context",
+      "event_or_document_context": "Burt expected a readout for Washington by open of business Washington time Monday morning.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d188",
+      "verification_status": "verified_published_time_zone_record",
+      "variant_forms": [
+        "1757Z",
+        "open of business Washington time Monday morning"
+      ]
+    },
+    {
+      "time_zone_item_id": "time-v31-d89-namibia-0905z",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d89",
+      "document_number": "89",
+      "unit_scope": "telegram heading",
+      "time_claim_type": "telegram_date_time_group",
+      "approved_phrase": "Namibia, March 20, 1990, 0905Z",
+      "source_time_basis": "telegram date-time group",
+      "display_time": "0905Z",
+      "conversion_status": "conversion_not_supplied",
+      "chronological_placement": "telegraphic transmission time",
+      "event_or_document_context": "Secretary Baker's delegation telegram reporting the Shevardnadze meeting.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d89",
+      "verification_status": "verified_published_time_zone_record",
+      "variant_forms": [
+        "0905Z"
+      ]
+    },
+    {
+      "time_zone_item_id": "time-v31-d178-washington-1430z",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d178",
+      "document_number": "178",
+      "unit_scope": "telegram heading",
+      "time_claim_type": "telegram_date_time_group",
+      "approved_phrase": "Washington, December 17, 1990, 1430Z",
+      "source_time_basis": "telegram date-time group",
+      "display_time": "1430Z",
+      "conversion_status": "conversion_not_supplied",
+      "chronological_placement": "telegraphic transmission time",
+      "event_or_document_context": "Department telegram to Secretary Baker containing the START package.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d178",
+      "verification_status": "verified_published_time_zone_record",
+      "variant_forms": [
+        "1430Z"
+      ]
+    },
+    {
+      "time_zone_item_id": "time-v31-d246-treaty-display-window",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d246",
+      "document_number": "246",
+      "unit_scope": "treaty text",
+      "time_claim_type": "treaty_notification_time_rule",
+      "approved_phrase": "A display shall begin no later than 12 hours after the request is made and shall continue until 18 hours have elapsed from the time that the request was made",
+      "source_time_basis": "START Treaty timing rule",
+      "display_time": "12 hours after request; 18 hours elapsed",
+      "conversion_status": "treaty_rule_do_not_convert",
+      "chronological_placement": "treaty/legal-instrument timing provision",
+      "event_or_document_context": "Cooperative-measures display timing under the START Treaty.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
+      "verification_status": "verified_published_time_zone_record",
+      "variant_forms": [
+        "12 hours after the request is made",
+        "18 hours have elapsed from the time that the request was made"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "time_zone_item_id": "time-v44p1-about-washington-time",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/abouttheseries",
+      "document_number": "abouttheseries",
+      "unit_scope": "About the Series editorial methodology",
+      "time_claim_type": "volume_chronology_standard",
+      "approved_phrase": "The documents are presented chronologically according to Washington time.",
+      "source_time_basis": "published About the Series methodology statement",
+      "display_time": "Washington time",
+      "conversion_status": "no_conversion_needed",
+      "chronological_placement": "volume-wide editorial rule",
+      "event_or_document_context": "Memoranda of conversation are placed by conversation time and date rather than memorandum draft date.",
+      "variant_forms": [
+        "Memoranda of conversation are placed according to the time and date of the conversation, rather than the date the memorandum was drafted"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/abouttheseries",
+      "verification_status": "verified_published_time_zone_record"
+    },
+    {
+      "time_zone_item_id": "time-v31-d188-geneva-1757z",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d188",
+      "document_number": "188",
+      "unit_scope": "telegram heading and body",
+      "time_claim_type": "telegram_date_time_group_and_washington_target",
+      "approved_phrase": "Geneva, January 10, 1991, 1757Z",
+      "source_time_basis": "telegram date-time group plus body reference to Washington working deadline",
+      "display_time": "1757Z; open of business Washington time",
+      "conversion_status": "conversion_not_supplied",
+      "chronological_placement": "telegraphic transmission and Washington working-deadline context",
+      "event_or_document_context": "Burt expected a readout for Washington by open of business Washington time Monday morning.",
+      "variant_forms": [
+        "1757Z",
+        "open of business Washington time Monday morning"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d188",
+      "verification_status": "verified_published_time_zone_record"
+    },
+    {
+      "time_zone_item_id": "time-v31-d89-namibia-0905z",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d89",
+      "document_number": "89",
+      "unit_scope": "telegram heading",
+      "time_claim_type": "telegram_date_time_group",
+      "approved_phrase": "Namibia, March 20, 1990, 0905Z",
+      "source_time_basis": "telegram date-time group",
+      "display_time": "0905Z",
+      "conversion_status": "conversion_not_supplied",
+      "chronological_placement": "telegraphic transmission time",
+      "event_or_document_context": "Secretary Baker's delegation telegram reporting the Shevardnadze meeting.",
+      "variant_forms": [
+        "0905Z"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d89",
+      "verification_status": "verified_published_time_zone_record"
+    },
+    {
+      "time_zone_item_id": "time-v31-d178-washington-1430z",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d178",
+      "document_number": "178",
+      "unit_scope": "telegram heading",
+      "time_claim_type": "telegram_date_time_group",
+      "approved_phrase": "Washington, December 17, 1990, 1430Z",
+      "source_time_basis": "telegram date-time group",
+      "display_time": "1430Z",
+      "conversion_status": "conversion_not_supplied",
+      "chronological_placement": "telegraphic transmission time",
+      "event_or_document_context": "Department telegram to Secretary Baker containing the START package.",
+      "variant_forms": [
+        "1430Z"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d178",
+      "verification_status": "verified_published_time_zone_record"
+    },
+    {
+      "time_zone_item_id": "time-v01-d19-washington-2135z",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d19",
+      "document_number": "19",
+      "unit_scope": "telegram heading",
+      "time_claim_type": "telegram_date_time_group",
+      "approved_phrase": "Washington, January 17, 1981, 2135Z",
+      "source_time_basis": "telegram date-time group",
+      "display_time": "2135Z",
+      "conversion_status": "conversion_not_supplied",
+      "chronological_placement": "telegraphic transmission time",
+      "event_or_document_context": "Department telegram to the Embassy in Yugoslavia reporting transition comments.",
+      "variant_forms": [
+        "2135Z"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d19",
+      "verification_status": "verified_published_time_zone_record"
+    },
+    {
+      "time_zone_item_id": "time-v01-d21-no-precise-call-time",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d21",
+      "document_number": "21",
+      "unit_scope": "source note",
+      "time_claim_type": "no_precise_time",
+      "approved_phrase": "there is no indication as to when precisely the telephone calls took place",
+      "source_time_basis": "President's Daily Diary absence of entry",
+      "display_time": "no precise call time",
+      "conversion_status": "ambiguous_do_not_resolve",
+      "chronological_placement": "January 21 calls preserved without invented precise times",
+      "event_or_document_context": "Presidential telephone calls to allied heads of government.",
+      "variant_forms": [
+        "no precise time for the telephone calls"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d21",
+      "verification_status": "verified_published_time_zone_record"
+    },
+    {
+      "time_zone_item_id": "time-v01-d27-actual-vs-planned",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d27",
+      "document_number": "27",
+      "unit_scope": "source note",
+      "time_claim_type": "actual_vs_planned_meeting_time",
+      "approved_phrase": "from 1:30 until 2:40 p.m.",
+      "source_time_basis": "President's Daily Diary actual meeting time",
+      "display_time": "1:30 until 2:40 p.m.",
+      "conversion_status": "no_conversion_needed",
+      "chronological_placement": "actual meeting time differs from the planned time in the subject line",
+      "event_or_document_context": "The first NSC meeting was planned for 1:30 to 2:20 p.m. but actually took place from 1:30 until 2:40 p.m.",
+      "variant_forms": [
+        "Cabinet Room at the White House on February 6 from 1:30 until 2:40 p.m."
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d27",
+      "verification_status": "verified_published_time_zone_record"
+    },
+    {
+      "time_zone_item_id": "time-v31-d246-treaty-display-window",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d246",
+      "document_number": "246",
+      "unit_scope": "treaty text",
+      "time_claim_type": "treaty_notification_time_rule",
+      "approved_phrase": "A display shall begin no later than 12 hours after the request is made and shall continue until 18 hours have elapsed from the time that the request was made",
+      "source_time_basis": "START Treaty timing rule",
+      "display_time": "12 hours after request; 18 hours elapsed",
+      "conversion_status": "treaty_rule_do_not_convert",
+      "chronological_placement": "treaty/legal-instrument timing provision",
+      "event_or_document_context": "Cooperative-measures display timing under the START Treaty.",
+      "variant_forms": [
+        "12 hours after the request is made",
+        "18 hours have elapsed from the time that the request was made"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d246",
+      "verification_status": "verified_published_time_zone_record"
+    }
+  ]
+}
+```
+
 ## Public Source And Public Diplomacy Registry Context
 
 Use this to check speeches, public remarks, press releases, press conferences, briefings, interviews, broadcasts, testimony, Public Papers, Department of State Bulletin/Dispatch, Congressional Record, official transcripts, newspaper excerpts, full-text targets, archival draft or briefing-file context, diary context, and selected-versus-supplemental public-source status. Do not change publication details, delivery or broadcast basis, full-text targets, archival draft context, or selected-public-document status unless the target-volume public-source registry proves the direct edit.
@@ -6145,7 +6429,7 @@ Use this to check country names, successor-state references, alliances, internat
 
 ## Footnote Refer-Back Registry Context
 
-Use this to check repeated-reference footnote discipline. Reagan Foundations models cross-document `footnote N, Document X`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. When the same full citation appears three times, treat the third repeat as a production-review trigger for a refer-back. Do not invent refer-back targets; use comment-only unless the registry proves the exact direct edit.
+Use this to check repeated-reference footnote discipline. Reagan Foundations models cross-document `footnote N, Document X`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. Apply the registry `repeat_threshold`: the first and second full citations may stand, but the third and later full repeat are production-review triggers for a possible refer-back. Do not invent refer-back targets; use comment-only unless the registry proves the exact direct edit.
 
 ```json
 {
@@ -6162,6 +6446,8 @@ Use this to check repeated-reference footnote discipline. Reagan Foundations mod
   ],
   "scope": "Sample registry of published Reagan Foundations footnote refer-back forms for checking FRUS annotation-sheet footnotes without inventing targets.",
   "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: by the third full repeat of the same citation, trigger human review for a proper footnote refer-back. Cross-document targets take `footnote N, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; Document 146 separately models a three-target footnote/document cluster.",
+  "repeat_threshold": 3,
+  "repeat_threshold_action": "The first and second full citations may stand; on the third and later full repeat, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not rewrite unless the target footnote/document is verified in the registry.",
   "target_volume": "frus1989-92v31",
   "target_records": [],
   "records": [

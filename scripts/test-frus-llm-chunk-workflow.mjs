@@ -98,6 +98,8 @@ try {
     "reports/frus-document-handling-registry.sample.json",
     "--chronology-registry",
     "reports/frus-chronology-registry.sample.json",
+    "--time-zone-registry",
+    "reports/frus-time-zone-registry.sample.json",
     "--public-source-registry",
     "reports/frus-public-source-registry.sample.json",
     "--retrospective-account-registry",
@@ -150,6 +152,7 @@ try {
   assert(manifest.summary.visual_material_registry_records === 5, "expected visual material registry record count");
   assert(manifest.summary.document_handling_registry_records === 7, "expected document handling registry record count");
   assert(manifest.summary.chronology_registry_records === 6, "expected chronology registry record count");
+  assert(manifest.summary.time_zone_registry_records === 8, "expected time-zone registry record count");
   assert(manifest.summary.public_source_registry_records === 6, "expected public-source registry record count");
   assert(manifest.summary.retrospective_account_registry_records === 6, "expected retrospective-account registry record count");
   assert(manifest.summary.treaty_registry_records === 7, "expected treaty registry record count");
@@ -169,6 +172,7 @@ try {
   assert(manifest.source_files.visual_material_registry === "reports/frus-visual-material-registry.sample.json", "expected visual material registry source path");
   assert(manifest.source_files.document_handling_registry === "reports/frus-document-handling-registry.sample.json", "expected document handling registry source path");
   assert(manifest.source_files.chronology_registry === "reports/frus-chronology-registry.sample.json", "expected chronology registry source path");
+  assert(manifest.source_files.time_zone_registry === "reports/frus-time-zone-registry.sample.json", "expected time-zone registry source path");
   assert(manifest.source_files.public_source_registry === "reports/frus-public-source-registry.sample.json", "expected public-source registry source path");
   assert(
     manifest.source_files.retrospective_account_registry === "reports/frus-retrospective-account-registry.sample.json",
@@ -210,6 +214,9 @@ try {
   assert(firstPacket.includes("Watson initialed the memorandum on Gregg"), "expected document handling registry content in chunk packet");
   assert(firstPacket.includes("Chronology And Time Registry Context"), "expected chronology registry context in chunk packet");
   assert(firstPacket.includes("According to the President's Daily Diary, Bush met with Baker"), "expected chronology registry content in chunk packet");
+  assert(firstPacket.includes("Time-Zone And Date-Time Group Registry Context"), "expected time-zone registry context in chunk packet");
+  assert(firstPacket.includes("Geneva, January 10, 1991, 1757Z"), "expected START I Z-time registry content in chunk packet");
+  assert(firstPacket.includes("open of business Washington time"), "expected Washington-time deadline content in chunk packet");
   assert(firstPacket.includes("Public Source And Public Diplomacy Registry Context"), "expected public-source registry context in chunk packet");
   assert(firstPacket.includes("Public Papers: Bush, 1991, pages 986-987"), "expected Public Papers registry content in chunk packet");
   assert(firstPacket.includes("Retrospective Account Registry Context"), "expected retrospective-account registry context in chunk packet");
@@ -220,6 +227,7 @@ try {
   assert(firstPacket.includes("ASEAN [Association of Southeast Asian Nations]"), "expected foreign-org registry content in chunk packet");
   assert(firstPacket.includes("President of the Union of Soviet Socialist Republics"), "expected foreign-state registry content in chunk packet");
   assert(firstPacket.includes("Footnote Refer-Back Registry Context"), "expected footnote refer-back registry context in chunk packet");
+  assert(firstPacket.includes("repeat_threshold"), "expected footnote refer-back repeat threshold in chunk packet");
   assert(firstPacket.includes("See footnote 6, Document 35"), "expected footnote refer-back registry content in chunk packet");
   assert(firstPacket.includes("footnote 15, Document 106"), "expected three-target refer-back content in chunk packet");
   assert(firstPacket.includes("same separate page as B above"), "expected same-document local-context content in chunk packet");
@@ -297,7 +305,7 @@ try {
   assert(badMerge.status !== 0, "expected out-of-chunk unit reference to fail");
   assert(badMerge.stdout.includes("outside chunk-0002"), "expected chunk-boundary failure detail");
 
-  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, chronology, public-source, retrospective-account, treaty, foreign-org, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
+  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, public-source, retrospective-account, treaty, foreign-org, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

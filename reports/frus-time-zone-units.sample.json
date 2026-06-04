@@ -1,0 +1,117 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source_docx": "sample-frus-annotation-sheet.docx",
+  "generated_at": "2026-06-04T00:00:00.000Z",
+  "units": [
+    {
+      "unit_id": "time-0001",
+      "unit_type": "front_matter",
+      "location": "Reagan National Security Policy About the Series",
+      "exact_text": "The documents are presented chronologically according to Washington time.",
+      "display_text": "The documents are presented chronologically according to Washington time.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "time-0002",
+      "unit_type": "document_heading",
+      "location": "START I Document 188 heading",
+      "exact_text": "Telegram From the Delegation to the Nuclear and Space Talks in Geneva to the Department of State. Geneva, January 10, 1991, 1757Z.",
+      "display_text": "Telegram From the Delegation to the Nuclear and Space Talks in Geneva to the Department of State. Geneva, January 10, 1991, 1757Z.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "time-0003",
+      "unit_type": "document_heading",
+      "location": "START I Document 89 heading",
+      "exact_text": "Telegram From Secretary of State Baker's Delegation to the Department of State and the White House. Namibia, March 20, 1990, 0905Z.",
+      "display_text": "Telegram From Secretary of State Baker's Delegation to the Department of State and the White House. Namibia, March 20, 1990, 0905Z.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "time-0004",
+      "unit_type": "document_heading",
+      "location": "START I Document 178 heading",
+      "exact_text": "Telegram From the Department of State to Secretary of State Baker. Washington, December 17, 1990, 1430Z.",
+      "display_text": "Telegram From the Department of State to Secretary of State Baker. Washington, December 17, 1990, 1430Z.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "time-0005",
+      "unit_type": "document_heading",
+      "location": "Reagan Foundations Document 19 heading",
+      "exact_text": "Telegram From the Department of State to the Embassy in Yugoslavia. Washington, January 17, 1981, 2135Z.",
+      "display_text": "Telegram From the Department of State to the Embassy in Yugoslavia. Washington, January 17, 1981, 2135Z.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "time-0006",
+      "unit_type": "source_note",
+      "location": "Reagan Foundations Document 21 source note",
+      "exact_text": "The President's Daily Diary does not contain an entry for January 21; there is no indication as to when precisely the telephone calls took place.",
+      "display_text": "The President's Daily Diary does not contain an entry for January 21; there is no indication as to when precisely the telephone calls took place.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "time-0007",
+      "unit_type": "source_note",
+      "location": "Reagan Foundations Document 27 source note",
+      "exact_text": "The first NSC meeting took place in the Cabinet Room at the White House on February 6 from 1:30 until 2:40 p.m.",
+      "display_text": "The first NSC meeting took place in the Cabinet Room at the White House on February 6 from 1:30 until 2:40 p.m.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "time-0008",
+      "unit_type": "source_note",
+      "location": "START I Document 246 treaty timing",
+      "exact_text": "A display shall begin no later than 12 hours after the request is made and shall continue until 18 hours have elapsed from the time that the request was made.",
+      "display_text": "A display shall begin no later than 12 hours after the request is made and shall continue until 18 hours have elapsed from the time that the request was made.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "time-0009",
+      "unit_type": "unknown_editorial_text",
+      "location": "Draft unsupported conversion",
+      "exact_text": "Convert 0905Z to 11:05 a.m. local time in the heading.",
+      "display_text": "Convert 0905Z to 11:05 a.m. local time in the heading.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "time-0010",
+      "unit_type": "unknown_editorial_text",
+      "location": "Draft missing Z label",
+      "exact_text": "The date-time group 1430 should be converted to local time before publication.",
+      "display_text": "The date-time group 1430 should be converted to local time before publication.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}

@@ -59,6 +59,14 @@ function requireString(value, label, errors, { nonempty = true } = {}) {
   }
 }
 
+function requirePositiveInteger(value, label, errors, { min = 1, max = 10 } = {}) {
+  if (!Number.isInteger(value)) {
+    errors.push(`${label}: expected integer`);
+  } else if (value < min || value > max) {
+    errors.push(`${label}: expected integer between ${min} and ${max}`);
+  }
+}
+
 function validateTargetReference(reference, label, errors) {
   if (!isPlainObject(reference)) {
     errors.push(`${label}: expected object`);
@@ -79,9 +87,10 @@ function validateRegistry(registry) {
   const warnings = [];
   if (!isPlainObject(registry)) return { errors: ["registry: expected object"], warnings };
   if (registry.schema_version !== SCHEMA_VERSION) errors.push(`schema_version: must be ${SCHEMA_VERSION}`);
-  for (const key of ["footnote_referback_registry_id", "captured_at", "scope", "rule_summary"]) {
+  for (const key of ["footnote_referback_registry_id", "captured_at", "scope", "rule_summary", "repeat_threshold_action"]) {
     requireString(registry[key], key, errors);
   }
+  requirePositiveInteger(registry.repeat_threshold, "repeat_threshold", errors, { min: 2, max: 5 });
   if (!Array.isArray(registry.source_urls) || registry.source_urls.length === 0) {
     errors.push("source_urls: expected non-empty array");
   }
@@ -141,6 +150,7 @@ function validateRegistry(registry) {
     warnings,
     summary: {
       records: registry.records.length,
+      repeat_threshold: registry.repeat_threshold,
       by_referback_type: byType
     }
   };

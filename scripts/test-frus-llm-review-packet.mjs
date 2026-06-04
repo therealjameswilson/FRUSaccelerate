@@ -55,6 +55,8 @@ try {
     "reports/frus-document-handling-registry.sample.json",
     "--chronology-registry",
     "reports/frus-chronology-registry.sample.json",
+    "--time-zone-registry",
+    "reports/frus-time-zone-registry.sample.json",
     "--public-source-registry",
     "reports/frus-public-source-registry.sample.json",
     "--retrospective-account-registry",
@@ -129,6 +131,10 @@ try {
   assert(markdown.includes("Chronology And Time Registry Context"), "expected chronology registry section");
   assert(markdown.includes("According to the President's Daily Diary, Bush met with Baker"), "expected chronology registry content");
   assert(markdown.includes("there is no indication as to when precisely the telephone calls took place"), "expected no-precise-time chronology content");
+  assert(markdown.includes("Time-Zone And Date-Time Group Registry Context"), "expected time-zone registry section");
+  assert(markdown.includes("Geneva, January 10, 1991, 1757Z"), "expected START I Z-time registry content");
+  assert(markdown.includes("open of business Washington time"), "expected Washington-time deadline registry content");
+  assert(markdown.includes("treaty/legal-instrument timing provision"), "expected treaty timing registry content");
   assert(markdown.includes("Public Source And Public Diplomacy Registry Context"), "expected public-source registry section");
   assert(markdown.includes("Public Papers: Bush, 1991, pages 986-987"), "expected Public Papers registry content");
   assert(markdown.includes("Department of State Dispatch Supplement, October 1991"), "expected Department of State Dispatch registry content");
@@ -142,6 +148,7 @@ try {
   assert(markdown.includes("ASEAN [Association of Southeast Asian Nations]"), "expected regional-organization registry content");
   assert(markdown.includes("President of the Union of Soviet Socialist Republics"), "expected foreign-state registry content");
   assert(markdown.includes("Footnote Refer-Back Registry Context"), "expected footnote refer-back registry section");
+  assert(markdown.includes("repeat_threshold"), "expected footnote refer-back repeat threshold in Markdown packet");
   assert(markdown.includes("See footnote 6, Document 35"), "expected cross-document footnote refer-back content");
   assert(markdown.includes("footnote 15, Document 106"), "expected three-target footnote refer-back content");
   assert(markdown.includes("same separate page as B above"), "expected same-document local-context refer-back content");
@@ -204,6 +211,9 @@ try {
   assert(packet.contexts.chronology_registry.records.length === 6, "expected chronology registry records");
   assert(packet.contexts.chronology_registry.target_records.length > 0, "expected target chronology records");
   assert(packet.packet_summary.chronology_registry_records === 6, "expected chronology registry count");
+  assert(packet.contexts.time_zone_registry.records.length === 8, "expected time-zone registry records");
+  assert(packet.contexts.time_zone_registry.target_records.length > 0, "expected target time-zone records");
+  assert(packet.packet_summary.time_zone_registry_records === 8, "expected time-zone registry count");
   assert(packet.contexts.public_source_registry.records.length === 6, "expected public-source registry records");
   assert(packet.contexts.public_source_registry.target_records.length > 0, "expected target public-source records");
   assert(packet.packet_summary.public_source_registry_records === 6, "expected public-source registry count");
@@ -223,6 +233,7 @@ try {
   assert(packet.contexts.foreign_org_registry.target_records.length > 0, "expected target foreign-org records");
   assert(packet.packet_summary.foreign_org_registry_records === 10, "expected foreign-org registry count");
   assert(packet.contexts.footnote_referback_registry.records.length === 8, "expected footnote refer-back registry records");
+  assert(packet.contexts.footnote_referback_registry.repeat_threshold === 3, "expected footnote refer-back threshold context");
   assert(
     packet.contexts.footnote_referback_registry.target_records.length === 0,
     "expected no target footnote refer-back records for cross-volume Reagan sample"
@@ -246,7 +257,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, public-source, retrospective-account, treaty, foreign-org, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, public-source, retrospective-account, treaty, foreign-org, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

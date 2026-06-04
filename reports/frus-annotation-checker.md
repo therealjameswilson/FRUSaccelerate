@@ -107,6 +107,13 @@ For chronology/time validation, use
 `reports/frus-chronology-units.sample.json`; the self-contained smoke test is
 `scripts/test-frus-chronology-audit.mjs`, and the sample audit report is
 `reports/frus-chronology-audit.sample.json`.
+For time-zone/date-time-group validation, use
+`scripts/validate-frus-time-zone-registry.mjs` and
+`scripts/audit-frus-time-zone-usage.mjs` with
+`reports/frus-time-zone-registry.sample.json` and
+`reports/frus-time-zone-units.sample.json`; the self-contained smoke test is
+`scripts/test-frus-time-zone-audit.mjs`, and the sample audit report is
+`reports/frus-time-zone-audit.sample.json`.
 For public-source/public-diplomacy validation, use
 `scripts/validate-frus-public-source-registry.mjs` and
 `scripts/audit-frus-public-source-usage.mjs` with
@@ -12221,6 +12228,17 @@ Minimum components:
   no-precise-time caveats, and event-sequence facts to supplied chronology
   records and fails direct chronology edits that lack target-volume registry
   support.
+- No-dependency time-zone/date-time-group registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-time-zone-registry.mjs`,
+  `scripts/audit-frus-time-zone-usage.mjs`,
+  `reports/frus-time-zone-registry.sample.json`,
+  `reports/frus-time-zone-units.sample.json`, and
+  `reports/frus-time-zone-audit.sample.json`. The audit reconciles
+  Washington-time rules, local-time labels, GMT/Z/Zulu date-time groups,
+  EST/EDT labels, no-precise-time caveats, deadlines, treaty timing rules,
+  conversions, and chronological placement to supplied time-zone records and
+  fails direct time-label, conversion, or date-time-group edits that lack
+  target-volume registry support.
 - No-dependency public-source/public-diplomacy registry validator, usage audit,
   and fixtures: `scripts/validate-frus-public-source-registry.mjs`,
   `scripts/audit-frus-public-source-usage.mjs`,
@@ -12278,7 +12296,9 @@ Minimum components:
   `Document X and footnote Y thereto`, Document 146-style three-target
   footnote/document clusters, and the separate three-times rule that treats the
   third full repeat of the same citation as a human refer-back review trigger.
-  It fails direct refer-back edits that lack registry support.
+  The registry carries the `repeat_threshold` and target-confirmation action so
+  closed-network packets preserve the rule even in small-context runs. It fails
+  direct refer-back edits that lack registry support.
 - No-dependency recurring compiler-risk validator, usage audit, and fixtures:
   `scripts/validate-frus-recurring-risk-registry.mjs`,
   `scripts/audit-frus-recurring-risk-usage.mjs`,

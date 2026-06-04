@@ -12,6 +12,8 @@
   ],
   "scope": "Sample registry of published Reagan Foundations footnote refer-back forms for checking FRUS annotation-sheet footnotes without inventing targets.",
   "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: by the third full repeat of the same citation, trigger human review for a proper footnote refer-back. Cross-document targets take `footnote N, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; Document 146 separately models a three-target footnote/document cluster.",
+  "repeat_threshold": 3,
+  "repeat_threshold_action": "The first and second full citations may stand; on the third and later full repeat, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not rewrite unless the target footnote/document is verified in the registry.",
   "records": [
     {
       "referback_id": "referback-v01-d45-fn2-d35fn6",

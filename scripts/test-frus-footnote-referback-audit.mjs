@@ -36,6 +36,7 @@ try {
   const validationReport = JSON.parse(validation.stdout);
   assert(validationReport.status === "pass", "expected footnote refer-back registry validation pass");
   assert(validationReport.summary.records === 8, "expected eight footnote refer-back records");
+  assert(validationReport.summary.repeat_threshold === 3, "expected three-times refer-back threshold");
 
   const audit = run("scripts/audit-frus-footnote-referback-usage.mjs", [
     "--units",
@@ -59,6 +60,7 @@ try {
   assert(report.summary.malformed_referbacks === 5, "expected five malformed refer-backs");
   assert(report.summary.overlong_referback_clusters === 1, "expected one overlong refer-back cluster");
   assert(report.summary.repeated_citation_thresholds === 1, "expected repeated citation threshold");
+  assert(report.summary.repeat_threshold === 3, "expected audit to use registry repeat threshold");
   assert(report.summary.by_referback_type.multi_target_footnote_cluster === 2, "expected two approved multi-target clusters");
   assert(report.summary.by_referback_type.same_document_local_context === 1, "expected same-document local-context match");
   assert(report.summary.by_diagnostic_type.missing_comma_before_document === 1, "expected missing comma diagnostic");
@@ -76,6 +78,14 @@ try {
   assert(
     report.repeated_citation_thresholds[0].occurrence_count === 3,
     "expected third repeated citation to trigger refer-back reminder"
+  );
+  assert(
+    report.repeated_citation_thresholds[0].trigger_unit.unit_id === "referback-0014",
+    "expected third repeated citation unit to be the trigger unit"
+  );
+  assert(
+    report.repeated_citation_thresholds[0].required_action.includes("third and later full repeat"),
+    "expected registry threshold action in repeated-citation warning"
   );
 
   const unsafeOutput = path.join(tmpDir, "unsafe-output.json");

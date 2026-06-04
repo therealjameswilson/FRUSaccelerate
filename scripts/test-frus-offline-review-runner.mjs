@@ -215,6 +215,8 @@ try {
       "reports/frus-document-handling-registry.sample.json",
       "--chronology-registry",
       "reports/frus-chronology-registry.sample.json",
+      "--time-zone-registry",
+      "reports/frus-time-zone-registry.sample.json",
       "--public-source-registry",
       "reports/frus-public-source-registry.sample.json",
       "--retrospective-account-registry",
@@ -295,6 +297,10 @@ try {
   assert(audit.counts.chronology_registry_usages === 0, "expected zero chronology registry usages");
   assert(audit.counts.chronology_registry_warnings === 0, "expected zero chronology registry warnings");
   assert(audit.counts.chronology_direct_edit_conflicts === 0, "expected zero chronology direct-edit conflicts");
+  assert(audit.counts.time_zone_registry_usages === 0, "expected zero time-zone registry usages");
+  assert(audit.counts.time_zone_registry_warnings === 0, "expected zero time-zone registry warnings");
+  assert(audit.counts.time_zone_unmatched_like_units === 0, "expected zero unmatched time-zone-like units");
+  assert(audit.counts.time_zone_direct_edit_conflicts === 0, "expected zero time-zone direct-edit conflicts");
   assert(audit.counts.public_source_registry_usages === 0, "expected zero public-source registry usages");
   assert(audit.counts.public_source_registry_warnings === 0, "expected zero public-source registry warnings");
   assert(audit.counts.public_source_direct_edit_conflicts === 0, "expected zero public-source direct-edit conflicts");
@@ -365,6 +371,8 @@ try {
     "document-handling-usage-audit.json",
     "chronology-registry-validation.json",
     "chronology-usage-audit.json",
+    "time-zone-registry-validation.json",
+    "time-zone-usage-audit.json",
     "public-source-registry-validation.json",
     "public-source-usage-audit.json",
     "retrospective-account-registry-validation.json",
@@ -416,6 +424,8 @@ try {
   assert(audit.reports.document_handling_usage_audit.status === "pass", "expected document handling usage audit report");
   assert(audit.reports.chronology_registry_validation.summary.records === 6, "expected chronology registry validation report");
   assert(audit.reports.chronology_usage_audit.status === "pass", "expected chronology usage audit report");
+  assert(audit.reports.time_zone_registry_validation.summary.records === 8, "expected time-zone registry validation report");
+  assert(audit.reports.time_zone_usage_audit.status === "pass", "expected time-zone usage audit report");
   assert(audit.reports.public_source_registry_validation.summary.records === 6, "expected public-source registry validation report");
   assert(audit.reports.public_source_usage_audit.status === "pass", "expected public-source usage audit report");
   assert(
@@ -433,6 +443,10 @@ try {
   assert(
     audit.reports.footnote_referback_registry_validation.summary.records === 8,
     "expected footnote refer-back registry validation report"
+  );
+  assert(
+    audit.reports.footnote_referback_registry_validation.summary.repeat_threshold === 3,
+    "expected footnote refer-back registry validation threshold"
   );
   assert(audit.reports.footnote_referback_usage_audit.status === "pass", "expected footnote refer-back usage audit report");
   assert(audit.reports.recurring_risk_registry_validation.summary.records === 13, "expected recurring-risk registry validation report");
@@ -454,7 +468,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/chronology/public-source/retrospective-account/treaty/foreign-org/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/chronology/time-zone/public-source/retrospective-account/treaty/foreign-org/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }
