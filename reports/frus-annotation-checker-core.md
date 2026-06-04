@@ -371,7 +371,9 @@ citation occurrence too. Reagan Foundations citations can appear both with a
 Book marker, such as `Public Papers: Reagan, 1983, Book I, pp. 479-484`, and
 without one, such as `Public Papers: Reagan, 1981, p. 1156`; the threshold
 detector should catch both forms. This is not an automatic rewrite, and the
-checker should not wait for a fourth occurrence. The registry
+checker should not wait for a fourth occurrence. A footnote that already has a
+valid refer-back is not exempt: any repeated full citation in that same note
+still counts toward the third-and-later review set. The registry
 should carry `repeat_threshold: 3` and a plain-language
 `repeat_threshold_action`: first and second full citation occurrences may stand;
 the third full citation occurrence itself and every later full citation

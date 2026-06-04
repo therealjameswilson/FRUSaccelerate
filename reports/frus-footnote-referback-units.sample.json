@@ -288,6 +288,17 @@
       "edit_safety": "safe",
       "comment_safety": "safe",
       "blocked_boundaries": []
+    },
+    {
+      "unit_id": "referback-0027",
+      "unit_type": "follow_on_footnote",
+      "location": "Mixed proper refer-back plus repeated citation",
+      "exact_text": "See footnote 6, Document 35. The same address is still cited in full here. (Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+      "display_text": "See footnote 6, Document 35. The same address is still cited in full here. (Public Papers: Reagan, 1988-1989, Book I, p. 4)",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
     }
   ]
 }

@@ -474,8 +474,6 @@ function countWord(value) {
 function repeatedCitationThresholds(units, repeatThreshold, repeatThresholdAction) {
   const groups = new Map();
   for (const unit of units) {
-    const text = unitText(unit);
-    if (/\bsee\s+footnote\b/i.test(text) || /\bfootnote\s+\d+\s*,\s*Document\s+\d+\b/i.test(text)) continue;
     for (const candidate of citationCandidatesForUnit(unit)) {
       const key = citationKey(candidate.matched_text);
       if (!key) continue;

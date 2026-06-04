@@ -1,7 +1,7 @@
 {
   "schema_version": "frus-llm-chunk-manifest-v1",
-  "generated_at": "2026-06-04T09:41:40.524Z",
-  "run_id": "sample-chunks",
+  "generated_at": "2026-06-04T09:48:04.665Z",
+  "run_id": "chunk-workflow-test",
   "target_volume": "frus1989-92v31",
   "chunk_count": 2,
   "source_files": {

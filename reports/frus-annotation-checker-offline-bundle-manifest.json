@@ -821,7 +821,7 @@
     },
     {
       "path": "reports/frus-footnote-referback-registry.sample.json",
-      "role": "Published Reagan Foundations footnote refer-back sample for repeated citations, the three-times threshold, plural footnotes, mixed footnote/document references, same-document context, thereto references, and multi-target clusters"
+      "role": "Published Reagan Foundations footnote refer-back sample for repeated citations, the three-times threshold, plural footnotes, mixed footnote/document references, mixed refer-back/full-citation notes, same-document context, thereto references, and multi-target clusters"
     },
     {
       "path": "reports/frus-recurring-risk-registry.sample.json",

@@ -751,8 +751,10 @@ node scripts/audit-frus-human-rights-refugee-global-issues-usage.mjs --units ext
    citation. The first and second full citation occurrences may stand; the
    third full citation occurrence itself and every later full citation
    occurrence require comment-only target confirmation unless the supplied
-   registry proves the direct edit. Do not wait for a fourth occurrence. Match
-   Public Papers citations with and without Book markers, since Reagan
+   registry proves the direct edit. Do not wait for a fourth occurrence, and
+   do not ignore the repeated full citation merely because the same footnote
+   already contains a valid refer-back. Match Public Papers citations with and
+   without Book markers, since Reagan
    Foundations uses both `Public Papers: Reagan, 1983, Book I, pp. 479-484`
    and `Public Papers: Reagan, 1981, p. 1156` forms. The usage audit fails if
    the model proposes a direct refer-back edit or repeated-citation replacement

@@ -12503,7 +12503,9 @@ Minimum components:
   Papers citations both with and without a Book marker, matching Reagan
   Foundations examples such as `Public Papers: Reagan, 1983, Book I, pp.
   479-484` and `Public Papers: Reagan, 1981, p. 1156`. Do not wait for a
-  fourth occurrence. The registry carries the `repeat_threshold` and
+  fourth occurrence, and do not ignore a repeated full citation merely because
+  the same footnote already contains a valid refer-back. The registry carries
+  the `repeat_threshold` and
   target-confirmation action so
   closed-network packets preserve the rule even in small-context runs. It fails
   direct refer-back edits and direct repeated-citation replacements that lack

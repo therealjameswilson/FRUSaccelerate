@@ -14,22 +14,22 @@
     "referback-0025: Bare same-document footnote refer-back lacks above/below or local same-document context.",
     "referback-0026: Cross-document footnote refer-back lowercases `Document`.",
     "referback-0026: Bare same-document footnote refer-back lacks above/below or local same-document context.",
-    "referback-0014,referback-0015: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citation occurrences may stand; flag the 3rd occurrence and every later occurrence for target confirmation.",
+    "referback-0014,referback-0015,referback-0027: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citation occurrences may stand; flag the 3rd occurrence and every later occurrence for target confirmation.",
     "referback-0018: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citation occurrences may stand; flag the 3rd occurrence and every later occurrence for target confirmation.",
     "referback-0021: Same full citation reaches the 3rd occurrence without a footnote refer-back. First two full citation occurrences may stand; flag the 3rd occurrence and every later occurrence for target confirmation."
   ],
   "summary": {
-    "units_scanned": 26,
-    "approved_referback_usages": 9,
+    "units_scanned": 27,
+    "approved_referback_usages": 10,
     "malformed_referbacks": 9,
     "overlong_referback_clusters": 1,
     "repeated_citation_thresholds": 3,
-    "repeated_citation_review_units": 4,
+    "repeated_citation_review_units": 5,
     "repeat_threshold": 3,
     "direct_footnote_referback_edit_conflicts": 0,
     "warnings": 13,
     "by_referback_type": {
-      "cross_document_footnote": 1,
+      "cross_document_footnote": 2,
       "multi_target_footnote_cluster": 2,
       "same_document_local_context": 1,
       "same_document_above": 1,
@@ -189,6 +189,22 @@
       "rule_basis": "Document 70 models a mixed footnote/document refer-back where one target is a footnote and the second target is a document.",
       "offset": 0,
       "length": 44
+    },
+    {
+      "unit_id": "referback-0027",
+      "unit_type": "follow_on_footnote",
+      "location": "Mixed proper refer-back plus repeated citation",
+      "referback_id": "referback-v01-d45-fn2-d35fn6",
+      "referback_type": "cross_document_footnote",
+      "approved_phrase": "See footnote 6, Document 35",
+      "matched_text": "See footnote 6, Document 35.",
+      "match_kind": "approved_phrase",
+      "source_unit_label": "footnote 2",
+      "source_document_id": "frus1981-88v01/d45",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d45",
+      "rule_basis": "Document 45 models the standard cross-document refer-back construction.",
+      "offset": 0,
+      "length": 28
     }
   ],
   "diagnostics": [
@@ -328,7 +344,7 @@
     {
       "citation_key": "public papers reagan 1988 1989 book i p 4",
       "repeat_threshold": 3,
-      "occurrence_count": 4,
+      "occurrence_count": 5,
       "trigger_unit": {
         "unit_id": "referback-0014",
         "unit_type": "follow_on_footnote",
@@ -391,6 +407,16 @@
           "offset": 38,
           "occurrence_number": 4,
           "threshold_status": "later_referback_review_trigger"
+        },
+        {
+          "unit_id": "referback-0027",
+          "unit_type": "follow_on_footnote",
+          "location": "Mixed proper refer-back plus repeated citation",
+          "matched_text": "Public Papers: Reagan, 1988-1989, Book I, p. 4",
+          "source_type": "public_papers",
+          "offset": 76,
+          "occurrence_number": 5,
+          "threshold_status": "later_referback_review_trigger"
         }
       ],
       "units": [
@@ -433,10 +459,20 @@
           "offset": 38,
           "occurrence_number": 4,
           "threshold_status": "later_referback_review_trigger"
+        },
+        {
+          "unit_id": "referback-0027",
+          "unit_type": "follow_on_footnote",
+          "location": "Mixed proper refer-back plus repeated citation",
+          "matched_text": "Public Papers: Reagan, 1988-1989, Book I, p. 4",
+          "source_type": "public_papers",
+          "offset": 76,
+          "occurrence_number": 5,
+          "threshold_status": "later_referback_review_trigger"
         }
       ],
       "finding": "Same full citation reaches the 3rd occurrence without a footnote refer-back.",
-      "required_action": "The first and second full citation occurrences may stand; on the third full citation occurrence itself and every later full citation occurrence, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not wait for a fourth occurrence, and do not rewrite unless the target footnote/document is verified in the registry."
+      "required_action": "The first and second full citation occurrences may stand; on the third full citation occurrence itself and every later full citation occurrence, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not wait for a fourth occurrence, do not exempt mixed notes that already contain a valid refer-back, and do not rewrite unless the target footnote/document is verified in the registry."
     },
     {
       "citation_key": "department of state bulletin march 1983 p 16",
@@ -529,7 +565,7 @@
         }
       ],
       "finding": "Same full citation reaches the 3rd occurrence without a footnote refer-back.",
-      "required_action": "The first and second full citation occurrences may stand; on the third full citation occurrence itself and every later full citation occurrence, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not wait for a fourth occurrence, and do not rewrite unless the target footnote/document is verified in the registry."
+      "required_action": "The first and second full citation occurrences may stand; on the third full citation occurrence itself and every later full citation occurrence, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not wait for a fourth occurrence, do not exempt mixed notes that already contain a valid refer-back, and do not rewrite unless the target footnote/document is verified in the registry."
     },
     {
       "citation_key": "public papers reagan 1981 p 1156",
@@ -622,7 +658,7 @@
         }
       ],
       "finding": "Same full citation reaches the 3rd occurrence without a footnote refer-back.",
-      "required_action": "The first and second full citation occurrences may stand; on the third full citation occurrence itself and every later full citation occurrence, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not wait for a fourth occurrence, and do not rewrite unless the target footnote/document is verified in the registry."
+      "required_action": "The first and second full citation occurrences may stand; on the third full citation occurrence itself and every later full citation occurrence, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not wait for a fourth occurrence, do not exempt mixed notes that already contain a valid refer-back, and do not rewrite unless the target footnote/document is verified in the registry."
     }
   ],
   "direct_edit_conflicts": []

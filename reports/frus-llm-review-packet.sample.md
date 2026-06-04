@@ -1,8 +1,8 @@
 # FRUS Annotation Review Packet
 
 - schema_version: frus-llm-review-packet-v1
-- run_id: sample-packet
-- generated_at: 2026-06-04T09:41:24.329Z
+- run_id: packet-smoke-test
+- generated_at: 2026-06-04T09:47:47.647Z
 - target_volume: frus1989-92v31
 
 ## Closed-Network LLM Task
@@ -570,7 +570,9 @@ citation occurrence too. Reagan Foundations citations can appear both with a
 Book marker, such as `Public Papers: Reagan, 1983, Book I, pp. 479-484`, and
 without one, such as `Public Papers: Reagan, 1981, p. 1156`; the threshold
 detector should catch both forms. This is not an automatic rewrite, and the
-checker should not wait for a fourth occurrence. The registry
+checker should not wait for a fourth occurrence. A footnote that already has a
+valid refer-back is not exempt: any repeated full citation in that same note
+still counts toward the third-and-later review set. The registry
 should carry `repeat_threshold: 3` and a plain-language
 `repeat_threshold_action`: first and second full citation occurrences may stand;
 the third full citation occurrence itself and every later full citation
@@ -10657,7 +10659,7 @@ Use this to check human-rights reports, Country Reports, refugee, immigration, a
 
 ## Footnote Refer-Back Registry Context
 
-Use this to check repeated-reference footnote discipline in follow-on footnotes and source notes. Reagan Foundations models cross-document `footnote N, Document X`, plural same-document `footnotes N and M, Document X`, mixed `footnote N, Document X and Document Y`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. Apply the registry `repeat_threshold`: the first and second full citation occurrences may stand, but the third full citation occurrence itself and every later full citation occurrence, including plain source-note citations outside parentheses, are production-review triggers for a possible refer-back. Do not wait for a fourth occurrence. Do not invent refer-back targets or directly replace a repeated full citation unless the registry proves the exact published target form.
+Use this to check repeated-reference footnote discipline in follow-on footnotes and source notes. Reagan Foundations models cross-document `footnote N, Document X`, plural same-document `footnotes N and M, Document X`, mixed `footnote N, Document X and Document Y`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. Apply the registry `repeat_threshold`: the first and second full citation occurrences may stand, but the third full citation occurrence itself and every later full citation occurrence, including plain source-note citations outside parentheses, are production-review triggers for a possible refer-back. Do not wait for a fourth occurrence, and do not ignore a repeated full citation merely because the same footnote already has a valid refer-back. Do not invent refer-back targets or directly replace a repeated full citation unless the registry proves the exact published target form.
 
 ```json
 {
@@ -10675,9 +10677,9 @@ Use this to check repeated-reference footnote discipline in follow-on footnotes 
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d316"
   ],
   "scope": "Sample registry of published Reagan Foundations footnote refer-back forms for checking FRUS annotation-sheet footnotes and source-note citations without inventing targets.",
-  "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: whether the repeated citation is parenthetical or plain source-note text, the third full citation occurrence of the same citation is the first human review trigger for a proper footnote refer-back, and every later full citation occurrence remains a review unit. Do not wait for a fourth occurrence. Cross-document targets take `footnote N, Document X`; plural same-document targets can take `footnotes N and M, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; Document 146 separately models a three-target footnote/document cluster. Repeated-citation matching must catch both Reagan Foundations Public Papers forms with Book markers and no-Book forms such as `Public Papers: Reagan, 1981, p. 1156`.",
+  "rule_summary": "Use refer-backs after repeated references instead of restating full citation detail: whether the repeated citation is parenthetical or plain source-note text, the third full citation occurrence of the same citation is the first human review trigger for a proper footnote refer-back, and every later full citation occurrence remains a review unit. Do not wait for a fourth occurrence. Do not exempt a footnote merely because the same note already contains a valid refer-back; the repeated full citation in that mixed note still counts. Cross-document targets take `footnote N, Document X`; plural same-document targets can take `footnotes N and M, Document X`; same-document targets require `above`/`below` or equivalent local context; `Document X and footnote Y thereto` ties the footnote to the named document; Document 146 separately models a three-target footnote/document cluster. Repeated-citation matching must catch both Reagan Foundations Public Papers forms with Book markers and no-Book forms such as `Public Papers: Reagan, 1981, p. 1156`.",
   "repeat_threshold": 3,
-  "repeat_threshold_action": "The first and second full citation occurrences may stand; on the third full citation occurrence itself and every later full citation occurrence, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not wait for a fourth occurrence, and do not rewrite unless the target footnote/document is verified in the registry.",
+  "repeat_threshold_action": "The first and second full citation occurrences may stand; on the third full citation occurrence itself and every later full citation occurrence, whether parenthetical or plain source-note text, require a comment-only review to confirm whether the reference should become a Reagan Foundations-style footnote refer-back. Do not wait for a fourth occurrence, do not exempt mixed notes that already contain a valid refer-back, and do not rewrite unless the target footnote/document is verified in the registry.",
   "target_volume": "frus1989-92v31",
   "target_records": [],
   "records": [

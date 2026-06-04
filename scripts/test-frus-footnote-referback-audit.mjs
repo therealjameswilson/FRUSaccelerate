@@ -55,12 +55,12 @@ try {
   }
   const report = JSON.parse(audit.stdout);
   assert(report.status === "warning", "expected warning status for malformed refer-back fixture");
-  assert(report.summary.units_scanned === 26, "expected twenty-six units scanned");
-  assert(report.summary.approved_referback_usages === 9, "expected nine approved refer-back matches");
+  assert(report.summary.units_scanned === 27, "expected twenty-seven units scanned");
+  assert(report.summary.approved_referback_usages === 10, "expected ten approved refer-back matches");
   assert(report.summary.malformed_referbacks === 9, "expected nine malformed refer-backs");
   assert(report.summary.overlong_referback_clusters === 1, "expected one overlong refer-back cluster");
   assert(report.summary.repeated_citation_thresholds === 3, "expected three repeated citation thresholds");
-  assert(report.summary.repeated_citation_review_units === 4, "expected four third-and-later repeat review units");
+  assert(report.summary.repeated_citation_review_units === 5, "expected five third-and-later repeat review units");
   assert(report.summary.repeat_threshold === 3, "expected audit to use registry repeat threshold");
   assert(report.summary.by_referback_type.multi_target_footnote_cluster === 2, "expected two approved multi-target clusters");
   assert(report.summary.by_referback_type.same_document_local_context === 1, "expected same-document local-context match");
@@ -91,8 +91,8 @@ try {
     "expected threshold-driven repeated-citation warning"
   );
   assert(
-    report.repeated_citation_thresholds[0].occurrence_count === 4,
-    "expected third and later repeated citations to trigger refer-back reminder"
+    report.repeated_citation_thresholds[0].occurrence_count === 5,
+    "expected third and later repeated citations, including mixed refer-back notes, to trigger refer-back reminder"
   );
   assert(
     report.repeated_citation_thresholds[0].trigger_unit.unit_id === "referback-0014",
@@ -104,8 +104,8 @@ try {
   );
   assert(
     report.repeated_citation_thresholds[0].review_units.map((unit) => unit.unit_id).join(",") ===
-      "referback-0014,referback-0015",
-    "expected third and fourth repeated citations to be review units"
+      "referback-0014,referback-0015,referback-0027",
+    "expected third, fourth, and mixed refer-back repeated citations to be review units"
   );
   assert(
     report.repeated_citation_thresholds[0].review_units[0].threshold_status === "first_referback_review_trigger",
@@ -114,6 +114,14 @@ try {
   assert(
     report.repeated_citation_thresholds[0].review_units[1].threshold_status === "later_referback_review_trigger",
     "expected fourth occurrence to be marked as later review trigger"
+  );
+  assert(
+    report.repeated_citation_thresholds[0].review_units[2].unit_id === "referback-0027",
+    "expected mixed proper refer-back plus repeated citation unit to remain in the threshold review set"
+  );
+  assert(
+    report.repeated_citation_thresholds[0].review_units[2].threshold_status === "later_referback_review_trigger",
+    "expected mixed refer-back unit full citation to be marked as later review trigger"
   );
   assert(
     report.repeated_citation_thresholds[0].required_action.includes("third full citation occurrence itself"),
@@ -293,7 +301,7 @@ try {
   assert(badValidation.status !== 0, "expected malformed footnote refer-back registry validation to fail");
 
   console.log(
-    "FRUS footnote refer-back audit test passed: Reagan Foundations cross-document, plural footnotes, mixed footnote/document, thereto, same-document local-context, above, three-target cluster, malformed forms, parenthetical and plain source-note repeated-citation thresholds, and direct-edit gates work."
+    "FRUS footnote refer-back audit test passed: Reagan Foundations cross-document, plural footnotes, mixed footnote/document, mixed refer-back/full-citation notes, thereto, same-document local-context, above, three-target cluster, malformed forms, parenthetical and plain source-note repeated-citation thresholds, and direct-edit gates work."
   );
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
