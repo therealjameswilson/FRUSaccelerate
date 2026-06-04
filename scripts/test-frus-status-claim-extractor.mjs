@@ -162,6 +162,20 @@ try {
         comment_text: "",
         evidence_request: "publication_status",
         verification_target: "Official status and exact target for annotation-0042"
+      },
+      {
+        unit_id: "annotation-0077",
+        rule_id: "FAS-STAT-002",
+        severity: "major",
+        category: "publication_status",
+        finding: "Normalize volume-level clearance status language.",
+        standard: "Volume-level status context is comment-only unless a document, chapter, or subitem target is supplied.",
+        recommended_action: "replace_text",
+        original_text: "being cleared in the Bush National Security Policy volume",
+        replacement_text: "currently in clearance in Foreign Relations, 1989-1992, Volume XXVI",
+        comment_text: "",
+        evidence_request: "publication_status",
+        verification_target: "Official status and exact target for annotation-0077"
       }
     ],
     global_comments: [],
@@ -189,6 +203,8 @@ try {
   const directClaims = JSON.parse(fs.readFileSync(directClaimsPath, "utf8"));
   const directClaim = directClaims.claims.find((claim) => claim.unit_id === "annotation-0042");
   assert(directClaim.direct_edit_requested === true, "expected direct edit to be flagged");
+  const directClearanceClaim = directClaims.claims.find((claim) => claim.unit_id === "annotation-0077");
+  assert(directClearanceClaim.direct_edit_requested === true, "expected clearance status direct edit to be flagged");
 
   const directPreflight = runScript("scripts/preflight-frus-status-claims.mjs", [
     "--registry",
@@ -200,6 +216,10 @@ try {
   ]);
   assert(directPreflight.status !== 0, "expected direct publication-status edit to fail without exact target");
   assert(directPreflight.stderr.includes("direct"), "expected direct-edit failure detail");
+  assert(
+    directPreflight.stderr.includes("volume-level status context is comment-only"),
+    "expected volume-level status direct edit to be blocked"
+  );
 
   console.log("FRUS status claim extractor test passed: claims, targets, subitems, URL ids, preflight, and direct-edit blocking work.");
 } finally {

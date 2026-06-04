@@ -304,6 +304,13 @@ function evaluateClaim(claim, entriesById) {
     notes.push("History Office URL identifies a target but does not itself prove publication status or source-note provenance");
   }
 
+  if (claim.direct_edit_requested && !directTargetSupplied(claim)) {
+    issues.push({
+      severity: "blocker",
+      reason: "status-language direct edit needs an exact document, chapter, or subitem target; volume-level status context is comment-only"
+    });
+  }
+
   if (claim.direct_edit_requested && issues.length > 0) {
     issues.push({
       severity: "blocker",

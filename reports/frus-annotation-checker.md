@@ -1363,7 +1363,8 @@ The closed-network application must perform these functions outside the LLM:
    `published in`, `scheduled for publication`, `forthcoming`, `anticipated in
    [year]`, `being cleared`, `being researched`, or `planned`. Reject direct
    status-language edits unless the current registry supports the target and
-   exact document, chapter, or subitem.
+   exact document, chapter, or subitem. Volume-level status context can support
+   comments, not tracked-change redlines.
 7. Reject any edit whose `original_text` is not found exactly in the target
    unit.
 8. Apply accepted edits as Word tracked changes:

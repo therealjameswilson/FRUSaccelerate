@@ -316,7 +316,9 @@ node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output outp
    `status-claims.json`, add `--status-claims status-claims.json` so direct
    publication-status edits are checked against the current registry. The
    one-command runner creates `status-claims.json` automatically when
-   `--status-registry` is supplied.
+   `--status-registry` is supplied. A volume-level status match can support a
+   comment, but a direct status redline also needs an exact document, chapter,
+   or subitem target.
 
 5. Run direct-edit preflight:
 
@@ -344,6 +346,10 @@ node scripts/validate-frus-preparation-router.mjs --router preparation-router.js
 node scripts/validate-frus-permutation-matrix.mjs --matrix permutation-matrix.json --schema reports/frus-annotation-checker-output.schema.json --router preparation-router.json
 node scripts/preflight-frus-status-claims.mjs --registry status-registry.json --claims status-claims.json --today YYYY-MM-DD
 ```
+
+   If preflight reports a volume-level status-context blocker, downgrade the
+   model's status recommendation to `comment_only` and ask for the exact
+   document, chapter, or subitem before tracked changes.
 
 8. Run authority-control validation and usage audit when the packet contains
    Persons, Abbreviations and Terms, Source List/front matter, document-number,

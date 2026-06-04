@@ -565,7 +565,9 @@ is flawless.
 8. Wrapper validates publication-status phrases against a dated official
    status registry before allowing any redline that changes `printed in`,
    `scheduled for publication`, `forthcoming`, `anticipated`, `being cleared`,
-   `being researched`, or `planned` language.
+   `being researched`, or `planned` language. Volume-level status context is
+   comment-only for direct redlines unless the claim also supplies an exact
+   document, chapter, or subitem target.
 9. Wrapper validates Persons, Abbreviations and Terms, Source List/front
    matter, document-number, public-title, and index forms against the supplied
    authority registry before allowing any authority-control redline.
@@ -906,6 +908,8 @@ Use document numbers where modern FRUS form supplies them. Do not change
 `scheduled for publication` to `printed in` unless current official status and
 the exact target document or chapter are supplied. Treat History Office status
 as dated context and keep production stage separate from release bucket.
+Volume-only status context can support a comment or evidence request, but not a
+tracked-change redline to status language.
 
 ### Reagan/Bush Source Families
 
@@ -1787,6 +1791,8 @@ Use this to recognize finished-form FRUS annotation-sheet structure when Word st
 
 ## Extracted Status Claims For This Chunk
 
+Use these deterministic wrapper-extracted publication-status phrases to avoid silently missing status drift. They are not provenance. If a claim has only a volume target, do not propose a direct status redline.
+
 ```json
 {
   "schema_version": "frus-status-claims-v1",
@@ -1815,6 +1821,8 @@ Use this to recognize finished-form FRUS annotation-sheet structure when Word st
 ```
 
 ## Status Registry Context
+
+Use this only to check publication-status language and volume-stage posture. It is not source-note provenance. For direct status-language edits, volume-level status context is not enough; require an exact document, chapter, or subitem target, otherwise use comment_only.
 
 ```json
 {
