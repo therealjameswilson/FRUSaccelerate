@@ -199,6 +199,8 @@ try {
       "reports/frus-authority-registry.sample.json",
       "--source-list-registry",
       "reports/frus-source-list-registry.sample.json",
+      "--source-family-registry",
+      "reports/frus-source-family-registry.sample.json",
       "--source-surrogate-registry",
       "reports/frus-source-surrogate-registry.sample.json",
       "--document-status-lifecycle-registry",
@@ -298,6 +300,11 @@ try {
   assert(audit.counts.source_list_registry_usages === 1, "expected one source-list registry usage");
   assert(audit.counts.source_list_registry_warnings === 2, "expected two source-list registry warnings");
   assert(audit.counts.source_list_direct_edit_conflicts === 0, "expected zero source-list direct-edit conflicts");
+  assert(audit.counts.source_family_registry_usages === 0, "expected zero source-family registry usages");
+  assert(audit.counts.source_family_registry_warnings === 1, "expected one source-family registry warning");
+  assert(audit.counts.source_family_unmatched_like_units === 1, "expected one unmatched source-family-like unit");
+  assert(audit.counts.source_family_ambiguous_units === 0, "expected zero ambiguous source-family units");
+  assert(audit.counts.source_family_direct_edit_conflicts === 0, "expected zero source-family direct-edit conflicts");
   assert(audit.counts.source_surrogate_registry_usages === 0, "expected zero source-surrogate registry usages");
   assert(audit.counts.source_surrogate_registry_warnings === 0, "expected zero source-surrogate registry warnings");
   assert(audit.counts.source_surrogate_unmatched_like_units === 0, "expected zero unmatched source-surrogate-like units");
@@ -512,6 +519,8 @@ try {
     "authority-usage-audit.json",
     "source-list-registry-validation.json",
     "source-list-usage-audit.json",
+    "source-family-registry-validation.json",
+    "source-family-usage-audit.json",
     "source-surrogate-registry-validation.json",
     "source-surrogate-usage-audit.json",
     "document-status-lifecycle-registry-validation.json",
@@ -593,6 +602,11 @@ try {
   assert(audit.reports.authority_usage_audit.status === "pass", "expected authority usage audit report");
   assert(audit.reports.source_list_registry_validation.summary.records === 10, "expected source-list registry validation report");
   assert(audit.reports.source_list_usage_audit.status === "warning", "expected source-list usage audit warning report");
+  assert(
+    audit.reports.source_family_registry_validation.summary.families === 6,
+    "expected source-family registry validation report"
+  );
+  assert(audit.reports.source_family_usage_audit.status === "warning", "expected source-family usage audit warning report");
   assert(
     audit.reports.source_surrogate_registry_validation.summary.records === 5,
     "expected source-surrogate registry validation report"
@@ -737,7 +751,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/source-surrogate/document-status-lifecycle/document-metadata/declassification/editorial-method/translation/printed-attachment/visual-material/handwritten-transcription/document-handling/chronology/meeting-attendance/time-zone/summit-public-event/selection-balance/decision-process/public-source/retrospective-account/treaty/foreign-org/congressional-legal/economic-financial/military-crisis/intelligence-law-enforcement/human-rights-refugee-global-issues/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/source-family/source-surrogate/document-status-lifecycle/document-metadata/declassification/editorial-method/translation/printed-attachment/visual-material/handwritten-transcription/document-handling/chronology/meeting-attendance/time-zone/summit-public-event/selection-balance/decision-process/public-source/retrospective-account/treaty/foreign-org/congressional-legal/economic-financial/military-crisis/intelligence-law-enforcement/human-rights-refugee-global-issues/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

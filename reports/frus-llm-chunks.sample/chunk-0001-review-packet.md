@@ -54,9 +54,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --meeting-attendance-registry reports/frus-meeting-attendance-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-family-registry reports/frus-source-family-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --meeting-attendance-registry reports/frus-meeting-attendance-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --meeting-attendance-registry reports/frus-meeting-attendance-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-family-registry reports/frus-source-family-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --meeting-attendance-registry reports/frus-meeting-attendance-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -69,6 +69,9 @@ For authority-control validation and direct-edit safety, run
 For source-list/front-matter validation and direct-edit safety, run
 `node scripts/validate-frus-source-list-registry.mjs --registry reports/frus-source-list-registry.sample.json --format text` and
 `node scripts/audit-frus-source-list-usage.mjs --units extracted-units.json --registry reports/frus-source-list-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For source-family validation and direct-edit safety, run
+`node scripts/validate-frus-source-family-registry.mjs --registry reports/frus-source-family-registry.sample.json --format text` and
+`node scripts/audit-frus-source-family-usage.mjs --units extracted-units.json --registry reports/frus-source-family-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`; preserve PROFS, W Files, System IV, H-Files, CFPF reels, and public-source families rather than flattening them into generic repository paths.
 For source-surrogate/release validation and direct-edit safety, run
 `node scripts/validate-frus-source-surrogate-registry.mjs --registry reports/frus-source-surrogate-registry.sample.json --format text` and
 `node scripts/audit-frus-source-surrogate-usage.mjs --units extracted-units.json --registry reports/frus-source-surrogate-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -172,7 +175,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --meeting-attendance-registry reports/frus-meeting-attendance-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-family-registry reports/frus-source-family-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-status-lifecycle-registry reports/frus-document-status-lifecycle-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --editorial-method-registry reports/frus-editorial-method-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --meeting-attendance-registry reports/frus-meeting-attendance-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -3292,6 +3295,277 @@ Use this to recognize finished-form FRUS annotation-sheet structure when Word st
       "source_note_usage": "Use for Ambassador Nitze's Personal Files cited in Reagan national security policy source notes.",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
       "verification_status": "verified_published_sources"
+    }
+  ]
+}
+```
+
+## Source Family Registry Context
+
+Use this to preserve real source-family identity in source notes and Sources-page language. Recent Reagan and George H.W. Bush volumes distinguish PROFS, W Files, System IV Intelligence Files, National Security Council Institutional Files (H-Files), Central Foreign Policy File D/P/N/P reels, lot files, presidential-library collections, and public-source families. Do not flatten a specific source family into a generic repository path, and do not promote a surrogate locator into a source family unless the target-volume registry proves the direct edit.
+
+```json
+{
+  "schema_version": "frus-source-family-registry-v1",
+  "source_family_registry_id": "frus-reagan-bush-source-family-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/sources"
+  ],
+  "scope": "Sample published source-family forms for Reagan and George H.W. Bush FRUS annotation-sheet review. Use this to preserve real source ecologies and prevent flattening PROFS, W Files, System IV, H-Files, CFPF reels, and public-source families into generic repository paths.",
+  "target_volume": "frus1989-92v31",
+  "target_families": [
+    {
+      "source_family_id": "sf-v31-bush-hfiles",
+      "volume_id": "frus1989-92v31",
+      "display_family": "George H.W. Bush Presidential Library, Bush Presidential Records, National Security Council Institutional Files (H-Files)",
+      "source_family_type": "presidential_library",
+      "volume_scope": [
+        "1989-1992 Volume XXXI",
+        "Bush START I national security files"
+      ],
+      "distinguishing_tokens": [
+        "National Security Council Institutional Files",
+        "H-Files"
+      ],
+      "required_components_when_present": [
+        "Bush Presidential Records",
+        "National Security Council Institutional Files",
+        "H-Files",
+        "subseries or meeting/directive file when present",
+        "OA/ID or folder title when present"
+      ],
+      "do_not_flatten_to": [
+        "Bush Library, NSC files",
+        "Bush Presidential Records"
+      ],
+      "variant_forms": [
+        "Bush Library, National Security Council Institutional Files (H-Files)"
+      ],
+      "source_or_context": "Bush START I sources page identifies National Security Council Institutional Files (H-Files) as critical documentation for NSC, Deputies Committee, and NSD material.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_source_family"
+    },
+    {
+      "source_family_id": "sf-v31-cfpf-dpn-reels",
+      "volume_id": "frus1989-92v31",
+      "display_family": "Department of State, Central Foreign Policy File, P Reels, D Reels, and N Reels",
+      "source_family_type": "central_foreign_policy_file",
+      "volume_scope": [
+        "1989-1992 Volume XXXI",
+        "Bush START I Department of State cable and memorandum files"
+      ],
+      "distinguishing_tokens": [
+        "Central Foreign Policy File",
+        "P Reels",
+        "D Reels",
+        "N Reels"
+      ],
+      "required_components_when_present": [
+        "Central Foreign Policy File",
+        "D, P, or N reel type",
+        "telegram number or memorandum locator when present",
+        "date-time group when present"
+      ],
+      "do_not_flatten_to": [
+        "Department of State files",
+        "NARA records"
+      ],
+      "variant_forms": [
+        "CFPF D, P, and N reels"
+      ],
+      "source_or_context": "Bush START I sources page distinguishes D and N cable reels from P reels of memoranda and other paper items.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_source_family"
+    }
+  ],
+  "families": [
+    {
+      "source_family_id": "sf-v44p1-profs-system",
+      "volume_id": "frus1981-88v44p1",
+      "display_family": "National Archives and Records Administration, College Park, Maryland, PROFS System",
+      "source_family_type": "electronic_message_system",
+      "volume_scope": [
+        "1981-1988 Volume XLIV Part 1",
+        "Reagan national security electronic messages"
+      ],
+      "distinguishing_tokens": [
+        "PROFS",
+        "PROFS System"
+      ],
+      "required_components_when_present": [
+        "specific electronic-message system",
+        "message identifier or folder subject when present",
+        "classification and handling when present"
+      ],
+      "do_not_flatten_to": [
+        "National Archives records",
+        "Reagan Library files"
+      ],
+      "variant_forms": [
+        "NARA, PROFS System"
+      ],
+      "source_or_context": "Reagan National Security Policy sources list identifies the PROFS System as a distinct NARA source family.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_source_family"
+    },
+    {
+      "source_family_id": "sf-v44p1-w-files",
+      "volume_id": "frus1981-88v44p1",
+      "display_family": "Ronald Reagan Presidential Library, W Files",
+      "source_family_type": "presidential_library",
+      "volume_scope": [
+        "1981-1988 Volume XLIV Part 1",
+        "Reagan national security Washington files"
+      ],
+      "distinguishing_tokens": [
+        "W Files",
+        "NSC's W files"
+      ],
+      "required_components_when_present": [
+        "W Files label",
+        "folder or subject when present",
+        "classification and handling when present"
+      ],
+      "do_not_flatten_to": [
+        "Reagan Library files",
+        "White House Staff and Office Files"
+      ],
+      "variant_forms": [
+        "Reagan Library, W Files"
+      ],
+      "source_or_context": "Reagan National Security Policy sources list treats W Files as a distinct Reagan Library source family.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_source_family"
+    },
+    {
+      "source_family_id": "sf-v44p1-system-iv-intelligence",
+      "volume_id": "frus1981-88v44p1",
+      "display_family": "Ronald Reagan Presidential Library, White House Staff and Office Files, Files of the Executive Secretariat, National Security Council, System IV Intelligence Files",
+      "source_family_type": "presidential_library",
+      "volume_scope": [
+        "1981-1988 Volume XLIV Part 1",
+        "Reagan NSC Executive Secretariat files"
+      ],
+      "distinguishing_tokens": [
+        "System IV Intelligence Files",
+        "Files of the Executive Secretariat, National Security Council",
+        "NSC Executive Secretariat"
+      ],
+      "required_components_when_present": [
+        "White House Staff and Office Files",
+        "Files of the Executive Secretariat, National Security Council",
+        "System IV Intelligence Files",
+        "folder or file title when present"
+      ],
+      "do_not_flatten_to": [
+        "Reagan Library, White House Staff and Office Files",
+        "Reagan Library files"
+      ],
+      "variant_forms": [
+        "Reagan Library, White House Staff and Office Files, NSC Executive Secretariat, System IV Intelligence Files"
+      ],
+      "source_or_context": "Reagan National Security Policy sources list nests System IV Intelligence Files under White House Staff and Office Files, Executive Secretariat, NSC.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_source_family"
+    },
+    {
+      "source_family_id": "sf-v31-bush-hfiles",
+      "volume_id": "frus1989-92v31",
+      "display_family": "George H.W. Bush Presidential Library, Bush Presidential Records, National Security Council Institutional Files (H-Files)",
+      "source_family_type": "presidential_library",
+      "volume_scope": [
+        "1989-1992 Volume XXXI",
+        "Bush START I national security files"
+      ],
+      "distinguishing_tokens": [
+        "National Security Council Institutional Files",
+        "H-Files"
+      ],
+      "required_components_when_present": [
+        "Bush Presidential Records",
+        "National Security Council Institutional Files",
+        "H-Files",
+        "subseries or meeting/directive file when present",
+        "OA/ID or folder title when present"
+      ],
+      "do_not_flatten_to": [
+        "Bush Library, NSC files",
+        "Bush Presidential Records"
+      ],
+      "variant_forms": [
+        "Bush Library, National Security Council Institutional Files (H-Files)"
+      ],
+      "source_or_context": "Bush START I sources page identifies National Security Council Institutional Files (H-Files) as critical documentation for NSC, Deputies Committee, and NSD material.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_source_family"
+    },
+    {
+      "source_family_id": "sf-v31-cfpf-dpn-reels",
+      "volume_id": "frus1989-92v31",
+      "display_family": "Department of State, Central Foreign Policy File, P Reels, D Reels, and N Reels",
+      "source_family_type": "central_foreign_policy_file",
+      "volume_scope": [
+        "1989-1992 Volume XXXI",
+        "Bush START I Department of State cable and memorandum files"
+      ],
+      "distinguishing_tokens": [
+        "Central Foreign Policy File",
+        "P Reels",
+        "D Reels",
+        "N Reels"
+      ],
+      "required_components_when_present": [
+        "Central Foreign Policy File",
+        "D, P, or N reel type",
+        "telegram number or memorandum locator when present",
+        "date-time group when present"
+      ],
+      "do_not_flatten_to": [
+        "Department of State files",
+        "NARA records"
+      ],
+      "variant_forms": [
+        "CFPF D, P, and N reels"
+      ],
+      "source_or_context": "Bush START I sources page distinguishes D and N cable reels from P reels of memoranda and other paper items.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_source_family"
+    },
+    {
+      "source_family_id": "sf-v01-foundations-public-sources",
+      "volume_id": "frus1981-88v01",
+      "display_family": "Published public sources including Public Papers of the Presidents of the United States and the Department of State Bulletin",
+      "source_family_type": "public_source",
+      "volume_scope": [
+        "1981-1988 Volume I",
+        "Reagan Foundations public diplomacy and public statement records"
+      ],
+      "distinguishing_tokens": [
+        "Public Papers",
+        "Department of State Bulletin",
+        "Weekly Compilation of Presidential Documents",
+        "White House Office of Speechwriting",
+        "WHORM SP"
+      ],
+      "required_components_when_present": [
+        "selected public or printed source",
+        "date",
+        "speech, statement, testimony, report, or campaign context",
+        "archival control copy only when supplied"
+      ],
+      "do_not_flatten_to": [
+        "Reagan Library archival source",
+        "Reagan Library files"
+      ],
+      "variant_forms": [
+        "Public Papers of the Presidents of the United States and Department of State Bulletin"
+      ],
+      "source_or_context": "Reagan Foundations sources page says much of the volume's documentation was drawn from public sources, especially Public Papers and the Department of State Bulletin.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/sources",
+      "verification_status": "verified_published_source_family"
     }
   ]
 }

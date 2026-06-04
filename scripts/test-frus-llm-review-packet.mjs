@@ -39,6 +39,8 @@ try {
     "reports/frus-authority-registry.sample.json",
     "--source-list-registry",
     "reports/frus-source-list-registry.sample.json",
+    "--source-family-registry",
+    "reports/frus-source-family-registry.sample.json",
     "--source-surrogate-registry",
     "reports/frus-source-surrogate-registry.sample.json",
     "--document-status-lifecycle-registry",
@@ -133,6 +135,12 @@ try {
   assert(markdown.includes("Bush, George Herbert Walker"), "expected authority registry content");
   assert(markdown.includes("Source List And Front Matter Registry Context"), "expected source-list registry section");
   assert(markdown.includes("George H.W. Bush Presidential Library"), "expected source-list registry content");
+  assert(markdown.includes("Source Family Registry Context"), "expected source-family registry section");
+  assert(markdown.includes("PROFS System"), "expected PROFS source-family registry content");
+  assert(
+    markdown.includes("National Security Council Institutional Files (H-Files)"),
+    "expected H-Files source-family registry content"
+  );
   assert(markdown.includes("Source Surrogate And Release Registry Context"), "expected source-surrogate registry section");
   assert(markdown.includes("NLR-170-13-49-17-7"), "expected NLR source-surrogate content");
   assert(markdown.includes("[no N number]"), "expected no-N-number source-surrogate content");
@@ -290,6 +298,9 @@ try {
   assert(packet.contexts.authority_registry.target_records.length > 0, "expected target authority records");
   assert(packet.contexts.source_list_registry.records.length === 10, "expected source-list registry records");
   assert(packet.contexts.source_list_registry.target_records.length > 0, "expected target source-list records");
+  assert(packet.contexts.source_family_registry.families.length === 6, "expected source-family registry families");
+  assert(packet.contexts.source_family_registry.target_families.length > 0, "expected target source-family families");
+  assert(packet.packet_summary.source_family_registry_families === 6, "expected source-family registry count");
   assert(packet.contexts.source_surrogate_registry.records.length === 5, "expected source-surrogate registry records");
   assert(
     packet.contexts.source_surrogate_registry.target_records.length === 0,
@@ -463,7 +474,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, source-surrogate, document-status lifecycle, document metadata, classification, declassification, editorial-method, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, meeting-attendance, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, source-family, source-surrogate, document-status lifecycle, document metadata, classification, declassification, editorial-method, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, meeting-attendance, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

@@ -1,0 +1,198 @@
+{
+  "schema_version": "frus-source-family-registry-v1",
+  "source_family_registry_id": "frus-reagan-bush-source-family-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/sources"
+  ],
+  "scope": "Sample published source-family forms for Reagan and George H.W. Bush FRUS annotation-sheet review. Use this to preserve real source ecologies and prevent flattening PROFS, W Files, System IV, H-Files, CFPF reels, and public-source families into generic repository paths.",
+  "families": [
+    {
+      "source_family_id": "sf-v44p1-profs-system",
+      "volume_id": "frus1981-88v44p1",
+      "display_family": "National Archives and Records Administration, College Park, Maryland, PROFS System",
+      "source_family_type": "electronic_message_system",
+      "volume_scope": [
+        "1981-1988 Volume XLIV Part 1",
+        "Reagan national security electronic messages"
+      ],
+      "distinguishing_tokens": [
+        "PROFS",
+        "PROFS System"
+      ],
+      "required_components_when_present": [
+        "specific electronic-message system",
+        "message identifier or folder subject when present",
+        "classification and handling when present"
+      ],
+      "do_not_flatten_to": [
+        "National Archives records",
+        "Reagan Library files"
+      ],
+      "variant_forms": [
+        "NARA, PROFS System"
+      ],
+      "source_or_context": "Reagan National Security Policy sources list identifies the PROFS System as a distinct NARA source family.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_source_family"
+    },
+    {
+      "source_family_id": "sf-v44p1-w-files",
+      "volume_id": "frus1981-88v44p1",
+      "display_family": "Ronald Reagan Presidential Library, W Files",
+      "source_family_type": "presidential_library",
+      "volume_scope": [
+        "1981-1988 Volume XLIV Part 1",
+        "Reagan national security Washington files"
+      ],
+      "distinguishing_tokens": [
+        "W Files",
+        "NSC's W files"
+      ],
+      "required_components_when_present": [
+        "W Files label",
+        "folder or subject when present",
+        "classification and handling when present"
+      ],
+      "do_not_flatten_to": [
+        "Reagan Library files",
+        "White House Staff and Office Files"
+      ],
+      "variant_forms": [
+        "Reagan Library, W Files"
+      ],
+      "source_or_context": "Reagan National Security Policy sources list treats W Files as a distinct Reagan Library source family.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_source_family"
+    },
+    {
+      "source_family_id": "sf-v44p1-system-iv-intelligence",
+      "volume_id": "frus1981-88v44p1",
+      "display_family": "Ronald Reagan Presidential Library, White House Staff and Office Files, Files of the Executive Secretariat, National Security Council, System IV Intelligence Files",
+      "source_family_type": "presidential_library",
+      "volume_scope": [
+        "1981-1988 Volume XLIV Part 1",
+        "Reagan NSC Executive Secretariat files"
+      ],
+      "distinguishing_tokens": [
+        "System IV Intelligence Files",
+        "Files of the Executive Secretariat, National Security Council",
+        "NSC Executive Secretariat"
+      ],
+      "required_components_when_present": [
+        "White House Staff and Office Files",
+        "Files of the Executive Secretariat, National Security Council",
+        "System IV Intelligence Files",
+        "folder or file title when present"
+      ],
+      "do_not_flatten_to": [
+        "Reagan Library, White House Staff and Office Files",
+        "Reagan Library files"
+      ],
+      "variant_forms": [
+        "Reagan Library, White House Staff and Office Files, NSC Executive Secretariat, System IV Intelligence Files"
+      ],
+      "source_or_context": "Reagan National Security Policy sources list nests System IV Intelligence Files under White House Staff and Office Files, Executive Secretariat, NSC.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_source_family"
+    },
+    {
+      "source_family_id": "sf-v31-bush-hfiles",
+      "volume_id": "frus1989-92v31",
+      "display_family": "George H.W. Bush Presidential Library, Bush Presidential Records, National Security Council Institutional Files (H-Files)",
+      "source_family_type": "presidential_library",
+      "volume_scope": [
+        "1989-1992 Volume XXXI",
+        "Bush START I national security files"
+      ],
+      "distinguishing_tokens": [
+        "National Security Council Institutional Files",
+        "H-Files"
+      ],
+      "required_components_when_present": [
+        "Bush Presidential Records",
+        "National Security Council Institutional Files",
+        "H-Files",
+        "subseries or meeting/directive file when present",
+        "OA/ID or folder title when present"
+      ],
+      "do_not_flatten_to": [
+        "Bush Library, NSC files",
+        "Bush Presidential Records"
+      ],
+      "variant_forms": [
+        "Bush Library, National Security Council Institutional Files (H-Files)"
+      ],
+      "source_or_context": "Bush START I sources page identifies National Security Council Institutional Files (H-Files) as critical documentation for NSC, Deputies Committee, and NSD material.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_source_family"
+    },
+    {
+      "source_family_id": "sf-v31-cfpf-dpn-reels",
+      "volume_id": "frus1989-92v31",
+      "display_family": "Department of State, Central Foreign Policy File, P Reels, D Reels, and N Reels",
+      "source_family_type": "central_foreign_policy_file",
+      "volume_scope": [
+        "1989-1992 Volume XXXI",
+        "Bush START I Department of State cable and memorandum files"
+      ],
+      "distinguishing_tokens": [
+        "Central Foreign Policy File",
+        "P Reels",
+        "D Reels",
+        "N Reels"
+      ],
+      "required_components_when_present": [
+        "Central Foreign Policy File",
+        "D, P, or N reel type",
+        "telegram number or memorandum locator when present",
+        "date-time group when present"
+      ],
+      "do_not_flatten_to": [
+        "Department of State files",
+        "NARA records"
+      ],
+      "variant_forms": [
+        "CFPF D, P, and N reels"
+      ],
+      "source_or_context": "Bush START I sources page distinguishes D and N cable reels from P reels of memoranda and other paper items.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_source_family"
+    },
+    {
+      "source_family_id": "sf-v01-foundations-public-sources",
+      "volume_id": "frus1981-88v01",
+      "display_family": "Published public sources including Public Papers of the Presidents of the United States and the Department of State Bulletin",
+      "source_family_type": "public_source",
+      "volume_scope": [
+        "1981-1988 Volume I",
+        "Reagan Foundations public diplomacy and public statement records"
+      ],
+      "distinguishing_tokens": [
+        "Public Papers",
+        "Department of State Bulletin",
+        "Weekly Compilation of Presidential Documents",
+        "White House Office of Speechwriting",
+        "WHORM SP"
+      ],
+      "required_components_when_present": [
+        "selected public or printed source",
+        "date",
+        "speech, statement, testimony, report, or campaign context",
+        "archival control copy only when supplied"
+      ],
+      "do_not_flatten_to": [
+        "Reagan Library archival source",
+        "Reagan Library files"
+      ],
+      "variant_forms": [
+        "Public Papers of the Presidents of the United States and Department of State Bulletin"
+      ],
+      "source_or_context": "Reagan Foundations sources page says much of the volume's documentation was drawn from public sources, especially Public Papers and the Department of State Bulletin.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/sources",
+      "verification_status": "verified_published_source_family"
+    }
+  ]
+}

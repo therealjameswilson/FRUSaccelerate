@@ -12162,6 +12162,17 @@ Minimum components:
   notes and source-list entries to published Sources-page forms, flags variant
   and cross-volume source families, and fails direct source-list edits that
   lack supplied registry support.
+- No-dependency source-family registry validator, usage audit, and fixtures:
+  `scripts/validate-frus-source-family-registry.mjs`,
+  `scripts/audit-frus-source-family-usage.mjs`,
+  `reports/frus-source-family-registry.sample.json`,
+  `reports/frus-source-family-units.sample.json`, and
+  `reports/frus-source-family-audit.sample.json`. The audit preserves PROFS,
+  W Files, System IV Intelligence Files, H-Files, CFPF D/P/N/P reels, and
+  Reagan Foundations public-source families; flags cross-volume, ambiguous,
+  and unmatched source-family usage; and fails direct edits that flatten a
+  specific source family into a generic repository path without target-volume
+  registry support.
 - No-dependency source-surrogate/release registry validator, usage audit, and
   fixtures: `scripts/validate-frus-source-surrogate-registry.mjs`,
   `scripts/audit-frus-source-surrogate-usage.mjs`,

@@ -1,0 +1,84 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample source-family extracted units",
+  "generated_at": "2026-06-04T00:00:00.000Z",
+  "units": [
+    {
+      "unit_id": "source-family-0001",
+      "unit_type": "source_note",
+      "location": "Reagan NSP source note PROFS",
+      "exact_text": "Source: National Archives and Records Administration, College Park, Maryland, PROFS System.",
+      "display_text": "Source: National Archives and Records Administration, College Park, Maryland, PROFS System.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "source-family-0002",
+      "unit_type": "source_note",
+      "location": "Reagan NSP source note W Files",
+      "exact_text": "Source: Ronald Reagan Presidential Library, W Files.",
+      "display_text": "Source: Ronald Reagan Presidential Library, W Files.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "source-family-0003",
+      "unit_type": "source_note",
+      "location": "Reagan NSP source note System IV",
+      "exact_text": "Source: Ronald Reagan Presidential Library, White House Staff and Office Files, Files of the Executive Secretariat, National Security Council, System IV Intelligence Files.",
+      "display_text": "Source: Ronald Reagan Presidential Library, White House Staff and Office Files, Files of the Executive Secretariat, National Security Council, System IV Intelligence Files.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "source-family-0004",
+      "unit_type": "source_note",
+      "location": "Bush START I source note H-Files",
+      "exact_text": "Source: George H.W. Bush Presidential Library, Bush Presidential Records, National Security Council Institutional Files (H-Files).",
+      "display_text": "Source: George H.W. Bush Presidential Library, Bush Presidential Records, National Security Council Institutional Files (H-Files).",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "source-family-0005",
+      "unit_type": "source_note",
+      "location": "Reagan Foundations public-source note",
+      "exact_text": "Source: Public Papers of the Presidents of the United States and Department of State Bulletin.",
+      "display_text": "Source: Public Papers of the Presidents of the United States and Department of State Bulletin.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "source-family-0006",
+      "unit_type": "front_matter",
+      "location": "Reagan NSP Sources page family summary",
+      "exact_text": "The PROFS System and the NSC's W files both yielded valuable documentation for the volume.",
+      "display_text": "The PROFS System and the NSC's W files both yielded valuable documentation for the volume.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "source-family-0007",
+      "unit_type": "source_note",
+      "location": "Generic source-family source note",
+      "exact_text": "Source: Reagan Library files.",
+      "display_text": "Source: Reagan Library files.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}

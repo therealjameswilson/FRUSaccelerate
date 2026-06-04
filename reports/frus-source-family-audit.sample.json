@@ -1,0 +1,230 @@
+{
+  "schema_version": "frus-source-family-usage-audit-v1",
+  "status": "warning",
+  "target_volume": "frus1981-88v44p1",
+  "summary": {
+    "units_scanned": 7,
+    "source_family_usages": 7,
+    "unmatched_source_family_like_units": 1,
+    "ambiguous_source_family_units": 1,
+    "direct_source_family_edit_conflicts": 0,
+    "warnings": 5,
+    "by_usage_status": {
+      "approved": 3,
+      "cross_volume_source_family_context": 2,
+      "ambiguous_source_family": 2
+    },
+    "by_source_family_type": {
+      "electronic_message_system": 2,
+      "presidential_library": 4,
+      "public_source": 1
+    }
+  },
+  "usages": [
+    {
+      "unit_id": "source-family-0001",
+      "unit_type": "source_note",
+      "location": "Reagan NSP source note PROFS",
+      "source_family_id": "sf-v44p1-profs-system",
+      "volume_id": "frus1981-88v44p1",
+      "display_family": "National Archives and Records Administration, College Park, Maryland, PROFS System",
+      "source_family_type": "electronic_message_system",
+      "matched_text": "National Archives and Records Administration, College Park, Maryland, PROFS System",
+      "match_kind": "display_family",
+      "required_components_when_present": [
+        "specific electronic-message system",
+        "message identifier or folder subject when present",
+        "classification and handling when present"
+      ],
+      "do_not_flatten_to": [
+        "National Archives records",
+        "Reagan Library files"
+      ],
+      "source_or_context": "Reagan National Security Policy sources list identifies the PROFS System as a distinct NARA source family.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_source_family",
+      "usage_status": "approved",
+      "recommended_action": "no_change",
+      "finding": "Matched source family National Archives and Records Administration, College Park, Maryland, PROFS System."
+    },
+    {
+      "unit_id": "source-family-0002",
+      "unit_type": "source_note",
+      "location": "Reagan NSP source note W Files",
+      "source_family_id": "sf-v44p1-w-files",
+      "volume_id": "frus1981-88v44p1",
+      "display_family": "Ronald Reagan Presidential Library, W Files",
+      "source_family_type": "presidential_library",
+      "matched_text": "Ronald Reagan Presidential Library, W Files",
+      "match_kind": "display_family",
+      "required_components_when_present": [
+        "W Files label",
+        "folder or subject when present",
+        "classification and handling when present"
+      ],
+      "do_not_flatten_to": [
+        "Reagan Library files",
+        "White House Staff and Office Files"
+      ],
+      "source_or_context": "Reagan National Security Policy sources list treats W Files as a distinct Reagan Library source family.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_source_family",
+      "usage_status": "approved",
+      "recommended_action": "no_change",
+      "finding": "Matched source family Ronald Reagan Presidential Library, W Files."
+    },
+    {
+      "unit_id": "source-family-0003",
+      "unit_type": "source_note",
+      "location": "Reagan NSP source note System IV",
+      "source_family_id": "sf-v44p1-system-iv-intelligence",
+      "volume_id": "frus1981-88v44p1",
+      "display_family": "Ronald Reagan Presidential Library, White House Staff and Office Files, Files of the Executive Secretariat, National Security Council, System IV Intelligence Files",
+      "source_family_type": "presidential_library",
+      "matched_text": "Ronald Reagan Presidential Library, White House Staff and Office Files, Files of the Executive Secretariat, National Security Council, System IV Intelligence Files",
+      "match_kind": "display_family",
+      "required_components_when_present": [
+        "White House Staff and Office Files",
+        "Files of the Executive Secretariat, National Security Council",
+        "System IV Intelligence Files",
+        "folder or file title when present"
+      ],
+      "do_not_flatten_to": [
+        "Reagan Library, White House Staff and Office Files",
+        "Reagan Library files"
+      ],
+      "source_or_context": "Reagan National Security Policy sources list nests System IV Intelligence Files under White House Staff and Office Files, Executive Secretariat, NSC.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_source_family",
+      "usage_status": "approved",
+      "recommended_action": "no_change",
+      "finding": "Matched source family Ronald Reagan Presidential Library, White House Staff and Office Files, Files of the Executive Secretariat, National Security Council, System IV Intelligence Files."
+    },
+    {
+      "unit_id": "source-family-0004",
+      "unit_type": "source_note",
+      "location": "Bush START I source note H-Files",
+      "source_family_id": "sf-v31-bush-hfiles",
+      "volume_id": "frus1989-92v31",
+      "display_family": "George H.W. Bush Presidential Library, Bush Presidential Records, National Security Council Institutional Files (H-Files)",
+      "source_family_type": "presidential_library",
+      "matched_text": "George H.W. Bush Presidential Library, Bush Presidential Records, National Security Council Institutional Files (H-Files)",
+      "match_kind": "display_family",
+      "required_components_when_present": [
+        "Bush Presidential Records",
+        "National Security Council Institutional Files",
+        "H-Files",
+        "subseries or meeting/directive file when present",
+        "OA/ID or folder title when present"
+      ],
+      "do_not_flatten_to": [
+        "Bush Library, NSC files",
+        "Bush Presidential Records"
+      ],
+      "source_or_context": "Bush START I sources page identifies National Security Council Institutional Files (H-Files) as critical documentation for NSC, Deputies Committee, and NSD material.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/sources",
+      "verification_status": "verified_published_source_family",
+      "usage_status": "cross_volume_source_family_context",
+      "recommended_action": "comment_only",
+      "finding": "Matched frus1989-92v31 source-family language; confirm target-volume source family before direct edits."
+    },
+    {
+      "unit_id": "source-family-0005",
+      "unit_type": "source_note",
+      "location": "Reagan Foundations public-source note",
+      "source_family_id": "sf-v01-foundations-public-sources",
+      "volume_id": "frus1981-88v01",
+      "display_family": "Published public sources including Public Papers of the Presidents of the United States and the Department of State Bulletin",
+      "source_family_type": "public_source",
+      "matched_text": "Public Papers of the Presidents of the United States and Department of State Bulletin",
+      "match_kind": "variant_form",
+      "required_components_when_present": [
+        "selected public or printed source",
+        "date",
+        "speech, statement, testimony, report, or campaign context",
+        "archival control copy only when supplied"
+      ],
+      "do_not_flatten_to": [
+        "Reagan Library archival source",
+        "Reagan Library files"
+      ],
+      "source_or_context": "Reagan Foundations sources page says much of the volume's documentation was drawn from public sources, especially Public Papers and the Department of State Bulletin.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/sources",
+      "verification_status": "verified_published_source_family",
+      "usage_status": "cross_volume_source_family_context",
+      "recommended_action": "comment_only",
+      "finding": "Matched frus1981-88v01 source-family language; confirm target-volume source family before direct edits."
+    },
+    {
+      "unit_id": "source-family-0006",
+      "unit_type": "front_matter",
+      "location": "Reagan NSP Sources page family summary",
+      "source_family_id": "sf-v44p1-profs-system",
+      "volume_id": "frus1981-88v44p1",
+      "display_family": "National Archives and Records Administration, College Park, Maryland, PROFS System",
+      "source_family_type": "electronic_message_system",
+      "matched_text": "PROFS System",
+      "match_kind": "distinguishing_token",
+      "required_components_when_present": [
+        "specific electronic-message system",
+        "message identifier or folder subject when present",
+        "classification and handling when present"
+      ],
+      "do_not_flatten_to": [
+        "National Archives records",
+        "Reagan Library files"
+      ],
+      "source_or_context": "Reagan National Security Policy sources list identifies the PROFS System as a distinct NARA source family.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_source_family",
+      "usage_status": "ambiguous_source_family",
+      "recommended_action": "comment_only",
+      "finding": "Matched PROFS System, but the unit contains multiple source families; do not blend or flatten them."
+    },
+    {
+      "unit_id": "source-family-0006",
+      "unit_type": "front_matter",
+      "location": "Reagan NSP Sources page family summary",
+      "source_family_id": "sf-v44p1-w-files",
+      "volume_id": "frus1981-88v44p1",
+      "display_family": "Ronald Reagan Presidential Library, W Files",
+      "source_family_type": "presidential_library",
+      "matched_text": "NSC's W files",
+      "match_kind": "distinguishing_token",
+      "required_components_when_present": [
+        "W Files label",
+        "folder or subject when present",
+        "classification and handling when present"
+      ],
+      "do_not_flatten_to": [
+        "Reagan Library files",
+        "White House Staff and Office Files"
+      ],
+      "source_or_context": "Reagan National Security Policy sources list treats W Files as a distinct Reagan Library source family.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_source_family",
+      "usage_status": "ambiguous_source_family",
+      "recommended_action": "comment_only",
+      "finding": "Matched NSC's W files, but the unit contains multiple source families; do not blend or flatten them."
+    }
+  ],
+  "unmatched_source_family_like_units": [
+    {
+      "unit_id": "source-family-0007",
+      "unit_type": "source_note",
+      "location": "Generic source-family source note",
+      "matched_text": "Source: Reagan Library files.",
+      "finding": "Source-family-like language did not match the supplied registry.",
+      "recommended_action": "comment_only",
+      "evidence_request": "source_family"
+    }
+  ],
+  "direct_source_family_edit_conflicts": [],
+  "warnings": [
+    "source-family-0004: Matched frus1989-92v31 source-family language; confirm target-volume source family before direct edits.",
+    "source-family-0005: Matched frus1981-88v01 source-family language; confirm target-volume source family before direct edits.",
+    "source-family-0006: Matched PROFS System, but the unit contains multiple source families; do not blend or flatten them.",
+    "source-family-0006: Matched NSC's W files, but the unit contains multiple source families; do not blend or flatten them.",
+    "source-family-0007: Source-family-like language did not match the supplied registry."
+  ]
+}

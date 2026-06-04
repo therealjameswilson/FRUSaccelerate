@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--source-surrogate-registry registry.json] [--document-status-lifecycle-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--editorial-method-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--handwritten-transcription-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--meeting-attendance-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--source-family-registry registry.json] [--source-surrogate-registry registry.json] [--document-status-lifecycle-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--editorial-method-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--handwritten-transcription-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--meeting-attendance-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -21,6 +21,7 @@ function parseArgs(argv) {
   let statusClaimsPath = null;
   let authorityRegistryPath = null;
   let sourceListRegistryPath = null;
+  let sourceFamilyRegistryPath = null;
   let sourceSurrogateRegistryPath = null;
   let documentStatusLifecycleRegistryPath = null;
   let documentMetadataRegistryPath = null;
@@ -84,6 +85,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--source-list-registry") {
       sourceListRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--source-family-registry") {
+      sourceFamilyRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--source-surrogate-registry") {
       sourceSurrogateRegistryPath = argv[index + 1];
@@ -214,6 +218,7 @@ function parseArgs(argv) {
     statusClaimsPath,
     authorityRegistryPath,
     sourceListRegistryPath,
+    sourceFamilyRegistryPath,
     sourceSurrogateRegistryPath,
     documentStatusLifecycleRegistryPath,
     documentMetadataRegistryPath,
@@ -449,6 +454,35 @@ function compactSourceListRegistry(registry, targetVolume) {
       source_note_usage: record.source_note_usage,
       source_url: record.source_url,
       verification_status: record.verification_status
+    }))
+  };
+}
+
+function compactSourceFamilyRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const families = Array.isArray(registry.families) ? registry.families : [];
+  const targetFamilies = targetVolume ? families.filter((family) => family.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    source_family_registry_id: registry.source_family_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_families: targetFamilies,
+    families: families.map((family) => ({
+      source_family_id: family.source_family_id,
+      volume_id: family.volume_id,
+      display_family: family.display_family,
+      source_family_type: family.source_family_type,
+      volume_scope: family.volume_scope || [],
+      distinguishing_tokens: family.distinguishing_tokens || [],
+      required_components_when_present: family.required_components_when_present || [],
+      do_not_flatten_to: family.do_not_flatten_to || [],
+      variant_forms: family.variant_forms || [],
+      source_or_context: family.source_or_context,
+      source_url: family.source_url,
+      verification_status: family.verification_status
     }))
   };
 }
@@ -1523,6 +1557,9 @@ function buildPacket(options) {
   const sourceListRegistry = options.sourceListRegistryPath
     ? readJson(options.sourceListRegistryPath, options.sourceListRegistryPath)
     : null;
+  const sourceFamilyRegistry = options.sourceFamilyRegistryPath
+    ? readJson(options.sourceFamilyRegistryPath, options.sourceFamilyRegistryPath)
+    : null;
   const sourceSurrogateRegistry = options.sourceSurrogateRegistryPath
     ? readJson(options.sourceSurrogateRegistryPath, options.sourceSurrogateRegistryPath)
     : null;
@@ -1638,6 +1675,9 @@ function buildPacket(options) {
       status_claims: options.statusClaimsPath ? normalizePathForOutput(options.statusClaimsPath) : "",
       authority_registry: options.authorityRegistryPath ? normalizePathForOutput(options.authorityRegistryPath) : "",
       source_list_registry: options.sourceListRegistryPath ? normalizePathForOutput(options.sourceListRegistryPath) : "",
+      source_family_registry: options.sourceFamilyRegistryPath
+        ? normalizePathForOutput(options.sourceFamilyRegistryPath)
+        : "",
       source_surrogate_registry: options.sourceSurrogateRegistryPath
         ? normalizePathForOutput(options.sourceSurrogateRegistryPath)
         : "",
@@ -1727,6 +1767,7 @@ function buildPacket(options) {
       status_claims: statusClaims?.claims?.length || 0,
       authority_registry_records: authorityRegistry?.records?.length || 0,
       source_list_registry_records: sourceListRegistry?.records?.length || 0,
+      source_family_registry_families: sourceFamilyRegistry?.families?.length || 0,
       source_surrogate_registry_records: sourceSurrogateRegistry?.records?.length || 0,
       document_status_lifecycle_registry_records: documentStatusLifecycleRegistry?.records?.length || 0,
       document_metadata_registry_records: documentMetadataRegistry?.records?.length || 0,
@@ -1772,6 +1813,7 @@ function buildPacket(options) {
       status_claims: statusClaims || null,
       authority_registry: compactAuthorityRegistry(authorityRegistry, options.targetVolume),
       source_list_registry: compactSourceListRegistry(sourceListRegistry, options.targetVolume),
+      source_family_registry: compactSourceFamilyRegistry(sourceFamilyRegistry, options.targetVolume),
       source_surrogate_registry: compactSourceSurrogateRegistry(sourceSurrogateRegistry, options.targetVolume),
       document_status_lifecycle_registry: compactDocumentStatusLifecycleRegistry(
         documentStatusLifecycleRegistry,
@@ -1901,6 +1943,12 @@ function renderMarkdown(packet) {
     "Use this to reconcile source notes, repository/source-family forms, published-source references, Sources page entries, and front-matter source-list language. Treat source-list variants and cross-volume source families as comment-only unless the registry proves the direct edit.",
     "",
     fencedJson(packet.contexts.source_list_registry || {}),
+    "",
+    "## Source Family Registry Context",
+    "",
+    "Use this to preserve real source-family identity in source notes and Sources-page language. Recent Reagan and George H.W. Bush volumes distinguish PROFS, W Files, System IV Intelligence Files, National Security Council Institutional Files (H-Files), Central Foreign Policy File D/P/N/P reels, lot files, presidential-library collections, and public-source families. Do not flatten a specific source family into a generic repository path, and do not promote a surrogate locator into a source family unless the target-volume registry proves the direct edit.",
+    "",
+    fencedJson(packet.contexts.source_family_registry || {}),
     "",
     "## Source Surrogate And Release Registry Context",
     "",
