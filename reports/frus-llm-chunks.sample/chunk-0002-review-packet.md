@@ -225,7 +225,10 @@ document-metadata registry with target-volume document-page records covering
 document number, heading, date line, subject/title, sender/recipient,
 attachment behavior, editorial-note form, and source-note linkage; validate it
 with `scripts/validate-frus-document-metadata-registry.mjs` before direct
-metadata edits.
+metadata edits. A matched heading is not complete proof of document metadata:
+if the registry record supplies a date line or subject/title, require the
+uploaded heading block to carry those components too or return a component-gap
+warning.
 For real Reagan/Bush 1981-1992 classification/handling review, replace the
 sample classification registry with target-volume source-note and attachment
 marking records covering original classification, handling controls, and

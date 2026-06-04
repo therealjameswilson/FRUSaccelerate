@@ -434,7 +434,8 @@ node scripts/audit-frus-document-status-lifecycle-usage.mjs --units extracted-un
    date/place lines, subject/title lines, attachment headings, editorial notes,
    sender/recipient lines, or document numbers appear. The usage audit fails if
    the model proposes a direct metadata edit that is only a shorthand variant,
-   cross-volume heading, or unsupported by the supplied document-page registry.
+   cross-volume heading, incomplete heading/date/subject block, or unsupported
+   by the supplied document-page registry.
 
 ```sh
 node scripts/validate-frus-document-metadata-registry.mjs --registry document-metadata-registry.json --format text

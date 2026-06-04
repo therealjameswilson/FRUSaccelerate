@@ -1,6 +1,6 @@
 {
   "schema_version": "frus-document-metadata-usage-audit-v1",
-  "generated_at": "2026-06-03T15:05:42.617Z",
+  "generated_at": "2026-06-04T20:06:02.929Z",
   "status": "warning",
   "target_volume": "frus1989-92v31",
   "source_files": {
@@ -20,21 +20,27 @@
     "records": 5
   },
   "summary": {
-    "units_scanned": 5,
-    "units_with_document_metadata_hits": 4,
-    "document_metadata_usages": 10,
+    "units_scanned": 6,
+    "units_with_document_metadata_hits": 5,
+    "document_metadata_usages": 11,
+    "metadata_component_gaps": 3,
+    "by_component_gap": {
+      "approved_heading_form": 1,
+      "date_line": 1,
+      "subject_or_title": 1
+    },
     "unmatched_metadata_units": 1,
     "by_document_type": {
       "memorandum": 6,
-      "information_memorandum": 3,
+      "information_memorandum": 4,
       "editorial_note": 1
     },
     "by_usage_status": {
-      "approved": 5,
+      "approved": 6,
       "variant_needs_review": 1,
       "cross_volume_metadata": 4
     },
-    "warnings": 6,
+    "warnings": 9,
     "errors": 0,
     "direct_document_metadata_edit_conflicts": 0
   },
@@ -338,6 +344,74 @@
       "direct_edit_requested": false,
       "direct_edit_check_count": 0,
       "finding": "Matched document metadata tied to frus1981-88v44p1; confirm the target volume and document page before changing heading text."
+    },
+    {
+      "usage_id": "document-metadata-usage-0011",
+      "unit_id": "document-heading-0006",
+      "unit_type": "document_heading",
+      "location": "Document 6 heading missing date and subject",
+      "document_metadata_id": "metadata-v31-d6-main",
+      "volume_id": "frus1989-92v31",
+      "target_volume": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d6",
+      "document_number": "6",
+      "document_type": "information_memorandum",
+      "matched_text": "Information Memorandum From the Director of the Policy Planning Staff (Ross) to Secretary of State Baker",
+      "match_kind": "approved_heading_form",
+      "approved_heading_form": "Information Memorandum From the Director of the Policy Planning Staff (Ross) to Secretary of State Baker",
+      "date_line": "Washington, February 8, 1989",
+      "subject_or_title": "Arms Control Memos from PM and Paul Nitze",
+      "sender_or_originator": "Ross",
+      "recipient_or_audience": "Secretary of State Baker",
+      "attachment_behavior": "Contains multiple attachment/tab headings, including Holmes and Nitze information memoranda and Department of State papers.",
+      "source_note_basis": "First source note supplies Department of State source-path evidence.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d6",
+      "verification_status": "verified_published_document",
+      "usage_status": "approved",
+      "recommended_action": "no_change",
+      "evidence_request": "none",
+      "evidence_request_detail": "",
+      "direct_edit_requested": false,
+      "direct_edit_check_count": 0,
+      "finding": "Matched approved information_memorandum metadata for frus1989-92v31/d6."
+    }
+  ],
+  "component_gaps": [
+    {
+      "unit_id": "document-heading-0002",
+      "unit_type": "document_heading",
+      "location": "Document 6 heading",
+      "document_metadata_id": "metadata-v31-d6-main",
+      "document_id": "frus1989-92v31/d6",
+      "document_number": "6",
+      "component": "approved_heading_form",
+      "evidence_request": "document_metadata",
+      "finding": "Document metadata match is missing required approved heading form for frus1989-92v31/d6.",
+      "required_action": "Confirm the target document page and complete the heading, date line, and subject/title block before treating the document metadata as final."
+    },
+    {
+      "unit_id": "document-heading-0006",
+      "unit_type": "document_heading",
+      "location": "Document 6 heading missing date and subject",
+      "document_metadata_id": "metadata-v31-d6-main",
+      "document_id": "frus1989-92v31/d6",
+      "document_number": "6",
+      "component": "date_line",
+      "evidence_request": "document_metadata",
+      "finding": "Document metadata match is missing required date line for frus1989-92v31/d6.",
+      "required_action": "Confirm the target document page and complete the heading, date line, and subject/title block before treating the document metadata as final."
+    },
+    {
+      "unit_id": "document-heading-0006",
+      "unit_type": "document_heading",
+      "location": "Document 6 heading missing date and subject",
+      "document_metadata_id": "metadata-v31-d6-main",
+      "document_id": "frus1989-92v31/d6",
+      "document_number": "6",
+      "component": "subject_or_title",
+      "evidence_request": "document_metadata",
+      "finding": "Document metadata match is missing required subject or title for frus1989-92v31/d6.",
+      "required_action": "Confirm the target document page and complete the heading, date line, and subject/title block before treating the document metadata as final."
     }
   ],
   "unmatched_metadata_units": [
@@ -355,6 +429,9 @@
     "document-heading-0003: Matched document metadata tied to frus1981-88v44p1; confirm the target volume and document page before changing heading text.",
     "document-heading-0003: Matched document metadata tied to frus1981-88v44p1; confirm the target volume and document page before changing heading text.",
     "editorial-note-heading-0004: Matched document metadata tied to frus1981-88v44p1; confirm the target volume and document page before changing heading text.",
+    "document-heading-0002: Document metadata match is missing required approved heading form for frus1989-92v31/d6.",
+    "document-heading-0006: Document metadata match is missing required date line for frus1989-92v31/d6.",
+    "document-heading-0006: Document metadata match is missing required subject or title for frus1989-92v31/d6.",
     "document-heading-0005: Metadata-like unit had no match in the supplied document-metadata registry."
   ],
   "errors": []

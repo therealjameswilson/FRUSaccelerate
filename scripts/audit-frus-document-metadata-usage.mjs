@@ -292,6 +292,12 @@ function metadataLikeTextWithoutHits(unit) {
   return /\b(?:Memorandum|Information Memorandum|Editorial Note|SUBJECT|Washington,|undated|Location and date uncertain|Document\s+\d+|\d+\.)\b/i.test(text);
 }
 
+function normalizedIncludes(text, form) {
+  const normalizedForm = normalizeForm(form);
+  if (!normalizedForm) return true;
+  return normalizeForm(text).includes(normalizedForm);
+}
+
 function recordFormEntries(record) {
   return [
     { form: record.approved_heading_form, kind: "approved_heading_form" },
@@ -364,6 +370,62 @@ function buildDocumentMetadataAudit({ unitsDocument, registry, checkerOutput, ta
     }
   }
 
+  const componentGaps = [];
+  const metadataUnitRecordPairs = new Map();
+  for (const usage of usages) {
+    if (!["document_heading", "editorial_note"].includes(usage.unit_type)) continue;
+    const key = `${usage.unit_id}\u0000${usage.document_metadata_id}`;
+    const existing = metadataUnitRecordPairs.get(key) || {
+      unit_id: usage.unit_id,
+      document_metadata_id: usage.document_metadata_id,
+      unit_type: usage.unit_type,
+      location: usage.location,
+      record: registry.records.find((record) => record.document_metadata_id === usage.document_metadata_id),
+      match_kinds: new Set()
+    };
+    existing.match_kinds.add(usage.match_kind);
+    metadataUnitRecordPairs.set(key, existing);
+  }
+
+  for (const pair of metadataUnitRecordPairs.values()) {
+    const record = pair.record;
+    if (!record || !String(record.verification_status || "").startsWith(VERIFIED_PREFIX)) continue;
+    if (targetVolume && record.volume_id !== targetVolume) continue;
+    const unit = unitsDocument.units.find((item) => item.unit_id === pair.unit_id);
+    if (!unit) continue;
+    const text = unitText(unit);
+    const gaps = [];
+    if (record.approved_heading_form && !normalizedIncludes(text, record.approved_heading_form)) gaps.push("approved_heading_form");
+    if (record.date_line && !normalizedIncludes(text, record.date_line)) gaps.push("date_line");
+    if (record.subject_or_title && record.document_type !== "editorial_note" && !normalizedIncludes(text, record.subject_or_title)) {
+      gaps.push("subject_or_title");
+    }
+    for (const component of gaps) {
+      const gap = {
+        unit_id: pair.unit_id,
+        unit_type: pair.unit_type,
+        location: pair.location,
+        document_metadata_id: record.document_metadata_id,
+        document_id: record.document_id,
+        document_number: record.document_number,
+        component,
+        evidence_request: "document_metadata",
+        finding: `Document metadata match is missing required ${component.replace(/_/g, " ")} for ${record.document_id}.`,
+        required_action:
+          "Confirm the target document page and complete the heading, date line, and subject/title block before treating the document metadata as final."
+      };
+      componentGaps.push(gap);
+      warnings.push(`${gap.unit_id}: ${gap.finding}`);
+    }
+  }
+
+  const componentGapUnits = new Set(componentGaps.map((gap) => gap.unit_id));
+  for (const [unitId] of directEditsByUnit) {
+    if (componentGapUnits.has(unitId)) {
+      errors.push(`${unitId}: direct document-metadata edit requested while required heading/date/subject components are missing`);
+    }
+  }
+
   const unmatched_metadata_units = unitsDocument.units
     .filter((unit) => !unitsWithHits.has(unit.unit_id))
     .filter(metadataLikeTextWithoutHits)
@@ -399,6 +461,8 @@ function buildDocumentMetadataAudit({ unitsDocument, registry, checkerOutput, ta
       units_scanned: unitsDocument.units.length,
       units_with_document_metadata_hits: unitsWithHits.size,
       document_metadata_usages: usages.length,
+      metadata_component_gaps: componentGaps.length,
+      by_component_gap: countBy(componentGaps.map((item) => item.component)),
       unmatched_metadata_units: unmatched_metadata_units.length,
       by_document_type: countBy(usages.map((item) => item.document_type)),
       by_usage_status: countBy(usages.map((item) => item.usage_status)),
@@ -407,6 +471,7 @@ function buildDocumentMetadataAudit({ unitsDocument, registry, checkerOutput, ta
       direct_document_metadata_edit_conflicts: errors.filter((error) => error.includes("direct document-metadata edit")).length
     },
     usages,
+    component_gaps: componentGaps,
     unmatched_metadata_units,
     warnings,
     errors
@@ -416,7 +481,7 @@ function buildDocumentMetadataAudit({ unitsDocument, registry, checkerOutput, ta
 function renderText(report) {
   const lines = [
     `FRUS document-metadata usage audit ${report.status}: ${report.summary.document_metadata_usages} matches across ${report.summary.units_with_document_metadata_hits} units.`,
-    `Variants needing review: ${report.summary.by_usage_status.variant_needs_review || 0}; cross-volume metadata: ${report.summary.by_usage_status.cross_volume_metadata || 0}; unmatched metadata units: ${report.summary.unmatched_metadata_units}.`
+    `Variants needing review: ${report.summary.by_usage_status.variant_needs_review || 0}; cross-volume metadata: ${report.summary.by_usage_status.cross_volume_metadata || 0}; component gaps: ${report.summary.metadata_component_gaps}; unmatched metadata units: ${report.summary.unmatched_metadata_units}.`
   ];
   for (const warning of report.warnings.slice(0, 12)) lines.push(`warning: ${warning}`);
   for (const error of report.errors.slice(0, 12)) lines.push(`error: ${error}`);
@@ -449,6 +514,8 @@ try {
         units_scanned: 0,
         units_with_document_metadata_hits: 0,
         document_metadata_usages: 0,
+        metadata_component_gaps: 0,
+        by_component_gap: {},
         unmatched_metadata_units: 0,
         by_document_type: {},
         by_usage_status: {},
@@ -457,6 +524,7 @@ try {
         direct_document_metadata_edit_conflicts: 0
       },
       usages: [],
+      component_gaps: [],
       unmatched_metadata_units: [],
       warnings: [],
       errors: validationErrors

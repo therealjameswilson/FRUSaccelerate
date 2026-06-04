@@ -95,11 +95,14 @@ try {
   const auditReport = JSON.parse(audit.stdout);
   assert(auditReport.schema_version === "frus-document-metadata-usage-audit-v1", "expected metadata audit schema");
   assert(auditReport.status === "warning", `expected warning status, got ${auditReport.status}`);
-  assert(auditReport.summary.units_scanned === 5, "expected five scanned units");
+  assert(auditReport.summary.units_scanned === 6, "expected six scanned units");
   assert(auditReport.summary.by_usage_status.approved >= 4, "expected approved document metadata matches");
   assert(auditReport.summary.by_usage_status.variant_needs_review >= 1, "expected metadata variant warning");
   assert(auditReport.summary.by_usage_status.cross_volume_metadata >= 2, "expected cross-volume metadata warnings");
   assert(auditReport.summary.unmatched_metadata_units === 1, "expected one unmatched metadata-like unit");
+  assert(auditReport.summary.metadata_component_gaps >= 3, "expected document metadata component gaps");
+  assert(auditReport.summary.by_component_gap.date_line >= 1, "expected missing date-line component gap");
+  assert(auditReport.summary.by_component_gap.subject_or_title >= 1, "expected missing subject/title component gap");
   assert(
     auditReport.usages.some(
       (usage) =>
@@ -117,6 +120,18 @@ try {
         usage.usage_status === "cross_volume_metadata"
     ),
     "expected Reagan document heading cross-volume warning for START I target"
+  );
+  assert(
+    auditReport.component_gaps.some(
+      (gap) => gap.unit_id === "document-heading-0006" && gap.component === "date_line"
+    ),
+    "expected missing date-line gap for exact but incomplete heading"
+  );
+  assert(
+    auditReport.component_gaps.some(
+      (gap) => gap.unit_id === "document-heading-0006" && gap.component === "subject_or_title"
+    ),
+    "expected missing subject/title gap for exact but incomplete heading"
   );
 
   const checkerOutput = path.join(tmpDir, "checker-output.json");

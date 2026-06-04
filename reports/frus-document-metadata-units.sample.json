@@ -73,6 +73,22 @@
       "blocked_boundaries": [
         "missing_document_metadata"
       ]
+    },
+    {
+      "unit_id": "document-heading-0006",
+      "unit_type": "document_heading",
+      "editability": "context_only",
+      "edit_safety": "comment_only",
+      "comment_safety": "safe_to_comment",
+      "word_part": "word/document.xml",
+      "location": "Document 6 heading missing date and subject",
+      "exact_text": "6. Information Memorandum From the Director of the Policy Planning Staff (Ross) to Secretary of State Baker",
+      "display_text": "6. Information Memorandum From the Director of the Policy Planning Staff (Ross) to Secretary of State Baker",
+      "existing_revisions": false,
+      "existing_comments": [],
+      "blocked_boundaries": [
+        "incomplete_document_metadata"
+      ]
     }
   ]
 }

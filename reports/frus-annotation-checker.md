@@ -3510,7 +3510,9 @@ documents commonly combine a numbered FRUS heading, document form, sender and
 recipient offices, a place/date line, and sometimes a subject, public-title,
 meeting, briefing, or internal record label. The checker should verify this
 metadata before changing a heading or moving facts between the heading, source
-note, and annotation.
+note, and annotation. Do not treat a matched heading alone as complete
+document metadata when the registry supplies a date line or subject/title; flag
+missing components as a comment-only component gap before any direct edit.
 
 Use a document-metadata registry when the wrapper can supply one:
 

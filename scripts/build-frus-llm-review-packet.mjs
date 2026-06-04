@@ -2061,7 +2061,7 @@ function renderMarkdown(packet) {
     "",
     "## Document Metadata Registry Context",
     "",
-    "Use this to check document numbers, headings, document-type labels, date/place lines, subject/title lines, sender/recipient forms, attachment behavior, editorial-note form, and source-note linkage. Treat metadata variants and cross-volume document forms as comment-only unless the registry proves the direct edit.",
+    "Use this to check document numbers, headings, document-type labels, date/place lines, subject/title lines, sender/recipient forms, attachment behavior, editorial-note form, and source-note linkage. Treat metadata variants, cross-volume document forms, and incomplete heading/date/subject blocks as comment-only unless the registry proves the direct edit.",
     "",
     fencedJson(packet.contexts.document_metadata_registry || {}),
     "",

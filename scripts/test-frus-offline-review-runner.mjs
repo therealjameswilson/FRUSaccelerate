@@ -339,6 +339,7 @@ try {
   );
   assert(audit.counts.document_metadata_registry_usages === 0, "expected zero document metadata registry usages");
   assert(audit.counts.document_metadata_registry_warnings === 0, "expected zero document metadata registry warnings");
+  assert(audit.counts.document_metadata_component_gaps === 0, "expected zero document metadata component gaps");
   assert(audit.counts.document_metadata_direct_edit_conflicts === 0, "expected zero document metadata direct-edit conflicts");
   assert(audit.counts.classification_registry_usages === 1, "expected one classification registry usage");
   assert(audit.counts.classification_registry_warnings === 0, "expected zero classification registry warnings");
