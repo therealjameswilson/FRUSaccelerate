@@ -12182,9 +12182,10 @@ Minimum components:
   `reports/frus-source-surrogate-units.sample.json`, and
   `reports/frus-source-surrogate-audit.sample.json`. The audit checks RAC, NLR,
   no-N-number, FOIA/MDR, NARA catalog, PDF, scan, URL, release-package, W Files,
-  PROFS, eRecords, internet-resource, transfer-to-NARA, and provisional
-  discovery labels, then fails direct source-surrogate edits that lack
-  target-volume registry support.
+  PROFS, eRecords, Department/CFPF telegram copy basis, WHSR/NSC copy
+  exceptions, internet-resource, transfer-to-NARA, and provisional discovery
+  labels, then flags unsupported WHSR/NSC telegram-copy reliance and fails
+  direct source-surrogate edits that lack target-volume registry support.
 - No-dependency document-status/lifecycle registry validator, usage audit, and
   fixtures:
   `scripts/validate-frus-document-status-lifecycle-registry.mjs`,

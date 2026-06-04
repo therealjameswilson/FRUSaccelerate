@@ -12,7 +12,13 @@ const UNIT_TYPES = new Set([
   "unknown_editorial_text"
 ]);
 const SOURCE_SURROGATE_PATTERN =
-  /\b(?:RAC|Remote Archive Capture|NLR[-–—]?\d|no\s+N\s+number|NARA\s+catalog|FOIA|mandatory review|MDR|PDF|scan|scanned|source image|release package|W Files|PROFS|Internet|URL|candidate locator|needs scan|eRecords)\b/i;
+  /\b(?:RAC|Remote Archive Capture|NLR[-–—]?\d|no\s+N\s+number|NARA\s+catalog|FOIA|mandatory review|MDR|PDF|scan|scanned|source image|release package|W Files|PROFS|Internet|URL|candidate locator|needs scan|eRecords|White House Situation Room|WHSR|NSC copy|National Security Council copy)\b/i;
+const NON_DEPARTMENT_COPY_PATTERN =
+  /\b(?:White House Situation Room|WHSR|NSC copy|National Security Council copy|White House copy)\b/i;
+const TELEGRAM_COPY_CONTEXT_PATTERN = /\b(?:telegram|cable|Nodis|NODIS|Exdis|EXDIS|TOSEC|SECTO|outgoing)\b/i;
+const DEPARTMENT_COPY_BASIS_PATTERN =
+  /\b(?:Department of State|Central Foreign Policy File|Electronic Telegrams|eRecords|D[0-9]{6,}|N[0-9]{6,}|P[0-9]{6,}|D Reels|P Reels|N Reels)\b/i;
+const DRAFTING_METADATA_PATTERN = /\b(?:Drafted by|cleared by|approved by)\b/i;
 
 function usage() {
   console.error(
@@ -84,6 +90,10 @@ function countBy(values) {
   const counts = {};
   for (const value of values) counts[value] = (counts[value] || 0) + 1;
   return counts;
+}
+
+function uniqueStrings(values) {
+  return [...new Set(values)];
 }
 
 function unitText(unit) {
@@ -223,11 +233,43 @@ function appliesToUnit(unit) {
   return UNIT_TYPES.has(unit.unit_type) || SOURCE_SURROGATE_PATTERN.test(unitText(unit));
 }
 
+function hasPublishedNonDepartmentCopyException(unitMatches) {
+  return unitMatches.some(
+    (match) =>
+      match.surrogate_type === "white_house_situation_room_copy_exception" &&
+      match.verification_status === "verified_published_surrogate_record"
+  );
+}
+
+function sourceCopyBasisWarningForUnit(unit, unitMatches) {
+  const text = unitText(unit);
+  if (!NON_DEPARTMENT_COPY_PATTERN.test(text) || !TELEGRAM_COPY_CONTEXT_PATTERN.test(text)) return null;
+  if (hasPublishedNonDepartmentCopyException(unitMatches)) return null;
+  const hasDepartmentBasis = DEPARTMENT_COPY_BASIS_PATTERN.test(text);
+  const hasDraftingMetadata = DRAFTING_METADATA_PATTERN.test(text);
+  if (hasDepartmentBasis && hasDraftingMetadata) return null;
+  return {
+    unit_id: unit.unit_id,
+    unit_type: unit.unit_type,
+    location: unit.location || "",
+    finding:
+      "Telegram source note relies on a White House Situation Room/NSC copy without both Department/eRecords copy basis and outgoing drafting metadata.",
+    recommended_action: "comment_only",
+    evidence_request: "communications_metadata",
+    missing_department_copy_basis: !hasDepartmentBasis,
+    missing_drafting_metadata: !hasDraftingMetadata,
+    required_action:
+      "Confirm whether a Department of State/eRecords or Central Foreign Policy File copy exists; for outgoing telegrams, capture drafting, clearance, approval, and header metadata before final source-note edits."
+  };
+}
+
 function directEditConflicts(output, registry, targetVolume) {
   if (!output || !Array.isArray(output.checks)) return [];
-  const approvedTargetForms = new Set(
-    registryForms(registry)
-      .filter((item) => !targetVolume || item.record.volume_id === targetVolume)
+  const targetForms = registryForms(registry).filter((item) => !targetVolume || item.record.volume_id === targetVolume);
+  const approvedTargetForms = new Set(targetForms.map((item) => normalizeForm(item.record.approved_phrase)));
+  const approvedNonDepartmentCopyForms = new Set(
+    targetForms
+      .filter((item) => item.record.surrogate_type === "white_house_situation_room_copy_exception")
       .map((item) => normalizeForm(item.record.approved_phrase))
   );
   const conflicts = [];
@@ -252,6 +294,27 @@ function directEditConflicts(output, registry, targetVolume) {
           "Direct edit touches source-surrogate or release-identification apparatus without a target-volume registry-approved published form.",
         required_action:
           "Downgrade to comment_only unless the replacement exactly matches a supplied target-volume source-surrogate registry form."
+      });
+    }
+    const replacementTouchesNonDepartmentTelegram =
+      NON_DEPARTMENT_COPY_PATTERN.test(replacement) && TELEGRAM_COPY_CONTEXT_PATTERN.test(`${original} ${replacement}`);
+    const replacementHasDepartmentBasis = DEPARTMENT_COPY_BASIS_PATTERN.test(replacement);
+    const replacementHasDraftingMetadata = DRAFTING_METADATA_PATTERN.test(replacement);
+    const replacementIsApprovedException = approvedNonDepartmentCopyForms.has(normalizeForm(replacement));
+    if (
+      replacementTouchesNonDepartmentTelegram &&
+      !replacementIsApprovedException &&
+      (!replacementHasDepartmentBasis || !replacementHasDraftingMetadata)
+    ) {
+      conflicts.push({
+        unit_id: check.unit_id || "",
+        rule_id: check.rule_id || "",
+        original_text: original,
+        replacement_text: replacement,
+        finding:
+          "Direct edit would finalize a White House Situation Room/NSC telegram-copy basis without Department/eRecords and drafting metadata support.",
+        required_action:
+          "Downgrade to comment_only unless the replacement exactly matches a target-volume published copy exception or includes verified Department/eRecords copy basis plus outgoing drafting, clearance, and approval metadata."
       });
     }
   }
@@ -285,6 +348,7 @@ function auditSourceSurrogates({ unitsDocument, registry, checkerOutput, targetV
   const forms = registryForms(registry);
   const usages = [];
   const unmatchedUnits = [];
+  const sourceCopyBasisWarnings = [];
   for (const unit of unitsDocument.units) {
     if (!appliesToUnit(unit)) continue;
     const unitMatches = approvedMatchesForUnit(unit, forms, targetVolume);
@@ -300,20 +364,24 @@ function auditSourceSurrogates({ unitsDocument, registry, checkerOutput, targetV
         evidence_request: "source_surrogate_basis"
       });
     }
+    const copyBasisWarning = sourceCopyBasisWarningForUnit(unit, unitMatches);
+    if (copyBasisWarning) sourceCopyBasisWarnings.push(copyBasisWarning);
   }
 
   const conflicts = directEditConflicts(checkerOutput, registry, targetVolume);
-  const warnings = [
+  const warnings = uniqueStrings([
     ...usages
       .filter((usage) => usage.usage_status !== "approved")
       .map((usage) => `${usage.unit_id}: ${usage.usage_status} for ${usage.source_surrogate_item_id}`),
-    ...unmatchedUnits.map((unit) => `${unit.unit_id}: ${unit.finding}`)
-  ];
+    ...unmatchedUnits.map((unit) => `${unit.unit_id}: ${unit.finding}`),
+    ...sourceCopyBasisWarnings.map((unit) => `${unit.unit_id}: ${unit.finding}`)
+  ]);
   const hardErrors = conflicts.map((conflict) => `${conflict.unit_id}: ${conflict.finding}`);
   const summary = {
     units_scanned: unitsDocument.units.length,
     source_surrogate_usages: usages.length,
     unmatched_source_surrogate_like_units: unmatchedUnits.length,
+    source_copy_basis_warnings: sourceCopyBasisWarnings.length,
     direct_source_surrogate_edit_conflicts: conflicts.length,
     warnings: warnings.length,
     by_usage_status: countBy(usages.map((usage) => usage.usage_status)),
@@ -328,6 +396,7 @@ function auditSourceSurrogates({ unitsDocument, registry, checkerOutput, targetV
     summary,
     usages,
     unmatched_units: unmatchedUnits,
+    source_copy_basis_warnings: sourceCopyBasisWarnings,
     direct_edit_conflicts: conflicts
   };
 }
@@ -343,6 +412,9 @@ function renderText(result) {
     lines.push(
       `Warnings: ${result.summary.warnings}; unmatched source-surrogate-like units: ${result.summary.unmatched_source_surrogate_like_units}.`
     );
+    if (result.summary.source_copy_basis_warnings) {
+      lines.push(`Source-copy basis warnings: ${result.summary.source_copy_basis_warnings}.`);
+    }
   }
   for (const warning of result.warnings) lines.push(`warning: ${warning}`);
   for (const error of result.errors) lines.push(`- ${error}`);

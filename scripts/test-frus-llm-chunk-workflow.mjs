@@ -177,7 +177,7 @@ try {
   assert(manifest.source_files.annotation_sheet_profile === "reports/frus-annotation-sheet-profile.sample.json", "expected annotation-sheet profile source path");
   assert(manifest.summary.source_list_registry_records === 10, "expected source-list registry record count");
   assert(manifest.summary.source_family_registry_families === 6, "expected source-family registry family count");
-  assert(manifest.summary.source_surrogate_registry_records === 5, "expected source-surrogate registry record count");
+  assert(manifest.summary.source_surrogate_registry_records === 8, "expected source-surrogate registry record count");
   assert(
     manifest.summary.document_status_lifecycle_registry_records === 5,
     "expected document-status lifecycle registry record count"
@@ -326,6 +326,11 @@ try {
   assert(firstPacket.includes("[no N number]"), "expected no-N-number source-surrogate content in chunk packet");
   assert(firstPacket.includes("The NSC's W files"), "expected W Files source-surrogate content in chunk packet");
   assert(firstPacket.includes("available on the Internet"), "expected internet-resource source-surrogate content in chunk packet");
+  assert(firstPacket.includes("N900008-0205"), "expected Bush START I Department/eRecords source-surrogate content in chunk packet");
+  assert(
+    firstPacket.includes("Printed from a copy that was received in the White House Situation Room"),
+    "expected WHSR copy exception content in chunk packet"
+  );
   assert(firstPacket.includes("Document Status Lifecycle Registry Context"), "expected document-status lifecycle registry context in chunk packet");
   assert(firstPacket.includes("Prepared by Davis"), "expected prepared-by lifecycle content in chunk packet");
   assert(firstPacket.includes("Sent through Kanter"), "expected sent-through lifecycle content in chunk packet");

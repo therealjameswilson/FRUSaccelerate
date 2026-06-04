@@ -39,7 +39,7 @@ For source-family validation and direct-edit safety, run
 `node scripts/audit-frus-source-family-usage.mjs --units extracted-units.json --registry reports/frus-source-family-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`; preserve PROFS, W Files, System IV, H-Files, CFPF reels, and public-source families rather than flattening them into generic repository paths.
 For source-surrogate/release validation and direct-edit safety, run
 `node scripts/validate-frus-source-surrogate-registry.mjs --registry reports/frus-source-surrogate-registry.sample.json --format text` and
-`node scripts/audit-frus-source-surrogate-usage.mjs --units extracted-units.json --registry reports/frus-source-surrogate-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+`node scripts/audit-frus-source-surrogate-usage.mjs --units extracted-units.json --registry reports/frus-source-surrogate-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`; this catches unsupported WHSR/NSC telegram-copy reliance when Department/eRecords copy basis and outgoing drafting metadata have not been supplied.
 For document-status/lifecycle validation and direct-edit safety, run
 `node scripts/validate-frus-document-status-lifecycle-registry.mjs --registry reports/frus-document-status-lifecycle-registry.sample.json --format text` and
 `node scripts/audit-frus-document-status-lifecycle-usage.mjs --units extracted-units.json --registry reports/frus-document-status-lifecycle-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -168,11 +168,12 @@ edits.
 For real Reagan/Bush 1981-1992 source-surrogate/release review, replace the
 sample source-surrogate registry with target-volume records for RAC, NLR,
 no-N-number, FOIA/MDR, NARA catalog, PDF, scan, URL, release-package, W Files,
-PROFS, eRecords, internet-resource, transfer-to-NARA, and provisional discovery
-labels. Treat those identifiers as locators or access context, not proof of a
-repository path, source family, classification, attachment status, physical-file
-completeness, or source-image content unless the registry proves the exact
-direct edit; validate it with
+PROFS, eRecords, Department/CFPF telegram copy basis, WHSR/NSC copy exceptions,
+internet-resource, transfer-to-NARA, and provisional discovery labels. Treat
+those identifiers and non-Department telegram copies as locators or access
+context, not proof of a repository path, source family, classification,
+attachment status, physical-file completeness, source-image content, or outgoing
+drafting metadata unless the registry proves the exact direct edit; validate it with
 `scripts/validate-frus-source-surrogate-registry.mjs` before direct
 source-surrogate edits.
 For real Reagan/Bush 1981-1992 document-status/lifecycle review, replace the

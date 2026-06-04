@@ -315,6 +315,10 @@ try {
   assert(audit.counts.source_family_direct_edit_conflicts === 0, "expected zero source-family direct-edit conflicts");
   assert(audit.counts.source_surrogate_registry_usages === 0, "expected zero source-surrogate registry usages");
   assert(audit.counts.source_surrogate_registry_warnings === 0, "expected zero source-surrogate registry warnings");
+  assert(
+    audit.counts.source_surrogate_source_copy_basis_warnings === 0,
+    "expected zero source-surrogate source-copy basis warnings"
+  );
   assert(audit.counts.source_surrogate_unmatched_like_units === 0, "expected zero unmatched source-surrogate-like units");
   assert(audit.counts.source_surrogate_direct_edit_conflicts === 0, "expected zero source-surrogate direct-edit conflicts");
   assert(
@@ -635,7 +639,7 @@ try {
   );
   assert(audit.reports.source_family_usage_audit.status === "warning", "expected source-family usage audit warning report");
   assert(
-    audit.reports.source_surrogate_registry_validation.summary.records === 5,
+    audit.reports.source_surrogate_registry_validation.summary.records === 8,
     "expected source-surrogate registry validation report"
   );
   assert(audit.reports.source_surrogate_usage_audit.status === "pass", "expected source-surrogate usage audit report");

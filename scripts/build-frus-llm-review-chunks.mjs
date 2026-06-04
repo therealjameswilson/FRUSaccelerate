@@ -1689,7 +1689,7 @@ function renderPacket({
     "",
     "## Source Surrogate And Release Registry Context",
     "",
-    "Use this to check RAC, NLR, no-N-number, FOIA or mandatory-review identifiers, NARA catalog identifiers, PDFs, scans, URLs, release packages, W Files, PROFS, eRecords, internet-resource notes, transfer-to-NARA language, and provisional discovery labels. Treat surrogate identifiers as locators or access context, not as proof of repository path, source family, classification, attachment status, physical-file completeness, or source-image content unless the target-volume registry proves the exact direct edit.",
+    "Use this to check RAC, NLR, no-N-number, FOIA or mandatory-review identifiers, NARA catalog identifiers, PDFs, scans, URLs, release packages, W Files, PROFS, eRecords, Department/CFPF telegram copy basis, WHSR/NSC copy exceptions, internet-resource notes, transfer-to-NARA language, and provisional discovery labels. Treat surrogate identifiers and non-Department telegram copies as locators or access context, not as proof of repository path, source family, classification, attachment status, physical-file completeness, source-image content, or outgoing drafting metadata unless the target-volume registry proves the exact direct edit.",
     "",
     fencedJson(sourceSurrogateRegistry || {}),
     "",

@@ -6,7 +6,9 @@
   "source_urls": [
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d227",
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d309",
-    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources"
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d166",
+    "https://history.state.gov/historicaldocuments/frus1981-88v13/d85"
   ],
   "records": [
     {
@@ -125,6 +127,79 @@
       "caveat_or_limitation": "do not treat transfer status as proof of a specific file's current location or release state",
       "source_or_context": "Reagan NSP Part 1 Sources",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_surrogate_record"
+    },
+    {
+      "source_surrogate_item_id": "surrogate-v44p1-sources-cfpf-cable-traffic",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/sources",
+      "document_number": "Sources",
+      "unit_scope": "front matter",
+      "surrogate_type": "department_state_erecords_copy",
+      "approved_phrase": "The Central Foreign Policy File of the Department of State includes the cable traffic between Washington and the U.S. Embassy in Moscow",
+      "variant_forms": [
+        "Central Foreign Policy File of the Department of State",
+        "cable traffic between Washington and the U.S. Embassy in Moscow",
+        "P Reels",
+        "D Reels",
+        "N Reels"
+      ],
+      "repository_or_source_family": "Department of State Central Foreign Policy File cable traffic",
+      "surrogate_identifier": "CFPF cable traffic; P/D/N Reels",
+      "release_or_access_basis": "published Reagan NSP Part 1 source list treats CFPF cable traffic and P/D/N reels as Department source-family context",
+      "source_image_or_copy_status": "source-list context for Department telegram copy hierarchy, not document-level proof",
+      "archival_path_or_url": "Department of State, Washington, D.C.; Central Foreign Policy File",
+      "publication_or_attachment_status": "source-list context",
+      "caveat_or_limitation": "do not replace document-specific source-note proof with generic source-list context; use this as a preflight cue to check Department/eRecords copies",
+      "source_or_context": "Reagan NSP Part 1 Sources",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_surrogate_record"
+    },
+    {
+      "source_surrogate_item_id": "surrogate-v31-d166-erecords-drafting-model",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d166",
+      "document_number": "166",
+      "unit_scope": "source note 1",
+      "surrogate_type": "department_state_erecords_copy",
+      "approved_phrase": "Department of State, Central Foreign Policy File, Electronic Telegrams, N900008-0205",
+      "variant_forms": [
+        "Electronic Telegrams, N900008-0205",
+        "Secret; Nodis; Immediate",
+        "Drafted by Timbie; cleared by Hadley, Lehman, MacEachin, and in JCS, NSC, S/S, and S/S-O; approved by Bartholomew"
+      ],
+      "repository_or_source_family": "Department of State Central Foreign Policy File Electronic Telegrams",
+      "surrogate_identifier": "N900008-0205",
+      "release_or_access_basis": "published Bush START I source note pairs the Department eRecords copy with handling, addressee, drafting, clearance, and approval details",
+      "source_image_or_copy_status": "Department/eRecords copy with outgoing drafting metadata",
+      "archival_path_or_url": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "publication_or_attachment_status": "source-note locator",
+      "caveat_or_limitation": "do not rely on a White House Situation Room or NSC copy of an outgoing telegram without checking the Department/eRecords source for drafting and header metadata",
+      "source_or_context": "Bush START I Document 166",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d166",
+      "verification_status": "verified_published_surrogate_record"
+    },
+    {
+      "source_surrogate_item_id": "surrogate-v13-d85-whsr-copy-exception",
+      "volume_id": "frus1981-88v13",
+      "document_id": "frus1981-88v13/d85",
+      "document_number": "85",
+      "unit_scope": "source note 1",
+      "surrogate_type": "white_house_situation_room_copy_exception",
+      "approved_phrase": "Printed from a copy that was received in the White House Situation Room",
+      "variant_forms": [
+        "White House Situation Room copy",
+        "copy that was received in the White House Situation Room"
+      ],
+      "repository_or_source_family": "Reagan Library Executive Secretariat NSC Country File",
+      "surrogate_identifier": "White House Situation Room copy-status statement",
+      "release_or_access_basis": "published Reagan South Atlantic source note explicitly identifies the White House Situation Room copy status",
+      "source_image_or_copy_status": "published non-Department telegram copy exception with copy-status wording",
+      "archival_path_or_url": "Reagan Library, Executive Secretariat, NSC Country File",
+      "publication_or_attachment_status": "source-note copy-status exception",
+      "caveat_or_limitation": "do not generalize this exception to outgoing Department telegrams; if the Department/eRecords copy exists, capture its drafting, clearance, approval, and header data",
+      "source_or_context": "Reagan South Atlantic Document 85",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v13/d85",
       "verification_status": "verified_published_surrogate_record"
     }
   ]

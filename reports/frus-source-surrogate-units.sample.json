@@ -68,6 +68,50 @@
       "edit_safety": "safe",
       "comment_safety": "safe",
       "blocked_boundaries": []
+    },
+    {
+      "unit_id": "surrogate-0007",
+      "unit_type": "front_matter",
+      "location": "Reagan NSP Part 1 CFPF cable traffic source-list context",
+      "exact_text": "The Central Foreign Policy File of the Department of State includes the cable traffic between Washington and the U.S. Embassy in Moscow, including P Reels, D Reels, and N Reels.",
+      "display_text": "The Central Foreign Policy File of the Department of State includes the cable traffic between Washington and the U.S. Embassy in Moscow, including P Reels, D Reels, and N Reels.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "surrogate-0008",
+      "unit_type": "source_note",
+      "location": "Bush START I Document 166 source note copy-basis model",
+      "exact_text": "Source: Department of State, Central Foreign Policy File, Electronic Telegrams, N900008-0205. Secret; Nodis; Immediate. Sent to NST Geneva. Drafted by Timbie; cleared by Hadley, Lehman, MacEachin, and in JCS, NSC, S/S, and S/S-O; approved by Bartholomew.",
+      "display_text": "Source: Department of State, Central Foreign Policy File, Electronic Telegrams, N900008-0205. Secret; Nodis; Immediate. Sent to NST Geneva. Drafted by Timbie; cleared by Hadley, Lehman, MacEachin, and in JCS, NSC, S/S, and S/S-O; approved by Bartholomew.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "surrogate-0009",
+      "unit_type": "source_note",
+      "location": "Reagan South Atlantic Document 85 WHSR copy exception",
+      "exact_text": "Source: Reagan Library, Executive Secretariat, NSC Country File, Latin America/Central, Falklands War. Top Secret. Printed from a copy that was received in the White House Situation Room.",
+      "display_text": "Source: Reagan Library, Executive Secretariat, NSC Country File, Latin America/Central, Falklands War. Top Secret. Printed from a copy that was received in the White House Situation Room.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "surrogate-0010",
+      "unit_type": "source_note",
+      "location": "Draft WHSR outgoing Nodis telegram without eRecords check",
+      "exact_text": "Source: WHSR copy of outgoing Nodis telegram 376592; no State copy checked; drafting info TK.",
+      "display_text": "Source: WHSR copy of outgoing Nodis telegram 376592; no State copy checked; drafting info TK.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
     }
   ]
 }

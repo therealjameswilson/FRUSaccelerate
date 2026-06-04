@@ -150,6 +150,8 @@ try {
   assert(markdown.includes("[no N number]"), "expected no-N-number source-surrogate content");
   assert(markdown.includes("The NSC's W files"), "expected W Files source-surrogate content");
   assert(markdown.includes("available on the Internet"), "expected internet-resource source-surrogate content");
+  assert(markdown.includes("N900008-0205"), "expected Bush START I Department/eRecords source-surrogate content");
+  assert(markdown.includes("Printed from a copy that was received in the White House Situation Room"), "expected WHSR copy exception content");
   assert(markdown.includes("Document Status Lifecycle Registry Context"), "expected document-status lifecycle registry section");
   assert(markdown.includes("Prepared by Davis"), "expected prepared-by lifecycle content");
   assert(markdown.includes("Sent through Kanter"), "expected sent-through lifecycle content");
@@ -322,12 +324,14 @@ try {
   assert(packet.contexts.source_family_registry.families.length === 6, "expected source-family registry families");
   assert(packet.contexts.source_family_registry.target_families.length > 0, "expected target source-family families");
   assert(packet.packet_summary.source_family_registry_families === 6, "expected source-family registry count");
-  assert(packet.contexts.source_surrogate_registry.records.length === 5, "expected source-surrogate registry records");
+  assert(packet.contexts.source_surrogate_registry.records.length === 8, "expected source-surrogate registry records");
   assert(
-    packet.contexts.source_surrogate_registry.target_records.length === 0,
-    "expected no target source-surrogate records for cross-volume Bush sample"
+    packet.contexts.source_surrogate_registry.target_records.some(
+      (record) => record.source_surrogate_item_id === "surrogate-v31-d166-erecords-drafting-model"
+    ),
+    "expected target Bush START I Department/eRecords source-surrogate record"
   );
-  assert(packet.packet_summary.source_surrogate_registry_records === 5, "expected source-surrogate registry count");
+  assert(packet.packet_summary.source_surrogate_registry_records === 8, "expected source-surrogate registry count");
   assert(
     packet.contexts.document_status_lifecycle_registry.records.length === 5,
     "expected document-status lifecycle registry records"

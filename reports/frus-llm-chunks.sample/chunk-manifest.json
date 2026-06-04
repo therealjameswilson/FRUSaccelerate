@@ -1,6 +1,6 @@
 {
   "schema_version": "frus-llm-chunk-manifest-v1",
-  "generated_at": "2026-06-04T11:43:17.981Z",
+  "generated_at": "2026-06-04T14:16:06.114Z",
   "run_id": "sample-chunks",
   "target_volume": "frus1989-92v31",
   "chunk_count": 2,
@@ -61,7 +61,7 @@
     "authority_registry_records": 8,
     "source_list_registry_records": 10,
     "source_family_registry_families": 6,
-    "source_surrogate_registry_records": 5,
+    "source_surrogate_registry_records": 8,
     "document_status_lifecycle_registry_records": 5,
     "document_metadata_registry_records": 5,
     "classification_registry_records": 5,

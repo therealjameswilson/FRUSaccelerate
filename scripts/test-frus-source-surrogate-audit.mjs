@@ -35,10 +35,18 @@ try {
   }
   const validationReport = JSON.parse(validation.stdout);
   assert(validationReport.status === "pass", "expected source-surrogate registry validation pass");
-  assert(validationReport.summary.records === 5, "expected five source-surrogate records");
+  assert(validationReport.summary.records === 8, "expected eight source-surrogate records");
   assert(validationReport.summary.by_surrogate_type.nlr_identifier === 1, "expected one NLR record");
   assert(validationReport.summary.by_surrogate_type.no_n_number === 1, "expected one no-N-number record");
   assert(validationReport.summary.by_surrogate_type.w_files_or_profs_context === 1, "expected one W Files/PROFS record");
+  assert(
+    validationReport.summary.by_surrogate_type.department_state_erecords_copy === 2,
+    "expected two Department/eRecords copy-basis records"
+  );
+  assert(
+    validationReport.summary.by_surrogate_type.white_house_situation_room_copy_exception === 1,
+    "expected one White House Situation Room copy exception"
+  );
 
   const audit = run("scripts/audit-frus-source-surrogate-usage.mjs", [
     "--units",
@@ -57,21 +65,42 @@ try {
   }
   const report = JSON.parse(audit.stdout);
   assert(report.status === "warning", "expected warning status for cross-volume and unmatched source-surrogate fixture");
-  assert(report.summary.units_scanned === 6, "expected six source-surrogate units scanned");
-  assert(report.summary.source_surrogate_usages === 5, "expected five source-surrogate usages");
-  assert(report.summary.unmatched_source_surrogate_like_units === 1, "expected one unmatched source-surrogate-like unit");
+  assert(report.summary.units_scanned === 10, "expected ten source-surrogate units scanned");
+  assert(report.summary.source_surrogate_usages === 13, "expected thirteen source-surrogate usages");
+  assert(report.summary.unmatched_source_surrogate_like_units === 2, "expected two unmatched source-surrogate-like units");
+  assert(report.summary.source_copy_basis_warnings === 1, "expected one WHSR/NSC source-copy basis warning");
   assert(report.summary.direct_source_surrogate_edit_conflicts === 0, "expected zero direct conflicts without checker output");
   assert(report.summary.by_usage_status.approved === 2, "expected two target-volume approved usages");
   assert(
-    report.summary.by_usage_status.cross_volume_source_surrogate_context === 3,
-    "expected three cross-volume source-surrogate context usages"
+    report.summary.by_usage_status.cross_volume_source_surrogate_context === 11,
+    "expected eleven cross-volume source-surrogate context usages"
   );
   assert(report.summary.by_surrogate_type.nlr_identifier === 1, "expected NLR usage");
   assert(report.summary.by_surrogate_type.no_n_number === 1, "expected no-N-number usage");
+  assert(report.summary.by_surrogate_type.department_state_erecords_copy === 7, "expected Department/eRecords usage");
+  assert(report.summary.by_surrogate_type.white_house_situation_room_copy_exception === 1, "expected WHSR exception usage");
   assert(report.usages.some((usage) => usage.source_surrogate_item_id === "surrogate-v01-d227-nlr-source-note"), "expected Document 227 NLR model");
   assert(report.usages.some((usage) => usage.source_surrogate_item_id === "surrogate-v01-d309-no-n-number-telegram"), "expected Document 309 no-N-number model");
   assert(report.usages.some((usage) => usage.source_surrogate_item_id === "surrogate-v44p1-sources-w-files"), "expected Reagan NSP W Files model");
+  assert(
+    report.usages.some((usage) => usage.source_surrogate_item_id === "surrogate-v44p1-sources-cfpf-cable-traffic"),
+    "expected Reagan NSP CFPF cable/reel model"
+  );
+  assert(
+    report.usages.some((usage) => usage.source_surrogate_item_id === "surrogate-v31-d166-erecords-drafting-model"),
+    "expected Bush START I Department/eRecords drafting model"
+  );
+  assert(
+    report.usages.some((usage) => usage.source_surrogate_item_id === "surrogate-v13-d85-whsr-copy-exception"),
+    "expected Reagan WHSR copy exception model"
+  );
   assert(report.unmatched_units[0].unit_id === "surrogate-0006", "expected unsupported RAC/catalog locator to be unmatched");
+  assert(
+    report.source_copy_basis_warnings[0].unit_id === "surrogate-0010" &&
+      report.source_copy_basis_warnings[0].missing_department_copy_basis &&
+      report.source_copy_basis_warnings[0].missing_drafting_metadata,
+    "expected unsupported WHSR outgoing Nodis telegram to require Department/eRecords and drafting metadata"
+  );
 
   const unsafeOutput = path.join(tmpDir, "unsafe-output.json");
   fs.writeFileSync(
@@ -130,6 +159,67 @@ try {
   assert(
     unsafeReport.summary.direct_source_surrogate_edit_conflicts === 1,
     "expected one source-surrogate direct-edit conflict"
+  );
+
+  const unsafeCopyBasisOutput = path.join(tmpDir, "unsafe-copy-basis-output.json");
+  fs.writeFileSync(
+    unsafeCopyBasisOutput,
+    `${JSON.stringify(
+      {
+        schema_version: "checker-output-v1",
+        document_assessment: {
+          overall_status: "needs_revision",
+          summary: "Unsafe WHSR/NSC source-copy basis fixture.",
+          blocked_reason: ""
+        },
+        batch_readiness: {
+          readiness_status: "ready_for_tracked_changes",
+          safe_to_apply_tracked_changes: true,
+          readiness_summary: "Fixture intentionally unsafe.",
+          gates: []
+        },
+        checks: [
+          {
+            unit_id: "surrogate-0010",
+            rule_id: "FAS-SUR-003",
+            severity: "major",
+            category: "source_surrogate_release",
+            finding: "Unsafe non-Department telegram copy basis.",
+            standard: "Do not finalize WHSR/NSC telegram copy basis without Department/eRecords and drafting metadata support.",
+            recommended_action: "replace_text",
+            original_text: "Source: WHSR copy of outgoing Nodis telegram 376592; no State copy checked; drafting info TK.",
+            replacement_text: "Source: WHSR copy of outgoing Nodis telegram 376592.",
+            comment_text: "",
+            evidence_request: "communications_metadata",
+            verification_target: "Department/eRecords source-copy basis"
+          }
+        ],
+        global_comments: [],
+        style_discrepancy_tally: []
+      },
+      null,
+      2
+    )}\n`
+  );
+  const unsafeCopyBasis = run("scripts/audit-frus-source-surrogate-usage.mjs", [
+    "--units",
+    units,
+    "--registry",
+    registry,
+    "--checker-output",
+    unsafeCopyBasisOutput,
+    "--target-volume",
+    "frus1981-88v01",
+    "--format",
+    "json"
+  ]);
+  assert(unsafeCopyBasis.status !== 0, "expected unsafe WHSR/NSC telegram-copy edit to fail");
+  const unsafeCopyBasisReport = JSON.parse(unsafeCopyBasis.stdout);
+  assert(
+    unsafeCopyBasisReport.direct_edit_conflicts.some((conflict) =>
+      conflict.finding.includes("White House Situation Room/NSC telegram-copy basis")
+    ),
+    "expected direct-edit conflict for unsupported WHSR/NSC telegram-copy basis"
   );
 
   const safeOutput = path.join(tmpDir, "safe-output.json");
@@ -206,7 +296,7 @@ try {
   assert(badValidation.status !== 0, "expected malformed source-surrogate registry validation to fail");
 
   console.log(
-    "FRUS source-surrogate audit test passed: Reagan Foundations NLR and no-N-number forms, Reagan NSP W Files/PROFS, internet-resource and transfer cautions, unmatched locator warnings, and direct-edit gates work."
+    "FRUS source-surrogate audit test passed: Reagan Foundations NLR/no-N-number forms, Reagan NSP W Files/PROFS/CFPF cable-reel context, Bush START I Department/eRecords drafting model, Reagan WHSR copy exception, unmatched locator warnings, source-copy basis warnings, and direct-edit gates work."
   );
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });

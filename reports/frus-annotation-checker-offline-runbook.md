@@ -39,8 +39,9 @@ flattening them into generic repository labels. The bundled sample is
 `reports/frus-source-family-registry.sample.json`.
 For source-surrogate/release checks, transfer a target-volume registry covering
 RAC, NLR, no-N-number, FOIA/MDR, NARA catalog, PDF, scan, URL, release-package,
-W Files, PROFS, eRecords, internet-resource, transfer-to-NARA, and provisional
-discovery labels. The bundled sample is
+W Files, PROFS, eRecords, Department/CFPF telegram copy basis, WHSR/NSC copy
+exceptions, internet-resource, transfer-to-NARA, and provisional discovery
+labels. The bundled sample is
 `reports/frus-source-surrogate-registry.sample.json`.
 For document-status/lifecycle checks, transfer a target-volume registry covering
 prepared-by, drafted-by, cleared-by, copied-to, sent-for-action, sent-through,
@@ -399,11 +400,12 @@ node scripts/audit-frus-source-family-usage.mjs --units extracted-units.json --r
 
 10. Run source-surrogate/release validation and usage audit when notes or front
    matter mention RAC, NLR, no N number, FOIA/MDR, NARA catalog, PDFs, scans,
-   URLs, W Files, PROFS, eRecords, internet availability, transfer-to-NARA, or
-   candidate/needs-scan locators. Direct edits require target-volume registry
-   support. Do not infer repository path, source family, classification,
-   attachment status, physical completeness, or source-image content from a
-   surrogate locator alone.
+   URLs, W Files, PROFS, eRecords, Department/CFPF telegram copies, WHSR/NSC
+   telegram copies, internet availability, transfer-to-NARA, or candidate/
+   needs-scan locators. Direct edits require target-volume registry support.
+   Do not infer repository path, source family, classification, attachment
+   status, physical completeness, source-image content, or outgoing drafting
+   metadata from a surrogate locator or non-Department telegram copy alone.
 
 ```sh
 node scripts/validate-frus-source-surrogate-registry.mjs --registry source-surrogate-registry.json --format text

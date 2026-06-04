@@ -74,7 +74,7 @@ For source-family validation and direct-edit safety, run
 `node scripts/audit-frus-source-family-usage.mjs --units extracted-units.json --registry reports/frus-source-family-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`; preserve PROFS, W Files, System IV, H-Files, CFPF reels, and public-source families rather than flattening them into generic repository paths.
 For source-surrogate/release validation and direct-edit safety, run
 `node scripts/validate-frus-source-surrogate-registry.mjs --registry reports/frus-source-surrogate-registry.sample.json --format text` and
-`node scripts/audit-frus-source-surrogate-usage.mjs --units extracted-units.json --registry reports/frus-source-surrogate-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+`node scripts/audit-frus-source-surrogate-usage.mjs --units extracted-units.json --registry reports/frus-source-surrogate-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`; this catches unsupported WHSR/NSC telegram-copy reliance when Department/eRecords copy basis and outgoing drafting metadata have not been supplied.
 For document-status/lifecycle validation and direct-edit safety, run
 `node scripts/validate-frus-document-status-lifecycle-registry.mjs --registry reports/frus-document-status-lifecycle-registry.sample.json --format text` and
 `node scripts/audit-frus-document-status-lifecycle-usage.mjs --units extracted-units.json --registry reports/frus-document-status-lifecycle-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -203,11 +203,12 @@ edits.
 For real Reagan/Bush 1981-1992 source-surrogate/release review, replace the
 sample source-surrogate registry with target-volume records for RAC, NLR,
 no-N-number, FOIA/MDR, NARA catalog, PDF, scan, URL, release-package, W Files,
-PROFS, eRecords, internet-resource, transfer-to-NARA, and provisional discovery
-labels. Treat those identifiers as locators or access context, not proof of a
-repository path, source family, classification, attachment status, physical-file
-completeness, or source-image content unless the registry proves the exact
-direct edit; validate it with
+PROFS, eRecords, Department/CFPF telegram copy basis, WHSR/NSC copy exceptions,
+internet-resource, transfer-to-NARA, and provisional discovery labels. Treat
+those identifiers and non-Department telegram copies as locators or access
+context, not proof of a repository path, source family, classification,
+attachment status, physical-file completeness, source-image content, or outgoing
+drafting metadata unless the registry proves the exact direct edit; validate it with
 `scripts/validate-frus-source-surrogate-registry.mjs` before direct
 source-surrogate edits.
 For real Reagan/Bush 1981-1992 document-status/lifecycle review, replace the
@@ -3615,7 +3616,7 @@ Use this to preserve real source-family identity in source notes and Sources-pag
 
 ## Source Surrogate And Release Registry Context
 
-Use this to check RAC, NLR, no-N-number, FOIA or mandatory-review identifiers, NARA catalog identifiers, PDFs, scans, URLs, release packages, W Files, PROFS, eRecords, internet-resource notes, transfer-to-NARA language, and provisional discovery labels. Treat surrogate identifiers as locators or access context, not as proof of repository path, source family, classification, attachment status, physical-file completeness, or source-image content unless the target-volume registry proves the exact direct edit.
+Use this to check RAC, NLR, no-N-number, FOIA or mandatory-review identifiers, NARA catalog identifiers, PDFs, scans, URLs, release packages, W Files, PROFS, eRecords, Department/CFPF telegram copy basis, WHSR/NSC copy exceptions, internet-resource notes, transfer-to-NARA language, and provisional discovery labels. Treat surrogate identifiers and non-Department telegram copies as locators or access context, not as proof of repository path, source family, classification, attachment status, physical-file completeness, source-image content, or outgoing drafting metadata unless the target-volume registry proves the exact direct edit.
 
 ```json
 {
@@ -3625,11 +3626,38 @@ Use this to check RAC, NLR, no-N-number, FOIA or mandatory-review identifiers, N
   "source_urls": [
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d227",
     "https://history.state.gov/historicaldocuments/frus1981-88v01/d309",
-    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources"
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d166",
+    "https://history.state.gov/historicaldocuments/frus1981-88v13/d85"
   ],
   "scope": "Published Reagan/Bush sample records for checking RAC, NLR, no-N-number, W Files, PROFS, internet-resource, transfer, scan, release, and discovery-platform surrogate language without turning provisional locators into final FRUS provenance.",
   "target_volume": "frus1989-92v31",
-  "target_records": [],
+  "target_records": [
+    {
+      "source_surrogate_item_id": "surrogate-v31-d166-erecords-drafting-model",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d166",
+      "document_number": "166",
+      "unit_scope": "source note 1",
+      "surrogate_type": "department_state_erecords_copy",
+      "approved_phrase": "Department of State, Central Foreign Policy File, Electronic Telegrams, N900008-0205",
+      "variant_forms": [
+        "Electronic Telegrams, N900008-0205",
+        "Secret; Nodis; Immediate",
+        "Drafted by Timbie; cleared by Hadley, Lehman, MacEachin, and in JCS, NSC, S/S, and S/S-O; approved by Bartholomew"
+      ],
+      "repository_or_source_family": "Department of State Central Foreign Policy File Electronic Telegrams",
+      "surrogate_identifier": "N900008-0205",
+      "release_or_access_basis": "published Bush START I source note pairs the Department eRecords copy with handling, addressee, drafting, clearance, and approval details",
+      "source_image_or_copy_status": "Department/eRecords copy with outgoing drafting metadata",
+      "archival_path_or_url": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "publication_or_attachment_status": "source-note locator",
+      "caveat_or_limitation": "do not rely on a White House Situation Room or NSC copy of an outgoing telegram without checking the Department/eRecords source for drafting and header metadata",
+      "source_or_context": "Bush START I Document 166",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d166",
+      "verification_status": "verified_published_surrogate_record"
+    }
+  ],
   "records": [
     {
       "source_surrogate_item_id": "surrogate-v01-d227-nlr-source-note",
@@ -3747,6 +3775,79 @@ Use this to check RAC, NLR, no-N-number, FOIA or mandatory-review identifiers, N
         "NARA facility in College Park"
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_surrogate_record"
+    },
+    {
+      "source_surrogate_item_id": "surrogate-v44p1-sources-cfpf-cable-traffic",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/sources",
+      "document_number": "Sources",
+      "unit_scope": "front matter",
+      "surrogate_type": "department_state_erecords_copy",
+      "approved_phrase": "The Central Foreign Policy File of the Department of State includes the cable traffic between Washington and the U.S. Embassy in Moscow",
+      "repository_or_source_family": "Department of State Central Foreign Policy File cable traffic",
+      "surrogate_identifier": "CFPF cable traffic; P/D/N Reels",
+      "release_or_access_basis": "published Reagan NSP Part 1 source list treats CFPF cable traffic and P/D/N reels as Department source-family context",
+      "source_image_or_copy_status": "source-list context for Department telegram copy hierarchy, not document-level proof",
+      "archival_path_or_url": "Department of State, Washington, D.C.; Central Foreign Policy File",
+      "publication_or_attachment_status": "source-list context",
+      "caveat_or_limitation": "do not replace document-specific source-note proof with generic source-list context; use this as a preflight cue to check Department/eRecords copies",
+      "source_or_context": "Reagan NSP Part 1 Sources",
+      "variant_forms": [
+        "Central Foreign Policy File of the Department of State",
+        "cable traffic between Washington and the U.S. Embassy in Moscow",
+        "P Reels",
+        "D Reels",
+        "N Reels"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_surrogate_record"
+    },
+    {
+      "source_surrogate_item_id": "surrogate-v31-d166-erecords-drafting-model",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d166",
+      "document_number": "166",
+      "unit_scope": "source note 1",
+      "surrogate_type": "department_state_erecords_copy",
+      "approved_phrase": "Department of State, Central Foreign Policy File, Electronic Telegrams, N900008-0205",
+      "repository_or_source_family": "Department of State Central Foreign Policy File Electronic Telegrams",
+      "surrogate_identifier": "N900008-0205",
+      "release_or_access_basis": "published Bush START I source note pairs the Department eRecords copy with handling, addressee, drafting, clearance, and approval details",
+      "source_image_or_copy_status": "Department/eRecords copy with outgoing drafting metadata",
+      "archival_path_or_url": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "publication_or_attachment_status": "source-note locator",
+      "caveat_or_limitation": "do not rely on a White House Situation Room or NSC copy of an outgoing telegram without checking the Department/eRecords source for drafting and header metadata",
+      "source_or_context": "Bush START I Document 166",
+      "variant_forms": [
+        "Electronic Telegrams, N900008-0205",
+        "Secret; Nodis; Immediate",
+        "Drafted by Timbie; cleared by Hadley, Lehman, MacEachin, and in JCS, NSC, S/S, and S/S-O; approved by Bartholomew"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d166",
+      "verification_status": "verified_published_surrogate_record"
+    },
+    {
+      "source_surrogate_item_id": "surrogate-v13-d85-whsr-copy-exception",
+      "volume_id": "frus1981-88v13",
+      "document_id": "frus1981-88v13/d85",
+      "document_number": "85",
+      "unit_scope": "source note 1",
+      "surrogate_type": "white_house_situation_room_copy_exception",
+      "approved_phrase": "Printed from a copy that was received in the White House Situation Room",
+      "repository_or_source_family": "Reagan Library Executive Secretariat NSC Country File",
+      "surrogate_identifier": "White House Situation Room copy-status statement",
+      "release_or_access_basis": "published Reagan South Atlantic source note explicitly identifies the White House Situation Room copy status",
+      "source_image_or_copy_status": "published non-Department telegram copy exception with copy-status wording",
+      "archival_path_or_url": "Reagan Library, Executive Secretariat, NSC Country File",
+      "publication_or_attachment_status": "source-note copy-status exception",
+      "caveat_or_limitation": "do not generalize this exception to outgoing Department telegrams; if the Department/eRecords copy exists, capture its drafting, clearance, approval, and header data",
+      "source_or_context": "Reagan South Atlantic Document 85",
+      "variant_forms": [
+        "White House Situation Room copy",
+        "copy that was received in the White House Situation Room"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v13/d85",
       "verification_status": "verified_published_surrogate_record"
     }
   ]

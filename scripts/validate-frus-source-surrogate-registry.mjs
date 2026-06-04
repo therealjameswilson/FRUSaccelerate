@@ -16,6 +16,9 @@ const SURROGATE_TYPES = new Set([
   "working_discovery_label",
   "source_list_transfer",
   "w_files_or_profs_context",
+  "department_state_erecords_copy",
+  "white_house_situation_room_copy_exception",
+  "telegram_copy_basis_caution",
   "mixed_identifier_family",
   "unknown"
 ]);

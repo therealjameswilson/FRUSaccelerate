@@ -153,7 +153,7 @@
     },
     {
       "path": "scripts/validate-frus-source-surrogate-registry.mjs",
-      "role": "Source-surrogate and release-identifier registry validator for RAC, NLR, no-N-number, FOIA/MDR, NARA catalog, scans, URLs, W Files, PROFS, eRecords, and transfer context"
+      "role": "Source-surrogate and release-identifier registry validator for RAC, NLR, no-N-number, FOIA/MDR, NARA catalog, scans, URLs, W Files, PROFS, eRecords, Department/CFPF telegram copy basis, WHSR/NSC copy exceptions, and transfer context"
     },
     {
       "path": "scripts/audit-frus-source-surrogate-usage.mjs",
@@ -747,7 +747,7 @@
     },
     {
       "path": "reports/frus-source-surrogate-registry.sample.json",
-      "role": "Published source-surrogate/release sample for Reagan Foundations NLR/no-N-number forms and Reagan NSP W Files, PROFS, internet-resource, and transfer-to-NARA context"
+      "role": "Published source-surrogate/release sample for Reagan Foundations NLR/no-N-number forms, Reagan NSP W Files/PROFS/CFPF cable-reel context, Bush START I Department/eRecords drafting metadata, Reagan WHSR copy exception, internet-resource, and transfer-to-NARA context"
     },
     {
       "path": "reports/frus-document-status-lifecycle-registry.sample.json",
@@ -1032,7 +1032,7 @@
     "Give validate-frus-source-list-registry.mjs a duplicate source_item_id or malformed source-list-registry schema; it must fail.",
     "Give audit-frus-source-family-usage.mjs a direct edit that flattens System IV, PROFS, W Files, H-Files, CFPF reels, or a public-source family into a generic repository path without target-volume registry support; it must fail.",
     "Give validate-frus-source-family-registry.mjs a duplicate source_family_id, invalid family array, or malformed source-family-registry schema; it must fail.",
-    "Give audit-frus-source-surrogate-usage.mjs a direct edit inventing or changing a RAC, NLR, NARA catalog, scan, URL, release, or no-N-number identifier without target-volume registry support; it must fail.",
+    "Give audit-frus-source-surrogate-usage.mjs a direct edit inventing or changing a RAC, NLR, NARA catalog, scan, URL, release, no-N-number identifier, or WHSR/NSC telegram-copy basis without target-volume registry support and Department/eRecords drafting metadata; it must fail.",
     "Give validate-frus-source-surrogate-registry.mjs a duplicate source_surrogate_item_id, invalid surrogate_type, or malformed source-surrogate-registry schema; it must fail.",
     "Give audit-frus-document-status-lifecycle-usage.mjs a direct edit inventing or changing prepared/drafted/cleared, copy/version, sent-through, stamped/read, no-minutes, or incomplete-copy lifecycle language without target-volume registry support; it must fail.",
     "Give validate-frus-document-status-lifecycle-registry.mjs a duplicate document_status_item_id, invalid status_type, or malformed document-status-lifecycle-registry schema; it must fail.",
