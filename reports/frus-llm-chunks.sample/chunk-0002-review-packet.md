@@ -52,9 +52,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -67,6 +67,9 @@ For authority-control validation and direct-edit safety, run
 For source-list/front-matter validation and direct-edit safety, run
 `node scripts/validate-frus-source-list-registry.mjs --registry reports/frus-source-list-registry.sample.json --format text` and
 `node scripts/audit-frus-source-list-usage.mjs --units extracted-units.json --registry reports/frus-source-list-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For source-surrogate/release validation and direct-edit safety, run
+`node scripts/validate-frus-source-surrogate-registry.mjs --registry reports/frus-source-surrogate-registry.sample.json --format text` and
+`node scripts/audit-frus-source-surrogate-usage.mjs --units extracted-units.json --registry reports/frus-source-surrogate-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For document-metadata validation and direct-edit safety, run
 `node scripts/validate-frus-document-metadata-registry.mjs --registry reports/frus-document-metadata-registry.sample.json --format text` and
 `node scripts/audit-frus-document-metadata-usage.mjs --units extracted-units.json --registry reports/frus-document-metadata-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -158,7 +161,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --source-surrogate-registry reports/frus-source-surrogate-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --handwritten-transcription-registry reports/frus-handwritten-transcription-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --summit-public-event-registry reports/frus-summit-public-event-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --human-rights-refugee-global-issues-registry reports/frus-human-rights-refugee-global-issues-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -177,6 +180,16 @@ target volume's Sources page, repository families, lot files, Presidential
 Library files, electronic file systems, and published sources; validate it with
 `scripts/validate-frus-source-list-registry.mjs` before direct source-list
 edits.
+For real Reagan/Bush 1981-1992 source-surrogate/release review, replace the
+sample source-surrogate registry with target-volume records for RAC, NLR,
+no-N-number, FOIA/MDR, NARA catalog, PDF, scan, URL, release-package, W Files,
+PROFS, eRecords, internet-resource, transfer-to-NARA, and provisional discovery
+labels. Treat those identifiers as locators or access context, not proof of a
+repository path, source family, classification, attachment status, physical-file
+completeness, or source-image content unless the registry proves the exact
+direct edit; validate it with
+`scripts/validate-frus-source-surrogate-registry.mjs` before direct
+source-surrogate edits.
 For real Reagan/Bush 1981-1992 document-metadata review, replace the sample
 document-metadata registry with target-volume document-page records covering
 document number, heading, date line, subject/title, sender/recipient,
@@ -3229,6 +3242,146 @@ Use this to recognize finished-form FRUS annotation-sheet structure when Word st
       "source_note_usage": "Use for Ambassador Nitze's Personal Files cited in Reagan national security policy source notes.",
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
       "verification_status": "verified_published_sources"
+    }
+  ]
+}
+```
+
+## Source Surrogate And Release Registry Context
+
+Use this to check RAC, NLR, no-N-number, FOIA or mandatory-review identifiers, NARA catalog identifiers, PDFs, scans, URLs, release packages, W Files, PROFS, eRecords, internet-resource notes, transfer-to-NARA language, and provisional discovery labels. Treat surrogate identifiers as locators or access context, not as proof of repository path, source family, classification, attachment status, physical-file completeness, or source-image content unless the target-volume registry proves the exact direct edit.
+
+```json
+{
+  "schema_version": "frus-source-surrogate-registry-v1",
+  "source_surrogate_registry_id": "frus-1981-1992-source-surrogate-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d227",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d309",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources"
+  ],
+  "scope": "Published Reagan/Bush sample records for checking RAC, NLR, no-N-number, W Files, PROFS, internet-resource, transfer, scan, release, and discovery-platform surrogate language without turning provisional locators into final FRUS provenance.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [],
+  "records": [
+    {
+      "source_surrogate_item_id": "surrogate-v01-d227-nlr-source-note",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d227",
+      "document_number": "227",
+      "unit_scope": "source note 1",
+      "surrogate_type": "nlr_identifier",
+      "approved_phrase": "Reagan Library, European and Soviet Affairs Directorate, NSC Records, Subject File, U.S. Foreign Policy; NLR-170-13-49-17-7",
+      "repository_or_source_family": "Reagan Library European and Soviet Affairs Directorate NSC Records subject file",
+      "surrogate_identifier": "NLR-170-13-49-17-7",
+      "release_or_access_basis": "published Reagan Foundations source note places NLR identifier after repository path",
+      "source_image_or_copy_status": "identifier is a release locator, not source-image proof by itself",
+      "archival_path_or_url": "Reagan Library, European and Soviet Affairs Directorate, NSC Records, Subject File, U.S. Foreign Policy",
+      "publication_or_attachment_status": "source-note locator",
+      "caveat_or_limitation": "separate related records may carry separate NLR identifiers; do not infer attachment status from NLR alone",
+      "source_or_context": "Reagan Foundations Document 227",
+      "variant_forms": [
+        "NLR-170-13-49-17-7",
+        "NLR-170-13-49-16-8",
+        "NLR-170-13-49-15-9"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d227",
+      "verification_status": "verified_published_surrogate_record"
+    },
+    {
+      "source_surrogate_item_id": "surrogate-v01-d309-no-n-number-telegram",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d309",
+      "document_number": "309",
+      "unit_scope": "footnotes 2 and 4",
+      "surrogate_type": "no_n_number",
+      "approved_phrase": "Department of State, Central Foreign Policy File, Electronic Telegrams, [no N number]",
+      "repository_or_source_family": "Department of State Central Foreign Policy File Electronic Telegrams",
+      "surrogate_identifier": "[no N number]",
+      "release_or_access_basis": "published Reagan Foundations footnotes preserve absence of an N number",
+      "source_image_or_copy_status": "no-N-number status is a locator caveat, not permission to invent a telegram identifier",
+      "archival_path_or_url": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "publication_or_attachment_status": "follow-on source citation locator",
+      "caveat_or_limitation": "do not supply an N number from context when the published form says none exists",
+      "source_or_context": "Reagan Foundations Document 309 footnotes 2 and 4",
+      "variant_forms": [
+        "Electronic Telegrams, [no N number]",
+        "[no N number]",
+        "no N number"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d309",
+      "verification_status": "verified_published_surrogate_record"
+    },
+    {
+      "source_surrogate_item_id": "surrogate-v44p1-sources-w-files",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/sources",
+      "document_number": "Sources",
+      "unit_scope": "front matter",
+      "surrogate_type": "w_files_or_profs_context",
+      "approved_phrase": "The NSC's W files-Reagan Library files located in Washington-also yielded valuable documentation for the volume",
+      "repository_or_source_family": "Reagan Library W Files and PROFS System",
+      "surrogate_identifier": "W Files; PROFS",
+      "release_or_access_basis": "published source-list context distinguishes special Reagan Library Washington files and electronic messages",
+      "source_image_or_copy_status": "front-matter source context, not document-specific source-image proof",
+      "archival_path_or_url": "Ronald Reagan Presidential Library and National Archives source list context",
+      "publication_or_attachment_status": "source-list context",
+      "caveat_or_limitation": "do not collapse W Files, PROFS, and NSC institutional files into one source family",
+      "source_or_context": "Reagan NSP Part 1 Sources",
+      "variant_forms": [
+        "The NSC's W files",
+        "Reagan Library files located in Washington",
+        "PROFS System of White House electronic messages"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_surrogate_record"
+    },
+    {
+      "source_surrogate_item_id": "surrogate-v44p1-sources-internet-resources",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/sources",
+      "document_number": "Sources",
+      "unit_scope": "front matter",
+      "surrogate_type": "digital_scan_url",
+      "approved_phrase": "In addition to the paper files cited below, a growing number of documents are available on the Internet",
+      "repository_or_source_family": "paper files plus online resources",
+      "surrogate_identifier": "Internet resource",
+      "release_or_access_basis": "published source-list caution that online availability supplements paper-file citations",
+      "source_image_or_copy_status": "online availability does not replace paper-file provenance",
+      "archival_path_or_url": "Office of the Historian internet-resource context",
+      "publication_or_attachment_status": "front-matter source-list caution",
+      "caveat_or_limitation": "do not convert a public URL or scan into a final source path without repository basis",
+      "source_or_context": "Reagan NSP Part 1 Sources",
+      "variant_forms": [
+        "available on the Internet",
+        "Internet resources"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_surrogate_record"
+    },
+    {
+      "source_surrogate_item_id": "surrogate-v44p1-sources-transfer-to-nara",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/sources",
+      "document_number": "Sources",
+      "unit_scope": "front matter",
+      "surrogate_type": "source_list_transfer",
+      "approved_phrase": "These files have been transferred or will be transferred to the National Archives and Records Administration in College Park, Maryland",
+      "repository_or_source_family": "Department of State Central Foreign Policy File and lot files transfer context",
+      "surrogate_identifier": "transfer-to-NARA status",
+      "release_or_access_basis": "published source-list transfer statement",
+      "source_image_or_copy_status": "transfer status is not a document-level source-image claim",
+      "archival_path_or_url": "National Archives and Records Administration in College Park, Maryland",
+      "publication_or_attachment_status": "source-list transfer context",
+      "caveat_or_limitation": "do not treat transfer status as proof of a specific file's current location or release state",
+      "source_or_context": "Reagan NSP Part 1 Sources",
+      "variant_forms": [
+        "transferred or will be transferred to the National Archives and Records Administration",
+        "NARA facility in College Park"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_surrogate_record"
     }
   ]
 }

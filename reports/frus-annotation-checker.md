@@ -51,6 +51,13 @@ For source-list/front-matter validation, use
 `reports/frus-source-list-units.sample.json`; the self-contained smoke test is
 `scripts/test-frus-source-list-audit.mjs`, and the sample audit report is
 `reports/frus-source-list-audit.sample.json`.
+For source-surrogate/release validation, use
+`scripts/validate-frus-source-surrogate-registry.mjs` and
+`scripts/audit-frus-source-surrogate-usage.mjs` with
+`reports/frus-source-surrogate-registry.sample.json` and
+`reports/frus-source-surrogate-units.sample.json`; the self-contained smoke
+test is `scripts/test-frus-source-surrogate-audit.mjs`, and the sample audit
+report is `reports/frus-source-surrogate-audit.sample.json`.
 For document-metadata validation, use
 `scripts/validate-frus-document-metadata-registry.mjs` and
 `scripts/audit-frus-document-metadata-usage.mjs` with
@@ -12128,6 +12135,16 @@ Minimum components:
   notes and source-list entries to published Sources-page forms, flags variant
   and cross-volume source families, and fails direct source-list edits that
   lack supplied registry support.
+- No-dependency source-surrogate/release registry validator, usage audit, and
+  fixtures: `scripts/validate-frus-source-surrogate-registry.mjs`,
+  `scripts/audit-frus-source-surrogate-usage.mjs`,
+  `reports/frus-source-surrogate-registry.sample.json`,
+  `reports/frus-source-surrogate-units.sample.json`, and
+  `reports/frus-source-surrogate-audit.sample.json`. The audit checks RAC, NLR,
+  no-N-number, FOIA/MDR, NARA catalog, PDF, scan, URL, release-package, W Files,
+  PROFS, eRecords, internet-resource, transfer-to-NARA, and provisional
+  discovery labels, then fails direct source-surrogate edits that lack
+  target-volume registry support.
 - No-dependency document-metadata registry validator, usage audit, and
   fixtures: `scripts/validate-frus-document-metadata-registry.mjs`,
   `scripts/audit-frus-document-metadata-usage.mjs`,

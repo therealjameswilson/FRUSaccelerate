@@ -1,0 +1,73 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source_docx": "sample-frus-source-surrogate-annotation-sheet.docx",
+  "generated_at": "2026-06-04T00:00:00.000Z",
+  "units": [
+    {
+      "unit_id": "surrogate-0001",
+      "unit_type": "source_note",
+      "location": "Reagan Foundations Document 227 source note 1",
+      "exact_text": "Source: Reagan Library, European and Soviet Affairs Directorate, NSC Records, Subject File, U.S. Foreign Policy; NLR-170-13-49-17-7. Secret.",
+      "display_text": "Source: Reagan Library, European and Soviet Affairs Directorate, NSC Records, Subject File, U.S. Foreign Policy; NLR-170-13-49-17-7. Secret.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "surrogate-0002",
+      "unit_type": "follow_on_footnote",
+      "location": "Reagan Foundations Document 309 footnote 2",
+      "exact_text": "The message is in Department of State, Central Foreign Policy File, Electronic Telegrams, [no N number].",
+      "display_text": "The message is in Department of State, Central Foreign Policy File, Electronic Telegrams, [no N number].",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "surrogate-0003",
+      "unit_type": "front_matter",
+      "location": "Reagan NSP Part 1 Sources",
+      "exact_text": "The NSC's W files-Reagan Library files located in Washington-also yielded valuable documentation for the volume.",
+      "display_text": "The NSC's W files-Reagan Library files located in Washington-also yielded valuable documentation for the volume.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "surrogate-0004",
+      "unit_type": "front_matter",
+      "location": "Reagan NSP Part 1 Internet resources",
+      "exact_text": "In addition to the paper files cited below, a growing number of documents are available on the Internet.",
+      "display_text": "In addition to the paper files cited below, a growing number of documents are available on the Internet.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "surrogate-0005",
+      "unit_type": "front_matter",
+      "location": "Reagan NSP Part 1 transfer note",
+      "exact_text": "These files have been transferred or will be transferred to the National Archives and Records Administration in College Park, Maryland.",
+      "display_text": "These files have been transferred or will be transferred to the National Archives and Records Administration in College Park, Maryland.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "surrogate-0006",
+      "unit_type": "source_note",
+      "location": "Draft unsupported source-surrogate locator",
+      "exact_text": "Source: Candidate locator from RAC scan and NARA catalog URL; needs scan before final source note.",
+      "display_text": "Source: Candidate locator from RAC scan and NARA catalog URL; needs scan before final source note.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}

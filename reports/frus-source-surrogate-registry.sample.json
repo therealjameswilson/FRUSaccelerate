@@ -1,0 +1,131 @@
+{
+  "schema_version": "frus-source-surrogate-registry-v1",
+  "source_surrogate_registry_id": "frus-1981-1992-source-surrogate-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "scope": "Published Reagan/Bush sample records for checking RAC, NLR, no-N-number, W Files, PROFS, internet-resource, transfer, scan, release, and discovery-platform surrogate language without turning provisional locators into final FRUS provenance.",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d227",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d309",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources"
+  ],
+  "records": [
+    {
+      "source_surrogate_item_id": "surrogate-v01-d227-nlr-source-note",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d227",
+      "document_number": "227",
+      "unit_scope": "source note 1",
+      "surrogate_type": "nlr_identifier",
+      "approved_phrase": "Reagan Library, European and Soviet Affairs Directorate, NSC Records, Subject File, U.S. Foreign Policy; NLR-170-13-49-17-7",
+      "variant_forms": [
+        "NLR-170-13-49-17-7",
+        "NLR-170-13-49-16-8",
+        "NLR-170-13-49-15-9"
+      ],
+      "repository_or_source_family": "Reagan Library European and Soviet Affairs Directorate NSC Records subject file",
+      "surrogate_identifier": "NLR-170-13-49-17-7",
+      "release_or_access_basis": "published Reagan Foundations source note places NLR identifier after repository path",
+      "source_image_or_copy_status": "identifier is a release locator, not source-image proof by itself",
+      "archival_path_or_url": "Reagan Library, European and Soviet Affairs Directorate, NSC Records, Subject File, U.S. Foreign Policy",
+      "publication_or_attachment_status": "source-note locator",
+      "caveat_or_limitation": "separate related records may carry separate NLR identifiers; do not infer attachment status from NLR alone",
+      "source_or_context": "Reagan Foundations Document 227",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d227",
+      "verification_status": "verified_published_surrogate_record"
+    },
+    {
+      "source_surrogate_item_id": "surrogate-v01-d309-no-n-number-telegram",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d309",
+      "document_number": "309",
+      "unit_scope": "footnotes 2 and 4",
+      "surrogate_type": "no_n_number",
+      "approved_phrase": "Department of State, Central Foreign Policy File, Electronic Telegrams, [no N number]",
+      "variant_forms": [
+        "Electronic Telegrams, [no N number]",
+        "[no N number]",
+        "no N number"
+      ],
+      "repository_or_source_family": "Department of State Central Foreign Policy File Electronic Telegrams",
+      "surrogate_identifier": "[no N number]",
+      "release_or_access_basis": "published Reagan Foundations footnotes preserve absence of an N number",
+      "source_image_or_copy_status": "no-N-number status is a locator caveat, not permission to invent a telegram identifier",
+      "archival_path_or_url": "Department of State, Central Foreign Policy File, Electronic Telegrams",
+      "publication_or_attachment_status": "follow-on source citation locator",
+      "caveat_or_limitation": "do not supply an N number from context when the published form says none exists",
+      "source_or_context": "Reagan Foundations Document 309 footnotes 2 and 4",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d309",
+      "verification_status": "verified_published_surrogate_record"
+    },
+    {
+      "source_surrogate_item_id": "surrogate-v44p1-sources-w-files",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/sources",
+      "document_number": "Sources",
+      "unit_scope": "front matter",
+      "surrogate_type": "w_files_or_profs_context",
+      "approved_phrase": "The NSC's W files-Reagan Library files located in Washington-also yielded valuable documentation for the volume",
+      "variant_forms": [
+        "The NSC's W files",
+        "Reagan Library files located in Washington",
+        "PROFS System of White House electronic messages"
+      ],
+      "repository_or_source_family": "Reagan Library W Files and PROFS System",
+      "surrogate_identifier": "W Files; PROFS",
+      "release_or_access_basis": "published source-list context distinguishes special Reagan Library Washington files and electronic messages",
+      "source_image_or_copy_status": "front-matter source context, not document-specific source-image proof",
+      "archival_path_or_url": "Ronald Reagan Presidential Library and National Archives source list context",
+      "publication_or_attachment_status": "source-list context",
+      "caveat_or_limitation": "do not collapse W Files, PROFS, and NSC institutional files into one source family",
+      "source_or_context": "Reagan NSP Part 1 Sources",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_surrogate_record"
+    },
+    {
+      "source_surrogate_item_id": "surrogate-v44p1-sources-internet-resources",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/sources",
+      "document_number": "Sources",
+      "unit_scope": "front matter",
+      "surrogate_type": "digital_scan_url",
+      "approved_phrase": "In addition to the paper files cited below, a growing number of documents are available on the Internet",
+      "variant_forms": [
+        "available on the Internet",
+        "Internet resources"
+      ],
+      "repository_or_source_family": "paper files plus online resources",
+      "surrogate_identifier": "Internet resource",
+      "release_or_access_basis": "published source-list caution that online availability supplements paper-file citations",
+      "source_image_or_copy_status": "online availability does not replace paper-file provenance",
+      "archival_path_or_url": "Office of the Historian internet-resource context",
+      "publication_or_attachment_status": "front-matter source-list caution",
+      "caveat_or_limitation": "do not convert a public URL or scan into a final source path without repository basis",
+      "source_or_context": "Reagan NSP Part 1 Sources",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_surrogate_record"
+    },
+    {
+      "source_surrogate_item_id": "surrogate-v44p1-sources-transfer-to-nara",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/sources",
+      "document_number": "Sources",
+      "unit_scope": "front matter",
+      "surrogate_type": "source_list_transfer",
+      "approved_phrase": "These files have been transferred or will be transferred to the National Archives and Records Administration in College Park, Maryland",
+      "variant_forms": [
+        "transferred or will be transferred to the National Archives and Records Administration",
+        "NARA facility in College Park"
+      ],
+      "repository_or_source_family": "Department of State Central Foreign Policy File and lot files transfer context",
+      "surrogate_identifier": "transfer-to-NARA status",
+      "release_or_access_basis": "published source-list transfer statement",
+      "source_image_or_copy_status": "transfer status is not a document-level source-image claim",
+      "archival_path_or_url": "National Archives and Records Administration in College Park, Maryland",
+      "publication_or_attachment_status": "source-list transfer context",
+      "caveat_or_limitation": "do not treat transfer status as proof of a specific file's current location or release state",
+      "source_or_context": "Reagan NSP Part 1 Sources",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/sources",
+      "verification_status": "verified_published_surrogate_record"
+    }
+  ]
+}
