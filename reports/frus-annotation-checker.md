@@ -12511,7 +12511,10 @@ Minimum components:
   Foundations examples such as `Public Papers: Reagan, 1983, Book I, pp.
   479-484` and `Public Papers: Reagan, 1981, p. 1156`. Do not wait for a
   fourth occurrence, and do not ignore a repeated full citation merely because
-  the same footnote already contains a valid refer-back. The registry carries
+  the same footnote already contains a valid refer-back. Reagan Foundations
+  Document 318 is the mixed-case model: `see footnote 3, above` is proper
+  same-document form, but the later Public Papers citation still has to be
+  reviewed under the three-times trigger. The registry carries
   the `repeat_threshold` and
   target-confirmation action so
   closed-network packets preserve the rule even in small-context runs. It fails

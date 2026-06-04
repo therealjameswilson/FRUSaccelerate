@@ -1,8 +1,8 @@
 {
   "schema_version": "frus-recurring-risk-registry-v1",
   "recurring_risk_registry_id": "frus-recurring-compiler-risk-sample-2026-06-03",
-  "captured_at": "2026-06-03",
-  "source_basis": "Compiler self-disclosure supplied by James Wilson on June 3, 2026; generalized as recurring risks that other compilers and reviewers may also share. Document-reference and footnote-referback forms are checked against Reagan Foundations published examples in FRUS, 1981-1988, volume I, including Documents 45, 56, 70, 74, 146, 217, 267, and 316.",
+  "captured_at": "2026-06-04",
+  "source_basis": "Compiler self-disclosures supplied by James Wilson on June 3 and June 4, 2026; generalized as recurring risks that other compilers and reviewers may also share. Document-reference and footnote-referback forms are checked against Reagan Foundations published examples in FRUS, 1981-1988, volume I, including Documents 45, 56, 70, 74, 146, 217, 267, 316, and 318.",
   "scope": "Practical spellcheck-style risk register for recurrent FRUS annotation-sheet mistakes: telegram number zeros, eRecords copy basis, cross-reference slugs, Document XX construction, footnote refer-back discipline, page breaks, footnote placement, Word autoformatting, incomplete documents/source notes/backups, quote highlighting, telegram headers, and Style Guide consistency.",
   "records": [
     {
@@ -107,7 +107,7 @@
       "evidence_request": "cross_reference",
       "comment_template": "Check whether this repeated reference has reached the refer back 3 times rule. The third full citation occurrence itself is the first review trigger; Reagan Foundations models same-document `see footnote N, above`, same-document local-context `B above (see footnote N)`, cross-document `see footnote N, Document X`, plural `See footnotes N and M, Document X`, and mixed `See footnote N, Document X and Document Y` forms; confirm the target before rewriting.",
       "severity": "major",
-      "source_basis": "James Wilson follow-up note on the footnote refer-back rule; Reagan Foundations published examples: Documents 45, 56, 70, 74, 146, 217, 267, and 316.",
+      "source_basis": "James Wilson June 4 follow-up note on forgetting the footnote refer-back three-times rule; Reagan Foundations published examples: Documents 45, 56, 70, 74, 146, 217, 267, 316, and 318.",
       "variant_forms": ["refer back 3 times rule", "refer-back three times rule", "third reference repeats full citation", "see footnote TK", "see footnotes 12 and 13, Document 53", "see footnote 5", "B above (see footnote 9)", "see footnote 5, above", "see footnote 9, Document 56"]
     },
     {
