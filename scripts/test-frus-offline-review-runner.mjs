@@ -209,6 +209,8 @@ try {
       "reports/frus-classification-registry.sample.json",
       "--declassification-registry",
       "reports/frus-declassification-registry.sample.json",
+      "--editorial-method-registry",
+      "reports/frus-editorial-method-registry.sample.json",
       "--translation-registry",
       "reports/frus-translation-registry.sample.json",
       "--printed-attachment-registry",
@@ -324,6 +326,10 @@ try {
   assert(audit.counts.declassification_registry_usages === 0, "expected zero declassification registry usages");
   assert(audit.counts.declassification_registry_warnings === 0, "expected zero declassification registry warnings");
   assert(audit.counts.declassification_direct_edit_conflicts === 0, "expected zero declassification direct-edit conflicts");
+  assert(audit.counts.editorial_method_registry_usages === 0, "expected zero editorial-method registry usages");
+  assert(audit.counts.editorial_method_registry_warnings === 1, "expected one editorial-method registry warning");
+  assert(audit.counts.editorial_method_unmatched_like_units === 1, "expected one unmatched editorial-method-like unit");
+  assert(audit.counts.editorial_method_direct_edit_conflicts === 0, "expected zero editorial-method direct-edit conflicts");
   assert(audit.counts.translation_registry_usages === 0, "expected zero translation registry usages");
   assert(audit.counts.translation_registry_warnings === 0, "expected zero translation registry warnings");
   assert(audit.counts.translation_direct_edit_conflicts === 0, "expected zero translation direct-edit conflicts");
@@ -507,6 +513,8 @@ try {
     "classification-usage-audit.json",
     "declassification-registry-validation.json",
     "declassification-usage-audit.json",
+    "editorial-method-registry-validation.json",
+    "editorial-method-usage-audit.json",
     "translation-registry-validation.json",
     "translation-usage-audit.json",
     "printed-attachment-registry-validation.json",
@@ -591,6 +599,8 @@ try {
   assert(audit.reports.document_metadata_usage_audit.status === "pass", "expected document metadata usage audit report");
   assert(audit.reports.declassification_registry_validation.summary.records === 8, "expected declassification registry validation report");
   assert(audit.reports.declassification_usage_audit.status === "pass", "expected declassification usage audit report");
+  assert(audit.reports.editorial_method_registry_validation.summary.records === 6, "expected editorial-method registry validation report");
+  assert(audit.reports.editorial_method_usage_audit.status === "warning", "expected editorial-method usage audit warning report");
   assert(audit.reports.translation_registry_validation.summary.records === 7, "expected translation registry validation report");
   assert(audit.reports.translation_usage_audit.status === "pass", "expected translation usage audit report");
   assert(audit.reports.printed_attachment_registry_validation.summary.records === 6, "expected printed attachment registry validation report");
@@ -711,7 +721,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/source-surrogate/document-status-lifecycle/document-metadata/declassification/translation/printed-attachment/visual-material/handwritten-transcription/document-handling/chronology/time-zone/summit-public-event/selection-balance/decision-process/public-source/retrospective-account/treaty/foreign-org/congressional-legal/economic-financial/military-crisis/intelligence-law-enforcement/human-rights-refugee-global-issues/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/source-surrogate/document-status-lifecycle/document-metadata/declassification/editorial-method/translation/printed-attachment/visual-material/handwritten-transcription/document-handling/chronology/time-zone/summit-public-event/selection-balance/decision-process/public-source/retrospective-account/treaty/foreign-org/congressional-legal/economic-financial/military-crisis/intelligence-law-enforcement/human-rights-refugee-global-issues/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

@@ -49,6 +49,8 @@ try {
     "reports/frus-classification-registry.sample.json",
     "--declassification-registry",
     "reports/frus-declassification-registry.sample.json",
+    "--editorial-method-registry",
+    "reports/frus-editorial-method-registry.sample.json",
     "--translation-registry",
     "reports/frus-translation-registry.sample.json",
     "--printed-attachment-registry",
@@ -146,6 +148,10 @@ try {
   assert(markdown.includes("Declassification And Omission Registry Context"), "expected declassification registry section");
   assert(markdown.includes("[less than 2 lines not declassified]"), "expected line-omission registry content");
   assert(markdown.includes("6 pages not declassified"), "expected pages-not-declassified registry content");
+  assert(markdown.includes("Editorial Method And Original Text Registry Context"), "expected editorial-method registry section");
+  assert(markdown.includes("placed a checkmark in the left-hand margin"), "expected underlining/checkmark editorial-method content");
+  assert(markdown.includes("Footnote is in the original"), "expected original-footnote editorial-method content");
+  assert(markdown.includes("seems they dont like nuclear weapons"), "expected protected quoted-spelling content");
   assert(markdown.includes("Translation And Foreign-Origin Registry Context"), "expected translation registry section");
   assert(markdown.includes("Printed from a copy marked: “Unofficial translation.”"), "expected translation registry content");
   assert(markdown.includes("The Russian text of the paper is ibid."), "expected foreign-text registry content");
@@ -299,6 +305,12 @@ try {
   assert(packet.contexts.declassification_registry.records.length === 8, "expected declassification registry records");
   assert(packet.contexts.declassification_registry.target_records.length > 0, "expected target declassification records");
   assert(packet.packet_summary.declassification_registry_records === 8, "expected declassification registry count");
+  assert(packet.contexts.editorial_method_registry.records.length === 6, "expected editorial-method registry records");
+  assert(
+    packet.contexts.editorial_method_registry.target_records.length === 2,
+    "expected two target editorial-method records for Bush START fixture"
+  );
+  assert(packet.packet_summary.editorial_method_registry_records === 6, "expected editorial-method registry count");
   assert(packet.contexts.translation_registry.records.length === 7, "expected translation registry records");
   assert(packet.contexts.translation_registry.target_records.length > 0, "expected target translation records");
   assert(packet.packet_summary.translation_registry_records === 7, "expected translation registry count");
@@ -435,7 +447,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, source-surrogate, document-status lifecycle, document metadata, classification, declassification, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, source-surrogate, document-status lifecycle, document metadata, classification, declassification, editorial-method, translation, printed attachment, visual material, handwritten/facsimile, document handling, chronology, time-zone, summit/public-event, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, human-rights/refugee/global-issues, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

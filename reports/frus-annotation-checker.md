@@ -179,6 +179,13 @@ For summit/public-event validation, use
 `reports/frus-summit-public-event-units.sample.json`; the self-contained smoke
 test is `scripts/test-frus-summit-public-event-audit.mjs`, and the sample audit
 report is `reports/frus-summit-public-event-audit.sample.json`.
+For editorial-method/original-text validation, use
+`scripts/validate-frus-editorial-method-registry.mjs` and
+`scripts/audit-frus-editorial-method-usage.mjs` with
+`reports/frus-editorial-method-registry.sample.json` and
+`reports/frus-editorial-method-units.sample.json`; the self-contained smoke
+test is `scripts/test-frus-editorial-method-audit.mjs`, and the sample audit
+report is `reports/frus-editorial-method-audit.sample.json`.
 For footnote refer-back validation, use
 `scripts/validate-frus-footnote-referback-registry.mjs` and
 `scripts/audit-frus-footnote-referback-usage.mjs` with
@@ -12430,6 +12437,22 @@ Minimum components:
   that invent or alter transcription status, original-bracket/ellipsis basis,
   uncertain readings, appendix-image targets, cut-off-line basis, or transcribed
   margin-note wording without registry support.
+- No-dependency editorial-method/original-text registry validator, usage audit,
+  and fixtures: `scripts/validate-frus-editorial-method-registry.mjs`,
+  `scripts/audit-frus-editorial-method-usage.mjs`,
+  `reports/frus-editorial-method-registry.sample.json`,
+  `reports/frus-editorial-method-units.sample.json`, and
+  `reports/frus-editorial-method-audit.sample.json`. The audit protects
+  original brackets and ellipses, original footnotes, underlining, italics,
+  checkmarks, source-quoted spelling, capitalization, punctuation,
+  abbreviations, contractions, telegram numbers, and SECTO/TOSEC forms. It uses
+  published Bush START I and Reagan Foundations examples such as Bush's
+  underlined/checkmarked `If`, `All brackets are in the original`, `[Footnote is
+  in the original.]`, and the quoted Reagan diary phrase `seems they dont like
+  nuclear weapons`. It flags unmatched editorial-method-like units and fails
+  spellcheck-style direct edits to transcribed or quoted document text unless a
+  source image, official transcript, or target-volume editorial-method registry
+  proves the exact change.
 - No-dependency footnote refer-back registry validator, usage audit, and
   fixtures: `scripts/validate-frus-footnote-referback-registry.mjs`,
   `scripts/audit-frus-footnote-referback-usage.mjs`,

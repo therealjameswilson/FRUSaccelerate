@@ -7,7 +7,7 @@ const PACKET_SCHEMA_VERSION = "frus-llm-review-packet-v1";
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--source-surrogate-registry registry.json] [--document-status-lifecycle-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--handwritten-transcription-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
+    "Usage: node scripts/build-frus-llm-review-packet.mjs --units <extracted-units.json> [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--source-surrogate-registry registry.json] [--document-status-lifecycle-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--editorial-method-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--handwritten-transcription-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--summit-public-event-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--human-rights-refugee-global-issues-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--out packet.md] [--format markdown|json]"
   );
   process.exit(2);
 }
@@ -26,6 +26,7 @@ function parseArgs(argv) {
   let documentMetadataRegistryPath = null;
   let classificationRegistryPath = null;
   let declassificationRegistryPath = null;
+  let editorialMethodRegistryPath = null;
   let translationRegistryPath = null;
   let printedAttachmentRegistryPath = null;
   let visualMaterialRegistryPath = null;
@@ -97,6 +98,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === "--declassification-registry") {
       declassificationRegistryPath = argv[index + 1];
+      index += 1;
+    } else if (arg === "--editorial-method-registry") {
+      editorialMethodRegistryPath = argv[index + 1];
       index += 1;
     } else if (arg === "--translation-registry") {
       translationRegistryPath = argv[index + 1];
@@ -211,6 +215,7 @@ function parseArgs(argv) {
     documentMetadataRegistryPath,
     classificationRegistryPath,
     declassificationRegistryPath,
+    editorialMethodRegistryPath,
     translationRegistryPath,
     printedAttachmentRegistryPath,
     visualMaterialRegistryPath,
@@ -597,6 +602,37 @@ function compactDeclassificationRegistry(registry, targetVolume) {
       quantity: record.quantity,
       quantity_unit: record.quantity_unit,
       review_outcome: record.review_outcome,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
+function compactEditorialMethodRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  const targetRecords = targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [];
+  return {
+    schema_version: registry.schema_version,
+    editorial_method_registry_id: registry.editorial_method_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetRecords,
+    records: records.map((record) => ({
+      editorial_method_id: record.editorial_method_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      method_type: record.method_type,
+      approved_phrase: record.approved_phrase,
+      protected_text_or_feature: record.protected_text_or_feature,
+      editorial_method_basis: record.editorial_method_basis,
+      direct_edit_rule: record.direct_edit_rule,
       source_or_context: record.source_or_context,
       variant_forms: record.variant_forms || [],
       source_url: record.source_url,
@@ -1463,6 +1499,9 @@ function buildPacket(options) {
   const declassificationRegistry = options.declassificationRegistryPath
     ? readJson(options.declassificationRegistryPath, options.declassificationRegistryPath)
     : null;
+  const editorialMethodRegistry = options.editorialMethodRegistryPath
+    ? readJson(options.editorialMethodRegistryPath, options.editorialMethodRegistryPath)
+    : null;
   const translationRegistry = options.translationRegistryPath
     ? readJson(options.translationRegistryPath, options.translationRegistryPath)
     : null;
@@ -1566,6 +1605,9 @@ function buildPacket(options) {
       document_metadata_registry: options.documentMetadataRegistryPath ? normalizePathForOutput(options.documentMetadataRegistryPath) : "",
       classification_registry: options.classificationRegistryPath ? normalizePathForOutput(options.classificationRegistryPath) : "",
       declassification_registry: options.declassificationRegistryPath ? normalizePathForOutput(options.declassificationRegistryPath) : "",
+      editorial_method_registry: options.editorialMethodRegistryPath
+        ? normalizePathForOutput(options.editorialMethodRegistryPath)
+        : "",
       translation_registry: options.translationRegistryPath ? normalizePathForOutput(options.translationRegistryPath) : "",
       printed_attachment_registry: options.printedAttachmentRegistryPath ? normalizePathForOutput(options.printedAttachmentRegistryPath) : "",
       visual_material_registry: options.visualMaterialRegistryPath ? normalizePathForOutput(options.visualMaterialRegistryPath) : "",
@@ -1645,6 +1687,7 @@ function buildPacket(options) {
       document_metadata_registry_records: documentMetadataRegistry?.records?.length || 0,
       classification_registry_records: classificationRegistry?.records?.length || 0,
       declassification_registry_records: declassificationRegistry?.records?.length || 0,
+      editorial_method_registry_records: editorialMethodRegistry?.records?.length || 0,
       translation_registry_records: translationRegistry?.records?.length || 0,
       printed_attachment_registry_records: printedAttachmentRegistry?.records?.length || 0,
       visual_material_registry_records: visualMaterialRegistry?.records?.length || 0,
@@ -1691,6 +1734,7 @@ function buildPacket(options) {
       document_metadata_registry: compactDocumentMetadataRegistry(documentMetadataRegistry, options.targetVolume),
       classification_registry: compactClassificationRegistry(classificationRegistry, options.targetVolume),
       declassification_registry: compactDeclassificationRegistry(declassificationRegistry, options.targetVolume),
+      editorial_method_registry: compactEditorialMethodRegistry(editorialMethodRegistry, options.targetVolume),
       translation_registry: compactTranslationRegistry(translationRegistry, options.targetVolume),
       printed_attachment_registry: compactPrintedAttachmentRegistry(printedAttachmentRegistry, options.targetVolume),
       visual_material_registry: compactVisualMaterialRegistry(visualMaterialRegistry, options.targetVolume),
@@ -1840,6 +1884,12 @@ function renderMarkdown(packet) {
     "Use this to check bracketed omission quantities, pages not declassified, handling-restriction-not-declassified phrases, whole-document withholdings, and About the Series review-statistics language. Do not change omission quantities, bracket wording, page counts, or review statistics unless the registry proves the direct edit.",
     "",
     fencedJson(packet.contexts.declassification_registry || {}),
+    "",
+    "## Editorial Method And Original Text Registry Context",
+    "",
+    "Use this to protect original document text and published editorial-method apparatus: original brackets and ellipses, original footnotes, underlining, italics, checkmarks, quoted source spelling, capitalization, punctuation, abbreviations, contractions, telegram numbers, SECTO/TOSEC forms, and bracketed additions or corrections. Treat any proposed spellcheck-style edit to transcribed or quoted document text as comment-only unless the source image, official transcript, or target-volume editorial-method registry proves the exact direct edit.",
+    "",
+    fencedJson(packet.contexts.editorial_method_registry || {}),
     "",
     "## Translation And Foreign-Origin Registry Context",
     "",

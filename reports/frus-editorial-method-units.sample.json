@@ -1,0 +1,83 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source": "Sample extracted Word units for FRUS editorial-method and original-text audit tests.",
+  "units": [
+    {
+      "unit_id": "editorial-method-0001",
+      "unit_type": "follow_on_footnote",
+      "location": "START I Document 2 footnote 3",
+      "exact_text": "Bush underlined \"If\" and placed a checkmark in the left-hand margin beside this sentence.",
+      "display_text": "Bush underlined \"If\" and placed a checkmark in the left-hand margin beside this sentence.",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "editorial-method-0002",
+      "unit_type": "follow_on_footnote",
+      "location": "START I Document 24 footnote 4",
+      "exact_text": "Secret. Brackets are in the original.",
+      "display_text": "Secret. Brackets are in the original.",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "editorial-method-0003",
+      "unit_type": "source_note",
+      "location": "Reagan Foundations Document 66 source note",
+      "exact_text": "Source: Public Papers: Reagan, 1981, pp. 937-944. All brackets are in the original. In his diary, Reagan wrote that a couple of hecklers got into the balcony--seems they dont like nuclear weapons.",
+      "display_text": "Source: Public Papers: Reagan, 1981, pp. 937-944. All brackets are in the original. In his diary, Reagan wrote that a couple of hecklers got into the balcony--seems they dont like nuclear weapons.",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "editorial-method-0004",
+      "unit_type": "source_note",
+      "location": "Reagan Foundations Document 146 source note",
+      "exact_text": "Source: Public Papers: Reagan, 1983, Book I, pp. 479-484. All brackets are in the original.",
+      "display_text": "Source: Public Papers: Reagan, 1983, Book I, pp. 479-484. All brackets are in the original.",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "editorial-method-0005",
+      "unit_type": "follow_on_footnote",
+      "location": "Reagan Foundations Document 146 footnote 2",
+      "exact_text": "Henry Singleton, president of the Los Angeles World Affairs Council. [Footnote is in the original.]",
+      "display_text": "Henry Singleton, president of the Los Angeles World Affairs Council. [Footnote is in the original.]",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "editorial-method-0006",
+      "unit_type": "source_note",
+      "location": "Unsupported original-bracket note",
+      "exact_text": "Compiler note: brackets and ellipses are in the original, but no source-image basis has been supplied.",
+      "display_text": "Compiler note: brackets and ellipses are in the original, but no source-image basis has been supplied.",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "editorial-method-0007",
+      "unit_type": "transcribed_document_text",
+      "location": "Draft selected document body",
+      "exact_text": "If the Soviets have better defenses then our post-reduction counterattack force would deter even less.",
+      "display_text": "If the Soviets have better defenses then our post-reduction counterattack force would deter even less.",
+      "editability": "editable",
+      "edit_safety": "safe_to_edit",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}

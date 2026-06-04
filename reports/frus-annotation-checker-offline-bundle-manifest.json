@@ -200,6 +200,18 @@
       "role": "Self-contained declassification/omission registry and usage audit smoke test"
     },
     {
+      "path": "scripts/validate-frus-editorial-method-registry.mjs",
+      "role": "Editorial-method, original-text, and protected transcription registry validator"
+    },
+    {
+      "path": "scripts/audit-frus-editorial-method-usage.mjs",
+      "role": "Editorial-method/original-text usage audit for extracted Word units and direct-edit safety"
+    },
+    {
+      "path": "scripts/test-frus-editorial-method-audit.mjs",
+      "role": "Self-contained editorial-method/original-text registry and usage audit smoke test"
+    },
+    {
       "path": "scripts/validate-frus-translation-registry.mjs",
       "role": "Translation, original-language, and foreign-origin registry validator"
     },
@@ -559,6 +571,9 @@
     "reports/frus-declassification-registry.sample.json",
     "reports/frus-declassification-units.sample.json",
     "reports/frus-declassification-audit.sample.json",
+    "reports/frus-editorial-method-registry.sample.json",
+    "reports/frus-editorial-method-units.sample.json",
+    "reports/frus-editorial-method-audit.sample.json",
     "reports/frus-translation-registry.sample.json",
     "reports/frus-translation-units.sample.json",
     "reports/frus-translation-audit.sample.json",
@@ -680,6 +695,10 @@
     {
       "path": "reports/frus-declassification-registry.sample.json",
       "role": "Published omission, pages-not-declassified, handling-restriction-not-declassified, and review-statistics sample for Reagan and George H.W. Bush fixtures"
+    },
+    {
+      "path": "reports/frus-editorial-method-registry.sample.json",
+      "role": "Published Bush START I and Reagan Foundations editorial-method sample for original brackets, original footnotes, underlining/checkmarks, and protected quoted source text"
     },
     {
       "path": "reports/frus-translation-registry.sample.json",
@@ -827,6 +846,9 @@
     "node scripts/validate-frus-declassification-registry.mjs --registry reports/frus-declassification-registry.sample.json --format text",
     "node scripts/audit-frus-declassification-usage.mjs --units reports/frus-declassification-units.sample.json --registry reports/frus-declassification-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-declassification-audit.mjs",
+    "node scripts/validate-frus-editorial-method-registry.mjs --registry reports/frus-editorial-method-registry.sample.json --format text",
+    "node scripts/audit-frus-editorial-method-usage.mjs --units reports/frus-editorial-method-units.sample.json --registry reports/frus-editorial-method-registry.sample.json --target-volume frus1981-88v01 --format text",
+    "node scripts/test-frus-editorial-method-audit.mjs",
     "node scripts/validate-frus-translation-registry.mjs --registry reports/frus-translation-registry.sample.json --format text",
     "node scripts/audit-frus-translation-usage.mjs --units reports/frus-translation-units.sample.json --registry reports/frus-translation-registry.sample.json --target-volume frus1989-92v31 --format text",
     "node scripts/test-frus-translation-audit.mjs",
@@ -924,6 +946,8 @@
     "Give validate-frus-classification-registry.mjs a duplicate classification_item_id or malformed classification-registry schema; it must fail.",
     "Give audit-frus-declassification-usage.mjs a direct edit that changes an omission quantity or pages-not-declassified phrase without target-volume registry support; it must fail.",
     "Give validate-frus-declassification-registry.mjs a duplicate declassification_id or malformed declassification-registry schema; it must fail.",
+    "Give audit-frus-editorial-method-usage.mjs a direct spellcheck-style edit that modernizes quoted or transcribed original document text without source-image or target-volume registry support; it must fail.",
+    "Give validate-frus-editorial-method-registry.mjs a duplicate editorial_method_id or malformed editorial-method-registry schema; it must fail.",
     "Give audit-frus-translation-usage.mjs a direct edit that changes `Unofficial translation` to an official translation claim without target-volume registry support; it must fail.",
     "Give validate-frus-translation-registry.mjs a duplicate translation_id or malformed translation-registry schema; it must fail.",
     "Give audit-frus-printed-attachment-usage.mjs a direct edit that changes `Printed as Document 277.` to `Printed as Document 276.` without target-volume registry support; it must fail.",
