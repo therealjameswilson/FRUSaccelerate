@@ -20,7 +20,7 @@ const REVIEWABLE_UNIT_TYPES = new Set([
 
 function usage() {
   console.error(
-    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
+    "Usage: node scripts/build-frus-llm-review-chunks.mjs --units <extracted-units.json> --out-dir DIR [--guide reports/frus-annotation-checker-core.md] [--schema reports/frus-annotation-checker-output.schema.json] [--annotation-sheet-profile profile.json] [--status-registry registry.json] [--status-claims claims.json] [--authority-registry registry.json] [--source-list-registry registry.json] [--document-metadata-registry registry.json] [--classification-registry registry.json] [--declassification-registry registry.json] [--translation-registry registry.json] [--printed-attachment-registry registry.json] [--visual-material-registry registry.json] [--document-handling-registry registry.json] [--chronology-registry registry.json] [--time-zone-registry registry.json] [--selection-balance-registry registry.json] [--decision-process-registry registry.json] [--public-source-registry registry.json] [--retrospective-account-registry registry.json] [--treaty-registry registry.json] [--foreign-org-registry registry.json] [--congressional-legal-registry registry.json] [--economic-financial-registry registry.json] [--military-crisis-registry registry.json] [--intelligence-law-enforcement-registry registry.json] [--footnote-referback-registry registry.json] [--recurring-risk-registry registry.json] [--negative-search-registry registry.json] [--document-relationship-registry registry.json] [--communications-registry registry.json] [--preparation-router router.json] [--permutation-matrix matrix.json] [--target-volume ENTRY-ID] [--run-id RUN] [--max-units N] [--max-chars N] [--format json|text]"
   );
   process.exit(2);
 }
@@ -53,6 +53,7 @@ function parseArgs(argv) {
   let congressionalLegalRegistryPath = null;
   let economicFinancialRegistryPath = null;
   let militaryCrisisRegistryPath = null;
+  let intelligenceLawEnforcementRegistryPath = null;
   let footnoteReferbackRegistryPath = null;
   let recurringRiskRegistryPath = null;
   let negativeSearchRegistryPath = null;
@@ -149,6 +150,9 @@ function parseArgs(argv) {
     } else if (arg === "--military-crisis-registry") {
       militaryCrisisRegistryPath = argv[index + 1];
       index += 1;
+    } else if (arg === "--intelligence-law-enforcement-registry") {
+      intelligenceLawEnforcementRegistryPath = argv[index + 1];
+      index += 1;
     } else if (arg === "--footnote-referback-registry") {
       footnoteReferbackRegistryPath = argv[index + 1];
       index += 1;
@@ -230,6 +234,7 @@ function parseArgs(argv) {
     congressionalLegalRegistryPath,
     economicFinancialRegistryPath,
     militaryCrisisRegistryPath,
+    intelligenceLawEnforcementRegistryPath,
     footnoteReferbackRegistryPath,
     recurringRiskRegistryPath,
     negativeSearchRegistryPath,
@@ -1071,6 +1076,39 @@ function compactMilitaryCrisisRegistry(registry, targetVolume) {
   };
 }
 
+function compactIntelligenceLawEnforcementRegistry(registry, targetVolume) {
+  if (!registry) return null;
+  const records = Array.isArray(registry.records) ? registry.records : [];
+  return {
+    schema_version: registry.schema_version,
+    intelligence_law_enforcement_registry_id: registry.intelligence_law_enforcement_registry_id,
+    captured_at: registry.captured_at,
+    source_urls: registry.source_urls || [],
+    scope: registry.scope || "",
+    target_volume: targetVolume,
+    target_records: targetVolume ? records.filter((record) => record.volume_id === targetVolume) : [],
+    records: records.map((record) => ({
+      intelligence_law_enforcement_id: record.intelligence_law_enforcement_id,
+      volume_id: record.volume_id,
+      document_id: record.document_id,
+      document_number: record.document_number,
+      unit_scope: record.unit_scope,
+      ile_type: record.ile_type,
+      approved_phrase: record.approved_phrase,
+      case_or_program: record.case_or_program,
+      agency_or_actor: record.agency_or_actor,
+      stage_or_role: record.stage_or_role,
+      chronology_or_jurisdiction_basis: record.chronology_or_jurisdiction_basis,
+      citation_or_locator: record.citation_or_locator,
+      public_or_archival_basis: record.public_or_archival_basis,
+      source_or_context: record.source_or_context,
+      variant_forms: record.variant_forms || [],
+      source_url: record.source_url,
+      verification_status: record.verification_status
+    }))
+  };
+}
+
 function compactFootnoteReferbackRegistry(registry, targetVolume) {
   if (!registry) return null;
   const records = Array.isArray(registry.records) ? registry.records : [];
@@ -1172,6 +1210,7 @@ function renderPacket({
   congressionalLegalRegistry,
   economicFinancialRegistry,
   militaryCrisisRegistry,
+  intelligenceLawEnforcementRegistry,
   footnoteReferbackRegistry,
   recurringRiskRegistry,
   negativeSearchRegistry,
@@ -1352,6 +1391,12 @@ function renderPacket({
     "",
     fencedJson(militaryCrisisRegistry || {}),
     "",
+    "## Intelligence And Law Enforcement Registry Context",
+    "",
+    "Use this to check CIA, INR, National Intelligence Council, intelligence-source/handling, covert/sensitive-source, counterterrorism, terrorist-incident, hostage/hijacking, arrest-warrant, Interpol, extradition/prosecution, FBI/DEA liaison, counternarcotics, narcoterrorism, and Department of Justice language. Treat agency identity, intelligence basis, sensitive-source posture, case status, jurisdiction, terrorist-incident chronology, prosecution/extradition posture, and counternarcotics claims as comment-only unless the target-volume intelligence/law-enforcement registry proves the exact direct edit.",
+    "",
+    fencedJson(intelligenceLawEnforcementRegistry || {}),
+    "",
     "## Footnote Refer-Back Registry Context",
     "",
     "Use this to check repeated-reference footnote discipline in follow-on footnotes and source notes. Reagan Foundations models cross-document `footnote N, Document X`, same-document `above` or local above-context, and `Document X and footnote Y thereto`; Document 146 separately models a three-target footnote/document cluster. Apply the registry `repeat_threshold`: the first and second full citation occurrences may stand, but the third full citation occurrence itself and every later full citation occurrence, including plain source-note citations outside parentheses, are production-review triggers for a possible refer-back. Do not wait for a fourth occurrence. Do not invent refer-back targets; use comment-only unless the registry proves the exact direct edit.",
@@ -1443,6 +1488,9 @@ function buildChunks(options) {
     ? readJson(options.economicFinancialRegistryPath)
     : null;
   const militaryCrisisRegistry = options.militaryCrisisRegistryPath ? readJson(options.militaryCrisisRegistryPath) : null;
+  const intelligenceLawEnforcementRegistry = options.intelligenceLawEnforcementRegistryPath
+    ? readJson(options.intelligenceLawEnforcementRegistryPath)
+    : null;
   const footnoteReferbackRegistry = options.footnoteReferbackRegistryPath
     ? readJson(options.footnoteReferbackRegistryPath)
     : null;
@@ -1496,6 +1544,10 @@ function buildChunks(options) {
     options.targetVolume
   );
   const militaryCrisisRegistryContext = compactMilitaryCrisisRegistry(militaryCrisisRegistry, options.targetVolume);
+  const intelligenceLawEnforcementRegistryContext = compactIntelligenceLawEnforcementRegistry(
+    intelligenceLawEnforcementRegistry,
+    options.targetVolume
+  );
   const footnoteReferbackRegistryContext = compactFootnoteReferbackRegistry(
     footnoteReferbackRegistry,
     options.targetVolume
@@ -1550,6 +1602,9 @@ function buildChunks(options) {
       military_crisis_registry: options.militaryCrisisRegistryPath
         ? normalizePathForOutput(options.militaryCrisisRegistryPath)
         : "",
+      intelligence_law_enforcement_registry: options.intelligenceLawEnforcementRegistryPath
+        ? normalizePathForOutput(options.intelligenceLawEnforcementRegistryPath)
+        : "",
       footnote_referback_registry: options.footnoteReferbackRegistryPath
         ? normalizePathForOutput(options.footnoteReferbackRegistryPath)
         : "",
@@ -1588,6 +1643,7 @@ function buildChunks(options) {
       congressional_legal_registry_records: congressionalLegalRegistry?.records?.length || 0,
       economic_financial_registry_records: economicFinancialRegistry?.records?.length || 0,
       military_crisis_registry_records: militaryCrisisRegistry?.records?.length || 0,
+      intelligence_law_enforcement_registry_records: intelligenceLawEnforcementRegistry?.records?.length || 0,
       footnote_referback_registry_records: footnoteReferbackRegistry?.records?.length || 0,
       recurring_risk_registry_records: recurringRiskRegistry?.records?.length || 0,
       negative_search_registry_records: negativeSearchRegistry?.records?.length || 0,
@@ -1650,6 +1706,7 @@ function buildChunks(options) {
         congressionalLegalRegistry: congressionalLegalRegistryContext,
         economicFinancialRegistry: economicFinancialRegistryContext,
         militaryCrisisRegistry: militaryCrisisRegistryContext,
+        intelligenceLawEnforcementRegistry: intelligenceLawEnforcementRegistryContext,
         footnoteReferbackRegistry: footnoteReferbackRegistryContext,
         recurringRiskRegistry: recurringRiskRegistryContext,
         negativeSearchRegistry: negativeSearchRegistryContext,

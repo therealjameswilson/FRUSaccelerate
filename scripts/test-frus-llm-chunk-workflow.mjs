@@ -118,6 +118,8 @@ try {
     "reports/frus-economic-financial-registry.sample.json",
     "--military-crisis-registry",
     "reports/frus-military-crisis-registry.sample.json",
+    "--intelligence-law-enforcement-registry",
+    "reports/frus-intelligence-law-enforcement-registry.sample.json",
     "--footnote-referback-registry",
     "reports/frus-footnote-referback-registry.sample.json",
     "--recurring-risk-registry",
@@ -175,6 +177,10 @@ try {
   );
   assert(manifest.summary.economic_financial_registry_records === 20, "expected economic/financial registry record count");
   assert(manifest.summary.military_crisis_registry_records === 16, "expected military/crisis registry record count");
+  assert(
+    manifest.summary.intelligence_law_enforcement_registry_records === 15,
+    "expected intelligence/law-enforcement registry record count"
+  );
   assert(manifest.summary.footnote_referback_registry_records === 8, "expected footnote refer-back registry record count");
   assert(manifest.summary.recurring_risk_registry_records === 13, "expected recurring-risk registry record count");
   assert(manifest.summary.negative_search_registry_records === 6, "expected negative-search registry record count");
@@ -211,6 +217,11 @@ try {
   assert(
     manifest.source_files.military_crisis_registry === "reports/frus-military-crisis-registry.sample.json",
     "expected military/crisis registry source path"
+  );
+  assert(
+    manifest.source_files.intelligence_law_enforcement_registry ===
+      "reports/frus-intelligence-law-enforcement-registry.sample.json",
+    "expected intelligence/law-enforcement registry source path"
   );
   assert(manifest.source_files.recurring_risk_registry === "reports/frus-recurring-risk-registry.sample.json", "expected recurring-risk registry source path");
   assert(manifest.source_files.negative_search_registry === "reports/frus-negative-search-registry.sample.json", "expected negative-search registry source path");
@@ -274,6 +285,16 @@ try {
   assert(firstPacket.includes("Military And Crisis Operations Registry Context"), "expected military/crisis context in chunk packet");
   assert(firstPacket.includes("Stairstep program in the Gulf of Sidra"), "expected Gulf of Sidra operation content in chunk packet");
   assert(firstPacket.includes("Rabta chemical plant"), "expected Rabta/CW registry content in chunk packet");
+  assert(
+    firstPacket.includes("Intelligence And Law Enforcement Registry Context"),
+    "expected intelligence/law-enforcement context in chunk packet"
+  );
+  assert(
+    firstPacket.includes("Deputy Director for Operations, Central Intelligence Agency"),
+    "expected CIA DDO content in chunk packet"
+  );
+  assert(firstPacket.includes("Bureau of Counter-Terrorism Records"), "expected counterterrorism content in chunk packet");
+  assert(firstPacket.includes("Counter Narcotics in Peru"), "expected counternarcotics content in chunk packet");
   assert(firstPacket.includes("Footnote Refer-Back Registry Context"), "expected footnote refer-back registry context in chunk packet");
   assert(firstPacket.includes("repeat_threshold"), "expected footnote refer-back repeat threshold in chunk packet");
   assert(firstPacket.includes("See footnote 6, Document 35"), "expected footnote refer-back registry content in chunk packet");
@@ -353,7 +374,7 @@ try {
   assert(badMerge.status !== 0, "expected out-of-chunk unit reference to fail");
   assert(badMerge.stdout.includes("outside chunk-0002"), "expected chunk-boundary failure detail");
 
-  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
+  console.log("FRUS LLM chunk workflow test passed: chunk packets include annotation-sheet profile, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, recurring-risk, negative-search, document-relationship, and communications context, merge, validation, and boundary failures work.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

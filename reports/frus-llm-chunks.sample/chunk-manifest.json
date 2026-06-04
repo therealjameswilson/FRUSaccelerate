@@ -1,6 +1,6 @@
 {
   "schema_version": "frus-llm-chunk-manifest-v1",
-  "generated_at": "2026-06-04T05:13:36.035Z",
+  "generated_at": "2026-06-04T05:38:31.521Z",
   "run_id": "sample-chunks",
   "target_volume": "frus1989-92v31",
   "chunk_count": 2,
@@ -31,6 +31,7 @@
     "congressional_legal_registry": "reports/frus-congressional-legal-registry.sample.json",
     "economic_financial_registry": "reports/frus-economic-financial-registry.sample.json",
     "military_crisis_registry": "reports/frus-military-crisis-registry.sample.json",
+    "intelligence_law_enforcement_registry": "reports/frus-intelligence-law-enforcement-registry.sample.json",
     "footnote_referback_registry": "reports/frus-footnote-referback-registry.sample.json",
     "recurring_risk_registry": "reports/frus-recurring-risk-registry.sample.json",
     "negative_search_registry": "reports/frus-negative-search-registry.sample.json",
@@ -67,6 +68,7 @@
     "congressional_legal_registry_records": 16,
     "economic_financial_registry_records": 20,
     "military_crisis_registry_records": 16,
+    "intelligence_law_enforcement_registry_records": 15,
     "footnote_referback_registry_records": 8,
     "recurring_risk_registry_records": 13,
     "negative_search_registry_records": 6,

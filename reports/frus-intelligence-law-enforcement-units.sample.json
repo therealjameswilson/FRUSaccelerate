@@ -1,0 +1,106 @@
+{
+  "schema_version": "frus-extracted-units-v1",
+  "source_docx": "sample-frus-intelligence-law-enforcement-annotation-sheet.docx",
+  "generated_at": "2026-06-04T00:00:00.000Z",
+  "units": [
+    {
+      "unit_id": "ile-0001",
+      "unit_type": "document_heading",
+      "location": "Reagan North Africa Document 341 heading and text",
+      "exact_text": "SUBJECT U.S. Action Against Libyan Terrorism. The telegram states that U.S. officials had confirmation of Libyan-sponsored activity against the U.S. in both Berlin and Paris.",
+      "display_text": "SUBJECT U.S. Action Against Libyan Terrorism. The telegram states that U.S. officials had confirmation of Libyan-sponsored activity against the U.S. in both Berlin and Paris.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "ile-0002",
+      "unit_type": "source_note",
+      "location": "Reagan North Africa Document 174 source note",
+      "exact_text": "Source: Department of State, Bureau of Counter-Terrorism Records, Papers of L. Paul Bremer II as Ambassador to The Hague and Director of the Office of Counter-Terrorism: Lot 89D283, Kuwait 422 Hijacking 1988. The telegram says hijackers should be brought to justice.",
+      "display_text": "Source: Department of State, Bureau of Counter-Terrorism Records, Papers of L. Paul Bremer II as Ambassador to The Hague and Director of the Office of Counter-Terrorism: Lot 89D283, Kuwait 422 Hijacking 1988. The telegram says hijackers should be brought to justice.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "ile-0003",
+      "unit_type": "follow_on_footnote",
+      "location": "Reagan North Africa Document 175 legal note",
+      "exact_text": "The text identifies an arrest warrant for Izz-al-Din charging him with hostage taking and conspiracy to commit aircraft piracy and notes a red notice through Interpol.",
+      "display_text": "The text identifies an arrest warrant for Izz-al-Din charging him with hostage taking and conspiracy to commit aircraft piracy and notes a red notice through Interpol.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "ile-0004",
+      "unit_type": "follow_on_footnote",
+      "location": "Reagan North Africa Document 167 liaison note",
+      "exact_text": "Khediri wanted to improve liaison with the FBI and cooperate more closely with DEA.",
+      "display_text": "Khediri wanted to improve liaison with the FBI and cooperate more closely with DEA.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "ile-0005",
+      "unit_type": "document_heading",
+      "location": "Reagan National Security Policy CIA examples",
+      "exact_text": "Memorandum From the Deputy Director for Operations, Central Intelligence Agency (George) to President Reagan, Vice President Bush, Secretary of State Shultz, Secretary of Defense Weinberger, and the President's Assistant for National Security Affairs (McFarlane). Source note: Secret; [handling restrictions not declassified]. Related heading: Paper Prepared in the Central Intelligence Agency.",
+      "display_text": "Memorandum From the Deputy Director for Operations, Central Intelligence Agency (George) to President Reagan, Vice President Bush, Secretary of State Shultz, Secretary of Defense Weinberger, and the President's Assistant for National Security Affairs (McFarlane). Source note: Secret; [handling restrictions not declassified]. Related heading: Paper Prepared in the Central Intelligence Agency.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "ile-0006",
+      "unit_type": "document_heading",
+      "location": "Reagan Foundations INR/NIC examples",
+      "exact_text": "Information Memorandum From the Director of the Bureau of Intelligence and Research (Abramowitz) to Secretary of State Shultz. Attached but not printed was a memorandum from Vice Chairman of the National Intelligence Council Graham Fuller.",
+      "display_text": "Information Memorandum From the Director of the Bureau of Intelligence and Research (Abramowitz) to Secretary of State Shultz. Attached but not printed was a memorandum from Vice Chairman of the National Intelligence Council Graham Fuller.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "ile-0007",
+      "unit_type": "unknown_editorial_text",
+      "location": "Draft unmatched intelligence/law-enforcement note",
+      "exact_text": "The draft says CIA, FBI, and DEA jointly reviewed a covert counternarcotics operation and that prosecution was guaranteed.",
+      "display_text": "The draft says CIA, FBI, and DEA jointly reviewed a covert counternarcotics operation and that prosecution was guaranteed.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "ile-0008",
+      "unit_type": "source_note",
+      "location": "Draft variant counterterrorism source note",
+      "exact_text": "Source: Department of State, Office of Counterterrorism Records, Papers of L. Paul Bremer II, Kuwait 422 Hijacking 1988.",
+      "display_text": "Source: Department of State, Office of Counterterrorism Records, Papers of L. Paul Bremer II, Kuwait 422 Hijacking 1988.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    },
+    {
+      "unit_id": "ile-0009",
+      "unit_type": "source_note",
+      "location": "Bush START I source note",
+      "exact_text": "Source: George H.W. Bush Library, National Security Council, H-Files, NSC0020--May 25, 1989--Counter Narcotics in Peru, Review of National Security Review 12--Section IV Regarding Arms Control Implications of Defense Strategy.",
+      "display_text": "Source: George H.W. Bush Library, National Security Council, H-Files, NSC0020--May 25, 1989--Counter Narcotics in Peru, Review of National Security Review 12--Section IV Regarding Arms Control Implications of Defense Strategy.",
+      "editability": "editable",
+      "edit_safety": "safe",
+      "comment_safety": "safe",
+      "blocked_boundaries": []
+    }
+  ]
+}

@@ -163,6 +163,14 @@ For military/crisis validation, use
 `reports/frus-military-crisis-units.sample.json`; the self-contained smoke test
 is `scripts/test-frus-military-crisis-audit.mjs`, and the sample audit report is
 `reports/frus-military-crisis-audit.sample.json`.
+For intelligence/law-enforcement validation, use
+`scripts/validate-frus-intelligence-law-enforcement-registry.mjs` and
+`scripts/audit-frus-intelligence-law-enforcement-usage.mjs` with
+`reports/frus-intelligence-law-enforcement-registry.sample.json` and
+`reports/frus-intelligence-law-enforcement-units.sample.json`; the
+self-contained smoke test is
+`scripts/test-frus-intelligence-law-enforcement-audit.mjs`, and the sample
+audit report is `reports/frus-intelligence-law-enforcement-audit.sample.json`.
 For recurring compiler-risk spellchecks, use
 `scripts/validate-frus-recurring-risk-registry.mjs` and
 `scripts/audit-frus-recurring-risk-usage.mjs` with
@@ -6528,6 +6536,17 @@ alongside terrorism, host-government, coalition, and declassification issues.
 The checker must preserve operational stage and source family before it
 suggests any tracked change.
 
+Intelligence and law-enforcement annotation needs the same conservative
+treatment. CIA, INR, National Intelligence Council, sensitive-source/handling,
+counterterrorism, hostage/hijacking, arrest-warrant, Interpol,
+extradition/prosecution, FBI/DEA liaison, Department of Justice,
+counternarcotics, and narcoterrorism language can be publication-critical even
+when it looks like ordinary subject matter. Treat agency identity,
+intelligence basis, sensitive-source posture, case status, jurisdiction,
+prosecution/extradition posture, and counternarcotics claims as comment-only
+unless a target-volume intelligence/law-enforcement registry proves the exact
+direct edit.
+
 Use a military/crisis registry when the wrapper can supply one:
 
 ```json
@@ -12357,6 +12376,20 @@ Minimum components:
   host-nation/base-access, evacuation/embassy-security, and crisis chronology
   to supplied target-volume records and fails direct military/crisis edits that
   lack registry support.
+- No-dependency intelligence/law-enforcement registry validator, usage audit,
+  and fixtures:
+  `scripts/validate-frus-intelligence-law-enforcement-registry.mjs`,
+  `scripts/audit-frus-intelligence-law-enforcement-usage.mjs`,
+  `reports/frus-intelligence-law-enforcement-registry.sample.json`,
+  `reports/frus-intelligence-law-enforcement-units.sample.json`, and
+  `reports/frus-intelligence-law-enforcement-audit.sample.json`. The audit
+  reconciles CIA, INR, National Intelligence Council, sensitive-source or
+  handling language, counterterrorism, hostage/hijacking, arrest-warrant,
+  Interpol, extradition/prosecution, FBI/DEA liaison, Department of Justice,
+  counternarcotics, and narcoterrorism language to supplied target-volume
+  records and fails direct agency-identity, intelligence-basis, case-status,
+  jurisdiction, prosecution/extradition, or counternarcotics edits that lack
+  registry support.
 - No-dependency footnote refer-back registry validator, usage audit, and
   fixtures: `scripts/validate-frus-footnote-referback-registry.mjs`,
   `scripts/audit-frus-footnote-referback-usage.mjs`,

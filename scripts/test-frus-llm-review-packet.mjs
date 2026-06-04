@@ -75,6 +75,8 @@ try {
     "reports/frus-economic-financial-registry.sample.json",
     "--military-crisis-registry",
     "reports/frus-military-crisis-registry.sample.json",
+    "--intelligence-law-enforcement-registry",
+    "reports/frus-intelligence-law-enforcement-registry.sample.json",
     "--footnote-referback-registry",
     "reports/frus-footnote-referback-registry.sample.json",
     "--recurring-risk-registry",
@@ -177,6 +179,16 @@ try {
   assert(markdown.includes("Stairstep program in the Gulf of Sidra"), "expected Gulf of Sidra operation registry content");
   assert(markdown.includes("Rabta chemical plant"), "expected Rabta/CW registry content");
   assert(markdown.includes("Persian Gulf will remain open to navigation"), "expected Persian Gulf navigation registry content");
+  assert(
+    markdown.includes("Intelligence And Law Enforcement Registry Context"),
+    "expected intelligence/law-enforcement registry section"
+  );
+  assert(
+    markdown.includes("Deputy Director for Operations, Central Intelligence Agency"),
+    "expected CIA DDO registry content"
+  );
+  assert(markdown.includes("Bureau of Counter-Terrorism Records"), "expected counterterrorism registry content");
+  assert(markdown.includes("Counter Narcotics in Peru"), "expected counternarcotics registry content");
   assert(markdown.includes("Footnote Refer-Back Registry Context"), "expected footnote refer-back registry section");
   assert(markdown.includes("repeat_threshold"), "expected footnote refer-back repeat threshold in Markdown packet");
   assert(markdown.includes("See footnote 6, Document 35"), "expected cross-document footnote refer-back content");
@@ -292,6 +304,18 @@ try {
     "expected zero target military/crisis records for START volume fixture"
   );
   assert(packet.packet_summary.military_crisis_registry_records === 16, "expected military/crisis registry count");
+  assert(
+    packet.contexts.intelligence_law_enforcement_registry.records.length === 15,
+    "expected intelligence/law-enforcement registry records"
+  );
+  assert(
+    packet.contexts.intelligence_law_enforcement_registry.target_records.length === 1,
+    "expected one target intelligence/law-enforcement record for START volume fixture"
+  );
+  assert(
+    packet.packet_summary.intelligence_law_enforcement_registry_records === 15,
+    "expected intelligence/law-enforcement registry count"
+  );
   assert(packet.contexts.footnote_referback_registry.records.length === 8, "expected footnote refer-back registry records");
   assert(packet.contexts.footnote_referback_registry.repeat_threshold === 3, "expected footnote refer-back threshold context");
   assert(
@@ -317,7 +341,7 @@ try {
   assert(badResult.status !== 0, "expected bad extracted-units document to fail");
   assert(badResult.stderr.includes("frus-extracted-units-v1"), "expected schema-version failure detail");
 
-  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
+  console.log("FRUS LLM review packet test passed: Markdown and JSON packets include units, schema, annotation-sheet profile, status, authority, source-list, document metadata, classification, declassification, translation, printed attachment, visual material, document handling, chronology, time-zone, selection-balance, decision-process, public-source, retrospective-account, treaty, foreign-org, congressional/legal, economic/financial, military/crisis, intelligence/law-enforcement, footnote refer-back, recurring-risk, negative-search, document-relationship, communications, router, and matrix context.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

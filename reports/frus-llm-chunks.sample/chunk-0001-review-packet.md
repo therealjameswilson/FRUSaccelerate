@@ -54,9 +54,9 @@ flat Word structure, lexical unitization, and production pseudo-markers with
 `node scripts/audit-frus-annotation-sheet-profile.mjs --profile reports/frus-annotation-sheet-profile.sample.json --units extracted-units.json --checker-output output.json --format text`.
 For the per-document Markdown packet that a closed-network LLM should review,
 run
-`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
+`node scripts/build-frus-llm-review-packet.mjs --units extracted-units.json --out review-packet.md --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID`.
 For small-context LLMs that cannot fit a whole sheet, build chunk packets with
-`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
+`node scripts/build-frus-llm-review-chunks.mjs --units extracted-units.json --out-dir review-chunks --annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --status-claims status-claims.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --run-id RUN-ID --max-units 12`, then merge outputs with
 `node scripts/merge-frus-checker-chunks.mjs --manifest review-chunks/chunk-manifest.json --output chunk-0001=review-chunks/chunk-0001-checker-output.json --output chunk-0002=review-chunks/chunk-0002-checker-output.json --out output.json`, repeating `--output` for every chunk listed in the manifest.
 For automatic publication-status claim extraction before packet building or
 runner preflight, run
@@ -120,6 +120,9 @@ For economic/financial validation and direct-edit safety, run
 For military/crisis validation and direct-edit safety, run
 `node scripts/validate-frus-military-crisis-registry.mjs --registry reports/frus-military-crisis-registry.sample.json --format text` and
 `node scripts/audit-frus-military-crisis-usage.mjs --units extracted-units.json --registry reports/frus-military-crisis-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
+For intelligence/law-enforcement validation and direct-edit safety, run
+`node scripts/validate-frus-intelligence-law-enforcement-registry.mjs --registry reports/frus-intelligence-law-enforcement-registry.sample.json --format text` and
+`node scripts/audit-frus-intelligence-law-enforcement-usage.mjs --units extracted-units.json --registry reports/frus-intelligence-law-enforcement-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
 For footnote refer-back validation and direct-edit safety, run
 `node scripts/validate-frus-footnote-referback-registry.mjs --registry reports/frus-footnote-referback-registry.sample.json --format text` and
 `node scripts/audit-frus-footnote-referback-usage.mjs --units extracted-units.json --registry reports/frus-footnote-referback-registry.sample.json --checker-output output.json --target-volume VOLUME-ID --format text`.
@@ -148,7 +151,7 @@ For post-write DOCX release validation, run
 For the full wrapper pass after the LLM returns checker JSON, run
 `node scripts/run-frus-offline-review.mjs --docx input.docx --checker-output output.json --out revised.docx --artifact-dir frus-review-artifacts --run-id RUN-ID`.
 For status-sensitive Reagan/Bush packets, add
-`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
+`--annotation-sheet-profile reports/frus-annotation-sheet-profile.sample.json --status-registry reports/frus-status-series-1981-1992.current.json --authority-registry reports/frus-authority-registry.sample.json --source-list-registry reports/frus-source-list-registry.sample.json --document-metadata-registry reports/frus-document-metadata-registry.sample.json --classification-registry reports/frus-classification-registry.sample.json --declassification-registry reports/frus-declassification-registry.sample.json --translation-registry reports/frus-translation-registry.sample.json --printed-attachment-registry reports/frus-printed-attachment-registry.sample.json --visual-material-registry reports/frus-visual-material-registry.sample.json --document-handling-registry reports/frus-document-handling-registry.sample.json --chronology-registry reports/frus-chronology-registry.sample.json --time-zone-registry reports/frus-time-zone-registry.sample.json --selection-balance-registry reports/frus-selection-balance-registry.sample.json --decision-process-registry reports/frus-decision-process-registry.sample.json --public-source-registry reports/frus-public-source-registry.sample.json --treaty-registry reports/frus-treaty-registry.sample.json --foreign-org-registry reports/frus-foreign-org-registry.sample.json --congressional-legal-registry reports/frus-congressional-legal-registry.sample.json --economic-financial-registry reports/frus-economic-financial-registry.sample.json --military-crisis-registry reports/frus-military-crisis-registry.sample.json --intelligence-law-enforcement-registry reports/frus-intelligence-law-enforcement-registry.sample.json --footnote-referback-registry reports/frus-footnote-referback-registry.sample.json --recurring-risk-registry reports/frus-recurring-risk-registry.sample.json --negative-search-registry reports/frus-negative-search-registry.sample.json --document-relationship-registry reports/frus-document-relationship-registry.sample.json --communications-registry reports/frus-communications-registry.sample.json --preparation-router reports/frus-preparation-router-1981-1992.current.json --permutation-matrix reports/frus-annotation-permutation-matrix.json --target-volume VOLUME-ID --today YYYY-MM-DD`.
 If status-bearing phrases have been extracted into a claims file, also add
 `--status-claims status-claims.json`.
 For status-language preflight, run
@@ -294,6 +297,15 @@ or dismantlement claims, host-nation/base-access, evacuation/embassy-security,
 and crisis chronology. Validate it with
 `scripts/validate-frus-military-crisis-registry.mjs` before direct
 operation/deployment/CW/ROE/force-identity edits.
+For real Reagan/Bush 1981-1992 intelligence/law-enforcement review, replace
+the sample registry with target-volume records for CIA, INR, National
+Intelligence Council, intelligence-source/handling, covert/sensitive-source,
+counterterrorism, terrorist-incident, hostage/hijacking, arrest-warrant,
+Interpol, extradition/prosecution, FBI/DEA liaison, counternarcotics,
+narcoterrorism, and Department of Justice language. Validate it with
+`scripts/validate-frus-intelligence-law-enforcement-registry.mjs` before direct
+agency-identity, intelligence-basis, case-status, jurisdiction,
+prosecution/extradition, or counternarcotics edits.
 For real Reagan/Bush 1981-1992 footnote refer-back review, replace the sample
 footnote refer-back registry with target-volume examples for repeated
 cross-document `footnote N, Document X` references, same-document above/below or
@@ -8079,6 +8091,384 @@ Use this to check operation names, Gulf of Sidra/Bay of Sidra and Persian Gulf f
       ],
       "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d302",
       "verification_status": "verified_published_military_crisis_record"
+    }
+  ]
+}
+```
+
+## Intelligence And Law Enforcement Registry Context
+
+Use this to check CIA, INR, National Intelligence Council, intelligence-source/handling, covert/sensitive-source, counterterrorism, terrorist-incident, hostage/hijacking, arrest-warrant, Interpol, extradition/prosecution, FBI/DEA liaison, counternarcotics, narcoterrorism, and Department of Justice language. Treat agency identity, intelligence basis, sensitive-source posture, case status, jurisdiction, terrorist-incident chronology, prosecution/extradition posture, and counternarcotics claims as comment-only unless the target-volume intelligence/law-enforcement registry proves the exact direct edit.
+
+```json
+{
+  "schema_version": "frus-intelligence-law-enforcement-registry-v1",
+  "intelligence_law_enforcement_registry_id": "frus-1981-1992-intelligence-law-enforcement-sample-2026-06-04",
+  "captured_at": "2026-06-04",
+  "source_urls": [
+    "https://history.state.gov/historicaldocuments/status-of-the-series",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d58",
+    "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d62",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d264",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d266",
+    "https://history.state.gov/historicaldocuments/frus1981-88v01/d291",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d167",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d174",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d175",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d178",
+    "https://history.state.gov/historicaldocuments/frus1981-88v24/d341",
+    "https://history.state.gov/historicaldocuments/frus1989-92v31/d23"
+  ],
+  "scope": "Sample intelligence/law-enforcement registry for Reagan and George H.W. Bush FRUS annotation sheets. Use it to keep CIA, INR, intelligence-community, sensitive-source, counterterrorism, hostage/hijacking, prosecution/extradition, FBI/DEA liaison, and counternarcotics language tied to published FRUS examples before allowing direct edits.",
+  "target_volume": "frus1989-92v31",
+  "target_records": [
+    {
+      "intelligence_law_enforcement_id": "ile-v31-d23-counter-narcotics-peru-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d23",
+      "document_number": "23",
+      "unit_scope": "source_note",
+      "ile_type": "counternarcotics",
+      "approved_phrase": "Counter Narcotics in Peru, Review of National Security Review 12--Section IV Regarding Arms Control Implications of Defense Strategy",
+      "case_or_program": "Bush NSC meeting file source-note title",
+      "agency_or_actor": "George H.W. Bush Library, National Security Council H-Files",
+      "stage_or_role": "source-note folder/file title with counternarcotics and START context",
+      "chronology_or_jurisdiction_basis": "May 25, 1989 NSC meeting file",
+      "citation_or_locator": "Document 23 source note",
+      "public_or_archival_basis": "Published START I source note preserves a folder title that includes Counter Narcotics in Peru.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 23.",
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "verification_status": "verified_published_intelligence_law_enforcement_record",
+      "variant_forms": [
+        "Counter Narcotics in Peru",
+        "counter narcotics in Peru"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "intelligence_law_enforcement_id": "ile-v44p1-d58-cia-ddo-heading-001",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d58",
+      "document_number": "58",
+      "unit_scope": "document_heading",
+      "ile_type": "intelligence_community_body",
+      "approved_phrase": "Memorandum From the Deputy Director for Operations, Central Intelligence Agency (George) to President Reagan, Vice President Bush, Secretary of State Shultz, Secretary of Defense Weinberger, and the President's Assistant for National Security Affairs (McFarlane)",
+      "case_or_program": "Soviet SDI and arms-control reporting",
+      "agency_or_actor": "Deputy Director for Operations, Central Intelligence Agency",
+      "stage_or_role": "intelligence memorandum heading",
+      "chronology_or_jurisdiction_basis": "Washington, September 25, 1985",
+      "citation_or_locator": "Document 58 heading and source note",
+      "public_or_archival_basis": "Published Reagan National Security Policy volume uses a CIA DDO memorandum heading for sensitive Soviet reporting.",
+      "source_or_context": "FRUS, 1981-1988, volume XLIV, Part 1, Document 58.",
+      "variant_forms": [
+        "Deputy Director for Operations, Central Intelligence Agency (George)",
+        "Deputy Director for Operations, CIA (George)"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d58",
+      "verification_status": "verified_published_intelligence_law_enforcement_record"
+    },
+    {
+      "intelligence_law_enforcement_id": "ile-v44p1-d58-handling-restrictions-001",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d58",
+      "document_number": "58",
+      "unit_scope": "source_note",
+      "ile_type": "intelligence_source_or_handling",
+      "approved_phrase": "Secret; [handling restrictions not declassified]",
+      "case_or_program": "Sensitive intelligence-source handling",
+      "agency_or_actor": "CIA-originated reporting",
+      "stage_or_role": "source-note classification and handling statement",
+      "chronology_or_jurisdiction_basis": "Source note for Document 58",
+      "citation_or_locator": "Document 58 footnote 1",
+      "public_or_archival_basis": "Published source note preserves handling restrictions as an omission statement, not an inferred compartment label.",
+      "source_or_context": "FRUS, 1981-1988, volume XLIV, Part 1, Document 58.",
+      "variant_forms": [
+        "Secret; [handling restriction not declassified]"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d58",
+      "verification_status": "verified_published_intelligence_law_enforcement_record"
+    },
+    {
+      "intelligence_law_enforcement_id": "ile-v44p1-d62-cia-paper-heading-001",
+      "volume_id": "frus1981-88v44p1",
+      "document_id": "frus1981-88v44p1/d62",
+      "document_number": "62",
+      "unit_scope": "document_heading",
+      "ile_type": "source_note_agency_provenance",
+      "approved_phrase": "Paper Prepared in the Central Intelligence Agency",
+      "case_or_program": "Strategic Defense Initiative joint operations concept",
+      "agency_or_actor": "Central Intelligence Agency",
+      "stage_or_role": "document heading for agency-prepared paper",
+      "chronology_or_jurisdiction_basis": "Washington, undated",
+      "citation_or_locator": "Document 62 heading and source note",
+      "public_or_archival_basis": "Published volume uses agency-prepared paper form without adding an author not present in the record.",
+      "source_or_context": "FRUS, 1981-1988, volume XLIV, Part 1, Document 62.",
+      "variant_forms": [
+        "paper prepared in the central intelligence agency",
+        "Paper Prepared in the CIA"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d62",
+      "verification_status": "verified_published_intelligence_law_enforcement_record"
+    },
+    {
+      "intelligence_law_enforcement_id": "ile-v01-d264-inr-heading-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d264",
+      "document_number": "264",
+      "unit_scope": "document_heading",
+      "ile_type": "intelligence_assessment",
+      "approved_phrase": "Information Memorandum From the Director of the Bureau of Intelligence and Research (Abramowitz) to Secretary of State Shultz",
+      "case_or_program": "Democratic transitions analysis",
+      "agency_or_actor": "Bureau of Intelligence and Research",
+      "stage_or_role": "INR information memorandum",
+      "chronology_or_jurisdiction_basis": "Washington, March 6, 1986",
+      "citation_or_locator": "Document 264 heading and source note",
+      "public_or_archival_basis": "Published Reagan Foundations volume preserves the INR bureau name in the heading.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 264.",
+      "variant_forms": [
+        "Director of the Bureau of Intelligence and Research (Abramowitz)",
+        "INR memo"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d264",
+      "verification_status": "verified_published_intelligence_law_enforcement_record"
+    },
+    {
+      "intelligence_law_enforcement_id": "ile-v01-d266-nic-fuller-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d266",
+      "document_number": "266",
+      "unit_scope": "follow_on_footnote",
+      "ile_type": "intelligence_community_body",
+      "approved_phrase": "Vice Chairman of the National Intelligence Council Graham Fuller",
+      "case_or_program": "New Fluidity on the International Scene",
+      "agency_or_actor": "National Intelligence Council",
+      "stage_or_role": "attached but not printed memorandum attribution",
+      "chronology_or_jurisdiction_basis": "February 27 memorandum cited in Document 266 footnote 2",
+      "citation_or_locator": "Document 266 footnote 2",
+      "public_or_archival_basis": "Published footnote identifies Fuller by National Intelligence Council role.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 266.",
+      "variant_forms": [
+        "National Intelligence Council Graham Fuller",
+        "NIC Graham Fuller"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d266",
+      "verification_status": "verified_published_intelligence_law_enforcement_record"
+    },
+    {
+      "intelligence_law_enforcement_id": "ile-v24-d341-action-libyan-terrorism-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d341",
+      "document_number": "341",
+      "unit_scope": "document_subject",
+      "ile_type": "counterterrorism",
+      "approved_phrase": "U.S. Action Against Libyan Terrorism",
+      "case_or_program": "U.S. military response to Libyan terrorism",
+      "agency_or_actor": "Department of State and National Security Council",
+      "stage_or_role": "telegram subject",
+      "chronology_or_jurisdiction_basis": "Washington, April 14, 1986, 2146Z",
+      "citation_or_locator": "Document 341 subject line",
+      "public_or_archival_basis": "Published North Africa volume uses this subject form for the terrorism action telegram.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 341.",
+      "variant_forms": [
+        "US Action Against Libyan Terrorism"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d341",
+      "verification_status": "verified_published_intelligence_law_enforcement_record"
+    },
+    {
+      "intelligence_law_enforcement_id": "ile-v24-d341-berlin-paris-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d341",
+      "document_number": "341",
+      "unit_scope": "document_text",
+      "ile_type": "terrorist_incident",
+      "approved_phrase": "Libyan-sponsored activity against the U.S. in both Berlin and Paris",
+      "case_or_program": "La Belle discotheque and Paris bombing references",
+      "agency_or_actor": "Libya and U.S. officials",
+      "stage_or_role": "terrorist-incident basis for U.S. action",
+      "chronology_or_jurisdiction_basis": "April 1986 Berlin and February 1986 Paris incidents",
+      "citation_or_locator": "Document 341 talking points and footnotes 2-3",
+      "public_or_archival_basis": "Published footnotes identify the Berlin and Paris bombing references and scheduled Libya; Chad coverage.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 341.",
+      "variant_forms": [
+        "direct Libyan-sponsored activity against the U.S. in both Berlin and Paris"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d341",
+      "verification_status": "verified_published_intelligence_law_enforcement_record"
+    },
+    {
+      "intelligence_law_enforcement_id": "ile-v24-d174-counterterrorism-records-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d174",
+      "document_number": "174",
+      "unit_scope": "source_note",
+      "ile_type": "source_note_agency_provenance",
+      "approved_phrase": "Bureau of Counter-Terrorism Records, Papers of L. Paul Bremer II as Ambassador to The Hague and Director of the Office of Counter-Terrorism",
+      "case_or_program": "Kuwait Airways Flight 422 hijacking",
+      "agency_or_actor": "Bureau of Counter-Terrorism and Office of Counter-Terrorism",
+      "stage_or_role": "source-note collection provenance",
+      "chronology_or_jurisdiction_basis": "Document 174 source note",
+      "citation_or_locator": "Document 174 footnote 1",
+      "public_or_archival_basis": "Published source note uses Bureau of Counter-Terrorism Records and Bremer papers collection wording.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 174.",
+      "variant_forms": [
+        "Office of Counterterrorism Records, Papers of L. Paul Bremer II",
+        "Counter-Terrorism Records, Papers of L. Paul Bremer II"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d174",
+      "verification_status": "verified_published_intelligence_law_enforcement_record"
+    },
+    {
+      "intelligence_law_enforcement_id": "ile-v24-d175-arrest-warrant-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d175",
+      "document_number": "175",
+      "unit_scope": "document_text",
+      "ile_type": "law_enforcement_case",
+      "approved_phrase": "arrest warrant for Izz-al-Din charging him with hostage taking and conspiracy to commit aircraft piracy",
+      "case_or_program": "TWA 847 and KU-422 hijacker identification",
+      "agency_or_actor": "U.S. District Court, Department of State, Department of Justice",
+      "stage_or_role": "criminal charge and warrant language",
+      "chronology_or_jurisdiction_basis": "U.S. District Court in Washington, D.C., July 3, 1985",
+      "citation_or_locator": "Document 175 paragraph 4",
+      "public_or_archival_basis": "Published telegram preserves the specific warrant and charge language.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 175.",
+      "variant_forms": [
+        "arrest warrant for his role in TWA 847"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d175",
+      "verification_status": "verified_published_intelligence_law_enforcement_record"
+    },
+    {
+      "intelligence_law_enforcement_id": "ile-v24-d175-interpol-red-notice-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d175",
+      "document_number": "175",
+      "unit_scope": "document_text",
+      "ile_type": "extradition_or_prosecution",
+      "approved_phrase": "red notice through Interpol",
+      "case_or_program": "Izz-al-Din provisional arrest request",
+      "agency_or_actor": "Interpol, Department of Justice Office of International Affairs, Algeria",
+      "stage_or_role": "international arrest request",
+      "chronology_or_jurisdiction_basis": "KU-422/TWA 847 law-enforcement response",
+      "citation_or_locator": "Document 175 paragraphs 5-6 and source note",
+      "public_or_archival_basis": "Published telegram connects the red notice, provisional arrest, and extradition/prosecution caveats.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 175.",
+      "variant_forms": [
+        "Interpol red notice",
+        "red notice through appropriate Interpol channels"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d175",
+      "verification_status": "verified_published_intelligence_law_enforcement_record"
+    },
+    {
+      "intelligence_law_enforcement_id": "ile-v24-d178-brought-to-justice-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d178",
+      "document_number": "178",
+      "unit_scope": "document_text",
+      "ile_type": "hostage_hijacking",
+      "approved_phrase": "hijackers should be brought to justice",
+      "case_or_program": "KU-422 hijacking",
+      "agency_or_actor": "Department of State and Government of Algeria",
+      "stage_or_role": "counter-hijacking legal principle",
+      "chronology_or_jurisdiction_basis": "Washington, April 23, 1988, 0708Z",
+      "citation_or_locator": "Document 178 talking points",
+      "public_or_archival_basis": "Published telegram uses brought-to-justice language as the policy position.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 178.",
+      "variant_forms": [
+        "hijackers are brought to justice",
+        "bring the hijackers to justice"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d178",
+      "verification_status": "verified_published_intelligence_law_enforcement_record"
+    },
+    {
+      "intelligence_law_enforcement_id": "ile-v24-d167-fbi-liaison-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d167",
+      "document_number": "167",
+      "unit_scope": "document_text",
+      "ile_type": "interagency_liaison",
+      "approved_phrase": "improve liaison with the FBI",
+      "case_or_program": "Algeria security and law-enforcement liaison",
+      "agency_or_actor": "FBI and Algerian Interior Minister Khediri",
+      "stage_or_role": "liaison request",
+      "chronology_or_jurisdiction_basis": "Document 167 Algeria discussion",
+      "citation_or_locator": "Document 167",
+      "public_or_archival_basis": "Published telegram preserves FBI liaison wording.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 167.",
+      "variant_forms": [
+        "improve liaison with FBI"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d167",
+      "verification_status": "verified_published_intelligence_law_enforcement_record"
+    },
+    {
+      "intelligence_law_enforcement_id": "ile-v24-d167-dea-liaison-001",
+      "volume_id": "frus1981-88v24",
+      "document_id": "frus1981-88v24/d167",
+      "document_number": "167",
+      "unit_scope": "document_text",
+      "ile_type": "counternarcotics",
+      "approved_phrase": "cooperate more closely with DEA",
+      "case_or_program": "Algeria narcotics transit concern",
+      "agency_or_actor": "DEA and Algerian Interior Minister Khediri",
+      "stage_or_role": "counternarcotics liaison",
+      "chronology_or_jurisdiction_basis": "Document 167 Algeria discussion",
+      "citation_or_locator": "Document 167",
+      "public_or_archival_basis": "Published telegram ties DEA liaison to drug-trafficking transit concerns.",
+      "source_or_context": "FRUS, 1981-1988, volume XXIV, Document 167.",
+      "variant_forms": [
+        "cooperate closely with the DEA"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d167",
+      "verification_status": "verified_published_intelligence_law_enforcement_record"
+    },
+    {
+      "intelligence_law_enforcement_id": "ile-v01-d291-narcoterrorism-001",
+      "volume_id": "frus1981-88v01",
+      "document_id": "frus1981-88v01/d291",
+      "document_number": "291",
+      "unit_scope": "public_source_note",
+      "ile_type": "counternarcotics",
+      "approved_phrase": "narcoterrorism, where the narcotics traffickers provide the money and the terrorists provide the muscle",
+      "case_or_program": "Narcotics trafficking and terrorism",
+      "agency_or_actor": "Secretary Shultz public address",
+      "stage_or_role": "public-source policy formulation",
+      "chronology_or_jurisdiction_basis": "Department of State Bulletin, April 1987",
+      "citation_or_locator": "Document 291",
+      "public_or_archival_basis": "Published Reagan Foundations volume cites Shultz's public formulation of narcoterrorism.",
+      "source_or_context": "FRUS, 1981-1988, volume I, Document 291.",
+      "variant_forms": [
+        "narcotics traffickers provide the money and the terrorists provide the muscle",
+        "narcoterrorism"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d291",
+      "verification_status": "verified_published_intelligence_law_enforcement_record"
+    },
+    {
+      "intelligence_law_enforcement_id": "ile-v31-d23-counter-narcotics-peru-001",
+      "volume_id": "frus1989-92v31",
+      "document_id": "frus1989-92v31/d23",
+      "document_number": "23",
+      "unit_scope": "source_note",
+      "ile_type": "counternarcotics",
+      "approved_phrase": "Counter Narcotics in Peru, Review of National Security Review 12--Section IV Regarding Arms Control Implications of Defense Strategy",
+      "case_or_program": "Bush NSC meeting file source-note title",
+      "agency_or_actor": "George H.W. Bush Library, National Security Council H-Files",
+      "stage_or_role": "source-note folder/file title with counternarcotics and START context",
+      "chronology_or_jurisdiction_basis": "May 25, 1989 NSC meeting file",
+      "citation_or_locator": "Document 23 source note",
+      "public_or_archival_basis": "Published START I source note preserves a folder title that includes Counter Narcotics in Peru.",
+      "source_or_context": "FRUS, 1989-1992, volume XXXI, Document 23.",
+      "variant_forms": [
+        "Counter Narcotics in Peru",
+        "counter narcotics in Peru"
+      ],
+      "source_url": "https://history.state.gov/historicaldocuments/frus1989-92v31/d23",
+      "verification_status": "verified_published_intelligence_law_enforcement_record"
     }
   ]
 }

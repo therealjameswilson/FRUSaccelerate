@@ -235,6 +235,8 @@ try {
       "reports/frus-economic-financial-registry.sample.json",
       "--military-crisis-registry",
       "reports/frus-military-crisis-registry.sample.json",
+      "--intelligence-law-enforcement-registry",
+      "reports/frus-intelligence-law-enforcement-registry.sample.json",
       "--footnote-referback-registry",
       "reports/frus-footnote-referback-registry.sample.json",
       "--recurring-risk-registry",
@@ -366,6 +368,22 @@ try {
     audit.counts.military_crisis_direct_edit_conflicts === 0,
     "expected zero military/crisis direct-edit conflicts"
   );
+  assert(
+    audit.counts.intelligence_law_enforcement_registry_usages === 0,
+    "expected zero intelligence/law-enforcement usages"
+  );
+  assert(
+    audit.counts.intelligence_law_enforcement_registry_warnings === 0,
+    "expected zero intelligence/law-enforcement warnings"
+  );
+  assert(
+    audit.counts.intelligence_law_enforcement_unmatched_like_units === 0,
+    "expected zero unmatched intelligence/law-enforcement-like units"
+  );
+  assert(
+    audit.counts.intelligence_law_enforcement_direct_edit_conflicts === 0,
+    "expected zero intelligence/law-enforcement direct-edit conflicts"
+  );
   assert(audit.counts.footnote_referback_approved_usages === 0, "expected zero footnote refer-back usages");
   assert(audit.counts.footnote_referback_malformed === 0, "expected zero malformed footnote refer-backs");
   assert(
@@ -443,6 +461,8 @@ try {
     "economic-financial-usage-audit.json",
     "military-crisis-registry-validation.json",
     "military-crisis-usage-audit.json",
+    "intelligence-law-enforcement-registry-validation.json",
+    "intelligence-law-enforcement-usage-audit.json",
     "footnote-referback-registry-validation.json",
     "footnote-referback-usage-audit.json",
     "recurring-risk-registry-validation.json",
@@ -537,6 +557,14 @@ try {
     "expected military/crisis usage audit report"
   );
   assert(
+    audit.reports.intelligence_law_enforcement_registry_validation.summary.records === 15,
+    "expected intelligence/law-enforcement registry validation report"
+  );
+  assert(
+    audit.reports.intelligence_law_enforcement_usage_audit.status === "pass",
+    "expected intelligence/law-enforcement usage audit report"
+  );
+  assert(
     audit.reports.footnote_referback_registry_validation.summary.records === 8,
     "expected footnote refer-back registry validation report"
   );
@@ -564,7 +592,7 @@ try {
   assert(footnotes.includes("<w:ins "), "expected generated insertion");
   assert(comments.includes("Replace the URL-only locator"), "expected comment body text");
 
-  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/chronology/time-zone/selection-balance/decision-process/public-source/retrospective-account/treaty/foreign-org/congressional-legal/economic-financial/military-crisis/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
+  console.log("FRUS offline review runner test passed: extraction, validation, authority/source-list/document-metadata/declassification/translation/printed-attachment/visual-material/document-handling/chronology/time-zone/selection-balance/decision-process/public-source/retrospective-account/treaty/foreign-org/congressional-legal/economic-financial/military-crisis/intelligence-law-enforcement/footnote-referback/recurring-risk/document-relationship/communications audits, queue, ledger, comments, redlines, output validation, and audit completed.");
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }
