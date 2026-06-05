@@ -652,7 +652,7 @@
               <strong>198</strong>
             </article>
             <article class="stat-card">
-              <span>Review-ready FY 2026 pilots</span>
+              <span>Review-ready workflows</span>
               <strong>10</strong>
             </article>
             <article class="stat-card">
@@ -906,7 +906,7 @@
           </article>
           <article class="resource-card">
             <h3>FRUS planning portal</h3>
-            <p>The evidence base and pilot-planning workspace remains available for cautious, evidence-first program planning.</p>
+            <p>The evidence base and planning workspace remains available for cautious, evidence-first program planning.</p>
             <a href="./dashboard/">Open planning portal</a>
           </article>
         </div>
@@ -928,10 +928,10 @@
               <span class="badge">Route 1</span>
               <span class="tag">Leadership</span>
             </div>
-            <h3>Decide what to fund first</h3>
+            <h3>Decide what to review first</h3>
             <p>Start with the ranked slate, the value x feasibility matrix, and the implementation sequence.</p>
             <div class="route-links">
-              <a href="./dashboard/#topProjects">Top 10 projects</a>
+              <a href="./dashboard/#topProjects">Ranked work slate</a>
               <a href="./dashboard/#deliveryMatrix">Value x feasibility</a>
               <a href="./dashboard/#deliveryTimeline">Implementation timeline</a>
             </div>
@@ -942,12 +942,12 @@
               <span class="badge">Route 2</span>
               <span class="tag">Historians</span>
             </div>
-            <h3>Review how the pilots fit FRUS work</h3>
-            <p>Use the workflow map, sample outputs, and pilot cards to inspect exactly what the pilots would do, where people review them, and what evidence they leave behind.</p>
+            <h3>Review how the workflows fit FRUS work</h3>
+            <p>Use the workflow map, sample outputs, and work cards to inspect exactly what would change, where people review it, and what evidence it leaves behind.</p>
             <div class="route-links">
               <a href="./dashboard/#workflowMap">Workflow map</a>
               <a href="./dashboard/#sampleOutputs">Sample outputs</a>
-              <a href="./dashboard/#projectDossiers">Pilot cards</a>
+              <a href="./dashboard/#projectDossiers">Work cards</a>
             </div>
           </article>
 
@@ -971,7 +971,7 @@
         <div class="section-heading">
           <div>
             <p class="section-kicker">Best first moves</p>
-            <h2>Start with the first three pilots</h2>
+            <h2>Start with the first three workflows</h2>
           </div>
           <p class="section-summary">
             These are the strongest reviewable starts because they address FRUS bottlenecks while keeping reviewers in control and leaving an evidence trail.
@@ -985,7 +985,7 @@
             </div>
             <strong>FRUS Clearance Triage Assistant</strong>
             <p>Reduce declassification drag with reviewer-facing triage, prior-release matching, and auditable human approval.</p>
-            <a href="./dashboard/#dossier-frus-clearance-triage-assistant">Open pilot card</a>
+            <a href="./dashboard/#dossier-frus-clearance-triage-assistant">Open workflow card</a>
           </article>
           <article class="preview-card">
             <div class="preview-meta">
@@ -994,7 +994,7 @@
             </div>
             <strong>Semantic FRUS Research Workbench</strong>
             <p>Shorten historian discovery time with citation-first retrieval across prior FRUS volumes, planning notes, and finding aids.</p>
-            <a href="./dashboard/#dossier-semantic-frus-research-workbench">Open pilot card</a>
+            <a href="./dashboard/#dossier-semantic-frus-research-workbench">Open workflow card</a>
           </article>
           <article class="preview-card">
             <div class="preview-meta">
@@ -1003,7 +1003,7 @@
             </div>
             <strong>Metadata Autofill for Source Packets</strong>
             <p>Draft packet and chapter metadata so editors spend less time on repetitive description and more time on release readiness.</p>
-            <a href="./dashboard/#dossier-metadata-autofill-source-packets">Open pilot card</a>
+            <a href="./dashboard/#dossier-metadata-autofill-source-packets">Open workflow card</a>
           </article>
         </div>
       </section>
@@ -1024,8 +1024,8 @@
               <span class="badge">Chapter I</span>
               <span class="tag">Decide</span>
             </div>
-            <strong>Rank the pilots</strong>
-            <p>See the top 10, the delivery matrix, and the fiscal-year timeline in one sequence built for budget and sequencing decisions.</p>
+            <strong>Rank the work slate</strong>
+            <p>See the ranked list, the delivery matrix, and the implementation timeline in one sequence built for review and sequencing decisions.</p>
             <a href="./dashboard/#topProjects">Open decision chapter</a>
           </article>
           <article class="preview-card">
@@ -1033,9 +1033,9 @@
               <span class="badge">Chapter II</span>
               <span class="tag">Design</span>
             </div>
-            <strong>Inspect the operating pilots</strong>
-            <p>Move from workflow map to sample outputs and full pilot cards to understand what would actually change in FRUS production.</p>
-            <a href="./dashboard/#workflowMap">Open pilot design chapter</a>
+            <strong>Inspect the operating workflows</strong>
+            <p>Move from workflow map to sample outputs and full work cards to understand what would actually change in FRUS production.</p>
+            <a href="./dashboard/#workflowMap">Open workflow design chapter</a>
           </article>
           <article class="preview-card">
             <div class="preview-meta">
@@ -1110,7 +1110,7 @@
         statGrid.innerHTML = [
           ["Compiler desks", compilerDeskCount],
           ["Source systems", sourceSystemCount],
-          ["Workflow pilots", context.topProjectsFY26.length],
+          ["Review workflows", context.topProjectsFY26.length],
           ["Federal precedents", report.relevantUseCaseCount]
         ]
           .map(
@@ -1137,7 +1137,7 @@
                 </div>
                 <strong>${escapeHtml(project.name)}</strong>
                 <p>${escapeHtml(project.goal)}</p>
-                <a href="./dashboard/#dossier-${escapeHtml(project.id)}">Open pilot card</a>
+                <a href="./dashboard/#dossier-${escapeHtml(project.id)}">Open workflow card</a>
               </article>
             `
           )
