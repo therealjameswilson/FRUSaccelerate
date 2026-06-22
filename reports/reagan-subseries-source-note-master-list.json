@@ -1,0 +1,2252 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-06-22T10:02:48.634Z",
+  "source_metadata": [
+    "reports/frus1981-88v01-annotation-corpus.json",
+    "reports/frus1981-88v03-annotation-corpus.json",
+    "reports/frus1981-88v04-annotation-corpus.json",
+    "reports/frus1981-88v05-annotation-corpus.json",
+    "reports/frus1981-88v06-annotation-corpus.json",
+    "reports/frus1981-88v10-annotation-corpus.json",
+    "reports/frus1981-88v11-annotation-corpus.json",
+    "reports/frus1981-88v13-annotation-corpus.json",
+    "reports/frus1981-88v24-annotation-corpus.json",
+    "reports/frus1981-88v38-annotation-corpus.json",
+    "reports/frus1981-88v41-annotation-corpus.json",
+    "reports/frus1981-88v44p1-annotation-corpus.json"
+  ],
+  "style_basis": [
+    "reports/frus-reagan-bush-style-guide.md",
+    "reports/frus-subseries-style-basis-registry.current.json"
+  ],
+  "document_count": 4228,
+  "volumes": [
+    "frus1981-88v01",
+    "frus1981-88v03",
+    "frus1981-88v04",
+    "frus1981-88v05",
+    "frus1981-88v06",
+    "frus1981-88v10",
+    "frus1981-88v11",
+    "frus1981-88v13",
+    "frus1981-88v24",
+    "frus1981-88v38",
+    "frus1981-88v41",
+    "frus1981-88v44p1"
+  ],
+  "raw_source_families": [
+    {
+      "rawFamily": "Department of State - Lot/Executive Secretariat/Office Files",
+      "count": 857,
+      "byVolume": {
+        "frus1981-88v01": 92,
+        "frus1981-88v03": 39,
+        "frus1981-88v04": 74,
+        "frus1981-88v05": 39,
+        "frus1981-88v06": 79,
+        "frus1981-88v10": 59,
+        "frus1981-88v11": 90,
+        "frus1981-88v13": 99,
+        "frus1981-88v24": 31,
+        "frus1981-88v38": 117,
+        "frus1981-88v41": 138
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 22,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d22"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 26,
+          "doc_type": "Briefing",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d26"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 28,
+          "doc_type": "Paper",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d28"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 34,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d34"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 36,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d36"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Reagan Library - Staff/Subject/Directorate Files",
+      "count": 756,
+      "byVolume": {
+        "frus1981-88v01": 52,
+        "frus1981-88v03": 58,
+        "frus1981-88v04": 98,
+        "frus1981-88v05": 109,
+        "frus1981-88v06": 37,
+        "frus1981-88v10": 98,
+        "frus1981-88v11": 48,
+        "frus1981-88v13": 9,
+        "frus1981-88v24": 38,
+        "frus1981-88v38": 147,
+        "frus1981-88v41": 62
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 30,
+          "doc_type": "Memorandum of Conversation",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d30"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 32,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d32"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 44,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d44"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 51,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d51"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 53,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d53"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Reagan Library - NSC Institutional/Executive Secretariat Files",
+      "count": 739,
+      "byVolume": {
+        "frus1981-88v01": 38,
+        "frus1981-88v03": 99,
+        "frus1981-88v04": 109,
+        "frus1981-88v05": 48,
+        "frus1981-88v06": 11,
+        "frus1981-88v10": 78,
+        "frus1981-88v11": 102,
+        "frus1981-88v13": 131,
+        "frus1981-88v24": 58,
+        "frus1981-88v38": 42,
+        "frus1981-88v41": 23
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 21,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d21"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 23,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d23"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 27,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d27"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 39,
+          "doc_type": "Statement",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d39"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 43,
+          "doc_type": "Memorandum of Conversation",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d43"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Department of State - Central Foreign Policy File",
+      "count": 694,
+      "byVolume": {
+        "frus1981-88v01": 17,
+        "frus1981-88v03": 34,
+        "frus1981-88v04": 26,
+        "frus1981-88v05": 41,
+        "frus1981-88v06": 16,
+        "frus1981-88v10": 60,
+        "frus1981-88v11": 44,
+        "frus1981-88v13": 125,
+        "frus1981-88v24": 227,
+        "frus1981-88v38": 20,
+        "frus1981-88v41": 79,
+        "frus1981-88v44p1": 5
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 19,
+          "doc_type": "Telegram",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d19"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 35,
+          "doc_type": "Memorandum of Conversation",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d35"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 38,
+          "doc_type": "Memorandum of Conversation",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d38"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 42,
+          "doc_type": "Briefing",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d42"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 56,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d56"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Reagan Library - Shultz/Hoover/Private Copies",
+      "count": 200,
+      "byVolume": {
+        "frus1981-88v01": 22,
+        "frus1981-88v03": 3,
+        "frus1981-88v04": 27,
+        "frus1981-88v05": 50,
+        "frus1981-88v06": 11,
+        "frus1981-88v10": 22,
+        "frus1981-88v11": 10,
+        "frus1981-88v13": 2,
+        "frus1981-88v24": 36,
+        "frus1981-88v38": 17
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 116,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d116"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 120,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d120"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 131,
+          "doc_type": "Action",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d131"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 132,
+          "doc_type": "Memorandum of Conversation",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d132"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 133,
+          "doc_type": "Memorandum of Conversation",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d133"
+        }
+      ]
+    },
+    {
+      "rawFamily": "No source note found",
+      "count": 186,
+      "byVolume": {
+        "frus1981-88v01": 69,
+        "frus1981-88v03": 16,
+        "frus1981-88v04": 21,
+        "frus1981-88v05": 11,
+        "frus1981-88v06": 7,
+        "frus1981-88v11": 26,
+        "frus1981-88v13": 13,
+        "frus1981-88v24": 3,
+        "frus1981-88v41": 5,
+        "frus1981-88v44p1": 15
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 1,
+          "doc_type": "Editorial Note",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d1"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 2,
+          "doc_type": "Editorial Note",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d2"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 3,
+          "doc_type": "Editorial Note",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d3"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 6,
+          "doc_type": "Editorial Note",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d6"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 7,
+          "doc_type": "Editorial Note",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d7"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Other archival source",
+      "count": 176,
+      "byVolume": {
+        "frus1981-88v01": 2,
+        "frus1981-88v03": 2,
+        "frus1981-88v04": 1,
+        "frus1981-88v06": 10,
+        "frus1981-88v10": 71,
+        "frus1981-88v11": 2,
+        "frus1981-88v13": 17,
+        "frus1981-88v24": 14,
+        "frus1981-88v38": 18,
+        "frus1981-88v41": 38,
+        "frus1981-88v44p1": 1
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 81,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d81"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 219,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d219"
+        },
+        {
+          "volume_id": "frus1981-88v03",
+          "doc_no": 119,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v03/d119"
+        },
+        {
+          "volume_id": "frus1981-88v03",
+          "doc_no": 172,
+          "doc_type": "Letter",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v03/d172"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 175,
+          "doc_type": "Letter",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d175"
+        }
+      ]
+    },
+    {
+      "rawFamily": "DOD/OSD/WNRC/JCS/Agency Records",
+      "count": 172,
+      "byVolume": {
+        "frus1981-88v01": 1,
+        "frus1981-88v03": 5,
+        "frus1981-88v04": 8,
+        "frus1981-88v05": 4,
+        "frus1981-88v06": 2,
+        "frus1981-88v10": 20,
+        "frus1981-88v13": 50,
+        "frus1981-88v24": 36,
+        "frus1981-88v38": 30,
+        "frus1981-88v41": 13,
+        "frus1981-88v44p1": 3
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 194,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d194"
+        },
+        {
+          "volume_id": "frus1981-88v03",
+          "doc_no": 36,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v03/d36"
+        },
+        {
+          "volume_id": "frus1981-88v03",
+          "doc_no": 45,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v03/d45"
+        },
+        {
+          "volume_id": "frus1981-88v03",
+          "doc_no": 239,
+          "doc_type": "Note",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v03/d239"
+        },
+        {
+          "volume_id": "frus1981-88v03",
+          "doc_no": 240,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v03/d240"
+        }
+      ]
+    },
+    {
+      "rawFamily": "NSC Institutional/Executive Secretariat Files",
+      "count": 95,
+      "byVolume": {
+        "frus1981-88v44p1": 95
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 15,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d15"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 19,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d19"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 21,
+          "doc_type": "National Security Decision Directive",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d21"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 25,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d25"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 31,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d31"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Department of State - Lot/Executive Secretariat Files",
+      "count": 62,
+      "byVolume": {
+        "frus1981-88v44p1": 62
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 2,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d2"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 4,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d4"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 11,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d11"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 12,
+          "doc_type": "Letter",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d12"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 14,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d14"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Reagan Library - Staff/Subject Files",
+      "count": 61,
+      "byVolume": {
+        "frus1981-88v44p1": 61
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 1,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d1"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 5,
+          "doc_type": "Notes",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d5"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 8,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d8"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 9,
+          "doc_type": "Memorandum of Conversation",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d9"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 44,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d44"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Reagan Library - President's Daily Diary/Schedule",
+      "count": 33,
+      "byVolume": {
+        "frus1981-88v01": 6,
+        "frus1981-88v04": 5,
+        "frus1981-88v05": 5,
+        "frus1981-88v06": 9,
+        "frus1981-88v11": 3,
+        "frus1981-88v38": 2,
+        "frus1981-88v44p1": 3
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 65,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d65"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 236,
+          "doc_type": "Talking",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d236"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 260,
+          "doc_type": "Paper",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d260"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 292,
+          "doc_type": "Notes",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d292"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 309,
+          "doc_type": "Notes",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d309"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Library of Congress/Private Papers",
+      "count": 30,
+      "byVolume": {
+        "frus1981-88v01": 3,
+        "frus1981-88v03": 4,
+        "frus1981-88v04": 1,
+        "frus1981-88v13": 1,
+        "frus1981-88v24": 2,
+        "frus1981-88v41": 1,
+        "frus1981-88v44p1": 18
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 269,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d269"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 274,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d274"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 289,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d289"
+        },
+        {
+          "volume_id": "frus1981-88v03",
+          "doc_no": 10,
+          "doc_type": "Issues",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v03/d10"
+        },
+        {
+          "volume_id": "frus1981-88v03",
+          "doc_no": 32,
+          "doc_type": "Action",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v03/d32"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Reagan Library - System IV Intelligence Files",
+      "count": 24,
+      "byVolume": {
+        "frus1981-88v04": 9,
+        "frus1981-88v05": 1,
+        "frus1981-88v06": 1,
+        "frus1981-88v10": 8,
+        "frus1981-88v11": 4,
+        "frus1981-88v44p1": 1
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 110,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d110"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 111,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d111"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 114,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d114"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 156,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d156"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 179,
+          "doc_type": "Intelligence",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d179"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Reagan Library - NSC Staff Files",
+      "count": 20,
+      "byVolume": {
+        "frus1981-88v01": 1,
+        "frus1981-88v04": 7,
+        "frus1981-88v05": 3,
+        "frus1981-88v11": 3,
+        "frus1981-88v13": 5,
+        "frus1981-88v41": 1
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 47,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d47"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 54,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d54"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 99,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d99"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 103,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d103"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 197,
+          "doc_type": "Letter",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d197"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Economic/Assistance Agency Records",
+      "count": 18,
+      "byVolume": {
+        "frus1981-88v01": 5,
+        "frus1981-88v10": 2,
+        "frus1981-88v24": 1,
+        "frus1981-88v38": 2,
+        "frus1981-88v41": 8
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 106,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d106"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 139,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d139"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 145,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d145"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 169,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d169"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 293,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d293"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Reagan Library - White House Staff/Office Files",
+      "count": 17,
+      "byVolume": {
+        "frus1981-88v01": 15,
+        "frus1981-88v38": 1,
+        "frus1981-88v41": 1
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 4,
+          "doc_type": "Statement",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d4"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 5,
+          "doc_type": "Excerpts",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d5"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 8,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d8"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 9,
+          "doc_type": "Statement",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d9"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 10,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d10"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Public/Printed Source",
+      "count": 16,
+      "byVolume": {
+        "frus1981-88v01": 12,
+        "frus1981-88v38": 4
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 104,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d104"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 146,
+          "doc_type": "Remarks",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d146"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 192,
+          "doc_type": "Remarks",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d192"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 255,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d255"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 286,
+          "doc_type": "Radio",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d286"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Bush/Carter/Other Presidential Records",
+      "count": 14,
+      "byVolume": {
+        "frus1981-88v10": 1,
+        "frus1981-88v24": 13
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v10",
+          "doc_no": 312,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v10/d312"
+        },
+        {
+          "volume_id": "frus1981-88v24",
+          "doc_no": 27,
+          "doc_type": "Telegram",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d27"
+        },
+        {
+          "volume_id": "frus1981-88v24",
+          "doc_no": 28,
+          "doc_type": "Telegram",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d28"
+        },
+        {
+          "volume_id": "frus1981-88v24",
+          "doc_no": 137,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d137"
+        },
+        {
+          "volume_id": "frus1981-88v24",
+          "doc_no": 139,
+          "doc_type": "Telegram",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d139"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Reagan Library - PROFS",
+      "count": 14,
+      "byVolume": {
+        "frus1981-88v44p1": 14
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 110,
+          "doc_type": "Electronic",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d110"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 121,
+          "doc_type": "Electronic",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d121"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 124,
+          "doc_type": "Electronic",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d124"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 147,
+          "doc_type": "Electronic",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d147"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 156,
+          "doc_type": "Electronic",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d156"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Foreign/International Organization Records",
+      "count": 13,
+      "byVolume": {
+        "frus1981-88v01": 2,
+        "frus1981-88v10": 7,
+        "frus1981-88v11": 1,
+        "frus1981-88v41": 3
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 306,
+          "doc_type": "Remarks",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d306"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 310,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d310"
+        },
+        {
+          "volume_id": "frus1981-88v10",
+          "doc_no": 258,
+          "doc_type": "Paper",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v10/d258"
+        },
+        {
+          "volume_id": "frus1981-88v10",
+          "doc_no": 260,
+          "doc_type": "Intelligence",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v10/d260"
+        },
+        {
+          "volume_id": "frus1981-88v10",
+          "doc_no": 268,
+          "doc_type": "Paper",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v10/d268"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Reagan Library - PROFS/Electronic Messages",
+      "count": 9,
+      "byVolume": {
+        "frus1981-88v04": 2,
+        "frus1981-88v05": 1,
+        "frus1981-88v10": 2,
+        "frus1981-88v11": 4
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 260,
+          "doc_type": "Paper",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d260"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 348,
+          "doc_type": "National Security Decision Directive",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d348"
+        },
+        {
+          "volume_id": "frus1981-88v05",
+          "doc_no": 128,
+          "doc_type": "Letter",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v05/d128"
+        },
+        {
+          "volume_id": "frus1981-88v10",
+          "doc_no": 352,
+          "doc_type": "Telegram",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v10/d352"
+        },
+        {
+          "volume_id": "frus1981-88v10",
+          "doc_no": 358,
+          "doc_type": "Report",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v10/d358"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Reagan Library - W Files",
+      "count": 8,
+      "byVolume": {
+        "frus1981-88v01": 1,
+        "frus1981-88v10": 1,
+        "frus1981-88v41": 4,
+        "frus1981-88v44p1": 2
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 298,
+          "doc_type": "Electronic",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d298"
+        },
+        {
+          "volume_id": "frus1981-88v10",
+          "doc_no": 44,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v10/d44"
+        },
+        {
+          "volume_id": "frus1981-88v41",
+          "doc_no": 115,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d115"
+        },
+        {
+          "volume_id": "frus1981-88v41",
+          "doc_no": 123,
+          "doc_type": "Report",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d123"
+        },
+        {
+          "volume_id": "frus1981-88v41",
+          "doc_no": 130,
+          "doc_type": "Telegram",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d130"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Bush Transition/Bush Records",
+      "count": 7,
+      "byVolume": {
+        "frus1981-88v44p1": 7
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 106,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d106"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 116,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d116"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 160,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d160"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 184,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d184"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 241,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d241"
+        }
+      ]
+    },
+    {
+      "rawFamily": "Reagan Library - Shultz/Hoover Copies",
+      "count": 7,
+      "byVolume": {
+        "frus1981-88v44p1": 7
+      },
+      "sampleDocuments": [
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 6,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d6"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 10,
+          "doc_type": "Information",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d10"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 20,
+          "doc_type": "Information",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d20"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 68,
+          "doc_type": "Information",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d68"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 90,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d90"
+        }
+      ]
+    }
+  ],
+  "master_list": [
+    {
+      "rank": 1,
+      "id": "department-state-lot-executive-office",
+      "label": "Department of State lot, Executive Secretariat, and office files",
+      "document_count": 919,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: Department of State, [office or Executive Secretariat], [records series], Lot [number], [collection title], [folder title]. [Classification; handling]. [Drafting, clearance, meeting-location, copy, or cross-reference note.]",
+      "alternate_citation": null,
+      "use": "Use for Baker, Shultz, S/S, S/S-IRM, S/P, Under Secretary, Counselor, bureau, and office lot-file control copies.",
+      "cautions": [
+        "Do not mix lot-file prose with Central Foreign Policy File document-number citations.",
+        "Preserve lot number, office, collection title, and folder title when the metadata supplies them."
+      ],
+      "raw_families": [
+        "Department of State - Lot/Executive Secretariat/Office Files",
+        "Department of State - Lot/Executive Secretariat Files"
+      ],
+      "by_volume": {
+        "frus1981-88v01": 92,
+        "frus1981-88v03": 39,
+        "frus1981-88v04": 74,
+        "frus1981-88v05": 39,
+        "frus1981-88v06": 79,
+        "frus1981-88v10": 59,
+        "frus1981-88v11": 90,
+        "frus1981-88v13": 99,
+        "frus1981-88v24": 31,
+        "frus1981-88v38": 117,
+        "frus1981-88v41": 138,
+        "frus1981-88v44p1": 62
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 22,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d22"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 26,
+          "doc_type": "Briefing",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d26"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 28,
+          "doc_type": "Paper",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d28"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 34,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d34"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 36,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d36"
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "id": "reagan-library-nsc-institutional-executive-secretariat",
+      "label": "Reagan Library NSC institutional and Executive Secretariat files",
+      "document_count": 834,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: Reagan Library, Executive Secretariat, NSC: [Agency/Cable/Subject/Meeting/NSDD/NSPG/System II/System IV series]: Records, [box, folder, document number, or directive title]. [Classification; handling]. [Distribution, approval, signature, attachment, or covering-memorandum note.]",
+      "alternate_citation": "Source: National Security Council, National Security Council Institutional Files, Box [number], [file title]. [Classification; handling]. [Distribution, covering-memorandum, signature, or presidential-approval note.]",
+      "use": "Use for Executive Secretariat, NSDD, NSPG, NSC meeting, agency, cable, subject, and Washington-held institutional control copies.",
+      "cautions": [
+        "If the published document is a memorandum transmitting an attached directive, cite the control copy and state the attachment relationship.",
+        "Use the National Security Council institutional form only when the source path is Washington-held NSC institutional files rather than Reagan Library holdings."
+      ],
+      "raw_families": [
+        "Reagan Library - NSC Institutional/Executive Secretariat Files",
+        "NSC Institutional/Executive Secretariat Files"
+      ],
+      "by_volume": {
+        "frus1981-88v01": 38,
+        "frus1981-88v03": 99,
+        "frus1981-88v04": 109,
+        "frus1981-88v05": 48,
+        "frus1981-88v06": 11,
+        "frus1981-88v10": 78,
+        "frus1981-88v11": 102,
+        "frus1981-88v13": 131,
+        "frus1981-88v24": 58,
+        "frus1981-88v38": 42,
+        "frus1981-88v41": 23,
+        "frus1981-88v44p1": 95
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 21,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d21"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 23,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d23"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 27,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d27"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 39,
+          "doc_type": "Statement",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d39"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 43,
+          "doc_type": "Memorandum of Conversation",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d43"
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "id": "reagan-library-staff-subject-directorate",
+      "label": "Reagan Library staff, subject, and directorate files",
+      "document_count": 817,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: Reagan Library, National Security Council, [staff member, subject file, or directorate] Files, [series], [folder title]. [Classification; handling]. [Drafting, routing, annotation, read-by, meeting-location, or attachment note.]",
+      "alternate_citation": null,
+      "use": "Use for NSC staff member files, directorate files, subject files, and related Reagan Library staff/office control copies.",
+      "cautions": [
+        "Do not collapse the staff member, directorate, or subject-file path into a generic Reagan Library citation.",
+        "Keep verified no-classification, read-by, marginalia, and attachment facts in the final note."
+      ],
+      "raw_families": [
+        "Reagan Library - Staff/Subject/Directorate Files",
+        "Reagan Library - Staff/Subject Files"
+      ],
+      "by_volume": {
+        "frus1981-88v01": 52,
+        "frus1981-88v03": 58,
+        "frus1981-88v04": 98,
+        "frus1981-88v05": 109,
+        "frus1981-88v06": 37,
+        "frus1981-88v10": 98,
+        "frus1981-88v11": 48,
+        "frus1981-88v13": 9,
+        "frus1981-88v24": 38,
+        "frus1981-88v38": 147,
+        "frus1981-88v41": 62,
+        "frus1981-88v44p1": 61
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 30,
+          "doc_type": "Memorandum of Conversation",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d30"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 32,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d32"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 44,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d44"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 51,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d51"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 53,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d53"
+        }
+      ]
+    },
+    {
+      "rank": 4,
+      "id": "department-state-central-foreign-policy-file",
+      "label": "Department of State Central Foreign Policy File",
+      "document_count": 694,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: Department of State, Central Foreign Policy File, [Electronic Telegrams/D Reels/N Reels/P Reels], [telegram or document identifier]. [Classification; handling; precedence]. [Drafting, clearance, repeat-addressee, or related-file note.]",
+      "alternate_citation": null,
+      "use": "Use for telegrams, airgrams, memoranda, and other central-file records where the CFPF reel, electronic telegram, or document identifier is the source control.",
+      "cautions": [
+        "For telegrams, retain telegram numbers, precedence, repeated addressees, and special designators when present.",
+        "Do not replace a CFPF identifier with a URL, NARA catalog result, or broad State Department label."
+      ],
+      "raw_families": [
+        "Department of State - Central Foreign Policy File"
+      ],
+      "by_volume": {
+        "frus1981-88v01": 17,
+        "frus1981-88v03": 34,
+        "frus1981-88v04": 26,
+        "frus1981-88v05": 41,
+        "frus1981-88v06": 16,
+        "frus1981-88v10": 60,
+        "frus1981-88v11": 44,
+        "frus1981-88v13": 125,
+        "frus1981-88v24": 227,
+        "frus1981-88v38": 20,
+        "frus1981-88v41": 79,
+        "frus1981-88v44p1": 5
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 19,
+          "doc_type": "Telegram",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d19"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 35,
+          "doc_type": "Memorandum of Conversation",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d35"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 38,
+          "doc_type": "Memorandum of Conversation",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d38"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 42,
+          "doc_type": "Briefing",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d42"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 56,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d56"
+        }
+      ]
+    },
+    {
+      "rank": 5,
+      "id": "reagan-library-shultz-hoover-private-copies",
+      "label": "Reagan Library Shultz, Hoover, and private-copy files",
+      "document_count": 207,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: Reagan Library, George P. Shultz Papers, [series], [folder title/date]. [Classification; handling]. [Copy, marginalia, meeting-folder notation, Daily Diary, or no-minutes note.]",
+      "alternate_citation": "Source: Hoover Institution, George P. Shultz Papers, [series], [box], [folder title/date]. [Classification; handling]. [Copy, marginalia, meeting-folder notation, Daily Diary, or no-minutes note.]",
+      "use": "Use for Shultz papers, Hoover copies, and private control copies when they provide the documentary base.",
+      "cautions": [
+        "Name the repository actually used: Reagan Library copy or Hoover Institution copy.",
+        "Keep marginalia, underlining, checkmarks, no-minutes statements, and Daily Diary corroboration explicit when they carry source value."
+      ],
+      "raw_families": [
+        "Reagan Library - Shultz/Hoover/Private Copies",
+        "Reagan Library - Shultz/Hoover Copies"
+      ],
+      "by_volume": {
+        "frus1981-88v01": 22,
+        "frus1981-88v03": 3,
+        "frus1981-88v04": 27,
+        "frus1981-88v05": 50,
+        "frus1981-88v06": 11,
+        "frus1981-88v10": 22,
+        "frus1981-88v11": 10,
+        "frus1981-88v13": 2,
+        "frus1981-88v24": 36,
+        "frus1981-88v38": 17,
+        "frus1981-88v44p1": 7
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 116,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d116"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 120,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d120"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 131,
+          "doc_type": "Action",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d131"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 132,
+          "doc_type": "Memorandum of Conversation",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d132"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 133,
+          "doc_type": "Memorandum of Conversation",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d133"
+        }
+      ]
+    },
+    {
+      "rank": 6,
+      "id": "no-source-note",
+      "label": "No source note found / editorial-note cases",
+      "document_count": 186,
+      "source_note_status": "not-a-source-note",
+      "frus_style_citation": null,
+      "alternate_citation": null,
+      "use": "Use no Source note when the published unit is an editorial note, appendix marker, or another apparatus item without a first-footnote source note.",
+      "cautions": [
+        "Do not manufacture a Source note for an editorial note that intentionally has none.",
+        "If the unit is actually a document, route it to source-note repair rather than leaving it in this family."
+      ],
+      "raw_families": [
+        "No source note found"
+      ],
+      "by_volume": {
+        "frus1981-88v01": 69,
+        "frus1981-88v03": 16,
+        "frus1981-88v04": 21,
+        "frus1981-88v05": 11,
+        "frus1981-88v06": 7,
+        "frus1981-88v11": 26,
+        "frus1981-88v13": 13,
+        "frus1981-88v24": 3,
+        "frus1981-88v41": 5,
+        "frus1981-88v44p1": 15
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 1,
+          "doc_type": "Editorial Note",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d1"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 2,
+          "doc_type": "Editorial Note",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d2"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 3,
+          "doc_type": "Editorial Note",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d3"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 6,
+          "doc_type": "Editorial Note",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d6"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 7,
+          "doc_type": "Editorial Note",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d7"
+        }
+      ]
+    },
+    {
+      "rank": 7,
+      "id": "other-archival-source",
+      "label": "Other archival source",
+      "document_count": 176,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: [repository], [record group or collection], [office or series], [box, folder, document number, or file identifier]. [Classification; handling]. [Drafting, routing, release-status, copy, or annotation note.]",
+      "alternate_citation": null,
+      "use": "Use only after resolving the metadata to a specific repository and collection path.",
+      "cautions": [
+        "This is a temporary normalization lane, not final copy.",
+        "Promote to a specific source family whenever the repository and collection can be identified."
+      ],
+      "raw_families": [
+        "Other archival source"
+      ],
+      "by_volume": {
+        "frus1981-88v01": 2,
+        "frus1981-88v03": 2,
+        "frus1981-88v04": 1,
+        "frus1981-88v06": 10,
+        "frus1981-88v10": 71,
+        "frus1981-88v11": 2,
+        "frus1981-88v13": 17,
+        "frus1981-88v24": 14,
+        "frus1981-88v38": 18,
+        "frus1981-88v41": 38,
+        "frus1981-88v44p1": 1
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 81,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d81"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 219,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d219"
+        },
+        {
+          "volume_id": "frus1981-88v03",
+          "doc_no": 119,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v03/d119"
+        },
+        {
+          "volume_id": "frus1981-88v03",
+          "doc_no": 172,
+          "doc_type": "Letter",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v03/d172"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 175,
+          "doc_type": "Letter",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d175"
+        }
+      ]
+    },
+    {
+      "rank": 8,
+      "id": "defense-agency-records",
+      "label": "Defense, OSD, WNRC, JCS, CIA, and agency records",
+      "document_count": 172,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: National Archives, RG [number], Records of [agency or office], [series/accession], Box [number], [folder title]. [Classification; handling]. [Drafting, clearance, distribution, or routing note.]",
+      "alternate_citation": null,
+      "use": "Use for Defense Department, OSD, WNRC, JCS, CIA, NIC, DCI, DDI, and other federal-agency holdings when those records are the control copy.",
+      "cautions": [
+        "Replace the agency placeholder with the exact record group and office path before publication.",
+        "Do not cite an agency family as National Archives unless the source path actually resolves there."
+      ],
+      "raw_families": [
+        "DOD/OSD/WNRC/JCS/Agency Records"
+      ],
+      "by_volume": {
+        "frus1981-88v01": 1,
+        "frus1981-88v03": 5,
+        "frus1981-88v04": 8,
+        "frus1981-88v05": 4,
+        "frus1981-88v06": 2,
+        "frus1981-88v10": 20,
+        "frus1981-88v13": 50,
+        "frus1981-88v24": 36,
+        "frus1981-88v38": 30,
+        "frus1981-88v41": 13,
+        "frus1981-88v44p1": 3
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 194,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d194"
+        },
+        {
+          "volume_id": "frus1981-88v03",
+          "doc_no": 36,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v03/d36"
+        },
+        {
+          "volume_id": "frus1981-88v03",
+          "doc_no": 45,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v03/d45"
+        },
+        {
+          "volume_id": "frus1981-88v03",
+          "doc_no": 239,
+          "doc_type": "Note",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v03/d239"
+        },
+        {
+          "volume_id": "frus1981-88v03",
+          "doc_no": 240,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v03/d240"
+        }
+      ]
+    },
+    {
+      "rank": 9,
+      "id": "reagan-library-daily-diary",
+      "label": "Reagan Library President's Daily Diary and schedule",
+      "document_count": 33,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: Reagan Library, President's Daily Diary, [date]. [Meeting or call time, place, participants, and duration].",
+      "alternate_citation": null,
+      "use": "Use as a source note only when the diary or schedule entry itself is the selected record; otherwise cite it in annotation as corroboration for time, place, participants, or no-minutes checks.",
+      "cautions": [
+        "Do not use the Daily Diary as a substitute for substantive minutes or memoranda when those exist.",
+        "Keep diary facts separate from the archival source note for the substantive policy document."
+      ],
+      "raw_families": [
+        "Reagan Library - President's Daily Diary/Schedule"
+      ],
+      "by_volume": {
+        "frus1981-88v01": 6,
+        "frus1981-88v04": 5,
+        "frus1981-88v05": 5,
+        "frus1981-88v06": 9,
+        "frus1981-88v11": 3,
+        "frus1981-88v38": 2,
+        "frus1981-88v44p1": 3
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 65,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d65"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 236,
+          "doc_type": "Talking",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d236"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 260,
+          "doc_type": "Paper",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d260"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 292,
+          "doc_type": "Notes",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d292"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 309,
+          "doc_type": "Notes",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d309"
+        }
+      ]
+    },
+    {
+      "rank": 10,
+      "id": "library-congress-private-papers",
+      "label": "Library of Congress and private papers",
+      "document_count": 30,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: Library of Congress, Manuscript Division, [person] Papers, [office or series], Box [number], [folder title/date]. [Classification; handling]. [Read-by stamp, handwritten note, highlighting, underlining, checkmark, or copy note.]",
+      "alternate_citation": null,
+      "use": "Use for Haig, Donald Regan, Paul Nitze, Weinberger, or other private papers when they provide the source copy.",
+      "cautions": [
+        "Record marginalia exactly enough to show documentary significance.",
+        "Do not convert original underlining, highlighting, or checkmarks into editorial emphasis without saying what the source shows."
+      ],
+      "raw_families": [
+        "Library of Congress/Private Papers"
+      ],
+      "by_volume": {
+        "frus1981-88v01": 3,
+        "frus1981-88v03": 4,
+        "frus1981-88v04": 1,
+        "frus1981-88v13": 1,
+        "frus1981-88v24": 2,
+        "frus1981-88v41": 1,
+        "frus1981-88v44p1": 18
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 269,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d269"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 274,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d274"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 289,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d289"
+        },
+        {
+          "volume_id": "frus1981-88v03",
+          "doc_no": 10,
+          "doc_type": "Issues",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v03/d10"
+        },
+        {
+          "volume_id": "frus1981-88v03",
+          "doc_no": 32,
+          "doc_type": "Action",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v03/d32"
+        }
+      ]
+    },
+    {
+      "rank": 11,
+      "id": "reagan-library-system-iv",
+      "label": "Reagan Library System IV Intelligence Files",
+      "document_count": 24,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: Reagan Library, System IV Intelligence Files, [series, document number, or file title], [date]. [Classification; handling]. [Distribution, intelligence-source, release-status, or copy note.]",
+      "alternate_citation": null,
+      "use": "Use for System IV intelligence-file records.",
+      "cautions": [
+        "Keep System IV as a distinct source family rather than folding it into general NSC files.",
+        "Preserve intelligence distribution and release-status evidence when the source supplies it."
+      ],
+      "raw_families": [
+        "Reagan Library - System IV Intelligence Files"
+      ],
+      "by_volume": {
+        "frus1981-88v04": 9,
+        "frus1981-88v05": 1,
+        "frus1981-88v06": 1,
+        "frus1981-88v10": 8,
+        "frus1981-88v11": 4,
+        "frus1981-88v44p1": 1
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 110,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d110"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 111,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d111"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 114,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d114"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 156,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d156"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 179,
+          "doc_type": "Intelligence",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d179"
+        }
+      ]
+    },
+    {
+      "rank": 12,
+      "id": "reagan-library-profs",
+      "label": "Reagan Library PROFS electronic messages",
+      "document_count": 23,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: Reagan Library, PROFS System of White House Electronic Messages, [account, sender/recipient file, or folder], [message title or date]. [Classification; handling]. [Sender, recipient, copy, routing, or printout note.]",
+      "alternate_citation": null,
+      "use": "Use for PROFS System White House electronic-message records.",
+      "cautions": [
+        "Keep the electronic-message system name; do not rewrite PROFS as a generic staff file.",
+        "Preserve sender, recipient, copy, and printout evidence when visible."
+      ],
+      "raw_families": [
+        "Reagan Library - PROFS",
+        "Reagan Library - PROFS/Electronic Messages"
+      ],
+      "by_volume": {
+        "frus1981-88v04": 2,
+        "frus1981-88v05": 1,
+        "frus1981-88v10": 2,
+        "frus1981-88v11": 4,
+        "frus1981-88v44p1": 14
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 110,
+          "doc_type": "Electronic",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d110"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 121,
+          "doc_type": "Electronic",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d121"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 124,
+          "doc_type": "Electronic",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d124"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 147,
+          "doc_type": "Electronic",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d147"
+        },
+        {
+          "volume_id": "frus1981-88v44p1",
+          "doc_no": 156,
+          "doc_type": "Electronic",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v44p1/d156"
+        }
+      ]
+    },
+    {
+      "rank": 13,
+      "id": "other-presidential-records",
+      "label": "Carter, Bush, transition, or other presidential records",
+      "document_count": 21,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: [Presidential Library], [presidential records collection], [office or staff files], [series], [folder title]. [Classification; handling]. [Routing, annotation, initials, meeting, or transition-context note.]",
+      "alternate_citation": null,
+      "use": "Use for Carter, Bush Vice Presidential, Bush transition, or other presidential-library records that appear inside Reagan-era source trails.",
+      "cautions": [
+        "Do not cite pre-January 20, 1989 Bush Vice Presidential or transition material as Bush Presidential Records.",
+        "Preserve the exact library, collection, office, staff-file path, and OA/ID or box/folder control when available."
+      ],
+      "raw_families": [
+        "Bush/Carter/Other Presidential Records",
+        "Bush Transition/Bush Records"
+      ],
+      "by_volume": {
+        "frus1981-88v10": 1,
+        "frus1981-88v24": 13,
+        "frus1981-88v44p1": 7
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v10",
+          "doc_no": 312,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v10/d312"
+        },
+        {
+          "volume_id": "frus1981-88v24",
+          "doc_no": 27,
+          "doc_type": "Telegram",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d27"
+        },
+        {
+          "volume_id": "frus1981-88v24",
+          "doc_no": 28,
+          "doc_type": "Telegram",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d28"
+        },
+        {
+          "volume_id": "frus1981-88v24",
+          "doc_no": 137,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d137"
+        },
+        {
+          "volume_id": "frus1981-88v24",
+          "doc_no": 139,
+          "doc_type": "Telegram",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v24/d139"
+        }
+      ]
+    },
+    {
+      "rank": 14,
+      "id": "reagan-library-nsc-staff-files",
+      "label": "Reagan Library NSC staff files",
+      "document_count": 20,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: Reagan Library, [NSC staff member] Files, [series], [folder title]. [Classification; handling]. [Drafting, routing, annotation, read-by, meeting-location, or attachment note.]",
+      "alternate_citation": null,
+      "use": "Use for named NSC staff files when the metadata distinguishes them from broader subject or directorate files.",
+      "cautions": [
+        "Name the staff member and series; do not reduce the path to a generic NSC file.",
+        "Keep visible annotations, initials, and read-by stamps in compact source-note prose."
+      ],
+      "raw_families": [
+        "Reagan Library - NSC Staff Files"
+      ],
+      "by_volume": {
+        "frus1981-88v01": 1,
+        "frus1981-88v04": 7,
+        "frus1981-88v05": 3,
+        "frus1981-88v11": 3,
+        "frus1981-88v13": 5,
+        "frus1981-88v41": 1
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 47,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d47"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 54,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d54"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 99,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d99"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 103,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d103"
+        },
+        {
+          "volume_id": "frus1981-88v04",
+          "doc_no": 197,
+          "doc_type": "Letter",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v04/d197"
+        }
+      ]
+    },
+    {
+      "rank": 15,
+      "id": "economic-assistance-agency-records",
+      "label": "Economic, assistance, and specialized agency records",
+      "document_count": 18,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: National Archives, RG [number], Records of [agency], [office or series], [accession], Box [number], [folder title]. [Classification; handling]. [Drafting, clearance, routing, or attachment note.]",
+      "alternate_citation": null,
+      "use": "Use for Treasury, AID, Commerce, USTR, USIA, or other economic/assistance agency files when those agencies provide the source copy.",
+      "cautions": [
+        "Identify the precise agency and record group before publication.",
+        "Do not use this broad family label in a final note."
+      ],
+      "raw_families": [
+        "Economic/Assistance Agency Records"
+      ],
+      "by_volume": {
+        "frus1981-88v01": 5,
+        "frus1981-88v10": 2,
+        "frus1981-88v24": 1,
+        "frus1981-88v38": 2,
+        "frus1981-88v41": 8
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 106,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d106"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 139,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d139"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 145,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d145"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 169,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d169"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 293,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d293"
+        }
+      ]
+    },
+    {
+      "rank": 16,
+      "id": "reagan-library-white-house-staff-office",
+      "label": "Reagan Library White House staff and office files",
+      "document_count": 17,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: Reagan Library, White House [office or staff member] Files, [series], [folder title]. [Classification or no classification marking]. [Draft, letterhead, venue, audience, time, handwritten notation, routing, or copy note.]",
+      "alternate_citation": null,
+      "use": "Use for White House staff, office, speechwriting, research, WHORM, vertical, transition, or similar White House office files.",
+      "cautions": [
+        "Preserve the exact office or staff-file path and folder title.",
+        "For speech, campaign, or transition material, preserve letterhead, venue, delivery time, and campaign/transition context when supplied."
+      ],
+      "raw_families": [
+        "Reagan Library - White House Staff/Office Files"
+      ],
+      "by_volume": {
+        "frus1981-88v01": 15,
+        "frus1981-88v38": 1,
+        "frus1981-88v41": 1
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 4,
+          "doc_type": "Statement",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d4"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 5,
+          "doc_type": "Excerpts",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d5"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 8,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d8"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 9,
+          "doc_type": "Statement",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d9"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 10,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d10"
+        }
+      ]
+    },
+    {
+      "rank": 17,
+      "id": "public-printed-source",
+      "label": "Public or printed source",
+      "document_count": 16,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: [publishing agency or publication title], [date], pp. [pages]. No classification marking. [Reason this published text is used, if needed.]",
+      "alternate_citation": null,
+      "use": "Use public or printed sources as the document source only when no better archival control copy can be located or when the public text itself is the policy act.",
+      "cautions": [
+        "More often, public sources belong in annotation rather than as the first-footnote source note.",
+        "Do not omit page numbers for printed sources."
+      ],
+      "raw_families": [
+        "Public/Printed Source"
+      ],
+      "by_volume": {
+        "frus1981-88v01": 12,
+        "frus1981-88v38": 4
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 104,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d104"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 146,
+          "doc_type": "Remarks",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d146"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 192,
+          "doc_type": "Remarks",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d192"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 255,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d255"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 286,
+          "doc_type": "Radio",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d286"
+        }
+      ]
+    },
+    {
+      "rank": 18,
+      "id": "foreign-international-organization-records",
+      "label": "Foreign government and international organization records",
+      "document_count": 13,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: [foreign ministry, government archive, or international organization], [collection], [series], [file identifier]. [Classification, handling, or release status if present]. [Language, translation, copy, or distribution note.]",
+      "alternate_citation": null,
+      "use": "Use for foreign government, NATO, United Nations, IMF/World Bank, or other international organization sources.",
+      "cautions": [
+        "Preserve language, translation, and copy-status evidence.",
+        "Do not recast a foreign or international source as a U.S. repository citation."
+      ],
+      "raw_families": [
+        "Foreign/International Organization Records"
+      ],
+      "by_volume": {
+        "frus1981-88v01": 2,
+        "frus1981-88v10": 7,
+        "frus1981-88v11": 1,
+        "frus1981-88v41": 3
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 306,
+          "doc_type": "Remarks",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d306"
+        },
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 310,
+          "doc_type": "Address",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d310"
+        },
+        {
+          "volume_id": "frus1981-88v10",
+          "doc_no": 258,
+          "doc_type": "Paper",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v10/d258"
+        },
+        {
+          "volume_id": "frus1981-88v10",
+          "doc_no": 260,
+          "doc_type": "Intelligence",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v10/d260"
+        },
+        {
+          "volume_id": "frus1981-88v10",
+          "doc_no": 268,
+          "doc_type": "Paper",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v10/d268"
+        }
+      ]
+    },
+    {
+      "rank": 19,
+      "id": "reagan-library-w-files",
+      "label": "Reagan Library W Files",
+      "document_count": 8,
+      "source_note_status": "citation-pattern",
+      "frus_style_citation": "Source: Reagan Library, W Files, [series or file], [folder or document title]. [Classification; handling]. [Presidential decision, approval, routing, annotation, or copy note.]",
+      "alternate_citation": null,
+      "use": "Use for W Files and related high-level White House decision records.",
+      "cautions": [
+        "Keep W Files distinct from PROFS, System IV, and general Executive Secretariat records.",
+        "Preserve presidential approval, decision, and routing evidence when present."
+      ],
+      "raw_families": [
+        "Reagan Library - W Files"
+      ],
+      "by_volume": {
+        "frus1981-88v01": 1,
+        "frus1981-88v10": 1,
+        "frus1981-88v41": 4,
+        "frus1981-88v44p1": 2
+      },
+      "sample_documents": [
+        {
+          "volume_id": "frus1981-88v01",
+          "doc_no": 298,
+          "doc_type": "Electronic",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v01/d298"
+        },
+        {
+          "volume_id": "frus1981-88v10",
+          "doc_no": 44,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v10/d44"
+        },
+        {
+          "volume_id": "frus1981-88v41",
+          "doc_no": 115,
+          "doc_type": "Memorandum",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d115"
+        },
+        {
+          "volume_id": "frus1981-88v41",
+          "doc_no": 123,
+          "doc_type": "Report",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d123"
+        },
+        {
+          "volume_id": "frus1981-88v41",
+          "doc_no": 130,
+          "doc_type": "Telegram",
+          "url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d130"
+        }
+      ]
+    }
+  ]
+}
