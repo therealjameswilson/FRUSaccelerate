@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-06-22T10:02:48.634Z",
+  "generated_at": "2026-06-22T10:11:05.326Z",
   "source_metadata": [
     "reports/frus1981-88v01-annotation-corpus.json",
     "reports/frus1981-88v03-annotation-corpus.json",
@@ -2247,6 +2247,187 @@
           "url": "https://history.state.gov/historicaldocuments/frus1981-88v41/d130"
         }
       ]
+    }
+  ],
+  "source_list_authorities": [
+    "https://history.state.gov/historicaldocuments/frus1981-88v38/sources"
+  ],
+  "source_list_additions": [
+    {
+      "id": "v38-state-economic-business-lot-files",
+      "label": "Volume XXXVIII State economic and business affairs lot files",
+      "basis": [
+        "FRUS 1981-1988, Volume XXXVIII, Sources, Department of State Lot Files",
+        "Lot 84D247; Lot 85D193; Lot 86D76; Lot 86D112; Lot 87D73; Lot 88D345; Lot 93D490"
+      ],
+      "supplements": "Department of State lot, Executive Secretariat, and office files",
+      "citation": "Source: Department of State, Bureau of Economic and Business Affairs, [office or records series], Lot [number], [collection title], [folder title]. [Classification; handling]. [Drafting, clearance, routing, attachment, or meeting note.]",
+      "use": "Use for EB commodity, investment policy, international finance and development, planning, UNCTAD, and economic/agricultural affairs files named on the Volume XXXVIII Sources page."
+    },
+    {
+      "id": "v38-state-executive-secretariat-economic-lot-files",
+      "label": "Volume XXXVIII State Executive Secretariat and E lot files",
+      "basis": [
+        "FRUS 1981-1988, Volume XXXVIII, Sources, Department of State Lot Files",
+        "Lot 83D288; Lot 85D308; Lot 87D327; Lot 88D99; Lot 89D139; Lot 89D149; Lot 89D154; Lot 89D155; Lot 89D156; Lot 89D378; Lot 92D630; Lot 95D334; Lot 96D262"
+      ],
+      "supplements": "Department of State lot, Executive Secretariat, and office files",
+      "citation": "Source: Department of State, [Executive Secretariat, S/S-I/S/S/S/P/D records, E records, or Under Secretary for Economic Affairs files], Lot [number], [collection title], [folder title]. [Classification; handling]. [Drafting, clearance, sent-for-action, routing, copy, or cross-reference note.]",
+      "use": "Use for Haig, Dam, Whitehead, Policy Planning Staff, Allen Wallis, special caption, Deputy Secretary, and special handling restriction files cited by Volume XXXVIII."
+    },
+    {
+      "id": "v38-nara-rg56-treasury-secretary",
+      "label": "NARA RG 56 Treasury Office of the Secretary records",
+      "basis": [
+        "FRUS 1981-1988, Volume XXXVIII, Sources, National Archives and Records Administration, RG 56",
+        "Records of the Office of the Secretary of the Treasury"
+      ],
+      "supplements": "Economic, assistance, and specialized agency records",
+      "citation": "Source: National Archives, RG 56, Records of the Department of the Treasury, Records of the Office of the Secretary of the Treasury, [series], Box [number], [folder title]. [Classification; handling]. [Drafting, clearance, routing, attachment, or copy note.]",
+      "use": "Use for Secretary of the Treasury congressional correspondence, correspondence, executive secretariat official files, official files, and subject files."
+    },
+    {
+      "id": "v38-nara-rg56-treasury-monetary-affairs",
+      "label": "NARA RG 56 Treasury Under Secretary for Monetary Affairs records",
+      "basis": [
+        "FRUS 1981-1988, Volume XXXVIII, Sources, National Archives and Records Administration, RG 56",
+        "Records of the Office of the Under Secretary for Monetary Affairs"
+      ],
+      "supplements": "Economic, assistance, and specialized agency records",
+      "citation": "Source: National Archives, RG 56, Records of the Department of the Treasury, Records of the Office of the Under Secretary for Monetary Affairs, [series], Box [number], [folder title]. [Classification; handling]. [Drafting, clearance, routing, meeting, working group, trip, summit, or currency-talk note.]",
+      "use": "Use for subject files relating to meetings, working groups, trips, summits, and currency talks."
+    },
+    {
+      "id": "v38-nara-rg59-state-buckley-haig",
+      "label": "NARA RG 59 State Buckley and Haig files",
+      "basis": [
+        "FRUS 1981-1988, Volume XXXVIII, Sources, National Archives and Records Administration, RG 59",
+        "Lot 82D352; Lot 82D370"
+      ],
+      "supplements": "Department of State lot, Executive Secretariat, and office files",
+      "citation": "Source: National Archives, RG 59, General Records of the Department of State, [office or person files], Lot [number], [collection title], [folder title]. [Classification; handling]. [Drafting, clearance, routing, annotation, or copy note.]",
+      "use": "Use for James L. Buckley Office of the Under Secretary for Security Assistance, Science and Technology files and Alexander M. Haig, Jr. files transferred under RG 59."
+    },
+    {
+      "id": "v38-reagan-library-nsc-summit-institutional-files",
+      "label": "Volume XXXVIII Reagan Library Executive Secretariat NSC files",
+      "basis": [
+        "FRUS 1981-1988, Volume XXXVIII, Sources, Reagan Library",
+        "Executive Secretariat NSC Agency File, Meeting File, NSDD File, Subject File, and Trip File"
+      ],
+      "supplements": "Reagan Library NSC institutional and Executive Secretariat files",
+      "citation": "Source: Reagan Library, Executive Secretariat, NSC: [Agency File/Meeting File/NSDD File/Subject File/Trip File], [box or folder title]. [Classification; handling]. [Distribution, presidential approval, meeting, summit, attachment, or covering-memorandum note.]",
+      "use": "Use for Cancun, G-7 economic summit, NSDD, NSC meeting, agency, and subject control copies identified on the Volume XXXVIII Sources page."
+    },
+    {
+      "id": "v38-reagan-library-cabinet-affairs-ccea",
+      "label": "Reagan Library Cabinet Affairs and CCEA records",
+      "basis": [
+        "FRUS 1981-1988, Volume XXXVIII, Sources, Reagan Library",
+        "Files of the Office of Cabinet Affairs; Ralph Bledsoe Files"
+      ],
+      "supplements": "Reagan Library White House staff and office files",
+      "citation": "Source: Reagan Library, White House Staff and Office Files, [Office of Cabinet Affairs or Ralph Bledsoe Files], [series], [folder title]. [Classification; handling]. [Cabinet council meeting, CCEA minutes, attendance, routing, or attachment note.]",
+      "use": "Use for Cabinet Council on Economic Affairs minutes and related cabinet council records."
+    },
+    {
+      "id": "v38-reagan-library-economic-staff-files",
+      "label": "Volume XXXVIII Reagan Library economic-policy staff files",
+      "basis": [
+        "FRUS 1981-1988, Volume XXXVIII, Sources, Reagan Library",
+        "Norman Bailey Files; Stephen Danzansky Files; Douglas McMinn Files; Roger Robinson Files; David Wigg Files; and related named staff files"
+      ],
+      "supplements": "Reagan Library staff, subject, and directorate files",
+      "citation": "Source: Reagan Library, White House Staff and Office Files, [staff member] Files, [series], [folder title]. [Classification; handling]. [Drafting, routing, annotation, read-by, meeting, attachment, or copy note.]",
+      "use": "Use for named White House and NSC economic-policy staff files cited by Volume XXXVIII, especially International Economic Affairs Directorate material."
+    },
+    {
+      "id": "v38-reagan-library-whorm-commodities",
+      "label": "Reagan Library WHORM Commodities subject file",
+      "basis": [
+        "FRUS 1981-1988, Volume XXXVIII, Sources, Reagan Library",
+        "White House Office of Records Management, Subject File, Commodities (CM)"
+      ],
+      "supplements": "Reagan Library White House staff and office files",
+      "citation": "Source: Reagan Library, White House Office of Records Management, Subject File, Commodities (CM), [case file or folder title]. [Classification or no classification marking]. [Routing, annotation, attachment, or copy note.]",
+      "use": "Use when the WHORM Commodities subject file is the source copy rather than a staff-file duplicate."
+    },
+    {
+      "id": "v38-cia-history-nic-dci-files",
+      "label": "CIA History Staff, NIC, and DCI files",
+      "basis": [
+        "FRUS 1981-1988, Volume XXXVIII, Sources, Central Intelligence Agency",
+        "History Staff Files; National Intelligence Council Job 85-01156R; Office of the Director of Central Intelligence Job 84B00049R"
+      ],
+      "supplements": "Defense, OSD, WNRC, JCS, CIA, and agency records",
+      "citation": "Source: Central Intelligence Agency, [History Staff Files/National Intelligence Council/Office of the Director of Central Intelligence], [job number and series], [box or folder title]. [Classification; handling]. [Intelligence distribution, drafting, coordination, release-status, or copy note.]",
+      "use": "Use for CIA perspectives and international-debt intelligence records cited by Volume XXXVIII."
+    },
+    {
+      "id": "v38-library-congress-haig-department-state-files",
+      "label": "Library of Congress Haig Department of State Files",
+      "basis": [
+        "FRUS 1981-1988, Volume XXXVIII, Sources, Library of Congress",
+        "Papers of Alexander M. Haig, Jr., Department of State Files"
+      ],
+      "supplements": "Library of Congress and private papers",
+      "citation": "Source: Library of Congress, Manuscript Division, Papers of Alexander M. Haig, Jr., Department of State Files, Box [number], [folder title]. [Classification; handling]. [Read-by stamp, handwritten notation, highlighting, underlining, checkmark, or copy note.]",
+      "use": "Use for Haig private-paper copies housed at the Library of Congress."
+    },
+    {
+      "id": "v38-princeton-mudd-baker-papers",
+      "label": "Princeton Mudd Manuscript Library James A. Baker III Papers",
+      "basis": [
+        "FRUS 1981-1988, Volume XXXVIII, Sources, Princeton University",
+        "Mudd Manuscript Library, Department of Special Collections, James A. Baker III Papers"
+      ],
+      "supplements": "Other archival source",
+      "citation": "Source: Princeton University, Mudd Manuscript Library, Department of Special Collections, James A. Baker III Papers, [series], Box [number], [folder title]. [Classification; handling]. [Copy, annotation, routing, meeting, or attachment note.]",
+      "use": "Use when the Baker Papers provide the source copy for economic, debt, or assistance records."
+    },
+    {
+      "id": "v38-wnrc-rg56-treasury-executive-secretariat",
+      "label": "WNRC RG 56 Treasury Executive Secretariat records",
+      "basis": [
+        "FRUS 1981-1988, Volume XXXVIII, Sources, Washington National Records Center, RG 56",
+        "Records of the Executive Secretariat; Congressional Files, 1987; Secretaries Miller, Regan, and Baker Files"
+      ],
+      "supplements": "Economic, assistance, and specialized agency records",
+      "citation": "Source: Washington National Records Center, RG 56, Records of the Department of the Treasury, Records of the Executive Secretariat, [series], Box [number], [folder title]. [Classification; handling]. [Drafting, clearance, congressional, routing, or copy note.]",
+      "use": "Use for WNRC Treasury Executive Secretariat records, including 1987 congressional files and Secretaries Miller, Regan, and Baker files."
+    },
+    {
+      "id": "v38-wnrc-rg56-treasury-international-affairs",
+      "label": "WNRC RG 56 Treasury International Affairs records",
+      "basis": [
+        "FRUS 1981-1988, Volume XXXVIII, Sources, Washington National Records Center, RG 56",
+        "Records of the Office of the Assistant Secretary for International Affairs; Meeting and Policy Files; Under Secretary for International Affairs (Mulford) Subject Files"
+      ],
+      "supplements": "Economic, assistance, and specialized agency records",
+      "citation": "Source: Washington National Records Center, RG 56, Records of the Department of the Treasury, Records of [Assistant Secretary or Under Secretary] for International Affairs, [series], Box [number], [folder title]. [Classification; handling]. [Meeting, policy, drafting, clearance, routing, or copy note.]",
+      "use": "Use for Treasury international affairs, meeting and policy, and Mulford subject files cited by Volume XXXVIII."
+    },
+    {
+      "id": "v38-published-periodicals",
+      "label": "Volume XXXVIII published periodicals and newspapers",
+      "basis": [
+        "FRUS 1981-1988, Volume XXXVIII, Sources, Published Sources",
+        "Commentary Magazine; Foreign Affairs; New York Times; Washington Post"
+      ],
+      "supplements": "Public or printed source",
+      "citation": "Source: [Commentary Magazine/Foreign Affairs/New York Times/Washington Post], [date], pp. [pages]. No classification marking. [Reason this published text is used, if needed.]",
+      "use": "Use only when the published item itself is the document source; otherwise cite in annotation."
+    },
+    {
+      "id": "v38-published-government-imf-sources",
+      "label": "Volume XXXVIII published government and IMF sources",
+      "basis": [
+        "FRUS 1981-1988, Volume XXXVIII, Sources, Published Sources",
+        "International Monetary Fund Annual Report 1987; Department of State Bulletin; Public Papers of Jimmy Carter and Ronald Reagan"
+      ],
+      "supplements": "Public or printed source",
+      "citation": "Source: [International Monetary Fund/Department of State/National Archives and Records Administration], [publication title], [year or date], pp. [pages]. No classification marking. [Reason this published text is used, if needed.]",
+      "use": "Use for IMF annual report, Department of State Bulletin, and Public Papers source copies when no archival control copy is used or when the published text is the policy act."
     }
   ]
 }
