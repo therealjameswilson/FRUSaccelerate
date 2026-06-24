@@ -36,6 +36,7 @@ const skipDirectoryNames = new Set([
 ]);
 
 if (!includeCaches) {
+  skipDirectoryNames.add(".tmp*");
   skipDirectoryNames.add(".cache");
   skipDirectoryNames.add("tmp");
 }
@@ -162,7 +163,7 @@ function copyDirectory(sourceDir, targetDir, stats) {
       stats.skippedFiles += 1;
       continue;
     }
-    if (entry.isDirectory() && skipDirectoryNames.has(entry.name)) {
+    if (entry.isDirectory() && shouldSkipDirectory(entry.name)) {
       stats.skippedDirectories += 1;
       continue;
     }
@@ -198,6 +199,10 @@ function copyDirectory(sourceDir, targetDir, stats) {
     stats.files += 1;
     stats.bytes += fileStats.size;
   }
+}
+
+function shouldSkipDirectory(name) {
+  return skipDirectoryNames.has(name) || name.startsWith(".tmp");
 }
 
 function copyFileReadWrite(sourcePath, targetPath) {

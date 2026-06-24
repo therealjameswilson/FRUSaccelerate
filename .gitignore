@@ -1,4 +1,5 @@
 site/
 standalone-frus-assist/
 build/compiler-assist-standalone-*.tar.gz
+build/compiler-assist-standalone-transfer-*/
 .DS_Store
