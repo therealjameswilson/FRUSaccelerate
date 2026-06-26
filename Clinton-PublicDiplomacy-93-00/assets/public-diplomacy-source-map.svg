@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-labelledby="title desc">
+  <title id="title">Public diplomacy source map</title>
+  <desc id="desc">A source map connecting FRUS status, Clinton Library, NARA, State public diplomacy, broadcasting, public papers, and source-note review lanes.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fffdf7" />
+      <stop offset="1" stop-color="#ece6d8" />
+    </linearGradient>
+    <linearGradient id="navy" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#223b5a" />
+      <stop offset="1" stop-color="#111c2b" />
+    </linearGradient>
+    <filter id="shadow" x="-12%" y="-12%" width="124%" height="124%">
+      <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#17212b" flood-opacity="0.18" />
+    </filter>
+  </defs>
+
+  <rect width="960" height="640" rx="28" fill="url(#paper)" />
+  <path d="M0 70h960" stroke="#d8d0c2" stroke-width="2" />
+  <path d="M72 0v640M888 0v640" stroke="#d8d0c2" stroke-width="2" />
+  <path d="M122 112h716v416H122z" fill="#fffefa" stroke="#d8d0c2" stroke-width="2" filter="url(#shadow)" />
+  <path d="M122 166h716" stroke="#d8d0c2" stroke-width="2" />
+  <path d="M180 222h600M180 276h600M180 330h600M180 384h600M180 438h600" stroke="#ece2d0" stroke-width="2" />
+  <path d="M238 178v314M480 178v314M722 178v314" stroke="#ece2d0" stroke-width="2" />
+
+  <g font-family="Inter, Arial, sans-serif" text-anchor="middle">
+    <rect x="316" y="246" width="328" height="112" rx="10" fill="url(#navy)" />
+    <text x="480" y="286" fill="#f8fafc" font-size="20" font-weight="800">FRUS 1993-2000</text>
+    <text x="480" y="318" fill="#f8fafc" font-size="38" font-family="Georgia, serif">Volume XIV</text>
+    <text x="480" y="344" fill="#d9e2ec" font-size="17">Public Diplomacy</text>
+  </g>
+
+  <g fill="none" stroke-linecap="round" stroke-width="4">
+    <path d="M316 302C248 282 224 232 190 196" stroke="#8f3f44" />
+    <path d="M316 314c-80 22-114 88-154 142" stroke="#2e6659" />
+    <path d="M644 302c64-20 86-74 124-112" stroke="#bd8b2e" />
+    <path d="M644 322c72 36 94 88 140 130" stroke="#4c6f92" />
+    <path d="M480 246c-10-62 28-100 66-132" stroke="#6b4b72" />
+    <path d="M480 358c-8 64 24 100 66 138" stroke="#2e6659" />
+  </g>
+
+  <g font-family="Inter, Arial, sans-serif" font-size="15" font-weight="800">
+    <g>
+      <rect x="100" y="134" width="184" height="78" rx="9" fill="#fff7ed" stroke="#d6a25a" />
+      <text x="192" y="165" text-anchor="middle" fill="#7b4b19">FRUS Status</text>
+      <text x="192" y="188" text-anchor="middle" fill="#586571" font-size="13" font-weight="600">planned volume</text>
+    </g>
+    <g>
+      <rect x="80" y="430" width="216" height="86" rx="9" fill="#f0faf7" stroke="#7aa497" />
+      <text x="188" y="462" text-anchor="middle" fill="#235246">Clinton Library</text>
+      <text x="188" y="486" text-anchor="middle" fill="#586571" font-size="13" font-weight="600">USIA, VOA, PDD-68</text>
+    </g>
+    <g>
+      <rect x="390" y="80" width="256" height="86" rx="9" fill="#f8f2fb" stroke="#b59abf" />
+      <text x="518" y="112" text-anchor="middle" fill="#523960">State/USIA Reform</text>
+      <text x="518" y="136" text-anchor="middle" fill="#586571" font-size="13" font-weight="600">integration and structure</text>
+    </g>
+    <g>
+      <rect x="696" y="126" width="176" height="84" rx="9" fill="#fffaf0" stroke="#d6a25a" />
+      <text x="784" y="158" text-anchor="middle" fill="#7b4b19">Public Line</text>
+      <text x="784" y="182" text-anchor="middle" fill="#586571" font-size="13" font-weight="600">speeches and papers</text>
+    </g>
+    <g>
+      <rect x="690" y="430" width="188" height="88" rx="9" fill="#edf6ff" stroke="#8aaac8" />
+      <text x="784" y="464" text-anchor="middle" fill="#254e72">NARA Records</text>
+      <text x="784" y="488" text-anchor="middle" fill="#586571" font-size="13" font-weight="600">RG 306 and RG 59</text>
+    </g>
+    <g>
+      <rect x="380" y="486" width="276" height="76" rx="9" fill="#f5f2ea" stroke="#c8bdab" />
+      <text x="518" y="516" text-anchor="middle" fill="#17212b">Source-Note Review</text>
+      <text x="518" y="540" text-anchor="middle" fill="#586571" font-size="13" font-weight="600">repository to document boundary</text>
+    </g>
+  </g>
+
+  <g fill="#17212b" opacity="0.26">
+    <circle cx="124" cy="96" r="5" />
+    <circle cx="836" cy="96" r="5" />
+    <circle cx="124" cy="544" r="5" />
+    <circle cx="836" cy="544" r="5" />
+  </g>
+</svg>

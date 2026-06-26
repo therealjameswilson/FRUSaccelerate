@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FRUS 1993-2000 Volume XIV Assist</title>
+    <meta
+      name="description"
+      content="A source-first compiler assist page for Foreign Relations of the United States, 1993-2000, Volume XIV, Public Diplomacy."
+    />
+    <link rel="stylesheet" href="styles.css?v=20260625-public-diplomacy" />
+    <script defer src="app.js?v=20260625-public-diplomacy"></script>
+  </head>
+  <body>
+    <div class="compiler-network" role="navigation" aria-label="Compiler network">
+      <div class="compiler-network__inner">
+        <span class="compiler-network__label">Compiler Network</span>
+        <div class="compiler-network__links">
+          <a href="https://therealjameswilson.github.io/Compiler-Assist/" rel="noreferrer">Main Hub</a>
+          <a href="https://history.state.gov/historicaldocuments/frus1993-00v14" rel="noreferrer">Official Volume</a>
+          <a href="https://history.state.gov/historicaldocuments/status-of-the-series" rel="noreferrer">FRUS Status</a>
+          <a href="https://www.clintonlibrary.gov/research/archives/finding-aids" rel="noreferrer">Clinton Finding Aids</a>
+          <button class="compiler-network__copy" type="button" data-compiler-handoff>Copy Handoff</button>
+        </div>
+      </div>
+    </div>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="FRUS Volume XIV Assist home">
+        <span class="brand-mark">XIV</span>
+        <span>Public Diplomacy Desk</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#desk">Desk</a>
+        <a href="#lanes">Lanes</a>
+        <a href="#sources">Sources</a>
+        <a href="#chronology">Chronology</a>
+        <a href="#queue">Pull Queue</a>
+        <a href="#recipes">Searches</a>
+        <a href="#notes">Notes</a>
+        <a href="#boundaries">Boundaries</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="kicker">FRUS 1993-2000, Volume XIV</p>
+          <h1 id="hero-title">Public Diplomacy</h1>
+          <p class="lede">
+            A source-first compiler desk for a planned Clinton volume: USIA-to-State
+            integration, international broadcasting, public diplomacy oversight,
+            speech and press records, country-facing information campaigns, and
+            source-note review kept visible before synthesis.
+          </p>
+          <div class="hero-actions" aria-label="Primary actions">
+            <a class="button primary" href="#sources">Open Source Browser</a>
+            <a class="button secondary" href="#queue">Start Pull Queue</a>
+            <a class="button secondary" href="#notes">Draft Source Notes</a>
+          </div>
+        </div>
+
+        <aside class="volume-brief" aria-label="Volume status and source scope">
+          <img
+            class="brief-visual"
+            src="assets/public-diplomacy-source-map.svg"
+            alt="Source map for the public diplomacy volume"
+          />
+          <p class="brief-label">Official Snapshot</p>
+          <dl>
+            <div>
+              <dt>Series</dt>
+              <dd>1993-2000</dd>
+            </div>
+            <div>
+              <dt>Volume</dt>
+              <dd>XIV</dd>
+            </div>
+            <div>
+              <dt>Topic</dt>
+              <dd>Public Diplomacy</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>Planned</dd>
+            </div>
+            <div>
+              <dt>Review Posture</dt>
+              <dd>Compiler-led</dd>
+            </div>
+          </dl>
+          <p class="brief-note">
+            Treat every row as a lead until the repository, collection, file unit,
+            release path, and volume boundary all agree.
+          </p>
+        </aside>
+      </section>
+
+      <section class="stats" aria-label="Research desk summary">
+        <div>
+          <span id="source-count">0</span>
+          <p>source anchors</p>
+        </div>
+        <div>
+          <span id="lane-count">0</span>
+          <p>compiler lanes</p>
+        </div>
+        <div>
+          <span id="queue-count">0</span>
+          <p>first-pull items</p>
+        </div>
+        <div>
+          <span id="gap-count">0</span>
+          <p>boundary checks</p>
+        </div>
+      </section>
+
+      <section class="section desk-section" id="desk" aria-labelledby="desk-title">
+        <div class="section-heading">
+          <p class="kicker">Compiler Desk</p>
+          <h2 id="desk-title">Build The Volume From Source Trails</h2>
+        </div>
+        <div class="desk-grid">
+          <article class="desk-panel">
+            <h3>Institutional Spine</h3>
+            <p>
+              Track USIA, the Advisory Commission, international broadcasting, and
+              the 1999 integration of public diplomacy functions into State without
+              swallowing the separate organization-and-management volumes.
+            </p>
+          </article>
+          <article class="desk-panel">
+            <h3>Message Pipeline</h3>
+            <p>
+              Pair President, Secretary, NSC, speechwriter, press, and public affairs
+              records so public language can be tested against internal clearance.
+            </p>
+          </article>
+          <article class="desk-panel">
+            <h3>Audience Evidence</h3>
+            <p>
+              Look for foreign media reaction, embassy reporting, polling, exchanges,
+              broadcasting feedback, and audience research before treating a message
+              as diplomacy rather than domestic politics.
+            </p>
+          </article>
+          <article class="desk-panel">
+            <h3>Boundary Control</h3>
+            <p>
+              Keep Balkans, Northern Ireland, China, Cuba, Africa, counterterrorism,
+              and global-issues evidence visible, but route policy decisions back to
+              their regional or functional volumes.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section lanes-section" id="lanes" aria-labelledby="lanes-title">
+        <div class="section-heading">
+          <p class="kicker">Source Lanes</p>
+          <h2 id="lanes-title">Eight Routes Into The Record</h2>
+        </div>
+        <div id="lanes-root" class="lane-grid" aria-live="polite">
+          <p class="loading">Loading public diplomacy lanes...</p>
+        </div>
+      </section>
+
+      <section class="section source-section" id="sources" aria-labelledby="sources-title">
+        <div class="section-heading">
+          <p class="kicker">Primary Sources</p>
+          <h2 id="sources-title">Source Browser</h2>
+        </div>
+        <div class="tool-panel" aria-label="Source filters">
+          <label>
+            <span>Search</span>
+            <input id="source-search" type="search" placeholder="USIA, VOA, PDD-68, speechwriter, Kosovo" />
+          </label>
+          <label>
+            <span>Repository</span>
+            <select id="repository-filter"></select>
+          </label>
+          <label>
+            <span>Lane</span>
+            <select id="lane-filter"></select>
+          </label>
+          <label>
+            <span>Priority</span>
+            <select id="priority-filter">
+              <option value="">All priorities</option>
+              <option value="first">First pull</option>
+              <option value="second">Second pass</option>
+              <option value="context">Context</option>
+            </select>
+          </label>
+          <button id="clear-filters" type="button">Clear</button>
+          <button id="download-sources" type="button">CSV</button>
+        </div>
+        <p id="source-summary" class="result-summary">Loading source records...</p>
+        <div id="source-root" class="source-grid" aria-live="polite">
+          <p class="loading">Loading source records...</p>
+        </div>
+      </section>
+
+      <section class="section chronology-section" id="chronology" aria-labelledby="chronology-title">
+        <div class="section-heading">
+          <p class="kicker">Sequence</p>
+          <h2 id="chronology-title">Chronology Pivots To Verify</h2>
+        </div>
+        <div id="chronology-root" class="timeline" aria-live="polite">
+          <p class="loading">Loading chronology pivots...</p>
+        </div>
+      </section>
+
+      <section class="section queue-section" id="queue" aria-labelledby="queue-title">
+        <div class="section-heading">
+          <p class="kicker">Today's Work</p>
+          <h2 id="queue-title">First Pull Queue</h2>
+        </div>
+        <div id="queue-root" class="queue-list" aria-live="polite">
+          <p class="loading">Loading pull queue...</p>
+        </div>
+      </section>
+
+      <section class="section recipes-section" id="recipes" aria-labelledby="recipes-title">
+        <div class="section-heading">
+          <p class="kicker">Search Recipes</p>
+          <h2 id="recipes-title">Queries That Should Produce Documents</h2>
+        </div>
+        <div id="recipes-root" class="recipe-grid" aria-live="polite">
+          <p class="loading">Loading searches...</p>
+        </div>
+      </section>
+
+      <section class="section notes-section" id="notes" aria-labelledby="notes-title">
+        <div class="section-heading">
+          <p class="kicker">Source Notes</p>
+          <h2 id="notes-title">Draft Note Boundaries</h2>
+        </div>
+        <div class="note-layout">
+          <article class="note-card">
+            <h3>Provenance stays in the note.</h3>
+            <p>
+              Archive, record group or collection, series, folder or item, classification
+              and release facts belong in source-note prose once verified.
+            </p>
+          </article>
+          <article class="note-card">
+            <h3>Locators stay in tracking fields.</h3>
+            <p>
+              Item IDs, catalog URLs, search pages, and local filenames are useful for
+              the queue, but should not replace archival provenance in a finished note.
+            </p>
+          </article>
+          <article class="note-card note-card-wide">
+            <h3>Copyable draft skeleton</h3>
+            <pre id="source-note-skeleton"></pre>
+            <button id="copy-source-note" type="button">Copy skeleton</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="section boundaries-section" id="boundaries" aria-labelledby="boundaries-title">
+        <div class="section-heading">
+          <p class="kicker">Boundary Control</p>
+          <h2 id="boundaries-title">Do Not Let The Volume Drift</h2>
+        </div>
+        <div id="boundaries-root" class="boundary-grid" aria-live="polite">
+          <p class="loading">Loading boundary checks...</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        FRUS Assist for Volume XIV. Source trails, search recipes, and boundary notes
+        remain provisional until reviewed against archival files and the official volume plan.
+      </p>
+    </footer>
+  </body>
+</html>
