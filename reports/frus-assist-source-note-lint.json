@@ -1,0 +1,26 @@
+{
+  "schema_version": "frus-source-note-lint-v1",
+  "status": "pass",
+  "summary": {
+    "schema_version": "frus-source-note-lint-v1",
+    "source_notes_seen": 8141,
+    "diagnostics_count": 0,
+    "protected_compact_count": 1035,
+    "direct_edit_conflicts": 0,
+    "diagnostics_by_rule": {},
+    "diagnostics_by_component_role": {},
+    "component_presence": {
+      "source_label": 8141,
+      "repository": 8141,
+      "series_subseries": 7178,
+      "locator": 1631,
+      "document_status": 1049,
+      "classification": 1035,
+      "drafting_clearance_routing": 1,
+      "read_by_physical": 58,
+      "cross_reference": 7
+    }
+  },
+  "diagnostics": [],
+  "direct_edit_conflicts": []
+}
