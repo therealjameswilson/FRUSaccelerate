@@ -1,0 +1,209 @@
+FRUS Annotation Sheet Builder v1 StateChat-c / ChatGPT 5.4 Operator Script
+Generated: 2026-06-30
+
+PURPOSE
+
+This script tells the standalone-network operator how to run FRUS Annotation
+Sheet Builder v1 inside StateChat-c with ChatGPT 5.4.
+
+The builder creates first-pass FRUS annotation sheets from PDFs of documents a
+compiler wants to print. The normal workflow is drag and drop: upload the agent
+file, drag the PDF into the context window, and ask for a draft annotation sheet.
+
+The builder does not replace compilers, editors, source-note review, the General
+Editor, or declassification review. It drafts only from uploaded evidence and
+marks missing evidence clearly.
+
+
+PART 1 - MODEL SETUP
+
+Use these settings if StateChat-c exposes them:
+
+- Model: gpt-5.4
+- Reasoning effort:
+  - medium for one clear PDF
+  - high for batches, poor scans, mixed attachments, source-note uncertainty,
+    declassification questions, or Word/DOCX output
+  - low only for quick heading or OCR triage
+- Temperature: low or deterministic
+- Output mode: JSON-first
+- Structured output: enable if available, using the schema in the agent file
+
+Do not ask for a narrative essay. The default output should be structured JSON
+plus a copy-ready annotation-sheet draft.
+
+
+PART 2 - UPLOAD ORDER
+
+Use this order for ordinary runs:
+
+1. FRUS_Annotation_Sheet_Builder_v1_StateChat_C_ChatGPT_5_4_Agent_2026-06-30.md
+2. Operator note identifying:
+   - target volume, if known
+   - chapter or section, if known
+   - single-document or batch run
+   - whether final document numbers are known
+   - whether attachments/tabs should be printed
+   - whether Word/DOCX output is requested
+3. Current FRUS Style Guide or local office style authority, if available
+4. Target-volume source list, front matter, chapter outline, source register,
+   manuscript spreadsheet, or compiler instruction, if available
+5. Drag and drop the PDF document or PDF batch into the context window
+6. OCR text, page images, source-image manifest, archive pull slip, box/folder
+   notes, eRecords/CFPF metadata, or declassification packet, if available
+7. Companion-agent outputs, if useful:
+   - FRUS Annotation Checker
+   - FRUS Manuscript Document Numberer
+   - KERR-E
+   - KATH-E
+   - DANN-E
+   - DEAN
+   - Front Matter Check
+   - Reviewer Apprentice
+
+If the PDF is long or image-heavy, split by document or attach OCR text as well.
+
+
+PART 3 - STANDARD DRAG-AND-DROP PROMPT
+
+Paste this after uploading the agent file and dragging in a PDF:
+
+<frus_annotation_sheet_builder_run>
+Run FRUS Annotation Sheet Builder v1 on the uploaded PDF document inside
+StateChat-c with ChatGPT 5.4.
+
+Treat the PDF as a document a compiler wants to print in a FRUS volume. First
+inventory the uploaded file and identify extraction quality. Then extract the
+visible document metadata, distinguish document text from cover sheets,
+release artifacts, attachments, tabs, and source backup, and produce a
+first-pass FRUS annotation sheet.
+
+Return JSON first using the v1 schema. Then return a copy-ready annotation-sheet
+draft with:
+
+- Document [TBD] unless a document number was supplied
+- draft heading
+- source note drafted only from visible or supplied evidence
+- editorial notes or footnote candidates
+- attachment/tabs questions
+- compiler evidence requests
+
+Do not invent source provenance, archive path, document number, manuscript
+order, cross-reference target, publication status, classification,
+declassification status, participant list, drafting/clearance chain, or
+historical context not proved by the uploaded evidence.
+</frus_annotation_sheet_builder_run>
+
+
+PART 4 - BATCH PROMPT
+
+Use this when multiple PDFs are dragged into the same context window:
+
+<frus_annotation_sheet_builder_batch_run>
+Run FRUS Annotation Sheet Builder v1 on the uploaded PDF batch.
+
+Treat each PDF as one candidate manuscript document unless the file itself or
+my operator note shows a multi-document packet, attachment, tab, enclosure, or
+source backup. Build a per-file evidence inventory, then produce a combined
+annotation-sheet draft in uploaded order unless a spreadsheet or compiler note
+provides a different order.
+
+Use Document [TBD] placeholders unless final numbers were supplied. Do not sort
+by date unless I explicitly ask for chronological order. Preserve compiler
+order if supplied.
+
+Return JSON first, then the combined copy-ready annotation sheet.
+</frus_annotation_sheet_builder_batch_run>
+
+
+PART 5 - OCR TRIAGE PROMPT
+
+Use this when the PDF may be unreadable or badly scanned:
+
+<frus_annotation_sheet_builder_ocr_triage>
+Run OCR triage only.
+
+Inventory the uploaded PDF. Tell me whether ChatGPT 5.4 can read enough of the
+file to draft a FRUS annotation sheet. Identify unreadable pages, missing OCR,
+poor scans, cut-off margins, handwriting problems, password protection, or
+other extraction limits.
+
+Do not draft a final-looking annotation sheet if the PDF is not readable.
+Return JSON first with overall_readiness set to blocked_pending_ocr_or_rescan
+if needed, then give a short list of exactly what to re-upload.
+</frus_annotation_sheet_builder_ocr_triage>
+
+
+PART 6 - SOURCE-NOTE-ONLY PROMPT
+
+Use this when the compiler only wants source-note drafting:
+
+<frus_annotation_sheet_builder_source_note_only>
+Run source-note-only mode on the uploaded PDF.
+
+Extract only evidence relevant to the FRUS source note: repository or source
+path if supplied or visible, copy basis, classification, handling markings,
+date, sender/recipient, telegram number, drafting/clearance/distribution,
+declassification/release markings, marginalia, and attachment status.
+
+Draft the source note only from visible or supplied evidence. Use
+[source provenance needed] and evidence requests for missing archive path,
+copy basis, attachment treatment, or declassification proof.
+</frus_annotation_sheet_builder_source_note_only>
+
+
+PART 7 - DOCX PRODUCTION PROMPT
+
+Use this after a successful builder run if StateChat-c exposes a Word-writing
+tool and the operator wants a review copy:
+
+<frus_annotation_sheet_builder_docx_output>
+Using the prior builder JSON and copy-ready annotation-sheet draft, create a
+Word .docx review copy if the host tool is available.
+
+Title the file as a draft annotation sheet. Preserve all bracketed placeholders
+and evidence requests. Do not remove uncertainty. Do not claim the file is
+publication-ready.
+
+If no Word-writing tool is available, say so and return the copy-ready text only.
+</frus_annotation_sheet_builder_docx_output>
+
+
+PART 8 - POST-RUN HANDLING
+
+Recommended next steps:
+
+1. Send the generated draft to the compiler for source-provenance and attachment
+   decisions.
+2. If document numbers are needed, run FRUS Manuscript Document Numberer with
+   the manuscript spreadsheet and draft annotation sheet.
+3. Run FRUS Annotation Checker on the draft annotation sheet before any final
+   redlines or production handoff.
+4. Keep the builder JSON with the draft so source reviewers can see why each
+   fact was included or held.
+
+
+PART 9 - TROUBLESHOOTING
+
+If the builder invents archive source information:
+
+- Re-run and instruct it to use [source provenance needed] unless the source
+  path is visible or supplied.
+
+If the builder treats every page as one document:
+
+- Re-run attachment_triage mode and ask it to separate primary document,
+  attachment, tab, enclosure, and source backup.
+
+If the builder assigns document numbers:
+
+- Re-run and tell it to use Document [TBD] unless a Numberer ledger or final
+  manuscript spreadsheet supplies numbers.
+
+If the builder writes too much historical context:
+
+- Re-run and request source-note and evidence-bound editorial notes only.
+
+If the PDF is unreadable:
+
+- Upload OCR text, clearer page images, or split files by document.
