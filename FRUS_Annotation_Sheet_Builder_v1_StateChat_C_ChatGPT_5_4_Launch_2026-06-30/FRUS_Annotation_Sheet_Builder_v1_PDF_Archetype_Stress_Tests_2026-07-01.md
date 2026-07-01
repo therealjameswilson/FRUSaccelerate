@@ -21,6 +21,7 @@ The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 20
 | `clinton-2013-0185-source-notes/source-pdfs/2013-0185-M_Part1.pdf` | 375 | source-register/release packet, withdrawal sheets, OA/ID folder-title list | Do not draft a manuscript annotation sheet; run source-register triage and extract collection, Access Management, OA/ID, folder-title, restriction, and case-number evidence. |
 | `tmp/pdfs/frus-builder-test/public-source/PPP-1993-book1-doc-pg257.pdf` | 1 | public/printed source PDF from GovInfo Public Papers | Draft a public-source annotation from visible publication title, printed item title, event date, page number, and GovInfo/publication identifiers; do not invent archive path or use PDF creation metadata as the document date. |
 | `tmp/pdfs/frus-builder-test/appendix-facsimile/frus1981-88v01-appendix-b-facsimile-test.pdf` | 1 | image-only appendix facsimile derived from official history.state.gov Appendix B image | Treat as appendix/facsimile and transcription evidence; preserve appendix label and source-control identifiers; do not OCR-guess handwriting or renumber as an ordinary document without target-volume authority. |
+| `tmp/pdfs/frus-builder-test/directive-package/frus1981-88v44p1-d21-nsdd161-excerpt.pdf` | 9 | directive/decision package excerpt from official 2025 FRUS volume PDF | Treat as directive_or_decision_package; preserve NSDD number, title, place/date, classification and paragraph markings, McFarlane note, distribution under cover memorandum, annex/report references, and printed-elsewhere relationships without collapsing the package into a generic memorandum. |
 
 ## Rules Added
 
@@ -32,7 +33,9 @@ The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 20
 - Added source-register/release-packet/finding-aid handling.
 - Added public/printed-source PDF handling.
 - Added appendix/facsimile/handwritten-source handling.
+- Added directive/decision-package handling.
 - Added `bibliographic_basis`, `transcription_basis`, and `appendix_facsimile_relationship` evidence-request labels.
+- Added `directive_package_basis` evidence-request label and `directive_package_note` note type.
 
 ## Regression Expectations
 
@@ -41,3 +44,4 @@ The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 20
 - A freestanding policy paper with no visible author must not be recast as `Paper Prepared by...` or `Memorandum From...` without target-volume authority.
 - A public-source PDF must preserve publication/event/page metadata and must not be forced into archival source-note form.
 - An image-only facsimile or handwritten appendix page must request transcription/source-image authority when visual evidence is insufficient.
+- A directive package must preserve directive number, cover memorandum, distribution, annex/tab classification, paragraph markings, and printed-elsewhere relationships as separate evidence claims.

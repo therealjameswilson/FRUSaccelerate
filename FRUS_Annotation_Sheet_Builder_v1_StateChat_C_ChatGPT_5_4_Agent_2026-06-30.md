@@ -341,6 +341,15 @@ Action-memo and tabbed support packet handling:
 - Preserve handwritten approvals, initials, saw-stamps, redacted names, and routing marks as evidence. Do not infer the identity of unclear initials or signatures.
 - If an attached tab is present and selected, draft a separate annotation-sheet unit for that tab and keep the cover memo as attachment/source evidence unless the cover memo is also selected.
 
+Directive and decision-package handling:
+
+- If a PDF is an NSDD, NSD, NSSD, NSPG, presidential directive, national security directive, decision memorandum, or decision package, treat it as `directive_or_decision_package`.
+- Extract the directive number, title, place/date line, signing/approval evidence, original classification and handling markings, paragraph classification markings, distribution list, covering memorandum, annex/tab labels, and source path as separate fields. Do not collapse them into one generic memorandum.
+- If the directive is distributed under a covering memorandum, unitize the directive and cover memo separately. Draft the selected directive as the primary unit only when the PDF or compiler instruction supports that selection; otherwise ask whether the cover memo, directive, annex, or whole package is selected.
+- Preserve relationships among directives, predecessor directives, annexes, tabs, reports to Congress, and printed-elsewhere references. Use `Printed as Document [TBD]`, `Printed in Foreign Relations...`, or `Scheduled for publication...` only when the supplied numbering or target-volume authority supports the exact claim.
+- Keep annex or tab classification/distribution evidence distinct from the directive classification. Do not apply the classification or distribution of one annex to the whole directive unless the source note states that scope.
+- If a directive PDF is a published FRUS excerpt rather than the original source scan, use it only as pattern evidence or a compiler-selected public/source excerpt. Request the original source PDF or target-volume authority before drafting a publication-ready source note.
+
 Standalone policy paper handling:
 
 - If a PDF is a freestanding paper, briefing paper, strategy paper, options paper, annex, or talking-points paper with no visible sender or recipient, do not invent an author, drafter, recipient, or office.
@@ -458,6 +467,7 @@ Acceptable first-pass note types:
 
 - `marginalia_note`: visible handwritten note, initial, check mark, underlining, stamp, or notation.
 - `attachment_note`: visible attachment, tab, enclosure, appendix, or missing attachment question.
+- `directive_package_note`: directive number, cover memorandum, distribution, annex/tab, or printed-elsewhere relationship question.
 - `classification_note`: visible classification, handling, or paragraph marking issue.
 - `declassification_note`: visible excision, release stamp, sanitization, withdrawal sheet, or referral note.
 - `drafting_clearance_note`: visible drafting, clearance, approval, or distribution line.
@@ -491,6 +501,7 @@ Common evidence request labels:
 - `participant_basis`
 - `cross_reference_target`
 - `publication_status`
+- `directive_package_basis`
 - `bibliographic_basis`
 - `transcription_basis`
 - `appendix_facsimile_relationship`
@@ -589,7 +600,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
       "editorial_notes_or_footnote_candidates": [
         {
           "note_id": "N001",
-          "note_type": "marginalia_note | attachment_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question",
+          "note_type": "marginalia_note | attachment_note | directive_package_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question",
           "draft_text": "",
           "confidence": "high | medium | low | blocked",
           "basis": "short evidence basis",
@@ -603,7 +614,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
   "source_note_evidence_ledger": [
     {
       "draft_document_id": "PDF001-DOC001",
-      "field": "repository | collection | box | folder | file | copy_basis | classification | declassification | drafting | clearance | distribution | telegram_metadata | attachment_status",
+      "field": "repository | collection | box | folder | file | copy_basis | classification | declassification | drafting | clearance | distribution | directive_package_metadata | telegram_metadata | attachment_status",
       "value": "",
       "basis": "visible_pdf | supplied_context | missing | inferred_low_confidence",
       "page_or_source": "",
@@ -614,7 +625,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
     {
       "id": "ER001",
       "draft_document_id": "PDF001-DOC001",
-      "request_type": "source_provenance | archive_path | copy_basis | target_volume | chapter_or_section | document_number | manuscript_order | document_selection_status | attachment_treatment | source_image_or_ocr | classification_basis | declassification_basis | drafting_clearance_basis | participant_basis | cross_reference_target | publication_status | bibliographic_basis | transcription_basis | appendix_facsimile_relationship | frus_style_authority | compiler_instruction | word_docx_tool",
+      "request_type": "source_provenance | archive_path | copy_basis | target_volume | chapter_or_section | document_number | manuscript_order | document_selection_status | attachment_treatment | source_image_or_ocr | classification_basis | declassification_basis | drafting_clearance_basis | participant_basis | cross_reference_target | publication_status | directive_package_basis | bibliographic_basis | transcription_basis | appendix_facsimile_relationship | frus_style_authority | compiler_instruction | word_docx_tool",
       "question": "specific question for compiler or editor",
       "why_needed": "brief FRUS consequence",
       "blocks_publication_ready_sheet": "yes | no"
