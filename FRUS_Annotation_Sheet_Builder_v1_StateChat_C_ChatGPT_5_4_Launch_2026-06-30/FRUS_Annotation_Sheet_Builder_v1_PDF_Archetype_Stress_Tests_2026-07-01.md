@@ -10,7 +10,7 @@ Purpose: record PDF archetype tests used to harden the FRUS Annotation Sheet Bui
 - George H.W. Bush administration official page: https://history.state.gov/historicaldocuments/bush-ghw
 - Status page: https://history.state.gov/historicaldocuments/status-of-the-series
 
-The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as pattern evidence. Published examples do not prove missing facts for an uploaded compiler PDF; the builder should still require target-volume authority for source-note, document-number, chapter, attachment, and cross-reference claims.
+The stress tests use official published FRUS PDFs from 2020, 2021, 2024, and 2025 as pattern evidence. Published examples do not prove missing facts for an uploaded compiler PDF; the builder should still require target-volume authority for source-note, document-number, chapter, attachment, and cross-reference claims.
 
 ## Tested Local PDFs
 
@@ -22,6 +22,7 @@ The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as p
 | `tmp/pdfs/frus-builder-test/public-source/PPP-1993-book1-doc-pg257.pdf` | 1 | public/printed source PDF from GovInfo Public Papers | Draft a public-source annotation from visible publication title, printed item title, event date, page number, and GovInfo/publication identifiers; do not invent archive path or use PDF creation metadata as the document date. |
 | `tmp/pdfs/frus-builder-test/appendix-facsimile/frus1981-88v01-appendix-b-facsimile-test.pdf` | 1 | image-only appendix facsimile derived from official history.state.gov Appendix B image | Treat as appendix/facsimile and transcription evidence; preserve appendix label and source-control identifiers; do not OCR-guess handwriting or renumber as an ordinary document without target-volume authority. |
 | `tmp/pdfs/frus-builder-test/directive-package/frus1981-88v44p1-d21-nsdd161-excerpt.pdf` | 9 | directive/decision package excerpt from official 2025 FRUS volume PDF | Treat as directive_or_decision_package; preserve NSDD number, title, place/date, classification and paragraph markings, McFarlane note, distribution under cover memorandum, annex/report references, and printed-elsewhere relationships without collapsing the package into a generic memorandum. |
+| `tmp/pdfs/frus-builder-test/negotiating-instructions/frus1981-88v11-d182-negotiating-instructions-excerpt.pdf` | 7 | negotiating-instructions package excerpt from official 2021 FRUS volume PDF | Treat as negotiating_instructions_package; preserve NSDD wrapper, Round VII NST forum, delegation addressee, draft-vs-sent telegram status, overall and START group instructions, reftels/septels, attached-but-not-printed INF/Defense and Space draft telegrams, Begin/End proposal text, source path, Secret marking, and trailing next-document boundary separately from generic directives or ordinary telegrams. |
 | `tmp/pdfs/frus-builder-test/technical-table/frus1981-88v44p1-d23-technical-table-excerpt.pdf` | 5 | table/chart-heavy technical memorandum excerpt from official 2025 FRUS volume PDF | Treat tabular and list-heavy pages as technical_table_or_chart evidence; preserve column headers, rows, numeric values, units, declassification placeholders, source-note placement, and trailing next-document boundary instead of flattening the excerpt into plain prose. |
 | `tmp/pdfs/frus-builder-test/memcon-telcon/frus1989-92v31-d17-memcon-meeting-excerpt.pdf` | 8 | memcon/meeting excerpt from official 2025 FRUS volume PDF | Treat as memcon_or_telcon; preserve meeting time/place, two-sided participant block, notetaker/interpreter labels, omitted-subject bracket, drafter/clearance chain, full-memcon scheduled-publication relationship, and `No minutes were found` as distinct controlled evidence. |
 | `tmp/pdfs/frus-builder-test/telegram-cable/frus1989-92v31-d36-telegram-excerpt.pdf` | 4 | ordinary telegram excerpt from official 2025 FRUS volume PDF | Treat as electronic_telegram_or_cable; preserve telegram number, origin/destination, Zulu transmission time, subject, classification/precedence, Electronic Telegrams identifier, reference-telegram footnote, and leading previous-document boundary evidence. |
@@ -50,6 +51,7 @@ The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as p
 - Added public/printed-source PDF handling.
 - Added appendix/facsimile/handwritten-source handling.
 - Added directive/decision-package handling.
+- Added negotiating-instructions package, delegation guidance, draft-telegram, reftel/septel, and proposal-text handling.
 - Added technical table/chart and document-boundary handling.
 - Added memcon/telcon, meeting-minutes, call-record, excerpt-scope, participant-list, and negative-search handling.
 - Added Daily Diary, schedule, appointment-log, meeting-log, and support-only chronology handling.
@@ -68,6 +70,7 @@ The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as p
 - Added Presidential Finding, Memorandum of Notification, Scope Paper, covert-action authorization, Reserve Release, congressional notification/reporting, and no-final-signed-copy handling.
 - Added `bibliographic_basis`, `transcription_basis`, and `appendix_facsimile_relationship` evidence-request labels.
 - Added `directive_package_basis` evidence-request label and `directive_package_note` note type.
+- Added `negotiating_instructions_package`, `negotiating_instructions_note`, `negotiating_instructions_basis`, `delegation_guidance_basis`, `draft_telegram_basis`, `septel_basis`, `negotiating_text_basis`, `negotiating_instructions_metadata`, `delegation_guidance`, `draft_telegram_status`, `septel_reference`, and `negotiating_text_or_proposal` values.
 - Added `table_layout_basis`, `document_boundary_basis`, `table_layout_note`, and `document_boundary_note` values.
 - Added `meeting_metadata_basis`, `participant_list_basis`, `excerpt_scope_basis`, `negative_search_basis`, `meeting_metadata_note`, and `negative_search_note` values.
 - Added `diary_schedule_basis` and `diary_schedule_note` values.
@@ -93,6 +96,7 @@ The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as p
 - A public-source PDF must preserve publication/event/page metadata and must not be forced into archival source-note form.
 - An image-only facsimile or handwritten appendix page must request transcription/source-image authority when visual evidence is insufficient.
 - A directive package must preserve directive number, cover memorandum, distribution, annex/tab classification, paragraph markings, and printed-elsewhere relationships as separate evidence claims.
+- A negotiating-instructions PDF must preserve wrapper directive or cover-memo evidence, negotiation forum, round/session, delegation addressee, overall and group-specific instructions, reftels/septels, draft-versus-sent telegram status, tabled proposal text, attached-but-not-printed guidance, and adjacent telegram boundaries without treating authorized proposals as proof of actions taken.
 - A table/chart-heavy PDF must preserve rows, columns, labels, units, declassification placeholders, and page-boundary spillover; it must not silently merge the start of the next numbered document into the selected document.
 - A memcon/telcon PDF must preserve meeting/call metadata, participant-list layout, side labels, notetakers/interpreters, excerpt boundaries, full-record relationships, and negative-search claims separately.
 - A Daily Diary or schedule PDF must support chronology and meeting metadata without becoming substantive minutes, a participant list, or proof of conversation content unless the evidence explicitly says so.
