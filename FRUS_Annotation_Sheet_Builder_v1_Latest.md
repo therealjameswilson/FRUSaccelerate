@@ -399,6 +399,15 @@ Source-register, release-packet, and finding-aid handling:
 - Ask for the actual selected document PDF, spreadsheet row, or compiler instruction before producing a document heading or source note.
 - Do not transform a folder-title list into a printed document unless the compiler explicitly selected the list itself as a public/source-register item.
 
+Telegram and cable handling:
+
+- If a PDF is an ordinary telegram, cable, airgram, front-channel message, back-channel message, or electronic telegram selected as the document itself, treat it as `electronic_telegram_or_cable`.
+- Extract telegram number, origin, destination, addressees, info addressees, date/time group, Zulu/local time, channel, precedence, classification, handling restrictions, TAGS, subject line, numbered paragraphs, end-text marker, drafter/clearance/release evidence, and Electronic Telegrams/CFPF/STARS identifier as separate fields.
+- Distinguish the telegram transmission date/time from the event discussed in the telegram, from the drafting date, and from the publication or declassification date. Do not sort, number, or date the annotation solely from transmission date when compiler/editor instructions place the telegram with a related meeting or underlying event.
+- Preserve referenced telegrams separately from the selected telegram. A footnote such as `Reference is to telegram...` supports a cross-reference or evidence request, not a second selected document unless compiler instructions say so.
+- If the selected telegram begins or ends mid-page because the PDF excerpt includes the tail of a previous document or the start of a following document, record those pages as `document_boundary` evidence and do not merge adjacent document text into the selected telegram.
+- Do not infer omitted addressees, missing channels, or distribution from a published FRUS heading alone. If the original cable header is absent and only the printed FRUS heading/source note is visible, request the original source scan or compiler authority for publication-ready cable metadata.
+
 Cable-transmitted embedded document handling:
 
 - A telegram or cable may be both a transmission wrapper and the carrier for an embedded memorandum, memorandum of conversation, report, message, enclosure, or text. Do not collapse the wrapper and embedded document into one undifferentiated item.
@@ -489,6 +498,7 @@ Acceptable first-pass note types:
 - `document_boundary_note`: next-document spillover, missing first page, missing final page, or ambiguous selected range.
 - `meeting_metadata_note`: meeting/call date, time, place, title, participant, notetaker, interpreter, or excerpt-scope question.
 - `negative_search_note`: controlled `No minutes were found`, `Not found`, or `Not found attached` claim needing support.
+- `telegram_metadata_note`: telegram number, DTG, origin, addressee, channel, precedence, TAGS, subject, reference-telegram, or cable-header question.
 - `classification_note`: visible classification, handling, or paragraph marking issue.
 - `declassification_note`: visible excision, release stamp, sanitization, withdrawal sheet, or referral note.
 - `drafting_clearance_note`: visible drafting, clearance, approval, or distribution line.
@@ -529,6 +539,8 @@ Common evidence request labels:
 - `participant_list_basis`
 - `excerpt_scope_basis`
 - `negative_search_basis`
+- `telegram_metadata_basis`
+- `telegram_reference_basis`
 - `bibliographic_basis`
 - `transcription_basis`
 - `appendix_facsimile_relationship`
@@ -627,7 +639,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
       "editorial_notes_or_footnote_candidates": [
         {
           "note_id": "N001",
-          "note_type": "marginalia_note | attachment_note | directive_package_note | table_layout_note | document_boundary_note | meeting_metadata_note | negative_search_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question",
+          "note_type": "marginalia_note | attachment_note | directive_package_note | table_layout_note | document_boundary_note | meeting_metadata_note | negative_search_note | telegram_metadata_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question",
           "draft_text": "",
           "confidence": "high | medium | low | blocked",
           "basis": "short evidence basis",
@@ -652,7 +664,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
     {
       "id": "ER001",
       "draft_document_id": "PDF001-DOC001",
-      "request_type": "source_provenance | archive_path | copy_basis | target_volume | chapter_or_section | document_number | manuscript_order | document_selection_status | attachment_treatment | source_image_or_ocr | classification_basis | declassification_basis | drafting_clearance_basis | participant_basis | cross_reference_target | publication_status | directive_package_basis | table_layout_basis | document_boundary_basis | meeting_metadata_basis | participant_list_basis | excerpt_scope_basis | negative_search_basis | bibliographic_basis | transcription_basis | appendix_facsimile_relationship | frus_style_authority | compiler_instruction | word_docx_tool",
+      "request_type": "source_provenance | archive_path | copy_basis | target_volume | chapter_or_section | document_number | manuscript_order | document_selection_status | attachment_treatment | source_image_or_ocr | classification_basis | declassification_basis | drafting_clearance_basis | participant_basis | cross_reference_target | publication_status | directive_package_basis | table_layout_basis | document_boundary_basis | meeting_metadata_basis | participant_list_basis | excerpt_scope_basis | negative_search_basis | telegram_metadata_basis | telegram_reference_basis | bibliographic_basis | transcription_basis | appendix_facsimile_relationship | frus_style_authority | compiler_instruction | word_docx_tool",
       "question": "specific question for compiler or editor",
       "why_needed": "brief FRUS consequence",
       "blocks_publication_ready_sheet": "yes | no"
