@@ -119,6 +119,9 @@ requirePhrases(agent, [
   "legacy_digitized_or_microfiche_preview",
   "legacy_digitized_triage",
   "not_annotation_sheet_legacy_preview_only",
+  "history_state_web_or_print_export",
+  "web_print_export_triage",
+  "not_annotation_sheet_web_export_shell_only",
   "archival_photocopy",
   "mixed_or_unclear"
 ], "canonical agent");
@@ -148,6 +151,7 @@ requirePhrases(readme, [
   "full-volume/chapter-packet triage",
   "incremental-volume/chapter-placeholder handling",
   "legacy digitized-volume/microfiche-preview handling",
+  "history.state.gov web/print-export handling",
   "history.state.gov corpus lessons"
 ], "README");
 
@@ -161,6 +165,8 @@ requirePhrases(stress, [
   "not_annotation_sheet_incremental_placeholder",
   "legacy_digitized_or_microfiche_preview",
   "not_annotation_sheet_legacy_preview_only",
+  "history_state_web_or_print_export",
+  "not_annotation_sheet_web_export_shell_only",
   "archival_photocopy",
   "mixed_or_unclear"
 ], "stress-test report");
@@ -176,6 +182,8 @@ requirePhrases(lessons, [
   "2016-2018 newly digitized older printed FRUS volumes",
   "Microfiche supplements can appear as preview editions with a front-matter booklet and PDFs of documents before full text conversion",
   "Legacy digitized volumes and microfiche preview editions require scan/status treatment",
+  "Official history.state.gov document pages and web exports used for browser-PDF handling",
+  "history.state.gov web/print exports require web-artifact treatment",
   "Archival photocopy and source-image uploads require scan-first treatment",
   "Mixed or unclear multi-document uploads require selection triage"
 ], "recent-published lessons");
