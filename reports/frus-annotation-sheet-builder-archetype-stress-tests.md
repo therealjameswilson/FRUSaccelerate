@@ -36,6 +36,7 @@ The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as p
 | `tmp/pdfs/frus-builder-test/printed-attachment/frus1989-92v31-d1-printed-attachment-excerpt.pdf` | 6 | memorandum with printed attachment and attached-but-not-printed papers from official 2025 FRUS volume PDF | Treat as printed_attachment_or_enclosure; preserve wrapper memorandum metadata, the printed Armstrong letter attachment, attachment-specific Top Secret classification, attached-but-not-printed GRIP papers, Bush marginal notes on wrapper and attachment, and trailing next-document attachment cross-reference separately. |
 | `tmp/pdfs/frus-builder-test/interview-transcript/frus1981-88v01-d216-interview-transcript-excerpt.pdf` | 7 | interview/Q&A transcript excerpt from official 2022 FRUS volume PDF | Treat as interview_or_transcript; preserve interviewer, interviewee, outlet, speaker-turn labels, interview date/time, no-classification marking, condensed Washington Post version, omitted-topic brackets, ending time, and trailing next-document boundary separately from memcon/telcon or generic public-source metadata. |
 | `tmp/pdfs/frus-builder-test/formal-meeting-minutes/frus1989-92v31-d68-formal-meeting-minutes-excerpt.pdf` | 6 | formal NSC meeting minutes excerpt from official 2025 FRUS volume PDF | Treat as formal_meeting_minutes; preserve meeting body, subject block, role-based participant roster, speaker-turn minutes, source-path H-Files metadata, Secret marking, Oval Office meeting place, Record of Decision footnote, decision/consultation language, and trailing next-document boundary separately from memcon/telcon, briefing, and directive-package metadata. |
+| `tmp/pdfs/frus-builder-test/decision-record/frus1989-92v31-d11-record-of-decisions-excerpt.pdf` | 3 | Record of Decisions excerpt from official 2025 FRUS volume PDF | Treat as decision_record_or_summary; preserve decision body, decision date, source path, Secret marking, decision formula, issue headings, numbered decisions, action assignments, agency responsibilities, attached-but-not-printed Tab A/Tab B cross-references to Document 10, and trailing next-record boundary separately from meeting minutes, directives, or briefing papers. |
 
 ## Rules Added
 
@@ -62,6 +63,7 @@ The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as p
 - Added printed attachment, enclosure, tab, annex, attachment-publication-status, and attachment cross-reference handling.
 - Added interview, transcript, Q&A, speaker-turn, and public/condensed-version handling.
 - Added formal NSC/NSPG/interagency meeting-minutes, agenda/subject, role-roster, Record of Decision, and decision/action handling.
+- Added Record of Decision, Summary of Conclusions, issue-disposition, action-assignment, no-consensus, and decision-record boundary handling.
 - Added `bibliographic_basis`, `transcription_basis`, and `appendix_facsimile_relationship` evidence-request labels.
 - Added `directive_package_basis` evidence-request label and `directive_package_note` note type.
 - Added `table_layout_basis`, `document_boundary_basis`, `table_layout_note`, and `document_boundary_note` values.
@@ -78,6 +80,7 @@ The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as p
 - Added `printed_attachment_basis`, `printed_attachment_note`, `printed_attachment_metadata`, and `attachment_publication_status` values.
 - Added `interview_transcript_basis`, `speaker_turn_basis`, `public_version_basis`, `interview_transcript_note`, `interview_transcript_metadata`, `speaker_turn_structure`, and `public_or_condensed_version` values.
 - Added `formal_meeting_minutes`, `formal_minutes_note`, `meeting_minutes_basis`, `agenda_basis`, `decision_record_basis`, `formal_minutes_metadata`, `agenda_or_subject_structure`, `decision_or_action_record`, and `record_of_decision_reference` values.
+- Added `decision_record_or_summary`, `decision_record_note`, `summary_of_conclusions_basis`, `action_assignment_basis`, `decision_record_metadata`, `summary_of_conclusions_structure`, `issue_disposition`, and `action_assignment` values.
 
 ## Regression Expectations
 
@@ -101,3 +104,4 @@ The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as p
 - A printed-attachment PDF must distinguish the wrapper document from the printed attachment, keep attachment-specific classification and marginalia separate, preserve attached-but-not-printed materials as attachment-publication-status evidence, and avoid importing a following document's attachment cross-reference into the selected document.
 - An interview/transcript PDF must preserve speaker-turn labels, interviewer/interviewee/outlet metadata, transcript source, condensed or published version, omissions, ending time, and adjacent document boundaries without recasting the item as a memcon, telcon, meeting minutes, or generic public-source excerpt.
 - A formal meeting-minutes PDF must preserve the institutional meeting body, subject or agenda block, role-based participant roster, speaker turns, decision or consultation language, Record of Decision references, source-note meeting location, and adjacent document boundaries without recasting it as a memcon, briefing paper, directive package, or generic meeting summary.
+- A decision-record PDF must preserve issue headings, decision formulas, agreed actions, no-decision/no-consensus language, responsible agencies, deadlines, attached-but-not-printed tab references, and adjacent record boundaries without recasting the item as formal meeting minutes, a directive, or a briefing/action memo.
