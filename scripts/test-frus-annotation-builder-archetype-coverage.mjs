@@ -89,6 +89,13 @@ assert(
 );
 
 assert(
+  stress.includes("https://history.state.gov/historicaldocuments/quarterly-releases") &&
+    stress.includes("legacy_digitized_or_microfiche_preview") &&
+    stress.includes("not_annotation_sheet_legacy_preview_only"),
+  "expected official quarterly-release legacy/microfiche-preview stress fixture"
+);
+
+assert(
   stress.includes("frus1981-88v44p1-about-series-declassification-excerpt.pdf") &&
     stress.includes("declassification_packet"),
   "expected official declassification-process context stress fixture"

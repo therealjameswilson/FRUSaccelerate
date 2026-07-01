@@ -8,12 +8,13 @@ Purpose: summarize recent published FRUS evidence that should shape the PDF-to-a
 
 - Official administration pages: https://history.state.gov/historicaldocuments/carter, https://history.state.gov/historicaldocuments/reagan, and https://history.state.gov/historicaldocuments/bush-ghw.
 - Official status page: https://history.state.gov/historicaldocuments/status-of-the-series.
+- Official quarterly releases page: https://history.state.gov/historicaldocuments/quarterly-releases.
 - Current 2025 published anchors verified: `frus1977-80v27`, `frus1981-88v44p1`, and `frus1989-92v31`.
 - Official EPUBs remain the preferred offline harvesting path where available because direct document-page scraping can be brittle.
 
 ## Ten-Year Published Corpus Used
 
-The current builder learning pass used local all-document corpora derived from official history.state.gov EPUBs and pages for Reagan/Bush volumes published from 2016 through 2025, plus Carter source-list/EPUB evidence for recent official releases and partial-volume behavior:
+The current builder learning pass used local all-document corpora derived from official history.state.gov EPUBs and pages for Reagan/Bush volumes published from 2016 through 2025, plus Carter source-list/EPUB evidence for recent official releases and partial-volume behavior, plus official quarterly-release evidence for newly digitized legacy volumes and microfiche preview editions:
 
 - `frus1977-80v09Ed2` (2018)
 - `frus1977-80v27` (2025)
@@ -46,6 +47,12 @@ Carter source-list/EPUB coverage used as additional recent-publication evidence:
 - `frus1977-80v27` pending chapter placeholders: 299.
 - `frus1977-80v27` Sources section scope: generated from documents cleared for publication, not from the full future volume.
 
+Official quarterly-release evidence used for legacy and microfiche-preview handling:
+
+- 2016-2018 newly digitized older printed FRUS volumes.
+- Microfiche supplements can appear as preview editions with a front-matter booklet and PDFs of documents before full text conversion.
+- The builder treats these uploads as `legacy_digitized_or_microfiche_preview` unless a selected document and boundaries are visible or supplied.
+
 The existing since-2021 aggregate validators also passed for the current Reagan and Bush published sets: Reagan, 7 volumes, 2,630 numbered documents, 16 appendix records; Bush, 1 volume, 247 numbered documents.
 
 ## Builder Lessons
@@ -56,6 +63,7 @@ The existing since-2021 aggregate validators also passed for the current Reagan 
 2b. Volume source lists and finding aids are context, not selected documents. Recent volumes include `Sources` sections with public-source descriptions, repository families, lot files, Central Foreign Policy File reel explanations, unpublished-source lists, and published-source bibliographies. Preserve those as source_register_or_finding_aid evidence when uploaded as context; do not draft a manuscript annotation sheet or convert a listed repository/source family into a document-specific Source note without selected-document evidence.
 2c. Declassification-process front matter is context, not a document-specific release certificate. Recent volumes include `About the Series`, editorial-methodology, and `Declassification Review` sections with RAC scan limitations, `Not found attached` caveats, bracket/excision conventions, review office, Executive Order basis, review date range, and volume-level counts for withheld or excised documents. Preserve those as declassification_packet evidence when uploaded as context; do not apply volume-level review claims to a selected document's release date, page count, declassification status, or attachment status without document-specific evidence.
 2d. Incrementally published volumes require placeholder handling. Carter Volume XXVII, Western Europe, demonstrates that recent official EPUBs can contain cleared chapters alongside placeholder document pages stating that the document will be published once its chapter has been cleared. Preserve placeholder wording, chapter-cleared status, and partial Sources-section scope as `incremental_chapter_placeholder` / incremental_publication evidence; do not treat placeholder pages as OCR failures, withheld-in-full documents, or selected manuscript records.
+2e. Legacy digitized volumes and microfiche preview editions require scan/status treatment. Quarterly-release evidence shows that history.state.gov can publish older printed volumes and microfiche supplements as newly digitized releases, including preview editions with front-matter booklets and PDFs of documents before full-text conversion. Preserve original print publication date, quarterly release or digitization date, preview-versus-full-text status, microfiche supplement status, front-matter booklet status, document-PDF bundle status, scan/OCR quality, page labels, and fiche/frame identifiers separately; do not use digitization date as the historical document date or recast a preview shell as a final annotation-sheet source.
 3. Expect many PDF archetypes, not one document template: memoranda, telegrams, memcons, telcons, airgrams/despatches, non-papers/aide-memoires, Situation Room/watch-center products, shorthand meeting notes, memoranda for the record, record notes, night notes and evening reports, letters, presidential messages, diplomatic notes, minutes, recorded proceedings, tape transcripts, forum/seminar records, papers, prepared reports, research assessments, policy papers, draft/working-copy/version records, action memoranda, directive packages, policy-review/study directives, organization-management and administrative-process records, negotiating-instructions packages, congressional testimony and legal public sources, law-enforcement/counterterrorism case records, economic/financial/foreign-assistance budget records, human-rights/refugee/global-issues records, military-crisis and operational records, foreign-government and international-organization records, maps, photographs, charts, source images, talking points, public-affairs strategy and public-diplomacy/outreach plans, public speeches, remarks, statements, media items, treaty texts, international agreements, treaty transmittals, personal diaries, memoirs, oral histories, retrospective accounts, editorial notes, appendix/facsimile records, handwritten notes, withheld-in-full selected-document placeholders, excerpted reports or omitted-body papers, and attachment packets.
 4. Keep controlled annotation formulas controlled: `See Document [n].`, `See footnote [n], Document [n].`, `In telegram [n]...`, `Attached but not printed...`, `Not found.`, `Scheduled for publication in Foreign Relations...`, `Brackets are in the original.`, `Printed as Document [n].`, `No minutes were found.`, `Not found attached.`, and appendix cross-references require exact supporting evidence.
 5. Distinguish page evidence from source-note prose. Release stamps, withdrawal sheets, local file paths, HTML print headers, scan labels, FOIA markers, and export watermarks are evidence ledger material unless compiler/source authority says they belong in the final source note.

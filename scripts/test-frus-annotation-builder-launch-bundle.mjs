@@ -113,6 +113,9 @@ requirePhrases(agent, [
   "frus1977-80v27",
   "incremental_chapter_placeholder",
   "not_annotation_sheet_incremental_placeholder",
+  "legacy_digitized_or_microfiche_preview",
+  "legacy_digitized_triage",
+  "not_annotation_sheet_legacy_preview_only",
   "archival_photocopy",
   "mixed_or_unclear"
 ], "canonical agent");
@@ -140,6 +143,7 @@ requirePhrases(readme, [
   "copy-ready annotation-sheet draft",
   "DOCX review-copy mode",
   "incremental-volume/chapter-placeholder handling",
+  "legacy digitized-volume/microfiche-preview handling",
   "history.state.gov corpus lessons"
 ], "README");
 
@@ -149,6 +153,8 @@ requirePhrases(stress, [
   "frus1977-80v27",
   "incremental_chapter_placeholder",
   "not_annotation_sheet_incremental_placeholder",
+  "legacy_digitized_or_microfiche_preview",
+  "not_annotation_sheet_legacy_preview_only",
   "archival_photocopy",
   "mixed_or_unclear"
 ], "stress-test report");
@@ -159,6 +165,9 @@ requirePhrases(lessons, [
   "frus1977-80v27",
   "pending chapter placeholders",
   "Incrementally published volumes require placeholder handling",
+  "2016-2018 newly digitized older printed FRUS volumes",
+  "Microfiche supplements can appear as preview editions with a front-matter booklet and PDFs of documents before full text conversion",
+  "Legacy digitized volumes and microfiche preview editions require scan/status treatment",
   "Archival photocopy and source-image uploads require scan-first treatment",
   "Mixed or unclear multi-document uploads require selection triage"
 ], "recent-published lessons");
