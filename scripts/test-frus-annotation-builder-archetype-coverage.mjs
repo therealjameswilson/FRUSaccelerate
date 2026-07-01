@@ -82,6 +82,13 @@ assert(
 );
 
 assert(
+  stress.includes("frus1977-80v27.epub#OEBPS/d1.html") &&
+    stress.includes("incremental_chapter_placeholder") &&
+    stress.includes("not_annotation_sheet_incremental_placeholder"),
+  "expected official Carter incremental-publication placeholder stress fixture"
+);
+
+assert(
   stress.includes("frus1981-88v44p1-about-series-declassification-excerpt.pdf") &&
     stress.includes("declassification_packet"),
   "expected official declassification-process context stress fixture"

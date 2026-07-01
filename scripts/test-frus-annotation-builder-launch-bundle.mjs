@@ -110,6 +110,9 @@ requirePhrases(agent, [
   "Do not invent source provenance",
   "history.state.gov",
   "published from 2016 through 2025",
+  "frus1977-80v27",
+  "incremental_chapter_placeholder",
+  "not_annotation_sheet_incremental_placeholder",
   "archival_photocopy",
   "mixed_or_unclear"
 ], "canonical agent");
@@ -136,12 +139,16 @@ requirePhrases(readme, [
   "Return JSON first using the v1 schema",
   "copy-ready annotation-sheet draft",
   "DOCX review-copy mode",
+  "incremental-volume/chapter-placeholder handling",
   "history.state.gov corpus lessons"
 ], "README");
 
 requirePhrases(stress, [
   "Purpose: record PDF archetype tests",
   "history.state.gov",
+  "frus1977-80v27",
+  "incremental_chapter_placeholder",
+  "not_annotation_sheet_incremental_placeholder",
   "archival_photocopy",
   "mixed_or_unclear"
 ], "stress-test report");
@@ -149,6 +156,9 @@ requirePhrases(stress, [
 requirePhrases(lessons, [
   "official history.state.gov EPUBs and pages",
   "published from 2016 through 2025",
+  "frus1977-80v27",
+  "pending chapter placeholders",
+  "Incrementally published volumes require placeholder handling",
   "Archival photocopy and source-image uploads require scan-first treatment",
   "Mixed or unclear multi-document uploads require selection triage"
 ], "recent-published lessons");
