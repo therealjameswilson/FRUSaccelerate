@@ -127,6 +127,8 @@ requirePhrases(agent, [
   "not_annotation_sheet_cover_sheet_only",
   "press_release_or_background_briefing",
   "press_release_background_briefing_note",
+  "daily_intelligence_brief_or_pdb_article",
+  "daily_intelligence_brief_note",
   "archival_photocopy",
   "mixed_or_unclear"
 ], "canonical agent");
@@ -159,6 +161,7 @@ requirePhrases(readme, [
   "history.state.gov web/print-export handling",
   "fax/cover-sheet/routing-slip handling",
   "press-release/background-briefing handling",
+  "daily-intelligence/PDB/NID article handling",
   "history.state.gov corpus lessons"
 ], "README");
 
@@ -178,6 +181,8 @@ requirePhrases(stress, [
   "not_annotation_sheet_cover_sheet_only",
   "press_release_or_background_briefing",
   "frus1981-88v01-d151-background-briefing-excerpt.pdf",
+  "daily_intelligence_brief_or_pdb_article",
+  "frus1977-80v12-d192-pdb-article.pdf",
   "archival_photocopy",
   "mixed_or_unclear"
 ], "stress-test report");
@@ -198,6 +203,7 @@ requirePhrases(lessons, [
   "Cover-sheet, routing-slip, and transmission-wrapper evidence used for wrapper handling",
   "Fax sheets, routing slips, and cover sheets require wrapper treatment",
   "Press releases, press guidance, and background briefings require public-release treatment",
+  "Daily intelligence brief articles require article-versus-issue treatment",
   "Archival photocopy and source-image uploads require scan-first treatment",
   "Mixed or unclear multi-document uploads require selection triage"
 ], "recent-published lessons");
