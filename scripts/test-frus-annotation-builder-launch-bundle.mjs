@@ -125,6 +125,8 @@ requirePhrases(agent, [
   "fax_or_transmission_cover_sheet",
   "cover_sheet_triage",
   "not_annotation_sheet_cover_sheet_only",
+  "press_release_or_background_briefing",
+  "press_release_background_briefing_note",
   "archival_photocopy",
   "mixed_or_unclear"
 ], "canonical agent");
@@ -156,6 +158,7 @@ requirePhrases(readme, [
   "legacy digitized-volume/microfiche-preview handling",
   "history.state.gov web/print-export handling",
   "fax/cover-sheet/routing-slip handling",
+  "press-release/background-briefing handling",
   "history.state.gov corpus lessons"
 ], "README");
 
@@ -173,6 +176,8 @@ requirePhrases(stress, [
   "not_annotation_sheet_web_export_shell_only",
   "fax_or_transmission_cover_sheet",
   "not_annotation_sheet_cover_sheet_only",
+  "press_release_or_background_briefing",
+  "frus1981-88v01-d151-background-briefing-excerpt.pdf",
   "archival_photocopy",
   "mixed_or_unclear"
 ], "stress-test report");
@@ -192,6 +197,7 @@ requirePhrases(lessons, [
   "history.state.gov web/print exports require web-artifact treatment",
   "Cover-sheet, routing-slip, and transmission-wrapper evidence used for wrapper handling",
   "Fax sheets, routing slips, and cover sheets require wrapper treatment",
+  "Press releases, press guidance, and background briefings require public-release treatment",
   "Archival photocopy and source-image uploads require scan-first treatment",
   "Mixed or unclear multi-document uploads require selection triage"
 ], "recent-published lessons");
