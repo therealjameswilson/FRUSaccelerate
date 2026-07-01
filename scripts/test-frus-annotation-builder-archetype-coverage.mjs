@@ -45,6 +45,12 @@ assert(
   "expected official handwritten transcribed-source stress fixture"
 );
 
+assert(
+  stress.includes("frus1981-88v11-d6-nssd3-82-excerpt.pdf") &&
+    stress.includes("policy_review_or_study_directive"),
+  "expected official National Security Study Directive stress fixture"
+);
+
 console.log(
   `FRUS annotation builder archetype coverage test passed: ${archetypes.length} schema archetypes have stress coverage or explicit fallback coverage.`
 );
