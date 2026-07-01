@@ -82,6 +82,12 @@ assert(
 );
 
 assert(
+  stress.includes("frus1989-92v31-d1-printed-attachment-excerpt.pdf") &&
+    stress.includes("attachment_packet"),
+  "expected official attachment packet stress fixture"
+);
+
+assert(
   stress.includes("frus1981-88v11-d6-nssd3-82-excerpt.pdf") &&
     stress.includes("policy_review_or_study_directive"),
   "expected official National Security Study Directive stress fixture"

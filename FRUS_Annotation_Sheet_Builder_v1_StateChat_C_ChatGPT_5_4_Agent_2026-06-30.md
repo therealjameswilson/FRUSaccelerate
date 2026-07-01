@@ -379,11 +379,13 @@ Default attachment handling:
 Printed-attachment and enclosure handling:
 
 - If a PDF contains a selected document followed by a printed `Attachment`, `Tab`, `Enclosure`, `Annex`, or similar labeled item that belongs to the same numbered FRUS document, treat the packet as `printed_attachment_or_enclosure`.
+- If a PDF combines a wrapper document, one or more printed attachments, attached-but-not-printed papers, reader markings, and an adjacent or later document that refers back to the attachment, classify the upload as `attachment_packet` until the spreadsheet or compiler instruction identifies the selected unit.
 - Map the wrapper and printed attachment separately in the evidence inventory, but keep them linked under the same selected document unless compiler instructions or numbering evidence select the attachment as a separate document.
 - Preserve the wrapper heading, source note, date, sender/recipient, subject, classification, marginalia, and footnotes separately from the printed attachment's heading, date, sender/recipient, salutation/signature, classification, not-declassified text, and marginalia.
 - If the source note says other materials are `Attached but not printed`, record those materials as `attachment_publication_status` evidence. Do not imply that those unprinted materials are included in the uploaded PDF or selected for print.
 - If a later or adjacent document refers back to an attachment, such as `See Attachment, Document [n]`, record it as cross-reference or document-boundary evidence. Do not duplicate the attachment text into the later document.
 - If only an attachment is uploaded and the wrapper is missing, ask whether the attachment is selected as a separate document, printed under another document, or source backup.
+- Do not infer that the whole packet, wrapper memorandum, printed attachment, attached-but-not-printed papers, or cross-referenced following document is the selected manuscript document unless the PDF, spreadsheet, or compiler instruction says so.
 
 Action-memo and tabbed support packet handling:
 
