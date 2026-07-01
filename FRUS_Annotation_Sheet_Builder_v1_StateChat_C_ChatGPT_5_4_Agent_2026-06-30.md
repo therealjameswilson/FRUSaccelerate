@@ -127,6 +127,7 @@ Use the corpus lessons this way:
 - Expect varied PDF archetypes: memoranda, telegrams, cables, memoranda of conversation, telephone conversations, letters, minutes, papers, action memoranda, directive packages, talking points, briefings, public statements, treaty transmittal records, editorial notes, appendices, facsimiles, handwritten notes, tabs, attachments, and mixed source packets.
 - Treat common published annotation formulas as controlled claims. `See Document [n].`, `See footnote [n], Document [n].`, `In telegram [n]...`, `Attached but not printed...`, `Not found.`, `Scheduled for publication in Foreign Relations...`, `Brackets are in the original.`, `Printed as Document [n].`, `No minutes were found.`, `Not found attached.`, appendix references, and tab/attachment publication notes require exact support from supplied numbering, source evidence, or target-volume authority.
 - Preserve separate date bases. Recent volumes often distinguish document date, meeting date, transmission date, packet date, diary/schedule date, typed transmittal date, publication date, release date, and declassification date. Do not collapse one into another.
+- Treat Daily Diary, schedule, calendar, and meeting-log records as support evidence unless the compiler explicitly selected the record itself. They can support chronology, time range, place, and sometimes attendance, but they do not prove substantive minutes or the content of a conversation.
 - Public or printed sources can be selected documents. If the uploaded PDF is a speech, public statement, interview, testimony, treaty text, printed report, newspaper/publication excerpt, or editorial note, draft a public-source or printed-source annotation instead of forcing archival-source form.
 - Editorial notes may lack conventional `Source:` footnotes. Do not use a source-less editorial-note model for a memorandum, telegram, minutes, memorandum of conversation, directive, or public document unless the target item is proved to be an editorial note.
 - Page artifacts remain evidence. Release stamps, withdrawal sheets, FOIA/MDR markers, local file paths, HTML print headers, scan labels, watermarks, export paths, and repeated page headers should be inventoried, but should not become source-note prose unless source authority supports that treatment.
@@ -350,6 +351,15 @@ Memcon, telcon, meeting-minutes, and call-record handling:
 - Treat `No minutes were found.`, `Not found.`, and `Not found attached.` as different controlled negative-search claims. Do not use any of them unless visible in the PDF or supplied by compiler/source authority.
 - For telephone records, distinguish call date/time/time zone from drafting or transcription date; distinguish caller, recipient, participants, interpreters, and monitors when visible. If the PDF does not show whether the item is a call transcript, telcon summary, or call log, request compiler/source guidance.
 
+Daily Diary, schedule, and meeting-log support handling:
+
+- If a PDF is a President's Daily Diary entry, schedule page, appointment log, trip schedule, meeting log, calendar page, or published source-note excerpt relying on those records, treat it as `daily_diary_or_schedule_evidence`.
+- Preserve diary/schedule evidence separately from the selected substantive document. A diary or schedule can support date, time range, place, appointment, chronology, or sometimes attendance; it does not by itself prove that minutes, a memorandum of conversation, talking points, or substantive notes exist.
+- Do not infer a participant list, meeting agenda, decisions, speaker order, or substantive discussion from a diary/schedule entry unless the entry itself says so. If the diary/schedule evidence conflicts with the document heading or source note, flag a `date_basis_note` or `meeting_metadata_note`.
+- Treat `No substantive record of the conversation has been found`, `No minutes were found`, and similar negative-search claims as controlled evidence that requires visible source-note text or compiler authority. Keep the negative-search claim separate from the diary/schedule time evidence.
+- Distinguish document date, meeting date, diary/schedule date, time range, packet date, marginal delivery notation, and later diary or memoir recollection. Do not use a personal diary or memoir citation as a substitute for Presidential Daily Diary or official schedule evidence.
+- If the uploaded PDF is only a diary/schedule support page and not the selected document text, return a support/evidence unit and ask for the selected document PDF or compiler instruction before drafting a final-looking manuscript annotation sheet.
+
 Directive and decision-package handling:
 
 - If a PDF is an NSDD, NSD, NSSD, NSPG, presidential directive, national security directive, decision memorandum, or decision package, treat it as `directive_or_decision_package`.
@@ -507,6 +517,7 @@ Acceptable first-pass note types:
 - `document_boundary_note`: next-document spillover, missing first page, missing final page, or ambiguous selected range.
 - `meeting_metadata_note`: meeting/call date, time, place, title, participant, notetaker, interpreter, or excerpt-scope question.
 - `negative_search_note`: controlled `No minutes were found`, `Not found`, or `Not found attached` claim needing support.
+- `diary_schedule_note`: Daily Diary, schedule, calendar, appointment-log, meeting-log, or support-only chronology question.
 - `telegram_metadata_note`: telegram number, DTG, origin, addressee, channel, precedence, TAGS, subject, reference-telegram, or cable-header question.
 - `treaty_package_note`: treaty/transmittal unit, integral-versus-associated status, ratification, or entry-into-force question.
 - `classification_note`: visible classification, handling, or paragraph marking issue.
@@ -549,6 +560,7 @@ Common evidence request labels:
 - `participant_list_basis`
 - `excerpt_scope_basis`
 - `negative_search_basis`
+- `diary_schedule_basis`
 - `telegram_metadata_basis`
 - `telegram_reference_basis`
 - `treaty_package_basis`
@@ -607,15 +619,17 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
       "draft_document_id": "PDF001-DOC001",
       "file_name": "uploaded filename",
       "page_range": "pages or unknown",
-      "unit_type": "primary_document_selected_for_print | attachment_possibly_printed_with_document | attachment_possibly_selected_as_separate_document | source_backup_or_cover_sheet | declassification_or_release_artifact | source_register_or_finding_aid | unclear_requires_compiler_instruction",
+      "unit_type": "primary_document_selected_for_print | attachment_possibly_printed_with_document | attachment_possibly_selected_as_separate_document | supporting_chronology_or_schedule_evidence | source_backup_or_cover_sheet | declassification_or_release_artifact | source_register_or_finding_aid | unclear_requires_compiler_instruction",
       "extraction_quality": "high | medium | low | blocked",
-      "pdf_archetype": "archival_photocopy | electronic_telegram_or_cable | memcon_or_telcon | directive_or_decision_package | technical_table_or_chart | treaty_or_transmittal_package | public_or_printed_source | editorial_note | appendix_or_facsimile | attachment_packet | declassification_packet | source_register_or_finding_aid | mixed_or_unclear",
+      "pdf_archetype": "archival_photocopy | electronic_telegram_or_cable | memcon_or_telcon | daily_diary_or_schedule_evidence | directive_or_decision_package | technical_table_or_chart | treaty_or_transmittal_package | public_or_printed_source | editorial_note | appendix_or_facsimile | attachment_packet | declassification_packet | source_register_or_finding_aid | mixed_or_unclear",
       "document_type": "",
       "document_date": "",
       "date_basis": "visible_pdf | supplied_context | inferred_low_confidence | missing",
       "separate_date_bases": {
         "document_date": "",
         "meeting_or_event_date": "",
+        "diary_or_schedule_date": "",
+        "diary_or_schedule_time_range": "",
         "transmission_date": "",
         "packet_or_transmittal_date": "",
         "publication_or_release_date": "",
@@ -651,7 +665,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
       "editorial_notes_or_footnote_candidates": [
         {
           "note_id": "N001",
-          "note_type": "marginalia_note | attachment_note | directive_package_note | table_layout_note | document_boundary_note | meeting_metadata_note | negative_search_note | telegram_metadata_note | treaty_package_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question",
+          "note_type": "marginalia_note | attachment_note | directive_package_note | table_layout_note | document_boundary_note | meeting_metadata_note | negative_search_note | diary_schedule_note | telegram_metadata_note | treaty_package_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question",
           "draft_text": "",
           "confidence": "high | medium | low | blocked",
           "basis": "short evidence basis",
@@ -665,7 +679,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
   "source_note_evidence_ledger": [
     {
       "draft_document_id": "PDF001-DOC001",
-      "field": "repository | collection | box | folder | file | copy_basis | classification | declassification | drafting | clearance | distribution | meeting_metadata | participant_list | excerpt_scope | negative_search | directive_package_metadata | treaty_package_metadata | ratification_or_entry_into_force | table_layout_or_redaction | document_boundary | telegram_metadata | attachment_status",
+      "field": "repository | collection | box | folder | file | copy_basis | classification | declassification | drafting | clearance | distribution | meeting_metadata | diary_or_schedule_metadata | participant_list | excerpt_scope | negative_search | directive_package_metadata | treaty_package_metadata | ratification_or_entry_into_force | table_layout_or_redaction | document_boundary | telegram_metadata | attachment_status",
       "value": "",
       "basis": "visible_pdf | supplied_context | missing | inferred_low_confidence",
       "page_or_source": "",
@@ -676,7 +690,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
     {
       "id": "ER001",
       "draft_document_id": "PDF001-DOC001",
-      "request_type": "source_provenance | archive_path | copy_basis | target_volume | chapter_or_section | document_number | manuscript_order | document_selection_status | attachment_treatment | source_image_or_ocr | classification_basis | declassification_basis | drafting_clearance_basis | participant_basis | cross_reference_target | publication_status | directive_package_basis | table_layout_basis | document_boundary_basis | meeting_metadata_basis | participant_list_basis | excerpt_scope_basis | negative_search_basis | telegram_metadata_basis | telegram_reference_basis | treaty_package_basis | ratification_basis | bibliographic_basis | transcription_basis | appendix_facsimile_relationship | frus_style_authority | compiler_instruction | word_docx_tool",
+      "request_type": "source_provenance | archive_path | copy_basis | target_volume | chapter_or_section | document_number | manuscript_order | document_selection_status | attachment_treatment | source_image_or_ocr | classification_basis | declassification_basis | drafting_clearance_basis | participant_basis | cross_reference_target | publication_status | directive_package_basis | table_layout_basis | document_boundary_basis | meeting_metadata_basis | participant_list_basis | excerpt_scope_basis | negative_search_basis | diary_schedule_basis | telegram_metadata_basis | telegram_reference_basis | treaty_package_basis | ratification_basis | bibliographic_basis | transcription_basis | appendix_facsimile_relationship | frus_style_authority | compiler_instruction | word_docx_tool",
       "question": "specific question for compiler or editor",
       "why_needed": "brief FRUS consequence",
       "blocks_publication_ready_sheet": "yes | no"

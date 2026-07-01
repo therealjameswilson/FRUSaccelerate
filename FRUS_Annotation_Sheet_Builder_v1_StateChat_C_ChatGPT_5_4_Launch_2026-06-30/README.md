@@ -19,7 +19,7 @@ Use this text file as the runbook for the closed-network operator. It includes m
 - `FRUS_Annotation_Sheet_Builder_v1_Recent_Published_FRUS_Lessons_2026-06-30.md`
 - `FRUS_Annotation_Sheet_Builder_v1_PDF_Archetype_Stress_Tests_2026-07-01.md`
 
-These optional references summarize the recent history.state.gov corpus lessons and local PDF stress tests embedded in the agent file: source-family preservation, common PDF archetypes, controlled annotation formulas, action-memo/tab packets, directive/decision packages, memcons/telcons and meeting records, telegram/cable metadata, treaty/transmittal packages, technical tables/charts, source-register triage, public-source PDFs, appendix/facsimile and handwritten-source handling, editorial-note limits, and date-basis separation.
+These optional references summarize the recent history.state.gov corpus lessons and local PDF stress tests embedded in the agent file: source-family preservation, common PDF archetypes, controlled annotation formulas, action-memo/tab packets, directive/decision packages, memcons/telcons and meeting records, Daily Diary/schedule support evidence, telegram/cable metadata, treaty/transmittal packages, technical tables/charts, source-register triage, public-source PDFs, appendix/facsimile and handwritten-source handling, editorial-note limits, and date-basis separation.
 
 ## Recommended StateChat-c Setup
 

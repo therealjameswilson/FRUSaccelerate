@@ -26,6 +26,7 @@ The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 20
 | `tmp/pdfs/frus-builder-test/memcon-telcon/frus1989-92v31-d17-memcon-meeting-excerpt.pdf` | 8 | memcon/meeting excerpt from official 2025 FRUS volume PDF | Treat as memcon_or_telcon; preserve meeting time/place, two-sided participant block, notetaker/interpreter labels, omitted-subject bracket, drafter/clearance chain, full-memcon scheduled-publication relationship, and `No minutes were found` as distinct controlled evidence. |
 | `tmp/pdfs/frus-builder-test/telegram-cable/frus1989-92v31-d36-telegram-excerpt.pdf` | 4 | ordinary telegram excerpt from official 2025 FRUS volume PDF | Treat as electronic_telegram_or_cable; preserve telegram number, origin/destination, Zulu transmission time, subject, classification/precedence, Electronic Telegrams identifier, reference-telegram footnote, and leading previous-document boundary evidence. |
 | `tmp/pdfs/frus-builder-test/treaty-transmittal/frus1989-92v31-d247-treaty-transmittal-excerpt.pdf` | 9 | treaty transmittal package excerpt from official 2025 FRUS volume PDF | Treat as treaty_or_transmittal_package; preserve STARS source path, no-classification marking, drafter/clearance chain, attached-but-not-printed treaty materials, integral-vs-associated treaty-document status, Senate transmittal, ratification, and entry-into-force dates as separate evidence. |
+| `tmp/pdfs/frus-builder-test/diary-schedule/frus1981-88v05-d236-diary-schedule-excerpt.pdf` | 4 | memorandum excerpt with Daily Diary/schedule support evidence from official 2020 FRUS volume PDF | Treat diary/schedule evidence as daily_diary_or_schedule_evidence; preserve selected memorandum, archive path, classification, drafter/clearance chain, typed delivery notation, Daily Diary meeting time, memoir evidence, and no-substantive-record claim as separate evidence. |
 
 ## Rules Added
 
@@ -40,12 +41,14 @@ The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 20
 - Added directive/decision-package handling.
 - Added technical table/chart and document-boundary handling.
 - Added memcon/telcon, meeting-minutes, call-record, excerpt-scope, participant-list, and negative-search handling.
+- Added Daily Diary, schedule, appointment-log, meeting-log, and support-only chronology handling.
 - Added ordinary telegram/cable metadata and reference-telegram handling.
 - Added treaty/transmittal package, ratification, and entry-into-force handling.
 - Added `bibliographic_basis`, `transcription_basis`, and `appendix_facsimile_relationship` evidence-request labels.
 - Added `directive_package_basis` evidence-request label and `directive_package_note` note type.
 - Added `table_layout_basis`, `document_boundary_basis`, `table_layout_note`, and `document_boundary_note` values.
 - Added `meeting_metadata_basis`, `participant_list_basis`, `excerpt_scope_basis`, `negative_search_basis`, `meeting_metadata_note`, and `negative_search_note` values.
+- Added `diary_schedule_basis` and `diary_schedule_note` values.
 - Added `telegram_metadata_basis`, `telegram_reference_basis`, and `telegram_metadata_note` values.
 - Added `treaty_package_basis`, `ratification_basis`, and `treaty_package_note` values.
 
@@ -59,5 +62,6 @@ The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 20
 - A directive package must preserve directive number, cover memorandum, distribution, annex/tab classification, paragraph markings, and printed-elsewhere relationships as separate evidence claims.
 - A table/chart-heavy PDF must preserve rows, columns, labels, units, declassification placeholders, and page-boundary spillover; it must not silently merge the start of the next numbered document into the selected document.
 - A memcon/telcon PDF must preserve meeting/call metadata, participant-list layout, side labels, notetakers/interpreters, excerpt boundaries, full-record relationships, and negative-search claims separately.
+- A Daily Diary or schedule PDF must support chronology and meeting metadata without becoming substantive minutes, a participant list, or proof of conversation content unless the evidence explicitly says so.
 - A telegram/cable PDF must preserve header metadata, CFPF/Electronic Telegrams identifiers, transmission/event/date distinctions, reference telegrams, and page-boundary spillover separately.
 - A treaty/transmittal PDF must not collapse transmittal letter, treaty text, protocols, annexes, MOUs, analyses, presidential message, Senate ratification, and entry-into-force evidence into one generic attachment.
