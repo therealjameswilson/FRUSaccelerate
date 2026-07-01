@@ -107,6 +107,17 @@ assert(
 );
 
 assert(
+  stress.includes("1991-05-27-gorbachev.pdf") &&
+    stress.includes("Bush Library/NARA digital-object source-image PDF") &&
+    stress.includes("archival_digital_object_metadata") &&
+    stress.includes("citation_marker_page_status") &&
+    stress.includes("paper_capture_ocr_status") &&
+    stress.includes("source_note_control_number_basis") &&
+    stress.includes("https://history.state.gov/historicaldocuments/frus1989-92v31/d216"),
+  "expected Bush Library/NARA digital-object fixture with citation-marker and OCR-confidence handling"
+);
+
+assert(
   !stress.includes("tmp/pdfs/frus-builder-test/daily-intelligence/frus1977-80v12-d192-pdb-article.pdf"),
   "published FRUS PDB extract must not be counted as a local PDF fixture"
 );
