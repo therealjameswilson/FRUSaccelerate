@@ -130,6 +130,18 @@ assert(
 );
 
 assert(
+  stress.includes("bush-gorbachev-sensitive-91126-002.pdf") &&
+    stress.includes("withdrawn_source_record_counterpart_pdf") &&
+    stress.includes("withdrawn_source_record_status") &&
+    stress.includes("public_scan_body_absent_status") &&
+    stress.includes("selected_source_row_body_status") &&
+    stress.includes("printed_transcription_authority") &&
+    stress.includes("https://history.state.gov/historicaldocuments/frus1989-92v31/d38") &&
+    stress.includes("09b. Memcon Re: Memorandum of Conversation (18 pp.) 7/29/89"),
+  "expected Bush Library withdrawn selected source-row fixture with body-absent public scan handling"
+);
+
+assert(
   stress.includes("reagan-evening-reports-1984-10-11-10-25.pdf") &&
     stress.includes("Reagan Library serial evening-report archival packet") &&
     stress.includes("source_report_series_metadata") &&
