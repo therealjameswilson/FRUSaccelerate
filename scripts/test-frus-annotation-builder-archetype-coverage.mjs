@@ -52,6 +52,12 @@ assert(
 );
 
 assert(
+  stress.includes("frus1981-88v01-appendix-a-handwritten-notes-excerpt.pdf") &&
+    stress.includes("archival_photocopy"),
+  "expected official archival photocopy/source-image stress fixture"
+);
+
+assert(
   stress.includes("frus1981-88v06-d182-telephone-conversation-excerpt.pdf") &&
     stress.includes("memcon_or_telcon"),
   "expected official memorandum of telephone conversation stress fixture"
@@ -85,6 +91,12 @@ assert(
   stress.includes("frus1989-92v31-d1-printed-attachment-excerpt.pdf") &&
     stress.includes("attachment_packet"),
   "expected official attachment packet stress fixture"
+);
+
+assert(
+  stress.includes("frus1981-88v41-d145-d147-night-evening-report-excerpt.pdf") &&
+    stress.includes("mixed_or_unclear"),
+  "expected official mixed-or-unclear multi-document stress fixture"
 );
 
 assert(

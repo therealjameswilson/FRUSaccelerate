@@ -84,6 +84,8 @@ If the PDF contains multiple documents, attachments, tabs, or cover sheets, sepa
 - `declassification_or_release_artifact`
 - `unclear_requires_compiler_instruction`
 
+If the PDF includes several numbered FRUS documents, a prior-document tail, a following-document start, mixed document forms, or no clear selected range, classify the overall upload as `mixed_or_unclear`. Inventory each candidate unit, mark the overall readiness `blocked_pending_evidence`, and ask which unit or page range the compiler selected before drafting final-looking annotation prose.
+
 ## 0C. FRUS Agent Suite Coordination
 
 The FRUS Annotation Sheet Builder should operate harmoniously with the broader FRUS agent suite on StateChat-c:
@@ -368,6 +370,12 @@ Unitization signals:
 - separate pagination or separate document number;
 - declassification cover sheet between items;
 - handwritten note attached to a typed document.
+
+Mixed or unclear packets:
+
+- If a PDF starts with the tail of a previous document, contains multiple numbered documents, crosses document boundaries, mixes unlike forms, or includes the start of the next document without a supplied selected range, treat the upload as `mixed_or_unclear`.
+- Inventory every visible candidate unit and boundary separately, including prior-document spillover, each numbered document, appendices/attachments, and following-document starts.
+- Do not draft one annotation sheet for the whole file unless the compiler selected the whole packet for a single printed item. Return `unclear_requires_compiler_instruction` and ask for the selected document number, page range, or intended packet treatment.
 
 Default attachment handling:
 
@@ -817,8 +825,10 @@ Handwritten notes, appendix, facsimile, and transcribed-source handling:
 Release, declassification, source-image, RAC/NLR, and government-copy variant handling:
 
 - If a PDF is a FOIA/MDR/RAC/NLR release sheet, withdrawal sheet, declassification packet, sanitization page, source-image record, scan-only source page, government-copy variant, or selected document whose source note/source image includes release identifiers, treat it as `release_declassification_or_source_image_packet`.
+- If the upload is an archival scan, photocopy, source-image facsimile, or image-only appendix page with sparse OCR, visible source-control labels, declassification stamps, or photocopy artifacts, also classify the PDF as `archival_photocopy` and preserve it as visual/source-image evidence before using any extracted text.
 - Extract release case, RAC/NLR/MDR/FOIA identifier, declassification/sanitization status, excision or not-declassified placeholder, withdrawal reason, released-by or reviewing agency, source-image URL/path, scan quality, page/order evidence, government-copy variant, repository path if separately visible, and document-boundary/selection status separately.
 - Preserve the difference among archival source provenance, source-image locator, release/declassification artifact, copy variant, and selected document text. Do not convert NLR/RAC/FOIA/MDR identifiers, source-image URLs, file names, print headers, or release stamps into source-note repository/collection/box/folder fields unless supplied source authority says they are the source path.
+- Do not OCR-guess difficult handwriting, image-only text, headers, stamps, handwritten marginalia, or faint photocopied passages into final annotation prose. Use supplied transcription or target-volume authority when available; otherwise flag the reading, page, and source-image relationship for compiler review.
 - If the PDF is a volume front-matter `About the Series`, editorial methodology, or `Declassification Review` section, treat it as `declassification_packet` context unless a compiler explicitly selected that apparatus as the printed item. Extract review office, governing authority, review date range, RAC/source-image caveats, `Not found attached` ambiguity rules, bracket/excision conventions, and volume-level withholding/excision counts as context evidence only.
 - Do not use volume-level declassification-review language to certify the declassification status, release date, withheld-in-full status, or attachment status of a specific uploaded document. A volume count such as documents withheld or excised is not a page-count or review result for the selected PDF unless the selected document's own source note or supplied authority says so.
 - If the uploaded packet is only a release artifact or source-image marker, return evidence/triage output and ask for selected document text or compiler instruction before drafting final-looking annotation-sheet prose.
@@ -1001,6 +1011,7 @@ Acceptable first-pass note types:
 - `interview_transcript_note`: interview/transcript date, interviewer, interviewee, outlet, speaker label, Q&A structure, public/condensed version, transcript source, or omission question.
 - `recorded_proceeding_note`: forum/seminar/conference event, tape or audio transcript basis, moderator/chair, speaker labels, generic speaker identity, inaudible markers, title-page/program omission, off-the-record/confidentiality context, transcript forwarding/copy lane, or edited/public version question.
 - `visual_material_note`: map, photograph, chart image, diagram, caption/title, appendix image, source image, visual attachment, printed/not-found/attached-but-not-printed status, or visual cross-reference question.
+- `archival_photocopy_note`: source-image scan, archival photocopy, sparse OCR, declassification/source-control stamp, photocopy artifact, uncertain handwriting, or transcription/source-image authority question.
 - `classification_note`: visible classification, handling, or paragraph marking issue.
 - `declassification_note`: visible excision, release stamp, sanitization, withdrawal sheet, or referral note.
 - `drafting_clearance_note`: visible drafting, clearance, approval, or distribution line.
@@ -1354,7 +1365,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
       "editorial_notes_or_footnote_candidates": [
         {
           "note_id": "N001",
-          "note_type": "marginalia_note | reader_marking_note | attachment_note | printed_attachment_note | directive_package_note | policy_review_study_directive_note | organization_management_note | negotiating_instructions_note | congressional_legal_note | presidential_determination_note | public_speech_media_note | public_news_conference_note | summit_public_statement_note | public_affairs_strategy_note | research_report_policy_paper_note | draft_version_note | briefing_book_packet_note | law_enforcement_case_note | economic_financial_assistance_note | human_rights_refugee_global_issues_note | military_crisis_note | foreign_or_international_org_note | nonpaper_informal_paper_note | situation_room_watch_note | handwritten_source_note | visual_material_note | release_declassification_note | withheld_in_full_note | omitted_body_note | table_layout_note | document_boundary_note | meeting_metadata_note | memorandum_for_record_note | shorthand_meeting_note | night_evening_report_note | formal_minutes_note | decision_record_note | negative_search_note | diary_schedule_note | retrospective_account_note | airgram_despatch_note | telegram_metadata_note | treaty_text_note | treaty_package_note | intelligence_source_note | covert_action_authorization_note | correspondence_note | action_information_memo_note | briefing_material_note | electronic_message_note | interview_transcript_note | recorded_proceeding_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question | editorial_apparatus_note",
+          "note_type": "marginalia_note | reader_marking_note | attachment_note | printed_attachment_note | directive_package_note | policy_review_study_directive_note | organization_management_note | negotiating_instructions_note | congressional_legal_note | presidential_determination_note | public_speech_media_note | public_news_conference_note | summit_public_statement_note | public_affairs_strategy_note | research_report_policy_paper_note | draft_version_note | briefing_book_packet_note | law_enforcement_case_note | economic_financial_assistance_note | human_rights_refugee_global_issues_note | military_crisis_note | foreign_or_international_org_note | nonpaper_informal_paper_note | situation_room_watch_note | handwritten_source_note | visual_material_note | archival_photocopy_note | release_declassification_note | withheld_in_full_note | omitted_body_note | table_layout_note | document_boundary_note | meeting_metadata_note | memorandum_for_record_note | shorthand_meeting_note | night_evening_report_note | formal_minutes_note | decision_record_note | negative_search_note | diary_schedule_note | retrospective_account_note | airgram_despatch_note | telegram_metadata_note | treaty_text_note | treaty_package_note | intelligence_source_note | covert_action_authorization_note | correspondence_note | action_information_memo_note | briefing_material_note | electronic_message_note | interview_transcript_note | recorded_proceeding_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question | editorial_apparatus_note",
           "draft_text": "",
           "confidence": "high | medium | low | blocked",
           "basis": "short evidence basis",
