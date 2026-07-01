@@ -10,7 +10,7 @@ Purpose: record PDF archetype tests used to harden the FRUS Annotation Sheet Bui
 - George H.W. Bush administration official page: https://history.state.gov/historicaldocuments/bush-ghw
 - Status page: https://history.state.gov/historicaldocuments/status-of-the-series
 
-The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 2025 published releases, while many other Reagan/Bush volumes remain in clearance, research, planned, or anticipated status. The builder should use published examples as pattern evidence only and require target-volume authority for unpublished-volume sheets.
+The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as pattern evidence. Published examples do not prove missing facts for an uploaded compiler PDF; the builder should still require target-volume authority for source-note, document-number, chapter, attachment, and cross-reference claims.
 
 ## Tested Local PDFs
 
@@ -27,6 +27,7 @@ The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 20
 | `tmp/pdfs/frus-builder-test/telegram-cable/frus1989-92v31-d36-telegram-excerpt.pdf` | 4 | ordinary telegram excerpt from official 2025 FRUS volume PDF | Treat as electronic_telegram_or_cable; preserve telegram number, origin/destination, Zulu transmission time, subject, classification/precedence, Electronic Telegrams identifier, reference-telegram footnote, and leading previous-document boundary evidence. |
 | `tmp/pdfs/frus-builder-test/treaty-transmittal/frus1989-92v31-d247-treaty-transmittal-excerpt.pdf` | 9 | treaty transmittal package excerpt from official 2025 FRUS volume PDF | Treat as treaty_or_transmittal_package; preserve STARS source path, no-classification marking, drafter/clearance chain, attached-but-not-printed treaty materials, integral-vs-associated treaty-document status, Senate transmittal, ratification, and entry-into-force dates as separate evidence. |
 | `tmp/pdfs/frus-builder-test/diary-schedule/frus1981-88v05-d236-diary-schedule-excerpt.pdf` | 4 | memorandum excerpt with Daily Diary/schedule support evidence from official 2020 FRUS volume PDF | Treat diary/schedule evidence as daily_diary_or_schedule_evidence; preserve selected memorandum, archive path, classification, drafter/clearance chain, typed delivery notation, Daily Diary meeting time, memoir evidence, and no-substantive-record claim as separate evidence. |
+| `tmp/pdfs/frus-builder-test/translation-annex/frus1981-88v24-d290-translation-annex-excerpt.pdf` | 6 | translated minutes with attached-but-not-printed annexes from official 2024 FRUS volume PDF | Treat as translation_or_foreign_language_source; preserve printed-from-translation status, translation date, source path, classification, attached-but-not-printed annexes, original-bracket note, cross-references, omitted participant list, and trailing next-document boundary separately. |
 
 ## Rules Added
 
@@ -44,6 +45,7 @@ The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 20
 - Added Daily Diary, schedule, appointment-log, meeting-log, and support-only chronology handling.
 - Added ordinary telegram/cable metadata and reference-telegram handling.
 - Added treaty/transmittal package, ratification, and entry-into-force handling.
+- Added translation, foreign-language source, and translated-annex handling.
 - Added `bibliographic_basis`, `transcription_basis`, and `appendix_facsimile_relationship` evidence-request labels.
 - Added `directive_package_basis` evidence-request label and `directive_package_note` note type.
 - Added `table_layout_basis`, `document_boundary_basis`, `table_layout_note`, and `document_boundary_note` values.
@@ -51,6 +53,7 @@ The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 20
 - Added `diary_schedule_basis` and `diary_schedule_note` values.
 - Added `telegram_metadata_basis`, `telegram_reference_basis`, and `telegram_metadata_note` values.
 - Added `treaty_package_basis`, `ratification_basis`, and `treaty_package_note` values.
+- Added `translation_basis`, `foreign_language_basis`, `translation_status`, `foreign_language_metadata`, and `annex_translation_status` values.
 
 ## Regression Expectations
 
@@ -65,3 +68,4 @@ The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 20
 - A Daily Diary or schedule PDF must support chronology and meeting metadata without becoming substantive minutes, a participant list, or proof of conversation content unless the evidence explicitly says so.
 - A telegram/cable PDF must preserve header metadata, CFPF/Electronic Telegrams identifiers, transmission/event/date distinctions, reference telegrams, and page-boundary spillover separately.
 - A treaty/transmittal PDF must not collapse transmittal letter, treaty text, protocols, annexes, MOUs, analyses, presidential message, Senate ratification, and entry-into-force evidence into one generic attachment.
+- A translated or foreign-language PDF must not collapse original-language status, translation date, translator/office evidence, original-bracket notes, omitted material, annex status, and next-document spillover into a generic English-language source note.
