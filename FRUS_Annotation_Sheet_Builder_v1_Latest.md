@@ -276,6 +276,7 @@ When OCR conflicts with visible page image:
 Treat the following as non-document artifacts unless compiler instruction says otherwise:
 
 - FOIA or MDR release cover pages;
+- withdrawal or redaction sheets;
 - download watermarks;
 - scanner page labels;
 - page thumbnails;
@@ -283,6 +284,8 @@ Treat the following as non-document artifacts unless compiler instruction says o
 - public website navigation artifacts;
 - OCR line numbers or page extraction headers;
 - duplicate blank pages.
+
+Treat local file paths, HTML print headers, database export paths, browser titles, and repeated `Page X of Y` print headers as extraction or print artifacts unless a compiler explicitly identifies them as source provenance. Record them in the evidence ledger, not in the draft FRUS source note.
 
 ## 7. Document Unitization And Attachments
 
@@ -304,6 +307,14 @@ Default attachment handling:
 - If an attachment is selected as a separate document by spreadsheet or compiler note, draft a separate annotation-sheet unit.
 - If an attachment is only source backup, do not make it a manuscript document.
 - If the PDF says an attachment was attached but the attachment is missing, do not write `not attached` unless the PDF or supplied context proves absence from the source packet.
+
+Cable-transmitted embedded document handling:
+
+- A telegram or cable may be both a transmission wrapper and the carrier for an embedded memorandum, memorandum of conversation, report, message, enclosure, or text. Do not collapse the wrapper and embedded document into one undifferentiated item.
+- Preserve wrapper metadata separately from embedded-document metadata. Wrapper metadata includes DTG, origin, addressees, telegram number, channel, precedence, classification, TAGS, subject line, and handling markings. Embedded-document metadata includes the embedded document title, subject, date, place, participants, drafter, and text boundaries when visible.
+- Preserve both date bases when they differ. For example, record `transmission_date` for the cable and `embedded_document_date` or `meeting_date` for the embedded text. Do not use the transmission date as the event date or vice versa.
+- If compiler instructions do not state whether the printed FRUS item should be the cable, the embedded document, or both, mark the treatment as `unclear_requires_compiler_instruction`. Draft a conservative heading such as `Telegram From [origin] to [recipient] Transmitting [embedded document type]` only when the wrapper evidence supports it; otherwise bracket the question.
+- If a withdrawal/redaction sheet, cover sheet, or release sheet identifies the cable or embedded item, use it as source/release evidence and page-map support. Do not treat that sheet as document text.
 
 ## 8. Annotation Sheet Drafting Rules
 
