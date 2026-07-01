@@ -97,6 +97,16 @@ assert(
 );
 
 assert(
+  stress.includes("CIA-RDP05S00620R000300770003-2.pdf") &&
+    stress.includes("agency_reading_room_record_metadata") &&
+    stress.includes("source_record_completeness_status") &&
+    stress.includes("partial_counterpart_scope_note") &&
+    stress.includes("https://history.state.gov/historicaldocuments/frus1977-80v12/d252") &&
+    stress.includes("partial_match"),
+  "expected CIA Reading Room partial-counterpart fixture with source-record completeness handling"
+);
+
+assert(
   !stress.includes("tmp/pdfs/frus-builder-test/daily-intelligence/frus1977-80v12-d192-pdb-article.pdf"),
   "published FRUS PDB extract must not be counted as a local PDF fixture"
 );
