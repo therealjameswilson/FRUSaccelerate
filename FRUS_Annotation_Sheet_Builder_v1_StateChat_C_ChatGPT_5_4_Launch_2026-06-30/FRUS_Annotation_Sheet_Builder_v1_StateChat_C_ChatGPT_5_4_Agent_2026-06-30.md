@@ -357,6 +357,14 @@ Standalone policy paper handling:
 - Treat internal annexes or appendices as part of the paper unless separate selection, pagination, title-page evidence, or compiler instruction indicates separate manuscript treatment.
 - If the source path is not visible, start the source note with `[source provenance needed]` and put Clinton Library, National Archives, FOIA, or photocopy stamps in the evidence ledger unless they prove source provenance.
 
+Technical table, chart, and list-heavy document handling:
+
+- If a PDF contains tables, charts, matrices, cost comparisons, technical data, column headers, line/paragraph excisions, scientific units, mathematical symbols, or layout-dependent lists, treat the relevant unit as `technical_table_or_chart` in addition to its document type.
+- Preserve rows, columns, column headers, footnote markers, units, indentation, list markers, and declassification placeholders such as `[column not declassified]`, `[number not declassified]`, `[less than 1 line not declassified]`, and `[1 paragraph not declassified]`. Do not paraphrase a table into prose when the table structure carries meaning.
+- Record whether tabular layout was recovered from OCR/text extraction, visual inspection, or supplied transcription. If extraction scrambles rows or columns, request a visual check or manual transcription before producing a final-looking annotation sheet.
+- Preserve technical terms and symbols exactly enough for review, including percentages, dollar figures, psi, CEP, missile designations, foot/inch marks, ranges, formulas, and acronyms. Flag uncertain glyphs instead of normalizing them silently.
+- If the selected page range includes the start of the next numbered document, treat the following document as a separate boundary artifact. Do not merge trailing next-document text into the selected document's annotation sheet.
+
 Public or printed source PDF handling:
 
 - If a PDF is a public statement, address, remarks, exchange with reporters, news conference, testimony, treaty text, public law, printed report, newspaper clipping, public paper, or government publication, treat it as `public_or_printed_source`.
@@ -468,6 +476,8 @@ Acceptable first-pass note types:
 - `marginalia_note`: visible handwritten note, initial, check mark, underlining, stamp, or notation.
 - `attachment_note`: visible attachment, tab, enclosure, appendix, or missing attachment question.
 - `directive_package_note`: directive number, cover memorandum, distribution, annex/tab, or printed-elsewhere relationship question.
+- `table_layout_note`: table, chart, matrix, list, technical-unit, or layout-preservation question.
+- `document_boundary_note`: next-document spillover, missing first page, missing final page, or ambiguous selected range.
 - `classification_note`: visible classification, handling, or paragraph marking issue.
 - `declassification_note`: visible excision, release stamp, sanitization, withdrawal sheet, or referral note.
 - `drafting_clearance_note`: visible drafting, clearance, approval, or distribution line.
@@ -502,6 +512,8 @@ Common evidence request labels:
 - `cross_reference_target`
 - `publication_status`
 - `directive_package_basis`
+- `table_layout_basis`
+- `document_boundary_basis`
 - `bibliographic_basis`
 - `transcription_basis`
 - `appendix_facsimile_relationship`
@@ -558,7 +570,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
       "page_range": "pages or unknown",
       "unit_type": "primary_document_selected_for_print | attachment_possibly_printed_with_document | attachment_possibly_selected_as_separate_document | source_backup_or_cover_sheet | declassification_or_release_artifact | source_register_or_finding_aid | unclear_requires_compiler_instruction",
       "extraction_quality": "high | medium | low | blocked",
-      "pdf_archetype": "archival_photocopy | electronic_telegram_or_cable | memcon_or_telcon | directive_or_decision_package | public_or_printed_source | editorial_note | appendix_or_facsimile | attachment_packet | declassification_packet | source_register_or_finding_aid | mixed_or_unclear",
+      "pdf_archetype": "archival_photocopy | electronic_telegram_or_cable | memcon_or_telcon | directive_or_decision_package | technical_table_or_chart | public_or_printed_source | editorial_note | appendix_or_facsimile | attachment_packet | declassification_packet | source_register_or_finding_aid | mixed_or_unclear",
       "document_type": "",
       "document_date": "",
       "date_basis": "visible_pdf | supplied_context | inferred_low_confidence | missing",
@@ -600,7 +612,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
       "editorial_notes_or_footnote_candidates": [
         {
           "note_id": "N001",
-          "note_type": "marginalia_note | attachment_note | directive_package_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question",
+          "note_type": "marginalia_note | attachment_note | directive_package_note | table_layout_note | document_boundary_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question",
           "draft_text": "",
           "confidence": "high | medium | low | blocked",
           "basis": "short evidence basis",
@@ -614,7 +626,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
   "source_note_evidence_ledger": [
     {
       "draft_document_id": "PDF001-DOC001",
-      "field": "repository | collection | box | folder | file | copy_basis | classification | declassification | drafting | clearance | distribution | directive_package_metadata | telegram_metadata | attachment_status",
+      "field": "repository | collection | box | folder | file | copy_basis | classification | declassification | drafting | clearance | distribution | directive_package_metadata | table_layout_or_redaction | document_boundary | telegram_metadata | attachment_status",
       "value": "",
       "basis": "visible_pdf | supplied_context | missing | inferred_low_confidence",
       "page_or_source": "",
@@ -625,7 +637,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
     {
       "id": "ER001",
       "draft_document_id": "PDF001-DOC001",
-      "request_type": "source_provenance | archive_path | copy_basis | target_volume | chapter_or_section | document_number | manuscript_order | document_selection_status | attachment_treatment | source_image_or_ocr | classification_basis | declassification_basis | drafting_clearance_basis | participant_basis | cross_reference_target | publication_status | directive_package_basis | bibliographic_basis | transcription_basis | appendix_facsimile_relationship | frus_style_authority | compiler_instruction | word_docx_tool",
+      "request_type": "source_provenance | archive_path | copy_basis | target_volume | chapter_or_section | document_number | manuscript_order | document_selection_status | attachment_treatment | source_image_or_ocr | classification_basis | declassification_basis | drafting_clearance_basis | participant_basis | cross_reference_target | publication_status | directive_package_basis | table_layout_basis | document_boundary_basis | bibliographic_basis | transcription_basis | appendix_facsimile_relationship | frus_style_authority | compiler_instruction | word_docx_tool",
       "question": "specific question for compiler or editor",
       "why_needed": "brief FRUS consequence",
       "blocks_publication_ready_sheet": "yes | no"
