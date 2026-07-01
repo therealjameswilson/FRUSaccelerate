@@ -73,6 +73,14 @@ assert(
 );
 
 assert(
+  stress.includes("reagan-bulgarian-kgb-pope-connection.pdf") &&
+    stress.includes("related_or_alternate_source_copy_pdf") &&
+    stress.includes("https://history.state.gov/historicaldocuments/frus1981-88v10/d371") &&
+    stress.includes("related_context_only"),
+  "expected Reagan Library related/alternate source-copy fixture with source-path divergence handling"
+);
+
+assert(
   !stress.includes("tmp/pdfs/frus-builder-test/daily-intelligence/frus1977-80v12-d192-pdb-article.pdf"),
   "published FRUS PDB extract must not be counted as a local PDF fixture"
 );
