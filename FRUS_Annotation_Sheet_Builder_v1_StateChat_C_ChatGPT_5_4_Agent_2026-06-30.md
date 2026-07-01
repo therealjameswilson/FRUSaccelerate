@@ -348,6 +348,24 @@ Standalone policy paper handling:
 - Treat internal annexes or appendices as part of the paper unless separate selection, pagination, title-page evidence, or compiler instruction indicates separate manuscript treatment.
 - If the source path is not visible, start the source note with `[source provenance needed]` and put Clinton Library, National Archives, FOIA, or photocopy stamps in the evidence ledger unless they prove source provenance.
 
+Public or printed source PDF handling:
+
+- If a PDF is a public statement, address, remarks, exchange with reporters, news conference, testimony, treaty text, public law, printed report, newspaper clipping, public paper, or government publication, treat it as `public_or_printed_source`.
+- Extract bibliographic facts separately from archival facts: publication title, issuing body, speaker/author, event title, event date, publication date, page number, series/book label, document/granule ID, URL, and visible notes.
+- Do not force a public-source PDF into archival box/folder form. If the visible source is GovInfo, Public Papers, Department of State Bulletin, Documents on Disarmament, a newspaper, a hearing, or another printed source, draft a public/printed-source note and request missing bibliographic details.
+- Distinguish the event date from the publication date and from any PDF-generation metadata. PDF creation date, file metadata, authenticated watermark, and page-image footer belong in the evidence ledger unless needed to identify the edition.
+- If a single PDF page contains more than one printed item, unitize by printed title/date and ask whether the compiler selected one item, multiple items, or the whole page.
+- If an archival copy of a public statement is supplied, preserve both lanes: the selected public text and the archival copy/source path. Do not replace one with the other without compiler instruction.
+
+Appendix, facsimile, and handwritten-source handling:
+
+- If a PDF consists of a facsimile image, handwritten note, photographed page, lettered appendix item, or image-only source reproduction, treat it as `appendix_or_facsimile` unless the compiler selected it as an ordinary document.
+- Preserve lettered appendix labels, bracketed document numbers, source-image filenames, NLR/RAC/source-control identifiers, and visible source-page captions as separate evidence fields.
+- If a facsimile is paired with a transcribed document, record the two-way relationship: the transcription points to the facsimile, and the facsimile source entry points back to the transcribed document. Do not invent either side of that link.
+- Do not normalize handwritten text into polished prose. Preserve bullets, dashes, arrows, numbered lists, underlining, strikeouts, inserted words, uncertain readings, and illegible passages when they carry meaning.
+- If handwriting cannot be read with confidence, return `overall_readiness: blocked_pending_ocr_or_rescan` or request a higher-resolution source image/transcription. Do not create final-looking transcription language from uncertain visual evidence.
+- Do not renumber lettered appendix facsimiles as ordinary manuscript documents unless target-volume instructions require that display form.
+
 Source-register, release-packet, and finding-aid handling:
 
 - If the PDF consists only of a withdrawal/redaction sheet, release marker, FOIA/MDR marker, source register, OA/ID list, folder-title list, box/folder inventory, production log, or finding aid, do not draft a manuscript annotation sheet.
@@ -473,6 +491,9 @@ Common evidence request labels:
 - `participant_basis`
 - `cross_reference_target`
 - `publication_status`
+- `bibliographic_basis`
+- `transcription_basis`
+- `appendix_facsimile_relationship`
 - `frus_style_authority`
 - `compiler_instruction`
 - `word_docx_tool`
@@ -568,7 +589,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
       "editorial_notes_or_footnote_candidates": [
         {
           "note_id": "N001",
-          "note_type": "marginalia_note | attachment_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | translation_or_foreign_language_note | printed_attachment_question",
+          "note_type": "marginalia_note | attachment_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question",
           "draft_text": "",
           "confidence": "high | medium | low | blocked",
           "basis": "short evidence basis",
@@ -593,7 +614,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
     {
       "id": "ER001",
       "draft_document_id": "PDF001-DOC001",
-      "request_type": "source_provenance | archive_path | copy_basis | target_volume | chapter_or_section | document_number | manuscript_order | document_selection_status | attachment_treatment | source_image_or_ocr | classification_basis | declassification_basis | drafting_clearance_basis | participant_basis | cross_reference_target | publication_status | frus_style_authority | compiler_instruction | word_docx_tool",
+      "request_type": "source_provenance | archive_path | copy_basis | target_volume | chapter_or_section | document_number | manuscript_order | document_selection_status | attachment_treatment | source_image_or_ocr | classification_basis | declassification_basis | drafting_clearance_basis | participant_basis | cross_reference_target | publication_status | bibliographic_basis | transcription_basis | appendix_facsimile_relationship | frus_style_authority | compiler_instruction | word_docx_tool",
       "question": "specific question for compiler or editor",
       "why_needed": "brief FRUS consequence",
       "blocks_publication_ready_sheet": "yes | no"
