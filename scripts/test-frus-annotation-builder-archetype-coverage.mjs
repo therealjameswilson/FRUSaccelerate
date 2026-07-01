@@ -118,6 +118,18 @@ assert(
 );
 
 assert(
+  stress.includes("nsc0058-start-meeting-folder.pdf") &&
+    stress.includes("Bush Library/NARA image-only source-folder packet") &&
+    stress.includes("source_folder_packet_status") &&
+    stress.includes("source_folder_item_inventory") &&
+    stress.includes("frus_document_to_source_page_map") &&
+    stress.includes("image_only_source_pdf_status") &&
+    stress.includes("https://history.state.gov/historicaldocuments/frus1989-92v31/d219") &&
+    stress.includes("https://history.state.gov/historicaldocuments/frus1989-92v31/d220"),
+  "expected Bush Library/NARA image-only source-folder packet fixture with shared-folder page-range mapping"
+);
+
+assert(
   !stress.includes("tmp/pdfs/frus-builder-test/daily-intelligence/frus1977-80v12-d192-pdb-article.pdf"),
   "published FRUS PDB extract must not be counted as a local PDF fixture"
 );
