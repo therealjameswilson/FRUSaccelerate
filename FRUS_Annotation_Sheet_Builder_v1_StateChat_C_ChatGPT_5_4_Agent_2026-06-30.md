@@ -124,11 +124,12 @@ Recent published corpus coverage used for builder lessons:
 Use the corpus lessons this way:
 
 - Preserve source-family identity. Do not flatten Department of State lot files, Executive Secretariat records, Central Foreign Policy File telegrams, STARS records, Reagan Library NSC Institutional files, Reagan Library staff/directorate files, Daily Diary/schedule records, Shultz/Hoover/private copies, DOD/CIA/JCS/agency records, Bush Presidential Records, H-Files, Scowcroft files, Gordon/NSC staff files, public/printed sources, private papers, or international-organization records into a generic repository label.
-- Expect varied PDF archetypes: memoranda, telegrams, cables, memoranda of conversation, telephone conversations, letters, minutes, papers, action memoranda, directive packages, talking points, briefings, public statements, treaty transmittal records, translated or foreign-language records, editorial notes, appendices, facsimiles, handwritten notes, tabs, attachments, and mixed source packets.
+- Expect varied PDF archetypes: memoranda, telegrams, cables, memoranda of conversation, telephone conversations, letters, minutes, papers, action memoranda, directive packages, talking points, briefings, intelligence estimates, public statements, treaty transmittal records, translated or foreign-language records, editorial notes, appendices, facsimiles, handwritten notes, tabs, attachments, and mixed source packets.
 - Treat common published annotation formulas as controlled claims. `See Document [n].`, `See footnote [n], Document [n].`, `In telegram [n]...`, `Attached but not printed...`, `Not found.`, `Scheduled for publication in Foreign Relations...`, `Brackets are in the original.`, `Printed as Document [n].`, `No minutes were found.`, `Not found attached.`, appendix references, and tab/attachment publication notes require exact support from supplied numbering, source evidence, or target-volume authority.
 - Preserve separate date bases. Recent volumes often distinguish document date, meeting date, transmission date, packet date, diary/schedule date, typed transmittal date, publication date, release date, and declassification date. Do not collapse one into another.
 - Treat Daily Diary, schedule, calendar, and meeting-log records as support evidence unless the compiler explicitly selected the record itself. They can support chronology, time range, place, and sometimes attendance, but they do not prove substantive minutes or the content of a conversation.
 - Preserve translation status. Printed translations, foreign-language originals, translator or office evidence, original-language bracket notes, and translated or untranslated annexes must stay separate from the selected document's date, source path, and attachment treatment.
+- Preserve intelligence-source controls. DIA/CIA/INR/NIC/JCS analytic products, estimative briefs, intelligence memoranda, appraisals, reports, and information cables can carry document identifiers, information-as-of dates, paragraph markings, handling restrictions, not-declassified text, receipt stamps, and agency source paths that must not be flattened into generic classification prose.
 - Public or printed sources can be selected documents. If the uploaded PDF is a speech, public statement, interview, testimony, treaty text, printed report, newspaper/publication excerpt, or editorial note, draft a public-source or printed-source annotation instead of forcing archival-source form.
 - Editorial notes may lack conventional `Source:` footnotes. Do not use a source-less editorial-note model for a memorandum, telegram, minutes, memorandum of conversation, directive, or public document unless the target item is proved to be an editorial note.
 - Page artifacts remain evidence. Release stamps, withdrawal sheets, FOIA/MDR markers, local file paths, HTML print headers, scan labels, watermarks, export paths, and repeated page headers should be inventoried, but should not become source-note prose unless source authority supports that treatment.
@@ -385,6 +386,15 @@ Technical table, chart, and list-heavy document handling:
 - Preserve technical terms and symbols exactly enough for review, including percentages, dollar figures, psi, CEP, missile designations, foot/inch marks, ranges, formulas, and acronyms. Flag uncertain glyphs instead of normalizing them silently.
 - If the selected page range includes the start of the next numbered document, treat the following document as a separate boundary artifact. Do not merge trailing next-document text into the selected document's annotation sheet.
 
+Intelligence, estimative, and analytic-source handling:
+
+- If a PDF is a defense estimative brief, intelligence memorandum, intelligence appraisal, intelligence report, intelligence information cable, National Intelligence Daily article, CIA/INR/DIA/NIC/JCS analytic product, or agency-prepared assessment, treat it as `intelligence_or_estimate`.
+- Extract intelligence product type, product number, issuing agency, analytic office or branch, information-as-of date, document date, receipt date, source path, classification, handling restrictions, paragraph markings, redaction placeholders, stamped notations, and distribution or routing evidence as separate fields.
+- Preserve handling restrictions and not-declassified text exactly enough for review, including `[handling restriction not declassified]`, `[1 line not declassified]`, `[less than 1 line not declassified]`, and `[text not declassified]`. Do not silently normalize them into generic `Secret` or `redacted` labels.
+- Keep analytic source provenance distinct from policy-document provenance. WNRC/OSD, DIA, CIA, INR, NIC, JCS, NSC, and Department files are not interchangeable even when the printed document discusses the same event or region.
+- Distinguish document date, information-as-of date, preparation date, receipt/stamp date, publication date, and declassification/release date. Do not use a receipt stamp or declassification date as the document date.
+- If the selected page range begins or ends with another numbered document, record boundary spillover and do not import the adjacent document's source note, classification, or handling restrictions into the intelligence unit.
+
 Public or printed source PDF handling:
 
 - If a PDF is a public statement, address, remarks, exchange with reporters, news conference, testimony, treaty text, public law, printed report, newspaper clipping, public paper, or government publication, treat it as `public_or_printed_source`.
@@ -530,6 +540,7 @@ Acceptable first-pass note types:
 - `diary_schedule_note`: Daily Diary, schedule, calendar, appointment-log, meeting-log, or support-only chronology question.
 - `telegram_metadata_note`: telegram number, DTG, origin, addressee, channel, precedence, TAGS, subject, reference-telegram, or cable-header question.
 - `treaty_package_note`: treaty/transmittal unit, integral-versus-associated status, ratification, or entry-into-force question.
+- `intelligence_source_note`: intelligence product type, agency source, information-as-of date, handling restriction, not-declassified text, receipt stamp, or analytic-office question.
 - `classification_note`: visible classification, handling, or paragraph marking issue.
 - `declassification_note`: visible excision, release stamp, sanitization, withdrawal sheet, or referral note.
 - `drafting_clearance_note`: visible drafting, clearance, approval, or distribution line.
@@ -577,6 +588,8 @@ Common evidence request labels:
 - `ratification_basis`
 - `translation_basis`
 - `foreign_language_basis`
+- `intelligence_source_basis`
+- `handling_restriction_basis`
 - `bibliographic_basis`
 - `transcription_basis`
 - `appendix_facsimile_relationship`
@@ -633,7 +646,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
       "page_range": "pages or unknown",
       "unit_type": "primary_document_selected_for_print | attachment_possibly_printed_with_document | attachment_possibly_selected_as_separate_document | supporting_chronology_or_schedule_evidence | source_backup_or_cover_sheet | declassification_or_release_artifact | source_register_or_finding_aid | unclear_requires_compiler_instruction",
       "extraction_quality": "high | medium | low | blocked",
-      "pdf_archetype": "archival_photocopy | electronic_telegram_or_cable | memcon_or_telcon | daily_diary_or_schedule_evidence | directive_or_decision_package | technical_table_or_chart | treaty_or_transmittal_package | translation_or_foreign_language_source | public_or_printed_source | editorial_note | appendix_or_facsimile | attachment_packet | declassification_packet | source_register_or_finding_aid | mixed_or_unclear",
+      "pdf_archetype": "archival_photocopy | electronic_telegram_or_cable | memcon_or_telcon | daily_diary_or_schedule_evidence | directive_or_decision_package | technical_table_or_chart | intelligence_or_estimate | treaty_or_transmittal_package | translation_or_foreign_language_source | public_or_printed_source | editorial_note | appendix_or_facsimile | attachment_packet | declassification_packet | source_register_or_finding_aid | mixed_or_unclear",
       "document_type": "",
       "document_date": "",
       "date_basis": "visible_pdf | supplied_context | inferred_low_confidence | missing",
@@ -644,6 +657,8 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
         "diary_or_schedule_time_range": "",
         "translation_date": "",
         "original_source_date": "",
+        "information_as_of_date": "",
+        "receipt_or_stamp_date": "",
         "transmission_date": "",
         "packet_or_transmittal_date": "",
         "publication_or_release_date": "",
@@ -679,7 +694,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
       "editorial_notes_or_footnote_candidates": [
         {
           "note_id": "N001",
-          "note_type": "marginalia_note | attachment_note | directive_package_note | table_layout_note | document_boundary_note | meeting_metadata_note | negative_search_note | diary_schedule_note | telegram_metadata_note | treaty_package_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question",
+          "note_type": "marginalia_note | attachment_note | directive_package_note | table_layout_note | document_boundary_note | meeting_metadata_note | negative_search_note | diary_schedule_note | telegram_metadata_note | treaty_package_note | intelligence_source_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question",
           "draft_text": "",
           "confidence": "high | medium | low | blocked",
           "basis": "short evidence basis",
@@ -693,7 +708,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
   "source_note_evidence_ledger": [
     {
       "draft_document_id": "PDF001-DOC001",
-      "field": "repository | collection | box | folder | file | copy_basis | classification | declassification | drafting | clearance | distribution | meeting_metadata | diary_or_schedule_metadata | participant_list | excerpt_scope | negative_search | directive_package_metadata | treaty_package_metadata | ratification_or_entry_into_force | translation_status | foreign_language_metadata | annex_translation_status | table_layout_or_redaction | document_boundary | telegram_metadata | attachment_status",
+      "field": "repository | collection | box | folder | file | copy_basis | classification | handling_restriction | declassification | not_declassified_text | drafting | clearance | distribution | meeting_metadata | diary_or_schedule_metadata | participant_list | excerpt_scope | negative_search | directive_package_metadata | intelligence_metadata | information_as_of | receipt_or_stamp | treaty_package_metadata | ratification_or_entry_into_force | translation_status | foreign_language_metadata | annex_translation_status | table_layout_or_redaction | document_boundary | telegram_metadata | attachment_status",
       "value": "",
       "basis": "visible_pdf | supplied_context | missing | inferred_low_confidence",
       "page_or_source": "",
@@ -704,7 +719,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
     {
       "id": "ER001",
       "draft_document_id": "PDF001-DOC001",
-      "request_type": "source_provenance | archive_path | copy_basis | target_volume | chapter_or_section | document_number | manuscript_order | document_selection_status | attachment_treatment | source_image_or_ocr | classification_basis | declassification_basis | drafting_clearance_basis | participant_basis | cross_reference_target | publication_status | directive_package_basis | table_layout_basis | document_boundary_basis | meeting_metadata_basis | participant_list_basis | excerpt_scope_basis | negative_search_basis | diary_schedule_basis | telegram_metadata_basis | telegram_reference_basis | treaty_package_basis | ratification_basis | translation_basis | foreign_language_basis | bibliographic_basis | transcription_basis | appendix_facsimile_relationship | frus_style_authority | compiler_instruction | word_docx_tool",
+      "request_type": "source_provenance | archive_path | copy_basis | target_volume | chapter_or_section | document_number | manuscript_order | document_selection_status | attachment_treatment | source_image_or_ocr | classification_basis | handling_restriction_basis | declassification_basis | drafting_clearance_basis | participant_basis | cross_reference_target | publication_status | directive_package_basis | intelligence_source_basis | table_layout_basis | document_boundary_basis | meeting_metadata_basis | participant_list_basis | excerpt_scope_basis | negative_search_basis | diary_schedule_basis | telegram_metadata_basis | telegram_reference_basis | treaty_package_basis | ratification_basis | translation_basis | foreign_language_basis | bibliographic_basis | transcription_basis | appendix_facsimile_relationship | frus_style_authority | compiler_instruction | word_docx_tool",
       "question": "specific question for compiler or editor",
       "why_needed": "brief FRUS consequence",
       "blocks_publication_ready_sheet": "yes | no"
