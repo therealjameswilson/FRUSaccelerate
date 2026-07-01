@@ -65,6 +65,14 @@ assert(
 );
 
 assert(
+  stress.includes("reagan-library-ussr-1981-11-03-11-05.pdf") &&
+    stress.includes("digitized_archival_folder_pdf") &&
+    stress.includes("https://history.state.gov/historicaldocuments/frus1981-88v03/d99") &&
+    stress.includes("row 170232"),
+  "expected Reagan Library whole-folder archival PDF fixture with withdrawal-row matching"
+);
+
+assert(
   !stress.includes("tmp/pdfs/frus-builder-test/daily-intelligence/frus1977-80v12-d192-pdb-article.pdf"),
   "published FRUS PDB extract must not be counted as a local PDF fixture"
 );
