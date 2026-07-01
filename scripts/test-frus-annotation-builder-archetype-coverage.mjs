@@ -76,6 +76,12 @@ assert(
 );
 
 assert(
+  stress.includes("frus1981-88v44p1-about-series-declassification-excerpt.pdf") &&
+    stress.includes("declassification_packet"),
+  "expected official declassification-process context stress fixture"
+);
+
+assert(
   stress.includes("frus1981-88v11-d6-nssd3-82-excerpt.pdf") &&
     stress.includes("policy_review_or_study_directive"),
   "expected official National Security Study Directive stress fixture"
