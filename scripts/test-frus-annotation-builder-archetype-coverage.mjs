@@ -58,6 +58,18 @@ assert(
 );
 
 assert(
+  stress.includes("reagan-library-ussr-1981-10-29-2.pdf") &&
+    stress.includes("digitized_archival_record_pdf") &&
+    stress.includes("https://history.state.gov/historicaldocuments/frus1981-88v03/d98"),
+  "expected Reagan Library digitized archival record PDF fixture with FRUS printed counterpart"
+);
+
+assert(
+  !stress.includes("tmp/pdfs/frus-builder-test/daily-intelligence/frus1977-80v12-d192-pdb-article.pdf"),
+  "published FRUS PDB extract must not be counted as a local PDF fixture"
+);
+
+assert(
   stress.includes("frus1981-88v06-d182-telephone-conversation-excerpt.pdf") &&
     stress.includes("memcon_or_telcon"),
   "expected official memorandum of telephone conversation stress fixture"

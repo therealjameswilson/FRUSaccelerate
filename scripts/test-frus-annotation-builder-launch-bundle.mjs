@@ -127,6 +127,8 @@ requirePhrases(agent, [
   "not_annotation_sheet_cover_sheet_only",
   "press_release_or_background_briefing",
   "press_release_background_briefing_note",
+  "digitized_archival_record_pdf",
+  "archival_record_reprint_note",
   "daily_intelligence_brief_or_pdb_article",
   "daily_intelligence_brief_note",
   "archival_photocopy",
@@ -161,12 +163,16 @@ requirePhrases(readme, [
   "history.state.gov web/print-export handling",
   "fax/cover-sheet/routing-slip handling",
   "press-release/background-briefing handling",
+  "digitized archival/source-record PDF handling",
+  "FRUS printed-counterpart matching",
   "daily-intelligence/PDB/NID article handling",
   "history.state.gov corpus lessons"
 ], "README");
 
 requirePhrases(stress, [
   "Purpose: record PDF archetype tests",
+  "Fixture provenance rule",
+  "accepted local PDF fixtures should come from digitized archival/source records",
   "history.state.gov",
   "full_volume_or_chapter_packet",
   "not_annotation_sheet_volume_or_chapter_packet_only",
@@ -181,8 +187,12 @@ requirePhrases(stress, [
   "not_annotation_sheet_cover_sheet_only",
   "press_release_or_background_briefing",
   "frus1981-88v01-d151-background-briefing-excerpt.pdf",
+  "digitized_archival_record_pdf",
+  "reagan-library-ussr-1981-10-29-2.pdf",
+  "https://www.reaganlibrary.gov/public/2022-07/40-748-12026383-R21-051-2022.pdf",
+  "https://history.state.gov/historicaldocuments/frus1981-88v03/d98",
   "daily_intelligence_brief_or_pdb_article",
-  "frus1977-80v12-d192-pdb-article.pdf",
+  "find a digitized archival PDB/NID source-record scan before counting it as a PDF fixture",
   "archival_photocopy",
   "mixed_or_unclear"
 ], "stress-test report");
@@ -203,10 +213,16 @@ requirePhrases(lessons, [
   "Cover-sheet, routing-slip, and transmission-wrapper evidence used for wrapper handling",
   "Fax sheets, routing slips, and cover sheets require wrapper treatment",
   "Press releases, press guidance, and background briefings require public-release treatment",
+  "Digitized archival/source-record PDFs require counterpart-aware treatment",
   "Daily intelligence brief articles require article-versus-issue treatment",
   "Archival photocopy and source-image uploads require scan-first treatment",
   "Mixed or unclear multi-document uploads require selection triage"
 ], "recent-published lessons");
+
+assert(
+  !stress.includes("tmp/pdfs/frus-builder-test/daily-intelligence/frus1977-80v12-d192-pdb-article.pdf"),
+  "published FRUS PDB extract must not be counted as a local PDF fixture"
+);
 
 execFileSync("zip", ["-T", zipPath], { stdio: "pipe" });
 const tarListing = execFileSync("tar", ["-tzf", tarPath], { encoding: "utf8" });
