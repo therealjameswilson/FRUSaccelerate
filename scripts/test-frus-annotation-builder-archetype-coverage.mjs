@@ -46,6 +46,12 @@ assert(
 );
 
 assert(
+  stress.includes("frus1981-88v01-appendix-a-handwritten-notes-excerpt.pdf") &&
+    stress.includes("appendix_or_facsimile"),
+  "expected official appendix/facsimile image stress fixture"
+);
+
+assert(
   stress.includes("frus1981-88v11-d6-nssd3-82-excerpt.pdf") &&
     stress.includes("policy_review_or_study_directive"),
   "expected official National Security Study Directive stress fixture"
