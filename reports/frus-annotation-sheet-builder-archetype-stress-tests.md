@@ -25,6 +25,7 @@ The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 20
 | `tmp/pdfs/frus-builder-test/technical-table/frus1981-88v44p1-d23-technical-table-excerpt.pdf` | 5 | table/chart-heavy technical memorandum excerpt from official 2025 FRUS volume PDF | Treat tabular and list-heavy pages as technical_table_or_chart evidence; preserve column headers, rows, numeric values, units, declassification placeholders, source-note placement, and trailing next-document boundary instead of flattening the excerpt into plain prose. |
 | `tmp/pdfs/frus-builder-test/memcon-telcon/frus1989-92v31-d17-memcon-meeting-excerpt.pdf` | 8 | memcon/meeting excerpt from official 2025 FRUS volume PDF | Treat as memcon_or_telcon; preserve meeting time/place, two-sided participant block, notetaker/interpreter labels, omitted-subject bracket, drafter/clearance chain, full-memcon scheduled-publication relationship, and `No minutes were found` as distinct controlled evidence. |
 | `tmp/pdfs/frus-builder-test/telegram-cable/frus1989-92v31-d36-telegram-excerpt.pdf` | 4 | ordinary telegram excerpt from official 2025 FRUS volume PDF | Treat as electronic_telegram_or_cable; preserve telegram number, origin/destination, Zulu transmission time, subject, classification/precedence, Electronic Telegrams identifier, reference-telegram footnote, and leading previous-document boundary evidence. |
+| `tmp/pdfs/frus-builder-test/treaty-transmittal/frus1989-92v31-d247-treaty-transmittal-excerpt.pdf` | 9 | treaty transmittal package excerpt from official 2025 FRUS volume PDF | Treat as treaty_or_transmittal_package; preserve STARS source path, no-classification marking, drafter/clearance chain, attached-but-not-printed treaty materials, integral-vs-associated treaty-document status, Senate transmittal, ratification, and entry-into-force dates as separate evidence. |
 
 ## Rules Added
 
@@ -40,11 +41,13 @@ The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 20
 - Added technical table/chart and document-boundary handling.
 - Added memcon/telcon, meeting-minutes, call-record, excerpt-scope, participant-list, and negative-search handling.
 - Added ordinary telegram/cable metadata and reference-telegram handling.
+- Added treaty/transmittal package, ratification, and entry-into-force handling.
 - Added `bibliographic_basis`, `transcription_basis`, and `appendix_facsimile_relationship` evidence-request labels.
 - Added `directive_package_basis` evidence-request label and `directive_package_note` note type.
 - Added `table_layout_basis`, `document_boundary_basis`, `table_layout_note`, and `document_boundary_note` values.
 - Added `meeting_metadata_basis`, `participant_list_basis`, `excerpt_scope_basis`, `negative_search_basis`, `meeting_metadata_note`, and `negative_search_note` values.
 - Added `telegram_metadata_basis`, `telegram_reference_basis`, and `telegram_metadata_note` values.
+- Added `treaty_package_basis`, `ratification_basis`, and `treaty_package_note` values.
 
 ## Regression Expectations
 
@@ -57,3 +60,4 @@ The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 20
 - A table/chart-heavy PDF must preserve rows, columns, labels, units, declassification placeholders, and page-boundary spillover; it must not silently merge the start of the next numbered document into the selected document.
 - A memcon/telcon PDF must preserve meeting/call metadata, participant-list layout, side labels, notetakers/interpreters, excerpt boundaries, full-record relationships, and negative-search claims separately.
 - A telegram/cable PDF must preserve header metadata, CFPF/Electronic Telegrams identifiers, transmission/event/date distinctions, reference telegrams, and page-boundary spillover separately.
+- A treaty/transmittal PDF must not collapse transmittal letter, treaty text, protocols, annexes, MOUs, analyses, presidential message, Senate ratification, and entry-into-force evidence into one generic attachment.

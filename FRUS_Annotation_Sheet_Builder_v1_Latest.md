@@ -383,6 +383,15 @@ Public or printed source PDF handling:
 - If a single PDF page contains more than one printed item, unitize by printed title/date and ask whether the compiler selected one item, multiple items, or the whole page.
 - If an archival copy of a public statement is supplied, preserve both lanes: the selected public text and the archival copy/source path. Do not replace one with the other without compiler instruction.
 
+Treaty, transmittal, and ratification package handling:
+
+- If a PDF is a treaty text, treaty transmittal letter, Senate transmittal package, ratification record, entry-into-force note, executive agreement, protocol, annex, declaration, statement, correspondence, memorandum of understanding, or treaty analysis, treat it as `treaty_or_transmittal_package`.
+- Preserve the selected unit separately from attached or referenced treaty materials. A Secretary's transmittal letter, treaty text, protocol, annex, MOU, article-by-article analysis, proposed presidential message, public address, Senate action, and entry-into-force notice can each carry different source, publication, and selection status.
+- Distinguish documents integral to the treaty from documents associated with, but not integral parts of, the treaty. Do not collapse protocols, annexes, declarations, statements, letters, executive agreements, correspondence, and analyses into one attachment status.
+- Preserve transmittal date, treaty signature date, Senate transmittal date, Senate advice-and-consent or ratification date, exchange-of-instruments date, entry-into-force date, and publication date as separate date bases.
+- If treaty text or associated analyses are attached but not printed, draft an attachment note only from visible source-note or compiler authority. Ask whether the compiler selected the transmittal letter, the treaty text, a protocol/annex, the analysis, a public ratification item, or the whole package.
+- For STARS, CFPF, Public Papers, Senate Treaty Document, or other public/archival treaty sources, keep archival source-path evidence separate from public bibliographic/ratification evidence.
+
 Appendix, facsimile, and handwritten-source handling:
 
 - If a PDF consists of a facsimile image, handwritten note, photographed page, lettered appendix item, or image-only source reproduction, treat it as `appendix_or_facsimile` unless the compiler selected it as an ordinary document.
@@ -499,6 +508,7 @@ Acceptable first-pass note types:
 - `meeting_metadata_note`: meeting/call date, time, place, title, participant, notetaker, interpreter, or excerpt-scope question.
 - `negative_search_note`: controlled `No minutes were found`, `Not found`, or `Not found attached` claim needing support.
 - `telegram_metadata_note`: telegram number, DTG, origin, addressee, channel, precedence, TAGS, subject, reference-telegram, or cable-header question.
+- `treaty_package_note`: treaty/transmittal unit, integral-versus-associated status, ratification, or entry-into-force question.
 - `classification_note`: visible classification, handling, or paragraph marking issue.
 - `declassification_note`: visible excision, release stamp, sanitization, withdrawal sheet, or referral note.
 - `drafting_clearance_note`: visible drafting, clearance, approval, or distribution line.
@@ -541,6 +551,8 @@ Common evidence request labels:
 - `negative_search_basis`
 - `telegram_metadata_basis`
 - `telegram_reference_basis`
+- `treaty_package_basis`
+- `ratification_basis`
 - `bibliographic_basis`
 - `transcription_basis`
 - `appendix_facsimile_relationship`
@@ -597,7 +609,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
       "page_range": "pages or unknown",
       "unit_type": "primary_document_selected_for_print | attachment_possibly_printed_with_document | attachment_possibly_selected_as_separate_document | source_backup_or_cover_sheet | declassification_or_release_artifact | source_register_or_finding_aid | unclear_requires_compiler_instruction",
       "extraction_quality": "high | medium | low | blocked",
-      "pdf_archetype": "archival_photocopy | electronic_telegram_or_cable | memcon_or_telcon | directive_or_decision_package | technical_table_or_chart | public_or_printed_source | editorial_note | appendix_or_facsimile | attachment_packet | declassification_packet | source_register_or_finding_aid | mixed_or_unclear",
+      "pdf_archetype": "archival_photocopy | electronic_telegram_or_cable | memcon_or_telcon | directive_or_decision_package | technical_table_or_chart | treaty_or_transmittal_package | public_or_printed_source | editorial_note | appendix_or_facsimile | attachment_packet | declassification_packet | source_register_or_finding_aid | mixed_or_unclear",
       "document_type": "",
       "document_date": "",
       "date_basis": "visible_pdf | supplied_context | inferred_low_confidence | missing",
@@ -639,7 +651,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
       "editorial_notes_or_footnote_candidates": [
         {
           "note_id": "N001",
-          "note_type": "marginalia_note | attachment_note | directive_package_note | table_layout_note | document_boundary_note | meeting_metadata_note | negative_search_note | telegram_metadata_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question",
+          "note_type": "marginalia_note | attachment_note | directive_package_note | table_layout_note | document_boundary_note | meeting_metadata_note | negative_search_note | telegram_metadata_note | treaty_package_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question",
           "draft_text": "",
           "confidence": "high | medium | low | blocked",
           "basis": "short evidence basis",
@@ -653,7 +665,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
   "source_note_evidence_ledger": [
     {
       "draft_document_id": "PDF001-DOC001",
-      "field": "repository | collection | box | folder | file | copy_basis | classification | declassification | drafting | clearance | distribution | meeting_metadata | participant_list | excerpt_scope | negative_search | directive_package_metadata | table_layout_or_redaction | document_boundary | telegram_metadata | attachment_status",
+      "field": "repository | collection | box | folder | file | copy_basis | classification | declassification | drafting | clearance | distribution | meeting_metadata | participant_list | excerpt_scope | negative_search | directive_package_metadata | treaty_package_metadata | ratification_or_entry_into_force | table_layout_or_redaction | document_boundary | telegram_metadata | attachment_status",
       "value": "",
       "basis": "visible_pdf | supplied_context | missing | inferred_low_confidence",
       "page_or_source": "",
@@ -664,7 +676,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
     {
       "id": "ER001",
       "draft_document_id": "PDF001-DOC001",
-      "request_type": "source_provenance | archive_path | copy_basis | target_volume | chapter_or_section | document_number | manuscript_order | document_selection_status | attachment_treatment | source_image_or_ocr | classification_basis | declassification_basis | drafting_clearance_basis | participant_basis | cross_reference_target | publication_status | directive_package_basis | table_layout_basis | document_boundary_basis | meeting_metadata_basis | participant_list_basis | excerpt_scope_basis | negative_search_basis | telegram_metadata_basis | telegram_reference_basis | bibliographic_basis | transcription_basis | appendix_facsimile_relationship | frus_style_authority | compiler_instruction | word_docx_tool",
+      "request_type": "source_provenance | archive_path | copy_basis | target_volume | chapter_or_section | document_number | manuscript_order | document_selection_status | attachment_treatment | source_image_or_ocr | classification_basis | declassification_basis | drafting_clearance_basis | participant_basis | cross_reference_target | publication_status | directive_package_basis | table_layout_basis | document_boundary_basis | meeting_metadata_basis | participant_list_basis | excerpt_scope_basis | negative_search_basis | telegram_metadata_basis | telegram_reference_basis | treaty_package_basis | ratification_basis | bibliographic_basis | transcription_basis | appendix_facsimile_relationship | frus_style_authority | compiler_instruction | word_docx_tool",
       "question": "specific question for compiler or editor",
       "why_needed": "brief FRUS consequence",
       "blocks_publication_ready_sheet": "yes | no"
