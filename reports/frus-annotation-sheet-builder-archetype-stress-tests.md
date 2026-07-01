@@ -30,6 +30,7 @@ The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as p
 | `tmp/pdfs/frus-builder-test/translation-annex/frus1981-88v24-d290-translation-annex-excerpt.pdf` | 6 | translated minutes with attached-but-not-printed annexes from official 2024 FRUS volume PDF | Treat as translation_or_foreign_language_source; preserve printed-from-translation status, translation date, source path, classification, attached-but-not-printed annexes, original-bracket note, cross-references, omitted participant list, and trailing next-document boundary separately. |
 | `tmp/pdfs/frus-builder-test/intelligence-estimate/frus1981-88v24-d291-intelligence-estimate-excerpt.pdf` | 5 | defense estimative brief from official 2024 FRUS volume PDF | Treat as intelligence_or_estimate; preserve DIA product type and number, OSD/WNRC source path, classification, handling restrictions, paragraph markings, not-declassified placeholders, receipt stamp, and trailing next-document boundary separately. |
 | `tmp/pdfs/frus-builder-test/editorial-note/frus1989-92v31-d245-editorial-note-excerpt.pdf` | 4 | source-less editorial note excerpt from official 2025 FRUS volume PDF | Treat as editorial_note; preserve chronology, Moscow travel/signing ceremony narrative, scheduled-publication cross-volume claim, Public Papers citations, quoted public remarks, and trailing treaty-document source note as boundary evidence rather than forcing an archival source note. |
+| `tmp/pdfs/frus-builder-test/correspondence-letter/frus1989-92v31-d90-d91-presidential-correspondence-excerpt.pdf` | 7 | paired presidential correspondence excerpt from official 2025 FRUS volume PDF | Treat as correspondence_or_presidential_message; unitize Bush's letter and Gorbachev's reply separately; preserve sender/recipient, date/place, salutation, closing/signature, source paths, no-classification markings, privacy-channel/backchannel delivery, unofficial-translation copy status, response cross-reference, scheduled-publication note, and leading/trailing document boundaries separately. |
 
 ## Rules Added
 
@@ -50,6 +51,7 @@ The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as p
 - Added translation, foreign-language source, and translated-annex handling.
 - Added intelligence, estimative, analytic-source, handling-restriction, and not-declassified-text handling.
 - Added editorial-note and apparatus-only PDF handling.
+- Added correspondence, presidential-message, diplomatic-note, delivery-channel, and exchange-of-letters handling.
 - Added `bibliographic_basis`, `transcription_basis`, and `appendix_facsimile_relationship` evidence-request labels.
 - Added `directive_package_basis` evidence-request label and `directive_package_note` note type.
 - Added `table_layout_basis`, `document_boundary_basis`, `table_layout_note`, and `document_boundary_note` values.
@@ -60,6 +62,7 @@ The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as p
 - Added `translation_basis`, `foreign_language_basis`, `translation_status`, `foreign_language_metadata`, and `annex_translation_status` values.
 - Added `intelligence_source_basis`, `handling_restriction_basis`, `intelligence_source_note`, `intelligence_metadata`, `handling_restriction`, `not_declassified_text`, `information_as_of`, and `receipt_or_stamp` values.
 - Added `editorial_note_basis`, `public_citation_basis`, `editorial_apparatus_note`, `editorial_note_metadata`, `public_citation`, and `scheduled_publication` values.
+- Added `correspondence_basis`, `delivery_channel_basis`, `copy_variant_basis`, `correspondence_note`, `correspondence_metadata`, `delivery_channel`, `salutation_or_signature`, and `copy_variant` values.
 
 ## Regression Expectations
 
@@ -77,3 +80,4 @@ The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as p
 - A translated or foreign-language PDF must not collapse original-language status, translation date, translator/office evidence, original-bracket notes, omitted material, annex status, and next-document spillover into a generic English-language source note.
 - An intelligence or estimative PDF must not collapse agency product number, source family, information-as-of date, receipt stamp, paragraph handling restrictions, and not-declassified placeholders into one generic classification label.
 - An editorial-note PDF must not be forced into archival source-note form and must not import a following document's source note when the excerpt includes the next numbered item.
+- A correspondence PDF must unitize paired letters separately and must not collapse letter date, delivery/backchannel timestamp, copy status, translation status, response cross-reference, and adjacent document boundaries into one generic source note.
