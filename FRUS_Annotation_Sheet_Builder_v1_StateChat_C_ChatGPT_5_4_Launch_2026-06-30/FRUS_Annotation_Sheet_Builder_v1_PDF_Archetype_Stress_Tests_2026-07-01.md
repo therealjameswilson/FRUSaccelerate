@@ -23,6 +23,7 @@ The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 20
 | `tmp/pdfs/frus-builder-test/appendix-facsimile/frus1981-88v01-appendix-b-facsimile-test.pdf` | 1 | image-only appendix facsimile derived from official history.state.gov Appendix B image | Treat as appendix/facsimile and transcription evidence; preserve appendix label and source-control identifiers; do not OCR-guess handwriting or renumber as an ordinary document without target-volume authority. |
 | `tmp/pdfs/frus-builder-test/directive-package/frus1981-88v44p1-d21-nsdd161-excerpt.pdf` | 9 | directive/decision package excerpt from official 2025 FRUS volume PDF | Treat as directive_or_decision_package; preserve NSDD number, title, place/date, classification and paragraph markings, McFarlane note, distribution under cover memorandum, annex/report references, and printed-elsewhere relationships without collapsing the package into a generic memorandum. |
 | `tmp/pdfs/frus-builder-test/technical-table/frus1981-88v44p1-d23-technical-table-excerpt.pdf` | 5 | table/chart-heavy technical memorandum excerpt from official 2025 FRUS volume PDF | Treat tabular and list-heavy pages as technical_table_or_chart evidence; preserve column headers, rows, numeric values, units, declassification placeholders, source-note placement, and trailing next-document boundary instead of flattening the excerpt into plain prose. |
+| `tmp/pdfs/frus-builder-test/memcon-telcon/frus1989-92v31-d17-memcon-meeting-excerpt.pdf` | 8 | memcon/meeting excerpt from official 2025 FRUS volume PDF | Treat as memcon_or_telcon; preserve meeting time/place, two-sided participant block, notetaker/interpreter labels, omitted-subject bracket, drafter/clearance chain, full-memcon scheduled-publication relationship, and `No minutes were found` as distinct controlled evidence. |
 
 ## Rules Added
 
@@ -36,9 +37,11 @@ The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 20
 - Added appendix/facsimile/handwritten-source handling.
 - Added directive/decision-package handling.
 - Added technical table/chart and document-boundary handling.
+- Added memcon/telcon, meeting-minutes, call-record, excerpt-scope, participant-list, and negative-search handling.
 - Added `bibliographic_basis`, `transcription_basis`, and `appendix_facsimile_relationship` evidence-request labels.
 - Added `directive_package_basis` evidence-request label and `directive_package_note` note type.
 - Added `table_layout_basis`, `document_boundary_basis`, `table_layout_note`, and `document_boundary_note` values.
+- Added `meeting_metadata_basis`, `participant_list_basis`, `excerpt_scope_basis`, `negative_search_basis`, `meeting_metadata_note`, and `negative_search_note` values.
 
 ## Regression Expectations
 
@@ -49,3 +52,4 @@ The status page currently lists `frus1981-88v44p1` and `frus1989-92v31` among 20
 - An image-only facsimile or handwritten appendix page must request transcription/source-image authority when visual evidence is insufficient.
 - A directive package must preserve directive number, cover memorandum, distribution, annex/tab classification, paragraph markings, and printed-elsewhere relationships as separate evidence claims.
 - A table/chart-heavy PDF must preserve rows, columns, labels, units, declassification placeholders, and page-boundary spillover; it must not silently merge the start of the next numbered document into the selected document.
+- A memcon/telcon PDF must preserve meeting/call metadata, participant-list layout, side labels, notetakers/interpreters, excerpt boundaries, full-record relationships, and negative-search claims separately.

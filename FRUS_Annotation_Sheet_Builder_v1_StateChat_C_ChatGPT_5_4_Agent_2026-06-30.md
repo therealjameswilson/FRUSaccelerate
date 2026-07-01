@@ -341,6 +341,15 @@ Action-memo and tabbed support packet handling:
 - Preserve handwritten approvals, initials, saw-stamps, redacted names, and routing marks as evidence. Do not infer the identity of unclear initials or signatures.
 - If an attached tab is present and selected, draft a separate annotation-sheet unit for that tab and keep the cover memo as attachment/source evidence unless the cover memo is also selected.
 
+Memcon, telcon, meeting-minutes, and call-record handling:
+
+- If a PDF is a memorandum of conversation, memorandum of telephone conversation, telcon, minutes, meeting notes, call transcript, or meeting excerpt, treat it as `memcon_or_telcon`.
+- Extract meeting/call date, time range, place, title, subject block, participant list, side labels, participant roles, notetaker/interpreter labels, drafter, clearance chain, and source path as separate fields. Do not flatten a participant block into prose or infer attendance from a diary, schedule, title, or adjacent document.
+- Preserve source-note meeting metadata separately from heading metadata. For example, a source note saying a meeting took place at a named location supports a meeting-location field, not a repository field.
+- If the document is an excerpt of a longer memcon or telcon, record the printed excerpt scope and omitted-subject bracket separately from the full-record relationship. Use `The full memorandum of conversation is scheduled for publication...` only when target-volume authority supplies the exact series/volume/title.
+- Treat `No minutes were found.`, `Not found.`, and `Not found attached.` as different controlled negative-search claims. Do not use any of them unless visible in the PDF or supplied by compiler/source authority.
+- For telephone records, distinguish call date/time/time zone from drafting or transcription date; distinguish caller, recipient, participants, interpreters, and monitors when visible. If the PDF does not show whether the item is a call transcript, telcon summary, or call log, request compiler/source guidance.
+
 Directive and decision-package handling:
 
 - If a PDF is an NSDD, NSD, NSSD, NSPG, presidential directive, national security directive, decision memorandum, or decision package, treat it as `directive_or_decision_package`.
@@ -478,6 +487,8 @@ Acceptable first-pass note types:
 - `directive_package_note`: directive number, cover memorandum, distribution, annex/tab, or printed-elsewhere relationship question.
 - `table_layout_note`: table, chart, matrix, list, technical-unit, or layout-preservation question.
 - `document_boundary_note`: next-document spillover, missing first page, missing final page, or ambiguous selected range.
+- `meeting_metadata_note`: meeting/call date, time, place, title, participant, notetaker, interpreter, or excerpt-scope question.
+- `negative_search_note`: controlled `No minutes were found`, `Not found`, or `Not found attached` claim needing support.
 - `classification_note`: visible classification, handling, or paragraph marking issue.
 - `declassification_note`: visible excision, release stamp, sanitization, withdrawal sheet, or referral note.
 - `drafting_clearance_note`: visible drafting, clearance, approval, or distribution line.
@@ -514,6 +525,10 @@ Common evidence request labels:
 - `directive_package_basis`
 - `table_layout_basis`
 - `document_boundary_basis`
+- `meeting_metadata_basis`
+- `participant_list_basis`
+- `excerpt_scope_basis`
+- `negative_search_basis`
 - `bibliographic_basis`
 - `transcription_basis`
 - `appendix_facsimile_relationship`
@@ -612,7 +627,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
       "editorial_notes_or_footnote_candidates": [
         {
           "note_id": "N001",
-          "note_type": "marginalia_note | attachment_note | directive_package_note | table_layout_note | document_boundary_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question",
+          "note_type": "marginalia_note | attachment_note | directive_package_note | table_layout_note | document_boundary_note | meeting_metadata_note | negative_search_note | classification_note | declassification_note | drafting_clearance_note | cross_reference_placeholder | source_note_question | date_basis_note | bibliographic_note | facsimile_or_transcription_note | translation_or_foreign_language_note | printed_attachment_question",
           "draft_text": "",
           "confidence": "high | medium | low | blocked",
           "basis": "short evidence basis",
@@ -626,7 +641,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
   "source_note_evidence_ledger": [
     {
       "draft_document_id": "PDF001-DOC001",
-      "field": "repository | collection | box | folder | file | copy_basis | classification | declassification | drafting | clearance | distribution | directive_package_metadata | table_layout_or_redaction | document_boundary | telegram_metadata | attachment_status",
+      "field": "repository | collection | box | folder | file | copy_basis | classification | declassification | drafting | clearance | distribution | meeting_metadata | participant_list | excerpt_scope | negative_search | directive_package_metadata | table_layout_or_redaction | document_boundary | telegram_metadata | attachment_status",
       "value": "",
       "basis": "visible_pdf | supplied_context | missing | inferred_low_confidence",
       "page_or_source": "",
@@ -637,7 +652,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
     {
       "id": "ER001",
       "draft_document_id": "PDF001-DOC001",
-      "request_type": "source_provenance | archive_path | copy_basis | target_volume | chapter_or_section | document_number | manuscript_order | document_selection_status | attachment_treatment | source_image_or_ocr | classification_basis | declassification_basis | drafting_clearance_basis | participant_basis | cross_reference_target | publication_status | directive_package_basis | table_layout_basis | document_boundary_basis | bibliographic_basis | transcription_basis | appendix_facsimile_relationship | frus_style_authority | compiler_instruction | word_docx_tool",
+      "request_type": "source_provenance | archive_path | copy_basis | target_volume | chapter_or_section | document_number | manuscript_order | document_selection_status | attachment_treatment | source_image_or_ocr | classification_basis | declassification_basis | drafting_clearance_basis | participant_basis | cross_reference_target | publication_status | directive_package_basis | table_layout_basis | document_boundary_basis | meeting_metadata_basis | participant_list_basis | excerpt_scope_basis | negative_search_basis | bibliographic_basis | transcription_basis | appendix_facsimile_relationship | frus_style_authority | compiler_instruction | word_docx_tool",
       "question": "specific question for compiler or editor",
       "why_needed": "brief FRUS consequence",
       "blocks_publication_ready_sheet": "yes | no"
