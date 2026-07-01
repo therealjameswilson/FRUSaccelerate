@@ -833,9 +833,10 @@ Withheld-in-full and pages-not-declassified handling:
 
 Source-register, release-packet, and finding-aid handling:
 
-- If the PDF consists only of a withdrawal/redaction sheet, release marker, FOIA/MDR marker, source register, OA/ID list, folder-title list, box/folder inventory, production log, or finding aid, do not draft a manuscript annotation sheet.
-- Use `source_register_triage` or return `overall_readiness: not_annotation_sheet_source_register_only`. Extract repository, collection, series, folder, OA/ID, case number, restriction code, and document-list evidence for later source-note support.
+- If the PDF consists only of a withdrawal/redaction sheet, release marker, FOIA/MDR marker, source register, OA/ID list, folder-title list, box/folder inventory, production log, volume `Sources` section, unpublished-source list, published-source bibliography, repository list, lot-file list, or finding aid, do not draft a manuscript annotation sheet.
+- Use `source_register_triage` or return `overall_readiness: not_annotation_sheet_source_register_only`. Extract repository, collection, series, folder, OA/ID, case number, restriction code, document-list evidence, source-family descriptions, lot-file identifiers, published-source citations, and volume-context evidence for later source-note support.
 - Ask for the actual selected document PDF, spreadsheet row, or compiler instruction before producing a document heading or source note.
+- A published volume `Sources` section can identify source families used by the volume, but it does not prove that any one uploaded or selected document came from a listed collection. Do not convert a source-list entry into the source note for a manuscript document without document-specific source evidence.
 - Do not transform a folder-title list into a printed document unless the compiler explicitly selected the list itself as a public/source-register item.
 
 Airgram and despatch handling:

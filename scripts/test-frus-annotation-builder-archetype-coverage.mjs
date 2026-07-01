@@ -70,6 +70,12 @@ assert(
 );
 
 assert(
+  stress.includes("frus1981-88v01-sources-section-excerpt.pdf") &&
+    stress.includes("source_register_or_finding_aid"),
+  "expected official Sources section/finding-aid stress fixture"
+);
+
+assert(
   stress.includes("frus1981-88v11-d6-nssd3-82-excerpt.pdf") &&
     stress.includes("policy_review_or_study_directive"),
   "expected official National Security Study Directive stress fixture"
