@@ -89,6 +89,14 @@ assert(
 );
 
 assert(
+  stress.includes("tmp/pdfs/frus-builder-test/nsdd-reference-copy/reagan-nsdd250-reference-copy.pdf") &&
+    stress.includes("archival_reference_copy_pdf") &&
+    stress.includes("https://history.state.gov/historicaldocuments/frus1981-88v44p1/d152") &&
+    stress.includes("Box SR-094"),
+  "expected Reagan Library archival reference-copy fixture with source-path separation handling"
+);
+
+assert(
   !stress.includes("tmp/pdfs/frus-builder-test/daily-intelligence/frus1977-80v12-d192-pdb-article.pdf"),
   "published FRUS PDB extract must not be counted as a local PDF fixture"
 );
