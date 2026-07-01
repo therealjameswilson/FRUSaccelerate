@@ -14,6 +14,12 @@ Upload this Markdown file to the standalone StateChat-c / ChatGPT 5.4 system as 
 
 Use this text file as the runbook for the closed-network operator. It includes model settings, upload order, drag-and-drop PDF prompts, batch mode, OCR triage, source-note-only mode, DOCX review-copy mode, post-run handling, and troubleshooting.
 
+## Recent Published FRUS Reference
+
+- `FRUS_Annotation_Sheet_Builder_v1_Recent_Published_FRUS_Lessons_2026-06-30.md`
+
+This optional reference summarizes the recent history.state.gov corpus lessons embedded in the agent file: source-family preservation, common PDF archetypes, controlled annotation formulas, public-source handling, editorial-note limits, and date-basis separation.
+
 ## Recommended StateChat-c Setup
 
 - Model: `gpt-5.4`
@@ -26,10 +32,11 @@ Use this text file as the runbook for the closed-network operator. It includes m
 
 1. Upload `FRUS_Annotation_Sheet_Builder_v1_StateChat_C_ChatGPT_5_4_Agent_2026-06-30.md`.
 2. Add a short operator note with target volume/chapter if known.
-3. Upload style guide, source list, manuscript spreadsheet, source register, or compiler instruction if available.
-4. Drag and drop the PDF document or PDF batch into the context window.
-5. Paste the standard run prompt from the operator script.
-6. Save the JSON and copy-ready annotation-sheet draft together.
+3. Upload `FRUS_Annotation_Sheet_Builder_v1_Recent_Published_FRUS_Lessons_2026-06-30.md` if the operator wants the evidence summary visible in context; the key lessons are already embedded in the agent file.
+4. Upload style guide, source list, manuscript spreadsheet, source register, or compiler instruction if available.
+5. Drag and drop the PDF document or PDF batch into the context window.
+6. Paste the standard run prompt from the operator script.
+7. Save the JSON and copy-ready annotation-sheet draft together.
 
 ## Basic Operator Prompt
 
