@@ -145,6 +145,19 @@ requirePhrases(agent, [
   "selected_source_row_body_status",
   "printed_transcription_authority",
   "withdrawn_source_record_body_absent",
+  "chronological_file_packet_pdf",
+  "chron_file_packet_note",
+  "chron_file_packet_metadata",
+  "chron_file_item_inventory",
+  "selected_chron_file_item_status",
+  "selected_item_tab_or_attachment_status",
+  "forwarding_cover_evidence",
+  "source_note_forwarding_cover_quote",
+  "chron_file_packet_basis",
+  "chron_file_item_inventory_basis",
+  "selected_chron_file_item_basis",
+  "forwarding_cover_basis",
+  "tab_attachment_basis",
   "serial_report_packet_note",
   "source_report_series_metadata",
   "report_item_inventory",
@@ -228,6 +241,7 @@ requirePhrases(readme, [
   "Bush Library/NARA digital-object citation-marker handling",
   "Bush Library/NARA image-only source-folder packet handling",
   "withdrawn source-record/body-absent handling",
+  "chronological-file packet handling",
   "serial evening-report/daily-report packet handling",
   "agency reading-room partial-counterpart handling",
   "archival reference-copy handling",
@@ -305,6 +319,17 @@ requirePhrases(stress, [
   "public_scan_body_absent_status",
   "selected_source_row_body_status",
   "printed_transcription_authority",
+  "reagan-matlock-chron-december-1986-1of4.pdf",
+  "https://www.reaganlibrary.gov/public/digitallibrary/smof/nsc-europeanandsovietaffairs/matlock/box-019/40-351-7452064-019-004-2018.pdf",
+  "https://history.state.gov/historicaldocuments/frus1981-88v06/d8",
+  "Reagan Library chronological-file source-record packet",
+  "row 8694 Shultz-to-Reagan memorandum dated November 14, 1986",
+  "chron_file_packet_metadata",
+  "chron_file_item_inventory",
+  "selected_chron_file_item_status",
+  "selected_item_tab_or_attachment_status",
+  "forwarding_cover_evidence",
+  "source_note_forwarding_cover_quote",
   "reagan-evening-reports-1984-10-11-10-25.pdf",
   "https://www.reaganlibrary.gov/public/2024-07/40-747-80694481-R07-008-2024.pdf",
   "https://history.state.gov/historicaldocuments/frus1981-88v41/d225",
@@ -352,6 +377,7 @@ requirePhrases(lessons, [
   "Public digital-object PDFs can add marker pages and unreliable text layers",
   "Image-only source-folder packets require page-range mapping before drafting",
   "Withdrawn source-record rows can prove source path while withholding the selected body",
+  "Chronological-file packets require selected-item and forwarding-cover separation",
   "Related archival folders and alternate copies require divergence handling",
   "Serial report packets and item excerpts require item-level scope",
   "Daily intelligence brief articles require article-versus-issue treatment",
@@ -378,5 +404,23 @@ for (const filePath of [
     `tar archive missing launch file: ${filePath}`
   );
 }
+
+const archiveGuardPhrases = [
+  "chronological_file_packet_pdf",
+  "chron_file_packet_note",
+  "source_note_forwarding_cover_quote",
+  "serial_report_packet_note",
+  "withdrawn_source_record_note"
+];
+
+const zipAgent = execFileSync("unzip", ["-p", zipPath, launchAgent], {
+  encoding: "utf8"
+});
+requirePhrases(zipAgent, archiveGuardPhrases, "zip launch agent");
+
+const tarAgent = execFileSync("tar", ["-xOzf", tarPath, launchAgent], {
+  encoding: "utf8"
+});
+requirePhrases(tarAgent, archiveGuardPhrases, "tar launch agent");
 
 console.log("FRUS annotation builder launch-bundle test passed: standalone StateChat-c handoff files, prompts, canonical copies, and archives are consistent.");

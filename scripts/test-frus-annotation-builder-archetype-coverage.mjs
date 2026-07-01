@@ -154,6 +154,21 @@ assert(
 );
 
 assert(
+  stress.includes("reagan-matlock-chron-december-1986-1of4.pdf") &&
+    stress.includes("Reagan Library chronological-file source-record packet") &&
+    stress.includes("chronological_file_packet_pdf") &&
+    stress.includes("chron_file_packet_metadata") &&
+    stress.includes("chron_file_item_inventory") &&
+    stress.includes("selected_chron_file_item_status") &&
+    stress.includes("selected_item_tab_or_attachment_status") &&
+    stress.includes("forwarding_cover_evidence") &&
+    stress.includes("source_note_forwarding_cover_quote") &&
+    stress.includes("https://history.state.gov/historicaldocuments/frus1981-88v06/d8") &&
+    stress.includes("row 8694 Shultz-to-Reagan memorandum dated November 14, 1986"),
+  "expected Reagan Library chron-file packet fixture with forwarding-cover and selected-item separation"
+);
+
+assert(
   !stress.includes("tmp/pdfs/frus-builder-test/daily-intelligence/frus1977-80v12-d192-pdb-article.pdf"),
   "published FRUS PDB extract must not be counted as a local PDF fixture"
 );
