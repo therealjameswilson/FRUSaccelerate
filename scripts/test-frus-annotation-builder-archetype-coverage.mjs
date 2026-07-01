@@ -73,6 +73,14 @@ assert(
 );
 
 assert(
+  stress.includes("reagan-phone-calls-1981-01-20-03-30.pdf") &&
+    stress.includes("archival_folder_row_page_map") &&
+    stress.includes("https://history.state.gov/historicaldocuments/frus1981-88v01/d21") &&
+    stress.includes("row 60719"),
+  "expected Reagan Library whole-folder archival PDF fixture with row-to-page matching"
+);
+
+assert(
   stress.includes("reagan-bulgarian-kgb-pope-connection.pdf") &&
     stress.includes("related_or_alternate_source_copy_pdf") &&
     stress.includes("https://history.state.gov/historicaldocuments/frus1981-88v10/d371") &&
