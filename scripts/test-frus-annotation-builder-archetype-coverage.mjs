@@ -64,6 +64,12 @@ assert(
 );
 
 assert(
+  stress.includes("frus1981-88v01-d299-tape-transcript-recorded-proceeding-excerpt.pdf") &&
+    stress.includes("recorded_proceeding_or_tape_transcript"),
+  "expected official recorded proceeding/tape transcript stress fixture"
+);
+
+assert(
   stress.includes("frus1981-88v11-d6-nssd3-82-excerpt.pdf") &&
     stress.includes("policy_review_or_study_directive"),
   "expected official National Security Study Directive stress fixture"
