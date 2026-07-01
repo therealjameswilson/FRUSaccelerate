@@ -130,6 +130,18 @@ assert(
 );
 
 assert(
+  stress.includes("reagan-evening-reports-1984-10-11-10-25.pdf") &&
+    stress.includes("Reagan Library serial evening-report archival packet") &&
+    stress.includes("source_report_series_metadata") &&
+    stress.includes("report_item_inventory") &&
+    stress.includes("report_item_to_page_map") &&
+    stress.includes("selected_report_item_scope") &&
+    stress.includes("https://history.state.gov/historicaldocuments/frus1981-88v41/d225") &&
+    stress.includes("S/S 8428407"),
+  "expected Reagan Library serial evening-report packet fixture with item-level scope mapping"
+);
+
+assert(
   !stress.includes("tmp/pdfs/frus-builder-test/daily-intelligence/frus1977-80v12-d192-pdb-article.pdf"),
   "published FRUS PDB extract must not be counted as a local PDF fixture"
 );
