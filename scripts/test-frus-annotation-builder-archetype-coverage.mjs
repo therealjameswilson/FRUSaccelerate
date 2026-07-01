@@ -52,6 +52,12 @@ assert(
 );
 
 assert(
+  stress.includes("frus1981-88v06-d182-telephone-conversation-excerpt.pdf") &&
+    stress.includes("memcon_or_telcon"),
+  "expected official memorandum of telephone conversation stress fixture"
+);
+
+assert(
   stress.includes("frus1981-88v11-d6-nssd3-82-excerpt.pdf") &&
     stress.includes("policy_review_or_study_directive"),
   "expected official National Security Study Directive stress fixture"
