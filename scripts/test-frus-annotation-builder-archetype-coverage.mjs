@@ -89,6 +89,13 @@ assert(
 );
 
 assert(
+  stress.includes("https://history.state.gov/historicaldocuments/ebooks") &&
+    stress.includes("full_volume_or_chapter_packet") &&
+    stress.includes("not_annotation_sheet_volume_or_chapter_packet_only"),
+  "expected official full-volume/chapter-packet stress fixture"
+);
+
+assert(
   stress.includes("https://history.state.gov/historicaldocuments/quarterly-releases") &&
     stress.includes("legacy_digitized_or_microfiche_preview") &&
     stress.includes("not_annotation_sheet_legacy_preview_only"),
