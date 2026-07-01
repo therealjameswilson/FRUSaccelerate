@@ -32,6 +32,7 @@ The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as p
 | `tmp/pdfs/frus-builder-test/editorial-note/frus1989-92v31-d245-editorial-note-excerpt.pdf` | 4 | source-less editorial note excerpt from official 2025 FRUS volume PDF | Treat as editorial_note; preserve chronology, Moscow travel/signing ceremony narrative, scheduled-publication cross-volume claim, Public Papers citations, quoted public remarks, and trailing treaty-document source note as boundary evidence rather than forcing an archival source note. |
 | `tmp/pdfs/frus-builder-test/correspondence-letter/frus1989-92v31-d90-d91-presidential-correspondence-excerpt.pdf` | 7 | paired presidential correspondence excerpt from official 2025 FRUS volume PDF | Treat as correspondence_or_presidential_message; unitize Bush's letter and Gorbachev's reply separately; preserve sender/recipient, date/place, salutation, closing/signature, source paths, no-classification markings, privacy-channel/backchannel delivery, unofficial-translation copy status, response cross-reference, scheduled-publication note, and leading/trailing document boundaries separately. |
 | `tmp/pdfs/frus-builder-test/briefing-talking-points/frus1981-88v44p1-d285-briefing-talking-points-excerpt.pdf` | 5 | briefing memorandum with recommended talking-points/list structure from official 2025 FRUS volume PDF | Treat as briefing_or_talking_points; preserve memo wrapper, subject, sender/preparer, recipient, source path, Secret/Sensitive marking, Shultz-saw-it stamp, cross-reference to Documents 283 and 284, recommendation language, nested bullet/list hierarchy, ABM Treaty quotation, and leading/trailing document boundaries separately. |
+| `tmp/pdfs/frus-builder-test/profs-electronic-message/frus1981-88v44p1-d110-profs-electronic-message-excerpt.pdf` | 3 | PROFS/electronic message excerpt from official 2025 FRUS volume PDF | Treat as profs_or_electronic_message; preserve sender, recipients, sent date/time, subject, PROFS system source, message ID 2615, copied recipients, negative-search note, embedded note to Bob Linhard, and leading/trailing document boundaries separately from telegram/cable metadata. |
 
 ## Rules Added
 
@@ -54,6 +55,7 @@ The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as p
 - Added editorial-note and apparatus-only PDF handling.
 - Added correspondence, presidential-message, diplomatic-note, delivery-channel, and exchange-of-letters handling.
 - Added briefing, information-memo, talking-points, Q&A, review-stamp, and list-hierarchy handling.
+- Added PROFS, email-like, NSC/staff electronic-message, thread-context, and message-printout handling.
 - Added `bibliographic_basis`, `transcription_basis`, and `appendix_facsimile_relationship` evidence-request labels.
 - Added `directive_package_basis` evidence-request label and `directive_package_note` note type.
 - Added `table_layout_basis`, `document_boundary_basis`, `table_layout_note`, and `document_boundary_note` values.
@@ -66,6 +68,7 @@ The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as p
 - Added `editorial_note_basis`, `public_citation_basis`, `editorial_apparatus_note`, `editorial_note_metadata`, `public_citation`, and `scheduled_publication` values.
 - Added `correspondence_basis`, `delivery_channel_basis`, `copy_variant_basis`, `correspondence_note`, `correspondence_metadata`, `delivery_channel`, `salutation_or_signature`, and `copy_variant` values.
 - Added `briefing_material_basis`, `talking_points_basis`, `list_hierarchy_basis`, `briefing_material_note`, `briefing_material_metadata`, `talking_points_structure`, and `list_hierarchy` values.
+- Added `electronic_message_basis`, `thread_context_basis`, `message_printout_basis`, `electronic_message_note`, `electronic_message_metadata`, `thread_context`, and `message_printout_or_export` values.
 
 ## Regression Expectations
 
@@ -85,3 +88,4 @@ The stress tests use official published FRUS PDFs from 2020, 2024, and 2025 as p
 - An editorial-note PDF must not be forced into archival source-note form and must not import a following document's source note when the excerpt includes the next numbered item.
 - A correspondence PDF must unitize paired letters separately and must not collapse letter date, delivery/backchannel timestamp, copy status, translation status, response cross-reference, and adjacent document boundaries into one generic source note.
 - A briefing or talking-points PDF must preserve memo wrapper metadata, recommendation language, nested bullet hierarchy, stamped review evidence, cross-references, and adjacent document boundaries without presenting draft points as actions actually taken.
+- A PROFS/electronic-message PDF must preserve sender, recipient, subject, date/time, thread/printout/source-system metadata, copied recipients, and boundary evidence separately and must not be mistaken for an ordinary telegram/cable unless visible evidence shows that form.
