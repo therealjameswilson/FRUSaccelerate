@@ -211,6 +211,7 @@ Available run modes:
 - `source_note_only`: draft only the source note and evidence requests.
 - `heading_and_metadata_only`: extract heading, date, type, sender, recipient, subject, and document metadata.
 - `attachment_triage`: decide whether a PDF packet contains attachments, tabs, enclosures, coversheets, or multiple selected documents.
+- `source_register_triage`: extract source-register, release-sheet, finding-aid, or folder-list evidence when the uploaded PDF is not itself a selected manuscript document.
 - `ocr_triage`: report extraction limits and ask for OCR, page images, or split PDFs.
 - `docx_production`: produce a Word-ready draft if the standalone host exposes a Word-writing tool.
 
@@ -331,6 +332,28 @@ Default attachment handling:
 - If an attachment is selected as a separate document by spreadsheet or compiler note, draft a separate annotation-sheet unit.
 - If an attachment is only source backup, do not make it a manuscript document.
 - If the PDF says an attachment was attached but the attachment is missing, do not write `not attached` unless the PDF or supplied context proves absence from the source packet.
+
+Action-memo and tabbed support packet handling:
+
+- A cover/action memorandum followed by `Tab`, `Attachment`, `Talking Points`, `Memorandum to the President`, `Recommendation`, `Approve/Disapprove`, or concurrence pages is a packet, not automatically one selected manuscript document.
+- Map each visible layer separately: cover/action memo, signed or unsigned recommendation, tabbed memorandum, talking points, annex, administrative marker, and source/release page.
+- If compiler instructions do not identify the selected item, mark the treatment as `unclear_requires_compiler_instruction` and ask whether to print the cover memorandum, a tabbed attachment, the whole packet, or selected excerpts.
+- Preserve handwritten approvals, initials, saw-stamps, redacted names, and routing marks as evidence. Do not infer the identity of unclear initials or signatures.
+- If an attached tab is present and selected, draft a separate annotation-sheet unit for that tab and keep the cover memo as attachment/source evidence unless the cover memo is also selected.
+
+Standalone policy paper handling:
+
+- If a PDF is a freestanding paper, briefing paper, strategy paper, options paper, annex, or talking-points paper with no visible sender or recipient, do not invent an author, drafter, recipient, or office.
+- Use the visible title, date, classification, annex/attachment label, and declassification markings. Draft the heading as a paper title when author/recipient evidence is missing.
+- Treat internal annexes or appendices as part of the paper unless separate selection, pagination, title-page evidence, or compiler instruction indicates separate manuscript treatment.
+- If the source path is not visible, start the source note with `[source provenance needed]` and put Clinton Library, National Archives, FOIA, or photocopy stamps in the evidence ledger unless they prove source provenance.
+
+Source-register, release-packet, and finding-aid handling:
+
+- If the PDF consists only of a withdrawal/redaction sheet, release marker, FOIA/MDR marker, source register, OA/ID list, folder-title list, box/folder inventory, production log, or finding aid, do not draft a manuscript annotation sheet.
+- Use `source_register_triage` or return `overall_readiness: not_annotation_sheet_source_register_only`. Extract repository, collection, series, folder, OA/ID, case number, restriction code, and document-list evidence for later source-note support.
+- Ask for the actual selected document PDF, spreadsheet row, or compiler instruction before producing a document heading or source note.
+- Do not transform a folder-title list into a printed document unless the compiler explicitly selected the list itself as a public/source-register item.
 
 Cable-transmitted embedded document handling:
 
@@ -477,10 +500,10 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
     "agent_version": "v1",
     "host_system": "StateChat-c",
     "model": "gpt-5.4",
-    "run_mode": "pdf_to_annotation_sheet | batch_pdf_to_annotation_sheet | source_note_only | heading_and_metadata_only | attachment_triage | ocr_triage | docx_production",
+    "run_mode": "pdf_to_annotation_sheet | batch_pdf_to_annotation_sheet | source_note_only | heading_and_metadata_only | attachment_triage | source_register_triage | ocr_triage | docx_production",
     "target_volume": "known | inferred | unknown",
     "target_subseries": "carter | reagan | bush_ghw | clinton | mixed_unknown",
-    "overall_readiness": "draft_ready_for_compiler_review | needs_source_review | blocked_pending_ocr_or_rescan | blocked_pending_evidence",
+    "overall_readiness": "draft_ready_for_compiler_review | needs_source_review | blocked_pending_ocr_or_rescan | blocked_pending_evidence | not_annotation_sheet_source_register_only",
     "recent_published_frus_pattern_basis": "none | same_subseries | adjacent_subseries | general_recent_corpus",
     "recent_published_frus_limits": "short statement that published examples are analogy only, not evidence for missing facts",
     "summary": "one concise paragraph"
@@ -501,9 +524,9 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
       "draft_document_id": "PDF001-DOC001",
       "file_name": "uploaded filename",
       "page_range": "pages or unknown",
-      "unit_type": "primary_document_selected_for_print | attachment_possibly_printed_with_document | attachment_possibly_selected_as_separate_document | source_backup_or_cover_sheet | declassification_or_release_artifact | unclear_requires_compiler_instruction",
+      "unit_type": "primary_document_selected_for_print | attachment_possibly_printed_with_document | attachment_possibly_selected_as_separate_document | source_backup_or_cover_sheet | declassification_or_release_artifact | source_register_or_finding_aid | unclear_requires_compiler_instruction",
       "extraction_quality": "high | medium | low | blocked",
-      "pdf_archetype": "archival_photocopy | electronic_telegram_or_cable | memcon_or_telcon | directive_or_decision_package | public_or_printed_source | editorial_note | appendix_or_facsimile | attachment_packet | declassification_packet | mixed_or_unclear",
+      "pdf_archetype": "archival_photocopy | electronic_telegram_or_cable | memcon_or_telcon | directive_or_decision_package | public_or_printed_source | editorial_note | appendix_or_facsimile | attachment_packet | declassification_packet | source_register_or_finding_aid | mixed_or_unclear",
       "document_type": "",
       "document_date": "",
       "date_basis": "visible_pdf | supplied_context | inferred_low_confidence | missing",
@@ -534,7 +557,7 @@ Use exactly the keys below unless the operator asks for a different schema. Do n
     "word_docx_produced": "yes | no",
     "word_docx_file_name": "",
     "document_count": 0,
-    "sheet_status": "first_pass_draft | source_note_incomplete | compiler_questions_required | blocked"
+    "sheet_status": "first_pass_draft | source_note_incomplete | compiler_questions_required | source_register_only_no_annotation_sheet | blocked"
   },
   "annotation_sheet_drafts": [
     {

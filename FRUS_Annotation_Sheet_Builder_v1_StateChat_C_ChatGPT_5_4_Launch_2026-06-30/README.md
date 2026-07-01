@@ -17,8 +17,9 @@ Use this text file as the runbook for the closed-network operator. It includes m
 ## Recent Published FRUS Reference
 
 - `FRUS_Annotation_Sheet_Builder_v1_Recent_Published_FRUS_Lessons_2026-06-30.md`
+- `FRUS_Annotation_Sheet_Builder_v1_PDF_Archetype_Stress_Tests_2026-07-01.md`
 
-This optional reference summarizes the recent history.state.gov corpus lessons embedded in the agent file: source-family preservation, common PDF archetypes, controlled annotation formulas, public-source handling, editorial-note limits, and date-basis separation.
+These optional references summarize the recent history.state.gov corpus lessons and local PDF stress tests embedded in the agent file: source-family preservation, common PDF archetypes, controlled annotation formulas, action-memo/tab packets, source-register triage, public-source handling, editorial-note limits, and date-basis separation.
 
 ## Recommended StateChat-c Setup
 
@@ -32,7 +33,7 @@ This optional reference summarizes the recent history.state.gov corpus lessons e
 
 1. Upload `FRUS_Annotation_Sheet_Builder_v1_StateChat_C_ChatGPT_5_4_Agent_2026-06-30.md`.
 2. Add a short operator note with target volume/chapter if known.
-3. Upload `FRUS_Annotation_Sheet_Builder_v1_Recent_Published_FRUS_Lessons_2026-06-30.md` if the operator wants the evidence summary visible in context; the key lessons are already embedded in the agent file.
+3. Upload the recent-published lessons or PDF archetype stress-test reference if the operator wants the evidence summary visible in context; the key lessons are already embedded in the agent file.
 4. Upload style guide, source list, manuscript spreadsheet, source register, or compiler instruction if available.
 5. Drag and drop the PDF document or PDF batch into the context window.
 6. Paste the standard run prompt from the operator script.
