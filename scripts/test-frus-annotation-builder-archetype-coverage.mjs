@@ -198,6 +198,16 @@ assert(
 );
 
 assert(
+  stress.includes("2013-0185-M_Part1.pdf") &&
+    stress.includes("Clinton Library source-register/release/finding-aid packet") &&
+    stress.includes("source_register_packet_metadata") &&
+    stress.includes("source_register_row_inventory") &&
+    stress.includes("source_register_ocr_status") &&
+    stress.includes("not_annotation_sheet_source_register_only"),
+  "expected Clinton Library release/finding-aid packet fixture with source-register hard-stop handling"
+);
+
+assert(
   stress.includes("frus1977-80v27.epub#OEBPS/d1.html") &&
     stress.includes("incremental_chapter_placeholder") &&
     stress.includes("not_annotation_sheet_incremental_placeholder"),
