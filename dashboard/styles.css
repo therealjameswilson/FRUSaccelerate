@@ -508,6 +508,128 @@ body::after {
   gap: 16px;
 }
 
+.bush-documents-shell {
+  border-color: rgba(227, 186, 103, 0.34);
+  background:
+    radial-gradient(circle at 89% 14%, rgba(215, 167, 80, 0.13), transparent 27%),
+    linear-gradient(145deg, rgba(111, 16, 34, 0.9), rgba(62, 8, 19, 0.94));
+}
+
+.bush-documents-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.28fr) minmax(280px, 0.72fr);
+  gap: 16px;
+}
+
+.bush-catalog-card,
+.bush-source-card {
+  border: 1px solid rgba(227, 186, 103, 0.2);
+  background: rgba(59, 7, 18, 0.34);
+  box-shadow: inset 0 0 0 1px rgba(255, 246, 225, 0.025);
+}
+
+.bush-catalog-card {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 22px;
+  border-radius: var(--radius-lg);
+}
+
+.bush-catalog-topline,
+.bush-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.bush-catalog-topline span,
+.bush-link-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 11px;
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(227, 186, 103, 0.22);
+  background: rgba(49, 6, 16, 0.36);
+}
+
+.bush-card-kicker,
+.bush-source-kicker {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.bush-catalog-card h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.2vw, 2.1rem);
+  line-height: 1.05;
+}
+
+.bush-catalog-card p,
+.bush-source-card span:last-child,
+.bush-provenance-note {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.58;
+}
+
+.bush-catalog-note {
+  padding-top: 13px;
+  border-top: 1px solid rgba(227, 186, 103, 0.16);
+}
+
+.bush-actions {
+  margin-top: 4px;
+}
+
+.bush-source-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.bush-source-card {
+  display: grid;
+  gap: 8px;
+  padding: 17px;
+  border-radius: 16px;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.bush-source-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(227, 186, 103, 0.42);
+  background: rgba(94, 13, 28, 0.48);
+}
+
+.bush-source-card strong {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  line-height: 1.18;
+}
+
+.bush-source-kicker {
+  font-size: 0.66rem;
+}
+
+.bush-provenance-note {
+  padding: 4px 2px 0;
+  font-size: 0.88rem;
+}
+
 .chapter-divider {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
@@ -1590,6 +1712,7 @@ a.chip {
 
   .filters,
   .orientation-grid,
+  .bush-documents-grid,
   .sample-grid,
   .dossier-meta,
   .dossier-columns,
